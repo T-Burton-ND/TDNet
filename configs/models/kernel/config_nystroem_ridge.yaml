@@ -1,0 +1,5 @@
+model_name: nystroem_ridge
+model_type: nystroem_ridge
+seed: 42
+margin_temperature: 14.0
+params: {n_components: 300, gamma: 0.01, alpha: 1.0}

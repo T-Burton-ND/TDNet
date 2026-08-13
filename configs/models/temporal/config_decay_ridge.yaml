@@ -1,0 +1,5 @@
+model_name: decay_ridge
+model_type: decay_ridge
+seed: 42
+temporal_fingerprint: {half_life: 3.0, trend_lag: 3}
+params: {alpha: 10.0}

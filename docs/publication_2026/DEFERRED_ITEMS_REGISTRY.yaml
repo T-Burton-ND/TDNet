@@ -1,0 +1,28 @@
+version: 1
+status: RELEASE_CANDIDATE_NOT_YET_PUBLIC_FREEZE
+items:
+  - id: first_certified_2026_input_snapshot
+    trigger: availability of the first 2026 pregame inputs
+    timing: weekly before prediction generation
+    required_evidence: [immutable_snapshot, input_sha256, availability_cutoff_audit]
+    may_alter_frozen_state: false
+  - id: prospective_outcomes_and_scoring
+    trigger: completed 2026 games
+    timing: after each game week
+    required_evidence: [outcome_source, prospective_score_record]
+    may_alter_frozen_state: false
+  - id: final_paper_conclusions
+    trigger: complete prospective evaluation
+    timing: post-season
+    required_evidence: [scoring, confirmatory_comparisons]
+    may_alter_frozen_state: false
+  - id: provider_timestamps
+    trigger: provider metadata availability
+    timing: before affected weekly certification
+    required_evidence: [provider_timestamp_audit]
+    may_alter_frozen_state: false
+  - id: mixture_of_experts
+    trigger: future research
+    timing: 2027 candidate development
+    required_evidence: [separate_experimental_namespace]
+    may_alter_frozen_state: false

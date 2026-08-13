@@ -1,0 +1,46 @@
+version: 1
+objectives: [winner, margin]
+selection_unit: objective_and_concrete_model_type
+requirements:
+  one_best_checkpoint_per_objective_and_type: true
+  contributes_to_weekly_consensus: true
+  contributes_to_tdnet_top25_ballot: true
+  supports_top_1_and_top_3_selection: true
+  lead_metric: brier_score
+searches:
+  legacy_nested:
+    suite_builder: src/gridiron_ml/cli/experiments/build_2025_nested_search_suite.py
+    split: {train: 2010-2022, validation: 2023, selection: 2024, locked_test: 2025}
+    types:
+      stat: [stat_z_index, stat_percentile, stat_robust, stat_weighted]
+      linear: [ols, ridge, lasso, elastic_net, huber, bayesian, ard, ransac, orthogonal_matching_pursuit, sgd, passive_aggressive]
+      tree: [random_forest, extra_trees, gradient_boosted]
+  publication_spline:
+    config: configs/publication/hps_spline.yaml
+    types: {spline: [spline_ridge]}
+  publication_hist_gradient_boosted:
+    config: configs/publication/hps_hist_gradient_boosted.yaml
+    types: {boosted: [hist_gradient_boosted]}
+  publication_mlp:
+    config: configs/publication/hps_mlp.yaml
+    types: {neural: [mlp]}
+  publication_structured_mlp:
+    config: configs/publication/hps_structured_mlp.yaml
+    types: {structured_neural: [structured_mlp]}
+  publication_kernel:
+    config: configs/publication/hps_kernel.yaml
+    types: {kernel: [rbf_kernel_ridge, rbf_svr, gaussian_process, nystroem_ridge]}
+  publication_temporal:
+    config: configs/publication/hps_temporal.yaml
+    types: {temporal: [decay_ridge, trend_elastic_net, temporal_random_forest, temporal_hist_gradient_boosted]}
+  publication_knn:
+    config: configs/models/tuning/fingerprint_hyperparameter_search.yaml
+    types: {knn: [knn_uniform, knn_distance]}
+non_tuned:
+  naive:
+    reason: no learned capacity
+    types: [home_team, majority, constant_margin]
+post_oof_only:
+  ensemble:
+    reason: weights may be selected only from leakage-safe out-of-fold predictions
+    types: [mean_probability, median_margin]

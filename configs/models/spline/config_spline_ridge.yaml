@@ -1,0 +1,12 @@
+model_name: spline_ridge
+model_type: spline_ridge
+loss_function: RMSE
+seed: 42
+training:
+  standardize: true
+spline:
+  n_knots: 4
+  degree: 2
+params:
+  alpha: 10.0
+

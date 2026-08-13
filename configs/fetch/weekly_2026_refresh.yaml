@@ -1,0 +1,66 @@
+root: ../..
+years: {values: [2026]}
+paths:
+  raw_cache_dir: data/raw/cfbd/v2
+  team_game_tables_dir: data/team_game_tables
+raw_fetch:
+  enabled: true
+  division: fbs
+  api_key_env: CFBD_API_KEY
+  snake_case: true
+  refresh: true
+  sleep_seconds: 0.25
+  endpoints:
+    games: true
+    game_team_stats: true
+    stats_advanced_game: true
+    havoc_game: true
+    lines: true
+    pregame_wp: true
+    ppa_games: true
+    talent: true
+    returning: true
+    recruiting_teams: true
+    coaches: true
+    teams_fbs: true
+    venue: true
+    rankings: true
+  # A weekly snapshot is certifiable only when all prediction-time endpoints
+  # below exist, have the declared schema, and are non-empty.  The remaining
+  # endpoints are retained as context but do not silently certify a snapshot.
+  required_endpoints:
+    - games
+    - game_team_stats
+    - stats_advanced_game
+    - havoc_game
+    - lines
+    - pregame_wp
+    - ppa_games
+  completeness:
+    games:
+      required_columns: [id, season, week, start_date, completed, home_id, away_id]
+    game_team_stats:
+      required_columns: [id, season, week, teams]
+    stats_advanced_game:
+      required_columns: [game_id, season, week, team, opponent]
+    havoc_game:
+      required_columns: [game_id, season, week, team, opponent]
+    lines:
+      required_columns: [id, season, week, lines]
+    pregame_wp:
+      required_columns: [season, week, game_id]
+    ppa_games:
+      required_columns: [game_id, season, week, team, opponent]
+team_game_tables:
+  enabled: true
+  division: fbs
+  week: null
+  output_format: parquet
+fingerprints:
+  enabled: true
+  postseason: false
+  overwrite: true
+  versions:
+    v0: {enabled: true}
+    v1: {enabled: false}
+    v2: {enabled: false}

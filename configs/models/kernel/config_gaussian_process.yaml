@@ -1,0 +1,6 @@
+model_name: gaussian_process
+model_type: gaussian_process
+seed: 42
+max_train_samples: 1000
+margin_temperature: 14.0
+params: {amplitude: 1.0, length_scale: 2.0, noise_level: 0.2, optimizer: null}

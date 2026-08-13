@@ -1,0 +1,61 @@
+version: 3
+# F0-F6 form the nested market-free scientific ladder. F7 is a market-only
+# benchmark, and F8 is the explicit F6-plus-market incremental-value tier.
+canonical_order: [F0, F1, F2, F3, F4, F5, F6, F7, F8]
+opponent_adjustment:
+  selected_method: elo_context_v1_4
+  selected_artifact: /groups/bsavoie2/tburton2/TDNet/publication_artifacts/fingerprint_ladder_v3/canonical_fingerprint.parquet
+  provenance: docs/publication_2026/feature_manifests/selected_source_provenance.json
+  development_only_selection: true
+  full_cutoff_refit_required_before_freeze: true
+tiers:
+  F0:
+    # Minimal informative team-state baseline: roster talent supplies the
+    # preseason strength signal and games_played supplies sample-size context.
+    # No observed performance statistic enters until F1.
+    label: Minimal strength baseline
+    include_families: [structural, sample_size, preseason_prior]
+    market: false
+  F1:
+    label: Raw box scores
+    union: [F0]
+    include_families: [box_score, box_score_offense, box_score_defense, box_score_general, box_score_special_teams]
+    market: false
+  F2:
+    label: Efficiency and rates
+    union: [F1]
+    include_families: [efficiency]
+    market: false
+  F3:
+    label: Opponent adjusted
+    union: [F2]
+    include_families: [opponent_adjusted]
+    opponent_adjustment_method: elo_context_v1_4
+    market: false
+  F4:
+    label: Contextual football profile
+    union: [F3]
+    include_families: [situational, returning_production, coaching]
+    market: false
+  F5:
+    label: Temporal dynamics
+    union: [F4]
+    include_families: [temporal]
+    market: false
+  F6:
+    label: Complete market-free TDNet fingerprint
+    union: [F5]
+    include_families: [schedule_graph]
+    market: false
+  F7:
+    label: Market-only benchmark
+    include_families: [market]
+    market: true
+  F8:
+    label: Complete fingerprint plus market information
+    union: [F6, F7]
+    market: true
+cumulative_paths:
+  primary: [F0, F1, F2, F3, F4, F5, F6]
+  market_comparisons: [F7, F8]
+  isolated: [F2, F3, F5]

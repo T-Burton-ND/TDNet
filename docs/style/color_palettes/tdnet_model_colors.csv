@@ -1,0 +1,9 @@
+model,hex,source_color,role
+Vegas,#11214F,Midnight Gridiron,Market baseline
+stat_z_index,#FF5FA2,Edge Pink,Stat model
+ols,#1EA7FF,Ion Blue,Linear model
+ridge,#5FF2D2,Neon Mint,Linear model
+lasso,#00C853,Electric Emerald,Linear model
+elastic_net,#6A37C8,Gridiron Violet,Linear model
+huber,#D4B56E,Brass,Linear model
+bayesian,#A8DFFF,Ion Blue Light,Linear model

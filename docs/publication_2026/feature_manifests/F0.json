@@ -1,0 +1,178 @@
+{
+  "feature_count": 2,
+  "feature_families": [
+    "preseason_prior",
+    "sample_size",
+    "structural"
+  ],
+  "feature_names": [
+    "games_played",
+    "roster_talent"
+  ],
+  "features": [
+    {
+      "earliest_known_availability": "available_after_game_final",
+      "family": "sample_size",
+      "market_derived": false,
+      "missingness_rule": "median_by_training_fold",
+      "name": "games_played",
+      "opponent_adjusted": false,
+      "source": "derived_game_history",
+      "temporal_cutoff_rule": "1_game",
+      "transformation": "declared_in_builder",
+      "version": 1
+    },
+    {
+      "earliest_known_availability": "available_after_source_publication",
+      "family": "preseason_prior",
+      "market_derived": false,
+      "missingness_rule": "median_by_training_fold",
+      "name": "roster_talent",
+      "opponent_adjusted": false,
+      "source": "cfbd_talent",
+      "temporal_cutoff_rule": "source_publication",
+      "transformation": "declared_in_builder",
+      "version": 1
+    }
+  ],
+  "label": "Minimal strength baseline",
+  "ladder_validation": {
+    "canonical_order": [
+      "F0",
+      "F1",
+      "F2",
+      "F3",
+      "F4",
+      "F5",
+      "F6",
+      "F7",
+      "F8"
+    ],
+    "legacy_tiers": [],
+    "market_aware_tier": "F8",
+    "market_free_tiers": [
+      "F0",
+      "F1",
+      "F2",
+      "F3",
+      "F4",
+      "F5",
+      "F6"
+    ],
+    "market_only_tier": "F7",
+    "resolved_families": {
+      "F0": [
+        "preseason_prior",
+        "sample_size",
+        "structural"
+      ],
+      "F1": [
+        "box_score",
+        "box_score_defense",
+        "box_score_general",
+        "box_score_offense",
+        "box_score_special_teams",
+        "preseason_prior",
+        "sample_size",
+        "structural"
+      ],
+      "F2": [
+        "box_score",
+        "box_score_defense",
+        "box_score_general",
+        "box_score_offense",
+        "box_score_special_teams",
+        "efficiency",
+        "preseason_prior",
+        "sample_size",
+        "structural"
+      ],
+      "F3": [
+        "box_score",
+        "box_score_defense",
+        "box_score_general",
+        "box_score_offense",
+        "box_score_special_teams",
+        "efficiency",
+        "opponent_adjusted",
+        "preseason_prior",
+        "sample_size",
+        "structural"
+      ],
+      "F4": [
+        "box_score",
+        "box_score_defense",
+        "box_score_general",
+        "box_score_offense",
+        "box_score_special_teams",
+        "coaching",
+        "efficiency",
+        "opponent_adjusted",
+        "preseason_prior",
+        "returning_production",
+        "sample_size",
+        "situational",
+        "structural"
+      ],
+      "F5": [
+        "box_score",
+        "box_score_defense",
+        "box_score_general",
+        "box_score_offense",
+        "box_score_special_teams",
+        "coaching",
+        "efficiency",
+        "opponent_adjusted",
+        "preseason_prior",
+        "returning_production",
+        "sample_size",
+        "situational",
+        "structural",
+        "temporal"
+      ],
+      "F6": [
+        "box_score",
+        "box_score_defense",
+        "box_score_general",
+        "box_score_offense",
+        "box_score_special_teams",
+        "coaching",
+        "efficiency",
+        "opponent_adjusted",
+        "preseason_prior",
+        "returning_production",
+        "sample_size",
+        "schedule_graph",
+        "situational",
+        "structural",
+        "temporal"
+      ],
+      "F7": [
+        "market"
+      ],
+      "F8": [
+        "box_score",
+        "box_score_defense",
+        "box_score_general",
+        "box_score_offense",
+        "box_score_special_teams",
+        "coaching",
+        "efficiency",
+        "market",
+        "opponent_adjusted",
+        "preseason_prior",
+        "returning_production",
+        "sample_size",
+        "schedule_graph",
+        "situational",
+        "structural",
+        "temporal"
+      ]
+    },
+    "version": 3
+  },
+  "market_derived": false,
+  "resolved_tier": "F0",
+  "schema_hash": "ae56ea290d0483ff5f44fda2fc769149cacad3290d0749bc42829d55070c3d39",
+  "tier": "F0"
+}

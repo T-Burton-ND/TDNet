@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+#$ -N tdnet_publication_mlp
+#$ -cwd
+#$ -pe smp 16
+#$ -l h_rt=48:00:00
+#$ -l h_vmem=4G
+#$ -o docs/logs/sge/$JOB_NAME.$JOB_ID.$TASK_ID.out
+#$ -e docs/logs/sge/$JOB_NAME.$JOB_ID.$TASK_ID.err
+
+set -Eeuo pipefail
+
+REPO_ROOT="${REPO_ROOT:-$PWD}"
+CONDA_ENV="${CONDA_ENV:-gridiron}"
+JOB_MANIFEST="${JOB_MANIFEST:?JOB_MANIFEST is required}"
+TASK_ID="${SGE_TASK_ID:?SGE_TASK_ID is required}"
+FORCE_ARGS=()
+if [[ "${FORCE:-false}" == "true" ]]; then
+  FORCE_ARGS+=(--force)
+fi
+if [[ "${RETRY_INCOMPLETE:-false}" == "true" ]]; then
+  FORCE_ARGS+=(--retry-incomplete)
+fi
+
+cd "$REPO_ROOT"
+mkdir -p docs/logs/sge
+
+started_epoch="$(date +%s)"
+echo "TDNET_MLP_TASK_START=$(date --iso-8601=seconds)"
+echo "JOB_ID=${JOB_ID:-unknown} SGE_TASK_ID=${TASK_ID} HOST=$(hostname) NSLOTS=${NSLOTS:-unknown}"
+echo "JOB_MANIFEST=${JOB_MANIFEST} RETRY_INCOMPLETE=${RETRY_INCOMPLETE:-false}"
+echo "PYTHON=$(command -v python || true)"
+ulimit -a || true
+
+task_exit_handler() {
+  rc=$?
+  finished_epoch="$(date +%s)"
+  echo "TDNET_MLP_TASK_EXIT=$(date --iso-8601=seconds) rc=${rc} elapsed_seconds=$((finished_epoch-started_epoch))"
+  exit "$rc"
+}
+trap task_exit_handler EXIT
+
+if command -v conda >/dev/null 2>&1 && conda env list | awk '{print $1}' | grep -qx "$CONDA_ENV"; then
+  eval "$(conda shell.bash hook)"
+  conda activate "$CONDA_ENV"
+fi
+
+export PYTHONPATH="$REPO_ROOT/src${PYTHONPATH:+:$PYTHONPATH}"
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export VECLIB_MAXIMUM_THREADS=1
+export BLIS_NUM_THREADS=1
+export TORCH_NUM_THREADS=1
+export TORCH_INTEROP_THREADS=1
+export MPLCONFIGDIR="${MPLCONFIGDIR:-/tmp/tdnet-matplotlib-${USER}}"
+export PYTHONHASHSEED=0
+export PYTHONUNBUFFERED=1
+export PYTHONFAULTHANDLER=1
+
+python -u -X faulthandler src/gridiron_ml/cli/experiments/run_experiment_chunk.py \
+  --job-manifest "$JOB_MANIFEST" \
+  --sge-task-id "$TASK_ID" \
+  --workers "${NSLOTS:-16}" \
+  "${FORCE_ARGS[@]}"

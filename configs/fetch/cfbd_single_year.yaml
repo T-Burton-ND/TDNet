@@ -1,0 +1,36 @@
+cache_dir: ${env:GRIDIRON_DATA_ROOT,"/Users/tburton2/Desktop/Repos/TDNet/data/raw/cfbd/v2"}
+year: 2025
+division: fbs
+sleep_seconds: 0.25
+snake_case: true
+refresh: false
+
+# Enable/disable per endpoint for the standalone single-season fetcher.
+endpoints:
+  games: true
+  game_team_stats: true
+  stats_advanced_game: true
+  havoc_game: true
+  lines: true
+  pregame_wp: true
+  ppa_games: true
+  talent: true
+  returning: true
+  recruiting_teams: true
+  coaches: true
+  teams_fbs: true
+  venue: true
+
+  # Optional extras
+  ratings_sp: true
+  ratings_fpi: true
+  ratings_elo: true
+  stats_basic: true
+  stats_advanced: true
+  ratings_srs: true
+  teams_ats: true
+  ppa_teams: true
+  rankings: true
+  weather: true
+  roster: false
+  recruiting_players: false

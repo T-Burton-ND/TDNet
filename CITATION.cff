@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+title: "TDNet: Time-dependent fingerprints and models for college football analytics"
+message: "If you use TDNet, please cite the repository and the associated fingerprint-engineering publication."
+type: software
+authors:
+  - family-names: Burton
+    given-names: Thomas J.
+repository-code: https://github.com/T-Burton-ND/TDNet
+license: Apache-2.0
+version: "0.1.2"
+abstract: >-
+  Research software for leakage-aware, time-dependent college-football
+  fingerprints, margin models, validation, prospective prediction bundles,
+  and publication artifacts.

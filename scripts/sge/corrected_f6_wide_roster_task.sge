@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -j y
+#$ -q long
+#$ -pe smp 1
+#$ -l h_rt=24:00:00
+set -euo pipefail
+: "${REPO_ROOT:?}"; : "${MANIFEST:?}"; : "${FINGERPRINT_DATA:?}"; : "${ROSTER_OUTPUT_ROOT:?}"; : "${TRAIN_END_SEASON:?}"
+eval "$(conda shell.bash hook)"; conda activate "${CONDA_ENV:-gridiron}"
+export PYTHONPATH="${REPO_ROOT}/src${PYTHONPATH:+:${PYTHONPATH}}"
+export MPLCONFIGDIR="${TMPDIR:-/tmp}/tdnet-matplotlib-${USER}"
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
+cd "${REPO_ROOT}"
+python -m gridiron_ml.cli.publication.refit_corrected_f6_wide_roster run-task \
+  --manifest "${MANIFEST}" --data "${FINGERPRINT_DATA}" --output-root "${ROSTER_OUTPUT_ROOT}" \
+  --train-end-season "${TRAIN_END_SEASON}" --task-id "${SGE_TASK_ID}"

@@ -1,0 +1,20 @@
+root: ../..
+years: {values: [2026]}
+paths:
+  raw_cache_dir: data/raw/cfbd/v2
+  team_game_tables_dir: data/team_game_tables
+
+# The cache was refreshed separately. This stage performs no API calls.
+raw_fetch:
+  enabled: false
+team_game_tables:
+  enabled: true
+  division: fbs
+  week: null
+  output_format: parquet
+fingerprints:
+  enabled: true
+  postseason: false
+  overwrite: true
+  versions:
+    v0: {enabled: true}

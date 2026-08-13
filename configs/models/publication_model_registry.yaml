@@ -1,0 +1,59 @@
+version: 1
+families:
+  M0:
+    label: Naive baseline
+    class_path: gridiron_ml.models:TDNaive
+    variants: [majority, constant_margin, home_team]
+    objectives: [winner, margin]
+  M1:
+    label: Regularized linear
+    class_path: gridiron_ml.models:TDLinear
+    variants: [ols, ridge, lasso, elastic_net, huber, bayesian, ard, ransac, orthogonal_matching_pursuit, sgd, passive_aggressive]
+    objectives: [winner, margin]
+  M2:
+    label: Spline additive
+    class_path: gridiron_ml.models:TDSpline
+    variants: [spline_ridge]
+    objectives: [winner, margin]
+  M3:
+    label: Classical tree ensembles
+    class_path: gridiron_ml.models:TDTree
+    variants: [random_forest, extra_trees, gradient_boosted]
+    objectives: [winner, margin]
+  M4:
+    label: Histogram gradient boosting
+    class_path: gridiron_ml.models:TDBoosted
+    variants: [hist_gradient_boosting]
+    objectives: [winner, margin]
+  M5:
+    label: Tabular multilayer perceptron
+    class_path: gridiron_ml.models:TDMLP
+    variants: [mlp]
+    objectives: [winner, margin]
+  M6:
+    label: Structured matchup neural network
+    class_path: gridiron_ml.models:TDStructuredMLP
+    variants: [family_tower]
+    objectives: [winner, margin]
+    exploratory: true
+  M7:
+    label: Frozen ensemble
+    class_path: gridiron_ml.models:TDEnsemble
+    variants: [mean_probability, median_margin]
+    objectives: [winner, margin]
+  M8:
+    label: Kernel similarity models
+    class_path: gridiron_ml.models:TDKernel
+    variants: [rbf_kernel_ridge, rbf_svr, gaussian_process, nystroem_ridge]
+    objectives: [winner, margin]
+  M9:
+    label: Learned temporal fingerprints
+    class_path: gridiron_ml.models:TDTemporal
+    variants: [decay_ridge, trend_elastic_net, temporal_random_forest, temporal_hist_gradient_boosted]
+    objectives: [winner, margin]
+  M10:
+    label: Historical-matchup nearest neighbors
+    class_path: gridiron_ml.models:TDKNN
+    variants: [knn_uniform, knn_distance, knn_compact, knn_full_fingerprint]
+    objectives: [winner, margin]
+    primary_variant: knn_distance

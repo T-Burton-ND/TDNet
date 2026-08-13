@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -V
+#$ -j y
+#$ -o docs/logs/holdout_2025_publish_$JOB_ID.log
+#$ -l h_rt=08:00:00
+#$ -pe smp 4
+set -euo pipefail
+REPO_ROOT="${REPO_ROOT:?REPO_ROOT is required}"
+OUTPUT_ROOT="${OUTPUT_ROOT:-${TDNET_EXTERNAL_ROOT:?TDNET_EXTERNAL_ROOT is required}/2025_holdout_refits}"
+cd "${REPO_ROOT}"
+export PYTHONPATH="${REPO_ROOT}/src:${REPO_ROOT}${PYTHONPATH:+:${PYTHONPATH}}"
+export MPLCONFIGDIR="${TMPDIR:-/tmp}/tdnet-mpl-${JOB_ID}"
+python src/gridiron_ml/cli/publication/build_sunday_scorecards.py --season 2025 \
+  --prediction-root "${OUTPUT_ROOT}" --individual-workers 4

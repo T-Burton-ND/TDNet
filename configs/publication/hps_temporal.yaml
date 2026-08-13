@@ -1,0 +1,44 @@
+version: 1
+experiment_name: publication_hps_temporal_v1
+artifact_root: publication_artifacts
+objectives: [winner, margin]
+feature_tiers: [F4, F1+F2+F3+F4, F6]
+model_levels: [T1, T2, T3, T4]
+model_configs:
+  T1: configs/models/temporal/config_decay_ridge.yaml
+  T2: configs/models/temporal/config_trend_elastic_net.yaml
+  T3: configs/models/temporal/config_temporal_random_forest.yaml
+  T4: configs/models/temporal/config_temporal_hist_gradient_boosted.yaml
+model_families: {T1: temporal, T2: temporal, T3: temporal, T4: temporal}
+split_configs: [configs/splits/rolling_origin.yaml]
+seeds: [1701]
+parameter_search:
+  seed: 26041
+  trials_per_level: {T1: 36, T2: 36, T3: 40, T4: 40}
+  spaces:
+    T1:
+      config.temporal_fingerprint.half_life: {type: float, low: 1.0, high: 8.0}
+      config.temporal_fingerprint.trend_lag: {type: categorical, choices: [2, 3, 4, 6]}
+      config.params.alpha: {type: float, low: 0.001, high: 1000.0, log: true}
+      config.margin_temperature: {type: float, low: 6.0, high: 24.0}
+    T2:
+      config.temporal_fingerprint.half_life: {type: float, low: 1.0, high: 8.0}
+      config.temporal_fingerprint.trend_lag: {type: categorical, choices: [2, 3, 4, 6]}
+      config.params.alpha: {type: float, low: 0.00001, high: 1.0, log: true}
+      config.params.l1_ratio: {type: float, low: 0.05, high: 0.95}
+    T3:
+      config.temporal_fingerprint.half_life: {type: float, low: 1.0, high: 8.0}
+      config.temporal_fingerprint.trend_lag: {type: categorical, choices: [2, 3, 4, 6]}
+      config.params.n_estimators: {type: categorical, choices: [250, 500, 750]}
+      config.params.max_features: {type: categorical, choices: [sqrt, 0.35, 0.6, 1.0]}
+      config.params.min_samples_leaf: {type: int, low: 1, high: 20}
+      config.params.max_depth: {type: categorical, choices: [null, 8, 16, 24]}
+    T4:
+      config.temporal_fingerprint.half_life: {type: float, low: 1.0, high: 8.0}
+      config.temporal_fingerprint.trend_lag: {type: categorical, choices: [2, 3, 4, 6]}
+      config.params.learning_rate: {type: float, low: 0.01, high: 0.2, log: true}
+      config.params.max_leaf_nodes: {type: categorical, choices: [15, 31, 63]}
+      config.params.min_samples_leaf: {type: int, low: 10, high: 80}
+      config.params.l2_regularization: {type: float, low: 0.0001, high: 10.0, log: true}
+worker: {chunk_size: 1, nslots: 1, internal_threads: 1, fragment_format: parquet}
+guardrails: {minimum_free_gb: 30, reject_2026_training: true}

@@ -1,0 +1,379 @@
+version: 1
+
+plotting:
+  palette_path: docs/style/color_palettes/tdnet_palette.csv
+  logo_dir: data/meta/logos/by_team
+  dpi: 180
+
+defaults:
+  fingerprint_version: 0
+  season: 2025
+  week: 14
+  x_data_point: offense_ppa
+  y_data_point: defense_ppa
+
+data_points:
+  games_played:
+    column: games_played
+    label: Games Played
+    group: games
+  offense_drives:
+    column: offense_drives
+    label: Offense Drives
+    group: offense
+  offense_explosiveness:
+    column: offense_explosiveness
+    label: Offense Explosiveness
+    group: offense
+  offense_plays:
+    column: offense_plays
+    label: Offense Plays
+    group: offense
+  offense_power_success:
+    column: offense_power_success
+    label: Offense Power Success
+    group: offense
+  offense_ppa:
+    column: offense_ppa
+    label: Offense PPA
+    group: offense
+  offense_stuff_rate:
+    column: offense_stuff_rate
+    label: Offense Stuff Rate
+    group: offense
+  offense_success_rate:
+    column: offense_success_rate
+    label: Offense Success Rate
+    group: offense
+  offense_passing_downs_explosiveness:
+    column: offense_passing_downs_explosiveness
+    label: Offense Passing Downs Explosiveness
+    group: offense
+  offense_passing_downs_ppa:
+    column: offense_passing_downs_ppa
+    label: Offense Passing Downs PPA
+    group: offense
+  offense_passing_downs_success_rate:
+    column: offense_passing_downs_success_rate
+    label: Offense Passing Downs Success Rate
+    group: offense
+  offense_passing_plays_explosiveness:
+    column: offense_passing_plays_explosiveness
+    label: Offense Passing Plays Explosiveness
+    group: offense
+  offense_passing_plays_ppa:
+    column: offense_passing_plays_ppa
+    label: Offense Passing Plays PPA
+    group: offense
+  offense_passing_plays_success_rate:
+    column: offense_passing_plays_success_rate
+    label: Offense Passing Plays Success Rate
+    group: offense
+  offense_rushing_plays_explosiveness:
+    column: offense_rushing_plays_explosiveness
+    label: Offense Rushing Plays Explosiveness
+    group: offense
+  offense_rushing_plays_ppa:
+    column: offense_rushing_plays_ppa
+    label: Offense Rushing Plays PPA
+    group: offense
+  offense_rushing_plays_success_rate:
+    column: offense_rushing_plays_success_rate
+    label: Offense Rushing Plays Success Rate
+    group: offense
+  offense_standard_downs_explosiveness:
+    column: offense_standard_downs_explosiveness
+    label: Offense Standard Downs Explosiveness
+    group: offense
+  offense_db_havoc_rate:
+    column: offense_db_havoc_rate
+    label: Offense DB Havoc Rate
+    group: offense
+  offense_front_seven_havoc_rate:
+    column: offense_front_seven_havoc_rate
+    label: Offense Front Seven Havoc Rate
+    group: offense
+  offense_havoc_rate:
+    column: offense_havoc_rate
+    label: Offense Havoc Rate
+    group: offense
+  defense_drives:
+    column: defense_drives
+    label: Defense Drives
+    group: defense
+  defense_explosiveness:
+    column: defense_explosiveness
+    label: Defense Explosiveness
+    group: defense
+  defense_plays:
+    column: defense_plays
+    label: Defense Plays
+    group: defense
+  defense_power_success:
+    column: defense_power_success
+    label: Defense Power Success
+    group: defense
+  defense_ppa:
+    column: defense_ppa
+    label: Defense PPA
+    group: defense
+  defense_stuff_rate:
+    column: defense_stuff_rate
+    label: Defense Stuff Rate
+    group: defense
+  defense_success_rate:
+    column: defense_success_rate
+    label: Defense Success Rate
+    group: defense
+  defense_passing_downs_explosiveness:
+    column: defense_passing_downs_explosiveness
+    label: Defense Passing Downs Explosiveness
+    group: defense
+  defense_passing_downs_ppa:
+    column: defense_passing_downs_ppa
+    label: Defense Passing Downs PPA
+    group: defense
+  defense_passing_downs_success_rate:
+    column: defense_passing_downs_success_rate
+    label: Defense Passing Downs Success Rate
+    group: defense
+  defense_passing_plays_explosiveness:
+    column: defense_passing_plays_explosiveness
+    label: Defense Passing Plays Explosiveness
+    group: defense
+  defense_passing_plays_ppa:
+    column: defense_passing_plays_ppa
+    label: Defense Passing Plays PPA
+    group: defense
+  defense_passing_plays_success_rate:
+    column: defense_passing_plays_success_rate
+    label: Defense Passing Plays Success Rate
+    group: defense
+  defense_rushing_plays_explosiveness:
+    column: defense_rushing_plays_explosiveness
+    label: Defense Rushing Plays Explosiveness
+    group: defense
+  defense_rushing_plays_ppa:
+    column: defense_rushing_plays_ppa
+    label: Defense Rushing Plays PPA
+    group: defense
+  defense_rushing_plays_success_rate:
+    column: defense_rushing_plays_success_rate
+    label: Defense Rushing Plays Success Rate
+    group: defense
+  defense_standard_downs_explosiveness:
+    column: defense_standard_downs_explosiveness
+    label: Defense Standard Downs Explosiveness
+    group: defense
+  defense_db_havoc_rate:
+    column: defense_db_havoc_rate
+    label: Defense DB Havoc Rate
+    group: defense
+  defense_front_seven_havoc_rate:
+    column: defense_front_seven_havoc_rate
+    label: Defense Front Seven Havoc Rate
+    group: defense
+  defense_havoc_rate:
+    column: defense_havoc_rate
+    label: Defense Havoc Rate
+    group: defense
+  statOff_first_downs:
+    column: statOff_first_downs
+    label: Offense First Downs
+    group: stat_off
+  statOff_rushing_tds:
+    column: statOff_rushing_tds
+    label: Offense Rushing TDs
+    group: stat_off
+  statOff_passing_tds:
+    column: statOff_passing_tds
+    label: Offense Passing TDs
+    group: stat_off
+  statOff_yards_per_rush_attempt:
+    column: statOff_yards_per_rush_attempt
+    label: Offense Yards Per Rush Attempt
+    group: stat_off
+  statOff_rushing_attempts:
+    column: statOff_rushing_attempts
+    label: Offense Rushing Attempts
+    group: stat_off
+  statOff_yards_per_pass:
+    column: statOff_yards_per_pass
+    label: Offense Yards Per Pass
+    group: stat_off
+  statOff_pass_attempts:
+    column: statOff_pass_attempts
+    label: Offense Pass Attempts
+    group: stat_off
+  statOff_third_down_rate:
+    column: statOff_third_down_rate
+    label: Offense Third Down Rate
+    group: stat_off
+  statOff_fourth_down_rate:
+    column: statOff_fourth_down_rate
+    label: Offense Fourth Down Rate
+    group: stat_off
+  statOff_completion_rate:
+    column: statOff_completion_rate
+    label: Offense Completion Rate
+    group: stat_off
+  statDef_interception_tds:
+    column: statDef_interception_tds
+    label: Defense Interception TDs
+    group: stat_def
+  statDef_passes_intercepted:
+    column: statDef_passes_intercepted
+    label: Defense Passes Intercepted
+    group: stat_def
+  statDef_interceptions:
+    column: statDef_interceptions
+    label: Defense Interceptions
+    group: stat_def
+  statDef_tackles_for_loss:
+    column: statDef_tackles_for_loss
+    label: Defense Tackles For Loss
+    group: stat_def
+  statDef_defensive_tds:
+    column: statDef_defensive_tds
+    label: Defense Defensive TDs
+    group: stat_def
+  statDef_tackles:
+    column: statDef_tackles
+    label: Defense Tackles
+    group: stat_def
+  statDef_sacks:
+    column: statDef_sacks
+    label: Defense Sacks
+    group: stat_def
+  statDef_qb_hurries:
+    column: statDef_qb_hurries
+    label: Defense QB Hurries
+    group: stat_def
+  statDef_passes_deflected:
+    column: statDef_passes_deflected
+    label: Defense Passes Deflected
+    group: stat_def
+  statGen_fumbles_recovered:
+    column: statGen_fumbles_recovered
+    label: General Fumbles Recovered
+    group: stat_general
+  statGen_possession_time:
+    column: statGen_possession_time
+    label: General Possession Time
+    group: stat_general
+  statGen_fumbles_lost:
+    column: statGen_fumbles_lost
+    label: General Fumbles Lost
+    group: stat_general
+  statGen_turnovers:
+    column: statGen_turnovers
+    label: General Turnovers
+    group: stat_general
+  statGen_penalties:
+    column: statGen_penalties
+    label: General Penalties
+    group: stat_general
+  statGen_total_fumbles:
+    column: statGen_total_fumbles
+    label: General Total Fumbles
+    group: stat_general
+  statSpe_punt_return_tds:
+    column: statSpe_punt_return_tds
+    label: Special Teams Punt Return TDs
+    group: stat_special
+  statSpe_punt_returns:
+    column: statSpe_punt_returns
+    label: Special Teams Punt Returns
+    group: stat_special
+  statSpe_kick_return_tds:
+    column: statSpe_kick_return_tds
+    label: Special Teams Kick Return TDs
+    group: stat_special
+  statSpe_kick_returns:
+    column: statSpe_kick_returns
+    label: Special Teams Kick Returns
+    group: stat_special
+  statSpe_kicking_points:
+    column: statSpe_kicking_points
+    label: Special Teams Kicking Points
+    group: stat_special
+  travel_distance_diff:
+    column: travel_distance_diff
+    label: Travel Distance Diff
+    group: travel
+  travel_tz_diff:
+    column: travel_tz_diff
+    label: Travel TZ Diff
+    group: travel
+  coach_career_seasons:
+    column: coach_career_seasons
+    label: Coach Career Seasons
+    group: coach
+  coach_career_mean_sp_offense:
+    column: coach_career_mean_sp_offense
+    label: Coach Career Mean SP Offense
+    group: coach
+  coach_career_mean_sp_defense:
+    column: coach_career_mean_sp_defense
+    label: Coach Career Mean SP Defense
+    group: coach
+  target_points_for_avg:
+    column: target_points_for_avg
+    label: Target Points For Avg
+    group: target
+  target_points_against_avg:
+    column: target_points_against_avg
+    label: Target Points Against Avg
+    group: target
+  y_margin_this_week:
+    column: y_margin_this_week
+    label: Current Game Margin
+    group: label
+  y_next_margin:
+    column: y_next_margin
+    label: Next Game Margin
+    group: label
+  market_over_under:
+    column: market_over_under
+    label: Market Over Under
+    group: market
+  market_spread_close:
+    column: market_spread_close
+    label: Market Spread Close
+    group: market
+  market_spread_open:
+    column: market_spread_open
+    label: Market Spread Open
+    group: market
+  market_win_probability:
+    column: market_win_probability
+    label: Market Win Probability
+    group: market
+  roster_return_total_rushing_p_p_a:
+    column: roster_return_total_rushing_p_p_a
+    label: Roster Return Total Rushing PPA
+    group: roster
+  roster_return_percent_p_p_a:
+    column: roster_return_percent_p_p_a
+    label: Roster Return Percent PPA
+    group: roster
+  roster_return_percent_passing_p_p_a:
+    column: roster_return_percent_passing_p_p_a
+    label: Roster Return Percent Passing PPA
+    group: roster
+  roster_return_percent_receiving_p_p_a:
+    column: roster_return_percent_receiving_p_p_a
+    label: Roster Return Percent Receiving PPA
+    group: roster
+  roster_return_percent_rushing_p_p_a:
+    column: roster_return_percent_rushing_p_p_a
+    label: Roster Return Percent Rushing PPA
+    group: roster
+  roster_return_rushing_usage:
+    column: roster_return_rushing_usage
+    label: Roster Return Rushing Usage
+    group: roster
+  roster_talent:
+    column: roster_talent
+    label: Roster Talent
+    group: roster

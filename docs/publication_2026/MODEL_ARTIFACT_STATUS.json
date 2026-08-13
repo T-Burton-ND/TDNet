@@ -1,0 +1,23 @@
+{
+  "checked_at_utc": "2026-08-13T19:50:46.651846+00:00",
+  "scientific": {
+    "calibration_statuses": [
+      "complete_cross_fitted_oof_through_2025"
+    ],
+    "cells": 54,
+    "errors": [],
+    "inventory_sha256": "d76c839288cdaa188b562e32d8d2fbed93e33557ebcbe027c75b6307038b67ca",
+    "market_comparison_cells": 12,
+    "market_free_prediction_cells": 42,
+    "status": "pass"
+  },
+  "status": "pass",
+  "wide_margin": {
+    "cells": 36,
+    "ensembles": 2,
+    "errors": [],
+    "inventory_sha256": "0d46d9870c8cb1ac65375a1a5d8437656a8a1a7b225a9dc6810fbce953068723",
+    "learned_f6_cells": 34,
+    "status": "pass"
+  }
+}

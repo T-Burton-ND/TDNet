@@ -1,0 +1,66 @@
+version: 3
+protocol_id: tdnet-canonical-2026-production-v3
+training:
+  objective: margin
+  retrospective_training_end_season: 2024
+  retrospective_holdout_season: 2025
+  prospective_training_end_season: 2025
+  prospective_season: 2026
+  in_season_retraining: false
+prospective_matrix:
+  status: owner_approved_compact_balanced
+  confirmatory_fingerprints: [F0, F1, F2, F3, F4, F5, F6]
+  market_only_benchmark: F7
+  market_aware_benchmark: F8
+  current_locked_margin_roster: F4
+  representatives: [M1, M2, M3, M4, M5, M10]
+  objective: margin
+  directory_discovery_prohibited: true
+season_phase_analysis:
+  mapping: configs/publication/season_phase_buckets.yaml
+  status: prespecified_secondary
+  primary_endpoint: brier_score
+  secondary_endpoints: [winner_accuracy, margin_mae, chalk_recall, upset_recall]
+  analyses: [fingerprint_by_phase, model_family_by_phase, market_aware_increment_by_phase]
+  exploratory: [fingerprint_by_model_family_by_phase, prior_games_continuous]
+  outcome_driven_boundary_changes_prohibited: true
+fingerprints:
+  canonical: [F0, F1, F2, F3, F4, F5, F6, F7, F8]
+  market_free: [F0, F1, F2, F3, F4, F5, F6]
+  market_only: [F7]
+  market_bearing: [F7, F8]
+  default_public: market_free
+models:
+  excluded_objectives: [winner]
+  excluded_architectures: [mixture_of_experts, dynamic_gating, learned_weights, matchup_routing]
+consensus:
+  primary: all_model_consensus
+  secondary: top10_brier_consensus
+  weighting: equal
+  top_n: 10
+calibration:
+  method: cross_fitted_logistic_margin
+  probability_clip: [0.000001, 0.999999]
+imputation:
+  method: knn
+  k: 10
+  fallback: training_median
+equivalence_thresholds:
+  brier_score: 0.005
+  winner_accuracy: 0.01
+  margin_mae: 0.25
+  calibration_slope: 0.10
+  chalk_recall: 0.02
+  upset_recall: 0.02
+inference:
+  historical_primary_bootstrap: paired_season_cluster
+  prospective_primary_bootstrap: paired_week_block
+  sensitivity_bootstrap: paired_game
+  mcnemar_for_winner_accuracy: true
+  confirmatory_multiplicity_correction: holm
+  exploratory_multiplicity_correction: benjamini_hochberg
+  exploratory_fdr_q: 0.05
+production:
+  prediction_cutoff: 'Thursday 23:59 America/New_York'
+  postseason_in_scope: false
+  freeze_version: v2.0.0

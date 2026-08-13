@@ -1,0 +1,287 @@
+version: 1
+description: Canonical publication registry for TDNet production feature families.
+defaults:
+  availability_rule: available_after_game_final
+  temporal_lag: 1_game
+  aggregation_window: season_to_date
+  opponent_adjusted: false
+  market_derived: false
+  target_derived: false
+  allowed_preseason: false
+  allowed_weekly: true
+  missing_policy: median_by_training_fold
+  version: 1
+
+# Exact columns with semantics that differ from their family defaults.
+features:
+  game_is_home:
+    family: structural
+    tier: F0
+    description: Indicator that the represented team's next game is at home.
+    source: cfbd_games
+    units: boolean
+    direction: higher_is_better
+    availability_rule: available_when_schedule_snapshot_frozen
+    temporal_lag: none
+    aggregation_window: next_game
+    allowed_preseason: true
+    code_path: gridiron_ml.pipeline.build_team_game_table
+  next_game_is_home:
+    family: structural
+    tier: F0
+    description: Scheduled home indicator for the next opponent pairing.
+    source: cfbd_games
+    units: boolean
+    direction: higher_is_better
+    availability_rule: available_when_schedule_snapshot_frozen
+    temporal_lag: none
+    aggregation_window: next_game
+    allowed_preseason: true
+    code_path: gridiron_ml.pipeline.prediction_rows
+  games_played:
+    family: sample_size
+    tier: F0
+    description: Completed games contributing to the as-of team state.
+    source: derived_game_history
+    units: games
+    direction: context_only
+    aggregation_window: season_to_date
+    allowed_preseason: true
+    code_path: gridiron_ml.fingerprints.builders.v0
+  travel_distance_diff:
+    family: situational
+    tier: F4
+    description: Team travel-distance burden relative to its opponent.
+    source: venue_geocoding
+    units: miles
+    direction: lower_is_better
+    availability_rule: available_when_venue_and_schedule_are_frozen
+    temporal_lag: none
+    aggregation_window: next_game
+    allowed_preseason: true
+    code_path: gridiron_ml.pipeline.build_team_game_table
+  travel_tz_diff:
+    family: situational
+    tier: F4
+    description: Time-zone displacement burden relative to the opponent.
+    source: venue_geocoding
+    units: hours
+    direction: lower_is_better
+    availability_rule: available_when_venue_and_schedule_are_frozen
+    temporal_lag: none
+    aggregation_window: next_game
+    allowed_preseason: true
+    code_path: gridiron_ml.pipeline.build_team_game_table
+  target_points_for_avg:
+    family: box_score
+    tier: F1
+    description: Leakage-safe prior-game mean points scored.
+    source: cfbd_games
+    units: points_per_game
+    direction: higher_is_better
+    target_derived: true
+    code_path: gridiron_ml.fingerprints.builders.v0
+  target_points_against_avg:
+    family: box_score
+    tier: F1
+    description: Leakage-safe prior-game mean points allowed.
+    source: cfbd_games
+    units: points_per_game
+    direction: lower_is_better
+    target_derived: true
+    code_path: gridiron_ml.fingerprints.builders.v0
+  roster_talent:
+    family: preseason_prior
+    tier: F0
+    description: Team talent composite available before the target game.
+    source: cfbd_talent
+    units: rating
+    direction: higher_is_better
+    availability_rule: available_after_source_publication
+    temporal_lag: source_publication
+    aggregation_window: season
+    allowed_preseason: true
+    code_path: gridiron_ml.pipeline.build_team_game_table
+  coach_career_seasons:
+    family: coaching
+    tier: F4
+    description: Pre-target-game head-coach career experience.
+    source: cfbd_coaches
+    units: seasons
+    direction: context_only
+    availability_rule: known_before_season_or_coaching_change
+    temporal_lag: none
+    aggregation_window: career_before_target_season
+    allowed_preseason: true
+    code_path: gridiron_ml.pipeline.build_team_game_table
+  market_spread_close:
+    family: market
+    tier: F7
+    description: Home-team spread captured at the declared prediction cutoff.
+    source: cfbd_lines
+    units: points
+    direction: higher_is_better
+    availability_rule: captured_before_prediction_deadline
+    temporal_lag: none
+    aggregation_window: prediction_cutoff
+    market_derived: true
+    allowed_preseason: true
+    code_path: gridiron_ml.td_run.market
+  market_spread_open:
+    family: market
+    tier: F7
+    description: Home-team opening spread retained as a market-movement comparator.
+    source: cfbd_lines
+    units: points
+    direction: higher_is_better
+    availability_rule: captured_before_prediction_deadline
+    temporal_lag: none
+    aggregation_window: prediction_cutoff
+    market_derived: true
+    allowed_preseason: true
+    code_path: gridiron_ml.td_run.market
+  market_over_under:
+    family: market
+    tier: F7
+    description: Game total captured at the declared prediction cutoff.
+    source: cfbd_lines
+    units: points
+    direction: context_only
+    availability_rule: captured_before_prediction_deadline
+    temporal_lag: none
+    aggregation_window: prediction_cutoff
+    market_derived: true
+    allowed_preseason: true
+    code_path: gridiron_ml.td_run.market
+  market_win_probability:
+    family: market
+    tier: F7
+    description: Vig-adjusted home win probability at the declared cutoff.
+    source: derived_market_snapshot
+    units: probability
+    direction: higher_is_better
+    availability_rule: derived_from_lines_captured_before_prediction_deadline
+    temporal_lag: none
+    aggregation_window: prediction_cutoff
+    market_derived: true
+    allowed_preseason: true
+    code_path: gridiron_ml.td_run.market
+
+# Family patterns cover columns whose semantics are generated systematically.
+# The registry loader expands these patterns against a concrete feature frame
+# and writes the resulting exact manifest into every run directory.
+patterns:
+  offense_*:
+    family: efficiency
+    tier: F2
+    description: Leakage-safe prior-game offensive efficiency summary.
+    source: cfbd_stats_advanced
+    units: source_defined_rate
+    direction: source_semantics
+    code_path: gridiron_ml.fingerprints.builders.v0
+  defense_*:
+    family: efficiency
+    tier: F2
+    description: Leakage-safe prior-game defensive allowed-rate summary.
+    source: cfbd_stats_advanced
+    units: source_defined_rate
+    direction: source_semantics
+    code_path: gridiron_ml.fingerprints.builders.v0
+  statOff_*:
+    family: box_score_offense
+    tier: F1
+    description: Leakage-safe offensive box-score summary.
+    source: cfbd_game_team_stats
+    units: source_defined
+    direction: source_semantics
+    code_path: gridiron_ml.fingerprints.builders.v0
+  statDef_*:
+    family: box_score_defense
+    tier: F1
+    description: Leakage-safe defensive box-score summary.
+    source: cfbd_game_team_stats
+    units: source_defined
+    direction: source_semantics
+    code_path: gridiron_ml.fingerprints.builders.v0
+  statGen_*:
+    family: box_score_general
+    tier: F1
+    description: Leakage-safe general box-score summary.
+    source: cfbd_game_team_stats
+    units: source_defined
+    direction: source_semantics
+    code_path: gridiron_ml.fingerprints.builders.v0
+  statSpe_*:
+    family: box_score_special_teams
+    tier: F1
+    description: Leakage-safe special-teams box-score summary.
+    source: cfbd_game_team_stats
+    units: source_defined
+    direction: source_semantics
+    code_path: gridiron_ml.fingerprints.builders.v0
+  roster_return_*:
+    family: returning_production
+    tier: F4
+    description: Returning-production prior known before the target game.
+    source: cfbd_returning
+    units: source_defined
+    direction: source_semantics
+    availability_rule: available_after_source_publication
+    temporal_lag: source_publication
+    aggregation_window: season
+    allowed_preseason: true
+    code_path: gridiron_ml.pipeline.build_team_game_table
+  coach_career_*:
+    family: coaching
+    tier: F4
+    description: Coach history ending strictly before the target season/game.
+    source: cfbd_coaches
+    units: source_defined
+    direction: source_semantics
+    availability_rule: known_before_target_game
+    temporal_lag: 1_season_for_postseason_summaries
+    aggregation_window: career_before_target_season
+    allowed_preseason: true
+    code_path: gridiron_ml.pipeline.build_team_game_table
+  opp_adj_*:
+    family: opponent_adjusted
+    tier: F3
+    description: Opponent-adjusted value fit only on games before the target cutoff.
+    source: derived_historical_games
+    units: source_defined
+    direction: source_semantics
+    opponent_adjusted: true
+    code_path: gridiron_ml.experiments.opponent_adjusted
+  adjusted_*:
+    family: opponent_adjusted
+    tier: F3
+    description: Opponent-adjusted value fit only on games before the target cutoff.
+    source: derived_historical_games
+    units: source_defined
+    direction: source_semantics
+    opponent_adjusted: true
+    code_path: gridiron_ml.experiments.opponent_adjusted
+  time_adj_*:
+    family: temporal
+    tier: F5
+    description: Time-aware team state using only observations before the cutoff.
+    source: derived_historical_games
+    units: source_defined
+    direction: source_semantics
+    code_path: gridiron_ml.experiments.time_adjusted
+  graph_*:
+    family: schedule_graph
+    tier: F6
+    description: Weekly schedule-graph fingerprint built from prior games only.
+    source: derived_historical_games
+    units: source_defined
+    direction: source_semantics
+    opponent_adjusted: true
+    code_path: gridiron_ml.fingerprints.ladder.build_schedule_graph_features
+
+blocked_patterns:
+  - y_*
+  - keys_*
+  - game_*
+  - coach_season_*
+  - coach_*postseason*

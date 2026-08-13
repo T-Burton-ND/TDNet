@@ -1,0 +1,108 @@
+version: 2
+registry_id: tdnet-2026-fingerprint-registry-v2
+status: RELEASE_CANDIDATE_NOT_YET_PUBLIC_FREEZE
+source_of_truth:
+  ladder: configs/features/feature_ladders.yaml
+  protocol: configs/publication/canonical_2026_protocol.yaml
+rules:
+  prospective_matrix: compact_balanced_representative_design
+  roster_must_be_explicit_not_directory_inferred: true
+  confirmatory_tiers: [F0, F1, F2, F3, F4, F5, F6]
+  market_only_benchmark_tiers: [F7]
+  market_aware_comparison_tiers: [F8]
+  deprecated_aliases_fail_validation: true
+  market_features_forbidden_in_confirmatory_tiers: true
+fingerprints:
+  - id: F0
+    display_name: Minimal strength baseline
+    feature_families: [structural, sample_size, preseason_prior]
+    explicit_exclusions: [market]
+    market_information: false
+    status: confirmatory
+    expected_model_families: [linear, spline, tree, boosted, neural, knn]
+    expected_scientific_cell_count: 6
+    legacy_aliases: []
+    deprecated: false
+  - id: F1
+    display_name: Raw box scores
+    feature_families: [F0, box_score, box_score_offense, box_score_defense, box_score_general, box_score_special_teams]
+    explicit_exclusions: [market]
+    market_information: false
+    status: confirmatory
+    expected_model_families: [linear, spline, tree, boosted, neural, knn]
+    expected_scientific_cell_count: 6
+    legacy_aliases: []
+    deprecated: false
+  - id: F2
+    display_name: Efficiency and rates
+    feature_families: [F1, efficiency]
+    explicit_exclusions: [market]
+    market_information: false
+    status: confirmatory
+    expected_model_families: [linear, spline, tree, boosted, neural, knn]
+    expected_scientific_cell_count: 6
+    legacy_aliases: []
+    deprecated: false
+  - id: F3
+    display_name: Opponent adjusted
+    feature_families: [F2, opponent_adjusted]
+    explicit_exclusions: [market]
+    market_information: false
+    status: confirmatory
+    expected_model_families: [linear, spline, tree, boosted, neural, knn]
+    expected_scientific_cell_count: 6
+    legacy_aliases: []
+    deprecated: false
+  - id: F4
+    display_name: Contextual football profile
+    feature_families: [F3, situational, returning_production, coaching]
+    explicit_exclusions: [market]
+    market_information: false
+    status: confirmatory
+    expected_model_families: [linear, spline, tree, boosted, neural, knn]
+    expected_scientific_cell_count: 6
+    legacy_aliases: []
+    deprecated: false
+  - id: F5
+    display_name: Temporal dynamics
+    feature_families: [F4, temporal]
+    explicit_exclusions: [market]
+    market_information: false
+    status: confirmatory
+    expected_model_families: [linear, spline, tree, boosted, neural, knn]
+    expected_scientific_cell_count: 6
+    legacy_aliases: []
+    deprecated: false
+  - id: F6
+    display_name: Complete market-free TDNet fingerprint
+    feature_families: [F5, schedule_graph]
+    explicit_exclusions: [market]
+    market_information: false
+    status: confirmatory
+    expected_model_families: [linear, spline, tree, boosted, neural, knn]
+    expected_scientific_cell_count: 6
+    legacy_aliases: []
+    deprecated: false
+  - id: F7
+    display_name: Market-only benchmark
+    feature_families: [market]
+    explicit_exclusions: []
+    market_information: true
+    status: market_aware_comparison
+    prospective_role: benchmark_only_not_confirmatory
+    expected_model_families: [linear, spline, tree, boosted, neural, knn]
+    expected_scientific_cell_count: 6
+    legacy_aliases: []
+    deprecated: false
+  - id: F8
+    display_name: Complete fingerprint plus market information
+    feature_families: [F6, market]
+    explicit_exclusions: []
+    market_information: true
+    status: market_aware_comparison
+    prospective_role: benchmark_only_not_confirmatory
+    expected_model_families: [linear, spline, tree, boosted, neural, knn]
+    expected_scientific_cell_count: 6
+    legacy_aliases: [market-aware]
+    deprecated: false
+legacy_aliases: {}

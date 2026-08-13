@@ -1,0 +1,5 @@
+model_name: naive_home
+model_type: home_team
+loss_function: WinnerAccuracy
+seed: 42
+

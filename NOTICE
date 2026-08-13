@@ -1,0 +1,15 @@
+TDNet
+Copyright 2026 Thomas J. Burton
+
+TDNet-authored source code is licensed under the Apache License, Version 2.0.
+
+College football data are obtained separately from CollegeFootballData.com
+(CFBD), a Rad Sports Analytics platform. CFBD data are not distributed with
+TDNet and are not licensed under the Apache License. Users must obtain their
+own API credentials and comply with the current CFBD terms:
+https://collegefootballdata.com/terms
+
+Third-party names, trademarks, team marks, and logos remain the property of
+their respective owners. The Apache License does not grant rights to those
+materials. Model checkpoint bytes and separately distributed release assets
+are covered only when their accompanying release documentation says so.

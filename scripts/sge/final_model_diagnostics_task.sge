@@ -1,0 +1,54 @@
+#!/bin/bash
+#$ -N tdnet_final_diag
+#$ -cwd
+#$ -q long
+#$ -l h_rt=04:00:00
+#$ -o docs/logs/sge/$JOB_NAME.$JOB_ID.$TASK_ID.out
+#$ -e docs/logs/sge/$JOB_NAME.$JOB_ID.$TASK_ID.err
+
+set -euo pipefail
+
+REPO_ROOT="${REPO_ROOT:-$PWD}"
+CONDA_ENV="${CONDA_ENV:-gridiron}"
+OUTPUT_ROOT="${OUTPUT_ROOT:-$REPO_ROOT/data/experiments/fingerprint_hyperparameter_search/final_model_diagnostics}"
+JOB_MANIFEST="${JOB_MANIFEST:-$OUTPUT_ROOT/job_manifest.csv}"
+SEARCH_ROOT="${SEARCH_ROOT:-$REPO_ROOT/data/experiments/fingerprint_hyperparameter_search}"
+SOURCE_FINGERPRINT_ROOT="${SOURCE_FINGERPRINT_ROOT:-$REPO_ROOT/data/experiments/opponent_adjusted_fingerprints}"
+
+cd "$REPO_ROOT"
+mkdir -p docs/logs/sge
+
+if [[ -n "${CONDA_ENV:-}" ]] && command -v conda >/dev/null 2>&1 && conda env list | awk '{print $1}' | grep -qx "$CONDA_ENV"; then
+  eval "$(conda shell.bash hook)"
+  conda activate "$CONDA_ENV"
+elif [[ -n "${CONDA_ENV:-}" ]]; then
+  echo "Conda environment '$CONDA_ENV' not found; continuing with current environment." >&2
+fi
+if [[ -z "${PYTHON_BIN:-}" ]]; then
+  if command -v python >/dev/null 2>&1; then
+    PYTHON_BIN="$(command -v python)"
+  elif command -v python3 >/dev/null 2>&1; then
+    PYTHON_BIN="$(command -v python3)"
+  elif [[ -x /afs/crc.nd.edu/x86_64_linux/c/conda/24.7.1/bin/python ]]; then
+    PYTHON_BIN="/afs/crc.nd.edu/x86_64_linux/c/conda/24.7.1/bin/python"
+  else
+    echo "No usable Python executable found; set PYTHON_BIN." >&2
+    exit 127
+  fi
+fi
+echo "Using Python: ${PYTHON_BIN}"
+
+export PYTHONPATH="$REPO_ROOT/src:${PYTHONPATH:-}"
+export MPLCONFIGDIR="${MPLCONFIGDIR:-/tmp/tdnet-matplotlib-$USER}"
+export OMP_NUM_THREADS="${NSLOTS:-1}"
+export MKL_NUM_THREADS="${NSLOTS:-1}"
+export OPENBLAS_NUM_THREADS="${NSLOTS:-1}"
+
+"${PYTHON_BIN}" src/gridiron_ml/cli/run_final_model_diagnostics.py run-job \
+  --project-root "$REPO_ROOT" \
+  --search-root "$SEARCH_ROOT" \
+  --output-root "$OUTPUT_ROOT" \
+  --source-fingerprint-root "$SOURCE_FINGERPRINT_ROOT" \
+  --manifest "$JOB_MANIFEST" \
+  --sge-task-id "$SGE_TASK_ID" \
+  --fingerprint-sample "${FINGERPRINT_SAMPLE:-2500}"

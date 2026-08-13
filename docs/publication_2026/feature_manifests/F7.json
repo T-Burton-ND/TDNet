@@ -1,0 +1,202 @@
+{
+  "feature_count": 4,
+  "feature_families": [
+    "market"
+  ],
+  "feature_names": [
+    "market_over_under",
+    "market_spread_close",
+    "market_spread_open",
+    "market_win_probability"
+  ],
+  "features": [
+    {
+      "earliest_known_availability": "captured_before_prediction_deadline",
+      "family": "market",
+      "market_derived": true,
+      "missingness_rule": "median_by_training_fold",
+      "name": "market_over_under",
+      "opponent_adjusted": false,
+      "source": "cfbd_lines",
+      "temporal_cutoff_rule": "none",
+      "transformation": "declared_in_builder",
+      "version": 1
+    },
+    {
+      "earliest_known_availability": "captured_before_prediction_deadline",
+      "family": "market",
+      "market_derived": true,
+      "missingness_rule": "median_by_training_fold",
+      "name": "market_spread_close",
+      "opponent_adjusted": false,
+      "source": "cfbd_lines",
+      "temporal_cutoff_rule": "none",
+      "transformation": "declared_in_builder",
+      "version": 1
+    },
+    {
+      "earliest_known_availability": "captured_before_prediction_deadline",
+      "family": "market",
+      "market_derived": true,
+      "missingness_rule": "median_by_training_fold",
+      "name": "market_spread_open",
+      "opponent_adjusted": false,
+      "source": "cfbd_lines",
+      "temporal_cutoff_rule": "none",
+      "transformation": "declared_in_builder",
+      "version": 1
+    },
+    {
+      "earliest_known_availability": "derived_from_lines_captured_before_prediction_deadline",
+      "family": "market",
+      "market_derived": true,
+      "missingness_rule": "median_by_training_fold",
+      "name": "market_win_probability",
+      "opponent_adjusted": false,
+      "source": "derived_market_snapshot",
+      "temporal_cutoff_rule": "none",
+      "transformation": "declared_in_builder",
+      "version": 1
+    }
+  ],
+  "label": "Market-only benchmark",
+  "ladder_validation": {
+    "canonical_order": [
+      "F0",
+      "F1",
+      "F2",
+      "F3",
+      "F4",
+      "F5",
+      "F6",
+      "F7",
+      "F8"
+    ],
+    "legacy_tiers": [],
+    "market_aware_tier": "F8",
+    "market_free_tiers": [
+      "F0",
+      "F1",
+      "F2",
+      "F3",
+      "F4",
+      "F5",
+      "F6"
+    ],
+    "market_only_tier": "F7",
+    "resolved_families": {
+      "F0": [
+        "preseason_prior",
+        "sample_size",
+        "structural"
+      ],
+      "F1": [
+        "box_score",
+        "box_score_defense",
+        "box_score_general",
+        "box_score_offense",
+        "box_score_special_teams",
+        "preseason_prior",
+        "sample_size",
+        "structural"
+      ],
+      "F2": [
+        "box_score",
+        "box_score_defense",
+        "box_score_general",
+        "box_score_offense",
+        "box_score_special_teams",
+        "efficiency",
+        "preseason_prior",
+        "sample_size",
+        "structural"
+      ],
+      "F3": [
+        "box_score",
+        "box_score_defense",
+        "box_score_general",
+        "box_score_offense",
+        "box_score_special_teams",
+        "efficiency",
+        "opponent_adjusted",
+        "preseason_prior",
+        "sample_size",
+        "structural"
+      ],
+      "F4": [
+        "box_score",
+        "box_score_defense",
+        "box_score_general",
+        "box_score_offense",
+        "box_score_special_teams",
+        "coaching",
+        "efficiency",
+        "opponent_adjusted",
+        "preseason_prior",
+        "returning_production",
+        "sample_size",
+        "situational",
+        "structural"
+      ],
+      "F5": [
+        "box_score",
+        "box_score_defense",
+        "box_score_general",
+        "box_score_offense",
+        "box_score_special_teams",
+        "coaching",
+        "efficiency",
+        "opponent_adjusted",
+        "preseason_prior",
+        "returning_production",
+        "sample_size",
+        "situational",
+        "structural",
+        "temporal"
+      ],
+      "F6": [
+        "box_score",
+        "box_score_defense",
+        "box_score_general",
+        "box_score_offense",
+        "box_score_special_teams",
+        "coaching",
+        "efficiency",
+        "opponent_adjusted",
+        "preseason_prior",
+        "returning_production",
+        "sample_size",
+        "schedule_graph",
+        "situational",
+        "structural",
+        "temporal"
+      ],
+      "F7": [
+        "market"
+      ],
+      "F8": [
+        "box_score",
+        "box_score_defense",
+        "box_score_general",
+        "box_score_offense",
+        "box_score_special_teams",
+        "coaching",
+        "efficiency",
+        "market",
+        "opponent_adjusted",
+        "preseason_prior",
+        "returning_production",
+        "sample_size",
+        "schedule_graph",
+        "situational",
+        "structural",
+        "temporal"
+      ]
+    },
+    "version": 3
+  },
+  "market_derived": true,
+  "resolved_tier": "F7",
+  "schema_hash": "c749f60bb1a7be3bbd7b6efc1f38446d5e50a7c5486fb9b1f097e1a7f686296c",
+  "tier": "F7"
+}

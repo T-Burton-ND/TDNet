@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gridiron_ml"
+version = "0.1.2"
+description = "TDNet: Time-dependent fingerprints and models for college football analytics"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Thomas J. Burton" }]
+license = { text = "Apache-2.0" }
+
+dependencies = [
+  "numpy",
+  "pandas",
+  "pyarrow",
+  "requests",
+  "scikit-learn",
+  "matplotlib",
+  "networkx",
+  "shap",
+  "tqdm",
+  "pyyaml",
+]
+
+[project.urls]
+Repository = "https://github.com/T-Burton-ND/TDNet"
+Documentation = "https://github.com/T-Burton-ND/TDNet#readme"
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "ruff",
+  "black",
+]
+notebooks = [
+  "ipykernel",
+  "ipywidgets",
+  "seaborn",
+]
+visualization = [
+  "altair>=5",
+  "vl-convert-python>=1.7",
+]
+[project.scripts]
+td-sim = "gridiron_ml.td_sim.cli:main"
+tdnet-run = "gridiron_ml.td_run.cli:main"
+tdnet-pipeline = "gridiron_ml.pipeline.build_full_pipeline:main"
+tdnet-figures = "gridiron_ml.td_run.generate_figures:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["gridiron_ml*", "visualization*"]

@@ -1,0 +1,21 @@
+model_name: elastic_net
+model_type: elastic_net
+loss_function: Composite
+margin_temperature: 14.0
+prediction_margin_cap: 30.0
+favorite_confidence_scale: 4.0
+huber_delta: 7.0
+seed: 42
+
+training:
+  standardize: true
+  use_sample_weights: false
+  sample_weight_column:
+
+params:
+  alpha: 0.01
+  l1_ratio: 0.5
+  fit_intercept: true
+  max_iter: 10000
+  tol: 0.0001
+  selection: cyclic

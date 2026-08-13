@@ -1,0 +1,76 @@
+season:
+  target_season: 2026
+
+simulation_mode:
+  # workflow: single_model or multi_model
+  workflow: multi_model
+  # schedule_mode: full_schedule or remaining_schedule
+  schedule_mode: full_schedule
+  as_of_week: null
+
+simulation:
+  n_sims: 10
+  random_seed: 42
+  random_scaling_factor: 1.0
+  game_noise_std: null
+  model_residual_std: 14.0
+  residual_std_multiplier: 1.0
+  clip_win_probability_min: 0.01
+  clip_win_probability_max: 0.99
+  sigmoid_scale: 13.5
+
+recursive:
+  # performance_sampler: historical, knn, or hybrid
+  performance_sampler: hybrid
+  historical_seasons: 3
+  historical_regression_games: 3.0
+  stat_randomness: 1.0
+  knn_neighbors: 40
+  knn_randomness: 1.0
+  knn_margin_band: 17.5
+  knn_max_candidates: 1500
+  knn_noise: 0.05
+  hybrid_knn_weight: 0.65
+  final_week: 16
+  save_debug: false
+  save_final_fingerprints: false
+
+runtime:
+  show_progress: true
+
+fingerprints:
+  version: 0
+  postseason: false
+  root: /Users/tburton2/Desktop/Repos/TDNet
+  bootstrap_week0_if_missing: true
+  bootstrap_persist: true
+  bootstrap_seasons_back: 3
+  bootstrap_recency_halflife: 1.5
+
+matchup:
+  representation: unit_matchup
+  include_unit_passthrough: true
+  unit_passthrough_patterns:
+    - opp_adj_*
+    - opponent_adj_*
+    - opponent_adjusted_*
+    - adjusted_*
+
+data:
+  schedule_path_template: data/team_game_tables/team_game_table_{season}_fbs.parquet
+  raw_cache_dir: data/raw/cfbd/v2
+  division: fbs
+  auto_bootstrap: true
+
+models:
+  checkpoint_root: models
+  include_models: all
+  exclude_models: []
+
+outputs:
+  output_dir: data/td_sim/23JUN2026/
+  top_n_teams: 25
+
+figures:
+  dpi: 220
+  logo_dir: data/meta/logos/by_team

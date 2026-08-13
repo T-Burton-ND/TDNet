@@ -1,0 +1,18 @@
+model_name: orthogonal_matching_pursuit
+model_type: orthogonal_matching_pursuit
+loss_function: Composite
+margin_temperature: 14.0
+prediction_margin_cap: 30.0
+favorite_confidence_scale: 4.0
+huber_delta: 7.0
+seed: 42
+
+training:
+  standardize: true
+  use_sample_weights: false
+  sample_weight_column:
+
+params:
+  fit_intercept: true
+  n_nonzero_coefs:
+  tol:

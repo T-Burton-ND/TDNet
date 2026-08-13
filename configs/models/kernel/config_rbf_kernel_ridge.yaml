@@ -1,0 +1,5 @@
+model_name: rbf_kernel_ridge
+model_type: rbf_kernel_ridge
+seed: 42
+margin_temperature: 14.0
+params: {alpha: 1.0, gamma: 0.01}

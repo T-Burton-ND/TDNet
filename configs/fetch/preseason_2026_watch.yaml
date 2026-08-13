@@ -1,0 +1,13 @@
+cache_dir: data/raw/cfbd/v2
+year: 2026
+division: fbs
+sleep_seconds: 0.25
+snake_case: true
+refresh: true
+
+# After the full preseason rehearsal refresh, poll this deliberately narrow
+# set only. Do not spend API calls on the stable schedule/context endpoints.
+endpoints:
+  rankings: true
+  talent: true
+  returning: true

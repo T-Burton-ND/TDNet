@@ -1,0 +1,40 @@
+artifacts:
+  core_tables: true
+  game_predictions: true
+  prediction_sanity: true
+  shap: false
+  shap_summary_plots: false
+  shap_bar_plots: false
+  weekly_tables: false
+  bucket_tables: false
+  calibration_tables: false
+  ats_tables: false
+  png_plots: false
+
+scoring_weights:
+  winner_accuracy: 0.35
+  chalk_accuracy: 0.15
+  upset_recall: 0.20
+  disagreement_accuracy: 0.20
+  edge_3_plus_accuracy: 0.05
+  record_upset_recall: 0.00
+  margin_score: 0.05
+
+plotting:
+  model_colors_path: docs/style/color_palettes/tdnet_model_colors.csv
+  color_wheel_path: docs/style/color_palettes/tdnet_color_wheel.csv
+  show_bar_values: true
+  legend_outside: true
+  dpi: 150
+
+probability:
+  margin_temperature: 7.0
+
+shap:
+  enabled: false
+  max_background: 80
+  max_explain: 200
+  max_display: 25
+  random_seed: 42
+  summary_plots: false
+  bar_plots: false

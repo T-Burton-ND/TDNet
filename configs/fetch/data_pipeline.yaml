@@ -1,0 +1,51 @@
+root: ../..
+
+years:
+  start: 2010
+  end: 2025
+
+paths:
+  raw_cache_dir: data/raw/cfbd/v2
+  team_game_tables_dir: data/team_game_tables
+
+raw_fetch:
+  enabled: true
+  division: fbs
+  api_key_env: CFBD_API_KEY
+  snake_case: true
+  refresh: false
+  sleep_seconds: 0.25
+  endpoints:
+    games: true
+    game_team_stats: true
+    stats_advanced_game: true
+    havoc_game: true
+    lines: true
+    pregame_wp: true
+    ppa_games: true
+    talent: true
+    returning: true
+    recruiting_teams: true
+    coaches: true
+    teams_fbs: true
+    venue: true
+
+team_game_tables:
+  enabled: true
+  division: fbs
+  week: null
+  output_format: parquet
+
+fingerprints:
+  enabled: true
+  postseason: false
+  overwrite: true
+  versions:
+    v0:
+      enabled: true
+    v1:
+      enabled: false
+    v2:
+      enabled: false
+    # v3:
+    #   enabled: false

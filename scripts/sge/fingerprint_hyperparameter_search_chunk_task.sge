@@ -1,0 +1,43 @@
+#!/bin/bash
+#$ -N tdnet_hps_chunk
+#$ -cwd
+#$ -q long
+#$ -pe smp 4
+#$ -l h_rt=08:00:00
+#$ -o docs/logs/sge/$JOB_NAME.$JOB_ID.$TASK_ID.out
+#$ -e docs/logs/sge/$JOB_NAME.$JOB_ID.$TASK_ID.err
+
+set -euo pipefail
+
+REPO_ROOT="${REPO_ROOT:-$PWD}"
+CONDA_ENV="${CONDA_ENV:-gridiron}"
+CONFIG_PATH="${CONFIG_PATH:?CONFIG_PATH is required}"
+OUTPUT_ROOT="${OUTPUT_ROOT:?OUTPUT_ROOT is required}"
+CHUNK_SIZE="${CHUNK_SIZE:-4}"
+CHUNK_WORKERS="${CHUNK_WORKERS:-4}"
+
+cd "$REPO_ROOT"
+mkdir -p docs/logs/sge
+
+if [[ -n "${CONDA_ENV:-}" ]] && command -v conda >/dev/null 2>&1 && conda env list | awk '{print $1}' | grep -qx "$CONDA_ENV"; then
+  eval "$(conda shell.bash hook)"
+  conda activate "$CONDA_ENV"
+elif [[ -n "${CONDA_ENV:-}" ]]; then
+  echo "Conda environment '$CONDA_ENV' not found; continuing with current environment." >&2
+fi
+
+export PYTHONPATH="$REPO_ROOT/src:${PYTHONPATH:-}"
+export MPLCONFIGDIR="${MPLCONFIGDIR:-/tmp/tdnet-matplotlib-$USER}"
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+
+python src/gridiron_ml/cli/run_fingerprint_hyperparameter_search_chunk.py \
+  --project-root "$REPO_ROOT" \
+  --config "$CONFIG_PATH" \
+  --output-root "$OUTPUT_ROOT" \
+  --sge-task-id "$SGE_TASK_ID" \
+  --chunk-size "$CHUNK_SIZE" \
+  --workers "$CHUNK_WORKERS" \
+  ${FORCE_CHUNK_RUNS:+--force}

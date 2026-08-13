@@ -1,0 +1,48 @@
+#!/bin/bash
+#$ -N tdnet_oa_ab_merge
+#$ -cwd
+#$ -q long
+#$ -l h_rt=02:00:00
+#$ -o docs/logs/sge/$JOB_NAME.$JOB_ID.out
+#$ -e docs/logs/sge/$JOB_NAME.$JOB_ID.err
+
+set -euo pipefail
+
+REPO_ROOT="${REPO_ROOT:-$PWD}"
+CONDA_ENV="${CONDA_ENV:-gridiron}"
+OUTPUT_ROOT="${OUTPUT_ROOT:-$REPO_ROOT/data/experiments/opponent_adjusted_ablation_shap}"
+
+cd "$REPO_ROOT"
+mkdir -p docs/logs/sge
+
+if [[ -n "${CONDA_ENV:-}" ]] && command -v conda >/dev/null 2>&1 && conda env list | awk '{print $1}' | grep -qx "$CONDA_ENV"; then
+  eval "$(conda shell.bash hook)"
+  conda activate "$CONDA_ENV"
+elif [[ -n "${CONDA_ENV:-}" ]] && [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
+  # shellcheck source=/dev/null
+  source "$HOME/miniconda3/etc/profile.d/conda.sh"
+  if conda env list | awk '{print $1}' | grep -qx "$CONDA_ENV"; then
+    conda activate "$CONDA_ENV"
+  else
+    echo "Conda environment '$CONDA_ENV' not found; continuing with current environment." >&2
+  fi
+elif [[ -n "${CONDA_ENV:-}" ]] && [ -f "$HOME/anaconda3/etc/profile.d/conda.sh" ]; then
+  # shellcheck source=/dev/null
+  source "$HOME/anaconda3/etc/profile.d/conda.sh"
+  if conda env list | awk '{print $1}' | grep -qx "$CONDA_ENV"; then
+    conda activate "$CONDA_ENV"
+  else
+    echo "Conda environment '$CONDA_ENV' not found; continuing with current environment." >&2
+  fi
+elif [[ -n "${CONDA_ENV:-}" ]]; then
+  echo "Conda environment '$CONDA_ENV' not found; continuing with current environment." >&2
+fi
+
+export PYTHONPATH="$REPO_ROOT/src:${PYTHONPATH:-}"
+export OMP_NUM_THREADS="${NSLOTS:-1}"
+export MKL_NUM_THREADS="${NSLOTS:-1}"
+export OPENBLAS_NUM_THREADS="${NSLOTS:-1}"
+
+python src/gridiron_ml/cli/run_opponent_ablation_shap.py merge \
+  --project-root "$REPO_ROOT" \
+  --output-root "$OUTPUT_ROOT"

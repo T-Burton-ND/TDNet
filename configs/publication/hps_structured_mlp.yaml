@@ -1,0 +1,26 @@
+version: 1
+experiment_name: publication_hps_structured_mlp_v1
+artifact_root: publication_artifacts
+objectives: [winner, margin]
+feature_tiers: [F6]
+model_levels: [M6]
+model_configs:
+  M6: configs/models/neural/config_structured_mlp.yaml
+model_families:
+  M6: structured_neural
+split_configs: [configs/splits/rolling_origin.yaml]
+seeds: [1701]
+parameter_search:
+  seed: 26061
+  trials_per_level: {M6: 32}
+  spaces:
+    M6:
+      config.hidden_layers: {type: categorical, choices: [[64, 32], [128, 64], [128, 128], [256, 128, 64]]}
+      config.activation: {type: categorical, choices: [relu, gelu]}
+      config.dropout: {type: categorical, choices: [0.0, 0.1, 0.25, 0.4]}
+      config.normalization: {type: categorical, choices: [none, layer_norm]}
+      config.weight_decay: {type: categorical, choices: [0.0, 0.00001, 0.0001, 0.001]}
+      config.learning_rate: {type: categorical, choices: [0.0001, 0.0003, 0.001, 0.003]}
+      config.batch_size: {type: categorical, choices: [32, 64, 128]}
+worker: {chunk_size: 1, nslots: 1, internal_threads: 1, fragment_format: parquet}
+guardrails: {minimum_free_gb: 30, reject_2026_training: true}

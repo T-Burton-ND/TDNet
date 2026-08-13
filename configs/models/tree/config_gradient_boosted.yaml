@@ -1,0 +1,24 @@
+model_name: gradient_boosted
+model_type: gradient_boosted
+loss_function: Composite
+loss_weights:
+  alpha: 0.25
+  beta: 1.0
+  gamma: 3.0
+  delta: 0.25
+margin_temperature: 14.0
+prediction_margin_cap: 30.0
+favorite_confidence_scale: 4.0
+huber_delta: 7.0
+seed: 42
+training:
+  standardize: false
+  use_sample_weights: false
+  sample_weight_column:
+params:
+  n_estimators: 500
+  learning_rate: 0.03
+  max_depth: 3
+  min_samples_leaf: 10
+  subsample: 0.8
+  random_state: 42

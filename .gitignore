@@ -1,0 +1,122 @@
+# OS/editor
+.DS_Store
+.ipynb_checkpoints/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Environments and credentials
+.env
+.venv/
+venv/
+*.key
+
+# Data and generated artifacts
+data/
+logs/
+outputs/
+/artifacts/
+runs/
+archive/
+picks/
+Picks/
+style/
+models/architecture/*.csv
+*.parquet
+*/audits/
+
+# Curated publication style assets are versioned with the documentation.
+!docs/style/
+!docs/style/**
+
+# Public releases contain figures and compact provenance, not generated result
+# tables. Small curated publication/provenance CSVs are explicit exceptions.
+docs/publication_*/**/*.csv
+docs/publication_*/**/*.csv.gz
+!docs/publication_2026/FINGERPRINT_FEATURE_MATRIX.csv
+!docs/publication_2026/weekly_learned_model_inventory.csv
+!docs/publication_2026/matrix/final_checkpoint_roster_proposal.csv
+publication/**/*.csv
+publication/**/*.csv.gz
+
+# Model checkpoints: regenerate locally or store in an external artifact store.
+*.pkl
+*.joblib
+*.pickle
+*.pt
+*.pth
+*.onnx
+
+# Model/evaluation data tables are local run artifacts. Keep plots reviewable in git.
+models/**/*.csv
+models/**/*.json
+models/**/*.txt
+!models/**/plots/
+!models/**/*.png
+!models/**/*.jpg
+!models/**/*.jpeg
+!models/**/*.webp
+!models/**/*.svg
+!models/**/*.pdf
+
+# Reproducibility metadata for the 2025 holdout roster is small and should be
+# publishable; checkpoints and generated publication tables remain ignored.
+!models/season_2025_no_market_roster/final_model_inventory.csv
+!models/season_2025_no_market_roster/full_roster_selection.csv
+!models/season_2025_no_market_roster/preseason_model_rankings.csv
+!models/season_2025_no_market_roster/roster_manifest.json
+
+# The 2026 refit is a local/private checkpoint store.  Keep only the compact
+# inventories, rankings, manifests, and model-set READMEs eligible for a
+# future public release; checkpoint binaries remain ignored by the rules above.
+!models/season_2026_no_market_roster/*.csv
+!models/season_2026_no_market_roster/*.json
+!models/season_2026_no_market_roster/*.md
+models/season_2026_frozen_*/
+!models/season_2026_frozen_*/
+!models/season_2026_frozen_*/*.csv
+!models/season_2026_frozen_*/*.json
+!models/season_2026_frozen_*/*.md
+
+# The complete 2025 example bundle is reproducible but too large for the repo.
+# Keep only its release metadata in version control.
+publication/2025/**
+!publication/2025/README.md
+!publication/2025/retrospective_manifest.json
+!publication/2025/holdout_weekly_figures/
+!publication/2025/holdout_weekly_figures/**
+# Local complete dry-run render trees; representative public examples live in
+# docs/publication_2026/figures/dry_run_examples/ instead.
+publication/2025_margin_wide_dry_run/
+publication/2025_scientific_roster_dry_run/
+publication/2025_*/
+
+# Generated 2026 prediction/preseason bundles are local artifacts until an
+# explicit public release is selected.  Keep source code and method notes,
+# not raw CFBD-derived tables, game-level exports, or stale freeze bundles.
+publication/2026/weekly_predictions/**
+publication/2026/preseason/**
+
+# Local notes
+ideas.md
+planning/
+dev/
+.cleanup_quarantine/
+
+# Private blog working materials, interviews, style guides, and upcoming drafts.
+# Publication-ready tables/figures belong under publication/ instead.
+docs/blog_assets/
+
+# Final override: private 2026 bundles stay out even though earlier rules allow
+# compact metadata for local bundle development.
+models/season_2026_scientific_frozen_bundle/
+models/season_2026_wide_margin_frozen_bundle/
+models/season_2026_*/
+tdnet_model_freeze_release_candidate/

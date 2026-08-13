@@ -1,0 +1,27 @@
+version: 1
+primary_provider: CollegeFootballData
+provider_abbreviation: CFBD
+raw_data_policy: authorized_download_by_user; raw CFBD data are not redistributed
+api_base: https://api.collegefootballdata.com
+scope:
+  division: fbs
+  season_types: [regular]
+  postseason_in_formal_study: false
+weekly_cutoff:
+  local_timezone: America/New_York
+  local_rule: Thursday 23:59:00
+  utc_conversion: stored in each immutable weekly bundle
+endpoint_completeness:
+  config: configs/fetch/weekly_2026_refresh.yaml
+  checker: src/gridiron_ml/cli/publication/check_weekly_snapshot.py
+  evidence: endpoint-specific parquet hash, row count, schema, missing fields, and status
+market_lines:
+  provider: CollegeFootballData
+  source_field: CFBD lines payload preserved in the cached lines endpoint
+  capture_rule: snapshot timestamp before the declared prediction deadline
+  closing_line_comparison: retrospective and separately labeled only
+attribution_surfaces:
+  - README.md
+  - docs/publication_2026/CONFIRMATORY_PROTOCOL.md
+  - docs/publication_2026/WEEKLY_OPERATIONS.md
+  - publication/2026/weekly_predictions/*/public

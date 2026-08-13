@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+#$ -N tdnet_publication_mlp_manifest
+#$ -cwd
+#$ -l h_rt=00:30:00
+#$ -l h_vmem=8G
+#$ -o docs/logs/sge/$JOB_NAME.$JOB_ID.out
+#$ -e docs/logs/sge/$JOB_NAME.$JOB_ID.err
+
+set -euo pipefail
+REPO_ROOT="${REPO_ROOT:-$PWD}"
+ARTIFACT_ROOT="${ARTIFACT_ROOT:?ARTIFACT_ROOT is required}"
+CONFIG_PATH="${CONFIG_PATH:-$REPO_ROOT/configs/publication/hps_mlp.yaml}"
+DATA_PATH="${DATA_PATH:-$REPO_ROOT/data/experiments/opponent_adjusted_fingerprints/fingerprints/v1_7/canonical_fingerprint.parquet}"
+MAX_TRIALS="${MAX_TRIALS:-}"
+cd "$REPO_ROOT"
+mkdir -p docs/logs/sge
+export PYTHONPATH="$REPO_ROOT/src${PYTHONPATH:+:$PYTHONPATH}"
+build_args=(
+  python src/gridiron_ml/cli/experiments/build_experiment_manifest.py \
+  --project-root "$REPO_ROOT" \
+  --config "$CONFIG_PATH" \
+  --data-path "$DATA_PATH" \
+  --output-root "$ARTIFACT_ROOT"
+)
+if [[ -n "$MAX_TRIALS" ]]; then
+  build_args+=(--max-trials "$MAX_TRIALS")
+fi
+"${build_args[@]}"

@@ -1,0 +1,34 @@
+root: ../..
+
+fingerprints:
+  version: 0
+  postseason: false
+  build: false
+  overwrite: false
+
+matchup:
+  representation: unit_matchup
+  safe_math: true
+  include_unit_passthrough: true
+  unit_passthrough_patterns:
+    - opp_adj_*
+    - opponent_adj_*
+    - opponent_adjusted_*
+    - adjusted_*
+
+blog:
+  enabled: true
+  season: 2025
+  target_week: 14
+  include_models: all
+  exclude_models: []
+  top_n: 25
+  average_scope: season
+  scheduled_only: false
+  default_total: 52.5
+  rebuild_poll_history: false
+  output_root: data/weekly_reports
+  logo_dir: data/meta/logos/by_team
+  manual_ballots: null
+  team_a: null
+  team_b: null

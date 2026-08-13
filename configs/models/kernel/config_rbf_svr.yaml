@@ -1,0 +1,5 @@
+model_name: rbf_svr
+model_type: rbf_svr
+seed: 42
+margin_temperature: 14.0
+params: {C: 10.0, gamma: scale, epsilon: 0.5, cache_size: 4000}

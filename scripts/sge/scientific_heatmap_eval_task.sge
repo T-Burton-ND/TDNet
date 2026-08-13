@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -j y
+#$ -q long
+#$ -pe smp 1
+#$ -l h_rt=24:00:00
+
+set -euo pipefail
+: "${REPO_ROOT:?REPO_ROOT is required}"
+: "${HEATMAP_ROOT:?HEATMAP_ROOT is required}"
+CONDA_ENV="${CONDA_ENV:-gridiron}"
+eval "$(conda shell.bash hook)"
+conda activate "${CONDA_ENV}"
+export PYTHONPATH="${REPO_ROOT}/src${PYTHONPATH:+:${PYTHONPATH}}"
+export MPLCONFIGDIR="${TMPDIR:-/tmp}/tdnet-matplotlib-${USER}"
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
+cd "${REPO_ROOT}"
+python src/gridiron_ml/cli/experiments/run_experiment_chunk.py \
+  --job-manifest "${HEATMAP_ROOT}/job_manifest.parquet" \
+  --sge-task-id "${SGE_TASK_ID}" \
+  --workers 1

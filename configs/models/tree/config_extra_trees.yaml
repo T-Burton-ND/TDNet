@@ -1,0 +1,26 @@
+model_name: extra_trees
+model_type: extra_trees
+loss_function: Composite
+loss_weights:
+  alpha: 0.25
+  beta: 1.0
+  gamma: 3.0
+  delta: 0.25
+margin_temperature: 14.0
+prediction_margin_cap: 30.0
+favorite_confidence_scale: 4.0
+huber_delta: 7.0
+seed: 42
+training:
+  standardize: false
+  use_sample_weights: false
+  sample_weight_column:
+params:
+  n_estimators: 500
+  max_depth:
+  min_samples_split: 2
+  min_samples_leaf: 2
+  max_features: sqrt
+  bootstrap: false
+  random_state: 42
+  n_jobs: 1

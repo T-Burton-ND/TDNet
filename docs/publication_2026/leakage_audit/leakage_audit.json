@@ -1,0 +1,101 @@
+{
+  "created_at_utc": "2026-08-13T15:37:40.394793+00:00",
+  "fail_count": 0,
+  "limitations": [
+    "This does not replace the full historical F0-F8 replay.",
+    "CFBD line timestamp/provider completeness remains a prospective-data blocker.",
+    "Neutral-site, canceled/postponed, and late-field fixtures still require explicit historical replay coverage."
+  ],
+  "pass_count": 11,
+  "scope": "synthetic adversarial fixtures plus current endpoint contract",
+  "tests": [
+    {
+      "evidence": "fixture execution",
+      "expected_behavior": "market feature rejected by default",
+      "observed_behavior": "ValueError: Market/Vegas/betting-derived columns are eval-only by default and must not be included in model training features. Remove market_* columns from X, or set allow_market_features_for_training=True only for an explicit market-feature experiment. Offending columns: market_spread_close",
+      "status": "pass",
+      "test_name": "market_boundary",
+      "threat": "hidden market proxy"
+    },
+    {
+      "evidence": "fixture execution",
+      "expected_behavior": "overlap rejected",
+      "observed_behavior": "ValueError: Training/evaluation leakage risk: train and val years overlap: 2023.",
+      "status": "pass",
+      "test_name": "season_split_overlap",
+      "threat": "train/evaluation season overlap"
+    },
+    {
+      "evidence": "fixture execution",
+      "expected_behavior": "earlier OOF predictions invariant; target games absent from neighbors",
+      "observed_behavior": "{'predictions': 2, 'audited_neighbors': 4}",
+      "status": "pass",
+      "test_name": "future_target_knn",
+      "threat": "future target mutation"
+    },
+    {
+      "evidence": "fixture execution",
+      "expected_behavior": "prior-week adjusted contributions invariant",
+      "observed_behavior": "{'week_checked': 1, 'method': 'opponent_ridge'}",
+      "status": "pass",
+      "test_name": "future_opponent_adjustment",
+      "threat": "future score/stat mutation"
+    },
+    {
+      "evidence": "fixture execution",
+      "expected_behavior": "opponent-adjusted contributions invariant to input order",
+      "observed_behavior": "{'rows': 6, 'shuffled_seed': 7}",
+      "status": "pass",
+      "test_name": "opponent_reorder",
+      "threat": "input row order"
+    },
+    {
+      "evidence": "fixture execution",
+      "expected_behavior": "duplicate season/week/game keys explicitly flagged",
+      "observed_behavior": "{'duplicate_rows_flagged': 2, 'key': 'season/week/game_id'}",
+      "status": "pass",
+      "test_name": "duplicate_game_detection",
+      "threat": "duplicate or changed games"
+    },
+    {
+      "evidence": "fixture execution",
+      "expected_behavior": "declared finite fallback rather than future data",
+      "observed_behavior": "{'rows': 2, 'week': 1, 'fallback': 'global_history_or_zero'}",
+      "status": "pass",
+      "test_name": "missing_team_history",
+      "threat": "missing prior team history"
+    },
+    {
+      "evidence": "fixture execution",
+      "expected_behavior": "no imputation; effective membership is recorded per game",
+      "observed_behavior": "{'effective_model_counts': {'g1': 2, 'g2': 1}, 'membership_rows': 3}",
+      "status": "pass",
+      "test_name": "failed_model_consensus",
+      "threat": "failed model row"
+    },
+    {
+      "evidence": "fixture execution",
+      "expected_behavior": "Thursday New York deadline maps to exact UTC",
+      "observed_behavior": "{'deadline_local': '2026-07-30T23:59:00-04:00', 'deadline_timezone': 'America/New_York', 'deadline_utc': '2026-07-31T03:59:00Z'}",
+      "status": "pass",
+      "test_name": "deadline_contract",
+      "threat": "weekly timing"
+    },
+    {
+      "evidence": "fixture execution",
+      "expected_behavior": "fold-separated calibrator is monotone and bounded",
+      "observed_behavior": "{'fit_rows': 6, 'probability_min': 3.670953304960871e-08, 'probability_max': 0.999999963290467}",
+      "status": "pass",
+      "test_name": "calibration_bounds",
+      "threat": "calibration saturation or invalid probability"
+    },
+    {
+      "evidence": "fixture execution",
+      "expected_behavior": "prediction bytes and manifest remain verifiable",
+      "observed_behavior": "{'bundle_verified': True, 'prediction_bytes_unchanged': True}",
+      "status": "pass",
+      "test_name": "bundle_immutability",
+      "threat": "post-deadline scoring mutation"
+    }
+  ]
+}

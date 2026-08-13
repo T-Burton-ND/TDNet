@@ -1,0 +1,19 @@
+{
+  "calibration_requirement": "satisfied: every cell has a frozen cross-fitted calibrator through 2025",
+  "checkpoint_digests_verified": 54,
+  "checkpoint_schemas_verified": 54,
+  "confirmatory_cells": 42,
+  "duplicate_cells": 0,
+  "expected_scientific_cells": 54,
+  "found_checkpoint_cells": 54,
+  "individual_calibration_png_records": 54,
+  "individual_calibration_svg_records": 54,
+  "market_aware_comparison_cells": 12,
+  "objective": "margin",
+  "orphan_cells": 0,
+  "portable_preprocessing": "embedded in each serialized checkpoint; component names are recorded in the per-cell checkpoint schema",
+  "report_version": 1,
+  "standalone_calibrator_records": 54,
+  "status": "PASS_CALIBRATION_COMPLETE",
+  "training_cutoff": 2025
+}

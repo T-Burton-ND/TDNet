@@ -1,0 +1,59 @@
+figure.facecolor       : E6E9ED
+figure.edgecolor       : E6E9ED
+figure.autolayout      : True
+figure.dpi             : 120
+
+axes.facecolor         : F3F5F8
+axes.edgecolor         : 3A4450
+axes.labelcolor        : 0D0D0D
+axes.titlecolor        : 11214F
+axes.linewidth         : 1.0
+axes.spines.top        : False
+axes.spines.right      : False
+
+axes.prop_cycle : cycler('color', ['1EA7FF','5FF2D2','00C853','6A37C8','D4B56E'])
+
+axes.grid              : False
+grid.color             : 2B2F33
+grid.linestyle         : --
+grid.linewidth         : 0.7
+grid.alpha             : 0.12
+
+xtick.color            : 3A4450
+ytick.color            : 3A4450
+xtick.direction        : out
+ytick.direction        : out
+xtick.major.size       : 4
+ytick.major.size       : 4
+xtick.major.width      : 1
+ytick.major.width      : 1
+
+lines.linewidth        : 2.0
+lines.markersize       : 5
+lines.solid_capstyle   : round
+lines.solid_joinstyle  : round
+
+font.family            : sans-serif
+font.sans-serif        : DejaVu Sans
+font.size              : 11
+
+axes.titlesize         : 14
+axes.labelsize         : 12
+xtick.labelsize        : 10
+ytick.labelsize        : 10
+legend.fontsize        : 10
+
+legend.facecolor       : None
+legend.edgecolor       : 3A4450
+legend.framealpha      : 0.9
+legend.fancybox        : True
+legend.borderpad       : 0.6
+legend.labelcolor      : 0D0D0D
+
+savefig.facecolor      : E6E9ED
+savefig.edgecolor      : E6E9ED
+savefig.bbox           : tight
+savefig.pad_inches     : 0.1
+text.color            : 0D0D0D
+
+# Highlight (manual): Edge Pink FF5FA2

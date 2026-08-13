@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -j y
+#$ -q long
+#$ -pe smp 1
+#$ -l h_rt=08:00:00
+#$ -o docs/logs/sge/$JOB_NAME.$JOB_ID.$TASK_ID.out
+
+set -euo pipefail
+: "${REPO_ROOT:?REPO_ROOT is required}"
+: "${JOB_MANIFEST:?JOB_MANIFEST is required}"
+: "${CONFIG_PATH:?CONFIG_PATH is required}"
+: "${OUTPUT_ROOT:?OUTPUT_ROOT is required}"
+CONDA_ENV="${CONDA_ENV:-gridiron}"
+cd "${REPO_ROOT}"
+if command -v conda >/dev/null 2>&1 && conda env list | awk '{print $1}' | grep -qx "${CONDA_ENV}"; then
+  eval "$(conda shell.bash hook)"
+  conda activate "${CONDA_ENV}"
+fi
+if [[ -z "${PYTHON_BIN:-}" ]]; then
+  if command -v python >/dev/null 2>&1; then
+    PYTHON_BIN="$(command -v python)"
+  elif command -v python3 >/dev/null 2>&1; then
+    PYTHON_BIN="$(command -v python3)"
+  elif [[ -x /afs/crc.nd.edu/x86_64_linux/c/conda/24.7.1/bin/python ]]; then
+    PYTHON_BIN="/afs/crc.nd.edu/x86_64_linux/c/conda/24.7.1/bin/python"
+  else
+    echo "No usable Python executable found; set PYTHON_BIN." >&2
+    exit 127
+  fi
+fi
+echo "Using Python: ${PYTHON_BIN}"
+export PYTHONPATH="${REPO_ROOT}/src${PYTHONPATH:+:${PYTHONPATH}}"
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
+"${PYTHON_BIN}" src/gridiron_ml/cli/run_fingerprint_hyperparameter_search.py run-job \
+  --project-root "${REPO_ROOT}" --config "${CONFIG_PATH}" --output-root "${OUTPUT_ROOT}" \
+  --source-fingerprint-root "${REPO_ROOT}/data/experiments/opponent_adjusted_fingerprints" \
+  --job-manifest "${JOB_MANIFEST}" --sge-task-id "${SGE_TASK_ID}"

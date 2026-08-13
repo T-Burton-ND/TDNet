@@ -1,0 +1,16 @@
+group,name,hex,use
+Brand,Edge Pink,#FF5FA2,Highlight / Key Data
+Brand,Gridiron Violet,#6A37C8,Brand Accent
+Brand,Midnight Gridiron,#11214F,Primary Dark
+Brand,Polar Mist,#E6E9ED,Primary Light
+Fill,Ion Blue Light,#A8DFFF,Fill
+Fill,Soft Mint,#4ED8BD,Fill
+Plot Wheel,Brass,#D4B56E,Data Cycle 5
+Plot Wheel,Electric Emerald,#00C853,Data Cycle 3
+Plot Wheel,Ion Blue,#1EA7FF,Data Cycle 1
+Plot Wheel,Neon Mint,#5FF2D2,Data Cycle 2
+UI,Flat Black,#0D0D0D,Text
+UI,Fog Silver,#DDE2E7,Tables / Light Surfaces
+UI,Iron Grey,#2B2F33,Grids / Panels (Dark)
+UI,Mist Panel,#F3F5F8,Plot Panel (Light)
+UI,Slate Line,#3A4450,Axes / Spines

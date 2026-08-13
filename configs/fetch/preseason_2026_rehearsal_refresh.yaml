@@ -1,0 +1,19 @@
+cache_dir: data/raw/cfbd/v2
+year: 2026
+division: fbs
+sleep_seconds: 0.25
+snake_case: true
+refresh: true
+
+# One-time rehearsal refresh. After this succeeds, use the three-endpoint
+# preseason_2026_watch.yaml configuration for subsequent availability checks.
+endpoints:
+  games: true
+  lines: true
+  pregame_wp: true
+  coaches: true
+  rankings: true
+  talent: true
+  returning: true
+  recruiting_teams: true
+  teams_fbs: true

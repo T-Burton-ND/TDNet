@@ -1,0 +1,9 @@
+version: 1
+name: final_historical_holdout
+strategy: fixed_season_holdout
+train_seasons: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+holdout_seasons: [2025]
+prospective_seasons: [2026]
+group_columns: [keys_season]
+time_columns: [keys_season, keys_week]
+

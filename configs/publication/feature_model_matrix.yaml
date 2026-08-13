@@ -1,0 +1,43 @@
+version: 3
+experiment_name: publication_feature_model_matrix_v3
+artifact_root: publication_artifacts
+repository_output_root: publication/2026
+objectives: [margin, winner]
+feature_tiers: [F0, F1, F2, F3, F4, F5, F6, F7, F8]
+model_levels: [M1, M2, M3, M4, M5, M10]
+model_configs:
+  M1: configs/models/linear/config_ridge.yaml
+  M2: configs/models/spline/config_spline_ridge.yaml
+  M3: configs/models/tree/config_random_forest.yaml
+  M4: configs/models/boosted/config_hist_gradient_boosted.yaml
+  M5: configs/models/neural/config_mlp.yaml
+  M10: configs/models/knn/config_knn_distance.yaml
+model_families:
+  M1: linear
+  M2: spline
+  M3: tree
+  M4: boosted
+  M5: neural
+  M10: knn
+split_configs:
+  - configs/splits/rolling_origin.yaml
+  - configs/splits/leave_one_season_out.yaml
+seeds: [1701, 2718, 3141]
+worker:
+  chunk_size: 1
+  nslots: 1
+  internal_threads: 1
+  fragment_format: parquet
+  retain_all_trial_predictions: false
+  retain_finalist_predictions: true
+guardrails:
+  minimum_free_gb: 30
+  allow_market_only_for: [F7]
+  market_free_confirmatory_tiers: [F0, F1, F2, F3, F4, F5, F6]
+  market_aware_comparator_tiers: [F8]
+  legacy_exploratory_tiers: []
+  reject_2026_training: true
+  require_smoke_test_marker: true
+smoke_test:
+  max_chunks: 5
+  max_trials: 20

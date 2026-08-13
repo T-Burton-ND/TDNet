@@ -1,0 +1,27 @@
+version: 1
+large_artifact_root: publication_artifacts
+repository_publication_root: publication/2026
+categories:
+  manifests: manifests
+  fragments: experiment_fragments
+  checkpoints: checkpoints
+  predictions: game_predictions
+  diagnostics: diagnostics
+  caches: caches
+policies:
+  repository_local_total_limit_gb: 10
+  projected_finalist_prediction_checkpoint_reserve_gb: 8
+  route_to_group_when_projected_total_exceeds_limit: true
+  never_overwrite_valid_fragments: true
+  atomic_writes: true
+  repository_contains_public_safe_outputs_only: true
+  minimum_free_gb: 30
+  publish_raw_cfbd_rows: false
+  publish_raw_cfbd_feature_matrices: false
+  allow_cfbd_derived_figures: true
+  allow_game_identity_metadata: true
+  allow_ap_rank_labels_in_figures: true
+  allow_public_ap_snapshot_spreadsheet: false
+  public_checkpoint_policy: hashes_sizes_model_cards_and_private_references
+  publish_pickle_checkpoint_bytes: false
+  proof_requirements: [sha256, byte_size, model_id, training_seasons, creation_timestamp_utc, git_commit, environment_lock_sha256, signed_release_manifest]

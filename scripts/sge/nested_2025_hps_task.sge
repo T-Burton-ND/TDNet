@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -V
+#$ -j y
+#$ -q long
+#$ -pe smp 1
+#$ -l h_rt=08:00:00
+#$ -o /dev/null
+set -euo pipefail
+: "${REPO_ROOT:?REPO_ROOT is required}"
+: "${JOB_MANIFEST:?JOB_MANIFEST is required}"
+: "${CONFIG_PATH:?CONFIG_PATH is required}"
+: "${OUTPUT_ROOT:?OUTPUT_ROOT is required}"
+cd "${REPO_ROOT}"
+export PYTHONPATH="${REPO_ROOT}/src${PYTHONPATH:+:${PYTHONPATH}}"
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
+PYTHON_BIN="${PYTHON_BIN:-}"
+if [[ -z "${PYTHON_BIN}" ]]; then
+  PYTHON_BIN="$(command -v python || true)"
+fi
+[[ -n "${PYTHON_BIN}" ]] || { echo "python interpreter not found" >&2; exit 127; }
+"${PYTHON_BIN}" src/gridiron_ml/cli/run_fingerprint_hyperparameter_search.py run-job \
+  --project-root "${REPO_ROOT}" --config "${CONFIG_PATH}" --output-root "${OUTPUT_ROOT}" \
+  --source-fingerprint-root "${REPO_ROOT}/data/experiments/opponent_adjusted_fingerprints" \
+  --job-manifest "${JOB_MANIFEST}" --sge-task-id "${SGE_TASK_ID}"

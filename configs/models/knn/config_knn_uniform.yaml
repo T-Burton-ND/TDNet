@@ -1,0 +1,14 @@
+model_name: knn_uniform
+model_type: uniform
+loss_function: RMSE
+margin_temperature: 14.0
+prediction_margin_cap: 40.0
+seed: 1701
+training:
+  standardize: true
+  allow_market_features_for_training: false
+params:
+  n_neighbors: 5
+  weights: uniform
+  metric: euclidean
+  n_jobs: 1

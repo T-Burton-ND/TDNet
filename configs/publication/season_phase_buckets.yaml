@@ -1,0 +1,53 @@
+version: 1
+season: 2026
+status: OWNER_APPROVED_FROZEN_PRE_OUTCOME
+week_to_phase:
+  0: PHASE_1
+  1: PHASE_1
+  2: PHASE_1
+  3: PHASE_1
+  4: PHASE_2
+  5: PHASE_2
+  6: PHASE_2
+  7: PHASE_3
+  8: PHASE_3
+  9: PHASE_3
+  10: PHASE_4
+  11: PHASE_4
+  12: PHASE_4
+  13: PHASE_4
+  14: PHASE_4
+  15: PHASE_4
+  16: PHASE_4
+  17: PHASE_4
+  18: PHASE_4
+rules:
+  week_0_to_3: PHASE_1
+  week_4_to_6: PHASE_2
+  week_7_to_9: PHASE_3
+  week_10_and_later: PHASE_4
+  conference_championship_and_eligible_postseason: PHASE_4
+  outcome_driven_changes_prohibited: true
+required_prediction_metadata:
+  - season
+  - official_week
+  - season_phase
+  - game_date
+  - kickoff_time_utc
+  - home_team_id
+  - away_team_id
+  - home_prior_games
+  - away_prior_games
+  - model_family_id
+  - fingerprint_id
+  - frozen_model_role_id
+  - predicted_margin
+  - predicted_win_probability
+  - pregame_input_snapshot_id
+  - pregame_input_snapshot_sha256
+  - frozen_bundle_id
+  - frozen_bundle_sha256
+  - execution_code_commit
+  - prediction_timestamp_utc
+  - output_sha256
+  - final_outcome

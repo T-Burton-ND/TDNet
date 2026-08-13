@@ -1,0 +1,41 @@
+root: ../..
+
+fingerprints:
+  version: 0
+  postseason: false
+  build: false
+  overwrite: false
+
+matchup:
+  representation: unit_matchup
+  safe_math: true
+  include_unit_passthrough: true
+  unit_passthrough_patterns:
+    - opp_adj_*
+    - opponent_adj_*
+    - opponent_adjusted_*
+    - adjusted_*
+
+models:
+  root: models
+  families:
+    - stat
+    - linear
+    - tree
+  names: all
+  exclude: []
+
+evaluation:
+  enabled: true
+  seasons: [2023, 2024, 2025]
+  target_column: y_next_margin
+  output_dir: data/eval_23JUN2026/
+  eval_config_path: configs/eval/model_vs_vegas.yaml
+  make_plots: true
+  polls:
+    enabled: true
+    weeks: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+    top_n: 25
+    average_scope: season
+    logo_dir: data/meta/logos/by_team
+    merge_existing: true

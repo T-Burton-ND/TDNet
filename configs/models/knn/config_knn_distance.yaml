@@ -1,0 +1,14 @@
+model_name: knn_distance
+model_type: distance
+loss_function: RMSE
+margin_temperature: 14.0
+prediction_margin_cap: 40.0
+seed: 1701
+training:
+  standardize: true
+  allow_market_features_for_training: false
+params:
+  n_neighbors: 10
+  weights: distance
+  metric: euclidean
+  n_jobs: 1

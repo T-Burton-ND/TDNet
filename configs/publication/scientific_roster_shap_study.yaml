@@ -1,0 +1,97 @@
+version: 1
+study_id: tdnet-scientific-roster-f6-shap-v1
+status: provisional_corrected_f6_run_pending_corrected_hps_reconciliation
+
+scope:
+  fingerprint: F6
+  source_feature_manifest: docs/publication_2026/feature_manifests/F6.json
+  expected_source_feature_count: 227
+  objectives: [margin, winner]
+  model_levels: [M1, M2, M3, M4, M5, M10]
+  model_configs:
+    M1: configs/models/linear/config_ridge.yaml
+    M2: configs/models/spline/config_spline_ridge.yaml
+    M3: configs/models/tree/config_random_forest.yaml
+    M4: configs/models/boosted/config_hist_gradient_boosted.yaml
+    M5: configs/models/neural/config_mlp.yaml
+    M10: configs/models/knn/config_knn_distance.yaml
+  model_families: {M1: linear, M2: spline, M3: tree, M4: boosted, M5: neural, M10: knn}
+  hps_finalists: /groups/bsavoie2/tburton2/TDNet/publication_artifacts/new_fingerprint_hps/experiments/publication_hps_new_fingerprints_scientific_v1/summary/tables/best_configuration_by_cell.parquet
+  provisional_parameter_source_tier: F5
+  final_hps_replacement: /groups/bsavoie2/tburton2/TDNet/publication_artifacts/new_fingerprint_hps/experiments/publication_hps_fingerprint_contract_corrected_scientific_v3/summary/tables/best_configuration_by_cell.parquet
+  data: /groups/bsavoie2/tburton2/TDNet/publication_artifacts/fingerprint_ladder_v3/canonical_fingerprint.parquet
+
+splits:
+  config: configs/splits/rolling_origin.yaml
+  explain_partition: outer_test_only
+  background_partition: outer_train_only
+  validation_data_used_for_explanation: false
+  prospective_2025_2026_used_for_selection: false
+
+sampling:
+  # Bounded provisional run while the corrected HPS completes. The final
+  # publication run restores 128/256 after replacing the parameter source.
+  background_rows_per_fold: 32
+  explained_rows_per_fold: 16
+  stratify_explanations_by: [keys_season, keys_week, y_next_margin_sign]
+  deterministic_seed: 26084
+
+explainers:
+  study_worker_method: end_to_end_source_coordinate_permutation
+  primary_by_objective:
+    margin:
+      M1: exact_linear
+      M2: permutation
+      M3: tree
+      M4: permutation
+      M5: gradient_with_permutation_fallback
+      M10: permutation
+    winner:
+      M1: permutation
+      M2: permutation
+      M3: tree_probability
+      M4: permutation
+      M5: gradient_probability_with_permutation_fallback
+      M10: permutation
+  common_sensitivity_method: permutation
+  common_sensitivity_rows_per_fold: 64
+  output_scale_by_objective:
+    margin: predicted_margin_points
+    winner: predicted_home_win_probability
+  implementation_note: >-
+    The current generic td_run SHAP helper is not the study worker: it lacks
+    M2, M4, M5, and M10 coverage and does not enforce the unified winner output.
+    The study worker must wrap each fitted model's public prediction callable
+    whenever the explainer does not natively expose the declared output scale.
+
+source_feature_aggregation:
+  primary_estimand: absolute_prediction_contribution
+  explanation_coordinates: concatenated_home_and_away_f6_source_vectors
+  home_away_rule: sum_home_and_away_absolute_shap_for_each_source
+  matchup_construction_inside_prediction_callable: true
+  conservation_required: true
+  signed_values_never_split_across_two_source_features: true
+  direction_statistic: heldout_spearman_source_value_vs_source_level_shap
+  normalize_within_model_fold: true
+
+stability:
+  minimum_valid_folds_per_model: 8
+  bootstrap_resamples: 2000
+  bootstrap_cluster: outer_fold
+  top_k_stability_thresholds: [10, 25, 50, 100]
+
+figure_generation:
+  config_version: 1
+  features_per_atlas_page: 38
+  features_per_dependence_page: 12
+  raster_dpi: 240
+  formats: [png, svg, pdf]
+  require_complete_feature_coverage: true
+  output_root: docs/publication_2026/scientific_roster_shap
+
+interpretation:
+  confirmatory_claims: false
+  architecture_comparisons_use_normalized_importance_only: true
+  raw_shap_magnitudes_not_compared_across_model_families: true
+  correlated_feature_warning_required: true
+  compressed_fingerprint_selection_is_separate_nested_cv_study: true

@@ -1,0 +1,36 @@
+{
+  "artifact_path": "/groups/bsavoie2/tburton2/TDNet/publication_artifacts/fingerprint_ladder_v3/canonical_fingerprint.parquet",
+  "columns": 255,
+  "created_at_utc": "2026-08-04T16:11:36.631895+00:00",
+  "feature_counts": {
+    "F0": 2,
+    "F1": 34,
+    "F2": 74,
+    "F3": 148,
+    "F4": 159,
+    "F5": 219,
+    "F6": 227,
+    "F7": 4,
+    "F8": 231
+  },
+  "implementation": "src/gridiron_ml/fingerprints/ladder.py",
+  "output": "/tmp/tdnet_fingerprint_ladder_v3.parquet",
+  "output_sha256": "7025d354a81584deade7f434288af6333185a178afb4e67de11212a81ee403a9",
+  "rows": 34817,
+  "schema_hashes": {
+    "F0": "ae56ea290d0483ff5f44fda2fc769149cacad3290d0749bc42829d55070c3d39",
+    "F1": "3f06c8d69bfc05fa79b22bfc74aa4d07c3f37ec1df81591045891df6ce68d2e1",
+    "F2": "e1937765f8d59727aa013387ada1560e6b9c91797e6b172f2bfb08dac4901a56",
+    "F3": "06beadc02ec23c1673b91c2ccbbb55a7935195f7bfa725e7f82ed469fec86df1",
+    "F4": "a4cdd65a4a87a82cfc34cd3ea643e36a4b613133b49270eb58f66306ca879afe",
+    "F5": "243f8b2b0e24f1ca9aa46e46a219863ef629785d8e384638865a3a21b1809665",
+    "F6": "7679eb1eac141ce1fcc2e3690bee848b12a3a753903699c32826640af568d224",
+    "F7": "c749f60bb1a7be3bbd7b6efc1f38446d5e50a7c5486fb9b1f097e1a7f686296c",
+    "F8": "d48677f6b3b32a2e8cc9a4a2ff902466dcb0514eb7fae3f86290076be3ffdd6d"
+  },
+  "season_max": 2026,
+  "season_min": 2010,
+  "source": "/users/tburton2/Repos/TDNet/data/experiments/opponent_adjusted_fingerprints/fingerprints/v1_4/canonical_fingerprint.parquet",
+  "source_sha256": "781b2e6dd83202b38189e7e893821bcc70ec52407b33f3f750d3227c91388f20",
+  "status": "realized_ladder_v3"
+}

@@ -1,0 +1,39 @@
+root: ../..
+
+pipeline:
+  enabled: false
+  config_path: configs/fetch/data_pipeline.yaml
+
+fingerprints:
+  version: 0
+  postseason: false
+  build: false
+  overwrite: false
+
+matchup:
+  representation: unit_matchup
+  safe_math: true
+  include_unit_passthrough: true
+  unit_passthrough_patterns:
+    - opp_adj_*
+    - opponent_adj_*
+    - opponent_adjusted_*
+    - adjusted_*
+
+models:
+  root: models
+  families:
+    - stat
+    - linear
+    - tree
+  names: all
+  exclude: []
+
+training:
+  enabled: true
+  clear_existing_model_artifacts: true
+  train_years: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
+  val_years: [2024]
+  test_years: [2025]
+  build_fingerprints: false
+  overwrite_fingerprints: false

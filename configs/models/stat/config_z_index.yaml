@@ -1,0 +1,19 @@
+overwrite: true
+verbose: false
+model_name: stat_z_index
+model_path: models/stat/models/z_index/models/tdstat_z_index.pkl
+
+params:
+  seed: 42
+  model_type: z_index
+  objective: winner_upset
+  upset_weight: 3.0
+  prediction_margin_cap: 30.0
+  z_ridge_alpha: 10.0
+  center_target: true
+  min_margin_scale: 7.0
+  require_stat_features: false
+  feature_prefixes:
+    - home_
+    - away_
+    - net_

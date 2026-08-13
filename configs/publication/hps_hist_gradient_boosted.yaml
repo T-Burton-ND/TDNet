@@ -1,0 +1,26 @@
+version: 1
+experiment_name: publication_hps_hist_gradient_boosted_v1
+artifact_root: publication_artifacts
+objectives: [winner, margin]
+feature_tiers: [F1, F1+F2, F1+F2+F3, F6]
+model_levels: [M4]
+model_configs:
+  M4: configs/models/boosted/config_hist_gradient_boosted.yaml
+model_families:
+  M4: boosted
+split_configs: [configs/splits/rolling_origin.yaml]
+seeds: [1701]
+parameter_search:
+  seed: 26041
+  trials_per_level: {M4: 64}
+  spaces:
+    M4:
+      config.params.max_iter: {type: int, low: 100, high: 700}
+      config.params.learning_rate: {type: float, low: 0.01, high: 0.2, log: true}
+      config.params.max_leaf_nodes: {type: categorical, choices: [15, 31, 63, 127]}
+      config.params.max_depth: {type: categorical, choices: [null, 4, 6, 10]}
+      config.params.min_samples_leaf: {type: int, low: 8, high: 60}
+      config.params.l2_regularization: {type: float, low: 0.000001, high: 10.0, log: true}
+      config.margin_temperature: {type: float, low: 6.0, high: 24.0}
+worker: {chunk_size: 1, nslots: 1, internal_threads: 1, fragment_format: parquet}
+guardrails: {minimum_free_gb: 30, reject_2026_training: true}

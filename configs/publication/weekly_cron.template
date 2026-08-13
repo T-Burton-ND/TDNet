@@ -1,0 +1,5 @@
+# America/New_York. Replace MONDAY_HOUR, TUESDAY_HOUR, WEEK_RESOLVER,
+# DEADLINE_RESOLVER, FREEZE_MANIFEST, and TDNET_POLL before installing.
+CRON_TZ=America/New_York
+0 MONDAY_HOUR * * 1 cd "$TDNET_ROOT" && PYTHONPATH=src python src/gridiron_ml/cli/publication/run_monday_refresh.py --season 2026 --week WEEK_RESOLVER
+0 TUESDAY_HOUR * * 2 cd "$TDNET_ROOT" && PYTHONPATH=src python src/gridiron_ml/cli/publication/run_tuesday_publish.py --season 2026 --week WEEK_RESOLVER --deadline-utc DEADLINE_RESOLVER --deadline-local-date THURSDAY_DATE --freeze-manifest FREEZE_MANIFEST --ap-top25 data/raw/cfbd/v2/rankings/2026.parquet --tdnet-top25 TDNET_POLL

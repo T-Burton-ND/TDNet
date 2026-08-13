@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -j y
+#$ -q long
+#$ -pe smp 1
+#$ -l h_rt=02:00:00
+set -euo pipefail
+: "${REPO_ROOT:?}"; : "${GAP_SELECTION:?}"; : "${SCIENTIFIC_SELECTION:?}"; : "${FINGERPRINT_DATA:?}"; : "${SELECTION_ROOT:?}"
+eval "$(conda shell.bash hook)"; conda activate "${CONDA_ENV:-gridiron}"
+export PYTHONPATH="${REPO_ROOT}/src${PYTHONPATH:+:${PYTHONPATH}}"
+cd "${REPO_ROOT}"
+python -m gridiron_ml.cli.publication.refit_corrected_f6_wide_roster build-selection \
+  --gap-selection "${GAP_SELECTION}" --scientific-selection "${SCIENTIFIC_SELECTION}" \
+  --data "${FINGERPRINT_DATA}" --output-root "${SELECTION_ROOT}"

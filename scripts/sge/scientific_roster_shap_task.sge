@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -j y
+#$ -q long
+#$ -pe smp 1
+#$ -l h_rt=24:00:00
+
+set -euo pipefail
+: "${REPO_ROOT:?REPO_ROOT is required}"
+: "${SHAP_CONFIG:?SHAP_CONFIG is required}"
+: "${SHAP_OUTPUT_ROOT:?SHAP_OUTPUT_ROOT is required}"
+CONDA_ENV="${CONDA_ENV:-gridiron}"
+eval "$(conda shell.bash hook)"
+conda activate "${CONDA_ENV}"
+export PYTHONPATH="${REPO_ROOT}/src${PYTHONPATH:+:${PYTHONPATH}}"
+export MPLCONFIGDIR="${TMPDIR:-/tmp}/tdnet-matplotlib-${USER}"
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
+cd "${REPO_ROOT}"
+FORCE_ARGS=()
+if [[ "${FORCE_RERUN:-0}" == "1" ]]; then
+  FORCE_ARGS+=(--force)
+fi
+python -m gridiron_ml.cli.publication.run_scientific_roster_shap run-task \
+  --config "${SHAP_CONFIG}" --output-root "${SHAP_OUTPUT_ROOT}" \
+  --sge-task-id "${SGE_TASK_ID}" "${FORCE_ARGS[@]}"

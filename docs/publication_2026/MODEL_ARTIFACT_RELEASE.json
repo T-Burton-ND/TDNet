@@ -1,0 +1,23 @@
+{
+  "archives": [
+    {
+      "filename": "tdnet-2026-scientific-f0-f8-models.tar.gz",
+      "model_count": 54,
+      "roster": "F0-F8 x M1/M2/M3/M4/M5/M10 scientific margin roster",
+      "sha256": "15806a1330b32356f253a251c3a64ac97d8974e5b6b62d6f056c4e0009ba44d0",
+      "size_bytes": 550575754
+    },
+    {
+      "filename": "tdnet-2026-f6-wide-margin-models.tar.gz",
+      "model_count": 36,
+      "roster": "F6 wide margin roster",
+      "sha256": "cc4bd3bbbe42f2689117302dbbbfb7164276178371e10b889116253f3caed1c0",
+      "size_bytes": 1286174490
+    }
+  ],
+  "artifact_type": "TDNet 2026 frozen model release",
+  "compression": "deterministic GNU tar with gzip -9 and timestamp suppression",
+  "created_at_utc": "2026-08-13T20:04:57.403091+00:00",
+  "external_release_directory": "EXTERNAL_DURABLE_ROOT/publication_artifacts/release_archives/2026_v1",
+  "status": "verified_local_archives_awaiting_public_upload"
+}

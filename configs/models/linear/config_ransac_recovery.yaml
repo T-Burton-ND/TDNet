@@ -1,0 +1,24 @@
+# Numerically conservative recovery setting for retained RANSAC rows that
+# failed SVD convergence with small random subsets. This receives a distinct
+# config identity and does not rewrite the original study configuration.
+model_name: ransac_recovery
+model_type: ransac
+loss_function: Composite
+margin_temperature: 14.0
+prediction_margin_cap: 30.0
+favorite_confidence_scale: 4.0
+huber_delta: 7.0
+seed: 42
+training:
+  standardize: true
+  use_sample_weights: false
+  sample_weight_column:
+params:
+  base_estimator: ridge
+  min_samples: 0.95
+  max_trials: 300
+  stop_probability: 0.99
+  residual_threshold:
+  estimator_params:
+    alpha: 0.1
+    fit_intercept: true

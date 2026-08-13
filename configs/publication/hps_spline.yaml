@@ -1,0 +1,23 @@
+version: 1
+experiment_name: publication_hps_spline_v1
+artifact_root: publication_artifacts
+objectives: [winner, margin]
+feature_tiers: [F1, F1+F2, F1+F2+F3, F6]
+model_levels: [M2]
+model_configs:
+  M2: configs/models/spline/config_spline_ridge.yaml
+model_families:
+  M2: spline
+split_configs: [configs/splits/rolling_origin.yaml]
+seeds: [1701]
+parameter_search:
+  seed: 26021
+  trials_per_level: {M2: 40}
+  spaces:
+    M2:
+      config.spline.n_knots: {type: int, low: 3, high: 8}
+      config.spline.degree: {type: categorical, choices: [2, 3]}
+      config.params.alpha: {type: float, low: 0.001, high: 1000.0, log: true}
+      config.margin_temperature: {type: float, low: 6.0, high: 24.0}
+worker: {chunk_size: 1, nslots: 1, internal_threads: 1, fragment_format: parquet}
+guardrails: {minimum_free_gb: 30, reject_2026_training: true}

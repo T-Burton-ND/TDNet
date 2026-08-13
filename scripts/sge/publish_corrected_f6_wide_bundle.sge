@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -j y
+#$ -q long
+#$ -pe smp 1
+#$ -l h_rt=08:00:00
+set -euo pipefail
+: "${REPO_ROOT:?}"; : "${CANDIDATE_ROOT:?}"
+eval "$(conda shell.bash hook)"; conda activate "${CONDA_ENV:-gridiron}"
+export PYTHONPATH="${REPO_ROOT}/src${PYTHONPATH:+:${PYTHONPATH}}"
+cd "${REPO_ROOT}"
+python -m gridiron_ml.cli.publication.publish_corrected_f6_wide_bundle \
+  --candidate "${CANDIDATE_ROOT}" \
+  --target "${REPO_ROOT}/models/season_2026_wide_margin_frozen_bundle" \
+  --backup "${REPO_ROOT}/models/season_2026_wide_margin_frozen_bundle_pre_corrected_f6_20260805"
+python -m gridiron_ml.cli.publication.build_weekly_learned_model_inventory \
+  --bundle "${REPO_ROOT}/models/season_2026_wide_margin_frozen_bundle" \
+  --output "${REPO_ROOT}/docs/publication_2026/weekly_learned_model_inventory.csv"

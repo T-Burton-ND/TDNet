@@ -1,0 +1,296 @@
+version: 1
+experiment_name: publication_hps_corrected_f6_wide_margin_gap_v1
+artifact_root: publication_artifacts
+
+# Corrected-contract F6 search for operational wide-roster implementations not
+# already covered exactly by the scientific M1--M5 search.  The five reused
+# implementations are ridge, spline_ridge, random_forest,
+# hist_gradient_boosted, and mlp.  KNN is searched here as four genuinely
+# distinct weight/metric roles; the legacy compact/full_fingerprint labels are
+# feature-subset aliases and would become duplicates in an all-F6 roster.
+objectives: [margin]
+feature_tiers: [F6]
+# F6 already declares and contains its leakage-safe temporal coordinates.
+# Appending the older temporal wrapper expansion would create an undeclared
+# 798-coordinate F6-plus representation. Temporal estimators therefore use
+# the same fixed 681-coordinate F6 contract as every other role.
+temporal_feature_expansion: false
+model_levels:
+  - L_ARD
+  - L_BAYESIAN
+  - L_ELASTIC_NET
+  - L_HUBER
+  - L_LASSO
+  - L_OLS
+  - L_OMP
+  - L_PASSIVE_AGGRESSIVE
+  - L_RANSAC
+  - L_SGD
+  - S_PERCENTILE
+  - S_ROBUST
+  - S_WEIGHTED
+  - S_Z_INDEX
+  - TR_EXTRA_TREES
+  - TR_GRADIENT_BOOSTED
+  - K_RBF_KERNEL_RIDGE
+  - K_RBF_SVR
+  - K_GAUSSIAN_PROCESS
+  - K_NYSTROEM_RIDGE
+  - N_STRUCTURED_MLP
+  - T_DECAY_RIDGE
+  - T_TREND_ELASTIC_NET
+  - T_RANDOM_FOREST
+  - T_HIST_GRADIENT_BOOSTED
+  - KNN_UNIFORM_EUCLIDEAN
+  - KNN_DISTANCE_EUCLIDEAN
+  - KNN_UNIFORM_MANHATTAN
+  - KNN_DISTANCE_MANHATTAN
+
+model_configs:
+  L_ARD: configs/models/linear/config_ard.yaml
+  L_BAYESIAN: configs/models/linear/config_bayesian.yaml
+  L_ELASTIC_NET: configs/models/linear/config_elastic_net.yaml
+  L_HUBER: configs/models/linear/config_huber.yaml
+  L_LASSO: configs/models/linear/config_lasso.yaml
+  L_OLS: configs/models/linear/config_ols.yaml
+  L_OMP: configs/models/linear/config_orthogonal_matching_pursuit.yaml
+  L_PASSIVE_AGGRESSIVE: configs/models/linear/config_passive_aggressive.yaml
+  L_RANSAC: configs/models/linear/config_ransac.yaml
+  L_SGD: configs/models/linear/config_sgd.yaml
+  S_PERCENTILE: configs/models/stat/config_percentile.yaml
+  S_ROBUST: configs/models/stat/config_robust.yaml
+  S_WEIGHTED: configs/models/stat/config_weighted.yaml
+  S_Z_INDEX: configs/models/stat/config_z_index.yaml
+  TR_EXTRA_TREES: configs/models/tree/config_extra_trees.yaml
+  TR_GRADIENT_BOOSTED: configs/models/tree/config_gradient_boosted.yaml
+  K_RBF_KERNEL_RIDGE: configs/models/kernel/config_rbf_kernel_ridge.yaml
+  K_RBF_SVR: configs/models/kernel/config_rbf_svr.yaml
+  K_GAUSSIAN_PROCESS: configs/models/kernel/config_gaussian_process.yaml
+  K_NYSTROEM_RIDGE: configs/models/kernel/config_nystroem_ridge.yaml
+  N_STRUCTURED_MLP: configs/models/neural/config_structured_mlp.yaml
+  T_DECAY_RIDGE: configs/models/temporal/config_decay_ridge.yaml
+  T_TREND_ELASTIC_NET: configs/models/temporal/config_trend_elastic_net.yaml
+  T_RANDOM_FOREST: configs/models/temporal/config_temporal_random_forest.yaml
+  T_HIST_GRADIENT_BOOSTED: configs/models/temporal/config_temporal_hist_gradient_boosted.yaml
+  KNN_UNIFORM_EUCLIDEAN: configs/models/knn/config_knn_uniform.yaml
+  KNN_DISTANCE_EUCLIDEAN: configs/models/knn/config_knn_distance.yaml
+  KNN_UNIFORM_MANHATTAN: configs/models/knn/config_knn_uniform.yaml
+  KNN_DISTANCE_MANHATTAN: configs/models/knn/config_knn_distance.yaml
+
+model_families:
+  L_ARD: linear
+  L_BAYESIAN: linear
+  L_ELASTIC_NET: linear
+  L_HUBER: linear
+  L_LASSO: linear
+  L_OLS: linear
+  L_OMP: linear
+  L_PASSIVE_AGGRESSIVE: linear
+  L_RANSAC: linear
+  L_SGD: linear
+  S_PERCENTILE: stat
+  S_ROBUST: stat
+  S_WEIGHTED: stat
+  S_Z_INDEX: stat
+  TR_EXTRA_TREES: tree
+  TR_GRADIENT_BOOSTED: tree
+  K_RBF_KERNEL_RIDGE: kernel
+  K_RBF_SVR: kernel
+  K_GAUSSIAN_PROCESS: kernel
+  K_NYSTROEM_RIDGE: kernel
+  N_STRUCTURED_MLP: structured_neural
+  T_DECAY_RIDGE: temporal
+  T_TREND_ELASTIC_NET: temporal
+  T_RANDOM_FOREST: temporal
+  T_HIST_GRADIENT_BOOSTED: temporal
+  KNN_UNIFORM_EUCLIDEAN: knn
+  KNN_DISTANCE_EUCLIDEAN: knn
+  KNN_UNIFORM_MANHATTAN: knn
+  KNN_DISTANCE_MANHATTAN: knn
+
+split_configs: [configs/splits/rolling_origin.yaml]
+seeds: [1701]
+
+parameter_search:
+  seed: 26085
+  trials_per_level:
+    L_ARD: 28
+    L_BAYESIAN: 28
+    L_ELASTIC_NET: 28
+    L_HUBER: 28
+    L_LASSO: 28
+    L_OLS: 20
+    L_OMP: 28
+    L_PASSIVE_AGGRESSIVE: 28
+    L_RANSAC: 28
+    L_SGD: 28
+    S_PERCENTILE: 20
+    S_ROBUST: 20
+    S_WEIGHTED: 20
+    S_Z_INDEX: 20
+    TR_EXTRA_TREES: 28
+    TR_GRADIENT_BOOSTED: 28
+    K_RBF_KERNEL_RIDGE: 36
+    K_RBF_SVR: 36
+    K_GAUSSIAN_PROCESS: 24
+    K_NYSTROEM_RIDGE: 36
+    N_STRUCTURED_MLP: 32
+    T_DECAY_RIDGE: 36
+    T_TREND_ELASTIC_NET: 36
+    T_RANDOM_FOREST: 40
+    T_HIST_GRADIENT_BOOSTED: 40
+    KNN_UNIFORM_EUCLIDEAN: 16
+    KNN_DISTANCE_EUCLIDEAN: 16
+    KNN_UNIFORM_MANHATTAN: 16
+    KNN_DISTANCE_MANHATTAN: 16
+  spaces:
+    L_ARD:
+      config.params.alpha_1: {type: float, low: 0.0000001, high: 0.01, log: true}
+      config.params.lambda_1: {type: float, low: 0.0000001, high: 0.01, log: true}
+      config.params.threshold_lambda: {type: float, low: 100.0, high: 10000.0, log: true}
+      config.training.standardize: &boolean {type: categorical, choices: [true, false]}
+      config.prediction_margin_cap: &margin_cap {type: float, low: 24.0, high: 56.0}
+    L_BAYESIAN:
+      config.params.alpha_1: {type: float, low: 0.0000001, high: 0.01, log: true}
+      config.params.lambda_1: {type: float, low: 0.0000001, high: 0.01, log: true}
+      config.training.standardize: *boolean
+      config.prediction_margin_cap: *margin_cap
+    L_ELASTIC_NET:
+      config.params.alpha: {type: float, low: 0.000001, high: 0.5, log: true}
+      config.params.l1_ratio: {type: float, low: 0.02, high: 0.8}
+      config.params.selection: {type: categorical, choices: [cyclic, random]}
+      config.training.standardize: *boolean
+      config.prediction_margin_cap: *margin_cap
+    L_HUBER:
+      config.params.alpha: {type: float, low: 0.0000001, high: 0.05, log: true}
+      config.params.epsilon: {type: float, low: 1.05, high: 3.0}
+      config.training.standardize: *boolean
+      config.prediction_margin_cap: *margin_cap
+    L_LASSO:
+      config.params.alpha: {type: float, low: 0.000001, high: 0.5, log: true}
+      config.params.selection: {type: categorical, choices: [cyclic, random]}
+      config.training.standardize: *boolean
+      config.prediction_margin_cap: *margin_cap
+    L_OLS:
+      config.training.standardize: *boolean
+      config.prediction_margin_cap: *margin_cap
+      config.margin_temperature: &margin_temperature {type: float, low: 6.0, high: 30.0}
+    L_OMP:
+      config.params.n_nonzero_coefs: {type: int, low: 10, high: 250}
+      config.training.standardize: *boolean
+      config.prediction_margin_cap: *margin_cap
+    L_PASSIVE_AGGRESSIVE:
+      config.params.C: {type: float, low: 0.001, high: 10.0, log: true}
+      config.training.standardize: *boolean
+      config.prediction_margin_cap: *margin_cap
+    L_RANSAC:
+      config.params.min_samples: {type: float, low: 0.5, high: 0.98}
+      config.params.max_trials: {type: int, low: 50, high: 400}
+      config.training.standardize: *boolean
+      config.prediction_margin_cap: *margin_cap
+    L_SGD:
+      config.params.alpha: {type: float, low: 0.0000001, high: 0.05, log: true}
+      config.params.eta0: {type: float, low: 0.00001, high: 0.05, log: true}
+      config.params.penalty: {type: categorical, choices: [l2, l1, elasticnet]}
+      config.training.standardize: *boolean
+      config.prediction_margin_cap: *margin_cap
+    S_PERCENTILE:
+      config.params.percentile_ridge_alpha: &stat_alpha {type: float, low: 0.001, high: 1000.0, log: true}
+      config.params.center_target: *boolean
+      config.params.min_margin_scale: &margin_scale {type: float, low: 3.0, high: 18.0}
+      config.params.prediction_margin_cap: *margin_cap
+    S_ROBUST:
+      config.params.robust_ridge_alpha: *stat_alpha
+      config.params.center_target: *boolean
+      config.params.min_margin_scale: *margin_scale
+      config.params.robust_clip: {type: float, low: 2.0, high: 8.0}
+      config.params.prediction_margin_cap: *margin_cap
+    S_WEIGHTED:
+      config.params.weighted_ridge_alpha: *stat_alpha
+      config.params.center_target: *boolean
+      config.params.min_margin_scale: *margin_scale
+      config.params.robust_clip: {type: float, low: 2.0, high: 8.0}
+      config.params.prediction_margin_cap: *margin_cap
+    S_Z_INDEX:
+      config.params.z_ridge_alpha: *stat_alpha
+      config.params.center_target: *boolean
+      config.params.min_margin_scale: *margin_scale
+      config.params.prediction_margin_cap: *margin_cap
+    TR_EXTRA_TREES:
+      config.params.n_estimators: &tree_estimators {type: int, low: 300, high: 1600}
+      config.params.max_depth: &tree_depth {type: categorical, choices: [null, 10, 16, 24, 32, 48]}
+      config.params.min_samples_leaf: &tree_leaf {type: int, low: 1, high: 16}
+      config.params.min_samples_split: &tree_split {type: int, low: 2, high: 70}
+      config.params.max_features: &tree_features {type: categorical, choices: [sqrt, log2, 0.35, 0.5, 0.75, 1.0]}
+      config.params.bootstrap: *boolean
+    TR_GRADIENT_BOOSTED:
+      config.params.n_estimators: {type: int, low: 150, high: 1200}
+      config.params.learning_rate: {type: float, low: 0.003, high: 0.15, log: true}
+      config.params.max_depth: {type: int, low: 2, high: 7}
+      config.params.min_samples_leaf: {type: int, low: 2, high: 35}
+      config.params.subsample: {type: float, low: 0.6, high: 1.0}
+    K_RBF_KERNEL_RIDGE:
+      config.params.alpha: {type: float, low: 0.001, high: 1000.0, log: true}
+      config.params.gamma: &kernel_gamma {type: float, low: 0.00001, high: 1.0, log: true}
+      config.margin_temperature: *margin_temperature
+    K_RBF_SVR:
+      config.params.C: {type: float, low: 0.1, high: 1000.0, log: true}
+      config.params.gamma: *kernel_gamma
+      config.params.epsilon: {type: float, low: 0.05, high: 3.0, log: true}
+    K_GAUSSIAN_PROCESS:
+      config.params.amplitude: {type: float, low: 0.1, high: 10.0, log: true}
+      config.params.length_scale: {type: float, low: 0.1, high: 20.0, log: true}
+      config.params.noise_level: {type: float, low: 0.001, high: 2.0, log: true}
+      config.max_train_samples: {type: categorical, choices: [500, 750, 1000, 1250]}
+    K_NYSTROEM_RIDGE:
+      config.params.n_components: {type: categorical, choices: [128, 256, 384, 512]}
+      config.params.gamma: *kernel_gamma
+      config.params.alpha: {type: float, low: 0.001, high: 1000.0, log: true}
+    N_STRUCTURED_MLP:
+      config.hidden_layers: {type: categorical, choices: [[64, 32], [128, 64], [128, 128], [256, 128, 64]]}
+      config.activation: {type: categorical, choices: [relu, gelu]}
+      config.dropout: {type: categorical, choices: [0.0, 0.1, 0.25, 0.4]}
+      config.normalization: {type: categorical, choices: [none, layer_norm]}
+      config.weight_decay: {type: categorical, choices: [0.0, 0.00001, 0.0001, 0.001]}
+      config.learning_rate: {type: categorical, choices: [0.0001, 0.0003, 0.001, 0.003]}
+      config.batch_size: {type: categorical, choices: [32, 64, 128]}
+    T_DECAY_RIDGE:
+      config.params.alpha: {type: float, low: 0.001, high: 1000.0, log: true}
+      config.margin_temperature: *margin_temperature
+    T_TREND_ELASTIC_NET:
+      config.params.alpha: {type: float, low: 0.00001, high: 1.0, log: true}
+      config.params.l1_ratio: {type: float, low: 0.05, high: 0.95}
+    T_RANDOM_FOREST:
+      config.params.n_estimators: {type: categorical, choices: [250, 500, 750]}
+      config.params.max_features: {type: categorical, choices: [sqrt, 0.35, 0.6, 1.0]}
+      config.params.min_samples_leaf: {type: int, low: 1, high: 20}
+      config.params.max_depth: {type: categorical, choices: [null, 8, 16, 24]}
+    T_HIST_GRADIENT_BOOSTED:
+      config.params.learning_rate: {type: float, low: 0.01, high: 0.2, log: true}
+      config.params.max_leaf_nodes: {type: categorical, choices: [15, 31, 63]}
+      config.params.min_samples_leaf: {type: int, low: 10, high: 80}
+      config.params.l2_regularization: {type: float, low: 0.0001, high: 10.0, log: true}
+    KNN_UNIFORM_EUCLIDEAN: &knn_uniform_euclidean
+      config.params.n_neighbors: &neighbors {type: categorical, choices: [3, 5, 7, 10, 15, 20, 30, 50]}
+      config.params.weights: {type: categorical, choices: [uniform]}
+      config.params.metric: {type: categorical, choices: [euclidean]}
+      config.margin_temperature: *margin_temperature
+    KNN_DISTANCE_EUCLIDEAN:
+      config.params.n_neighbors: *neighbors
+      config.params.weights: {type: categorical, choices: [distance]}
+      config.params.metric: {type: categorical, choices: [euclidean]}
+      config.margin_temperature: *margin_temperature
+    KNN_UNIFORM_MANHATTAN:
+      config.params.n_neighbors: *neighbors
+      config.params.weights: {type: categorical, choices: [uniform]}
+      config.params.metric: {type: categorical, choices: [manhattan]}
+      config.margin_temperature: *margin_temperature
+    KNN_DISTANCE_MANHATTAN:
+      config.params.n_neighbors: *neighbors
+      config.params.weights: {type: categorical, choices: [distance]}
+      config.params.metric: {type: categorical, choices: [manhattan]}
+      config.margin_temperature: *margin_temperature
+
+worker: {chunk_size: 1, nslots: 1, internal_threads: 1, fragment_format: parquet}
+guardrails: {minimum_free_gb: 30, reject_2026_training: true, require_smoke_test_marker: true}
+sge: {queue: long, slots: 1, walltime: '48:00:00', memory_gb: 16, max_array_concurrency: 50}

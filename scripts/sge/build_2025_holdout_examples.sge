@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -j y
+#$ -q long
+#$ -pe smp 1
+#$ -l h_rt=24:00:00
+
+set -euo pipefail
+: "${REPO_ROOT:?}"
+: "${INVENTORY:?}"
+: "${RANKING:?}"
+: "${STAGED_ROOT:?}"
+CONDA_ENV="${CONDA_ENV:-gridiron}"
+eval "$(conda shell.bash hook)"
+conda activate "${CONDA_ENV}"
+export PYTHONPATH="${REPO_ROOT}/src${PYTHONPATH:+:${PYTHONPATH}}"
+export MPLCONFIGDIR="${TMPDIR:-/tmp}/tdnet-matplotlib-${USER}"
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
+cd "${REPO_ROOT}"
+EXTRA_ARGS=()
+WEEKS=(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16)
+if [[ "${ALLOW_TRAINING_THROUGH_HOLDOUT:-0}" == "1" ]]; then
+  EXTRA_ARGS+=(--allow-training-through-holdout)
+fi
+if [[ "${RESUME_FINALIZE_ONLY:-0}" == "1" ]]; then
+  EXTRA_ARGS+=(--polls-only)
+  WEEKS=(0)
+fi
+if [[ "${POLLS_ONLY:-0}" == "1" ]]; then
+  EXTRA_ARGS+=(--polls-only)
+fi
+if [[ -n "${RESUME_WEEKS:-}" ]]; then
+  IFS=: read -r -a WEEKS <<< "${RESUME_WEEKS}"
+fi
+python -m gridiron_ml.cli.publication.build_2025_roster_outputs \
+  --season 2025 --inventory "${INVENTORY}" --ranking "${RANKING}" \
+  --schedule "${REPO_ROOT}/data/raw/cfbd/v2/games/2025.parquet" \
+  --ap-rankings "${REPO_ROOT}/data/raw/cfbd/v2/rankings/2025.parquet" \
+  --output-root "${STAGED_ROOT}" --objectives margin --weeks "${WEEKS[@]}" \
+  "${EXTRA_ARGS[@]}"

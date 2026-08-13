@@ -1,0 +1,33 @@
+overwrite: true
+verbose: false
+model_name: stat_weighted
+model_path: models/stat/models/weighted/models/tdstat_weighted.pkl
+
+params:
+  seed: 42
+  model_type: weighted
+  objective: winner_upset
+  upset_weight: 3.0
+  prediction_margin_cap: 30.0
+  weighted_ridge_alpha: 10.0
+  center_target: true
+  min_margin_scale: 7.0
+  require_stat_features: false
+  weighted_scaling: robust
+  robust_scale_method: mad
+  robust_clip: 5.0
+  feature_prefixes:
+    - home_
+    - away_
+    - net_
+  family_weights:
+    offense: 1.15
+    defense: 1.15
+    special_teams: 0.70
+    general: 0.85
+    roster: 0.60
+    efficiency: 1.15
+    explosiveness: 1.00
+    turnovers: 1.10
+    penalties: 0.60
+    talent: 0.75

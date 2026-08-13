@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -V
+#$ -j y
+#$ -o docs/logs/holdout_2025_finalize_$JOB_ID.log
+#$ -l h_rt=08:00:00
+#$ -pe smp 1
+set -euo pipefail
+REPO_ROOT="${REPO_ROOT:?REPO_ROOT is required}"
+OUTPUT_ROOT="${OUTPUT_ROOT:-${TDNET_EXTERNAL_ROOT:?TDNET_EXTERNAL_ROOT is required}/2025_holdout_refits}"
+cd "${REPO_ROOT}"
+export PYTHONPATH="${REPO_ROOT}/src:${REPO_ROOT}${PYTHONPATH:+:${PYTHONPATH}}"
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
+python src/gridiron_ml/cli/experiments/finalize_2025_holdout_refits.py --output-root "${OUTPUT_ROOT}"

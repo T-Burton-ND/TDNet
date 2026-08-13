@@ -1,0 +1,11 @@
+version: 1
+name: rolling_origin
+strategy: season_rolling_origin
+minimum_train_seasons: 4
+validation_seasons: 1
+gap_seasons: 0
+allowed_seasons: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+excluded_seasons: [2025, 2026]
+group_columns: [keys_season]
+time_columns: [keys_season, keys_week]
+

@@ -1,0 +1,58 @@
+{
+  "calibration": "not exercised: every frozen cell lacks a standalone calibrator or approved none declaration",
+  "equal_weight_consensus": {
+    "pred_margin": 0.782723364643,
+    "pred_proba_home_win": 0.514690420555
+  },
+  "fixture_version": 1,
+  "models": [
+    {
+      "checkpoint_sha256": "ba1f9ef8efe8c61e8b39133fc518a2354b4005d6657ce105abe5b347eaa203a3",
+      "model_id": "scientific_F0_M1",
+      "pred_margin": 5.464015394767,
+      "pred_proba_home_win": 0.596351742,
+      "source_fingerprint_sha256": "781b2e6dd83202b38189e7e893821bcc70ec52407b33f3f750d3227c91388f20"
+    },
+    {
+      "checkpoint_sha256": "911df032c1635833c833e3b251ee3e86880df9c84452cda47b7dfae3b93c43d6",
+      "model_id": "scientific_F0_M10",
+      "pred_margin": -9.999999779709,
+      "pred_proba_home_win": 0.328652549989,
+      "source_fingerprint_sha256": "781b2e6dd83202b38189e7e893821bcc70ec52407b33f3f750d3227c91388f20"
+    },
+    {
+      "checkpoint_sha256": "b03cba544187a229b5f5aebb90218b2e1f1e629385f440da2caccc415b4dc88d",
+      "model_id": "scientific_F0_M2",
+      "pred_margin": 5.332762059513,
+      "pred_proba_home_win": 0.594092945076,
+      "source_fingerprint_sha256": "781b2e6dd83202b38189e7e893821bcc70ec52407b33f3f750d3227c91388f20"
+    },
+    {
+      "checkpoint_sha256": "71799601eaa4d5648e60399a43c408a1720e66fb892e558b20063bb1ce1770f8",
+      "model_id": "scientific_F0_M3",
+      "pred_margin": -4.650107792208,
+      "pred_proba_home_win": 0.417717451803,
+      "source_fingerprint_sha256": "781b2e6dd83202b38189e7e893821bcc70ec52407b33f3f750d3227c91388f20"
+    },
+    {
+      "checkpoint_sha256": "02de4802d24cfc4957c2f6dde218c581c5cd6b3bc8e2cd5e5f00d63db470dfef",
+      "model_id": "scientific_F0_M4",
+      "pred_margin": 3.32671984697,
+      "pred_proba_home_win": 0.559127754194,
+      "source_fingerprint_sha256": "781b2e6dd83202b38189e7e893821bcc70ec52407b33f3f750d3227c91388f20"
+    },
+    {
+      "checkpoint_sha256": "6f8c854c892d1a8a92afd3b279a414af8871c0a464b3d06d0b6952f5b9e3454f",
+      "model_id": "scientific_F0_M5",
+      "pred_margin": 5.222950458527,
+      "pred_proba_home_win": 0.592200080266,
+      "source_fingerprint_sha256": "3dd7a5313a4845aecc29090a7aede9aa459cfbb4980769760aca7ce7332e69b2"
+    }
+  ],
+  "next_game_id": 401762789,
+  "prediction_week": 1,
+  "season": 2025,
+  "serialization_sha256": "e5f5dcff36976383c2b541ba4bbeb6f5fd64c3397766464acdbb0b00d7540f79",
+  "status": "REGRESSION_FIXTURE_UNCALIBRATED__CALIBRATION_SEPARATE_BLOCKER",
+  "tolerance": 1e-10
+}

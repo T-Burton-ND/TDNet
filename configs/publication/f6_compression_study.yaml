@@ -1,0 +1,31 @@
+version: 1
+study_id: tdnet-scientific-roster-f6-compression-v1
+fingerprint_label: F6-C
+source_fingerprint: F6
+source_feature_count: 227
+objectives: [margin, winner]
+model_levels: [M1, M2, M3, M4, M5, M10]
+candidate_target_counts: [10, 15, 20, 25, 35, 50, 75, 100, 150, 227]
+
+ranking:
+  source: corrected_f6_end_to_end_shap
+  leakage_rule: for_outer_fold_k_use_only_shap_folds_less_than_k
+  aggregation: median_normalized_importance_within_objective_model
+  paired_feature_closure: true
+  actual_count_recorded_separately_from_target_count: true
+
+selection:
+  strategy: sequential_nested_rolling_origin
+  first_eligible_outer_fold: 1
+  initial_prespecified_target_count: 25
+  later_fold_rule: choose_smallest_count_within_one_se_of_best_on_prior_eligible_folds
+  margin_metric: mae
+  winner_metric: brier_score
+  final_deployment_rule: choose_smallest_count_within_one_se_of_best_across_all_eligible_folds
+
+reporting:
+  heatmap_label: F6-C
+  exact_model_label_template: F6-C{actual_count}
+  metrics: [mae, upset_correct, favorite_correct, winner_accuracy, brier_score, ats_accuracy]
+  confirmatory_claims: false
+  compare_against: [F5, F6, F7, F8]

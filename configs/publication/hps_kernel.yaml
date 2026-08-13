@@ -1,0 +1,37 @@
+version: 1
+experiment_name: publication_hps_kernel_v1
+artifact_root: publication_artifacts
+objectives: [winner, margin]
+feature_tiers: [F1+F2, F1+F2+F3, F6]
+model_levels: [K1, K2, K3, K4]
+model_configs:
+  K1: configs/models/kernel/config_rbf_kernel_ridge.yaml
+  K2: configs/models/kernel/config_rbf_svr.yaml
+  K3: configs/models/kernel/config_gaussian_process.yaml
+  K4: configs/models/kernel/config_nystroem_ridge.yaml
+model_families: {K1: kernel, K2: kernel, K3: kernel, K4: kernel}
+split_configs: [configs/splits/rolling_origin.yaml]
+seeds: [1701]
+parameter_search:
+  seed: 26031
+  trials_per_level: {K1: 36, K2: 36, K3: 24, K4: 36}
+  spaces:
+    K1:
+      config.params.alpha: {type: float, low: 0.001, high: 1000.0, log: true}
+      config.params.gamma: {type: float, low: 0.00001, high: 1.0, log: true}
+      config.margin_temperature: {type: float, low: 6.0, high: 24.0}
+    K2:
+      config.params.C: {type: float, low: 0.1, high: 1000.0, log: true}
+      config.params.gamma: {type: float, low: 0.00001, high: 1.0, log: true}
+      config.params.epsilon: {type: float, low: 0.05, high: 3.0, log: true}
+    K3:
+      config.params.amplitude: {type: float, low: 0.1, high: 10.0, log: true}
+      config.params.length_scale: {type: float, low: 0.1, high: 20.0, log: true}
+      config.params.noise_level: {type: float, low: 0.001, high: 2.0, log: true}
+      config.max_train_samples: {type: categorical, choices: [500, 750, 1000, 1250]}
+    K4:
+      config.params.n_components: {type: categorical, choices: [128, 256, 384, 512]}
+      config.params.gamma: {type: float, low: 0.00001, high: 1.0, log: true}
+      config.params.alpha: {type: float, low: 0.001, high: 1000.0, log: true}
+worker: {chunk_size: 1, nslots: 1, internal_threads: 1, fragment_format: parquet}
+guardrails: {minimum_free_gb: 30, reject_2026_training: true}

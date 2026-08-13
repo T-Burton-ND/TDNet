@@ -1,0 +1,5 @@
+model_name: temporal_hist_gradient_boosted
+model_type: temporal_hist_gradient_boosted
+seed: 42
+temporal_fingerprint: {half_life: 3.0, trend_lag: 3}
+params: {max_iter: 300, learning_rate: 0.05, max_leaf_nodes: 31, min_samples_leaf: 20, l2_regularization: 1.0}

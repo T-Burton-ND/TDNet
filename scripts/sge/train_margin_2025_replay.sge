@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -j y
+#$ -pe smp 1
+#$ -l h_rt=48:00:00
+#$ -l h_vmem=32G
+#$ -o docs/logs/sge/$JOB_NAME.$JOB_ID.out
+
+set -Eeuo pipefail
+ROOT="${REPO_ROOT:?REPO_ROOT is required}"
+OUTPUT_ROOT="${OUTPUT_ROOT:?OUTPUT_ROOT is required}"
+export OMP_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export PYTHONUNBUFFERED=1
+export PYTHONFAULTHANDLER=1
+export PYTHONPATH="${ROOT}/src:${ROOT}${PYTHONPATH:+:${PYTHONPATH}}"
+export MPLCONFIGDIR="${TMPDIR:-/tmp}/tdnet-margin-replay-${USER}"
+cd "${ROOT}"
+mkdir -p docs/logs/sge "${MPLCONFIGDIR}"
+echo "TDNET_MARGIN_REPLAY_START=$(date -Is)"
+echo "TDNET_MARGIN_REPLAY_JOB=${JOB_ID:-unknown}"
+echo "TDNET_MARGIN_REPLAY_HOST=$(hostname)"
+echo "TDNET_MARGIN_REPLAY_OUTPUT=${OUTPUT_ROOT}"
+trap 'rc=$?; echo "TDNET_MARGIN_REPLAY_EXIT=$(date -Is) rc=${rc}"; exit "$rc"' EXIT
+
+python -u -X faulthandler src/gridiron_ml/cli/publication/train_full_roster.py \
+  --objectives margin \
+  --train-through-season 2024 \
+  --output-root "${OUTPUT_ROOT}" \
+  --normalize-margin-names

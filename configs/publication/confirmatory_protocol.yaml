@@ -1,0 +1,91 @@
+version: 2
+protocol_id: tdnet-fingerprint-engineering-2026-v2
+study:
+  primary_objective: margin
+  secondary_objective: winner
+  seasons_development: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+  consumed_retrospective_holdout: 2025
+  prospective_season: 2026
+  training_excludes_season: 2026
+  scope: FBS_vs_FBS_regular_season_only
+  postseason_out_of_scope: true
+  fcs_out_of_scope: true
+fingerprint_ladder:
+  config: configs/features/feature_ladders.yaml
+  canonical_tiers: [F0, F1, F2, F3, F4, F5, F6, F7, F8]
+  market_free_tiers: [F0, F1, F2, F3, F4, F5, F6]
+  primary_representation: F6
+  market_only_benchmark: F7
+  market_aware_comparator: F8
+  legacy_exploratory_aliases: []
+architecture_matrix:
+  config: configs/publication/feature_model_matrix.yaml
+  model_levels: [M1, M2, M3, M4, M5, M10]
+  seeds: [1701, 2718, 3141]
+  same_temporal_splits: true
+  same_target: true
+  same_games: true
+  same_tuning_budget: true
+  fixed_seed_policy: true
+opponent_adjustment:
+  primary_method: elo_context_v1_4
+  selection_data: docs/publication_2026/feature_manifests/selected_source_provenance.json
+  selection_train_years: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
+  selection_validation_years: [2022]
+  selection_evaluation_years: [2023, 2024]
+  candidate_methods: [opponent_context_v1_1, opponent_ridge_v1_2, joint_ridge_v1_3, elo_context_v1_4, graph_context_v1_5, dynamic_ridge_v1_6, ensemble_average_v1_7]
+  no_averaged_primary_adjustment: true
+poll:
+  # Current 2026 operational surface: 33 informative automated members.
+  # Three conditional F7 roles and three comparison-only naive baselines are
+  # retained in inventory but do not change this live count.
+  max_automated_ballots: 33
+  conditional_market_dependent_roles: 3
+  human_ballot_count: 1
+  human_ballot_is_separate: true
+  human_ballot_affects_model_metrics: false
+  all_model_consensus: equal_weight_eligible_margin_models
+  compact_consensus: fixed_equal_weight_oof_selected_components
+  compact_max_size: 5
+  compact_selection_uses_2025: false
+  compact_selection_uses_2026: false
+baselines:
+  - random_50
+  - home_team_prior
+  - season_to_date_win_percentage
+  - season_to_date_raw_point_differential
+  - season_to_date_opponent_adjusted_point_differential
+  - strict_oof_historical_matchup_knn
+  - cfbd_declared_line
+calibration:
+  mapping: logistic_regression_on_predicted_margin
+  fit_data: nested_training_oof_only
+  prospective_frozen_before_2026: true
+  probability_bounds: [0.0, 1.0]
+  ece_bins: 10
+inference:
+  historical_primary_uncertainty: season_clustered_paired_bootstrap
+  prospective_primary_uncertainty: week_blocked_paired_bootstrap
+  sensitivity_uncertainty: game_level_paired_bootstrap
+  mcnemar_for_binary_pairs: true
+  confirmatory_multiplicity_correction: holm
+  exploratory_multiplicity_correction: benjamini_hochberg
+  exploratory_fdr_q: 0.05
+  equivalence_bounds:
+    winner_accuracy: 0.01
+    brier_score: 0.005
+    margin_mae: 0.25
+    calibration_slope_low: 0.90
+    calibration_slope_high: 1.10
+prospective:
+  provider: CollegeFootballData
+  deadline_timezone: America/New_York
+  deadline_local: Thursday 23:59:00
+  immutable_after_deadline: true
+  correction_policy: append_only_amendment_ledger
+  explicit_user_approval_before_publication: true
+release:
+  no_raw_cfbd_data_in_public_git: true
+  no_winner_specific_models_in_2026_operational_poll: true
+  no_moe_or_dynamic_routing: true
+  no_claim_tdnet_beats_vegas_without_valid_evidence: true

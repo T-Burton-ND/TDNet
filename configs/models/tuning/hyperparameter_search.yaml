@@ -1,0 +1,269 @@
+# configs/hparam_spaces.yaml
+# Canonical hyperparameter definitions for TDNet model families
+
+global:
+  objective: rmse          # primary optimization metric
+  direction: minimize
+  seed: 1337
+  early_stopping:
+    enabled: true
+    patience: 50
+  folds:
+    phase_random: 1
+    phase_optuna: 3
+    phase_replicate: 6
+
+# =========================
+# TD-STAT
+# =========================
+stat:
+  search_strategy: bayesian
+  params:
+    k_factor:
+      type: float
+      low: 5
+      high: 80
+      log: false
+    home_field_adv:
+      type: float
+      low: 0.0
+      high: 6.0
+    margin_cap:
+      type: float
+      low: 10
+      high: 35
+    offseason_decay:
+      type: float
+      low: 0.5
+      high: 1.0
+    prior_variance:
+      type: float
+      low: 0.5
+      high: 5.0
+
+# =========================
+# TD-LINEAR
+# =========================
+linear:
+  search_strategy: bayesian
+  params:
+    alpha:
+      type: float
+      low: 1.0e-6
+      high: 1.0e3
+      log: true
+    l1_ratio:
+      type: float
+      low: 0.0
+      high: 1.0
+    scaler:
+      type: categorical
+      choices: [standard, robust]
+
+# =========================
+# TD-LITE
+# =========================
+lite:
+  search_strategy: bayesian
+  params:
+    hidden_dim:
+      type: categorical
+      choices: [64, 128, 256, 512]
+    num_layers:
+      type: int
+      low: 1
+      high: 2
+    dropout:
+      type: float
+      low: 0.0
+      high: 0.5
+    weight_decay:
+      type: float
+      low: 1.0e-6
+      high: 1.0e-2
+      log: true
+    learning_rate:
+      type: float
+      low: 1.0e-5
+      high: 3.0e-3
+      log: true
+
+# =========================
+# TD-DYNAMIC
+# =========================
+dynamic:
+  search_strategy: bayesian
+  params:
+    history_length:
+      type: int
+      low: 4
+      high: 16
+    decay_form:
+      type: categorical
+      choices: [exponential, power_law, attention]
+    decay_half_life:
+      type: float
+      low: 1.0
+      high: 12.0
+    attention_temperature:
+      type: float
+      low: 0.2
+      high: 2.0
+    temporal_reg_strength:
+      type: float
+      low: 1.0e-4
+      high: 1.0e-1
+      log: true
+
+# =========================
+# TD-BOOST
+# =========================
+boost:
+  search_strategy: bayesian
+  params:
+    n_estimators:
+      type: int
+      low: 200
+      high: 4000
+    learning_rate:
+      type: float
+      low: 0.005
+      high: 0.2
+      log: true
+    max_depth:
+      type: int
+      low: 2
+      high: 10
+    min_child_weight:
+      type: float
+      low: 1
+      high: 200
+      log: true
+    subsample:
+      type: float
+      low: 0.5
+      high: 1.0
+    colsample_bytree:
+      type: float
+      low: 0.5
+      high: 1.0
+    gamma:
+      type: float
+      low: 0.0
+      high: 10.0
+    reg_alpha:
+      type: float
+      low: 1.0e-8
+      high: 1.0
+      log: true
+    reg_lambda:
+      type: float
+      low: 1.0e-3
+      high: 1.0e2
+      log: true
+
+# =========================
+# TD-FOREST
+# =========================
+td_forest:
+  search_strategy: random
+  params:
+    n_estimators:
+      type: int
+      low: 300
+      high: 3000
+    max_depth:
+      type: categorical
+      choices: [null, 10, 20, 30, 40]
+    max_features:
+      type: float
+      low: 0.2
+      high: 1.0
+    min_samples_leaf:
+      type: int
+      low: 1
+      high: 50
+    min_samples_split:
+      type: int
+      low: 2
+      high: 200
+    bootstrap:
+      type: categorical
+      choices: [true, false]
+
+# =========================
+# TD-NET
+# =========================
+td_net:
+  search_strategy: bayesian
+  params:
+    sequence_length:
+      type: categorical
+      choices: [4, 8, 12, 16]
+    hidden_dim:
+      type: categorical
+      choices: [64, 128, 256, 512]
+    num_layers:
+      type: int
+      low: 1
+      high: 4
+    encoder_type:
+      type: categorical
+      choices: [gru, temporal_conv, attention]
+    dropout:
+      type: float
+      low: 0.0
+      high: 0.5
+    weight_decay:
+      type: float
+      low: 1.0e-6
+      high: 1.0e-2
+      log: true
+    learning_rate:
+      type: float
+      low: 1.0e-5
+      high: 3.0e-3
+      log: true
+    batch_size:
+      type: categorical
+      choices: [64, 128, 256, 512, 1024]
+    loss_fn:
+      type: categorical
+      choices: [mse, huber]
+
+# =========================
+# TD-DEEP
+# =========================
+td_deep:
+  search_strategy: bayesian
+  params:
+    embedding_dim:
+      type: categorical
+      choices: [64, 128, 256, 512]
+    num_layers:
+      type: int
+      low: 2
+      high: 6
+    num_heads:
+      type: categorical
+      choices: [2, 4, 8]
+    ffn_multiplier:
+      type: categorical
+      choices: [2, 4, 8]
+    temporal_decay:
+      type: float
+      low: 1.0
+      high: 16.0
+    dropout:
+      type: float
+      low: 0.0
+      high: 0.5
+    learning_rate:
+      type: float
+      low: 1.0e-5
+      high: 3.0e-3
+      log: true
+    warmup_steps:
+      type: int
+      low: 0
+      high: 2000

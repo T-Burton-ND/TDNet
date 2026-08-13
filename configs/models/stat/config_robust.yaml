@@ -1,0 +1,21 @@
+overwrite: true
+verbose: false
+model_name: stat_robust
+model_path: models/stat/models/robust/models/tdstat_robust.pkl
+
+params:
+  seed: 42
+  model_type: robust
+  objective: winner_upset
+  upset_weight: 3.0
+  prediction_margin_cap: 30.0
+  robust_ridge_alpha: 10.0
+  center_target: true
+  min_margin_scale: 7.0
+  require_stat_features: false
+  robust_scale_method: mad
+  robust_clip: 5.0
+  feature_prefixes:
+    - home_
+    - away_
+    - net_

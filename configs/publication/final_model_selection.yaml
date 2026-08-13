@@ -1,0 +1,41 @@
+version: 2
+rule: best_existing_hyperparameters_per_concrete_model_type_without_market_inputs
+max_finalists_per_cell: 10
+minimum_finalists_per_cell: 1
+required_outer_folds: 3
+minimum_valid_seeds: 3
+reject_if:
+  missing_game_predictions: true
+  feature_availability_failures: true
+  prospective_2026_used_for_selection: false
+  market_features_in_confirmatory_roster: false
+  new_hyperparameter_search_submitted: true
+roles:
+  winner: [simple, engineered_statistical, fingerprint_tree, fingerprint_neural, ensemble]
+  margin: [simple, engineered_statistical, fingerprint_tree, fingerprint_neural, ensemble]
+practical_thresholds:
+  brier_score: 0.01
+  winner_accuracy: 0.01
+  margin_mae_points: 0.5
+  calibration_slope_min: 0.9
+  calibration_slope_max: 1.1
+roster:
+  register_best_checkpoint_per_objective_and_concrete_model_type: true
+  lead_metric: brier_score
+  lead_evaluation_seasons: [2024]
+  publish_prediction_sets: [top_1, top_3, all_model_consensus]
+  use_all_registered_models_for_tdnet_poll: true
+  use_all_registered_models_for_consensus: true
+  poll_baseline_policy: separate_baseline_ballot_not_model_member
+  poll_scoring_policy: uncapped_raw_fitted_scores_with_deterministic_ties
+  canonical_poll_objective: margin
+  objectives: [winner, margin]
+  excluded_objectives: [balanced]
+  holdout_selection_disclosure: >-
+    The 2025 season is a retrospective example/holdout evaluation. The 2026
+    roster is refit through 2025 only. The bounded margin-MLP search is a
+    declared supplemental selection input, and the final roster remains
+    subject to its completed manifest and temporal-fold audit. KNN and naive
+    models are computed baselines; KNN may enter the operational poll only
+    after its strict OOF audit passes. The human ballot is separate from all
+    computational ballots and consensus products.

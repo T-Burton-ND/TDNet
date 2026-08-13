@@ -1,0 +1,51 @@
+{
+  "status": "pass",
+  "verified_at_utc": "2026-08-13T16:10:00Z",
+  "artifact_root": "/groups/bsavoie2/tburton2/TDNet/publication_artifacts/2025_roster_regenerations",
+  "packages": {
+    "through_2025_scientific": {
+      "training_end_season": 2025,
+      "leakage_rehearsal": true,
+      "performance_claim_allowed": false,
+      "model_count": 54,
+      "poll_prediction_model_count": 42,
+      "poll_weeks": 17,
+      "prediction_weeks": 16,
+      "poll_failure_rows": 0,
+      "manifest_sha256": "b9adb639f0803881db65a380edd408fb6ff66d6ee455b73f7378dd60728668de"
+    },
+    "through_2025_wide_f6": {
+      "training_end_season": 2025,
+      "leakage_rehearsal": true,
+      "performance_claim_allowed": false,
+      "model_count": 36,
+      "poll_prediction_model_count": 33,
+      "poll_weeks": 17,
+      "prediction_weeks": 16,
+      "poll_failure_rows": 0,
+      "manifest_sha256": "3b78d20a03cc015f811904a355127de257a9ba33c4a4fa319b01ffbc760ddcc2"
+    },
+    "holdout_2025_scientific": {
+      "training_end_season": 2024,
+      "leakage_rehearsal": false,
+      "performance_claim_allowed": true,
+      "model_count": 54,
+      "poll_prediction_model_count": 42,
+      "poll_weeks": 17,
+      "prediction_weeks": 16,
+      "poll_failure_rows": 0,
+      "manifest_sha256": "4a91a724907f7b33396e8b66c3c86be663ee3cc84330cb01a7bcbcbb24ef3747"
+    },
+    "holdout_2025_wide_f6": {
+      "training_end_season": 2024,
+      "leakage_rehearsal": false,
+      "performance_claim_allowed": true,
+      "model_count": 36,
+      "poll_prediction_model_count": 33,
+      "poll_weeks": 17,
+      "prediction_weeks": 16,
+      "poll_failure_rows": 0,
+      "manifest_sha256": "7b3431a622ce3357706a859159b655bbee73305561347cf8908e694a0d1579cd"
+    }
+  }
+}

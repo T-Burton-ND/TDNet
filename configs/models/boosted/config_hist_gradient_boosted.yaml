@@ -1,0 +1,11 @@
+model_name: hist_gradient_boosted
+model_type: hist_gradient_boosted
+loss_function: RMSE
+seed: 42
+params:
+  max_iter: 300
+  learning_rate: 0.05
+  max_leaf_nodes: 31
+  min_samples_leaf: 20
+  l2_regularization: 1.0
+  early_stopping: true

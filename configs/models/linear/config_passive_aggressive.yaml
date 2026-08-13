@@ -1,0 +1,20 @@
+model_name: passive_aggressive
+model_type: passive_aggressive
+loss_function: Composite
+margin_temperature: 14.0
+prediction_margin_cap: 30.0
+favorite_confidence_scale: 4.0
+huber_delta: 7.0
+seed: 42
+
+training:
+  standardize: true
+  use_sample_weights: false
+  sample_weight_column:
+
+params:
+  C: 1.0
+  max_iter: 2000
+  tol: 0.001
+  loss: epsilon_insensitive
+  fit_intercept: true

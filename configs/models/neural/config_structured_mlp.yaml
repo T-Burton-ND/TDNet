@@ -1,0 +1,20 @@
+model_name: structured_mlp
+model_type: structured_mlp
+loss_function: RMSE
+seed: 42
+hidden_layers: [128, 64]
+activation: gelu
+dropout: 0.15
+normalization: layer_norm
+learning_rate: 0.001
+weight_decay: 0.0001
+batch_size: 128
+max_epochs: 200
+patience: 20
+min_delta: 0.00001
+loss: huber
+huber_delta: 7.0
+deterministic_algorithms: true
+torch_threads: 1
+exploratory: true
+

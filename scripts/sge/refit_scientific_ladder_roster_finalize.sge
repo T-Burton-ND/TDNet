@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -j y
+#$ -q long
+#$ -pe smp 1
+#$ -l h_rt=02:00:00
+
+set -euo pipefail
+: "${REPO_ROOT:?}"
+: "${SELECTION:?}"
+: "${FINGERPRINT_DATA:?}"
+: "${ROSTER_OUTPUT_ROOT:?}"
+CONDA_ENV="${CONDA_ENV:-gridiron}"
+eval "$(conda shell.bash hook)"
+conda activate "${CONDA_ENV}"
+export PYTHONPATH="${REPO_ROOT}/src${PYTHONPATH:+:${PYTHONPATH}}"
+cd "${REPO_ROOT}"
+args=(--selection "${SELECTION}" --data "${FINGERPRINT_DATA}" --output-root "${ROSTER_OUTPUT_ROOT}" --training-end-season "${TRAINING_END_SEASON:-2025}")
+if [[ -n "${HOLDOUT_SEASON:-}" ]]; then args+=(--holdout-season "${HOLDOUT_SEASON}"); fi
+python -m gridiron_ml.cli.publication.refit_scientific_ladder_roster finalize "${args[@]}"

@@ -1,0 +1,67 @@
+version: 3
+experiment_name: publication_hps_fingerprint_contract_corrected_scientific_v3
+artifact_root: publication_artifacts
+
+# Recovery search after code audit restored the three declared predictors that
+# the legacy prefix splitter omitted. F7 was already exact and is not rerun.
+objectives: [margin, winner]
+feature_tiers: [F5, F6, F8]
+model_levels: [M1, M2, M3, M4, M5, M10]
+model_configs:
+  M1: configs/models/linear/config_ridge.yaml
+  M2: configs/models/spline/config_spline_ridge.yaml
+  M3: configs/models/tree/config_random_forest.yaml
+  M4: configs/models/boosted/config_hist_gradient_boosted.yaml
+  M5: configs/models/neural/config_mlp.yaml
+  M10: configs/models/knn/config_knn_distance.yaml
+model_families: {M1: linear, M2: spline, M3: tree, M4: boosted, M5: neural, M10: knn}
+split_configs: [configs/splits/rolling_origin.yaml]
+seeds: [1701]
+
+parameter_search:
+  seed: 26084
+  trials_per_level: {M1: 32, M2: 40, M3: 40, M4: 48, M5: 40, M10: 32}
+  spaces:
+    M1:
+      config.params.alpha: {type: float, low: 0.000001, high: 1000.0, log: true}
+      config.training.standardize: {type: categorical, choices: [true, false]}
+      config.margin_temperature: {type: float, low: 6.0, high: 30.0}
+      config.prediction_margin_cap: {type: float, low: 24.0, high: 56.0}
+    M2:
+      config.spline.n_knots: {type: int, low: 3, high: 8}
+      config.spline.degree: {type: categorical, choices: [2, 3]}
+      config.params.alpha: {type: float, low: 0.0001, high: 1000.0, log: true}
+      config.margin_temperature: {type: float, low: 6.0, high: 30.0}
+    M3:
+      config.params.n_estimators: {type: int, low: 300, high: 1200}
+      config.params.max_depth: {type: categorical, choices: [null, 10, 16, 24, 32]}
+      config.params.min_samples_leaf: {type: int, low: 1, high: 20}
+      config.params.min_samples_split: {type: int, low: 2, high: 60}
+      config.params.max_features: {type: categorical, choices: [sqrt, log2, 0.35, 0.5, 0.75]}
+      config.params.bootstrap: {type: categorical, choices: [true, false]}
+    M4:
+      config.params.max_iter: {type: int, low: 100, high: 700}
+      config.params.learning_rate: {type: float, low: 0.01, high: 0.2, log: true}
+      config.params.max_leaf_nodes: {type: categorical, choices: [15, 31, 63, 127]}
+      config.params.max_depth: {type: categorical, choices: [null, 4, 6, 10]}
+      config.params.min_samples_leaf: {type: int, low: 8, high: 60}
+      config.params.l2_regularization: {type: float, low: 0.000001, high: 10.0, log: true}
+    M5:
+      config.hidden_layers: {type: categorical, choices: [[32], [64], [128], [64, 32], [128, 64], [128, 128], [256, 128, 64]]}
+      config.activation: {type: categorical, choices: [relu, gelu]}
+      config.dropout: {type: categorical, choices: [0.0, 0.1, 0.25, 0.4]}
+      config.normalization: {type: categorical, choices: [none, batch_norm, layer_norm]}
+      config.weight_decay: {type: categorical, choices: [0.0, 0.000001, 0.00001, 0.0001, 0.001]}
+      config.learning_rate: {type: categorical, choices: [0.0001, 0.0003, 0.001, 0.003]}
+      config.batch_size: {type: categorical, choices: [32, 64, 128, 256]}
+      config.quantile_transform: {type: categorical, choices: [false, true]}
+      config.loss: {type: categorical, choices: [huber, mse, mae]}
+    M10:
+      config.params.n_neighbors: {type: categorical, choices: [3, 5, 7, 10, 15, 20, 30, 50]}
+      config.params.weights: {type: categorical, choices: [uniform, distance]}
+      config.params.metric: {type: categorical, choices: [euclidean, manhattan]}
+      config.margin_temperature: {type: float, low: 6.0, high: 30.0}
+
+worker: {chunk_size: 1, nslots: 1, internal_threads: 1, fragment_format: parquet}
+guardrails: {minimum_free_gb: 30, reject_2026_training: true, require_smoke_test_marker: true}
+sge: {queue: long, slots: 1, walltime: '48:00:00', memory_gb: 16, max_array_concurrency: 50}

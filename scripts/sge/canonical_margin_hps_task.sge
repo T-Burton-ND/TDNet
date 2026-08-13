@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -j y
+#$ -pe smp 10
+#$ -l h_rt=48:00:00
+#$ -l h_vmem=32G
+#$ -o docs/logs/canonical_margin_hps.$JOB_ID.$TASK_ID.out
+
+set -Eeuo pipefail
+ROOT="${REPO_ROOT:?REPO_ROOT is required}"
+EXTERNAL_ROOT="${TDNET_EXTERNAL_ROOT:?TDNET_EXTERNAL_ROOT is required}"
+MANIFEST="${JOB_MANIFEST:?JOB_MANIFEST is required}"
+TASK_ID="${SGE_TASK_ID:?SGE_TASK_ID is required}"
+CONFIG="${CONFIG_PATH:?CONFIG_PATH is required}"
+export PYTHONPATH="${ROOT}/src:${ROOT}${PYTHONPATH:+:${PYTHONPATH}}"
+export OMP_NUM_THREADS="${NSLOTS:-10}"
+export MKL_NUM_THREADS="${NSLOTS:-10}"
+export OPENBLAS_NUM_THREADS="${NSLOTS:-10}"
+export NUMEXPR_NUM_THREADS="${NSLOTS:-10}"
+export PYTHONUNBUFFERED=1
+export PYTHONFAULTHANDLER=1
+export MPLCONFIGDIR="${TMPDIR:-/tmp}/tdnet-canonical-margin-hps-${USER}"
+mkdir -p "${MPLCONFIGDIR}" "${EXTERNAL_ROOT}/publication_artifacts/logs"
+cd "${ROOT}"
+echo "CANONICAL_MARGIN_HPS_START=$(date --iso-8601=seconds)"
+echo "JOB_ID=${JOB_ID:-unknown} TASK_ID=${TASK_ID} NSLOTS=${NSLOTS:-unknown}"
+python -u src/gridiron_ml/cli/publication/run_canonical_margin_hps_task.py \
+  --manifest "${MANIFEST}" --task-id "${TASK_ID}" --config "${CONFIG}"

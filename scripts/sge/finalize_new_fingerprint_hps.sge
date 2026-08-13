@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -j y
+#$ -q long
+#$ -pe smp 1
+#$ -l h_rt=08:00:00
+
+set -euo pipefail
+
+: "${REPO_ROOT:?REPO_ROOT is required}"
+: "${JOB_MANIFEST:?JOB_MANIFEST is required}"
+: "${OUTPUT_ROOT:?OUTPUT_ROOT is required}"
+CONDA_ENV="${CONDA_ENV:-gridiron}"
+
+eval "$(conda shell.bash hook)"
+conda activate "${CONDA_ENV}"
+export PYTHONPATH="${REPO_ROOT}/src${PYTHONPATH:+:${PYTHONPATH}}"
+export MPLCONFIGDIR="${TMPDIR:-/tmp}/tdnet-matplotlib-${USER}"
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
+
+cd "${REPO_ROOT}"
+python -m gridiron_ml.cli.publication.finalize_new_fingerprint_hps \
+  --manifest "${JOB_MANIFEST}" \
+  --output-root "${OUTPUT_ROOT}"

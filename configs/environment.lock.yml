@@ -1,0 +1,16 @@
+# Candidate environment declaration for portability review.
+# This is intentionally not called an immutable lock: exact solver output or a
+# container digest is still required before a final release.
+name: tdnet-publication-candidate
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - pyarrow
+  - pyyaml
+  - matplotlib
+  - pip

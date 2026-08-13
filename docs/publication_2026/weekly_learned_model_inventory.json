@@ -1,0 +1,21 @@
+{
+  "bundle": "/groups/bsavoie2/tburton2/TDNet/publication_artifacts/corrected_f6_wide_margin_roster/through_2025_v1",
+  "excluded_from_poll_count": 3,
+  "excluded_naive_count": 0,
+  "knn_model_count": 4,
+  "model_count": 33,
+  "model_families": [
+    "boosted",
+    "ensemble",
+    "kernel",
+    "knn",
+    "linear",
+    "neural",
+    "spline",
+    "stat",
+    "structured_neural",
+    "temporal",
+    "tree"
+  ],
+  "output": "/users/tburton2/Repos/TDNet/docs/publication_2026/weekly_learned_model_inventory.csv"
+}

@@ -1,0 +1,5 @@
+model_name: trend_elastic_net
+model_type: trend_elastic_net
+seed: 42
+temporal_fingerprint: {half_life: 3.0, trend_lag: 3}
+params: {alpha: 0.01, l1_ratio: 0.25, max_iter: 5000}
