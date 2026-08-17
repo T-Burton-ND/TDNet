@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "status": "candidate_not_final",
   "fingerprint_contract": {
     "version": 3,
@@ -13,15 +13,15 @@
     "prediction_and_poll_cells": 42,
     "withheld_market_cells": 12,
     "checkpoint_verification": "pass",
-    "calibration": "pending_cross_fitted_oof_phase",
-    "inventory_sha256": "a4d100b3dd0807d8d66e2a9d8fc64416c7ac159425593a17e941c50e8c9d3cf9"
+    "calibration": "complete_cross_fitted_oof_through_2025",
+    "inventory_sha256": "d76c839288cdaa188b562e32d8d2fbed93e33557ebcbe027c75b6307038b67ca"
   },
   "wide_margin_roster": {
     "fingerprint": "F6",
     "learned_checkpoints": 34,
     "ensembles": 2,
     "checkpoint_verification": "pass",
-    "inventory_sha256": "27af6713144235b753ee4b44fd8bbd80b90244633f8a8ab17f27b9c2ec862428"
+    "inventory_sha256": "0d46d9870c8cb1ac65375a1a5d8437656a8a1a7b225a9dc6810fbce953068723"
   },
   "prospective_contract": {
     "training_end_season": 2025,
@@ -32,22 +32,21 @@
   },
   "model_distribution": "external versioned research artifacts; model bytes are ignored by Git",
   "required_before_final": [
-    "scientific_cross_fitted_calibration_or_explicit_none_decision",
-    "external_artifact_license_and_immutable_version",
+    "public_archive_upload_and_immutable_version",
     "fresh_download_hash_verification",
     "clean_checkout_test_and_smoke",
     "owner_review",
     "annotated_release_tag"
   ],
   "sha256": {
-    "configs/features/feature_ladders.yaml": "bb2371367b581e183dfad704c143403e173eca198489a8a560807033182afb8b",
+    "configs/features/feature_ladders.yaml": "79942e7aac5fb90b5c2ced5bb5d7a74fd3435b4a766ce73c07a484925051d9a7",
     "configs/features/feature_registry.yaml": "1c385038bdc4a2ce4b67c81fcb0b78f4e107ebadc1dac53ce92ceadbfc19192d",
-    "configs/publication/confirmatory_protocol.yaml": "5b499bd8a34e7714ded7d694884f66861319eac32e74423e883f318073b50a2e",
+    "configs/publication/confirmatory_protocol.yaml": "ec82280ac1e440dd8f7bbc147a6e3bcf3914e61e9790d40b9a1d69d9c56c1ef1",
     "configs/publication/canonical_2026_protocol.yaml": "d8380dc3c2314ac093fe7c9224a53ab8a5599976069fc5a833fb2d36c051bc5b",
     "configs/publication/feature_model_matrix.yaml": "48d858aabb720624287300dc801d987c4ef61bfbc0551d83e98466707ef6dcad",
     "configs/environment.gridiron.linux-64.conda.lock.txt": "6d66a44b975e74b947ee25b3204bb9d6a5b0349f595561bc5048022620c3f2e3",
     "configs/environment.gridiron.linux-64.pip.lock.txt": "c54c917402b500b0d84f6a94ddf6745b5f35ce5d3deacc60925632e9cec77be1",
-    "docs/publication_2026/MODEL_ARTIFACT_STATUS.json": "cfc63b2f72115974a8c200da7ab99c23ac157665d32e49ca795e1d2ed37d0e8c",
-    "docs/publication_2026/ROSTER_REGISTRY.json": "5ae8be6267a451646e20dc9859e876a84809caafa02ad7678d5e9fb3f1070ab4"
+    "docs/publication_2026/MODEL_ARTIFACT_STATUS.json": "c0a8162f08d76d1f79cd969b0a8cefdaa8026b4e62317a8262bf41135a676fd4",
+    "docs/publication_2026/ROSTER_REGISTRY.json": "d849d26ce65d13b0d1183e08c901f6fbec5dee917fa676b83a7e4c4661769389"
   }
 }

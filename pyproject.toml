@@ -7,7 +7,7 @@ name = "gridiron_ml"
 version = "0.1.2"
 description = "TDNet: Time-dependent fingerprints and models for college football analytics"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 authors = [{ name = "Thomas J. Burton" }]
 license = { text = "Apache-2.0" }
 
@@ -16,9 +16,14 @@ dependencies = [
   "pandas",
   "pyarrow",
   "requests",
-  "scikit-learn",
+  # Frozen 2025/2026 checkpoints contain estimators serialized by 1.7.2.
+  # Newer releases moved private pickle modules (for example `_loss`).
+  "scikit-learn==1.7.2",
+  # Spline checkpoints use the SciPy 1.16 BSpline pickle representation.
+  "scipy==1.16.2",
   "matplotlib",
   "networkx",
+  "Pillow",
   "shap",
   "tqdm",
   "pyyaml",
@@ -42,6 +47,9 @@ notebooks = [
 visualization = [
   "altair>=5",
   "vl-convert-python>=1.7",
+]
+neural = [
+  "torch",
 ]
 [project.scripts]
 td-sim = "gridiron_ml.td_sim.cli:main"

@@ -1,5 +1,5 @@
-from gridiron_ml.cli._paths import project_root
 #!/usr/bin/env python3
+from gridiron_ml.cli._paths import project_root
 """Build the deterministic 2026 preseason freeze bundle."""
 
 from argparse import ArgumentParser

@@ -1,5 +1,5 @@
-from gridiron_ml.cli._paths import project_root
 #!/usr/bin/env python3
+from gridiron_ml.cli._paths import project_root
 """Build a TDGraph database and conference-styled season visualization."""
 
 from argparse import ArgumentParser

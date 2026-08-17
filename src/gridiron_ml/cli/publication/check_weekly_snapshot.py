@@ -1,5 +1,5 @@
-from gridiron_ml.cli._paths import project_root
 #!/usr/bin/env python3
+from gridiron_ml.cli._paths import project_root
 """Certify cached CFBD endpoint completeness for one prospective season."""
 
 from argparse import ArgumentParser

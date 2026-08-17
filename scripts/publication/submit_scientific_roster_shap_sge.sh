@@ -3,9 +3,9 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 SHAP_CONFIG="${SHAP_CONFIG:-${REPO_ROOT}/configs/publication/scientific_roster_shap_study.yaml}"
-SHAP_OUTPUT_ROOT="${SHAP_OUTPUT_ROOT:-/groups/bsavoie2/tburton2/TDNet/publication_artifacts/scientific_roster_shap/provisional_corrected_f6_v1}"
+SHAP_OUTPUT_ROOT="${SHAP_OUTPUT_ROOT:-/groups/bsavoie2/tburton2/TDNet/publication_artifacts/scientific_roster_shap/corrected_f6_final_v1}"
 CONDA_ENV="${CONDA_ENV:-gridiron}"
-TC="${TC:-30}"
+TC="${TC:-25}"
 HVMEM="${HVMEM:-16G}"
 mkdir -p "${SHAP_OUTPUT_ROOT}/job_logs"
 

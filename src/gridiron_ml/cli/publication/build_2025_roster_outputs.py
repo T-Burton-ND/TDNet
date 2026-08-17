@@ -36,6 +36,7 @@ from gridiron_ml.publication.recaps import (
     plot_sunday_recap_table,
     vegas_recap_metrics,
     weekly_recap_metrics,
+    write_model_vegas_confusion_artifacts,
     _build_one_model_recaps,
 )
 from gridiron_ml.publication.weekly import summarize_weekly_predictions
@@ -176,6 +177,31 @@ def _weekly_summaries_from_scorecards(*, objective_root: Path, season: int, obje
     if not rows:
         return pd.DataFrame(columns=["season", "week", "objective"])
     return add_cumulative_weekly_metrics(pd.DataFrame(rows))
+
+
+def _write_season_confusion_artifacts(
+    *, objective_root: Path, season: int, objective: str
+) -> None:
+    scorecards = []
+    for week in range(1, 17):
+        path = objective_root / f"week_{week:02d}" / "prediction_vs_actual.csv"
+        if path.exists():
+            scorecards.append(pd.read_csv(path))
+    if not scorecards:
+        return
+    roster_labels = {
+        "wide_f6": "Wide F6 margin roster",
+        "scientific": "Scientific F0-F6 roster",
+    }
+    roster_label = roster_labels.get(
+        objective_root.parents[1].name, f"{objective.title()} roster"
+    )
+    write_model_vegas_confusion_artifacts(
+        pd.concat(scorecards, ignore_index=True),
+        objective_root,
+        season=season,
+        roster_label=roster_label,
+    )
 
 
 def _load_all_model_frames_from_weekly_predictions(
@@ -568,6 +594,9 @@ def _build_objective(
                 pass
         if not summaries.empty:
             summaries.to_csv(existing_summary_path, index=False)
+        _write_season_confusion_artifacts(
+            objective_root=objective_root, season=season, objective=objective
+        )
         return summaries
 
     # Individual model scorecards and cumulative tracks.
@@ -617,6 +646,9 @@ def _build_objective(
     )
     summaries = add_cumulative_weekly_metrics(summaries)
     summaries.to_csv(objective_root / "weekly_summary.csv", index=False)
+    _write_season_confusion_artifacts(
+        objective_root=objective_root, season=season, objective=objective
+    )
     return summaries
 
 

@@ -25,11 +25,10 @@ This produces 120 explanation cells:
 2\ \text{objectives}\times 6\ \text{models}\times 10\ \text{outer folds}=120.
 \]
 
-The bounded provisional run uses 32 background games and 16 held-out
-explanation games per cell while corrected HPS is in flight. The final
-publication run restores 128 background and 256 held-out games after replacing
-the provisional F5-seeded parameters with corrected F6 finalists. Both samples
-are deterministic and remain inside their declared fold partitions.
+The final corrected study uses 128 background games and 256 held-out
+explanation games per cell with the corrected F6 HPS finalists. Both samples
+are deterministic and remain inside their declared fold partitions. The older
+32/16 F5-seeded run is retained only as a superseded provisional artifact.
 
 ## SHAP methods
 

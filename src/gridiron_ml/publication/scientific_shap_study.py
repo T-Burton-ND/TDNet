@@ -28,7 +28,7 @@ def build_shap_manifest(*, project_root: Path, config_path: Path, output_root: P
     cfg = yaml.safe_load(config_path.read_text(encoding="utf-8")) or {}
     scope = cfg["scope"]
     selected = pd.read_parquet(scope["hps_finalists"])
-    seed_tier = str(scope.get("provisional_parameter_source_tier", scope["fingerprint"]))
+    seed_tier = str(scope.get("parameter_source_tier", scope["fingerprint"]))
     selected = selected.loc[selected["feature_config"].astype(str).eq(seed_tier)].copy()
     keys = ["objective", "model_level"]
     if selected.duplicated(keys).any():
@@ -42,7 +42,7 @@ def build_shap_manifest(*, project_root: Path, config_path: Path, output_root: P
             for level in scope["model_levels"]:
                 key = (str(objective), str(level))
                 if key not in selected.index:
-                    raise ValueError(f"Missing provisional HPS parameters for {key} at {seed_tier}.")
+                    raise ValueError(f"Missing HPS parameters for {key} at {seed_tier}.")
                 chosen = selected.loc[key]
                 task_id = len(rows)
                 rows.append(
@@ -72,7 +72,9 @@ def build_shap_manifest(*, project_root: Path, config_path: Path, output_root: P
         output_root / "manifest_report.json",
         {
             "study_id": cfg["study_id"],
-            "status": "provisional_corrected_f6_parameters_seeded_from_f5",
+            "status": str(cfg.get("status", "manifest_built")),
+            "hps_finalists": str(Path(scope["hps_finalists"]).resolve()),
+            "parameter_source_tier": seed_tier,
             "task_count": int(len(manifest)),
             "expected_task_count": int(len(folds) * len(scope["objectives"]) * len(scope["model_levels"])),
             "created_at_utc": datetime.now(timezone.utc).isoformat(),

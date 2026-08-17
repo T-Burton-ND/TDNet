@@ -1,5 +1,5 @@
-from gridiron_ml.cli._paths import project_root
 #!/usr/bin/env python3
+from gridiron_ml.cli._paths import project_root
 """Build honest holdout polls after all 36 refit tasks complete."""
 
 from argparse import ArgumentParser

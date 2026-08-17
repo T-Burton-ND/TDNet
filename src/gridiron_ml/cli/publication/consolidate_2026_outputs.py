@@ -1,5 +1,5 @@
-from gridiron_ml.cli._paths import project_root
 #!/usr/bin/env python3
+from gridiron_ml.cli._paths import project_root
 """Consolidate active 2026 outputs into raw-data and publication-figure roots."""
 
 from argparse import ArgumentParser

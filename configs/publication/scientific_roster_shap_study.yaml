@@ -1,6 +1,6 @@
-version: 1
-study_id: tdnet-scientific-roster-f6-shap-v1
-status: provisional_corrected_f6_run_pending_corrected_hps_reconciliation
+version: 2
+study_id: tdnet-scientific-roster-f6-shap-final-v1
+status: final_corrected_f6_hps
 
 scope:
   fingerprint: F6
@@ -16,9 +16,8 @@ scope:
     M5: configs/models/neural/config_mlp.yaml
     M10: configs/models/knn/config_knn_distance.yaml
   model_families: {M1: linear, M2: spline, M3: tree, M4: boosted, M5: neural, M10: knn}
-  hps_finalists: /groups/bsavoie2/tburton2/TDNet/publication_artifacts/new_fingerprint_hps/experiments/publication_hps_new_fingerprints_scientific_v1/summary/tables/best_configuration_by_cell.parquet
-  provisional_parameter_source_tier: F5
-  final_hps_replacement: /groups/bsavoie2/tburton2/TDNet/publication_artifacts/new_fingerprint_hps/experiments/publication_hps_fingerprint_contract_corrected_scientific_v3/summary/tables/best_configuration_by_cell.parquet
+  hps_finalists: /groups/bsavoie2/tburton2/TDNet/publication_artifacts/new_fingerprint_hps/experiments/publication_hps_fingerprint_contract_corrected_scientific_v3/summary/tables/best_configuration_by_cell.parquet
+  parameter_source_tier: F6
   data: /groups/bsavoie2/tburton2/TDNet/publication_artifacts/fingerprint_ladder_v3/canonical_fingerprint.parquet
 
 splits:
@@ -29,10 +28,8 @@ splits:
   prospective_2025_2026_used_for_selection: false
 
 sampling:
-  # Bounded provisional run while the corrected HPS completes. The final
-  # publication run restores 128/256 after replacing the parameter source.
-  background_rows_per_fold: 32
-  explained_rows_per_fold: 16
+  background_rows_per_fold: 128
+  explained_rows_per_fold: 256
   stratify_explanations_by: [keys_season, keys_week, y_next_margin_sign]
   deterministic_seed: 26084
 

@@ -1,5 +1,5 @@
-from gridiron_ml.cli._paths import project_root
 #!/usr/bin/env python3
+from gridiron_ml.cli._paths import project_root
 """Refresh 2026 data/fingerprints and write a review-gated inspection report."""
 
 from argparse import ArgumentParser

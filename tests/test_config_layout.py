@@ -1,6 +1,8 @@
 from pathlib import Path
 import subprocess
 
+import yaml
+
 from gridiron_ml.pipeline.fetch.cfbd_fetch_v2 import DEFAULT_CONFIG_PATH
 
 
@@ -35,3 +37,23 @@ def test_yaml_configs_live_under_configs_directory():
     assert yaml_paths
     misplaced = [path for path in yaml_paths if path.parts[0] != "configs"]
     assert not misplaced, f"runtime YAML outside configs/: {misplaced}"
+
+
+def test_portable_environment_copies_stay_in_sync():
+    repo_root = Path(__file__).resolve().parents[1]
+    assert (repo_root / "environment.yaml").read_text() == (
+        repo_root / "configs" / "env.yaml"
+    ).read_text()
+
+
+def test_scientific_shap_config_uses_final_corrected_f6_study():
+    repo_root = Path(__file__).resolve().parents[1]
+    config = yaml.safe_load(
+        (repo_root / "configs/publication/scientific_roster_shap_study.yaml").read_text()
+    )
+
+    assert config["status"] == "final_corrected_f6_hps"
+    assert config["scope"]["parameter_source_tier"] == "F6"
+    assert "corrected_scientific_v3" in config["scope"]["hps_finalists"]
+    assert config["sampling"]["background_rows_per_fold"] == 128
+    assert config["sampling"]["explained_rows_per_fold"] == 256

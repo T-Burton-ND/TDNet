@@ -1,5 +1,5 @@
-from gridiron_ml.cli._paths import project_root
 #!/usr/bin/env python3
+from gridiron_ml.cli._paths import project_root
 """Create one-task-per-model honest 2025 holdout refit manifest."""
 
 from argparse import ArgumentParser

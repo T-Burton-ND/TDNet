@@ -72,9 +72,14 @@ For model-family details, see [docs/MODEL_GUIDE.md](docs/MODEL_GUIDE.md). The co
 ## Setup
 
 ```bash
-conda env create -f configs/env.yaml
+conda env create -f environment.yaml
 conda activate gridiron
 ```
+
+Run that command from the repository root. The environment installs TDNet in
+editable mode with the development, notebook, visualization, and neural-model
+extras, so the test suite and all supported local workflows are available after
+the rebuild. `configs/env.yaml` is an identical compatibility copy.
 
 Or install into an existing Python environment:
 

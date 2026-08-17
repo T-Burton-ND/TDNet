@@ -1,5 +1,5 @@
-from gridiron_ml.cli._paths import project_root
 #!/usr/bin/env python3
+from gridiron_ml.cli._paths import project_root
 """Verify local freeze bytes, plus optional tag, DOI, and Sigstore evidence."""
 
 from argparse import ArgumentParser

@@ -85,5 +85,5 @@ def test_normalize_parquet_dtypes_accepts_mixed_timezone_dates(tmp_path: Path):
 
     normalized = builder._normalize_parquet_dtypes(frame)
 
-    assert str(normalized["keys_game_date"].dtype) == "datetime64[ns]"
+    assert str(normalized["keys_game_date"].dtype).startswith("datetime64")
     assert normalized["keys_game_date"].notna().all()

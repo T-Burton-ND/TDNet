@@ -5,7 +5,13 @@ from gridiron_ml.publication.poll_recaps import (
     format_receiving_votes,
     model_consensus_disagreement,
 )
-from gridiron_ml.publication.recaps import grade_postgame_predictions, weekly_recap_metrics
+from gridiron_ml.publication.recaps import (
+    grade_postgame_predictions,
+    model_chalk_upset_matrix,
+    model_vegas_correctness_matrix,
+    weekly_recap_metrics,
+    write_model_vegas_confusion_artifacts,
+)
 from gridiron_ml.experiments.opponent_adjusted import DEFAULT_TRAIN_YEARS, DEFAULT_TEST_YEARS
 from gridiron_ml.publication.selection import select_confirmatory_roster
 
@@ -26,6 +32,42 @@ def test_postgame_grading_separates_su_ats_and_pushes():
     assert metrics["ats_losses"] == 1
     assert metrics["ats_pushes"] == 1
     assert metrics["ats_accuracy_excluding_pushes"] == 0.0
+
+
+def test_model_vegas_confusion_matrices_and_artifacts(tmp_path):
+    games = pd.DataFrame(
+        [
+            # Model and Vegas choose Home; Home wins: both correct, chalk result.
+            {"home_team": "H1", "away_team": "A1", "pred_winner": "H1", "actual_winner": "H1", "market_spread_close": -3.0},
+            # Model chooses Away against home-favorite Vegas; Away wins: model-only correct, upset call/result.
+            {"home_team": "H2", "away_team": "A2", "pred_winner": "A2", "actual_winner": "A2", "market_spread_close": -4.0},
+            # Model chooses home underdog; away favorite wins: Vegas-only correct, model upset call but actual chalk.
+            {"home_team": "H3", "away_team": "A3", "pred_winner": "H3", "actual_winner": "A3", "market_spread_close": 2.0},
+            # Model and Vegas choose away favorite; home wins: both wrong, actual upset.
+            {"home_team": "H4", "away_team": "A4", "pred_winner": "A4", "actual_winner": "H4", "market_spread_close": 5.0},
+            # Missing line is intentionally not graded in either matrix.
+            {"home_team": "H5", "away_team": "A5", "pred_winner": "H5", "actual_winner": "H5", "market_spread_close": None},
+        ]
+    )
+    correctness = model_vegas_correctness_matrix(games).set_index("model_outcome")
+    assert correctness.loc["Model correct"].to_dict() == {"Vegas correct": 1, "Vegas wrong": 1}
+    assert correctness.loc["Model wrong"].to_dict() == {"Vegas correct": 1, "Vegas wrong": 1}
+
+    chalk = model_chalk_upset_matrix(games).set_index("model_pick")
+    assert chalk.loc["Model picks chalk"].to_dict() == {"Actual chalk": 1, "Actual upset": 1}
+    assert chalk.loc["Model picks upset"].to_dict() == {"Actual chalk": 1, "Actual upset": 1}
+
+    outputs = write_model_vegas_confusion_artifacts(
+        games, tmp_path, season=2025, roster_label="Test roster", dpi=60
+    )
+    assert set(outputs) == {
+        "model_vs_vegas_correctness_confusion_matrix",
+        "model_chalk_upset_vs_actual_confusion_matrix",
+    }
+    for csv_path in outputs.values():
+        assert csv_path.exists()
+        assert csv_path.with_suffix(".png").exists()
+        assert csv_path.with_suffix(".svg").exists()
 
 
 def test_poll_disagreement_identifies_outlying_ballot():

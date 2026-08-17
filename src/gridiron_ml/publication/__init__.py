@@ -40,7 +40,16 @@ from .manual_poll import (
     save_manual_ballot,
     validate_ballot,
 )
-from .recaps import build_season_sunday_recaps, build_retrospective_consensus, plot_sunday_recap_table, plot_objective_weekly_comparison, build_individual_model_recaps
+from .recaps import (
+    build_individual_model_recaps,
+    build_retrospective_consensus,
+    build_season_sunday_recaps,
+    model_chalk_upset_matrix,
+    model_vegas_correctness_matrix,
+    plot_objective_weekly_comparison,
+    plot_sunday_recap_table,
+    write_model_vegas_confusion_artifacts,
+)
 from .poll_recaps import build_season_poll_recaps, model_consensus_disagreement
 from .selection import select_confirmatory_roster, write_confirmatory_roster
 from .roster_poll import build_frozen_roster_poll
@@ -91,6 +100,9 @@ __all__ = [
     "plot_sunday_recap_table",
     "plot_objective_weekly_comparison",
     "build_individual_model_recaps",
+    "model_chalk_upset_matrix",
+    "model_vegas_correctness_matrix",
+    "write_model_vegas_confusion_artifacts",
     "build_season_poll_recaps",
     "model_consensus_disagreement",
     "select_confirmatory_roster",

@@ -1,5 +1,5 @@
-from gridiron_ml.cli._paths import project_root
 #!/usr/bin/env python3
+from gridiron_ml.cli._paths import project_root
 """Materialize the learned 2026 weekly/paper roster from the freeze bundle.
 
 The full freeze bundle may contain explicit naive baselines for comparison.

@@ -1,5 +1,5 @@
-from gridiron_ml.cli._paths import project_root
 #!/usr/bin/env python3
+from gridiron_ml.cli._paths import project_root
 """Verify the portable release-candidate manifest and canonical protocol."""
 
 from argparse import ArgumentParser

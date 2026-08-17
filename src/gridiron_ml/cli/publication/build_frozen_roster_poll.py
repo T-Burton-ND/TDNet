@@ -1,5 +1,5 @@
-from gridiron_ml.cli._paths import project_root
 #!/usr/bin/env python3
+from gridiron_ml.cli._paths import project_root
 from argparse import ArgumentParser
 from pathlib import Path
 from gridiron_ml.publication.roster_poll import build_frozen_roster_poll

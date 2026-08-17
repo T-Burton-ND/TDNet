@@ -1,5 +1,5 @@
-from gridiron_ml.cli._paths import project_root
 #!/usr/bin/env python3
+from gridiron_ml.cli._paths import project_root
 """Build weekly prediction-versus-result scorecards for a completed season."""
 
 from argparse import ArgumentParser

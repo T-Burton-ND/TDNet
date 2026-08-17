@@ -1,5 +1,5 @@
-from gridiron_ml.cli._paths import project_root
 #!/usr/bin/env python3
+from gridiron_ml.cli._paths import project_root
 """Generate the Tuesday bundle and X draft after Monday owner approval."""
 
 from argparse import ArgumentParser

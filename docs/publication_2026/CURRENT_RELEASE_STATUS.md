@@ -1,6 +1,7 @@
 # TDNet public-release status
 
-Updated 2026-08-13 after the corrected-fingerprint and roster normalization.
+Updated 2026-08-17 after the corrected-fingerprint, roster normalization, and
+final SHAP-study submission.
 
 ## Canonical definitions
 
@@ -30,6 +31,11 @@ Updated 2026-08-13 after the corrected-fingerprint and roster normalization.
   will be released through a separate research-artifact repository.
 - The repository-local `.env` is ignored, permission 0600, and successfully
   authenticates to CFBD.
+- The rebuilt Python 3.11 environment passes the complete repository suite
+  (316 tests), and the root release-candidate manifest verifies successfully.
+- The final corrected-F6 SHAP study uses the corrected F6 HPS finalists with
+  128 background and 256 held-out rows per fold. SGE array `1364737` contains
+  120 tasks with a concurrency cap of 25; held finalizer `1364738` follows it.
 
 ## Current CFBD preseason availability
 

@@ -118,7 +118,7 @@
   "prospective_matrix_design": "full_factorial_9_fingerprints_by_6_prespecified_model_complexity_classes",
   "registry_version": 2,
   "scientific_roster_source": "explicit lists in this registry; directory inference is prohibited",
-  "status": "CANDIDATE_NOT_FINAL__54_CHECKPOINTS_COMPLETE__CALIBRATION_PENDING",
+  "status": "CANDIDATE_NOT_FINAL__54_CHECKPOINTS_AND_CALIBRATION_COMPLETE",
   "vegas_market_benchmark": [
     "cfbd_declared_line"
   ]

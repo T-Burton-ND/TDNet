@@ -27,8 +27,10 @@ active protocol govern current work.
 
 ### Remaining
 
-- [ ] Let the F0–F7 refit array complete and validate every frozen cell.
-- [ ] Publish the resulting scientific freeze manifests and checksums.
+- [x] Complete the corrected F0–F8 refit and validate all 54 frozen cells.
+- [x] Complete cross-fitted calibration through 2025 and prepare the scientific
+  and wide-roster archives and checksums.
+- [ ] Publish the prepared model archives and verify fresh downloads.
 - [ ] Run the first live weekly poll workflow against the locked 2026 roster.
 - [ ] Complete the final manuscript figures, tables, and prospective-season
   results as data become available.

@@ -1,5 +1,5 @@
-from gridiron_ml.cli._paths import project_root
 #!/usr/bin/env python3
+from gridiron_ml.cli._paths import project_root
 """Fail when a registered trainable publication type lacks HPS and poll support."""
 
 from pathlib import Path

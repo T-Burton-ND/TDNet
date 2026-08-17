@@ -1,5 +1,5 @@
-from gridiron_ml.cli._paths import project_root
 #!/usr/bin/env python3
+from gridiron_ml.cli._paths import project_root
 """Build publication trial/chunk manifests without submitting SGE work."""
 
 from argparse import ArgumentParser

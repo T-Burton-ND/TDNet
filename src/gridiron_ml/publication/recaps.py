@@ -173,6 +173,176 @@ def vegas_recap_metrics(games: pd.DataFrame) -> dict:
     }
 
 
+def model_vegas_correctness_matrix(games: pd.DataFrame) -> pd.DataFrame:
+    """Count Model-correct/incorrect against Vegas-correct/incorrect outcomes."""
+    decisions = _model_vegas_decisions(games)
+    model_correct = decisions["pred_winner"].eq(decisions["actual_winner"])
+    vegas_correct = decisions["vegas_winner"].eq(decisions["actual_winner"])
+    counts = pd.crosstab(
+        pd.Categorical(
+            np.where(model_correct, "Model correct", "Model wrong"),
+            categories=["Model correct", "Model wrong"],
+        ),
+        pd.Categorical(
+            np.where(vegas_correct, "Vegas correct", "Vegas wrong"),
+            categories=["Vegas correct", "Vegas wrong"],
+        ),
+        dropna=False,
+    )
+    counts.index.name = "model_outcome"
+    counts.columns.name = None
+    return counts.reset_index()
+
+
+def model_chalk_upset_matrix(games: pd.DataFrame) -> pd.DataFrame:
+    """Count Model chalk/upset calls against the realized chalk/upset result."""
+    decisions = _model_vegas_decisions(games)
+    model_upset = decisions["pred_winner"].ne(decisions["vegas_winner"])
+    actual_upset = decisions["actual_winner"].ne(decisions["vegas_winner"])
+    counts = pd.crosstab(
+        pd.Categorical(
+            np.where(model_upset, "Model picks upset", "Model picks chalk"),
+            categories=["Model picks chalk", "Model picks upset"],
+        ),
+        pd.Categorical(
+            np.where(actual_upset, "Actual upset", "Actual chalk"),
+            categories=["Actual chalk", "Actual upset"],
+        ),
+        dropna=False,
+    )
+    counts.index.name = "model_pick"
+    counts.columns.name = None
+    return counts.reset_index()
+
+
+def write_model_vegas_confusion_artifacts(
+    games: pd.DataFrame,
+    output_dir: str | Path,
+    *,
+    season: int,
+    roster_label: str,
+    dpi: int = 180,
+) -> dict[str, Path]:
+    """Write the two season-level Model/Vegas confusion matrices as CSV/PNG/SVG."""
+    output = Path(output_dir)
+    output.mkdir(parents=True, exist_ok=True)
+    specs = (
+        (
+            "model_vs_vegas_correctness_confusion_matrix",
+            model_vegas_correctness_matrix(games),
+            "model_outcome",
+            "Model correctness × Vegas correctness",
+            "Vegas outcome",
+            "Model outcome",
+        ),
+        (
+            "model_chalk_upset_vs_actual_confusion_matrix",
+            model_chalk_upset_matrix(games),
+            "model_pick",
+            "Model chalk/upset call × actual result",
+            "Actual result relative to closing-line favorite",
+            "Model pick relative to closing-line favorite",
+        ),
+    )
+    written: dict[str, Path] = {}
+    for stem, table, row_column, title, xlabel, ylabel in specs:
+        csv_path = output / f"{stem}.csv"
+        table.to_csv(csv_path, index=False)
+        png_path = output / f"{stem}.png"
+        _plot_count_matrix(
+            table,
+            row_column=row_column,
+            path=png_path,
+            title=f"{season} {roster_label}\n{title}",
+            xlabel=xlabel,
+            ylabel=ylabel,
+            dpi=dpi,
+        )
+        written[stem] = csv_path
+    return written
+
+
+def _model_vegas_decisions(games: pd.DataFrame) -> pd.DataFrame:
+    required = {
+        "home_team",
+        "away_team",
+        "pred_winner",
+        "actual_winner",
+        "market_spread_close",
+    }
+    missing = sorted(required - set(games.columns))
+    if missing:
+        raise ValueError(f"Model/Vegas confusion matrices require columns: {missing}")
+    out = games.copy()
+    spread = pd.to_numeric(out["market_spread_close"], errors="coerce")
+    valid = (
+        spread.notna()
+        & out["home_team"].notna()
+        & out["away_team"].notna()
+        & out["pred_winner"].notna()
+        & out["actual_winner"].notna()
+    )
+    out = out.loc[valid, ["home_team", "away_team", "pred_winner", "actual_winner"]].copy()
+    # The project convention converts the home-team spread to an implied home
+    # margin by negating it; zero therefore follows winner_from_margin's away side.
+    out["vegas_winner"] = np.where(
+        spread.loc[valid].lt(0), out["home_team"], out["away_team"]
+    )
+    return out.reset_index(drop=True)
+
+
+def _plot_count_matrix(
+    table: pd.DataFrame,
+    *,
+    row_column: str,
+    path: str | Path,
+    title: str,
+    xlabel: str,
+    ylabel: str,
+    dpi: int,
+) -> Path:
+    rows = table[row_column].astype(str).tolist()
+    columns = [column for column in table.columns if column != row_column]
+    values = table[columns].to_numpy(dtype=int)
+    total = int(values.sum())
+    fig, axis = plt.subplots(figsize=(8.2, 6.3))
+    image = axis.imshow(values, cmap="Blues", vmin=0)
+    threshold = float(values.max()) / 2.0 if values.size else 0.0
+    for (row, column), count in np.ndenumerate(values):
+        share = count / total if total else 0.0
+        axis.text(
+            column,
+            row,
+            f"{count:,}\n({share:.1%})",
+            ha="center",
+            va="center",
+            fontsize=15,
+            weight="bold",
+            color="white" if count > threshold else "#17263C",
+        )
+    axis.set_xticks(range(len(columns)), columns)
+    axis.set_yticks(range(len(rows)), rows)
+    axis.set_xlabel(xlabel, labelpad=12)
+    axis.set_ylabel(ylabel, labelpad=12)
+    axis.set_title(title, fontsize=15, weight="bold", pad=16)
+    fig.colorbar(image, ax=axis, label="Games")
+    fig.text(
+        0.5,
+        0.015,
+        f"N = {total:,} games with a captured closing spread. Percentages are shares of all graded games.",
+        ha="center",
+        fontsize=9,
+        color="#555B63",
+    )
+    fig.tight_layout(rect=[0, 0.045, 1, 1])
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(path, dpi=dpi, bbox_inches="tight")
+    fig.savefig(path.with_suffix(".svg"), bbox_inches="tight")
+    plt.close(fig)
+    return path
+
+
 def add_cumulative_weekly_metrics(comparison: pd.DataFrame) -> pd.DataFrame:
     """Add season-to-date objective and Vegas metrics for weekly comparison plots."""
     if comparison.empty:

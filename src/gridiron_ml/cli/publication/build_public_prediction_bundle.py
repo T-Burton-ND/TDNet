@@ -1,5 +1,5 @@
-from gridiron_ml.cli._paths import project_root
 #!/usr/bin/env python3
+from gridiron_ml.cli._paths import project_root
 """Prepare and hash a public-safe immutable prediction bundle."""
 
 from argparse import ArgumentParser
@@ -62,4 +62,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
