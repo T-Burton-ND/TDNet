@@ -18,6 +18,16 @@
   "artifact_type": "TDNet 2026 frozen model release",
   "compression": "deterministic GNU tar with gzip -9 and timestamp suppression",
   "created_at_utc": "2026-08-13T20:04:57.403091+00:00",
-  "external_release_directory": "EXTERNAL_DURABLE_ROOT/publication_artifacts/release_archives/2026_v1",
-  "status": "verified_local_archives_awaiting_public_upload"
+  "public_release": {
+    "access_right": "open",
+    "concept_doi": "10.5281/zenodo.22049030",
+    "concept_url": "https://doi.org/10.5281/zenodo.22049030",
+    "record_url": "https://zenodo.org/records/22049229",
+    "version": "1.1",
+    "version_doi": "10.5281/zenodo.22049229",
+    "version_url": "https://doi.org/10.5281/zenodo.22049229",
+    "verified_at_utc": "2026-08-21T18:35:36.561174+00:00",
+    "verification": "Zenodo v1.1 file sizes and MD5 checksums match the local canonical archives; SHA-256 values are recorded in MODEL_ARTIFACT_SHA256SUMS."
+  },
+  "status": "published_zenodo_v1_1_verified"
 }

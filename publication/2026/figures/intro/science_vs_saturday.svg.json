@@ -1,0 +1,21 @@
+{
+  "generated_at_utc": "2026-08-21T18:38:39.230096+00:00",
+  "git_sha": "030f78e1c4185d75f828f2d7e19d8df1a789de4d",
+  "rendered_file": "science_vs_saturday.svg",
+  "rendered_file_sha256": "a91eac2c474391995b041bb6833042f2e55718e6e52b0ec798b02910bdcd3f55",
+  "script": "scripts/publication/generate_intro_blog_assets.py",
+  "source_paths": [
+    "FREEZE_MANIFEST.json",
+    "docs/PUBLIC_ARTIFACT_POLICY.md",
+    "docs/publication_2026/FINGERPRINT_REGISTRY.yaml",
+    "docs/publication_2026/FINGERPRINT_EQUATIONS.md",
+    "docs/publication_2026/MODEL_ARTIFACT_RELEASE.json",
+    "docs/publication_2026/MODEL_ARTIFACT_SHA256SUMS",
+    "docs/publication_2026/MODEL_ARTIFACT_STATUS.json",
+    "docs/publication_2026/REGENERATION_2025_STATUS.json",
+    "docs/publication_2026/ROSTER_REGISTRY.json",
+    "configs/features/feature_ladders.yaml",
+    "configs/publication/canonical_2026_protocol.yaml",
+    "src/gridiron_ml/cli/publication/run_2026_preseason_release.py"
+  ]
+}

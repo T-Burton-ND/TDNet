@@ -1,0 +1,42 @@
+{
+  "archive_release_status": "published_zenodo_v1_1_verified",
+  "archives": [
+    {
+      "filename": "tdnet-2026-scientific-f0-f8-models.tar.gz",
+      "model_count": 54,
+      "roster": "F0-F8 x M1/M2/M3/M4/M5/M10 scientific margin roster",
+      "sha256": "15806a1330b32356f253a251c3a64ac97d8974e5b6b62d6f056c4e0009ba44d0",
+      "size_bytes": 550575754
+    },
+    {
+      "filename": "tdnet-2026-f6-wide-margin-models.tar.gz",
+      "model_count": 36,
+      "roster": "F6 wide margin roster",
+      "sha256": "cc4bd3bbbe42f2689117302dbbbfb7164276178371e10b889116253f3caed1c0",
+      "size_bytes": 1286174490
+    }
+  ],
+  "calibration_status": "complete_cross_fitted_oof_through_2025",
+  "freeze_manifest_status": "candidate_not_final",
+  "git_sha": "030f78e1c4185d75f828f2d7e19d8df1a789de4d",
+  "market_free_prospective_scientific_cells": 42,
+  "market_tiers_permitted_in_official_predictions_or_polls": false,
+  "note": "The concept DOI identifies the latest Zenodo version; the version DOI identifies this exact v1.1 archive record.",
+  "official_weekly_prediction_deadline": "Thursday 23:59 America/New_York",
+  "operational_f6_cells": 36,
+  "prospective_season": 2026,
+  "public_artifact": {
+    "access_right": "open",
+    "concept_doi": "10.5281/zenodo.22049030",
+    "concept_url": "https://doi.org/10.5281/zenodo.22049030",
+    "record_url": "https://zenodo.org/records/22049229",
+    "verification": "Zenodo v1.1 file sizes and MD5 checksums match the local canonical archives; SHA-256 values are recorded in MODEL_ARTIFACT_SHA256SUMS.",
+    "verified_at_utc": "2026-08-21T18:35:36.561174+00:00",
+    "version": "1.1",
+    "version_doi": "10.5281/zenodo.22049229",
+    "version_url": "https://doi.org/10.5281/zenodo.22049229"
+  },
+  "scientific_checkpoints": 54,
+  "scope": "FBS vs FBS regular season",
+  "training_through": 2025
+}

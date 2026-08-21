@@ -49,6 +49,9 @@ docs/publication_*/**/*.csv.gz
 docs/publication_2026/scientific_roster_shap/
 publication/**/*.csv
 publication/**/*.csv.gz
+# A compact, source-only ladder table accompanies the public introductory
+# figure; it contains canonical labels, not CFBD or derived result rows.
+!publication/2026/figures/intro/fingerprint_ladder.csv
 
 # Model checkpoints: regenerate locally or store in an external artifact store.
 *.pkl

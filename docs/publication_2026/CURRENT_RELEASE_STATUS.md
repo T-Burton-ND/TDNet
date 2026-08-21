@@ -27,8 +27,10 @@ final SHAP-study submission.
   through 2025. Its market-bearing F7/F8 cells are comparative-only.
 - TDNet-authored code uses Apache-2.0. CFBD rows, credentials, third-party
   marks, and separately distributed model artifacts are excluded.
-- Public notebooks have saved outputs cleared. Model bytes remain ignored and
-  will be released through a separate research-artifact repository.
+- Public notebooks have saved outputs cleared. Model bytes remain ignored by
+  Git and are published as the open Zenodo v1.1 research artifact: concept DOI
+  [`10.5281/zenodo.22049030`](https://doi.org/10.5281/zenodo.22049030), exact
+  version DOI [`10.5281/zenodo.22049229`](https://doi.org/10.5281/zenodo.22049229).
 - The repository-local `.env` is ignored, permission 0600, and successfully
   authenticates to CFBD.
 - The rebuilt Python 3.11 environment passes the complete repository suite
@@ -54,12 +56,9 @@ returning production.
 
 ## Open before public release
 
-1. Upload the two prepared, locally verified model archives to the public
-   artifact host and verify fresh downloads against the published SHA-256 sums.
-2. Review third-party team marks/logos included in curated figures.
-3. The local full suite and release verifier pass; rerun the archive-based clean-checkout
+1. The local full suite and release verifier pass; rerun the archive-based clean-checkout
    smoke pass on the normalized root commit.
-4. Create the final annotated tag only after all release gates pass.
+2. Create the final annotated tag only after all release gates pass.
 
 The requested four-way 2025 regeneration is complete and verified; see
 `REGENERATION_2025.md` and `REGENERATION_2025_STATUS.json`. Every package has

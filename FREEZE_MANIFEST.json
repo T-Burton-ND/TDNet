@@ -32,8 +32,6 @@
   },
   "model_distribution": "external versioned research artifacts; model bytes are ignored by Git",
   "required_before_final": [
-    "public_archive_upload_and_immutable_version",
-    "fresh_download_hash_verification",
     "clean_checkout_test_and_smoke",
     "owner_review",
     "annotated_release_tag"

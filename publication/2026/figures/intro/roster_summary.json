@@ -1,0 +1,10 @@
+{
+  "automated_top25_voting_members": 33,
+  "market_bearing_comparison_only_cells": 12,
+  "market_free_prospective_poll_eligible_cells": 42,
+  "owner_manual_ballot": "separately reported; excluded from model consensus and performance metrics",
+  "scientific_margin_cells": 54,
+  "wide_f6_equal_weight_ensembles": 2,
+  "wide_f6_learned_estimators": 34,
+  "wide_f6_operational_margin_cells": 36
+}

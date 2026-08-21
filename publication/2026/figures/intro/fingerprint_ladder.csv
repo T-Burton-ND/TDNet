@@ -1,0 +1,10 @@
+fingerprint,label,cumulative_information_families
+F0,Minimal strength baseline,"structural, sample_size, preseason_prior"
+F1,Raw box scores,"F0, box_score, box_score_offense, box_score_defense, box_score_general, box_score_special_teams"
+F2,Efficiency and rates,"F1, efficiency"
+F3,Opponent adjusted,"F2, opponent_adjusted"
+F4,Contextual football profile,"F3, situational, returning_production, coaching"
+F5,Temporal dynamics,"F4, temporal"
+F6,Complete market-free TDNet fingerprint,"F5, schedule_graph"
+F7,Market-only benchmark,market
+F8,Complete fingerprint plus market information,"F6, market"
