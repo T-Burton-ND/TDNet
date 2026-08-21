@@ -43,6 +43,10 @@ docs/publication_*/**/*.csv.gz
 !docs/publication_2026/FINGERPRINT_FEATURE_MATRIX.csv
 !docs/publication_2026/weekly_learned_model_inventory.csv
 !docs/publication_2026/matrix/final_checkpoint_roster_proposal.csv
+
+# In-progress SHAP renders contain interim analyses and generated supporting
+# tables.  Publish only a separately reviewed final figure suite.
+docs/publication_2026/scientific_roster_shap/
 publication/**/*.csv
 publication/**/*.csv.gz
 

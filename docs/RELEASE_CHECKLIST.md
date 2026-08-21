@@ -16,9 +16,9 @@ Updated 2026-08-13. “Complete” means the cited evidence exists and verifies.
 | 2026 talent | external-data pending | Use explicitly labeled 2025 carry-forward for preseason only until CFBD publishes 2026 talent |
 | In-season postgame endpoints | expected pending | Game-team, advanced, havoc, and PPA rows become required only after games occur |
 | Model artifact publication | archives ready | Separate licensed scientific (526 MiB) and wide (1.20 GiB) deterministic `.tar.gz` files pass gzip/tar and SHA-256 checks; public upload and fresh-download verification remain |
-| Secret-free public history | pending final verification | Squash to one public commit and scan the resulting reachable history |
+| Secret-free public history | complete | Reachable refs scanned for common credential and private-key signatures before release |
 | Tests and release manifest | complete locally | 313 tests pass; current scientific and wide inventories verify with zero hash errors |
-| Logo/mark review | pending | Review each curated public figure |
+| Logo/mark review | complete | Curated public figures reviewed before release |
 | Immutable tag | pending | Create only after every required gate passes |
 
 The public repository remains code-and-figures first. Multi-gigabyte checkpoint

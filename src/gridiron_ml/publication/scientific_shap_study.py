@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 import json
+import os
 from pathlib import Path
 import time
 
@@ -117,7 +118,7 @@ def run_shap_task(*, manifest_path: Path, config_path: Path, task_id: int, force
         model_cfg["seed"] = int(row["seed"])
         model_cfg["loss_function"] = "WinnerAccuracy" if row["objective"] == "winner" else "MAE"
         if isinstance(model_cfg.get("params"), dict) and "n_jobs" in model_cfg["params"]:
-            model_cfg["params"]["n_jobs"] = 1
+            model_cfg["params"]["n_jobs"] = max(1, int(os.environ.get("SHAP_MODEL_N_JOBS", "1")))
         model = build_model_from_config({"family": row["model_family"], **model_cfg})
         builder = MatchupBuilder(representation="unit_matchup")
         fingerprints = StaticFrameFingerprints(frame)
@@ -153,6 +154,11 @@ def run_shap_task(*, manifest_path: Path, config_path: Path, task_id: int, force
         importance.insert(0, "objective", str(row["objective"]))
         atomic_write_frame(importance, out / "source_importance.parquet")
         importance.to_csv(out / "source_importance.csv", index=False)
+        effects = source_effects(values, explain, source_features)
+        effects.insert(0, "outer_fold", int(row["outer_fold"]))
+        effects.insert(0, "model_level", str(row["model_level"]))
+        effects.insert(0, "objective", str(row["objective"]))
+        atomic_write_frame(effects, out / "source_effects.parquet")
         residual = predictions - (np.asarray(base_values).reshape(-1) + values.sum(axis=1))
         result = {
             "status": "success",
@@ -165,6 +171,7 @@ def run_shap_task(*, manifest_path: Path, config_path: Path, task_id: int, force
             "matchup_feature_count": len(builder.feature_names()),
             "n_background": len(background),
             "n_explained": len(explain),
+            "effect_rows": len(effects),
             "explainer_method": "end_to_end_permutation",
             "output_scale": "home_win_probability" if row["objective"] == "winner" else "margin_points",
             "max_abs_additivity_error": float(np.nanmax(np.abs(residual))),
@@ -223,6 +230,7 @@ def permutation_shap(*, model, builder, background, explain, source_features, ob
     explanation = explainer(
         explain.to_numpy(dtype=float),
         max_evals=2 * explain.shape[1] + 1,
+        batch_size=max(1, int(os.environ.get("SHAP_PREDICTION_BATCH_SIZE", "512"))),
         silent=True,
     )
     return (
@@ -250,10 +258,34 @@ def aggregate_source_importance(values: np.ndarray, source_features: list[str]) 
     )
 
 
+def source_effects(
+    values: np.ndarray,
+    explained_pairs: pd.DataFrame,
+    source_features: list[str],
+) -> pd.DataFrame:
+    """Return long-form per-observation SHAP values for home and away coordinates."""
+    values = np.asarray(values, dtype=float)
+    count = len(source_features)
+    if values.ndim != 2 or values.shape != (len(explained_pairs), 2 * count):
+        raise ValueError("SHAP values and explained matchup coordinates have incompatible shapes.")
+    coordinates = explained_pairs.to_numpy(dtype=float)
+    rows = len(explained_pairs)
+    return pd.DataFrame(
+        {
+            "explained_row": np.repeat(np.arange(rows), 2 * count),
+            "team_side": np.tile(np.repeat(["home", "away"], count), rows),
+            "source_feature": np.tile(source_features, 2 * rows),
+            "feature_value": coordinates.reshape(-1),
+            "shap_value": values.reshape(-1),
+        }
+    )
+
+
 def finalize_shap(*, manifest_path: Path, output_root: Path) -> dict:
     manifest = pd.read_parquet(manifest_path)
     results = []
     importance = []
+    effects = []
     for row in manifest.itertuples(index=False):
         out = Path(row.output_path)
         result_path = out / "result.json"
@@ -262,12 +294,18 @@ def finalize_shap(*, manifest_path: Path, output_root: Path) -> dict:
         table_path = out / "source_importance.parquet"
         if table_path.exists():
             importance.append(pd.read_parquet(table_path))
+        effects_path = out / "source_effects.parquet"
+        if effects_path.exists():
+            effects.append(pd.read_parquet(effects_path))
     result_frame = pd.DataFrame(results)
     importance_frame = pd.concat(importance, ignore_index=True) if importance else pd.DataFrame()
+    effects_frame = pd.concat(effects, ignore_index=True) if effects else pd.DataFrame()
     summary = output_root / "summary"
     summary.mkdir(parents=True, exist_ok=True)
     atomic_write_frame(result_frame, summary / "task_status.parquet")
     atomic_write_frame(importance_frame, summary / "source_importance.parquet")
+    if not effects_frame.empty:
+        atomic_write_frame(effects_frame, summary / "source_effects.parquet")
     if not importance_frame.empty:
         consensus = (
             importance_frame.groupby(["objective", "source_feature"], as_index=False)
@@ -288,6 +326,7 @@ def finalize_shap(*, manifest_path: Path, output_root: Path) -> dict:
         "successful_tasks": int(result_frame.get("status", pd.Series(dtype=str)).eq("success").sum()),
         "failed_tasks": int(result_frame.get("status", pd.Series(dtype=str)).eq("failed").sum()),
         "importance_rows": int(len(importance_frame)),
+        "effect_rows": int(len(effects_frame)),
     }
     atomic_write_json(summary / "coverage.json", report)
     return report
