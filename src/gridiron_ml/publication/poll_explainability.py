@@ -19,6 +19,7 @@ from .figure_theme import TDNET_COLORS
 TDNET = TDNET_COLORS["signal_orange"]
 AP = TDNET_COLORS["ion_blue"]
 NAVY = TDNET_COLORS["midnight_gridiron"]
+PINK = TDNET_COLORS["edge_pink"]
 SLATE = TDNET_COLORS["slate"]
 MIST = TDNET_COLORS["polar_mist"]
 GRAY = TDNET_COLORS["medium_gray"]
@@ -144,7 +145,7 @@ def plot_top25_discrepancy_features(signals: pd.DataFrame, path: str | Path, *, 
     fig.suptitle(title, fontsize=17, weight="bold", x=.07, ha="left", y=.985)
     for axis, team in zip(axes[:, 0], teams):
         frame = signals.loc[signals["team"].astype(str).eq(team)].copy().sort_values("signal_z")
-        colors = [TDNET if value >= 0 else NAVY for value in frame["signal_z"]]
+        colors = [NAVY if value >= 0 else PINK for value in frame["signal_z"]]
         axis.barh(frame["family"], frame["signal_z"], color=colors, height=.58)
         axis.axvline(0, color=SLATE, lw=.8)
         row = frame.iloc[0]
@@ -153,7 +154,7 @@ def plot_top25_discrepancy_features(signals: pd.DataFrame, path: str | Path, *, 
         axis.set_xlabel("Standardized fingerprint difference from AP-rank peers")
         axis.grid(axis="x", color=MIST, lw=.8)
         axis.spines[["top", "right", "left"]].set_visible(False)
-    fig.text(.07, .012, "Orange = signal associated with TDNet ranking the team higher than AP peers; navy = lower. Descriptive AP-peer proxy only: it does not explain voters, establish causation, or infer unencoded context such as coaching changes.", fontsize=8.1, color=SLATE)
+    fig.text(.07, .012, "Midnight gridiron = signal associated with TDNet ranking the team higher than AP peers; edge pink = lower. Descriptive AP-peer proxy only: it does not explain voters, establish causation, or infer unencoded context such as coaching changes.", fontsize=8.1, color=SLATE)
     fig.tight_layout(rect=[0, .045, 1, .95])
     return _save(fig, path, dpi)
 
