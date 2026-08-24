@@ -121,8 +121,10 @@ overlaid when available.
 Every frozen margin-objective roster poll now writes its blog figures beside
 `tdnet_top25.png` and `tdnet_model_ballots.png`:
 
-1. `top25_consensus_spread.png` shows every model's ballot rank for each TDNet
-   Top-25 team, with the TDNet consensus and official AP markers.
+1. `top25_consensus_spread.png` summarizes every model ballot for each TDNet
+   Top-25 team: full displayed range, middle-50% interval, median, TDNet
+   consensus, and official AP marker. Ranks above 40 are capped and counted at
+   the right edge; the full ballot matrix remains the forensic record.
 2. `top25_discrepancy_features.png` (when an AP snapshot and the current F6
    state are available) selects the three largest absolute TDNet-versus-AP gaps
    among teams ranked by both. It summarizes the three largest grouped,
