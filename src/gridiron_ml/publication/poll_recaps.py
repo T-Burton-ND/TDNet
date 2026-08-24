@@ -13,7 +13,9 @@ from gridiron_ml.td_run.poll_viz import plot_ballot_logo_grid, plot_weekly_top25
 from gridiron_ml.td_run.poll_viz import (
     abbreviate_team_name, draw_team_logo, resolve_team_logo_path,
 )
+from .bundles import sha256_file
 from .polls import add_team_records, load_postweek_ap_top25
+from .social_top10 import render_top10_social
 
 
 def build_season_poll_recaps(
@@ -37,6 +39,9 @@ def build_season_poll_recaps(
         else pd.read_csv(games_path) if games_path else pd.DataFrame()
     )
     summaries = []
+    generated_at_utc = datetime.now(timezone.utc).isoformat()
+    poll_source = source / "weekly_poll_top25.csv"
+    poll_source_sha256 = sha256_file(poll_source)
     for week in sorted(pd.to_numeric(poll["week"], errors="coerce").dropna().astype(int).unique()):
         week_poll = poll[pd.to_numeric(poll["week"], errors="coerce").eq(week)].copy()
         week_ballots = ballots[pd.to_numeric(ballots["week"], errors="coerce").eq(week)].copy()
@@ -65,7 +70,7 @@ def build_season_poll_recaps(
 
         plot_consensus_poll_table(
             week_poll, directory / "tdnet_top25.png",
-            title=f"2025 Week {week}: TDNet {objective.title()}-Model Top 25",
+            title=f"{season} Week {week}: TDNet {objective.title()}-Model Top 25",
             receiving_votes=receiving_text,
             logo_dir=logo_dir,
         )
@@ -74,20 +79,46 @@ def build_season_poll_recaps(
         )
         plot_ballot_logo_grid(
             top_ballots, directory / "per_model_top25.png", top_n=top_n,
-            logo_dir=logo_dir, title=f"2025 Week {week}: {objective.title()}-Model Top 25 Ballots",
+            logo_dir=logo_dir, title=f"{season} Week {week}: {objective.title()}-Model Top 25 Ballots",
         )
+        # The margin consensus is TDNet's canonical public ranking.  Emit its
+        # feed and landscape derivatives beside the Sunday Top 25 artifacts so
+        # every caller of this workflow receives the same social package.
+        if objective == "margin":
+            render_top10_social(
+                week_poll,
+                directory / "tdnet_top10_social_4x5.png",
+                season=season,
+                week=week,
+                logo_dir=logo_dir,
+                variant="4x5",
+                generated_at_utc=generated_at_utc,
+                source_sha256=poll_source_sha256,
+                reference_label="AP",
+            )
+            render_top10_social(
+                week_poll,
+                directory / "tdnet_top10_social_16x9.png",
+                season=season,
+                week=week,
+                logo_dir=logo_dir,
+                variant="16x9",
+                generated_at_utc=generated_at_utc,
+                source_sha256=poll_source_sha256,
+                reference_label="AP",
+            )
         if not ap.empty:
             plot_tdnet_vs_ap_poll(
                 week_poll.rename(columns={"keys_team": "team"}), ap,
                 directory / "tdnet_vs_ap_top25.png",
-                title=f"2025 Week {week}: TDNet vs. AP Top 25",
+                title=f"{season} Week {week}: TDNet vs. AP Top 25",
                 logo_dir=logo_dir,
             )
         disagreement = model_consensus_disagreement(week_poll, week_ballots, top_n=top_n)
         disagreement.to_csv(directory / "model_consensus_disagreement.csv", index=False)
         plot_model_disagreement(
             disagreement, directory / "model_consensus_disagreement.png",
-            title=f"2025 Week {week}: Models Farthest from the {objective.title()} Consensus",
+            title=f"{season} Week {week}: Models Farthest from the {objective.title()} Consensus",
         )
         summaries.extend(disagreement.assign(week=week, objective=objective).to_dict("records"))
     summary = pd.DataFrame(summaries)

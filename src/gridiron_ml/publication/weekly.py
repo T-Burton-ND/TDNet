@@ -24,6 +24,7 @@ from .preseason_states import build_preseason_state_frame
 from .polls import load_ap_top25
 from .poll_recaps import plot_tdnet_vs_ap_poll
 from .preseason_rankings import load_preseason_performance_rankings
+from .social_top10 import render_top10_social
 from .team_labels import format_team_with_ap_rank
 
 
@@ -245,6 +246,41 @@ def build_weekly_blog_package(
             generated_at_utc=created_at,
         ),
     }
+    if not tdnet_top25.empty:
+        social_poll = tdnet_top25.copy()
+        if not ap_top25.empty and "reference_rank" not in social_poll:
+            ap_reference = ap_top25.loc[:, ["team", "rank"]].rename(
+                columns={"rank": "reference_rank"}
+            )
+            social_poll = social_poll.merge(ap_reference, on="team", how="left")
+        try:
+            git_commit = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], cwd=root, text=True
+            ).strip()
+        except (OSError, subprocess.CalledProcessError):
+            git_commit = None
+        figure_paths["tdnet_top10_social_4x5"] = render_top10_social(
+            social_poll,
+            figures / f"week_{int(week):02d}_tdnet_top10_social_4x5.png",
+            season=season,
+            week=week,
+            logo_dir=logo_dir,
+            variant="4x5",
+            generated_at_utc=created_at,
+            git_commit=git_commit,
+            source_sha256=sha256_file(tdnet_top25_path) if tdnet_top25_path else None,
+        )
+        figure_paths["tdnet_top10_social_16x9"] = render_top10_social(
+            social_poll,
+            figures / f"week_{int(week):02d}_tdnet_top10_social_16x9.png",
+            season=season,
+            week=week,
+            logo_dir=logo_dir,
+            variant="16x9",
+            generated_at_utc=created_at,
+            git_commit=git_commit,
+            source_sha256=sha256_file(tdnet_top25_path) if tdnet_top25_path else None,
+        )
     if not tdnet_top25.empty and not ap_top25.empty:
         comparison_label = top25_label or "AP Top 25"
         figure_paths["tdnet_vs_ap_top25"] = plot_tdnet_vs_ap_poll(
@@ -265,18 +301,28 @@ def build_weekly_blog_package(
         top25_label=top25_label,
     )
     (blog / "summary.md").write_text(summary_md, encoding="utf-8")
+    social_captions = (
+        "\n\n4. **TDNet Top 10 social graphics.** Mobile-first 4:5 and native 16:9 summaries of the frozen margin-model consensus poll."
+        if not tdnet_top25.empty else ""
+    )
     (blog / "figure_captions.md").write_text(
         "# Figure captions\n\n"
         f"1. **Top 25 matchups.** Consensus frozen-model predictions for {len(top25_games)} games involving a team in {top25_label or 'the supplied Top 25 snapshot'}. Margins are signed from the home team's perspective.\n\n"
         f"2. **All games.** Consensus predictions for {len(consensus)} scheduled games.\n\n"
-        f"3. **Closest games.** The ten scheduled games with the smallest absolute consensus predicted margins.\n",
+        f"3. **Closest games.** The ten scheduled games with the smallest absolute consensus predicted margins.{social_captions}\n",
         encoding="utf-8",
+    )
+    social_alt_text = (
+        "\n\nThe TDNet Top 10 social graphics rank the ten leading teams in the frozen margin-model consensus poll. "
+        "The number-one team is a large hero node, numbers two and three are supporting nodes, "
+        "and ranks four through ten appear in a compact high-contrast list with team logos."
+        if not tdnet_top25.empty else ""
     )
     (blog / "alt_text.md").write_text(
         "# Alt text\n\n"
         "Top 25 matchup cards show each away and home team logo, poll rank when available, and the TDNet consensus predicted winner and margin.\n\n"
         "The all-games table lists kickoff, matchup, predicted winner, signed home margin, home win probability, and model agreement.\n\n"
-        "Closest-game cards show the ten lowest-margin projected games with team logos, predicted winner, margin, home win probability, and model agreement.\n",
+        f"Closest-game cards show the ten lowest-margin projected games with team logos, predicted winner, margin, home win probability, and model agreement.{social_alt_text}\n",
         encoding="utf-8",
     )
     manifest = {
@@ -379,7 +425,15 @@ def load_top25(path: str | Path, *, season: int | None = None, week: int | None 
     team_column = next((c for c in ["team", "keys_team", "school"] if c in frame.columns), None)
     if rank_column is None or team_column is None:
         raise ValueError("Top-25 snapshot needs rank and team/keys_team columns.")
-    out = frame.loc[:, [rank_column, team_column]].rename(
+    optional_columns = [
+        column for column in (
+            "poll_points", "points", "reference_rank", "ap_rank",
+            "first_place_votes", "first_place_vote_count", "ballots_seen", "voter_count",
+            "top25_votes", "ballot_support", "best_rank", "highest_rank",
+        )
+        if column in frame and column not in {rank_column, team_column}
+    ]
+    out = frame.loc[:, [rank_column, team_column, *optional_columns]].rename(
         columns={rank_column: "rank", team_column: "team"}
     )
     out["rank"] = pd.to_numeric(out["rank"], errors="coerce")
