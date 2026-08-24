@@ -88,6 +88,7 @@ def build_ap_peer_signal_proxy(
     reference_poll: pd.DataFrame | None = None,
     top_n: int = 3,
     peer_window: int = 3,
+    prioritize_tdnet_top_n: int = 10,
 ) -> pd.DataFrame:
     """Return the largest grouped fingerprint differences from AP-rank peers.
 
@@ -103,7 +104,13 @@ def build_ap_peer_signal_proxy(
         return pd.DataFrame()
     candidates = poll.dropna(subset=["ap_rank"]).copy()
     candidates["gap"] = pd.to_numeric(candidates["rank"], errors="coerce") - pd.to_numeric(candidates["ap_rank"], errors="coerce")
-    candidates = candidates.reindex(candidates["gap"].abs().sort_values(ascending=False).index).head(top_n)
+    candidates["absolute_gap"] = candidates["gap"].abs()
+    candidates = candidates.sort_values(["absolute_gap", "rank", "keys_team"], ascending=[False, True, True], kind="stable")
+    # Preserve one high-interest disagreement from TDNet's own Top 10 before
+    # filling the remaining panels from the largest gaps overall.
+    priority = candidates.loc[pd.to_numeric(candidates["rank"], errors="coerce").le(prioritize_tdnet_top_n)].head(1)
+    selected = pd.concat([priority, candidates], ignore_index=False)
+    candidates = selected.drop_duplicates("keys_team", keep="first").head(top_n).drop(columns="absolute_gap")
     if candidates.empty or "keys_team" not in feature_frame:
         return pd.DataFrame()
     meta = feature_metadata.copy()

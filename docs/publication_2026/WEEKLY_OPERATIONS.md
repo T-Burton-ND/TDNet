@@ -126,8 +126,9 @@ Every frozen margin-objective roster poll now writes its blog figures beside
    consensus, and official AP marker. Ranks above 40 are capped and counted at
    the right edge; the full ballot matrix remains the forensic record.
 2. `top25_discrepancy_features.png` (when an AP snapshot and the current F6
-   state are available) selects the three largest absolute TDNet-versus-AP gaps
-   among teams ranked by both. It summarizes the three largest grouped,
+   state are available) guarantees inclusion of the largest absolute
+   TDNet-versus-AP gap within TDNet's Top 10, then fills the remaining panels
+   with the largest gaps among teams ranked by both. It summarizes the three largest grouped,
    standardized fingerprint differences from AP-rank peers.
 
 The second chart is deliberately a descriptive comparison aid, not SHAP or a
