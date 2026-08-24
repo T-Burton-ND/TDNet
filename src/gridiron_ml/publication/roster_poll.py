@@ -14,6 +14,11 @@ from gridiron_ml.td_run.matchups import MatchupBuilder
 from gridiron_ml.td_run.poll_viz import plot_ballot_logo_grid
 
 from .poll_recaps import aggregate_receiving_votes, format_receiving_votes, plot_consensus_poll_table
+from .poll_explainability import (
+    build_ap_peer_signal_proxy,
+    plot_top25_consensus_spread,
+    plot_top25_discrepancy_features,
+)
 from .preseason_states import build_preseason_state_frame
 
 
@@ -60,6 +65,7 @@ def build_frozen_roster_poll(
         raise ValueError(f"Frozen roster is missing {sorted(required - set(inventory))}.")
     ballots = []
     failures = []
+    explanation_frame: pd.DataFrame | None = None
     enabled = inventory.loc[
         inventory.get("use_in_tdnet_poll", True).astype(str).str.lower().isin({"1", "true", "yes", "y"})
     ].copy()
@@ -95,6 +101,17 @@ def build_frozen_roster_poll(
                 )
                 shared = [column for column in frame if column in state]
                 frame = pd.concat([frame.loc[keep], state[shared]], ignore_index=True, sort=False)
+            # The wide margin roster uses F6. Retain only the public-week team
+            # state for a descriptive, non-model-mutating graphic.
+            if str(group.get("feature_config", pd.Series("", index=group.index)).iloc[0]) == "F6":
+                if int(season) == 2026:
+                    explanation_frame = state.copy()
+                else:
+                    is_public_week = (
+                        pd.to_numeric(frame["keys_season"], errors="coerce").eq(int(season))
+                        & pd.to_numeric(frame["keys_week"], errors="coerce").eq(int(week))
+                    )
+                    explanation_frame = frame.loc[is_public_week].copy()
             models = []
             for _, row in group.iterrows():
                 checkpoint = Path(str(row["checkpoint_path"]))
@@ -167,4 +184,17 @@ def build_frozen_roster_poll(
             ballots, output / "tdnet_model_ballots.png", top_n=top_n, logo_dir=logo_dir,
             title=f"{season} Week {week}: TDNet {poll_objective.title()}-Objective Model Ballots",
         )
+        plot_top25_consensus_spread(
+            poll, ballots, output / "top25_consensus_spread.png",
+            reference_poll=reference_poll, reference_label=reference_label,
+            title=f"{season} Week {week}: TDNet Model Ballot Spread",
+        )
+        metadata_path = root / "docs/publication_2026/FINGERPRINT_FEATURE_MATRIX.csv"
+        if explanation_frame is not None and reference_poll is not None and metadata_path.exists():
+            signals = build_ap_peer_signal_proxy(
+                poll, explanation_frame, pd.read_csv(metadata_path), reference_poll=reference_poll,
+            )
+            if not signals.empty:
+                signals.to_csv(output / "top25_discrepancy_feature_signals.csv", index=False)
+                plot_top25_discrepancy_features(signals, output / "top25_discrepancy_features.png")
     return {"poll": poll, "ballots": ballots, "failures": pd.DataFrame(failures)}

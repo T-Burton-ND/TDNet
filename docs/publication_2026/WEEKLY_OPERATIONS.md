@@ -17,7 +17,7 @@ When a runtime-ready scientific inventory is available, pass it with
 `--scientific-inventory` to the weekly publication pipeline. The full inventory
 must contain 54 cells (F0–F8 × M1/M2/M3/M4/M5/M10). The command then
 writes both `week_<NN>/wide_margin/` and `week_<NN>/scientific/`, including one
-poll, full-ballot PNG, all-game predictions, and Top-25-game predictions for
+poll, consensus-spread PNG, descriptive discrepancy-feature PNG, full-ballot PNG, all-game predictions, and Top-25-game predictions for
 each roster. F7/F8 remain in the research inventory but are automatically
 excluded from official predictions, consensus, and polls.
 
@@ -115,3 +115,23 @@ predictions, figures, failure reports, and a blog draft under
 release package. If 2026 talent remains unavailable, the derived Week-0 state
 uses the labeled 2025 talent carry-forward; live 2026 returning production is
 overlaid when available.
+
+## Top-25 blog graphics
+
+Every frozen margin-objective roster poll now writes its blog figures beside
+`tdnet_top25.png` and `tdnet_model_ballots.png`:
+
+1. `top25_consensus_spread.png` shows every model's ballot rank for each TDNet
+   Top-25 team, with the TDNet consensus and official AP markers.
+2. `top25_discrepancy_features.png` (when an AP snapshot and the current F6
+   state are available) selects the three largest absolute TDNet-versus-AP gaps
+   among teams ranked by both. It summarizes the three largest grouped,
+   standardized fingerprint differences from AP-rank peers.
+
+The second chart is deliberately a descriptive comparison aid, not SHAP or a
+causal decomposition: AP is not a model input, and it must not be read as an
+explanation of AP voters or unencoded information such as a new coach's
+identity. The chart uses only the frozen roster's contemporaneous public-week
+state and the feature-family mapping in
+`docs/publication_2026/FINGERPRINT_FEATURE_MATRIX.csv`; it does not retrain or
+alter any frozen model.

@@ -201,6 +201,9 @@ def main() -> int:
         "Official predictions and polls use only the 42 market-free F0-F6 cells; F7 and F8 are "
         "withheld because they contain market information. The operational wide-margin roster "
         "uses corrected F6, the strongest market-free fingerprint under the prespecified margin-MAE criterion.\n\n"
+        "The generated Top 25 table, consensus-spread graphic, descriptive AP-peer fingerprint graphic, "
+        "and full ballot matrix appear in that order beside each roster poll. The fingerprint graphic is "
+        "a descriptive comparison aid, not a causal explanation of AP voters or unencoded coaching changes.\n\n"
         "The generated comparison tables, ballot figures, Week 1 matchups, and model-failure "
         "reports live beside this draft and should be reviewed before public posting.\n",
         encoding="utf-8",
