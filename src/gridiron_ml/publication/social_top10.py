@@ -910,12 +910,15 @@ def _rank_label(team: SocialTeam) -> str:
     return f"T-{team.social_rank}" if team.tied else f"#{team.social_rank}"
 
 
-def _draw_footer(draw, size, variant, generated_at_utc, git_commit, source_sha256) -> None:
+def _draw_footer(
+    draw, size, variant, generated_at_utc, git_commit, source_sha256,
+    *, left_text="TDNet • FULL TOP 25 IN THE WEEKLY REPORT", source_label="poll",
+) -> None:
     colors = SOCIAL_STYLE["colors"]
     font = _font(SOCIAL_STYLE["font_sizes"][variant]["footer"])
     margin = SOCIAL_STYLE["safe_margin"][variant]
     y = size[1] - (28 if variant == "4x5" else 19)
-    draw.text((margin, y), "TDNet • FULL TOP 25 IN THE WEEKLY REPORT", font=font,
+    draw.text((margin, y), left_text, font=font,
               fill=_rgba(colors["polar_mist"], 155), anchor="lm")
     details = []
     if generated_at_utc:
@@ -923,7 +926,7 @@ def _draw_footer(draw, size, variant, generated_at_utc, git_commit, source_sha25
     if git_commit:
         details.append(f"commit {str(git_commit)[:8]}")
     if source_sha256:
-        details.append(f"poll {str(source_sha256)[:8]}")
+        details.append(f"{source_label} {str(source_sha256)[:8]}")
     if details:
         draw.text((size[0] - margin, y), " • ".join(details), font=font,
                   fill=_rgba(colors["medium_gray"], 185), anchor="rm")

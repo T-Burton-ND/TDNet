@@ -24,6 +24,7 @@ from .preseason_states import build_preseason_state_frame
 from .polls import load_ap_top25
 from .poll_recaps import plot_tdnet_vs_ap_poll
 from .preseason_rankings import load_preseason_performance_rankings
+from .social_predictions import render_predictions_social
 from .social_top10 import render_top10_social
 from .team_labels import format_team_with_ap_rank
 
@@ -49,6 +50,7 @@ def build_weekly_blog_package(
     week: int,
     model_inventory_path: str | Path,
     schedule_snapshot_path: str | Path,
+    market_lines_path: str | Path | None = None,
     output_root: str | Path,
     top25_path: str | Path | None = None,
     top25_label: str | None = None,
@@ -77,6 +79,18 @@ def build_weekly_blog_package(
     logo_dir = Path(logo_dir or root / "data/meta/logos/by_team")
     inventory = pd.read_csv(model_inventory_path)
     schedule = pd.read_parquet(schedule_snapshot_path) if str(schedule_snapshot_path).endswith(".parquet") else pd.read_csv(schedule_snapshot_path)
+    resolved_market_lines = (
+        Path(market_lines_path)
+        if market_lines_path is not None
+        else root / f"data/raw/cfbd/v2/lines/{season}.parquet"
+    )
+    if resolved_market_lines.exists():
+        raw_lines = (
+            pd.read_parquet(resolved_market_lines)
+            if resolved_market_lines.suffix == ".parquet"
+            else pd.read_csv(resolved_market_lines)
+        )
+        schedule = merge_cfbd_market_lines(schedule, raw_lines, season=season, week=week)
     schedule = _normalize_schedule(schedule, season=season, week=week)
     model_entries, load_failures = _load_inventory_models(
         inventory, root, preseason_ranking_path=preseason_ranking_path
@@ -121,7 +135,10 @@ def build_weekly_blog_package(
                     context = context.loc[:, ~context.columns.duplicated()].copy()
                     context = _normalize_matchup_context(context)
                     context = context.merge(schedule, on="game_id", how="left", suffixes=("", "_schedule"))
-                    for column in ["home_team", "away_team", "game_start_time_utc"]:
+                    for column in [
+                        "home_team", "away_team", "game_start_time_utc",
+                        "market_spread_close", "market_over_under",
+                    ]:
                         schedule_column = f"{column}_schedule"
                         if schedule_column in context:
                             if column in context:
@@ -246,6 +263,38 @@ def build_weekly_blog_package(
             generated_at_utc=created_at,
         ),
     }
+    try:
+        git_commit = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=root, text=True
+        ).strip()
+    except (OSError, subprocess.CalledProcessError):
+        git_commit = None
+    if not consensus.empty:
+        predictions_source = tables / "all_games.csv"
+        figure_paths["tdnet_predictions_4x5"] = render_predictions_social(
+            consensus,
+            figures / f"week_{int(week):02d}_tdnet_predictions_4x5.png",
+            season=season,
+            week=week,
+            logo_dir=logo_dir,
+            tdnet_poll=tdnet_top25,
+            variant="4x5",
+            generated_at_utc=created_at,
+            git_commit=git_commit,
+            source_sha256=sha256_file(predictions_source),
+        )
+        figure_paths["tdnet_predictions_16x9"] = render_predictions_social(
+            consensus,
+            figures / f"week_{int(week):02d}_tdnet_predictions_16x9.png",
+            season=season,
+            week=week,
+            logo_dir=logo_dir,
+            tdnet_poll=tdnet_top25,
+            variant="16x9",
+            generated_at_utc=created_at,
+            git_commit=git_commit,
+            source_sha256=sha256_file(predictions_source),
+        )
     if not tdnet_top25.empty:
         social_poll = tdnet_top25.copy()
         if not ap_top25.empty and "reference_rank" not in social_poll:
@@ -253,12 +302,6 @@ def build_weekly_blog_package(
                 columns={"rank": "reference_rank"}
             )
             social_poll = social_poll.merge(ap_reference, on="team", how="left")
-        try:
-            git_commit = subprocess.check_output(
-                ["git", "rev-parse", "HEAD"], cwd=root, text=True
-            ).strip()
-        except (OSError, subprocess.CalledProcessError):
-            git_commit = None
         figure_paths["tdnet_top10_social_4x5"] = render_top10_social(
             social_poll,
             figures / f"week_{int(week):02d}_tdnet_top10_social_4x5.png",
@@ -302,9 +345,12 @@ def build_weekly_blog_package(
     )
     (blog / "summary.md").write_text(summary_md, encoding="utf-8")
     social_captions = (
-        "\n\n4. **TDNet Top 10 social graphics.** Mobile-first 4:5 and native 16:9 summaries of the frozen margin-model consensus poll."
-        if not tdnet_top25.empty else ""
+        "\n\n4. **TDNet prediction social graphics.** Mobile-first 4:5 and native 16:9 summaries of the Top 3 featured games plus the closest unranked Sickos matchup."
     )
+    if not tdnet_top25.empty:
+        social_captions += (
+            "\n\n5. **TDNet Top 10 social graphics.** Mobile-first 4:5 and native 16:9 summaries of the frozen margin-model consensus poll."
+        )
     (blog / "figure_captions.md").write_text(
         "# Figure captions\n\n"
         f"1. **Top 25 matchups.** Consensus frozen-model predictions for {len(top25_games)} games involving a team in {top25_label or 'the supplied Top 25 snapshot'}. Margins are signed from the home team's perspective.\n\n"
@@ -313,11 +359,14 @@ def build_weekly_blog_package(
         encoding="utf-8",
     )
     social_alt_text = (
-        "\n\nThe TDNet Top 10 social graphics rank the ten leading teams in the frozen margin-model consensus poll. "
-        "The number-one team is a large hero node, numbers two and three are supporting nodes, "
-        "and ranks four through ten appear in a compact high-contrast list with team logos."
-        if not tdnet_top25.empty else ""
+        "\n\nThe TDNet prediction social graphics show a hero featured matchup, two supporting games, and a violet Sickos module for the closest projected matchup with no TDNet-ranked teams."
     )
+    if not tdnet_top25.empty:
+        social_alt_text += (
+            "\n\nThe TDNet Top 10 social graphics rank the ten leading teams in the frozen margin-model consensus poll. "
+            "The number-one team is a large hero node, numbers two and three are supporting nodes, "
+            "and ranks four through ten appear in a compact high-contrast list with team logos."
+        )
     (blog / "alt_text.md").write_text(
         "# Alt text\n\n"
         "Top 25 matchup cards show each away and home team logo, poll rank when available, and the TDNet consensus predicted winner and margin.\n\n"
@@ -349,6 +398,8 @@ def build_weekly_blog_package(
         "model_inventory_sha256": sha256_file(model_inventory_path),
         "schedule_snapshot_path": str(Path(schedule_snapshot_path).resolve()),
         "schedule_snapshot_sha256": sha256_file(schedule_snapshot_path),
+        "market_lines_path": str(resolved_market_lines.resolve()) if resolved_market_lines.exists() else None,
+        "market_lines_sha256": sha256_file(resolved_market_lines) if resolved_market_lines.exists() else None,
         "ap_top25_path": str(Path(ap_path).resolve()) if ap_path else None,
         "ap_top25_label": top25_label or "AP Top 25",
         "ranking_source_is_ap": (top25_label or "AP Top 25").strip().casefold() == "ap top 25",
@@ -388,16 +439,18 @@ def summarize_weekly_predictions(long: pd.DataFrame) -> pd.DataFrame:
         "season_type",
     ]
     keys = [key for key in keys if key in long.columns]
-    summary = (
-        long.groupby(keys, dropna=False, as_index=False)
-        .agg(
-            pred_home_margin=("pred_home_margin", "mean"),
-            pred_home_margin_median=("pred_home_margin", "median"),
-            pred_home_win_probability=("pred_home_win_probability", "mean"),
-            model_count=("model_name", "nunique"),
-            model_agreement=("pred_winner", lambda values: values.value_counts(normalize=True).iloc[0]),
-        )
-    )
+    aggregations = {
+        "pred_home_margin": ("pred_home_margin", "mean"),
+        "pred_home_margin_median": ("pred_home_margin", "median"),
+        "pred_home_win_probability": ("pred_home_win_probability", "mean"),
+        "model_count": ("model_name", "nunique"),
+        "model_agreement": (
+            "pred_winner", lambda values: values.value_counts(normalize=True).iloc[0]
+        ),
+    }
+    if "market_spread_close" in long:
+        aggregations["market_spread_close"] = ("market_spread_close", "median")
+    summary = long.groupby(keys, dropna=False, as_index=False).agg(**aggregations)
     summary["pred_winner"] = summary["home_team"].where(
         summary["pred_home_win_probability"] >= 0.5, summary["away_team"]
     )
@@ -747,6 +800,16 @@ def _normalize_schedule(schedule, *, season, week):
         "start_date": "game_start_time_utc",
     }
     frame = frame.rename(columns=rename)
+    if "market_spread_close" not in frame:
+        market_column = next(
+            (column for column in (
+                "vegas_spread_close_as_of_prediction", "vegas_spread",
+                "home_spread", "spread",
+            ) if column in frame),
+            None,
+        )
+        if market_column:
+            frame["market_spread_close"] = frame[market_column]
     required = ["game_id", "season", "week", "game_start_time_utc", "home_team", "away_team"]
     missing = [c for c in required if c not in frame.columns]
     if missing:
@@ -758,7 +821,57 @@ def _normalize_schedule(schedule, *, season, week):
     ]:
         if column not in frame:
             frame[column] = default
-    return frame.loc[:, required + ["neutral_site", "conference_game", "season_type"]].drop_duplicates("game_id")
+    optional = [column for column in ("market_spread_close", "market_over_under") if column in frame]
+    return frame.loc[:, required + ["neutral_site", "conference_game", "season_type", *optional]].drop_duplicates("game_id")
+
+
+def merge_cfbd_market_lines(schedule, raw_lines, *, season, week):
+    """Attach the median available CFBD provider spread to each scheduled game.
+
+    CFBD spreads use the home-team convention: negative means the home team is
+    favored. Empty provider lists stay missing, so a social graphic never
+    invents a market number.
+    """
+    out = schedule.copy()
+    lines = raw_lines.copy()
+    for frame in (out, lines):
+        if "game_id" not in frame and "id" in frame:
+            frame.rename(columns={"id": "game_id"}, inplace=True)
+    season_column = next((c for c in ("season", "year") if c in lines), None)
+    week_column = "week" if "week" in lines else None
+    if season_column:
+        lines = lines.loc[pd.to_numeric(lines[season_column], errors="coerce").eq(int(season))]
+    if week_column:
+        lines = lines.loc[pd.to_numeric(lines[week_column], errors="coerce").eq(int(week))]
+    if "game_id" not in lines or "lines" not in lines:
+        return out
+
+    def provider_median(value):
+        if isinstance(value, np.ndarray):
+            value = value.tolist()
+        if isinstance(value, dict):
+            value = [value]
+        if not isinstance(value, (list, tuple)):
+            return np.nan
+        spreads = [
+            pd.to_numeric(item.get("spread"), errors="coerce")
+            for item in value if isinstance(item, dict)
+        ]
+        valid = pd.Series(spreads, dtype="float64").dropna()
+        return float(valid.median()) if not valid.empty else np.nan
+
+    market = lines.assign(
+        market_spread_close=lines["lines"].map(provider_median)
+    ).dropna(subset=["market_spread_close"])
+    market = market.groupby("game_id", as_index=False)["market_spread_close"].median()
+    mapped = out["game_id"].map(market.set_index("game_id")["market_spread_close"])
+    if "market_spread_close" in out:
+        out["market_spread_close"] = pd.to_numeric(
+            out["market_spread_close"], errors="coerce"
+        ).combine_first(mapped)
+    else:
+        out["market_spread_close"] = mapped
+    return out
 
 
 def _build_schedule_driven_matchups(fingerprints, schedule, matchup_builder, *, season, week):

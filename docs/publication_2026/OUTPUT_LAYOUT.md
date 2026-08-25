@@ -32,6 +32,66 @@ social assets in its `figures/` directory:
 - `week_XX_tdnet_top10_social_4x5.png` — 1080×1350 mobile-first feed graphic.
 - `week_XX_tdnet_top10_social_16x9.png` — 1280×720 native landscape recomposition.
 
+It also emits the prediction companion from the frozen weekly consensus table:
+
+- `week_XX_tdnet_predictions_4x5.png` — 1080×1350 Top 3 + Sickos feed graphic.
+- `week_XX_tdnet_predictions_16x9.png` — 1280×720 landscape companion.
+
+The prediction renderer lives in `src/gridiron_ml/publication/social_predictions.py`,
+with all prediction-specific design tokens in `PREDICTIONS_STYLE`. It prioritizes
+games with two TDNet-ranked teams, then one ranked team; within each bucket it
+sorts by the best rank involved, projected closeness, combined rank profile, and
+a stable game ID. The closest projected game with no TDNet-ranked teams is
+reserved for `SICKOS GAME OF THE WEEK`, with win-probability proximity to 50%
+and game ID as deterministic tiebreakers. If fewer than three ranked games are
+available, the remaining Top 3 slots use the next-closest unranked games so the
+Sickos selection is not duplicated.
+
+The three featured games always share identical geometry: full-width stacked
+rows in portrait and three equal columns spanning the landscape. One violet
+rule separates those predictions from a navy Sickos panel with violet structure. Matchup content
+is packed as one logo/name/prediction block to avoid dead space, and win
+probability is one small type step below the projected-margin line.
+Portrait matchup marks use a larger logo token than landscape, location is
+rendered as `@` (or `VS` for neutral sites), and the centered header subtitle
+respects the portrait watermark's top-right safe area. The Sickos module reuses
+the same two-team matchup grammar as Games 1–3, with a restrained violet-tinted
+panel, the shorter `Closest unranked matchup` subtitle, and a centered
+prediction directly below the teams. It intentionally has no separate text
+wordmark or nonfunctional ornamentation. The official transparent
+`docs/style/logos/Sickos_White.png` mark is placed behind the matchup as a faint
+sub-brand watermark with an integrated violet glow. Its opacity, glow, scale,
+center position, panel tint, border, title, and subtitle controls all live under
+`PREDICTIONS_STYLE["sickos"]`; portrait and landscape geometry is deliberately
+independent. Prediction-graphic footers direct readers to
+the rest of the predictions in the article; Top 10 footers retain their Top 25
+copy.
+
+When `market_spread_close` is available, the renderer places `(VEGAS -X.X)`
+under the market-favored team. The weekly workflow automatically joins the
+season's cached CFBD `/lines` snapshot by game ID and uses the median available
+provider spread; `--market-lines-snapshot` can override that default cache.
+Its convention is home-team spread: a negative value favors the home team and
+a positive value favors the away team. Missing lines are omitted; they are
+never inferred from TDNet's model prediction.
+
+Re-render the pair without running models:
+
+```bash
+python -m gridiron_ml.cli.publication.render_predictions_social \
+  --games path/to/all_games.csv --poll path/to/tdnet_top25.csv \
+  --market-lines data/raw/cfbd/v2/lines/2026.parquet \
+  --season 2026 --week 1 --output-dir /tmp/tdnet-predictions-review
+```
+
+The same 500px logo contract applies. Refresh just the teams selected for the
+Top 3 and Sickos modules with:
+
+```bash
+python -m gridiron_ml.cli.publication.refresh_social_logos \
+  --games path/to/all_games.csv --tdnet-poll path/to/tdnet_top25.csv
+```
+
 Both are generated from ranks 1–10 of the same TDNet margin-objective public
 poll snapshot used by the weekly package. They do not recalculate or alter the
 Top 25. The style system is centralized in `SOCIAL_STYLE` in

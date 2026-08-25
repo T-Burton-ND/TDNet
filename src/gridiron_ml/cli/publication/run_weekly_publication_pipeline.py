@@ -44,6 +44,10 @@ def main():
         help="Optional frozen F0–F8 scientific inventory. F7/F8 are retained for research but excluded from predictions and polls.",
     )
     parser.add_argument("--schedule-snapshot", type=Path)
+    parser.add_argument(
+        "--market-lines-snapshot", type=Path,
+        help="Optional CFBD /lines snapshot; defaults to data/raw/cfbd/v2/lines/<season>.parquet.",
+    )
     parser.add_argument("--top25", type=Path)
     parser.add_argument("--top25-label")
     parser.add_argument("--ap-top25", type=Path, help="Official AP/CFBD snapshot; drives ranked games.")
@@ -133,6 +137,7 @@ def main():
             week=args.week,
             model_inventory_path=inventory,
             schedule_snapshot_path=schedule,
+            market_lines_path=args.market_lines_snapshot,
             top25_path=args.top25,
             top25_label=args.top25_label,
             ap_top25_path=args.ap_top25,
@@ -236,6 +241,7 @@ def main():
                 week=args.week,
                 model_inventory_path=scientific_prediction_inventory_path,
                 schedule_snapshot_path=schedule,
+                market_lines_path=args.market_lines_snapshot,
                 top25_path=args.top25,
                 top25_label=args.top25_label,
                 ap_top25_path=args.ap_top25,

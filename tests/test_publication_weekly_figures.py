@@ -14,6 +14,7 @@ from gridiron_ml.publication.weekly import (
     frozen_model_set_sha256,
     plot_all_games_table,
     plot_top25_matchups,
+    summarize_weekly_predictions,
 )
 from gridiron_ml.publication.recaps import plot_sunday_recap_table
 from gridiron_ml.publication.polls import add_team_records
@@ -210,6 +211,39 @@ def test_preseason_state_carries_features_but_preserves_schedule_fields():
     assert state.loc[0, "next_game_id"] == 2
     assert state.loc[0, "next_opponent"] == "New"
     assert bool(state.loc[0, "preseason_prior_applied"])
+
+
+def test_weekly_consensus_preserves_market_spread_for_social_graphics():
+    rows = pd.DataFrame([
+        {
+            "game_id": 1, "season": 2026, "week": 1,
+            "game_start_time_utc": "2026-08-29T19:00:00Z",
+            "home_team": "Home", "away_team": "Away", "neutral_site": False,
+            "conference_game": False, "season_type": "regular", "model_name": model,
+            "pred_home_margin": margin, "pred_home_win_probability": probability,
+            "pred_winner": "Home", "market_spread_close": -3.5,
+        }
+        for model, margin, probability in (("a", 4.0, .58), ("b", 6.0, .62))
+    ])
+    consensus = summarize_weekly_predictions(rows)
+    assert consensus.loc[0, "market_spread_close"] == -3.5
+
+
+def test_cfbd_provider_median_lines_merge_without_fabricating_empty_games():
+    from gridiron_ml.publication.weekly import merge_cfbd_market_lines
+
+    schedule = pd.DataFrame([
+        {"id": 1, "season": 2026, "week": 1},
+        {"id": 2, "season": 2026, "week": 1},
+    ])
+    lines = pd.DataFrame([
+        {"id": 1, "season": 2026, "week": 1,
+         "lines": [{"provider": "A", "spread": -7}, {"provider": "B", "spread": -8}]},
+        {"id": 2, "season": 2026, "week": 1, "lines": []},
+    ])
+    merged = merge_cfbd_market_lines(schedule, lines, season=2026, week=1)
+    assert merged.loc[merged["game_id"].eq(1), "market_spread_close"].item() == -7.5
+    assert pd.isna(merged.loc[merged["game_id"].eq(2), "market_spread_close"].item())
 
 
 def test_preseason_new_team_uses_owner_approved_conference_mean(tmp_path):
