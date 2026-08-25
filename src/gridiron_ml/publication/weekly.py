@@ -208,6 +208,8 @@ def build_weekly_blog_package(
     if long.empty:
         raise RuntimeError("Every inventory model collapsed to a constant weekly prediction.")
     consensus = summarize_weekly_predictions(long)
+    if "vegas_spread_as_of_publish" in consensus:
+        consensus["vegas_spread_published_at_utc"] = created_at
     ranking_column = "preseason_performance_rank" if "preseason_performance_rank" in long else "roster_rank"
     ap_path = ap_top25_path or top25_path
     ap_top25 = load_ap_top25(ap_path, season=season, week=week) if ap_path else pd.DataFrame(columns=["rank", "team"])
@@ -259,7 +261,7 @@ def build_weekly_blog_package(
             closest_games,
             figures / "closest_games.png",
             logo_dir=logo_dir,
-            title=f"{season} Week {week}: 10 Closest TDNet Consensus Games",
+            title=f"{season} Week {week}: {len(closest_games)} Closest TDNet Consensus Games",
             model_set_sha256=model_set_sha256,
             checkpoint_count=len(figure_checkpoint_hashes),
             generated_at_utc=created_at,
@@ -355,9 +357,9 @@ def build_weekly_blog_package(
         )
     (blog / "figure_captions.md").write_text(
         "# Figure captions\n\n"
-        f"1. **Top 25 matchups.** Consensus frozen-model predictions for {len(top25_games)} games involving a team in {top25_label or 'the supplied Top 25 snapshot'}. Margins are signed from the home team's perspective.\n\n"
-        f"2. **All games.** Consensus predictions for {len(consensus)} scheduled games.\n\n"
-        f"3. **Closest games.** The ten scheduled games with the smallest absolute consensus predicted margins.{social_captions}\n",
+        f"1. **Top 25 matchups.** Consensus frozen-model predictions for {len(top25_games)} games involving a team in {top25_label or 'the supplied Top 25 snapshot'}, with the Vegas spread frozen at publication. Margins are signed from the home team's perspective.\n\n"
+        f"2. **All games.** Consensus predictions and publication-time Vegas spreads for {len(consensus)} scheduled games.\n\n"
+        f"3. **Closest games.** The ten scheduled games with the smallest absolute consensus predicted margins, with publication-time Vegas spreads.{social_captions}\n",
         encoding="utf-8",
     )
     social_alt_text = (
@@ -371,9 +373,9 @@ def build_weekly_blog_package(
         )
     (blog / "alt_text.md").write_text(
         "# Alt text\n\n"
-        "Top 25 matchup cards show each away and home team logo, poll rank when available, and the TDNet consensus predicted winner and margin.\n\n"
-        "The all-games table lists kickoff, matchup, predicted winner, signed home margin, home win probability, and model agreement.\n\n"
-        f"Closest-game cards show the ten lowest-margin projected games with team logos, predicted winner, margin, home win probability, and model agreement.{social_alt_text}\n",
+        "Top 25 matchup cards show each away and home team logo, poll rank when available, the TDNet consensus predicted winner and margin, and the Vegas spread frozen at publication.\n\n"
+        "The all-games table lists kickoff, matchup, predicted winner, signed home margin, publication-time Vegas spread, home win probability, and model agreement.\n\n"
+        f"Closest-game cards show the ten lowest-margin projected games with team logos, predicted winner, margin, publication-time Vegas spread, home win probability, and model agreement.{social_alt_text}\n",
         encoding="utf-8",
     )
     manifest = {
@@ -402,6 +404,8 @@ def build_weekly_blog_package(
         "schedule_snapshot_sha256": sha256_file(schedule_snapshot_path),
         "market_lines_path": str(resolved_market_lines.resolve()) if resolved_market_lines.exists() else None,
         "market_lines_sha256": sha256_file(resolved_market_lines) if resolved_market_lines.exists() else None,
+        "market_lines_published_at_utc": created_at if resolved_market_lines.exists() else None,
+        "market_lines_semantics": "pregame provider-median spread frozen at publication",
         "ap_top25_path": str(Path(ap_path).resolve()) if ap_path else None,
         "ap_top25_label": top25_label or "AP Top 25",
         "ranking_source_is_ap": (top25_label or "AP Top 25").strip().casefold() == "ap top 25",
@@ -457,6 +461,10 @@ def summarize_weekly_predictions(long: pd.DataFrame) -> pd.DataFrame:
         summary["pred_home_win_probability"] >= 0.5, summary["away_team"]
     )
     summary["predicted_margin"] = summary["pred_home_margin"].abs()
+    if "market_spread_close" in summary:
+        # The publication pipeline refreshes this snapshot before rendering;
+        # retain the legacy source column but expose its frozen semantics.
+        summary["vegas_spread_as_of_publish"] = summary["market_spread_close"]
     return summary.sort_values(["game_start_time_utc", "game_id"], ignore_index=True)
 
 
@@ -559,7 +567,11 @@ def plot_top25_matchups(games, path, *, logo_dir, title, dpi=200, model_set_sha2
         winner = str(game["pred_winner"])
         margin = float(game["predicted_margin"])
         axis.text(0.50, 0.39, f"TDNet: {winner} by {margin:.1f}", ha="center", va="center", fontsize=13, color="#8A2D2D", weight="bold")
-        axis.text(0.50, 0.20, f"Agreement {float(game['model_agreement']):.0%}  •  Home win {float(game['pred_home_win_probability']):.0%}", ha="center", fontsize=8.5, color="#555")
+        axis.text(
+            0.50, 0.25, f"Vegas at publish: {format_vegas_spread(game)}",
+            ha="center", fontsize=9, color="#22324A", weight="bold",
+        )
+        axis.text(0.50, 0.13, f"Agreement {float(game['model_agreement']):.0%}  •  Home win {float(game['pred_home_win_probability']):.0%}", ha="center", fontsize=8.5, color="#555")
     fig.suptitle(title, fontsize=17, weight="bold", y=0.995)
     stamp = _model_hash_stamp(model_set_sha256, checkpoint_count, generated_at_utc)
     if stamp:
@@ -587,12 +599,13 @@ def plot_all_games_table(games, path, *, title, dpi=180, model_set_sha256=None, 
                 ],
                 "TDNet pick": table["pred_winner"],
                 "Margin": table["predicted_margin"].map(lambda x: f"{x:.1f}"),
+                "Vegas at publish": [format_vegas_spread(game) for _, game in table.iterrows()],
                 "Home win": table["pred_home_win_probability"].map(lambda x: f"{x:.0%}"),
                 "Agreement": table["model_agreement"].map(lambda x: f"{x:.0%}"),
             }
         )
     fig_height = max(3.0, 0.34 * len(table) + 1.4)
-    fig, axis = plt.subplots(figsize=(13, fig_height))
+    fig, axis = plt.subplots(figsize=(15.5, fig_height))
     axis.axis("off")
     plot_table = axis.table(
         cellText=table.values,
@@ -600,7 +613,7 @@ def plot_all_games_table(games, path, *, title, dpi=180, model_set_sha256=None, 
         loc="center",
         cellLoc="left",
         colLoc="left",
-        colWidths=[0.13, 0.32, 0.20, 0.10, 0.11, 0.11][: len(table.columns)],
+        colWidths=[0.11, 0.27, 0.15, 0.07, 0.19, 0.08, 0.08][: len(table.columns)],
     )
     plot_table.auto_set_font_size(False)
     plot_table.set_fontsize(8.5)
@@ -625,6 +638,22 @@ def plot_all_games_table(games, path, *, title, dpi=180, model_set_sha256=None, 
 def format_eastern_kickoffs(values: pd.Series) -> pd.Series:
     kickoff = pd.to_datetime(values, utc=True, errors="coerce").dt.tz_convert("America/New_York")
     return kickoff.dt.strftime("%a %-I:%M %p")
+
+
+def format_vegas_spread(game: pd.Series | dict) -> str:
+    """Format a frozen home-convention spread as the public-facing favorite."""
+    spread = pd.to_numeric(
+        game.get("vegas_spread_as_of_publish", game.get("market_spread_close")),
+        errors="coerce",
+    )
+    if pd.isna(spread):
+        return "Not available"
+    if abs(float(spread)) < 1e-9:
+        return "Pick'em"
+    favorite = game.get("home_team") if float(spread) < 0 else game.get("away_team")
+    magnitude = abs(float(spread))
+    line = f"{magnitude:.1f}" if abs(magnitude * 2 - round(magnitude * 2)) < 1e-9 else f"{magnitude:.2f}"
+    return f"{favorite} −{line}"
 
 
 def render_weekly_summary_markdown(*, season, week, consensus, top25_games, closest_games=None, model_count, top25_label=None):

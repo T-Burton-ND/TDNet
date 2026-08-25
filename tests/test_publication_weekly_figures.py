@@ -13,6 +13,7 @@ from gridiron_ml.publication.weekly import (
     _build_schedule_driven_matchups,
     frozen_model_set_sha256,
     format_eastern_kickoffs,
+    format_vegas_spread,
     plot_all_games_table,
     plot_top25_matchups,
     summarize_weekly_predictions,
@@ -90,6 +91,24 @@ def test_public_pick_kickoffs_are_rendered_in_eastern_time():
         "pred_home_win_probability": .6, "model_agreement": .8,
     }])
     assert format_eastern_kickoffs(games["game_start_time_utc"]).iloc[0] == "Sat 12:00 PM"
+
+
+def test_public_pick_spread_names_favorite_at_publication():
+    assert format_vegas_spread({
+        "home_team": "Home", "away_team": "Away", "market_spread_close": -3.5,
+    }) == "Home −3.5"
+    assert format_vegas_spread({
+        "home_team": "Home", "away_team": "Away", "market_spread_close": 2.5,
+    }) == "Away −2.5"
+    assert format_vegas_spread({
+        "home_team": "Home", "away_team": "Away", "market_spread_close": 0,
+    }) == "Pick'em"
+    assert format_vegas_spread({
+        "home_team": "Home", "away_team": "Away", "market_spread_close": None,
+    }) == "Not available"
+    assert format_vegas_spread({
+        "home_team": "Home", "away_team": "Away", "market_spread_close": -3.25,
+    }) == "Home −3.25"
 
 
 def test_team_label_prefers_canonical_ap_rank_columns():
@@ -232,6 +251,7 @@ def test_weekly_consensus_preserves_market_spread_for_social_graphics():
     ])
     consensus = summarize_weekly_predictions(rows)
     assert consensus.loc[0, "market_spread_close"] == -3.5
+    assert consensus.loc[0, "vegas_spread_as_of_publish"] == -3.5
 
 
 def test_cfbd_provider_median_lines_merge_without_fabricating_empty_games():
