@@ -254,7 +254,7 @@ def test_weekly_consensus_preserves_market_spread_for_social_graphics():
     assert consensus.loc[0, "vegas_spread_as_of_publish"] == -3.5
 
 
-def test_cfbd_provider_median_lines_merge_without_fabricating_empty_games():
+def test_cfbd_provider_average_lines_merge_without_fabricating_empty_games():
     from gridiron_ml.publication.weekly import merge_cfbd_market_lines
 
     schedule = pd.DataFrame([
@@ -263,11 +263,15 @@ def test_cfbd_provider_median_lines_merge_without_fabricating_empty_games():
     ])
     lines = pd.DataFrame([
         {"id": 1, "season": 2026, "week": 1,
-         "lines": [{"provider": "A", "spread": -7}, {"provider": "B", "spread": -8}]},
+         "lines": [
+             {"provider": "A", "spread": -7},
+             {"provider": "B", "spread": -8},
+             {"provider": "C", "spread": -12},
+         ]},
         {"id": 2, "season": 2026, "week": 1, "lines": []},
     ])
     merged = merge_cfbd_market_lines(schedule, lines, season=2026, week=1)
-    assert merged.loc[merged["game_id"].eq(1), "market_spread_close"].item() == -7.5
+    assert merged.loc[merged["game_id"].eq(1), "market_spread_close"].item() == -9.0
     assert pd.isna(merged.loc[merged["game_id"].eq(2), "market_spread_close"].item())
 
 

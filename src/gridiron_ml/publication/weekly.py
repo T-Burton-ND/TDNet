@@ -357,9 +357,9 @@ def build_weekly_blog_package(
         )
     (blog / "figure_captions.md").write_text(
         "# Figure captions\n\n"
-        f"1. **Top 25 matchups.** Consensus frozen-model predictions for {len(top25_games)} games involving a team in {top25_label or 'the supplied Top 25 snapshot'}, with the Vegas spread frozen at publication. Margins are signed from the home team's perspective.\n\n"
-        f"2. **All games.** Consensus predictions and publication-time Vegas spreads for {len(consensus)} scheduled games.\n\n"
-        f"3. **Closest games.** The ten scheduled games with the smallest absolute consensus predicted margins, with publication-time Vegas spreads.{social_captions}\n",
+        f"1. **Top 25 matchups.** Consensus frozen-model predictions for {len(top25_games)} games involving a team in {top25_label or 'the supplied Top 25 snapshot'}, with the average available Vegas spread frozen at publication. Margins are signed from the home team's perspective.\n\n"
+        f"2. **All games.** Consensus predictions and average available Vegas spreads for {len(consensus)} scheduled games.\n\n"
+        f"3. **Closest games.** The ten scheduled games with the smallest absolute consensus predicted margins, with average available Vegas spreads.{social_captions}\n",
         encoding="utf-8",
     )
     social_alt_text = (
@@ -373,9 +373,9 @@ def build_weekly_blog_package(
         )
     (blog / "alt_text.md").write_text(
         "# Alt text\n\n"
-        "Top 25 matchup cards show each away and home team logo, poll rank when available, the TDNet consensus predicted winner and margin, and the Vegas spread frozen at publication.\n\n"
-        "The all-games table lists kickoff, matchup, predicted winner, signed home margin, publication-time Vegas spread, home win probability, and model agreement.\n\n"
-        f"Closest-game cards show the ten lowest-margin projected games with team logos, predicted winner, margin, publication-time Vegas spread, home win probability, and model agreement.{social_alt_text}\n",
+        "Top 25 matchup cards show each away and home team logo, poll rank when available, the TDNet consensus predicted winner and margin, and the average available Vegas spread.\n\n"
+        "The all-games table lists kickoff, matchup, predicted winner, signed home margin, average available Vegas spread, home win probability, and model agreement.\n\n"
+        f"Closest-game cards show the ten lowest-margin projected games with team logos, predicted winner, margin, average available Vegas spread, home win probability, and model agreement.{social_alt_text}\n",
         encoding="utf-8",
     )
     manifest = {
@@ -405,7 +405,7 @@ def build_weekly_blog_package(
         "market_lines_path": str(resolved_market_lines.resolve()) if resolved_market_lines.exists() else None,
         "market_lines_sha256": sha256_file(resolved_market_lines) if resolved_market_lines.exists() else None,
         "market_lines_published_at_utc": created_at if resolved_market_lines.exists() else None,
-        "market_lines_semantics": "pregame provider-median spread frozen at publication",
+        "market_lines_semantics": "pregame provider-average spread frozen at publication",
         "ap_top25_path": str(Path(ap_path).resolve()) if ap_path else None,
         "ap_top25_label": top25_label or "AP Top 25",
         "ranking_source_is_ap": (top25_label or "AP Top 25").strip().casefold() == "ap top 25",
@@ -568,7 +568,7 @@ def plot_top25_matchups(games, path, *, logo_dir, title, dpi=200, model_set_sha2
         margin = float(game["predicted_margin"])
         axis.text(0.50, 0.39, f"TDNet: {winner} by {margin:.1f}", ha="center", va="center", fontsize=13, color="#8A2D2D", weight="bold")
         axis.text(
-            0.50, 0.25, f"Vegas at publish: {format_vegas_spread(game)}",
+            0.50, 0.25, f"Vegas Average: {format_vegas_spread(game)}",
             ha="center", fontsize=9, color="#22324A", weight="bold",
         )
         axis.text(0.50, 0.13, f"Agreement {float(game['model_agreement']):.0%}  •  Home win {float(game['pred_home_win_probability']):.0%}", ha="center", fontsize=8.5, color="#555")
@@ -599,7 +599,7 @@ def plot_all_games_table(games, path, *, title, dpi=180, model_set_sha256=None, 
                 ],
                 "TDNet pick": table["pred_winner"],
                 "Margin": table["predicted_margin"].map(lambda x: f"{x:.1f}"),
-                "Vegas at publish": [format_vegas_spread(game) for _, game in table.iterrows()],
+                "Vegas Average": [format_vegas_spread(game) for _, game in table.iterrows()],
                 "Home win": table["pred_home_win_probability"].map(lambda x: f"{x:.0%}"),
                 "Agreement": table["model_agreement"].map(lambda x: f"{x:.0%}"),
             }
@@ -860,7 +860,7 @@ def _normalize_schedule(schedule, *, season, week):
 
 
 def merge_cfbd_market_lines(schedule, raw_lines, *, season, week):
-    """Attach the median available CFBD provider spread to each scheduled game.
+    """Attach the average available CFBD provider spread to each scheduled game.
 
     CFBD spreads use the home-team convention: negative means the home team is
     favored. Empty provider lists stay missing, so a social graphic never
@@ -880,7 +880,7 @@ def merge_cfbd_market_lines(schedule, raw_lines, *, season, week):
     if "game_id" not in lines or "lines" not in lines:
         return out
 
-    def provider_median(value):
+    def provider_average(value):
         if isinstance(value, np.ndarray):
             value = value.tolist()
         if isinstance(value, dict):
@@ -892,12 +892,12 @@ def merge_cfbd_market_lines(schedule, raw_lines, *, season, week):
             for item in value if isinstance(item, dict)
         ]
         valid = pd.Series(spreads, dtype="float64").dropna()
-        return float(valid.median()) if not valid.empty else np.nan
+        return float(valid.mean()) if not valid.empty else np.nan
 
     market = lines.assign(
-        market_spread_close=lines["lines"].map(provider_median)
+        market_spread_close=lines["lines"].map(provider_average)
     ).dropna(subset=["market_spread_close"])
-    market = market.groupby("game_id", as_index=False)["market_spread_close"].median()
+    market = market.groupby("game_id", as_index=False)["market_spread_close"].mean()
     mapped = out["game_id"].map(market.set_index("game_id")["market_spread_close"])
     if "market_spread_close" in out:
         out["market_spread_close"] = pd.to_numeric(
