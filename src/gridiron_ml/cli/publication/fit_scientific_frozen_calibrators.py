@@ -88,7 +88,6 @@ def save_calibration_plot(frame: pd.DataFrame, target_base: Path, *, title: str)
     ax_hist.grid(axis="y", alpha=0.2)
     target_base.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(target_base.with_suffix(".png"), dpi=180, metadata={"Software": "TDNet"})
-    fig.savefig(target_base.with_suffix(".svg"), metadata={"Date": None, "Creator": "TDNet"})
     plt.close(fig)
 
 
@@ -154,7 +153,6 @@ def main() -> int:
             save_calibration_plot(validation, plot_base, title=f"{tier}/{level} temporal calibration")
             relative_metrics = metrics_path.relative_to(args.bundle)
             relative_plot_png = plot_base.with_suffix(".png").relative_to(args.bundle)
-            relative_plot_svg = plot_base.with_suffix(".svg").relative_to(args.bundle)
             relative_validation = validation_path.relative_to(args.bundle)
             record = {
                 "artifact_type": "frozen_cross_fitted_margin_calibrator",
@@ -174,8 +172,6 @@ def main() -> int:
                 "calibration_metrics_sha256": sha256(metrics_path),
                 "calibration_plot_png_path": str(relative_plot_png),
                 "calibration_plot_png_sha256": sha256(plot_base.with_suffix(".png")),
-                "calibration_plot_svg_path": str(relative_plot_svg),
-                "calibration_plot_svg_sha256": sha256(plot_base.with_suffix(".svg")),
                 "temporal_validation_predictions_path": str(relative_validation),
                 "temporal_validation_predictions_sha256": sha256(validation_path),
                 "generated_at_utc": datetime.now(timezone.utc).isoformat(),
@@ -194,7 +190,6 @@ def main() -> int:
                 "calibration_metrics_path": str(relative_metrics),
                 "calibration_metrics_sha256": record["calibration_metrics_sha256"],
                 "calibration_plot_png_path": str(relative_plot_png),
-                "calibration_plot_svg_path": str(relative_plot_svg),
             }
             records.append(record)
     manifest = {
@@ -212,7 +207,6 @@ def main() -> int:
             "model_level": record["model_level"],
             "model_role": record["model_role"],
             "png": record["calibration_plot_png_path"],
-            "svg": record["calibration_plot_svg_path"],
             "metrics": record["calibration_metrics_path"],
             "validation_predictions": record["temporal_validation_predictions_path"],
         } for record in records]).sort_values(["fingerprint", "model_level"])
@@ -223,15 +217,14 @@ def main() -> int:
             "",
             "Each plot evaluates one model cell with an expanding-window protocol: every season is calibrated only on earlier out-of-fold seasons.",
             "",
-            "| Fingerprint | Model | PNG | SVG | Metrics |",
-            "|---|---:|---|---|---|",
+            "| Fingerprint | Model | PNG | Metrics |",
+            "|---|---:|---|---|",
         ]
         for row in report_index.to_dict("records"):
             png = Path(str(row["png"])).relative_to("calibration_reports")
-            svg = Path(str(row["svg"])).relative_to("calibration_reports")
             metrics = Path(str(row["metrics"])).relative_to("calibration_reports")
             readme_lines.append(
-                f"| {row['fingerprint']} | {row['model_level']} | [PNG]({png}) | [SVG]({svg}) | [JSON]({metrics}) |"
+                f"| {row['fingerprint']} | {row['model_level']} | [PNG]({png}) | [JSON]({metrics}) |"
             )
         (reports_root / "README.md").write_text("\n".join(readme_lines) + "\n", encoding="utf-8")
         for (tier, level), updates in inventory_updates.items():

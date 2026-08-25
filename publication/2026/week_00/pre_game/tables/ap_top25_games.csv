@@ -1,0 +1,2 @@
+game_id,season,week,game_start_time_utc,home_team,away_team,neutral_site,conference_game,season_type,pred_home_margin,pred_home_margin_median,pred_home_win_probability,model_count,model_agreement,pred_winner,predicted_margin,home_rank,away_rank
+401864494,2026,1,2026-08-29T19:00:00.000Z,USC,San José State,False,False,regular,22.640146155364576,24.688338511590764,0.8119502792469169,36,1.0,USC,22.640146155364576,14,

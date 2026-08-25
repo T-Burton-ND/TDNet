@@ -12,6 +12,7 @@ from gridiron_ml.publication.poll_recaps import (
 from gridiron_ml.publication.weekly import (
     _build_schedule_driven_matchups,
     frozen_model_set_sha256,
+    format_eastern_kickoffs,
     plot_all_games_table,
     plot_top25_matchups,
     summarize_weekly_predictions,
@@ -78,11 +79,17 @@ def test_weekly_figures_render_with_missing_logos(tmp_path):
     model_set = frozen_model_set_sha256(["a" * 64, "b" * 64])
     top25 = plot_top25_matchups(games, tmp_path / "top25.png", logo_dir=tmp_path / "logos", title="Test", model_set_sha256=model_set, checkpoint_count=2)
     all_games = plot_all_games_table(games, tmp_path / "all.png", title="Test", model_set_sha256=model_set, checkpoint_count=2)
-    assert top25.exists() and top25.with_suffix(".svg").exists()
-    assert all_games.exists() and all_games.with_suffix(".svg").exists()
-    assert model_set in top25.with_suffix(".svg").read_text(encoding="utf-8")
-    assert model_set in all_games.with_suffix(".svg").read_text(encoding="utf-8")
-    assert "#10 Away at #2 Home" in all_games.with_suffix(".svg").read_text(encoding="utf-8")
+    assert top25.exists() and not top25.with_suffix(".svg").exists()
+    assert all_games.exists() and not all_games.with_suffix(".svg").exists()
+
+
+def test_public_pick_kickoffs_are_rendered_in_eastern_time():
+    games = pd.DataFrame([{
+        "game_start_time_utc": "2026-08-29T16:00:00Z", "away_team": "Away",
+        "home_team": "Home", "pred_winner": "Home", "predicted_margin": 4.0,
+        "pred_home_win_probability": .6, "model_agreement": .8,
+    }])
+    assert format_eastern_kickoffs(games["game_start_time_utc"]).iloc[0] == "Sat 12:00 PM"
 
 
 def test_team_label_prefers_canonical_ap_rank_columns():
@@ -139,7 +146,7 @@ def test_margin_poll_story_figures_render_full_weekly_gap(tmp_path):
     )
     for output in (race, podium):
         assert output.exists()
-        assert output.with_suffix(".svg").exists()
+        assert not output.with_suffix(".svg").exists()
 
 
 def test_sunday_scorecard_renders_ap_ranks_next_to_team_names(tmp_path):
@@ -155,10 +162,8 @@ def test_sunday_scorecard_renders_ap_ranks_next_to_team_names(tmp_path):
         games, tmp_path / "scorecard.png", season=2025, week=1, objective="margin",
         season_to_date_games=games,
     )
-    svg = output.with_suffix(".svg").read_text(encoding="utf-8")
-    assert "#10 Away at #2 Home" in svg
-    assert "#10 Away 20–27 #2 Home" in svg
-    assert "Season so far: SU 1–0 (100.0%)" in svg
+    assert output.exists()
+    assert not output.with_suffix(".svg").exists()
 
 
 def test_complete_publication_figure_suite_renders(tmp_path):

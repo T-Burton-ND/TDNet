@@ -1,0 +1,13 @@
+game_id,role,away_team,home_team,feature,signal,signal_category,home_edge_z,home_raw,away_raw,edge_favors,away_display,home_display
+401864494,Featured 1,San José State,USC,statGen_turnovers,Ball security,ball_security,2.9069507195512827,1.1666666666666667,2.25,USC,2.25,1.17
+401864494,Featured 1,San José State,USC,coach_career_mean_sp_offense,Coach offensive history,coaching,2.5718540455270946,44.9375,30.523076923076925,USC,30.5,44.9
+401864494,Featured 1,San José State,USC,roster_talent,Roster talent,roster,2.1073745418768306,847.53,522.91,USC,523,848
+401864570,Featured 2,New Mexico State,Florida State,statOff_yards_per_rush_attempt,Yards per rush,offense,3.141178058759786,5.033333333333333,2.5,Florida State,2.50,5.03
+401864570,Featured 2,New Mexico State,Florida State,roster_talent,Roster talent,roster,2.7625939137936215,828.45,402.9,Florida State,403,828
+401864570,Featured 2,New Mexico State,Florida State,coach_career_mean_sp_defense,Coach defensive history,coaching,-2.6311289530552613,24.875,38.86666666666667,New Mexico State,38.9,24.9
+401858202,Featured 3,NC State,Virginia,coach_career_mean_sp_offense,Coach offensive history,coaching,-1.8418667889252816,20.3,30.623076923076926,NC State,30.6,20.3
+401858202,Featured 3,NC State,Virginia,roster_return_percent_p_p_a,Returning production,roster,-1.8231543553611504,0.095,0.599,NC State,59.9%,9.5%
+401858202,Featured 3,NC State,Virginia,defense_ppa,Defensive efficiency,defense,1.5976370447578763,0.07200349265943663,0.20841919730391337,Virginia,0.208,0.072
+401864577,Sickos game,Jacksonville State,North Dakota State,statGen_turnovers,Ball security,ball_security,-1.7287765022733403,1.5673400673400673,0.9230769230769231,Jacksonville State,0.92,1.57
+401864577,Sickos game,Jacksonville State,North Dakota State,statOff_yards_per_rush_attempt,Yards per rush,offense,-1.5038953564815842,4.387121212121212,5.6,Jacksonville State,5.60,4.39
+401864577,Sickos game,Jacksonville State,North Dakota State,roster_return_percent_p_p_a,Returning production,roster,0.18528971733277988,0.5462222222222222,0.495,North Dakota State,49.5%,54.6%

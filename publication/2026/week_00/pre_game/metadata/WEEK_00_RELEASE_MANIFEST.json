@@ -1,0 +1,30 @@
+{
+  "ap_top25_rows": 25,
+  "game_count": 7,
+  "generated_at_utc": "2026-08-24T14:40:11.828623+00:00",
+  "margin_wide_provenance": {
+    "enabled_poll_model_count": 33,
+    "frozen_model_set_sha256": "108290b376de935a44d4c886553609d0dec2cbcbe7a6e6f126e103d96fc1c9d7",
+    "generated_at_utc": "2026-08-24T14:38:19.979796+00:00",
+    "market_tiers_excluded": [
+      "F7",
+      "F8"
+    ],
+    "objective": "margin",
+    "poll_failure_count": 0,
+    "reference_poll": "AP Top 25, CFBD 2026 Week 1",
+    "roster": "margin_wide_f6",
+    "runtime_inventory": "/users/tburton2/Repos/TDNet/data/publication/2026/legacy_preseason_layout/week_00_opening_slate/inputs/margin_wide_f6_runtime_inventory.csv",
+    "runtime_inventory_sha256": "5777f247b280fcfbfa8d755088ef3eb9cdda6a04ece2202bae882d2ff2b42ff1",
+    "source_inventory": "/groups/bsavoie2/tburton2/TDNet/publication_artifacts/corrected_f6_wide_margin_roster/through_2025_v1/final_model_inventory.csv",
+    "source_inventory_sha256": "0d46d9870c8cb1ac65375a1a5d8437656a8a1a7b225a9dc6810fbce953068723",
+    "talent_source": "2025 carry-forward; CFBD 2026 talent endpoint returned zero rows"
+  },
+  "prediction_card": "figures/week_00_opening_slate_prediction_card.png",
+  "provider_week": 1,
+  "public_label": "Week 0 opening slate",
+  "schedule_filter": "2026-08-29 FBS-vs-FBS games",
+  "scientific_weekly_policy": "not generated; frozen roster reserved for postseason comparison",
+  "status": "ready_for_owner_review",
+  "talent_source": "2025 carry-forward; CFBD 2026 talent endpoint returned zero rows"
+}

@@ -20,7 +20,7 @@ import yaml
 
 
 ROOT = Path(__file__).resolve().parents[2]
-OUT = ROOT / "publication/2026/figures/intro"
+OUT = ROOT / "publication/2026/intro"
 SCRIPT = "scripts/publication/generate_intro_blog_assets.py"
 SOURCE_PATHS = [
     "FREEZE_MANIFEST.json",
@@ -62,11 +62,10 @@ def arrow(ax, x1, y1, x2, y2, color=SLATE):
 
 def save(fig, stem: str, timestamp: str, full_sha: str) -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    png, svg = OUT / f"{stem}.png", OUT / f"{stem}.svg"
+    png = OUT / f"{stem}.png"
     fig.savefig(png, dpi=200, bbox_inches="tight", facecolor=WHITE)
-    fig.savefig(svg, bbox_inches="tight", facecolor=WHITE)
     plt.close(fig)
-    for path in (png, svg):
+    for path in (png,):
         (OUT / f"{path.name}.json").write_text(json.dumps({
             "source_paths": SOURCE_PATHS,
             "generated_at_utc": timestamp,
@@ -171,7 +170,7 @@ def complexity(timestamp, full_sha):
 
 
 def docs():
-    (OUT / "post2_expected_assets.md").write_text("""# Post 2 expected assets\n\n`run_2026_preseason_release` is fail-closed and must wait for an official 25-row AP Top 25. Coaches Poll data is never substituted. Once that gate passes, it creates the following reviewable groups under `publication/2026/preseason/` for both the market-free scientific roster and the wide F6 roster:\n\n- `tdnet_preseason_top25/`: TDNet preseason Top 25, ballot outputs, and AP comparison inputs.\n- `week_01_predictions/`: Week 1 prediction table/graphics, all-model predictions, closest projected games, model-failure reports, and the blog package.\n- AP comparison and model-ballot disagreement material produced by the frozen roster-poll and weekly-blog builders.\n- TDNet-versus-market disagreement outputs only where emitted by the canonical weekly-blog workflow; they must remain labeled as comparisons, not a claim that TDNet beats Vegas.\n\nNo preseason predictions, AP comparison, or substitute Coaches-Poll figure has been fabricated here.\n""", encoding="utf-8")
+    (OUT / "post2_expected_assets.md").write_text("""# Post 2 expected assets\n\n`run_2026_preseason_release` is fail-closed and must wait for an official 25-row AP Top 25. Coaches Poll data is never substituted. Once that gate passes, it creates the corrected-F6 wide-margin package under `publication/2026/week_00/pre_game/`:\n\n- `figures/`: PNG-only TDNet Top 25, ballot, AP comparison, picks, closest games, and social graphics.\n- `tables/`: exact poll, ballot, all-game, Top-25-game, and closest-game snapshots.\n- `blog/` and `metadata/`: review copy, captions, source hashes, and model provenance.\n- TDNet-versus-market disagreement outputs only where emitted by the canonical weekly-blog workflow; they must remain labeled as comparisons, not a claim that TDNet beats Vegas.\n\nNo preseason predictions, AP comparison, or substitute Coaches-Poll figure has been fabricated here.\n""", encoding="utf-8")
     (OUT / "historical_context_for_blog.md").write_text("""# Historical context for the blog\n\n## Recommended context fact\n\n- **Claim:** TDNet maintains a genuine retrospective 2025 holdout package trained through 2024, separate from a through-2025 pipeline rehearsal.\n- **Source artifact:** `docs/publication_2026/REGENERATION_2025_STATUS.json`.\n- **Training boundary:** 2024.\n- **Evaluation season:** 2025.\n- **Sample size:** 17 poll weeks and 16 prediction weeks; the status artifact does not provide a game count.\n- **Metric:** None proposed. This is an evaluation-design fact, not a performance result.\n- **Apples-to-apples:** Not a TDNet-versus-market comparison.\n- **Caveat:** Do not turn this into a performance claim without a complete, reviewed metric artifact and a matched comparison definition.\n\n## Recommendation\n\nLeave generic historical-performance or “TDNet vs Vegas” graphics out of Post 1. The canonical status materials establish a clean holdout boundary but do not supply a single preselected, apples-to-apples market-comparison metric suitable for a public claim.\n""", encoding="utf-8")
     (OUT / "BLOG_FIGURE_CAPTIONS.md").write_text("""# Blog figure captions\n\n- **How a Team Becomes a Fingerprint.** TDNet treats a team as a moving snapshot: only completed information enters the next matchup.\n- **The TDNet Fingerprint Ladder.** F0–F6 add football information in a market-free sequence; F7 and F8 are separate market comparisons.\n- **Two TDNets: Science and Saturday.** One roster tests the design. The other powers the weekly football product.\n- **Frozen Before Kickoff.** The 2026 contract fixes the models, scope, deadline, and exclusions before the season supplies outcomes.\n- **Fingerprint Complexity.** The market-free ladder adds designed team features without treating a larger representation as automatically better.\n""", encoding="utf-8")
 

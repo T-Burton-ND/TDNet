@@ -268,7 +268,6 @@ def _style_axis(axis: plt.Axes) -> None:
 def _save_figure(fig: plt.Figure, path: Path, *, dpi: int) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=dpi, bbox_inches="tight", facecolor="white")
-    fig.savefig(path.with_suffix(".svg"), bbox_inches="tight", facecolor="white")
 
 
 def plot_family_allocation(summary: pd.DataFrame, path: Path, *, dpi: int) -> list[dict[str, Any]]:

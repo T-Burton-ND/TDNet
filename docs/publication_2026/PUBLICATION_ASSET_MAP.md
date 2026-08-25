@@ -11,11 +11,14 @@ prospective 2026 production. The directories are intentionally separate so a
 | 2026 scientific F0-F8 bundle | `EXTERNAL_DURABLE_ROOT/publication_artifacts/scientific_roster_refits/f0_f8_margin_through_2025_v1/` | 54 calibrated margin cells; F0-F6 eligible for predictions/polls, F7/F8 comparative-only | 2010–2025 |
 | 2025 holdout / trained through 2024 | `EXTERNAL_DURABLE_ROOT/publication_artifacts/2025_roster_regenerations/holdout_2025/` | Verified scientific and wide-roster holdout outputs | 2010–2024 |
 
-Weekly products use one season directory with two roster subdirectories:
-`publication/<season>/week_<NN>/wide_margin/` and
-`publication/<season>/week_<NN>/scientific/`. Each roster directory contains
-one margin poll, the complete ballot ledger and ballot PNG, and two prediction
-views: all scheduled games and games involving the supplied Top 25.
+Weekly products use one operational roster and two time-scoped directories:
+`publication/<season>/week_<NN>/pre_game/` and
+`publication/<season>/week_<NN>/post_game/`, plus a sibling `analysis/`
+directory for requested descriptive figures. Top-25 outputs share each
+package's `figures/` and `tables/`; there is no separate Top-25 directory.
+Scientific weekly rehearsals, if
+needed for internal checks, live under `data/publication/` and never mix with
+the public weekly package.
 Retrospective weeks also contain the postgame prediction PNG and scorecard. The
 scientific retrospective Top-25 poll is an implied ranking view of the same
 held-out prediction margins; it is not a second preregistered objective.

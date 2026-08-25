@@ -67,7 +67,7 @@ def test_model_vegas_confusion_matrices_and_artifacts(tmp_path):
     for csv_path in outputs.values():
         assert csv_path.exists()
         assert csv_path.with_suffix(".png").exists()
-        assert csv_path.with_suffix(".svg").exists()
+        assert not csv_path.with_suffix(".svg").exists()
 
 
 def test_poll_disagreement_identifies_outlying_ballot():

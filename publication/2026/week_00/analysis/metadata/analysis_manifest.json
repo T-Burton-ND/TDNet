@@ -1,0 +1,13 @@
+{
+  "analysis_only": true,
+  "ap_poll_sha256": "1bcdfecb1a7c70ef9928b939b3c223c3a88141352c1b673c3df9b010be47e0ef",
+  "disparity_policy": "descriptive AP-rank-peer proxy; not SHAP or causal attribution",
+  "feature_metadata_sha256": "1791a09423f258b8cefff4cefca5694765dde95a9e3148ffca7bdf7f76f24b9c",
+  "fingerprint_sha256": "7025d354a81584deade7f434288af6333185a178afb4e67de11212a81ee403a9",
+  "games_sha256": "519ef9ca3eccbef6c49c025479376f3f6de48015e2ab86ada81d88304741f9d5",
+  "matchup_selection": "same three featured games plus Sickos game as prediction social card",
+  "matchup_signal_policy": "three largest standardized differences from fixed interpretable F6 feature shortlist",
+  "season": 2026,
+  "tdnet_poll_sha256": "9c5151a54fdd3377292c6973849cf12157fa572f518037aca9623d4bc01825ce",
+  "week": 0
+}

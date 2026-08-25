@@ -40,7 +40,9 @@ def _model_hash_stamp(model_set_sha256: str | None, checkpoint_count: int | None
         return None
     count = f" · {int(checkpoint_count)} checkpoints" if checkpoint_count else ""
     generated = generated_at_utc or datetime.now(timezone.utc).isoformat()
-    return f"Frozen model-set SHA-256: {model_set_sha256}{count} · Generated UTC: {generated}"
+    timestamp = pd.to_datetime(generated, utc=True, errors="coerce")
+    eastern = timestamp.tz_convert("America/New_York").strftime("%b %-d, %Y %-I:%M %p %Z") if pd.notna(timestamp) else str(generated)
+    return f"Frozen model-set SHA-256: {model_set_sha256}{count} · Generated Eastern: {eastern}"
 
 
 def build_weekly_blog_package(
@@ -566,7 +568,6 @@ def plot_top25_matchups(games, path, *, logo_dir, title, dpi=200, model_set_sha2
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=dpi, bbox_inches="tight", facecolor=fig.get_facecolor())
-    fig.savefig(path.with_suffix(".svg"), bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
     return path
 
@@ -576,10 +577,10 @@ def plot_all_games_table(games, path, *, title, dpi=180, model_set_sha256=None, 
     if table.empty:
         table = pd.DataFrame({"Matchup": ["No scheduled games"]})
     else:
-        kickoff = pd.to_datetime(table["game_start_time_utc"], utc=True, errors="coerce")
+        kickoff = format_eastern_kickoffs(table["game_start_time_utc"])
         table = pd.DataFrame(
             {
-                "Kickoff (UTC)": kickoff.dt.strftime("%a %H:%M"),
+                "Kickoff (Eastern)": kickoff,
                 "Matchup": [
                     f"{format_team_with_ap_rank(game, 'away')} at {format_team_with_ap_rank(game, 'home')}"
                     for _, game in table.iterrows()
@@ -617,9 +618,13 @@ def plot_all_games_table(games, path, *, title, dpi=180, model_set_sha256=None, 
         fig.text(0.5, 0.014, stamp, ha="center", va="bottom", fontsize=9, weight="bold", color="#28323C", family="monospace", bbox={"facecolor": "#FFFFFF", "edgecolor": "#AAB5C1", "boxstyle": "round,pad=0.35"})
     path = Path(path)
     fig.savefig(path, dpi=dpi, bbox_inches="tight")
-    fig.savefig(path.with_suffix(".svg"), bbox_inches="tight")
     plt.close(fig)
     return path
+
+
+def format_eastern_kickoffs(values: pd.Series) -> pd.Series:
+    kickoff = pd.to_datetime(values, utc=True, errors="coerce").dt.tz_convert("America/New_York")
+    return kickoff.dt.strftime("%a %-I:%M %p")
 
 
 def render_weekly_summary_markdown(*, season, week, consensus, top25_games, closest_games=None, model_count, top25_label=None):

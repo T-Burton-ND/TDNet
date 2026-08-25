@@ -47,6 +47,5 @@ def plot_cv_metric_boxplots(frame: pd.DataFrame, path: str | Path, *, title: str
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=dpi, bbox_inches="tight")
-    fig.savefig(path.with_suffix(".svg"), bbox_inches="tight")
     plt.close(fig)
     return path

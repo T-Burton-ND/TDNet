@@ -37,7 +37,6 @@ TIER_NAME = {
 def save(fig: plt.Figure, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=240, facecolor=BG, bbox_inches="tight", pad_inches=0.16)
-    fig.savefig(path.with_suffix(".svg"), facecolor=BG, bbox_inches="tight", pad_inches=0.16)
     plt.close(fig)
 
 

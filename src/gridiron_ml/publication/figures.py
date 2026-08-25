@@ -382,6 +382,5 @@ class PublicationFigureBuilder:
         path = self.output_root / f"{name}.png"
         figure.tight_layout()
         figure.savefig(path, dpi=self.dpi, bbox_inches="tight")
-        figure.savefig(path.with_suffix(".svg"), bbox_inches="tight")
         plt.close(figure)
         return path
