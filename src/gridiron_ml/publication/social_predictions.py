@@ -51,16 +51,14 @@ PREDICTIONS_STYLE = {
         "watermark": {
             "path": "docs/style/logos/Sickos_White.png",
             "4x5": {
-                "opacity": 11, "glow_opacity": 15, "scale": 0.18,
-                "glow_radius": 13,
-                "positions": ((0.03, 0.08), (0.47, 0.08), (0.91, 0.08),
-                              (0.25, 0.78), (0.69, 0.78), (1.08, 0.78)),
+                "opacity": 9, "glow_opacity": 13, "scale": 0.28,
+                "glow_radius": 16,
+                "positions": ((-0.01, 0.30), (1.01, 0.72)),
             },
             "16x9": {
-                "opacity": 11, "glow_opacity": 15, "scale": 0.13,
-                "glow_radius": 10,
-                "positions": ((0.02, 0.08), (0.40, 0.08), (0.78, 0.08),
-                              (0.21, 0.78), (0.59, 0.78), (0.98, 0.78)),
+                "opacity": 9, "glow_opacity": 13, "scale": 0.23,
+                "glow_radius": 14,
+                "positions": ((-0.01, 0.36), (1.01, 0.66)),
             },
         },
     },
