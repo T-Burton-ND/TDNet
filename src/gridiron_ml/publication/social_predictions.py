@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import pandas as pd
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageChops, ImageDraw, ImageFilter
 
 from gridiron_ml.td_run.poll_viz import resolve_team_logo_path
 
@@ -18,7 +18,6 @@ from .social_top10 import (
     _font,
     _panel,
     _panel_accent_polygon,
-    _place_brand_mark,
     _place_logo,
     _rgba,
 )
@@ -37,6 +36,12 @@ PREDICTIONS_STYLE = {
     "subtitle": "3 FEATURED GAMES + SICKOS PICK",
     "sickos_title": "SICKOS GAME OF THE WEEK",
     "sickos_subtitle": "Closest unranked matchup",
+    "header_brand_mark": {
+        "path": "docs/style/logos/dark_trans.png",
+        "opacity": 50,
+        "angle": 6,
+        "boxes": {"4x5": (900, 18, 1020, 138), "16x9": (1136, 8, 1234, 100)},
+    },
     "sickos": {
         "background_tint": (20, 17, 66, 242),
         "border_color": TDNET_COLORS["gridiron_violet"],
@@ -45,10 +50,18 @@ PREDICTIONS_STYLE = {
         "subtitle_alpha": 215,
         "watermark": {
             "path": "docs/style/logos/Sickos_White.png",
-            "4x5": {"opacity": 8, "glow_opacity": 13, "scale": 0.34,
-                    "x": 540, "y": 1000, "glow_radius": 18},
-            "16x9": {"opacity": 8, "glow_opacity": 12, "scale": 0.19,
-                      "x": 590, "y": 525, "glow_radius": 13},
+            "4x5": {
+                "opacity": 11, "glow_opacity": 15, "scale": 0.18,
+                "glow_radius": 13,
+                "positions": ((0.03, 0.08), (0.47, 0.08), (0.91, 0.08),
+                              (0.25, 0.78), (0.69, 0.78), (1.08, 0.78)),
+            },
+            "16x9": {
+                "opacity": 11, "glow_opacity": 15, "scale": 0.13,
+                "glow_radius": 10,
+                "positions": ((0.02, 0.08), (0.40, 0.08), (0.78, 0.08),
+                              (0.21, 0.78), (0.59, 0.78), (0.98, 0.78)),
+            },
         },
     },
     "divider_width": 5,
@@ -163,8 +176,7 @@ def render_predictions_social(
     draw = ImageDraw.Draw(image, "RGBA")
     _draw_data_field(draw, size)
     _draw_prediction_header(draw, variant, season, week)
-    if variant == "4x5":
-        _place_brand_mark(image, variant)
+    _place_prediction_brand_mark(image, variant)
     layout = PREDICTIONS_STYLE["layouts"][variant]
     for index, box in enumerate(layout["featured"]):
         game = featured[index] if index < len(featured) else None
@@ -265,7 +277,7 @@ def _draw_matchup_card(draw, image, game, box, logo_dir, *, variant, role, label
         bright=role == "sickos",
     )
     if role == "sickos":
-        _place_sickos_watermark(image, variant)
+        _place_sickos_watermark(image, variant, box)
     x1, y1, x2, y2 = map(int, box)
     width, height = x2 - x1, y2 - y1
     label_fill = sickos_style["title_color"] if role == "sickos" else accent
@@ -333,8 +345,8 @@ def _prediction_panel(draw, box, *, accent, radius, bright=False) -> None:
     )
 
 
-def _place_sickos_watermark(image: Image.Image, variant: str) -> None:
-    """Place the official Sickos mark as format-specific atmospheric branding."""
+def _place_sickos_watermark(image: Image.Image, variant: str, box) -> None:
+    """Tile the official Sickos mark as a pattern clipped to its card."""
     settings = PREDICTIONS_STYLE["sickos"]["watermark"]
     repository_root = Path(__file__).resolve().parents[3]
     path = repository_root / str(settings["path"])
@@ -362,10 +374,53 @@ def _place_sickos_watermark(image: Image.Image, variant: str) -> None:
         lambda value: round(value * int(geometry["opacity"]) / 255)
     )
     mark.putalpha(mark_alpha)
-    center_x, center_y = int(geometry["x"]), int(geometry["y"])
-    position = (center_x - mark.width // 2, center_y - mark.height // 2)
-    image.paste(glow, position, glow)
-    image.paste(mark, position, mark)
+    pattern = Image.new("RGBA", image.size, (0, 0, 0, 0))
+    x1, y1, x2, y2 = map(int, box)
+    for relative_x, relative_y in geometry["positions"]:
+        center_x = round(x1 + (x2 - x1) * float(relative_x))
+        center_y = round(y1 + (y2 - y1) * float(relative_y))
+        position = (center_x - mark.width // 2, center_y - mark.height // 2)
+        pattern.alpha_composite(glow, position)
+        pattern.alpha_composite(mark, position)
+
+    clip = Image.new("L", image.size, 0)
+    clip_draw = ImageDraw.Draw(clip)
+    radius = int(PREDICTIONS_STYLE["panel_radii"]["hero"])
+    clip_draw.rounded_rectangle((x1, y1, x2, y2), radius=radius, fill=255)
+    pattern.putalpha(ImageChops.multiply(pattern.getchannel("A"), clip))
+    composited = Image.alpha_composite(image.convert("RGBA"), pattern).convert("RGB")
+    image.paste(composited)
+
+
+def _place_prediction_brand_mark(image: Image.Image, variant: str) -> None:
+    """Place the faint TDNet mark in each prediction header's safe area."""
+    settings = PREDICTIONS_STYLE["header_brand_mark"]
+    repository_root = Path(__file__).resolve().parents[3]
+    path = repository_root / str(settings["path"])
+    if not path.exists():
+        return
+    with Image.open(path) as source:
+        mark = source.convert("RGBA")
+    visible = mark.getchannel("A").getbbox()
+    if visible is None:
+        return
+    mark = mark.crop(visible)
+    alpha = mark.getchannel("A").point(
+        lambda value: round(value * int(settings["opacity"]) / 255)
+    )
+    white_mark = Image.new("RGBA", mark.size, (255, 255, 255, 0))
+    white_mark.putalpha(alpha)
+    x1, y1, x2, y2 = map(int, settings["boxes"][variant])
+    scale = min((x2 - x1) / white_mark.width, (y2 - y1) / white_mark.height)
+    white_mark = white_mark.resize(
+        (round(white_mark.width * scale), round(white_mark.height * scale)),
+        Image.Resampling.LANCZOS,
+    ).rotate(
+        float(settings["angle"]), resample=Image.Resampling.BICUBIC, expand=True,
+    )
+    px = x1 + (x2 - x1 - white_mark.width) // 2
+    py = y1 + (y2 - y1 - white_mark.height) // 2
+    image.paste(white_mark, (px, py), white_mark)
 
 
 def _draw_section_divider(draw, variant: str, y: int) -> None:

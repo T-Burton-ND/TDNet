@@ -59,11 +59,14 @@ the same two-team matchup grammar as Games 1–3, with a restrained violet-tinte
 panel, the shorter `Closest unranked matchup` subtitle, and a centered
 prediction directly below the teams. It intentionally has no separate text
 wordmark or nonfunctional ornamentation. The official transparent
-`docs/style/logos/Sickos_White.png` mark is placed behind the matchup as a faint
-sub-brand watermark with an integrated violet glow. Its opacity, glow, scale,
-center position, panel tint, border, title, and subtitle controls all live under
+`docs/style/logos/Sickos_White.png` mark is repeated behind the matchup as a
+faint, staggered fabric-style pattern with an integrated violet glow. The six
+marks are clipped to the rounded Sickos card, including partial marks running
+off its edges. Opacity, glow, scale, pattern positions, panel tint, border,
+title, and subtitle controls all live under
 `PREDICTIONS_STYLE["sickos"]`; portrait and landscape geometry is deliberately
-independent. Prediction-graphic footers direct readers to
+independent. Both formats also carry a faint TDNet mark in the top-right header
+safe area. Prediction-graphic footers direct readers to
 the rest of the predictions in the article; Top 10 footers retain their Top 25
 copy.
 

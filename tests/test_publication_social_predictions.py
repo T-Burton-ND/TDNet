@@ -72,6 +72,9 @@ def test_feature_cards_share_equal_geometry_and_sickos_is_visually_separate():
     assert sickos["border_color"] == PREDICTIONS_STYLE["colors"]["gridiron_violet"]
     assert sickos["watermark"]["path"].endswith("Sickos_White.png")
     assert sickos["watermark"]["4x5"]["scale"] != sickos["watermark"]["16x9"]["scale"]
+    assert len(sickos["watermark"]["4x5"]["positions"]) == 6
+    assert len(sickos["watermark"]["16x9"]["positions"]) == 6
+    assert "16x9" in PREDICTIONS_STYLE["header_brand_mark"]["boxes"]
     for variant in ("4x5", "16x9"):
         sizes = PREDICTIONS_STYLE["font_sizes"][variant]
         assert 0 < sizes["prediction"] - sizes["probability"] <= 4
