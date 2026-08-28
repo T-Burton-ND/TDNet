@@ -33,6 +33,7 @@ from gridiron_ml.publication.bundles import (  # noqa: E402
 )
 from gridiron_ml.publication.chart_contracts import validate_chart_domains  # noqa: E402
 from gridiron_ml.publication.figure_theme import MODEL_COLORS, TDNET_COLORS, apply_tdnet_theme  # noqa: E402
+from gridiron_ml.publication.output_layout import require_week_directory  # noqa: E402
 
 
 def _metrics(frame: pd.DataFrame) -> dict[str, float | int]:
@@ -91,7 +92,6 @@ def _figure(cumulative: pd.DataFrame, path: Path) -> None:
     for axis in axes:
         axis.grid(alpha=0.4)
     fig.savefig(path, dpi=220)
-    fig.savefig(path.with_suffix(".svg"))
     plt.close(fig)
 
 
@@ -100,9 +100,16 @@ def main() -> int:
     parser.add_argument("--bundle", type=Path, required=True)
     parser.add_argument("--results", type=Path, required=True, help="Completed CFBD results parquet/CSV.")
     parser.add_argument("--snapshot-completeness", type=Path, required=True)
-    parser.add_argument("--output-root", type=Path, required=True)
+    parser.add_argument(
+        "--output-root",
+        type=Path,
+        required=True,
+        help="Canonical week_XX/post_game directory; kept separate from the frozen pre_game package.",
+    )
     args = parser.parse_args()
-    if args.output_root.exists() and any(args.output_root.iterdir()):
+    args.output_root = require_week_directory(args.output_root, "post_game")
+    existing = [path for path in args.output_root.iterdir() if path.name != "README.md"] if args.output_root.exists() else []
+    if existing:
         raise FileExistsError(f"Refusing to overwrite non-empty Sunday output: {args.output_root}")
     snapshot = json.loads(args.snapshot_completeness.read_text(encoding="utf-8"))
     if snapshot.get("status") != "pass" or snapshot.get("certification") != "weekly_snapshot_certified":
@@ -111,7 +118,7 @@ def main() -> int:
     if not verification["valid"]:
         raise RuntimeError(f"Cannot score invalid prediction bundle: {verification['failures']}")
     results = pd.read_parquet(args.results) if args.results.suffix == ".parquet" else pd.read_csv(args.results)
-    args.output_root.mkdir(parents=True, exist_ok=False)
+    args.output_root.mkdir(parents=True, exist_ok=True)
     scored_root = args.output_root / "scoring"
     tables = score_prediction_bundle(args.bundle, results, output_root=scored_root)
     scored = tables["scored_predictions"]

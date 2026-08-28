@@ -10,6 +10,10 @@ raw_fetch:
   snake_case: true
   refresh: true
   sleep_seconds: 0.25
+  # Exactly one CFBD refresh is scheduled per week. Keep this list limited to
+  # endpoints whose game, result, market, or poll rows can change in season.
+  # Stable preseason context (talent, returning production, recruiting,
+  # coaches, FBS membership, and venues) remains in the local cache.
   endpoints:
     games: true
     game_team_stats: true
@@ -18,12 +22,12 @@ raw_fetch:
     lines: true
     pregame_wp: true
     ppa_games: true
-    talent: true
-    returning: true
-    recruiting_teams: true
-    coaches: true
-    teams_fbs: true
-    venue: true
+    talent: false
+    returning: false
+    recruiting_teams: false
+    coaches: false
+    teams_fbs: false
+    venue: false
     rankings: true
   # A weekly snapshot is certifiable only when all prediction-time endpoints
   # below exist, have the declared schema, and are non-empty.  The remaining

@@ -20,7 +20,7 @@ def main() -> None:
     parser.add_argument("--poll", type=Path, help="Optional TDNet Top 25 CSV or parquet.")
     parser.add_argument(
         "--market-lines", type=Path,
-        help="Optional raw CFBD /lines CSV or parquet, merged by game id using the provider median.",
+        help="Optional raw CFBD /lines CSV or parquet, merged by game id using the provider average.",
     )
     parser.add_argument("--season", type=int, required=True)
     parser.add_argument("--week", type=int, required=True)

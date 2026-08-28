@@ -1,0 +1,27 @@
+{
+  "ap_poll_rows": 25,
+  "ap_poll_sha256": "1bcdfecb1a7c70ef9928b939b3c223c3a88141352c1b673c3df9b010be47e0ef",
+  "created_at_utc": "2026-08-28T15:32:49.096839+00:00",
+  "preseason_data_policy": {
+    "raw_cfbd_cache_modified_by_fallback": false,
+    "returning_production": "live 2026 CFBD returning production (136 rows)",
+    "talent": "live 2026 CFBD talent (138 rows)"
+  },
+  "reports": {
+    "margin_wide_f6": {
+      "inventory": "/groups/bsavoie2/tburton2/TDNet/publication_artifacts/corrected_f6_wide_margin_roster/through_2025_v1/final_model_inventory.csv",
+      "poll_failures": 0,
+      "poll_model_count": 33,
+      "predicted_game_count": 8,
+      "prediction_failures": 0,
+      "prediction_model_count": 36,
+      "runtime_inventory_sha256": "5777f247b280fcfbfa8d755088ef3eb9cdda6a04ece2202bae882d2ff2b42ff1"
+    }
+  },
+  "schedule_sha256": "96a7714fda9e8d17ad8fe8dccb441a0f024c9173d74b6d9414e40916a56d9a30",
+  "scientific_roster_policy": "frozen for postseason research; no weekly publication generation",
+  "season": 2026,
+  "status": "ready_for_owner_review_and_publication",
+  "weekly_roster": "corrected-F6 wide-margin only",
+  "wide_margin_fingerprint": "F6"
+}

@@ -1,30 +1,37 @@
 # Publication output layout
 
-Current generated publication packages live beneath the external durable
-artifact root. Prediction and poll outputs are not split between a
-`data/` tree, a figures tree, manual-poll tree, or winner/margin aliases.
+Weekly public material uses only the operational corrected-F6 wide-margin
+roster. The frozen scientific F0–F8 roster is not regenerated during the
+season; any optional scientific rehearsals belong under `data/publication/`,
+not `publication/`.
 
 Each regenerated season-week uses exactly this layout:
 
 ```text
 publication/<season>/week_<NN>/
-├── wide_margin/
-│   ├── predictions_all_games.csv
-│   ├── predictions_top25_games.csv
-│   ├── poll.csv
-│   ├── predictions_all_games.png
-│   ├── predictions_top25_games.png
-│   ├── poll.png
-│   └── full_ballots.png
-└── scientific/
-    ├── predictions_all_games.csv
-    ├── predictions_top25_games.csv
-    ├── poll.csv
-    ├── predictions_all_games.png
-    ├── predictions_top25_games.png
-    ├── poll.png
-    └── full_ballots.png
+├── pre_game/
+│   ├── blog/
+│   ├── figures/       # PNG picks, Top-25, ballots, and social cards
+│   ├── tables/        # local/gitignored predictions, poll, votes, and ballots
+│   ├── metadata/
+│   ├── frozen_bundle/ # immutable prediction bytes and verification manifest
+│   └── x_post_package/
+├── post_game/
+    ├── scoring/
+    ├── scorecard.csv
+    ├── weekly_metrics.csv
+    ├── cumulative_metrics.csv
+    ├── sunday_performance.png
+    ├── figures/       # post-game Top-25, AP comparison, ballots, social assets
+    ├── tables/        # local/gitignored post-game poll and ballot snapshots
+    └── x_post_package/
 ```
+
+Operational weekly figures are PNG-only. Requested descriptive analysis figures
+are promoted into the applicable `pre_game/figures/` or `post_game/figures/`
+directory instead of creating a separate public `analysis/` subtree. Their
+supporting tables remain local under ignored output paths. SVG is not generated
+for weekly packages.
 
 The canonical weekly blog package also emits two public-facing margin-poll
 social assets in its `figures/` directory:
@@ -100,9 +107,9 @@ poll snapshot used by the weekly package. They do not recalculate or alter the
 Top 25. The style system is centralized in `SOCIAL_STYLE` in
 `src/gridiron_ml/publication/social_top10.py`; edit that mapping to iterate on
 colors, canvas sizes, font sizes, spacing, or discrepancy-badge thresholds.
-The post-game `build_sunday_scorecards` / Top 25 recap workflow emits the same
-two assets in each `margin/week_XX/` directory; winner-objective recaps do not
-duplicate the canonical margin consensus graphics.
+The post-game Top 25 recap workflow emits the same two assets under the
+canonical `week_XX/post_game/figures/` package, with its distinct snapshot in
+`post_game/tables/`.
 Review renders can be produced without rerunning models:
 
 ```bash
@@ -182,15 +189,10 @@ Equal poll-point totals are rendered as standard competition ties without
 mutating the source poll. Every team in the tied group receives the first
 occupied `T-#` rank label, and the next ordinal rank is skipped.
 
-Each week-season directory also gets one manifest recording the generation
-timestamp, roster label, model-bundle hash, fit cutoff, data snapshot hashes,
-and model count. CSVs and PNGs are co-located; no duplicate private/public or
-objective-specific copies are produced.
-
-`wide_margin` is the corrected-F6 operational margin roster. `scientific` is
-the six-model panel evaluated at every F0–F8 fingerprint. The weekly writer
-requires the full 54-cell inventory but emits predictions and polls from only
-the 42 market-free F0–F6 cells. F7/F8 never enter official outputs.
+Each pre-game package records the generation timestamp, wide-margin roster
+label, model-bundle hash, fit cutoff, data snapshot hashes, and model count.
+The scientific roster remains frozen evidence for the retrospective study and
+does not enter weekly public output.
 
 `full_ballots.png` shows every model ballot. Scientific retrospective ballot
 grids constructed from held-out game predictions are visualization-only implied

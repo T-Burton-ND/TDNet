@@ -338,7 +338,6 @@ def _plot_count_matrix(
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=dpi, bbox_inches="tight")
-    fig.savefig(path.with_suffix(".svg"), bbox_inches="tight")
     plt.close(fig)
     return path
 
@@ -464,7 +463,6 @@ def plot_sunday_recap_table(
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=dpi, bbox_inches="tight", facecolor=fig.get_facecolor())
-    fig.savefig(path.with_suffix(".svg"), bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
     return path
 
@@ -528,7 +526,6 @@ def build_prediction_set_recaps(
             ordinary_week = Path(output_root) / f"week_{week:02d}"
             ordinary_week.mkdir(parents=True, exist_ok=True)
             shutil.copy2(figure, ordinary_week / f"{selection_name}_prediction_vs_actual.png")
-            shutil.copy2(figure.with_suffix(".svg"), ordinary_week / f"{selection_name}_prediction_vs_actual.svg")
             row = {"season": season, "week": week, "objective": objective,
                    "prediction_set": selection_name, **weekly_recap_metrics(week_games)}
             weekly_rows.append(row)
@@ -586,7 +583,6 @@ def build_season_sunday_recaps(
             season_to_date_games=pd.concat(season_to_date, ignore_index=True),
         )
         shutil.copy2(figure, directory / "consensus_prediction_vs_actual.png")
-        shutil.copy2(figure.with_suffix(".svg"), directory / "consensus_prediction_vs_actual.svg")
         metric = {"season": season, "week": week, "objective": objective, **weekly_recap_metrics(games)}
         summaries.append(metric)
         figures.append(str(figure))
@@ -743,7 +739,6 @@ def plot_all_model_cumulative_performance(
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=dpi, bbox_inches="tight")
-    fig.savefig(path.with_suffix(".svg"), bbox_inches="tight")
     plt.close(fig)
     return path
 
@@ -769,7 +764,6 @@ def plot_model_cumulative_track(metrics: pd.DataFrame, path: str | Path, *, seas
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=dpi, bbox_inches="tight")
-    fig.savefig(path.with_suffix(".svg"), bbox_inches="tight")
     plt.close(fig)
     return path
 
@@ -851,14 +845,9 @@ def publish_season_champion(
         if source.exists():
             target_dir = objective_output / f"week_{week:02d}"
             shutil.copy2(source, target_dir / "season_champion_prediction_vs_actual.png")
-            svg = source.with_suffix(".svg")
-            if svg.exists():
-                shutil.copy2(svg, target_dir / "season_champion_prediction_vs_actual.svg")
     cumulative = champion_root / "cumulative_performance.png"
     if cumulative.exists():
         shutil.copy2(cumulative, objective_output / "season_champion_cumulative_performance.png")
-        if cumulative.with_suffix(".svg").exists():
-            shutil.copy2(cumulative.with_suffix(".svg"), objective_output / "season_champion_cumulative_performance.svg")
     metadata = {
         "season": season,
         "objective": objective,
@@ -903,7 +892,6 @@ def build_model_running_leaderboard(long: pd.DataFrame, output: Path, *, season:
     fig.tight_layout(rect=[0, 0, 0.82, 0.97])
     path = output / "all_models_running_performance.png"
     fig.savefig(path, dpi=180, bbox_inches="tight")
-    fig.savefig(path.with_suffix(".svg"), bbox_inches="tight")
     plt.close(fig)
 
 
@@ -995,7 +983,6 @@ def plot_objective_weekly_comparison(comparison: pd.DataFrame, path: str | Path,
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=dpi, bbox_inches="tight")
-    fig.savefig(path.with_suffix(".svg"), bbox_inches="tight")
     plt.close(fig)
     return path
 

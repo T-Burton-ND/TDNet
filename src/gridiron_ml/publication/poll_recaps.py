@@ -199,7 +199,6 @@ def plot_consensus_poll_table(
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=dpi, bbox_inches="tight", facecolor=fig.get_facecolor())
-    fig.savefig(path.with_suffix(".svg"), bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
     return path
 
@@ -334,7 +333,6 @@ def plot_season_poll_race(
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=dpi, bbox_inches="tight", facecolor=fig.get_facecolor())
-    fig.savefig(path.with_suffix(".svg"), bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
     return path
 
@@ -408,7 +406,6 @@ def plot_season_podium_gaps(
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=dpi, bbox_inches="tight", facecolor=fig.get_facecolor())
-    fig.savefig(path.with_suffix(".svg"), bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
     return path
 
@@ -461,7 +458,6 @@ def plot_model_disagreement(disagreement: pd.DataFrame, path: str | Path, *, tit
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=dpi, bbox_inches="tight")
-    fig.savefig(path.with_suffix(".svg"), bbox_inches="tight")
     plt.close(fig)
     return path
 
@@ -508,11 +504,12 @@ def plot_tdnet_vs_ap_poll(
     if model_set_sha256:
         count = f" · {int(checkpoint_count)} checkpoints" if checkpoint_count else ""
         generated = generated_at_utc or datetime.now(timezone.utc).isoformat()
-        fig.text(0.5, 0.014, f"Frozen model-set SHA-256: {model_set_sha256}{count} · Generated UTC: {generated}", ha="center", va="bottom", fontsize=9, weight="bold", color="#28323C", family="monospace", bbox={"facecolor": "#FFFFFF", "edgecolor": "#AAB5C1", "boxstyle": "round,pad=0.35"})
+        timestamp = pd.to_datetime(generated, utc=True, errors="coerce")
+        eastern = timestamp.tz_convert("America/New_York").strftime("%b %-d, %Y %-I:%M %p %Z") if pd.notna(timestamp) else str(generated)
+        fig.text(0.5, 0.014, f"Frozen model-set SHA-256: {model_set_sha256}{count} · Generated Eastern: {eastern}", ha="center", va="bottom", fontsize=9, weight="bold", color="#28323C", family="monospace", bbox={"facecolor": "#FFFFFF", "edgecolor": "#AAB5C1", "boxstyle": "round,pad=0.35"})
     fig.tight_layout(rect=[0, 0.052 if model_set_sha256 else 0, 1, 1])
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=dpi, bbox_inches="tight")
-    fig.savefig(path.with_suffix(".svg"), bbox_inches="tight")
     plt.close(fig)
     return path

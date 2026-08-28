@@ -560,7 +560,6 @@ def _build_objective(
                     warning_label=scorecard_warning,
                 )
                 shutil.copy2(week_dir / "prediction_vs_actual.png", sunday_week / f"{selection_name}_prediction_vs_actual.png")
-                shutil.copy2(week_dir / "prediction_vs_actual.svg", sunday_week / f"{selection_name}_prediction_vs_actual.svg")
 
         weekly_summaries.append(_weekly_summary_row(season=season, week=week, objective=objective, games=consensus))
 

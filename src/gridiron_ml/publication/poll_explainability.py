@@ -175,6 +175,5 @@ def _save(fig: plt.Figure, path: str | Path, dpi: int) -> Path:
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(target, dpi=dpi, bbox_inches="tight")
-    fig.savefig(target.with_suffix(".svg"), bbox_inches="tight")
     plt.close(fig)
     return target

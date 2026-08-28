@@ -110,7 +110,7 @@ def render_metric_heatmaps(table: pd.DataFrame, output_root: Path, *, required_t
         fig.suptitle(f"Scientific roster: {spec['label']}", y=1.01)
         fig.tight_layout()
         stem = output_root / f"scientific_roster_{metric}_heatmap"
-        for suffix in ("png", "svg", "pdf"):
+        for suffix in ("png", "pdf"):
             path = stem.with_suffix(f".{suffix}")
             fig.savefig(path, dpi=240 if suffix == "png" else None, bbox_inches="tight")
             paths.append(path)

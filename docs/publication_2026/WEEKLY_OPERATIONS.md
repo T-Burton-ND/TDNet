@@ -13,16 +13,17 @@ Three statistical estimators remain prediction members but are excluded from
 poll voting, leaving 33 automated poll members. The owner contributes one
 separate manual ballot.
 
-When a runtime-ready scientific inventory is available, pass it with
-`--scientific-inventory` to the weekly publication pipeline. The full inventory
-must contain 54 cells (F0–F8 × M1/M2/M3/M4/M5/M10). The command then
-writes both `week_<NN>/wide_margin/` and `week_<NN>/scientific/`, including one
-poll, consensus-spread PNG, descriptive discrepancy-feature PNG, full-ballot PNG, all-game predictions, and Top-25-game predictions for
-each roster. F7/F8 remain in the research inventory but are automatically
-excluded from official predictions, consensus, and polls.
+The in-season workflow publishes only the corrected-F6 wide-margin roster.
+Each Tuesday run writes one `week_<NN>/pre_game/` package containing the full
+pick table, ten closest games, Top-25 games, poll and ballots, and the 4:5 and
+16:9 social graphics. Figures are PNG-only. The frozen scientific roster is reserved for postseason
+comparison; optional rehearsals belong under `data/publication/2026/`.
 
-All times are America/New_York unless the prediction deadline explicitly uses
-UTC. Exact Monday and Tuesday clock times remain owner-configurable.
+All publication-facing timestamps are timezone-aware America/New_York values
+with the applicable UTC offset. Provider/API timestamps may remain in their
+source UTC schema for joins and audits, but reader-facing tables, cards,
+manifests, and draft copy display Eastern time. Exact Monday and Tuesday clock
+times remain owner-configurable.
 
 ## Monday: refresh, rebuild, inspect
 
@@ -34,6 +35,12 @@ This refreshes the 2026 CFBD cache, team-game table, v0 fingerprint, and all
 opponent-adjusted fingerprints. It writes only aggregate inspection metadata to
 `data/publication/2026/weekly_operations/week_XX/`. It removes any prior approval
 marker so stale approval cannot carry between refreshes.
+
+This is the only scheduled CFBD refresh of the week. It calls only the eight
+in-season endpoints that can change the schedule/results, game statistics,
+market context, pregame probabilities, PPA, or rankings. Talent, returning
+production, recruiting, coaches, FBS membership, and venues stay in the local
+preseason cache and are not polled weekly.
 
 The refresh also runs `src/gridiron_ml/cli/publication/check_weekly_snapshot.py`. It records
 one hash/schema/count record per configured CFBD endpoint. A missing endpoint,
@@ -75,11 +82,21 @@ prediction bundle without modifying it:
 
 ```bash
 PYTHONPATH=src python src/gridiron_ml/cli/publication/run_sunday_publication_pipeline.py \
-  --bundle publication/2026/week_XX \
+  --bundle publication/2026/week_XX/pre_game/frozen_bundle \
   --results data/raw/cfbd/v2/games/2026.parquet \
   --snapshot-completeness data/publication/2026/weekly_operations/week_XX/snapshot_completeness.json \
-  --output-root publication/2026/week_XX
+  --output-root publication/2026/week_XX/post_game
 ```
+
+The Sunday scoring command is network-free and consumes the results cached by
+the single weekly refresh; it does not make a second CFBD request. If the cache
+is incomplete, wait for the next scheduled refresh instead of issuing ad hoc
+endpoint calls.
+
+Reviewed descriptive figures belong in the applicable weekly
+`pre_game/figures/` or `post_game/figures/` directory. Their exact signal tables
+remain local and Git-ignored; no separate public `analysis/` subtree is created.
+Analysis never mutates either the pre-game or post-game Top-25 snapshot.
 
 The command fails closed on an uncertified snapshot or invalid bundle, writes
 weekly/cumulative metrics, comparison tables, figures, and draft-only blog/X
@@ -109,9 +126,9 @@ MPLCONFIGDIR=/tmp/tdnet-mpl PYTHONPATH=src \
 ```
 
 Before AP exists it reports `waiting_for_official_ap_top25`. Once AP appears,
-the same command creates TDNet preseason polls, AP comparisons, Week 1
-predictions, figures, failure reports, and a blog draft under
-`publication/2026/preseason/`. It never substitutes the Coaches Poll in a
+the same command creates the wide-margin TDNet preseason poll, AP comparison,
+Week 1 predictions, figures, failure reports, and blog draft under
+`publication/2026/week_00/pre_game/`. It never substitutes the Coaches Poll in a
 release package. If 2026 talent remains unavailable, the derived Week-0 state
 uses the labeled 2025 talent carry-forward; live 2026 returning production is
 overlaid when available.

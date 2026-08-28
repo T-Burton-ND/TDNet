@@ -15,14 +15,10 @@ def main():
     output = args.weekly_output.resolve()
     package = output / "x_post_package"
     package.mkdir(parents=True, exist_ok=True)
-    # Weekly publication outputs are roster-scoped.  X drafts use the
-    # operational wide-margin roster; the scientific roster has its own
-    # publication bundle and is not silently mixed into this draft.
-    wide = output / "wide_margin"
     candidates = [
-        ("all_model_predictions", wide / "predictions_all_games.png"),
-        ("top25_games", wide / "predictions_top25_games.png"),
-        ("tdnet_poll", wide / "poll.png"),
+        ("all_model_predictions", output / "figures/all_games_predictions.png"),
+        ("top25_games", output / "figures/top25_week_matchups.png"),
+        ("tdnet_poll", output / "figures/tdnet_top25.png"),
     ]
     media = [{"role": role, "path": str(path), "exists": path.exists()} for role, path in candidates]
     text = (

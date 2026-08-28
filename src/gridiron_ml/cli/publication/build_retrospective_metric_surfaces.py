@@ -80,7 +80,6 @@ def main() -> None:
     fig.text(0.5, 0.01, "Each cell is the 2025 holdout mean for one model family and fingerprint version; descriptive only.", ha="center", fontsize=9)
     stem = "figure_retrospective_2025_metric_surfaces"
     fig.savefig(args.output_root / f"{stem}.png", dpi=300, bbox_inches="tight")
-    fig.savefig(args.output_root / f"{stem}.svg", bbox_inches="tight")
     plt.close(fig)
 
     long = table.melt(["model_family", "fingerprint_id"], var_name="metric", value_name="value")

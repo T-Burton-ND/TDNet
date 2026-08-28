@@ -12,6 +12,8 @@ from gridiron_ml.publication.poll_recaps import (
 from gridiron_ml.publication.weekly import (
     _build_schedule_driven_matchups,
     frozen_model_set_sha256,
+    format_eastern_kickoffs,
+    format_vegas_spread,
     plot_all_games_table,
     plot_top25_matchups,
     summarize_weekly_predictions,
@@ -78,11 +80,35 @@ def test_weekly_figures_render_with_missing_logos(tmp_path):
     model_set = frozen_model_set_sha256(["a" * 64, "b" * 64])
     top25 = plot_top25_matchups(games, tmp_path / "top25.png", logo_dir=tmp_path / "logos", title="Test", model_set_sha256=model_set, checkpoint_count=2)
     all_games = plot_all_games_table(games, tmp_path / "all.png", title="Test", model_set_sha256=model_set, checkpoint_count=2)
-    assert top25.exists() and top25.with_suffix(".svg").exists()
-    assert all_games.exists() and all_games.with_suffix(".svg").exists()
-    assert model_set in top25.with_suffix(".svg").read_text(encoding="utf-8")
-    assert model_set in all_games.with_suffix(".svg").read_text(encoding="utf-8")
-    assert "#10 Away at #2 Home" in all_games.with_suffix(".svg").read_text(encoding="utf-8")
+    assert top25.exists() and not top25.with_suffix(".svg").exists()
+    assert all_games.exists() and not all_games.with_suffix(".svg").exists()
+
+
+def test_public_pick_kickoffs_are_rendered_in_eastern_time():
+    games = pd.DataFrame([{
+        "game_start_time_utc": "2026-08-29T16:00:00Z", "away_team": "Away",
+        "home_team": "Home", "pred_winner": "Home", "predicted_margin": 4.0,
+        "pred_home_win_probability": .6, "model_agreement": .8,
+    }])
+    assert format_eastern_kickoffs(games["game_start_time_utc"]).iloc[0] == "Sat 12:00 PM"
+
+
+def test_public_pick_spread_names_favorite_at_publication():
+    assert format_vegas_spread({
+        "home_team": "Home", "away_team": "Away", "market_spread_close": -3.5,
+    }) == "Home −3.5"
+    assert format_vegas_spread({
+        "home_team": "Home", "away_team": "Away", "market_spread_close": 2.5,
+    }) == "Away −2.5"
+    assert format_vegas_spread({
+        "home_team": "Home", "away_team": "Away", "market_spread_close": 0,
+    }) == "Pick'em"
+    assert format_vegas_spread({
+        "home_team": "Home", "away_team": "Away", "market_spread_close": None,
+    }) == "Not available"
+    assert format_vegas_spread({
+        "home_team": "Home", "away_team": "Away", "market_spread_close": -3.25,
+    }) == "Home −3.25"
 
 
 def test_team_label_prefers_canonical_ap_rank_columns():
@@ -139,7 +165,7 @@ def test_margin_poll_story_figures_render_full_weekly_gap(tmp_path):
     )
     for output in (race, podium):
         assert output.exists()
-        assert output.with_suffix(".svg").exists()
+        assert not output.with_suffix(".svg").exists()
 
 
 def test_sunday_scorecard_renders_ap_ranks_next_to_team_names(tmp_path):
@@ -155,10 +181,8 @@ def test_sunday_scorecard_renders_ap_ranks_next_to_team_names(tmp_path):
         games, tmp_path / "scorecard.png", season=2025, week=1, objective="margin",
         season_to_date_games=games,
     )
-    svg = output.with_suffix(".svg").read_text(encoding="utf-8")
-    assert "#10 Away at #2 Home" in svg
-    assert "#10 Away 20–27 #2 Home" in svg
-    assert "Season so far: SU 1–0 (100.0%)" in svg
+    assert output.exists()
+    assert not output.with_suffix(".svg").exists()
 
 
 def test_complete_publication_figure_suite_renders(tmp_path):
@@ -227,9 +251,10 @@ def test_weekly_consensus_preserves_market_spread_for_social_graphics():
     ])
     consensus = summarize_weekly_predictions(rows)
     assert consensus.loc[0, "market_spread_close"] == -3.5
+    assert consensus.loc[0, "vegas_spread_as_of_publish"] == -3.5
 
 
-def test_cfbd_provider_median_lines_merge_without_fabricating_empty_games():
+def test_cfbd_provider_average_lines_merge_without_fabricating_empty_games():
     from gridiron_ml.publication.weekly import merge_cfbd_market_lines
 
     schedule = pd.DataFrame([
@@ -238,11 +263,15 @@ def test_cfbd_provider_median_lines_merge_without_fabricating_empty_games():
     ])
     lines = pd.DataFrame([
         {"id": 1, "season": 2026, "week": 1,
-         "lines": [{"provider": "A", "spread": -7}, {"provider": "B", "spread": -8}]},
+         "lines": [
+             {"provider": "A", "spread": -7},
+             {"provider": "B", "spread": -8},
+             {"provider": "C", "spread": -12},
+         ]},
         {"id": 2, "season": 2026, "week": 1, "lines": []},
     ])
     merged = merge_cfbd_market_lines(schedule, lines, season=2026, week=1)
-    assert merged.loc[merged["game_id"].eq(1), "market_spread_close"].item() == -7.5
+    assert merged.loc[merged["game_id"].eq(1), "market_spread_close"].item() == -9.0
     assert pd.isna(merged.loc[merged["game_id"].eq(2), "market_spread_close"].item())
 
 

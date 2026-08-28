@@ -48,7 +48,7 @@ def test_sunday_pipeline_requires_certified_snapshot_and_writes_review_bundle(tm
     pd.DataFrame([{"game_id": 42, "home_points": 24, "away_points": 17}]).to_parquet(results, index=False)
     snapshot = tmp_path / "snapshot.json"
     snapshot.write_text(json.dumps({"status": "pass", "certification": "weekly_snapshot_certified"}) + "\n")
-    output = tmp_path / "sunday"
+    output = tmp_path / "publication/2026/week_01/post_game"
     env = {**os.environ, "PYTHONPATH": str(project / "src"), "MPLCONFIGDIR": str(tmp_path / "mpl")}
     completed = subprocess.run(
         [sys.executable, "src/gridiron_ml/cli/publication/run_sunday_publication_pipeline.py",

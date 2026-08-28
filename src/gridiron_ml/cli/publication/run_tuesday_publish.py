@@ -23,13 +23,12 @@ def main():
     parser.add_argument("--ap-top25", type=Path)
     parser.add_argument("--tdnet-top25", type=Path, help="Optional owner/external TDNet poll override; otherwise the frozen roster poll is generated automatically.")
     parser.add_argument("--canonical-poll-objective", choices=["margin"], help="Objective poll to publish as canonical after review.")
-    parser.add_argument("--scientific-inventory", type=Path, help="Runtime-ready frozen F0–F8 scientific roster inventory; market-bearing tiers are excluded at publication time.")
     parser.add_argument("--preseason-rankings", type=Path, help="Preseason-frozen historical-performance ranking sidecar.")
     args = parser.parse_args()
     operations = root / f"data/publication/{args.season}/weekly_operations/week_{args.week:02d}"
     if not (operations / "monday_review.approved").exists():
         raise RuntimeError("Tuesday publication requires monday_review.approved.")
-    output = root / f"publication/{args.season}/week_{args.week:02d}"
+    output = root / f"publication/{args.season}/week_{args.week:02d}/pre_game"
     if args.season == 2026:
         subprocess.run([
             "python", "src/gridiron_ml/cli/publication/build_weekly_learned_model_inventory.py",
@@ -47,8 +46,6 @@ def main():
         command.extend(["--canonical-poll-objective", args.canonical_poll_objective])
     if args.preseason_rankings:
         command.extend(["--preseason-rankings", str(args.preseason_rankings)])
-    if args.scientific_inventory:
-        command.extend(["--scientific-inventory", str(args.scientific_inventory)])
     if args.schedule_snapshot:
         command.extend(["--schedule-snapshot", str(args.schedule_snapshot)])
     if args.ap_top25:
