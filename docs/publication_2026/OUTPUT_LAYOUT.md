@@ -12,7 +12,7 @@ publication/<season>/week_<NN>/
 ├── pre_game/
 │   ├── blog/
 │   ├── figures/       # PNG picks, Top-25, ballots, and social cards
-│   ├── tables/        # exact predictions, poll, votes, and ballots
+│   ├── tables/        # local/gitignored predictions, poll, votes, and ballots
 │   ├── metadata/
 │   ├── frozen_bundle/ # immutable prediction bytes and verification manifest
 │   └── x_post_package/
@@ -23,16 +23,15 @@ publication/<season>/week_<NN>/
     ├── cumulative_metrics.csv
     ├── sunday_performance.png
     ├── figures/       # post-game Top-25, AP comparison, ballots, social assets
-    ├── tables/        # separate post-game poll and ballot snapshots
+    ├── tables/        # local/gitignored post-game poll and ballot snapshots
     └── x_post_package/
-└── analysis/
-    ├── figures/       # requested descriptive analysis, PNG only
-    ├── tables/        # exact signals behind each figure
-    └── metadata/      # hashes and analysis policy
 ```
 
-Operational weekly figures are PNG-only. SVG is not generated for pre-game,
-post-game, or analysis packages.
+Operational weekly figures are PNG-only. Requested descriptive analysis figures
+are promoted into the applicable `pre_game/figures/` or `post_game/figures/`
+directory instead of creating a separate public `analysis/` subtree. Their
+supporting tables remain local under ignored output paths. SVG is not generated
+for weekly packages.
 
 The canonical weekly blog package also emits two public-facing margin-poll
 social assets in its `figures/` directory:

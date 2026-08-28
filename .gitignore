@@ -49,9 +49,9 @@ docs/publication_*/**/*.csv.gz
 docs/publication_2026/scientific_roster_shap/
 publication/**/*.csv
 publication/**/*.csv.gz
-!publication/2026/week_*/pre_game/tables/*.csv
-!publication/2026/week_*/post_game/tables/*.csv
-!publication/2026/week_*/analysis/tables/*.csv
+# Weekly prediction, ballot, market, and analysis tables remain local. Publish
+# the reviewed figures, write-up, and compact provenance only.
+publication/2026/week_*/**/tables/**
 # A compact, source-only ladder table accompanies the public introductory
 # figure; it contains canonical labels, not CFBD or derived result rows.
 !publication/2026/intro/fingerprint_ladder.csv

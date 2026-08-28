@@ -19,8 +19,11 @@ pick table, ten closest games, Top-25 games, poll and ballots, and the 4:5 and
 16:9 social graphics. Figures are PNG-only. The frozen scientific roster is reserved for postseason
 comparison; optional rehearsals belong under `data/publication/2026/`.
 
-All times are America/New_York unless the prediction deadline explicitly uses
-UTC. Exact Monday and Tuesday clock times remain owner-configurable.
+All publication-facing timestamps are timezone-aware America/New_York values
+with the applicable UTC offset. Provider/API timestamps may remain in their
+source UTC schema for joins and audits, but reader-facing tables, cards,
+manifests, and draft copy display Eastern time. Exact Monday and Tuesday clock
+times remain owner-configurable.
 
 ## Monday: refresh, rebuild, inspect
 
@@ -32,6 +35,12 @@ This refreshes the 2026 CFBD cache, team-game table, v0 fingerprint, and all
 opponent-adjusted fingerprints. It writes only aggregate inspection metadata to
 `data/publication/2026/weekly_operations/week_XX/`. It removes any prior approval
 marker so stale approval cannot carry between refreshes.
+
+This is the only scheduled CFBD refresh of the week. It calls only the eight
+in-season endpoints that can change the schedule/results, game statistics,
+market context, pregame probabilities, PPA, or rankings. Talent, returning
+production, recruiting, coaches, FBS membership, and venues stay in the local
+preseason cache and are not polled weekly.
 
 The refresh also runs `src/gridiron_ml/cli/publication/check_weekly_snapshot.py`. It records
 one hash/schema/count record per configured CFBD endpoint. A missing endpoint,
@@ -79,10 +88,15 @@ PYTHONPATH=src python src/gridiron_ml/cli/publication/run_sunday_publication_pip
   --output-root publication/2026/week_XX/post_game
 ```
 
-Ad hoc descriptive figures belong in `publication/2026/week_XX/analysis/`,
-with PNGs under `figures/`, their exact signal tables under `tables/`, and
-source hashes under `metadata/`. Analysis never mutates either the pre-game or
-post-game Top-25 snapshot.
+The Sunday scoring command is network-free and consumes the results cached by
+the single weekly refresh; it does not make a second CFBD request. If the cache
+is incomplete, wait for the next scheduled refresh instead of issuing ad hoc
+endpoint calls.
+
+Reviewed descriptive figures belong in the applicable weekly
+`pre_game/figures/` or `post_game/figures/` directory. Their exact signal tables
+remain local and Git-ignored; no separate public `analysis/` subtree is created.
+Analysis never mutates either the pre-game or post-game Top-25 snapshot.
 
 The command fails closed on an uncertified snapshot or invalid bundle, writes
 weekly/cumulative metrics, comparison tables, figures, and draft-only blog/X

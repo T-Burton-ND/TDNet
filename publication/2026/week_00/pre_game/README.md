@@ -3,20 +3,22 @@
 This is the canonical public package for the Week 0 opening slate. It contains
 only the corrected-F6 wide-margin operational roster.
 
-- `figures/` contains all-game picks, the closest-games view (all seven games
+- `figures/` contains all-game picks, the closest-games view (all eight games
   for this small slate; up to ten in a normal week), Top-25 matchups,
-  the Week 0 Top-10 poll graphics, and the Week 1 opening-slate prediction
-  social cards in 4:5 and 16:9 formats.
-- `tables/` contains the exact consensus and per-model predictions behind the
-  figures.
+  the Week 0 Top-10 poll graphics, and the Week 0 opening-slate prediction
+  social cards in 4:5 and 16:9 formats. It also contains the Games-of-the-Week
+  figure showing the three largest standardized F6 feature differences for
+  each featured matchup and the Sickos game.
 - `figures/` also contains the TDNet poll and complete model-ballot graphic;
-  their exact poll, receiving-vote, and ballot data live in `tables/`.
+  the underlying poll, receiving-vote, ballot, prediction, and market tables
+  are generated locally and intentionally ignored by Git.
 - `blog/` contains draft copy, captions, and alt text.
-- `metadata/` contains the source generation and model-provenance records.
+- `metadata/` contains the source generation and model-provenance records,
+  including the live-2026 talent and returning-production row counts.
 
-The filenames say `week_01_tdnet_predictions` because CFBD assigns the opening
-slate provider week 1; TDNet publishes it as Week 0. No post-game directory is
-created until completed results are available.
+CFBD assigns the opening slate provider week 1, which remains recorded in the
+local audit tables; the reader-facing social cards label it Week 0. No post-game
+directory is created until completed results are available.
 
 All weekly graphics are PNG-only. The retired SVG copies are archived under
 `data/publication/2026/week_00_svg_archive/`.
