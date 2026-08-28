@@ -1,0 +1,25 @@
+{
+  "artifact_policy": "paper_only_not_social_media",
+  "created_at_eastern": "2026-08-28T15:34:50.227856-04:00",
+  "files": {
+    "ballots_csv": "scientific_full_ballots.csv",
+    "ballots_png": "scientific_top25_ballots.png",
+    "power_rankings_csv": "scientific_consensus_power_rankings.csv",
+    "predictions_csv": "scientific_all_game_predictions.csv",
+    "predictions_png": "scientific_all_game_predictions.png",
+    "top25_png": "scientific_top25.png"
+  },
+  "full_ballot_rows": 5796,
+  "market_bearing_tiers_excluded": [
+    "F7",
+    "F8"
+  ],
+  "phase": "pre_game",
+  "roster": "Scientific roster (market-free F0\u2013F6)",
+  "scientific_model_count": 42,
+  "season": 2026,
+  "source_inventory": "/groups/bsavoie2/tburton2/TDNet/publication_artifacts/scientific_roster_refits/f0_f8_margin_through_2025_v1/final_model_inventory.csv",
+  "source_inventory_sha256": "d76c839288cdaa188b562e32d8d2fbed93e33557ebcbe027c75b6307038b67ca",
+  "teams_per_model_ballot": 138,
+  "week": 0
+}
