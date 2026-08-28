@@ -125,7 +125,7 @@ def plot_matchup_signals(signals: pd.DataFrame, path: str | Path, *, season: int
         raise ValueError("No matchup signals are available to plot.")
     apply_tdnet_theme()
     games = signals[["game_id", "role", "away_team", "home_team"]].drop_duplicates().to_dict("records")
-    fig, axes = plt.subplots(len(games), 1, figsize=(12.8, max(7.2, 2.55 * len(games))), squeeze=False)
+    fig, axes = plt.subplots(len(games), 1, figsize=(15.2, max(9.0, 3.25 * len(games))), squeeze=False)
     for axis, game in zip(axes[:, 0], games):
         frame = signals[signals["game_id"].astype(str).eq(str(game["game_id"]))].sort_values("home_edge_z")
         colors = [TDNET_COLORS["ion_blue"] if value >= 0 else TDNET_COLORS["edge_pink"] for value in frame["home_edge_z"]]
@@ -137,13 +137,13 @@ def plot_matchup_signals(signals: pd.DataFrame, path: str | Path, *, season: int
         axis.axvline(0, color=TDNET_COLORS["slate"], lw=.9)
         axis.set_title(
             f"{game['role']}  •  {game['away_team']} at {game['home_team']}",
-            loc="left", fontsize=11.5, weight="bold",
+            loc="left", fontsize=14.5, weight="bold",
         )
         axis.set_xlabel(f"← {game['away_team']} edge     standardized preseason signal     {game['home_team']} edge →")
         axis.grid(axis="x", alpha=.35)
         axis.spines[["top", "right", "left"]].set_visible(False)
-    fig.suptitle(f"TDNet {season} Week {week}: Three Key Matchup Signals", fontsize=17, weight="bold", x=.07, ha="left")
-    fig.text(.07, .012, "Descriptive frozen-F6 preseason signals, selected by largest standardized team difference. These are context, not causal explanations or betting advice.", fontsize=8.2, color=TDNET_COLORS["slate"])
+    fig.suptitle(f"TDNet {season} Week {week}: Key Matchup Signals", fontsize=21, weight="bold", x=.07, ha="left")
+    fig.text(.07, .012, "Descriptive frozen-F6 preseason signals, selected by largest standardized team difference. These are context, not causal explanations or betting advice.", fontsize=10.5, color=TDNET_COLORS["slate"])
     fig.tight_layout(rect=[0, .04, 1, .95])
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)

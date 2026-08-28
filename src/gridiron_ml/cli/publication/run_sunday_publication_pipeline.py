@@ -34,6 +34,7 @@ from gridiron_ml.publication.bundles import (  # noqa: E402
 from gridiron_ml.publication.chart_contracts import validate_chart_domains  # noqa: E402
 from gridiron_ml.publication.figure_theme import MODEL_COLORS, TDNET_COLORS, apply_tdnet_theme  # noqa: E402
 from gridiron_ml.publication.output_layout import require_week_directory  # noqa: E402
+from gridiron_ml.publication.scientific_weekly import build_scientific_weekly_outputs  # noqa: E402
 
 
 def _metrics(frame: pd.DataFrame) -> dict[str, float | int]:
@@ -106,6 +107,12 @@ def main() -> int:
         required=True,
         help="Canonical week_XX/post_game directory; kept separate from the frozen pre_game package.",
     )
+    parser.add_argument("--scientific-inventory", type=Path)
+    parser.add_argument("--scientific-schedule-snapshot", type=Path)
+    parser.add_argument("--scientific-market-lines-snapshot", type=Path)
+    parser.add_argument("--scientific-reference-poll", type=Path)
+    parser.add_argument("--scientific-season", type=int)
+    parser.add_argument("--scientific-week", type=int)
     args = parser.parse_args()
     args.output_root = require_week_directory(args.output_root, "post_game")
     existing = [path for path in args.output_root.iterdir() if path.name != "README.md"] if args.output_root.exists() else []
@@ -130,6 +137,29 @@ def main() -> int:
     model_labels["baseline_or_model"] = model_labels["model_name"].astype(str).str.contains("vegas|random|knn|point|prior", case=False, regex=True).map({True: "baseline", False: "model"})
     model_labels.to_csv(args.output_root / "baseline_comparison.csv", index=False)
     _figure(weekly, args.output_root / "sunday_performance.png")
+    scientific_paths = {}
+    if args.scientific_inventory is not None:
+        if args.scientific_schedule_snapshot is None:
+            raise ValueError(
+                "--scientific-schedule-snapshot is required with --scientific-inventory."
+            )
+        scientific_season = args.scientific_season or int(
+            pd.to_numeric(scored["season"], errors="coerce").dropna().iloc[0]
+        )
+        scientific_week = args.scientific_week or int(
+            pd.to_numeric(scored["week"], errors="coerce").dropna().iloc[0]
+        )
+        scientific_paths = build_scientific_weekly_outputs(
+            project_root=ROOT,
+            inventory_path=args.scientific_inventory,
+            schedule_snapshot_path=args.scientific_schedule_snapshot,
+            market_lines_path=args.scientific_market_lines_snapshot,
+            reference_poll_path=args.scientific_reference_poll,
+            output_root=args.output_root / "scientific",
+            season=scientific_season,
+            week=scientific_week,
+            phase="post_game",
+        )
     (args.output_root / "blog_summary.md").write_text(
         f"# TDNet Sunday retrospective — {datetime.now(timezone.utc).date()}\n\n"
         "This draft was generated from an immutable prediction bundle after certified source checks. "
@@ -155,6 +185,7 @@ def main() -> int:
         "results_sha256": sha256_file(args.results),
         "snapshot_completeness": snapshot,
         "files": files,
+        "scientific_outputs": {name: str(path) for name, path in scientific_paths.items()},
         "external_send": "disabled",
     }
     (args.output_root / "sunday_publication_manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True, default=str) + "\n", encoding="utf-8")

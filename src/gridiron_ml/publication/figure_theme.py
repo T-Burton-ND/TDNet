@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
-import matplotlib.pyplot as plt
+import os
+from pathlib import Path
 
+import matplotlib.pyplot as plt
+from matplotlib import font_manager
 
 TDNET_COLORS = {
     "midnight_gridiron": "#11214F",
@@ -21,8 +24,30 @@ TDNET_COLORS = {
 }
 
 
+def _register_publication_fonts() -> str:
+    """Register the locally installed Aptos family, with a portable fallback."""
+    configured = os.environ.get("TDNET_PUBLICATION_FONT_DIR")
+    font_dir = (
+        Path(configured).expanduser()
+        if configured
+        else Path(__file__).resolve().parents[3] / "data" / "fonts" / "aptos"
+    )
+    if not font_dir.is_dir():
+        return "DejaVu Sans"
+    # Aptos Display advertises the same family name as Aptos Text. Excluding
+    # it keeps Matplotlib from choosing display-cut glyphs for body copy.
+    font_paths = [
+        path for path in sorted(font_dir.glob("*.ttf"))
+        if not path.name.startswith("Aptos-Display")
+    ]
+    for font_path in font_paths:
+        font_manager.fontManager.addfont(font_path)
+    return "Aptos"
+
+
 def apply_tdnet_theme() -> None:
     """Apply the shared journal-oriented defaults to the current matplotlib process."""
+    font_family = _register_publication_fonts()
     plt.rcParams.update(
         {
             "axes.facecolor": TDNET_COLORS["white"],
@@ -32,7 +57,14 @@ def apply_tdnet_theme() -> None:
             "axes.titlecolor": TDNET_COLORS["midnight_gridiron"],
             "xtick.color": TDNET_COLORS["slate"],
             "ytick.color": TDNET_COLORS["slate"],
-            "font.size": 9,
+            "font.family": font_family,
+            "font.monospace": ["Aptos Mono", "DejaVu Sans Mono"],
+            "font.size": 11,
+            "axes.titlesize": 15,
+            "axes.labelsize": 12,
+            "xtick.labelsize": 10.5,
+            "ytick.labelsize": 10.5,
+            "legend.fontsize": 11,
             "axes.grid": True,
             "grid.color": TDNET_COLORS["polar_mist"],
             "grid.linewidth": 0.8,

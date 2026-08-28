@@ -159,7 +159,7 @@ def plot_consensus_poll_table(
         "Avg. rank": frame["average_rank"].map(lambda value: f"{value:.1f}"),
         "Ballot range": frame["best_rank"].astype(int).astype(str) + "–" + frame["worst_rank"].astype(int).astype(str),
     })
-    fig, axis = plt.subplots(figsize=(12.5, 10.2))
+    fig, axis = plt.subplots(figsize=(14.5, 12.0))
     fig.patch.set_facecolor("#F7F4ED")
     axis.axis("off")
     plotted = axis.table(
@@ -168,8 +168,8 @@ def plot_consensus_poll_table(
         colWidths=[0.05, 0.05, 0.05, 0.225, 0.075, 0.08, 0.13, 0.07, 0.09, 0.105],
     )
     plotted.auto_set_font_size(False)
-    plotted.set_fontsize(9.2)
-    plotted.scale(1, 1.35)
+    plotted.set_fontsize(11.2)
+    plotted.scale(1, 1.5)
     for (row, _), cell in plotted.get_celld().items():
         cell.set_edgecolor("#D4D7DB")
         if row == 0:
@@ -187,14 +187,14 @@ def plot_consensus_poll_table(
             continue
         cell = plotted[(row_number, team_column)]
         draw_team_logo(axis, logo, cell.get_x() + cell.get_width()/2,
-                       cell.get_y() + cell.get_height()/2, target_px=20)
-    axis.set_title(title, fontsize=17, weight="bold", pad=18, color="#17263C")
+                       cell.get_y() + cell.get_height()/2, target_px=24)
+    axis.set_title(title, fontsize=21, weight="bold", pad=22, color="#17263C")
     footer = (
         f"Δ = TDNet rank − {reference_label} rank; negative values mean TDNet ranks the team higher."
     )
     if receiving_votes:
         footer += "\n" + textwrap.fill("Receiving votes: " + receiving_votes, width=145)
-    fig.text(0.5, 0.018, footer, ha="center", va="bottom", fontsize=8.5, color="#555B63")
+    fig.text(0.5, 0.018, footer, ha="center", va="bottom", fontsize=10.5, color="#555B63")
     fig.tight_layout(rect=[0, 0.055, 1, 0.985])
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -476,7 +476,7 @@ def plot_tdnet_vs_ap_poll(
     frame["sort_rank"] = frame[["tdnet_rank", "ap_rank"]].min(axis=1)
     frame = frame.sort_values(["sort_rank", "team"]).head(35).reset_index(drop=True)
     y = range(len(frame))
-    fig, axis = plt.subplots(figsize=(11, max(7, 0.35 * len(frame) + 1.8)))
+    fig, axis = plt.subplots(figsize=(13.5, max(9, 0.46 * len(frame) + 2.2)))
     for yi, row in zip(y, frame.itertuples()):
         if pd.notna(row.tdnet_rank) and pd.notna(row.ap_rank):
             axis.plot([row.tdnet_rank, row.ap_rank], [yi, yi], color="#BBC2C9", lw=1.4, zorder=1)
@@ -489,15 +489,15 @@ def plot_tdnet_vs_ap_poll(
     for yi, team in zip(y, frame["team"].astype(str)):
         logo = resolve_team_logo_path(team, logo_dir)
         if logo is not None:
-            draw_team_logo(axis, logo, 25.35, yi, target_px=18)
+            draw_team_logo(axis, logo, 25.35, yi, target_px=24)
         else:
-            axis.text(25.35, yi, abbreviate_team_name(team, 12), ha="center", va="center", fontsize=6)
+            axis.text(25.35, yi, abbreviate_team_name(team, 12), ha="center", va="center", fontsize=8.5)
     axis.invert_yaxis()
     axis.invert_xaxis()
     axis.set_xlim(26, 0)
     axis.set_xticks(range(1, 26, 2))
     axis.set_xlabel("Rank (1 is best)")
-    axis.set_title(title, fontsize=16, weight="bold", pad=14)
+    axis.set_title(title, fontsize=21, weight="bold", pad=18)
     axis.grid(axis="x", alpha=0.2)
     axis.spines[["top", "right", "left"]].set_visible(False)
     axis.legend(frameon=False, ncol=2)
@@ -506,7 +506,7 @@ def plot_tdnet_vs_ap_poll(
         generated = generated_at_utc or datetime.now(timezone.utc).isoformat()
         timestamp = pd.to_datetime(generated, utc=True, errors="coerce")
         eastern = timestamp.tz_convert("America/New_York").strftime("%b %-d, %Y %-I:%M %p %Z") if pd.notna(timestamp) else str(generated)
-        fig.text(0.5, 0.014, f"Frozen model-set SHA-256: {model_set_sha256}{count} · Generated Eastern: {eastern}", ha="center", va="bottom", fontsize=9, weight="bold", color="#28323C", family="monospace", bbox={"facecolor": "#FFFFFF", "edgecolor": "#AAB5C1", "boxstyle": "round,pad=0.35"})
+        fig.text(0.5, 0.014, f"Frozen model-set SHA-256: {model_set_sha256}{count} · Generated Eastern: {eastern}", ha="center", va="bottom", fontsize=10.5, weight="bold", color="#28323C", family="monospace", bbox={"facecolor": "#FFFFFF", "edgecolor": "#AAB5C1", "boxstyle": "round,pad=0.35"})
     fig.tight_layout(rect=[0, 0.052 if model_set_sha256 else 0, 1, 1])
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)

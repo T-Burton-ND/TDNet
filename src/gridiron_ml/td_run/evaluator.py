@@ -412,6 +412,9 @@ class TDEval:
             ballot = rank_df.drop_duplicates(subset=[key_col], keep="first").copy()
             ballot["keys_team"] = ballot[key_col].astype(str)
             ballot["ballot_model"] = self._model_label(model, idx)
+            ballot["power_rating_vs_average"] = pd.to_numeric(
+                ballot.get("score"), errors="coerce"
+            )
             ballot["ballot_rank"] = np.arange(1, len(ballot) + 1)
             ballot["poll_points"] = np.maximum(
                 int(top_n) + 1 - ballot["ballot_rank"], 0
@@ -424,6 +427,7 @@ class TDEval:
                     [
                         "keys_team",
                         "ballot_model",
+                        "power_rating_vs_average",
                         "ballot_rank",
                         "poll_points",
                         "top25_vote",

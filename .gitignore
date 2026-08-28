@@ -52,6 +52,10 @@ publication/**/*.csv.gz
 # Weekly prediction, ballot, market, and analysis tables remain local. Publish
 # the reviewed figures, write-up, and compact provenance only.
 publication/2026/week_*/**/tables/**
+# The paper-only scientific weekly package deliberately publishes its three
+# compact audit CSVs beside the corresponding figures.
+!publication/2026/week_*/pre_game/scientific/*.csv
+!publication/2026/week_*/post_game/scientific/*.csv
 # A compact, source-only ladder table accompanies the public introductory
 # figure; it contains canonical labels, not CFBD or derived result rows.
 !publication/2026/intro/fingerprint_ladder.csv

@@ -16,9 +16,8 @@ Weekly products use one operational roster and two time-scoped directories:
 `publication/<season>/week_<NN>/post_game/`, plus a sibling `analysis/`
 directory for requested descriptive figures. Top-25 outputs share each
 package's `figures/` and `tables/`; there is no separate Top-25 directory.
-Scientific weekly rehearsals, if
-needed for internal checks, live under `data/publication/` and never mix with
-the public weekly package.
+Scientific weekly paper outputs live in a clearly labeled `scientific/`
+subdirectory and never mix with operational or social assets.
 Retrospective weeks also contain the postgame prediction PNG and scorecard. The
 scientific retrospective Top-25 poll is an implied ranking view of the same
 held-out prediction margins; it is not a second preregistered objective.

@@ -19,7 +19,7 @@
     }
   },
   "schedule_sha256": "96a7714fda9e8d17ad8fe8dccb441a0f024c9173d74b6d9414e40916a56d9a30",
-  "scientific_roster_policy": "frozen for postseason research; no weekly publication generation",
+  "scientific_roster_policy": "immutable paper-only package under pre_game/scientific; market-free F0-F6 cells only",
   "season": 2026,
   "status": "ready_for_owner_review_and_publication",
   "weekly_roster": "corrected-F6 wide-margin only",

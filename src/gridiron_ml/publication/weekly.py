@@ -64,6 +64,7 @@ def build_weekly_blog_package(
     preseason_ranking_path: str | Path | None = None,
     include_collapsed_models: bool = False,
     schedule_driven_matchups: bool = False,
+    render_social_assets: bool = True,
 ) -> dict[str, object]:
     """Predict every scheduled game and render the Top-25 matchup slate.
 
@@ -273,7 +274,7 @@ def build_weekly_blog_package(
         ).strip()
     except (OSError, subprocess.CalledProcessError):
         git_commit = None
-    if not consensus.empty:
+    if render_social_assets and not consensus.empty:
         predictions_source = tables / "all_games.csv"
         figure_paths["tdnet_predictions_4x5"] = render_predictions_social(
             consensus,
@@ -299,7 +300,7 @@ def build_weekly_blog_package(
             git_commit=git_commit,
             source_sha256=sha256_file(predictions_source),
         )
-    if not tdnet_top25.empty:
+    if render_social_assets and not tdnet_top25.empty:
         social_poll = tdnet_top25.copy()
         if not ap_top25.empty and "reference_rank" not in social_poll:
             ap_reference = ap_top25.loc[:, ["team", "rank"]].rename(
@@ -350,8 +351,9 @@ def build_weekly_blog_package(
     (blog / "summary.md").write_text(summary_md, encoding="utf-8")
     social_captions = (
         "\n\n4. **TDNet prediction social graphics.** Mobile-first 4:5 and native 16:9 summaries of the Top 3 featured games plus the closest unranked Sickos matchup."
+        if render_social_assets else ""
     )
-    if not tdnet_top25.empty:
+    if render_social_assets and not tdnet_top25.empty:
         social_captions += (
             "\n\n5. **TDNet Top 10 social graphics.** Mobile-first 4:5 and native 16:9 summaries of the frozen margin-model consensus poll."
         )
@@ -364,8 +366,9 @@ def build_weekly_blog_package(
     )
     social_alt_text = (
         "\n\nThe TDNet prediction social graphics show a hero featured matchup, two supporting games, and a violet Sickos module for the closest projected matchup with no TDNet-ranked teams."
+        if render_social_assets else ""
     )
-    if not tdnet_top25.empty:
+    if render_social_assets and not tdnet_top25.empty:
         social_alt_text += (
             "\n\nThe TDNet Top 10 social graphics rank the ten leading teams in the frozen margin-model consensus poll. "
             "The number-one team is a large hero node, numbers two and three are supporting nodes, "
@@ -549,7 +552,7 @@ def plot_top25_matchups(games, path, *, logo_dir, title, dpi=200, model_set_sha2
     """Render logo matchup cards with explicit winner and margin labels."""
     games = pd.DataFrame(games)
     rows = max(1, len(games))
-    fig, axes = plt.subplots(rows, 1, figsize=(11, 1.65 * rows + 0.8), squeeze=False)
+    fig, axes = plt.subplots(rows, 1, figsize=(12.5, 2.15 * rows + 1.0), squeeze=False)
     fig.patch.set_facecolor("#F6F3EC")
     for axis in axes[:, 0]:
         axis.set_xlim(0, 1)
@@ -561,21 +564,21 @@ def plot_top25_matchups(games, path, *, logo_dir, title, dpi=200, model_set_sha2
         axis.add_patch(plt.Rectangle((0.01, 0.05), 0.98, 0.9, color="white", ec="#D8D2C4", lw=1.0))
         _draw_logo(axis, game["away_team"], logo_dir, 0.10, 0.5)
         _draw_logo(axis, game["home_team"], logo_dir, 0.90, 0.5)
-        axis.text(0.19, 0.57, format_team_with_ap_rank(game, "away"), ha="left", va="center", fontsize=12, weight="bold")
-        axis.text(0.81, 0.57, format_team_with_ap_rank(game, "home"), ha="right", va="center", fontsize=12, weight="bold")
-        axis.text(0.50, 0.64, "at" if not bool(game.get("neutral_site", False)) else "vs", ha="center", color="#666")
+        axis.text(0.19, 0.60, format_team_with_ap_rank(game, "away"), ha="left", va="center", fontsize=15, weight="bold")
+        axis.text(0.81, 0.60, format_team_with_ap_rank(game, "home"), ha="right", va="center", fontsize=15, weight="bold")
+        axis.text(0.50, 0.68, "at" if not bool(game.get("neutral_site", False)) else "vs", ha="center", fontsize=11.5, color="#666")
         winner = str(game["pred_winner"])
         margin = float(game["predicted_margin"])
-        axis.text(0.50, 0.39, f"TDNet: {winner} by {margin:.1f}", ha="center", va="center", fontsize=13, color="#8A2D2D", weight="bold")
+        axis.text(0.50, 0.41, f"TDNet: {winner} by {margin:.1f}", ha="center", va="center", fontsize=16, color="#8A2D2D", weight="bold")
         axis.text(
             0.50, 0.25, f"Vegas Average: {format_vegas_spread(game)}",
-            ha="center", fontsize=9, color="#22324A", weight="bold",
+            ha="center", fontsize=11.5, color="#22324A", weight="bold",
         )
-        axis.text(0.50, 0.13, f"Agreement {float(game['model_agreement']):.0%}  •  Home win {float(game['pred_home_win_probability']):.0%}", ha="center", fontsize=8.5, color="#555")
-    fig.suptitle(title, fontsize=17, weight="bold", y=0.995)
+        axis.text(0.50, 0.12, f"Agreement {float(game['model_agreement']):.0%}  •  Home win {float(game['pred_home_win_probability']):.0%}", ha="center", fontsize=11, color="#555")
+    fig.suptitle(title, fontsize=21, weight="bold", y=0.995)
     stamp = _model_hash_stamp(model_set_sha256, checkpoint_count, generated_at_utc)
     if stamp:
-        fig.text(0.5, 0.014, stamp, ha="center", va="bottom", fontsize=9, weight="bold", color="#28323C", family="monospace", bbox={"facecolor": "#FFFFFF", "edgecolor": "#AAB5C1", "boxstyle": "round,pad=0.35"})
+        fig.text(0.5, 0.014, stamp, ha="center", va="bottom", fontsize=10.5, weight="bold", color="#28323C", family="monospace", bbox={"facecolor": "#FFFFFF", "edgecolor": "#AAB5C1", "boxstyle": "round,pad=0.35"})
     fig.tight_layout(rect=[0, 0.052 if stamp else 0, 1, 0.98])
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -604,8 +607,8 @@ def plot_all_games_table(games, path, *, title, dpi=180, model_set_sha256=None, 
                 "Agreement": table["model_agreement"].map(lambda x: f"{x:.0%}"),
             }
         )
-    fig_height = max(3.0, 0.34 * len(table) + 1.4)
-    fig, axis = plt.subplots(figsize=(15.5, fig_height))
+    fig_height = max(4.2, 0.4 * len(table) + 2.1)
+    fig, axis = plt.subplots(figsize=(17.5, fig_height))
     axis.axis("off")
     plot_table = axis.table(
         cellText=table.values,
@@ -616,8 +619,8 @@ def plot_all_games_table(games, path, *, title, dpi=180, model_set_sha256=None, 
         colWidths=[0.11, 0.27, 0.15, 0.07, 0.19, 0.08, 0.08][: len(table.columns)],
     )
     plot_table.auto_set_font_size(False)
-    plot_table.set_fontsize(8.5)
-    plot_table.scale(1, 1.25)
+    plot_table.set_fontsize(11.5)
+    plot_table.scale(1, 1.55)
     for (row, _), cell in plot_table.get_celld().items():
         cell.set_edgecolor("#D9D9D9")
         if row == 0:
@@ -625,10 +628,10 @@ def plot_all_games_table(games, path, *, title, dpi=180, model_set_sha256=None, 
             cell.set_text_props(color="white", weight="bold")
         elif row % 2 == 0:
             cell.set_facecolor("#F2F5F8")
-    axis.set_title(title, fontsize=16, weight="bold", pad=18)
+    axis.set_title(title, fontsize=21, weight="bold", pad=22)
     stamp = _model_hash_stamp(model_set_sha256, checkpoint_count, generated_at_utc)
     if stamp:
-        fig.text(0.5, 0.014, stamp, ha="center", va="bottom", fontsize=9, weight="bold", color="#28323C", family="monospace", bbox={"facecolor": "#FFFFFF", "edgecolor": "#AAB5C1", "boxstyle": "round,pad=0.35"})
+        fig.text(0.5, 0.014, stamp, ha="center", va="bottom", fontsize=10.5, weight="bold", color="#28323C", family="monospace", bbox={"facecolor": "#FFFFFF", "edgecolor": "#AAB5C1", "boxstyle": "round,pad=0.35"})
     path = Path(path)
     fig.savefig(path, dpi=dpi, bbox_inches="tight")
     plt.close(fig)

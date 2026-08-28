@@ -51,7 +51,7 @@ def plot_top25_consensus_spread(
     ranks = ballots.copy()
     ranks["ballot_rank"] = pd.to_numeric(ranks["ballot_rank"], errors="coerce")
     cap = max(25, int(display_max_rank))
-    fig, axis = plt.subplots(figsize=(12.8, 10.6))
+    fig, axis = plt.subplots(figsize=(15.0, 13.2))
     for y, row in enumerate(top.itertuples(index=False)):
         values = ranks.loc[ranks["keys_team"].astype(str).eq(row.keys_team), "ballot_rank"].dropna().to_numpy()
         if len(values):
@@ -63,16 +63,16 @@ def plot_top25_consensus_spread(
             axis.scatter([median], [y], s=27, color=NAVY, edgecolor="white", linewidth=.55, zorder=4)
             hidden = int((values > cap).sum())
             if hidden:
-                axis.annotate(f"→ {hidden}", xy=(cap, y), xytext=(4, 0), textcoords="offset points", va="center", ha="left", fontsize=7.3, color=SLATE, clip_on=False)
+                axis.annotate(f"→ {hidden}", xy=(cap, y), xytext=(4, 0), textcoords="offset points", va="center", ha="left", fontsize=9.5, color=SLATE, clip_on=False)
         axis.vlines(float(row.rank), y - .26, y + .26, color=TDNET, lw=3.0, zorder=5)
         if row.keys_team in ap_rank and pd.notna(ap_rank[row.keys_team]):
             axis.scatter([ap_rank[row.keys_team]], [y], marker="D", s=35, color=AP, edgecolor="white", linewidth=.6, zorder=5)
-    axis.set_yticks(range(len(top)), [f"{int(r.rank):>2}. {r.keys_team}" for r in top.itertuples(index=False)], fontsize=9)
+    axis.set_yticks(range(len(top)), [f"{int(r.rank):>2}. {r.keys_team}" for r in top.itertuples(index=False)], fontsize=11.5)
     axis.set_xlim(.5, cap + .9)
     axis.set_xticks(range(1, cap + 1, 5))
     axis.set_xlabel(f"Model ballot rank (1 is best; values above {cap} are capped and counted)")
-    axis.set_title(title, fontsize=17, weight="bold", loc="left", pad=16)
-    axis.text(0, 1.01, f"Thin whisker: displayed ballot range   |   thick bar: middle 50%   |   dot: median   |   orange tick: TDNet   |   blue diamond: {reference_label}", transform=axis.transAxes, fontsize=9.2, color=SLATE)
+    axis.set_title(title, fontsize=21, weight="bold", loc="left", pad=20)
+    axis.text(0, 1.01, f"Thin whisker: displayed ballot range   |   thick bar: middle 50%   |   dot: median   |   orange tick: TDNet   |   blue diamond: {reference_label}", transform=axis.transAxes, fontsize=11, color=SLATE)
     axis.grid(axis="x", color=MIST, lw=.8)
     axis.spines[["top", "right", "left"]].set_visible(False)
     axis.invert_yaxis()
@@ -148,8 +148,8 @@ def plot_top25_discrepancy_features(signals: pd.DataFrame, path: str | Path, *, 
     if signals.empty:
         return None
     teams = list(dict.fromkeys(signals["team"].astype(str)))
-    fig, axes = plt.subplots(len(teams), 1, figsize=(12.8, max(6.2, 2.45 * len(teams))), squeeze=False)
-    fig.suptitle(title, fontsize=17, weight="bold", x=.07, ha="left", y=.985)
+    fig, axes = plt.subplots(len(teams), 1, figsize=(15.0, max(8.0, 3.2 * len(teams))), squeeze=False)
+    fig.suptitle(title, fontsize=21, weight="bold", x=.07, ha="left", y=.985)
     for axis, team in zip(axes[:, 0], teams):
         frame = signals.loc[signals["team"].astype(str).eq(team)].copy().sort_values("signal_z")
         colors = [NAVY if value >= 0 else PINK for value in frame["signal_z"]]
@@ -157,11 +157,11 @@ def plot_top25_discrepancy_features(signals: pd.DataFrame, path: str | Path, *, 
         axis.axvline(0, color=SLATE, lw=.8)
         row = frame.iloc[0]
         direction = "below" if row.gap > 0 else "above"
-        axis.set_title(f"{team}  •  TDNet #{int(row.tdnet_rank)} vs AP #{int(row.ap_rank)} ({abs(int(row.gap))} places {direction} AP)", loc="left", fontsize=11.5, weight="bold", pad=5)
+        axis.set_title(f"{team}  •  TDNet #{int(row.tdnet_rank)} vs AP #{int(row.ap_rank)} ({abs(int(row.gap))} places {direction} AP)", loc="left", fontsize=14.5, weight="bold", pad=7)
         axis.set_xlabel("Standardized fingerprint difference from AP-rank peers")
         axis.grid(axis="x", color=MIST, lw=.8)
         axis.spines[["top", "right", "left"]].set_visible(False)
-    fig.text(.07, .012, "Midnight gridiron = signal associated with TDNet ranking the team higher than AP peers; edge pink = lower. Descriptive AP-peer proxy only: it does not explain voters, establish causation, or infer unencoded context such as coaching changes.", fontsize=8.1, color=SLATE)
+    fig.text(.07, .012, "Midnight gridiron = signal associated with TDNet ranking the team higher than AP peers; edge pink = lower. Descriptive AP-peer proxy only: it does not explain voters, establish causation, or infer unencoded context such as coaching changes.", fontsize=10.3, color=SLATE)
     fig.tight_layout(rect=[0, .045, 1, .95])
     return _save(fig, path, dpi)
 

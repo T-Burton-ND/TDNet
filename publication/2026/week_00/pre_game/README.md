@@ -23,8 +23,8 @@ directory is created until completed results are available.
 All weekly graphics are PNG-only. The retired SVG copies are archived under
 `data/publication/2026/week_00_svg_archive/`.
 
-The superseded multi-roster preseason layout, including all scientific weekly
-rehearsals, is archived at
-`data/publication/2026/legacy_preseason_layout/`. The frozen scientific roster
-remains available for postseason comparison but is not part of weekly public
-generation.
+The superseded multi-roster preseason layout is archived at
+`data/publication/2026/legacy_preseason_layout/`. The current frozen scientific
+roster now has a compact paper-only package under `scientific/`: full model ×
+game predictions, full model × team ballots, an all-team consensus power
+ranking, three readable figures, and an immutable reproducibility payload.

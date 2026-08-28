@@ -13,11 +13,12 @@ Three statistical estimators remain prediction members but are excluded from
 poll voting, leaving 33 automated poll members. The owner contributes one
 separate manual ballot.
 
-The in-season workflow publishes only the corrected-F6 wide-margin roster.
+The in-season social workflow publishes the corrected-F6 wide-margin roster.
 Each Tuesday run writes one `week_<NN>/pre_game/` package containing the full
 pick table, ten closest games, Top-25 games, poll and ballots, and the 4:5 and
-16:9 social graphics. Figures are PNG-only. The frozen scientific roster is reserved for postseason
-comparison; optional rehearsals belong under `data/publication/2026/`.
+16:9 social graphics. Figures are PNG-only. A separate `scientific/` subtree
+contains immutable, paper-only market-free F0–F6 predictions, full ballots,
+and all-team consensus power ratings; it does not feed the social workflow.
 
 All publication-facing timestamps are timezone-aware America/New_York values
 with the applicable UTC offset. Provider/API timestamps may remain in their

@@ -18,6 +18,7 @@ from gridiron_ml.publication.bundles import sha256_file
 from gridiron_ml.publication.polls import load_ap_top25
 from gridiron_ml.publication.output_layout import copy_top25_outputs, require_week_directory
 from gridiron_ml.publication.roster_poll import build_frozen_roster_poll
+from gridiron_ml.publication.scientific_weekly import build_scientific_weekly_outputs
 from gridiron_ml.publication.weekly import build_weekly_blog_package
 
 
@@ -56,6 +57,16 @@ def main() -> int:
         default=ROOT / "data/raw/cfbd/v2/games/2026.parquet",
         help="Schedule snapshot to predict; Week 0 releases should pass the date-bounded opening slate.",
     )
+    parser.add_argument(
+        "--scientific-inventory",
+        type=Path,
+        default=Path(
+            "/groups/bsavoie2/tburton2/TDNet/publication_artifacts/"
+            "scientific_roster_refits/f0_f8_margin_through_2025_v1/final_model_inventory.csv"
+        ),
+        help="Frozen F0-F8 inventory; weekly output uses market-free F0-F6 cells.",
+    )
+    parser.add_argument("--skip-scientific", action="store_true")
     parser.add_argument("--skip-refresh", action="store_true")
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
@@ -130,6 +141,21 @@ def main() -> int:
         include_collapsed_models=False,
         schedule_driven_matchups=True,
     )
+    scientific_paths = {}
+    if not args.skip_scientific:
+        scientific_paths = build_scientific_weekly_outputs(
+            project_root=ROOT,
+            inventory_path=args.scientific_inventory,
+            schedule_snapshot_path=schedule_path,
+            market_lines_path=ROOT / "data/raw/cfbd/v2/lines/2026.parquet",
+            reference_poll_path=ap_path,
+            output_root=output / "scientific",
+            season=2026,
+            week=0,
+            poll_week=0,
+            prediction_week=1,
+            phase="pre_game",
+        )
     reports = {
         "margin_wide_f6": {
             "inventory": str(source),
@@ -164,7 +190,7 @@ def main() -> int:
         "ap_poll_sha256": sha256_file(ap_path),
         "schedule_sha256": sha256_file(schedule_path),
         "weekly_roster": "corrected-F6 wide-margin only",
-        "scientific_roster_policy": "frozen for postseason research; no weekly publication generation",
+        "scientific_roster_policy": "paper-only weekly package under pre_game/scientific; market-free F0-F6 cells only",
         "wide_margin_fingerprint": "F6",
         "preseason_data_policy": {
             "talent": talent_policy,
@@ -172,6 +198,7 @@ def main() -> int:
             "raw_cfbd_cache_modified_by_fallback": False,
         },
         "reports": reports,
+        "scientific_outputs": {name: str(path) for name, path in scientific_paths.items()},
     }
     metadata_root = output / "metadata"
     blog_root = output / "blog"

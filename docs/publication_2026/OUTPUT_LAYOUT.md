@@ -1,9 +1,8 @@
 # Publication output layout
 
-Weekly public material uses only the operational corrected-F6 wide-margin
-roster. The frozen scientific F0–F8 roster is not regenerated during the
-season; any optional scientific rehearsals belong under `data/publication/`,
-not `publication/`.
+Weekly social material uses the operational corrected-F6 wide-margin roster.
+The frozen scientific roster also emits a separate, paper-only package from
+its market-free F0–F6 cells. Scientific artifacts never enter social outputs.
 
 Each regenerated season-week uses exactly this layout:
 
@@ -14,6 +13,7 @@ publication/<season>/week_<NN>/
 │   ├── figures/       # PNG picks, Top-25, ballots, and social cards
 │   ├── tables/        # local/gitignored predictions, poll, votes, and ballots
 │   ├── metadata/
+│   ├── scientific/    # immutable paper-only predictions, ballots, power ratings
 │   ├── frozen_bundle/ # immutable prediction bytes and verification manifest
 │   └── x_post_package/
 ├── post_game/
@@ -24,6 +24,7 @@ publication/<season>/week_<NN>/
     ├── sunday_performance.png
     ├── figures/       # post-game Top-25, AP comparison, ballots, social assets
     ├── tables/        # local/gitignored post-game poll and ballot snapshots
+    ├── scientific/    # distinct post-game package; never overwrites pre-game
     └── x_post_package/
 ```
 
@@ -191,8 +192,12 @@ occupied `T-#` rank label, and the next ordinal rank is skipped.
 
 Each pre-game package records the generation timestamp, wide-margin roster
 label, model-bundle hash, fit cutoff, data snapshot hashes, and model count.
-The scientific roster remains frozen evidence for the retrospective study and
-does not enter weekly public output.
+The scientific directory contains three committed CSVs and three PNGs: model ×
+game predictions with consensus straight-up/ATS picks, full model × team
+ballots with predicted margin against the average team, and an all-team
+consensus power ranking. Its reproducibility payload freezes input, code, and
+artifact hashes before kickoff. Post-game generation writes only to the sibling
+`post_game/scientific/` directory and cannot overwrite pre-game evidence.
 
 `full_ballots.png` shows every model ballot. Scientific retrospective ballot
 grids constructed from held-out game predictions are visualization-only implied

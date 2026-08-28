@@ -23,6 +23,7 @@ from gridiron_ml.publication import (
 )
 from gridiron_ml.publication.bundles import sha256_file
 from gridiron_ml.publication.output_layout import copy_top25_outputs, require_week_directory
+from gridiron_ml.publication.scientific_weekly import build_scientific_weekly_outputs
 from gridiron_ml.publication.weekly_protocol import validate_deadline_utc
 
 
@@ -39,6 +40,11 @@ def main():
         "--weekly-inventory",
         type=Path,
         help="2026 learned-model weekly/paper inventory; KNN is retained and explicit naive baselines are excluded.",
+    )
+    parser.add_argument(
+        "--scientific-inventory",
+        type=Path,
+        help="Optional scientific F0-F8 inventory; emits paper-only market-free F0-F6 outputs.",
     )
     parser.add_argument("--schedule-snapshot", type=Path)
     parser.add_argument(
@@ -200,9 +206,23 @@ def main():
             },
             allow_dirty_code=args.allow_dirty_code,
         )
+    scientific_paths = {}
+    if args.scientific_inventory is not None:
+        scientific_paths = build_scientific_weekly_outputs(
+            project_root=args.project_root,
+            inventory_path=args.scientific_inventory,
+            schedule_snapshot_path=schedule,
+            market_lines_path=args.market_lines_snapshot,
+            reference_poll_path=args.ap_top25,
+            output_root=output / "scientific",
+            season=args.season,
+            week=args.week,
+            phase="pre_game",
+        )
     print(json.dumps({
         "wide_margin_manifest_sha256": bundle["manifest"]["manifest_sha256"],
         "pre_game_output": str(output),
+        "scientific_outputs": {name: str(path) for name, path in scientific_paths.items()},
     }))
 
 

@@ -262,18 +262,18 @@ def plot_ballot_logo_grid(ballots, path, top_n=25, logo_dir=None, eval_config=No
     table = frame.pivot_table(index="ballot_model", columns="ballot_rank", values="keys_team", aggfunc="first")
     table = table.reindex(index=ballot_models, columns=ranks)
 
-    fig_width = max(14, top_n * 0.58)
-    fig_height = max(3.5, len(ballot_models) * 0.58 + 1.5)
+    fig_width = max(18, top_n * 0.76)
+    fig_height = max(5.0, len(ballot_models) * 0.78 + 2.0)
     fig, ax = plt.subplots(figsize=(fig_width, fig_height))
     ax.set_xlim(0, top_n)
     ax.set_ylim(0, len(ballot_models))
     ax.invert_yaxis()
     ax.set_xticks(np.arange(top_n) + 0.5)
-    ax.set_xticklabels([str(rank) for rank in ranks], fontsize=7)
+    ax.set_xticklabels([str(rank) for rank in ranks], fontsize=10)
     ax.xaxis.tick_top()
     ax.set_yticks(np.arange(len(ballot_models)) + 0.5)
-    ax.set_yticklabels([display_model_label(model) for model in ballot_models], fontsize=8)
-    ax.set_title(title or f"Top {top_n} Ballots", pad=28)
+    ax.set_yticklabels([display_model_label(model) for model in ballot_models], fontsize=10.5)
+    ax.set_title(title or f"Top {top_n} Ballots", fontsize=21, weight="bold", pad=34)
 
     for x in range(top_n + 1):
         ax.axvline(x, color="#DDE2E7", linewidth=0.7)
@@ -293,7 +293,7 @@ def plot_ballot_logo_grid(ballots, path, top_n=25, logo_dir=None, eval_config=No
             if logo_path is not None:
                 # Keep the visible mark comfortably inside the rank cell at
                 # export DPI; transparent source padding is cropped below.
-                draw_team_logo(ax, logo_path, x, y, target_px=16)
+                draw_team_logo(ax, logo_path, x, y, target_px=23)
             else:
                 ax.text(
                     x,
@@ -301,7 +301,7 @@ def plot_ballot_logo_grid(ballots, path, top_n=25, logo_dir=None, eval_config=No
                     abbreviate_team_name(team, max_len=12),
                     ha="center",
                     va="center",
-                    fontsize=5.5,
+                    fontsize=7.5,
                     color="#0D0D0D",
                     clip_on=True,
                 )
@@ -336,7 +336,7 @@ def draw_team_logo(ax, logo_path, x, y, target_px=24):
 
     image = load_team_logo_image(logo_path)
     height, width = image.shape[:2]
-    target_px = min(float(target_px), 18.0)
+    target_px = min(float(target_px), 28.0)
     zoom = target_px / max(float(width), float(height), 1.0)
     # The target-size cap is a final guard against oversized source assets.
     box = OffsetImage(image, zoom=zoom)
@@ -415,7 +415,7 @@ def add_poll_legend(ax, color_map):
 def display_model_label(model):
     """Return a figure-friendly model label without objective-only prefixes."""
     label = str(model)
-    return re.sub(r"^margin_", "", label)
+    return re.sub(r"^margin_", "", label).replace("_", " ")
 
 
 def abbreviate_team_name(team, max_len=16):
