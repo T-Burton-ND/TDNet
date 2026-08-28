@@ -6,6 +6,7 @@ from gridiron_ml.publication.scientific_weekly import (
     market_free_scientific_inventory,
     scientific_consensus_power_rankings,
     scientific_prediction_table,
+    validate_scientific_ballots,
     write_scientific_weekly_outputs,
 )
 
@@ -143,20 +144,37 @@ def test_scientific_writer_emits_three_csv_png_pairs(tmp_path: Path):
     power = pd.read_csv(tmp_path / "scientific_consensus_power_rankings.csv")
     assert power.loc[0, "predicted_margin_vs_average_team"] == 25.0
     assert power.loc[0, "poll_points"] == 25
-    assert power.loc[24, "poll_points"] == 1
 
 
 def test_consensus_power_ranking_averages_model_margins():
     ballots = pd.DataFrame(
         [
-            {"keys_team": "A", "ballot_model": "m1", "ballot_rank": 1, "power_rating_vs_average": 7.0, "top25_vote": True, "poll_points": 25, "first_place_vote": True},
-            {"keys_team": "A", "ballot_model": "m2", "ballot_rank": 2, "power_rating_vs_average": 5.0, "top25_vote": True, "poll_points": 24, "first_place_vote": False},
-            {"keys_team": "B", "ballot_model": "m1", "ballot_rank": 2, "power_rating_vs_average": 2.0, "top25_vote": True, "poll_points": 24, "first_place_vote": False},
+            {"keys_team": "A", "ballot_model": "m1", "ballot_rank": 1, "power_rating_vs_average": 7.0, "top25_vote": True, "poll_points": 10, "first_place_vote": True},
+            {"keys_team": "A", "ballot_model": "m2", "ballot_rank": 2, "power_rating_vs_average": 5.0, "top25_vote": True, "poll_points": 10, "first_place_vote": False},
+            {"keys_team": "B", "ballot_model": "m1", "ballot_rank": 2, "power_rating_vs_average": 2.0, "top25_vote": True, "poll_points": 25, "first_place_vote": False},
             {"keys_team": "B", "ballot_model": "m2", "ballot_rank": 1, "power_rating_vs_average": 4.0, "top25_vote": True, "poll_points": 25, "first_place_vote": True},
         ]
     )
     power = scientific_consensus_power_rankings(ballots)
     assert power["keys_team"].tolist() == ["A", "B"]
     assert power["predicted_margin_vs_average_team"].tolist() == [6.0, 3.0]
-    assert power["poll_points"].tolist() == [25, 24]
-    assert power["ballot_poll_points_sum"].tolist() == [49, 49]
+    assert power["poll_points"].tolist() == [20, 50]
+    assert power["poll_points_rank"].tolist() == [2, 1]
+
+
+def test_each_scientific_model_must_have_its_own_complete_ballot():
+    valid = pd.DataFrame(
+        [
+            {"ballot_model": model, "keys_team": team, "ballot_rank": rank, "power_rating_vs_average": score}
+            for model in ["m1", "m2"]
+            for team, rank, score in [("A", 1, 2.0), ("B", 2, -1.0)]
+        ]
+    )
+    validate_scientific_ballots(valid)
+    incomplete = valid.loc[~((valid["ballot_model"] == "m2") & (valid["keys_team"] == "B"))]
+    try:
+        validate_scientific_ballots(incomplete)
+    except ValueError as exc:
+        assert "expected" in str(exc)
+    else:
+        raise AssertionError("Incomplete scientific ballot should fail validation")

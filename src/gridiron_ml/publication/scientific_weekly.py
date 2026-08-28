@@ -292,7 +292,7 @@ def scientific_consensus_power_rankings(ballots: pd.DataFrame) -> pd.DataFrame:
             worst_ballot_rank=("ballot_rank", "max"),
             scientific_models=("ballot_model", "nunique"),
             top25_votes=("top25_vote", "sum"),
-            ballot_poll_points_sum=("poll_points", "sum"),
+            poll_points=("poll_points", "sum"),
             first_place_votes=("first_place_vote", "sum"),
         )
         .sort_values(
@@ -303,12 +303,19 @@ def scientific_consensus_power_rankings(ballots: pd.DataFrame) -> pd.DataFrame:
         .reset_index(drop=True)
     )
     power.insert(0, "consensus_power_rank", range(1, len(power) + 1))
-    power.insert(
-        1,
-        "poll_points",
-        (26 - power["consensus_power_rank"]).clip(lower=0).astype(int),
+    points_order = power.sort_values(
+        ["poll_points", "average_ballot_rank", "best_ballot_rank", "keys_team"],
+        ascending=[False, True, True, True],
+        kind="stable",
     )
-    power.insert(2, "consensus_top25", power["consensus_power_rank"].le(25))
+    points_rank = pd.Series(
+        range(1, len(points_order) + 1), index=points_order["keys_team"].astype(str)
+    )
+    power.insert(
+        1, "poll_points_rank", power["keys_team"].astype(str).map(points_rank).astype(int)
+    )
+    power.insert(2, "consensus_power_top25", power["consensus_power_rank"].le(25))
+    power.insert(3, "poll_points_top25", power["poll_points_rank"].le(25))
     numeric = [
         "predicted_margin_vs_average_team",
         "median_margin_vs_average_team",
@@ -319,6 +326,26 @@ def scientific_consensus_power_rankings(ballots: pd.DataFrame) -> pd.DataFrame:
     ]
     power[numeric] = power[numeric].round(3)
     return power
+
+
+def validate_scientific_ballots(ballots: pd.DataFrame) -> None:
+    """Require one complete, independent all-team ballot per scientific model."""
+    required = {"ballot_model", "keys_team", "ballot_rank", "power_rating_vs_average"}
+    if not required.issubset(ballots):
+        raise ValueError(f"Scientific ballots are missing {sorted(required - set(ballots))}.")
+    if ballots.duplicated(["ballot_model", "keys_team"]).any():
+        raise ValueError("A scientific model ballot contains duplicate team rows.")
+    expected_teams = int(ballots["keys_team"].nunique())
+    for model, frame in ballots.groupby("ballot_model", sort=False):
+        if len(frame) != expected_teams:
+            raise ValueError(
+                f"Scientific model {model!r} has {len(frame)} teams; expected {expected_teams}."
+            )
+        ranks = sorted(pd.to_numeric(frame["ballot_rank"], errors="raise").astype(int))
+        if ranks != list(range(1, expected_teams + 1)):
+            raise ValueError(f"Scientific model {model!r} does not have consecutive 1..N ranks.")
+        if pd.to_numeric(frame["power_rating_vs_average"], errors="coerce").isna().any():
+            raise ValueError(f"Scientific model {model!r} has missing average-team scores.")
 
 
 def plot_scientific_power_top25(
@@ -336,7 +363,7 @@ def plot_scientific_power_top25(
     table = pd.DataFrame(
         {
             "Rank": frame["consensus_power_rank"].astype(int),
-            "Pts": frame["poll_points"].astype(int),
+            "Ballot pts": frame["poll_points"].astype(int),
             "Team": [
                 "" if resolve_team_logo_path(team, logo_dir) else str(team)
                 for team in frame["keys_team"]
@@ -370,7 +397,7 @@ def plot_scientific_power_top25(
         cellLoc="left",
         colLoc="left",
         bbox=[0.0, 0.075, 1.0, 0.84],
-        colWidths=[0.06, 0.06, 0.25, 0.10, 0.10, 0.12, 0.14, 0.17],
+        colWidths=[0.06, 0.08, 0.23, 0.10, 0.10, 0.12, 0.14, 0.17],
     )
     plotted.auto_set_font_size(False)
     plotted.set_fontsize(11.2)
@@ -448,6 +475,7 @@ def write_scientific_weekly_outputs(
             + ", ".join(sorted(path.name for path in existing))
         )
     predictions = scientific_prediction_table(games, reader_week=week, phase=phase)
+    validate_scientific_ballots(ballots)
     prediction_export = (
         scientific_model_game_predictions(model_predictions, predictions)
         if model_predictions is not None and not model_predictions.empty
@@ -521,6 +549,8 @@ def write_scientific_weekly_outputs(
         "roster": SCIENTIFIC_ROSTER_LABEL,
         "market_bearing_tiers_excluded": ["F7", "F8"],
         "scientific_model_count": int(ballots["ballot_model"].nunique()),
+        "teams_per_model_ballot": int(ballots["keys_team"].nunique()),
+        "full_ballot_rows": len(ballots),
         "artifact_policy": "paper_only_not_social_media",
         "source_inventory": str(source_inventory) if source_inventory else None,
         "source_inventory_sha256": (
@@ -592,6 +622,8 @@ def write_scientific_weekly_outputs(
         ),
         "training_cutoff_season": training_cutoff,
         "scientific_roster_size": int(ballots["ballot_model"].nunique()),
+        "teams_per_model_ballot": int(ballots["keys_team"].nunique()),
+        "full_ballot_rows": len(ballots),
         "post_game_overwrite_prohibited": True,
         "post_game_destination": "sibling post_game/scientific directory only",
         "generated_at_utc": generated_utc.isoformat(),
