@@ -12,11 +12,14 @@ from zoneinfo import ZoneInfo
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from gridiron_ml.td_run.poll_viz import plot_ballot_logo_grid
+from gridiron_ml.td_run.poll_viz import (
+    draw_team_logo,
+    plot_ballot_logo_grid,
+    resolve_team_logo_path,
+)
 
 from .bundles import sha256_file
 from .figure_theme import TDNET_COLORS, apply_tdnet_theme
-from .poll_recaps import plot_consensus_poll_table
 from .roster_poll import build_frozen_roster_poll
 from .weekly import build_weekly_blog_package, format_eastern_kickoffs
 
@@ -85,6 +88,7 @@ def scientific_prediction_table(
             "reader_week": int(reader_week),
             "provider_week": pd.to_numeric(frame.get("week"), errors="coerce").astype("Int64"),
             "game_id": frame["game_id"],
+            "game_start_time_utc": frame["game_start_time_utc"],
             "kickoff_eastern": format_eastern_kickoffs(frame["game_start_time_utc"]),
             "away_team": frame["away_team"],
             "home_team": frame["home_team"],
@@ -102,7 +106,12 @@ def scientific_prediction_table(
             "scientific_model_count": pd.to_numeric(frame["model_count"], errors="coerce").astype("Int64"),
         }
     )
-    return output.sort_values(["kickoff_eastern", "game_id"], kind="stable").reset_index(drop=True)
+    output["__kickoff_sort"] = pd.to_datetime(
+        output["game_start_time_utc"], utc=True, errors="coerce"
+    )
+    return output.sort_values(["__kickoff_sort", "game_id"], kind="stable").drop(
+        columns="__kickoff_sort"
+    ).reset_index(drop=True)
 
 
 def scientific_model_game_predictions(
@@ -283,7 +292,7 @@ def scientific_consensus_power_rankings(ballots: pd.DataFrame) -> pd.DataFrame:
             worst_ballot_rank=("ballot_rank", "max"),
             scientific_models=("ballot_model", "nunique"),
             top25_votes=("top25_vote", "sum"),
-            poll_points=("poll_points", "sum"),
+            ballot_poll_points_sum=("poll_points", "sum"),
             first_place_votes=("first_place_vote", "sum"),
         )
         .sort_values(
@@ -294,6 +303,12 @@ def scientific_consensus_power_rankings(ballots: pd.DataFrame) -> pd.DataFrame:
         .reset_index(drop=True)
     )
     power.insert(0, "consensus_power_rank", range(1, len(power) + 1))
+    power.insert(
+        1,
+        "poll_points",
+        (26 - power["consensus_power_rank"]).clip(lower=0).astype(int),
+    )
+    power.insert(2, "consensus_top25", power["consensus_power_rank"].le(25))
     numeric = [
         "predicted_margin_vs_average_team",
         "median_margin_vs_average_team",
@@ -304,6 +319,105 @@ def scientific_consensus_power_rankings(ballots: pd.DataFrame) -> pd.DataFrame:
     ]
     power[numeric] = power[numeric].round(3)
     return power
+
+
+def plot_scientific_power_top25(
+    power: pd.DataFrame,
+    path: str | Path,
+    *,
+    season: int,
+    week: int,
+    logo_dir: str | Path | None = None,
+    dpi: int = 200,
+) -> Path:
+    """Render the Top 25 directly from the all-team consensus power table."""
+    apply_tdnet_theme()
+    frame = power.sort_values("consensus_power_rank").head(25).copy()
+    table = pd.DataFrame(
+        {
+            "Rank": frame["consensus_power_rank"].astype(int),
+            "Pts": frame["poll_points"].astype(int),
+            "Team": [
+                "" if resolve_team_logo_path(team, logo_dir) else str(team)
+                for team in frame["keys_team"]
+            ],
+            "vs avg": frame["predicted_margin_vs_average_team"].map(
+                lambda value: f"{float(value):+.1f}"
+            ),
+            "Median": frame["median_margin_vs_average_team"].map(
+                lambda value: f"{float(value):+.1f}"
+            ),
+            "Avg ballot": frame["average_ballot_rank"].map(lambda value: f"{float(value):.1f}"),
+            "Top-25 votes": frame["top25_votes"].astype(int).astype(str)
+            + "/"
+            + frame["scientific_models"].astype(int).astype(str),
+            "Model range": frame["minimum_model_margin_vs_average"].map(
+                lambda value: f"{float(value):+.1f}"
+            )
+            + " to "
+            + frame["maximum_model_margin_vs_average"].map(
+                lambda value: f"{float(value):+.1f}"
+            ),
+        }
+    )
+    fig, axis = plt.subplots(figsize=(14.5, 12.0))
+    fig.patch.set_facecolor("#F7F4ED")
+    axis.axis("off")
+    plotted = axis.table(
+        cellText=table.values,
+        colLabels=table.columns,
+        loc="center",
+        cellLoc="left",
+        colLoc="left",
+        bbox=[0.0, 0.075, 1.0, 0.84],
+        colWidths=[0.06, 0.06, 0.25, 0.10, 0.10, 0.12, 0.14, 0.17],
+    )
+    plotted.auto_set_font_size(False)
+    plotted.set_fontsize(11.2)
+    plotted.scale(1, 1.5)
+    for (row, _), cell in plotted.get_celld().items():
+        cell.set_edgecolor("#D4D7DB")
+        if row == 0:
+            cell.set_facecolor(TDNET_COLORS["midnight_gridiron"])
+            cell.set_text_props(color="white", weight="bold")
+        else:
+            cell.set_facecolor("#FFFFFF" if row % 2 else "#EEF2F5")
+            if row <= 4:
+                cell.set_text_props(weight="bold")
+    fig.canvas.draw()
+    team_column = table.columns.get_loc("Team")
+    for row_number, team in enumerate(frame["keys_team"].astype(str), start=1):
+        logo = resolve_team_logo_path(team, logo_dir)
+        if logo is None:
+            continue
+        cell = plotted[(row_number, team_column)]
+        draw_team_logo(
+            axis,
+            logo,
+            cell.get_x() + cell.get_width() / 2,
+            cell.get_y() + cell.get_height() / 2,
+            target_px=24,
+        )
+    axis.set_title(
+        f"{season} Week {week}: SCIENTIFIC ROSTER Consensus Power Top 25 • Paper Only",
+        fontsize=21,
+        weight="bold",
+        pad=22,
+        color=TDNET_COLORS["midnight_gridiron"],
+    )
+    fig.text(
+        0.5,
+        0.02,
+        "Power rating = consensus predicted margin versus the constructed average team. Positive is stronger than average.",
+        ha="center",
+        fontsize=10.5,
+        color=TDNET_COLORS["slate"],
+    )
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(target, dpi=dpi, bbox_inches="tight", facecolor=fig.get_facecolor())
+    plt.close(fig)
+    return target
 
 
 def write_scientific_weekly_outputs(
@@ -367,7 +481,6 @@ def write_scientific_weekly_outputs(
     top_ballots = ballots.loc[
         pd.to_numeric(ballots["ballot_rank"], errors="coerce").between(1, 25, inclusive="both")
     ].copy()
-    top_poll = poll.sort_values("rank").head(25).copy()
     power = scientific_consensus_power_rankings(ballots)
 
     paths = {
@@ -391,14 +504,12 @@ def write_scientific_weekly_outputs(
         logo_dir=logo_dir,
         title=f"{season} Week {week}: SCIENTIFIC ROSTER Top 25 Ballots • Paper Only",
     )
-    receiving = None
-    plot_consensus_poll_table(
-        top_poll,
+    plot_scientific_power_top25(
+        power,
         paths["top25_png"],
-        title=f"{season} Week {week}: SCIENTIFIC ROSTER Top 25 • Paper Only",
-        receiving_votes=receiving,
+        season=season,
+        week=week,
         logo_dir=logo_dir,
-        reference_label="AP",
     )
     manifest = {
         "created_at_eastern": datetime.now(UTC).astimezone(

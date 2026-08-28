@@ -142,6 +142,8 @@ def test_scientific_writer_emits_three_csv_png_pairs(tmp_path: Path):
     assert len(pd.read_csv(tmp_path / "scientific_full_ballots.csv")) == 25
     power = pd.read_csv(tmp_path / "scientific_consensus_power_rankings.csv")
     assert power.loc[0, "predicted_margin_vs_average_team"] == 25.0
+    assert power.loc[0, "poll_points"] == 25
+    assert power.loc[24, "poll_points"] == 1
 
 
 def test_consensus_power_ranking_averages_model_margins():
@@ -156,3 +158,5 @@ def test_consensus_power_ranking_averages_model_margins():
     power = scientific_consensus_power_rankings(ballots)
     assert power["keys_team"].tolist() == ["A", "B"]
     assert power["predicted_margin_vs_average_team"].tolist() == [6.0, 3.0]
+    assert power["poll_points"].tolist() == [25, 24]
+    assert power["ballot_poll_points_sum"].tolist() == [49, 49]
