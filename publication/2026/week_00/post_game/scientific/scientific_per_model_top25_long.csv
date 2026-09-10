@@ -1,0 +1,1051 @@
+poll_objective,keys_team,ballot_model,power_rating_vs_average,ballot_rank,poll_points,top25_vote,first_place_vote
+margin,Georgia,scientific_f0_m1,18.70809858680334,1,25,True,True
+margin,Texas,scientific_f0_m1,17.855628065455026,2,24,True,False
+margin,Oregon,scientific_f0_m1,17.816921295837048,3,23,True,False
+margin,Alabama,scientific_f0_m1,17.319262829320188,4,22,True,False
+margin,Ohio State,scientific_f0_m1,16.892566773769623,5,21,True,False
+margin,Notre Dame,scientific_f0_m1,16.37463333269097,6,20,True,False
+margin,Texas A&M,scientific_f0_m1,15.451661195252758,7,19,True,False
+margin,LSU,scientific_f0_m1,15.3945226305786,8,18,True,False
+margin,Florida,scientific_f0_m1,13.5195482784887,9,17,True,False
+margin,Michigan,scientific_f0_m1,13.471164816466224,10,16,True,False
+margin,Miami,scientific_f0_m1,13.283160506893193,11,15,True,False
+margin,Tennessee,scientific_f0_m1,13.281317327387573,12,14,True,False
+margin,Ole Miss,scientific_f0_m1,13.273023019612292,13,13,True,False
+margin,USC,scientific_f0_m1,12.417909090316648,14,12,True,False
+margin,South Carolina,scientific_f0_m1,12.22010672702801,15,11,True,False
+margin,Clemson,scientific_f0_m1,12.219185137275204,16,10,True,False
+margin,Oklahoma,scientific_f0_m1,11.679594337005536,17,9,True,False
+margin,Auburn,scientific_f0_m1,10.622070095657216,18,8,True,False
+margin,Missouri,scientific_f0_m1,9.708313855747091,19,7,True,False
+margin,Mississippi State,scientific_f0_m1,9.53182941808417,20,6,True,False
+margin,Nebraska,scientific_f0_m1,8.74479176918529,21,5,True,False
+margin,Kentucky,scientific_f0_m1,8.70792817907293,22,4,True,False
+margin,Washington,scientific_f0_m1,8.292291200556072,23,3,True,False
+margin,UCLA,scientific_f0_m1,8.145758429859445,24,2,True,False
+margin,Penn State,scientific_f0_m1,8.126865839926856,25,1,True,False
+margin,Georgia,scientific_f0_m2,20.581585986724832,1,25,True,True
+margin,Texas,scientific_f0_m2,19.59727862162178,2,24,True,False
+margin,Oregon,scientific_f0_m2,19.551313091380347,3,23,True,False
+margin,Alabama,scientific_f0_m2,18.950488507540587,4,22,True,False
+margin,Ohio State,scientific_f0_m2,18.429229057530577,5,21,True,False
+margin,Notre Dame,scientific_f0_m2,17.799746144874653,6,20,True,False
+margin,Texas A&M,scientific_f0_m2,16.686779776370667,7,19,True,False
+margin,LSU,scientific_f0_m2,16.618249359436106,8,18,True,False
+margin,Florida,scientific_f0_m2,14.393400941937,9,17,True,False
+margin,Michigan,scientific_f0_m2,14.336604099826904,10,16,True,False
+margin,Miami,scientific_f0_m2,14.116201538768568,11,15,True,False
+margin,Tennessee,scientific_f0_m2,14.114043042169143,12,14,True,False
+margin,Ole Miss,scientific_f0_m2,14.104330363222829,13,13,True,False
+margin,USC,scientific_f0_m2,13.16990340857758,14,12,True,False
+margin,South Carolina,scientific_f0_m2,12.878744981642658,15,11,True,False
+margin,Clemson,scientific_f0_m2,12.877678678413782,16,10,True,False
+margin,Oklahoma,scientific_f0_m2,12.255285840556525,17,9,True,False
+margin,Auburn,scientific_f0_m2,11.04664431662247,18,8,True,False
+margin,Missouri,scientific_f0_m2,10.014220370197272,19,7,True,False
+margin,Mississippi State,scientific_f0_m2,9.8160879903671,20,6,True,False
+margin,Nebraska,scientific_f0_m2,8.937522877720347,21,5,True,False
+margin,Kentucky,scientific_f0_m2,8.896573030994032,22,4,True,False
+margin,Washington,scientific_f0_m2,8.436106600842278,23,3,True,False
+margin,UCLA,scientific_f0_m2,8.274313679600256,24,2,True,False
+margin,Penn State,scientific_f0_m2,8.253474242799909,25,1,True,False
+margin,Texas A&M,scientific_f0_m3,34.01178297258297,1,25,True,True
+margin,Georgia,scientific_f0_m3,28.96962349936588,2,24,True,False
+margin,Florida,scientific_f0_m3,28.862333976317817,3,23,True,False
+margin,Alabama,scientific_f0_m3,26.21456902251898,4,22,True,False
+margin,Ohio State,scientific_f0_m3,23.207257641661776,5,21,True,False
+margin,Arizona State,scientific_f0_m3,22.65093308285916,6,20,True,False
+margin,Mississippi State,scientific_f0_m3,22.06817702637407,7,19,True,False
+margin,Syracuse,scientific_f0_m3,21.005930191050783,8,18,True,False
+margin,Kentucky,scientific_f0_m3,19.760341323178004,9,17,True,False
+margin,Missouri,scientific_f0_m3,18.88360646232853,10,16,True,False
+margin,Rice,scientific_f0_m3,18.8427621933622,11,15,True,False
+margin,Notre Dame,scientific_f0_m3,18.23470767079698,12,14,True,False
+margin,Ole Miss,scientific_f0_m3,17.293603785103784,13,13,True,False
+margin,LSU,scientific_f0_m3,16.985858477521784,14,12,True,False
+margin,Stanford,scientific_f0_m3,16.24800437830263,15,11,True,False
+margin,Tennessee,scientific_f0_m3,15.958962515262517,16,10,True,False
+margin,Georgia Tech,scientific_f0_m3,15.90264611832611,17,9,True,False
+margin,Miami,scientific_f0_m3,15.830295848595853,18,8,True,False
+margin,USC,scientific_f0_m3,15.825476720650986,19,7,True,False
+margin,Virginia,scientific_f0_m3,15.808146336535318,20,6,True,False
+margin,Maryland,scientific_f0_m3,15.584319480698513,21,5,True,False
+margin,Arkansas,scientific_f0_m3,14.483077089169,22,4,True,False
+margin,Houston,scientific_f0_m3,13.915284595959594,23,3,True,False
+margin,Utah,scientific_f0_m3,13.89345126262626,24,2,True,False
+margin,Louisville,scientific_f0_m3,12.52780158730158,25,1,True,False
+margin,Georgia,scientific_f0_m4,19.52082356859973,1,25,True,True
+margin,Alabama,scientific_f0_m4,19.32523556903849,2,24,True,False
+margin,Oregon,scientific_f0_m4,19.32523556903849,3,23,True,False
+margin,Texas,scientific_f0_m4,19.32523556903849,4,22,True,False
+margin,Notre Dame,scientific_f0_m4,17.563174960920215,5,21,True,False
+margin,Ohio State,scientific_f0_m4,17.563174960920215,6,20,True,False
+margin,LSU,scientific_f0_m4,14.546117924627795,7,19,True,False
+margin,Texas A&M,scientific_f0_m4,14.546117924627795,8,18,True,False
+margin,Clemson,scientific_f0_m4,13.424130520966145,9,17,True,False
+margin,South Carolina,scientific_f0_m4,13.424130520966145,10,16,True,False
+margin,USC,scientific_f0_m4,12.87747723301114,11,15,True,False
+margin,Florida,scientific_f0_m4,12.695700548606617,12,14,True,False
+margin,Michigan,scientific_f0_m4,12.695700548606617,13,13,True,False
+margin,Miami,scientific_f0_m4,12.320882418526994,14,12,True,False
+margin,Ole Miss,scientific_f0_m4,12.320882418526994,15,11,True,False
+margin,Tennessee,scientific_f0_m4,12.320882418526994,16,10,True,False
+margin,Auburn,scientific_f0_m4,12.20606889291561,17,9,True,False
+margin,Oklahoma,scientific_f0_m4,12.150656714265114,18,8,True,False
+margin,Missouri,scientific_f0_m4,12.002763983851652,19,7,True,False
+margin,Arkansas,scientific_f0_m4,9.658109106416552,20,6,True,False
+margin,Syracuse,scientific_f0_m4,9.658109106416552,21,5,True,False
+margin,Kentucky,scientific_f0_m4,9.603276450493787,22,4,True,False
+margin,Nebraska,scientific_f0_m4,9.603276450493787,23,3,True,False
+margin,Mississippi State,scientific_f0_m4,9.282052005787092,24,2,True,False
+margin,TCU,scientific_f0_m4,8.77433621254892,25,1,True,False
+margin,Georgia,scientific_f0_m5,16.227521896362305,1,25,True,True
+margin,Texas,scientific_f0_m5,16.083284378051758,2,24,True,False
+margin,Oregon,scientific_f0_m5,16.076236724853516,3,23,True,False
+margin,Alabama,scientific_f0_m5,15.981342315673828,4,22,True,False
+margin,Ohio State,scientific_f0_m5,15.893162727355955,5,21,True,False
+margin,Notre Dame,scientific_f0_m5,15.776649475097656,6,20,True,False
+margin,Texas A&M,scientific_f0_m5,15.538985252380373,7,19,True,False
+margin,LSU,scientific_f0_m5,15.522842407226562,8,18,True,False
+margin,Florida,scientific_f0_m5,14.873576164245604,9,17,True,False
+margin,Michigan,scientific_f0_m5,14.853147506713867,10,16,True,False
+margin,Miami,scientific_f0_m5,14.771662712097168,11,15,True,False
+margin,Tennessee,scientific_f0_m5,14.770846366882324,12,14,True,False
+margin,Ole Miss,scientific_f0_m5,14.767169952392578,13,13,True,False
+margin,South Carolina,scientific_f0_m5,14.238908767700195,14,12,True,False
+margin,Clemson,scientific_f0_m5,14.23838710784912,15,11,True,False
+margin,Oklahoma,scientific_f0_m5,13.912150382995604,16,10,True,False
+margin,Auburn,scientific_f0_m5,13.132119178771973,17,9,True,False
+margin,USC,scientific_f0_m5,12.888188362121582,18,8,True,False
+margin,Missouri,scientific_f0_m5,12.270271301269531,19,7,True,False
+margin,Mississippi State,scientific_f0_m5,12.080307006835938,20,6,True,False
+margin,Nebraska,scientific_f0_m5,11.132850646972656,21,5,True,False
+margin,Kentucky,scientific_f0_m5,11.084434509277344,22,4,True,False
+margin,Washington,scientific_f0_m5,10.514728546142578,23,3,True,False
+margin,UCLA,scientific_f0_m5,10.304055213928224,24,2,True,False
+margin,Penn State,scientific_f0_m5,10.276548385620115,25,1,True,False
+margin,Georgia,scientific_f0_m10,30.699232860629497,1,25,True,True
+margin,Oregon,scientific_f0_m10,25.68303635307031,2,24,True,False
+margin,Ohio State,scientific_f0_m10,21.297981223408343,3,23,True,False
+margin,Texas,scientific_f0_m10,20.893844913918173,4,22,True,False
+margin,Alabama,scientific_f0_m10,20.201422010733044,5,21,True,False
+margin,Kentucky,scientific_f0_m10,18.79982766718116,6,20,True,False
+margin,USC,scientific_f0_m10,18.37621610373241,7,19,True,False
+margin,Notre Dame,scientific_f0_m10,18.299321516842877,8,18,True,False
+margin,Michigan,scientific_f0_m10,17.999161842120937,9,17,True,False
+margin,TCU,scientific_f0_m10,17.900247888383888,10,16,True,False
+margin,Florida,scientific_f0_m10,16.200813436691814,11,15,True,False
+margin,West Virginia,scientific_f0_m10,15.999607905652036,12,14,True,False
+margin,Missouri,scientific_f0_m10,15.200113734038798,13,13,True,False
+margin,Syracuse,scientific_f0_m10,14.499961593990584,14,12,True,False
+margin,Oklahoma,scientific_f0_m10,14.19999407234081,15,11,True,False
+margin,Arkansas,scientific_f0_m10,14.099968972261609,16,10,True,False
+margin,Auburn,scientific_f0_m10,13.999893428456408,17,9,True,False
+margin,Houston,scientific_f0_m10,13.89998884375272,18,8,True,False
+margin,Mississippi State,scientific_f0_m10,13.80068478122693,19,7,True,False
+margin,LSU,scientific_f0_m10,13.499590637182878,20,6,True,False
+margin,Texas A&M,scientific_f0_m10,12.90034538659063,21,5,True,False
+margin,Wisconsin,scientific_f0_m10,11.800007502110564,22,4,True,False
+margin,Arizona,scientific_f0_m10,11.500168519466126,23,3,True,False
+margin,Maryland,scientific_f0_m10,10.500101956204457,24,2,True,False
+margin,Virginia,scientific_f0_m10,10.309874716397706,25,1,True,False
+margin,Ohio State,scientific_f1_m1,26.08708445006824,1,25,True,True
+margin,Oregon,scientific_f1_m1,24.462040809986323,2,24,True,False
+margin,Notre Dame,scientific_f1_m1,23.299845830829597,3,23,True,False
+margin,Georgia,scientific_f1_m1,22.27476168937057,4,22,True,False
+margin,Texas Tech,scientific_f1_m1,20.75701568965863,5,21,True,False
+margin,Indiana,scientific_f1_m1,20.09291070415056,6,20,True,False
+margin,Alabama,scientific_f1_m1,20.00922111120498,7,19,True,False
+margin,Miami,scientific_f1_m1,19.808592030769773,8,18,True,False
+margin,Texas A&M,scientific_f1_m1,18.321298096729983,9,17,True,False
+margin,Ole Miss,scientific_f1_m1,17.949142154668742,10,16,True,False
+margin,Texas,scientific_f1_m1,17.680424674762424,11,15,True,False
+margin,Virginia,scientific_f1_m1,16.1904649431235,12,14,True,False
+margin,USC,scientific_f1_m1,15.821039192919486,13,13,True,False
+margin,Oklahoma,scientific_f1_m1,14.874536573241596,14,12,True,False
+margin,Tennessee,scientific_f1_m1,14.87226188384275,15,11,True,False
+margin,Michigan,scientific_f1_m1,14.720893878181045,16,10,True,False
+margin,Utah,scientific_f1_m1,13.825878219090598,17,9,True,False
+margin,Missouri,scientific_f1_m1,13.735444746093616,18,8,True,False
+margin,LSU,scientific_f1_m1,13.686117403848996,19,7,True,False
+margin,Clemson,scientific_f1_m1,13.567170968820278,20,6,True,False
+margin,Washington,scientific_f1_m1,12.886894438835869,21,5,True,False
+margin,Florida State,scientific_f1_m1,12.72042683914475,22,4,True,False
+margin,Vanderbilt,scientific_f1_m1,12.614017786493594,23,3,True,False
+margin,South Florida,scientific_f1_m1,11.944926927887844,24,2,True,False
+margin,Iowa,scientific_f1_m1,11.776639041869988,25,1,True,False
+margin,Ohio State,scientific_f1_m2,27.370977831614013,1,25,True,True
+margin,Oregon,scientific_f1_m2,26.448755145535884,2,24,True,False
+margin,Notre Dame,scientific_f1_m2,24.839866814337967,3,23,True,False
+margin,Georgia,scientific_f1_m2,23.426101843022305,4,22,True,False
+margin,Texas Tech,scientific_f1_m2,22.655178397024976,5,21,True,False
+margin,Indiana,scientific_f1_m2,21.320622753944622,6,20,True,False
+margin,Alabama,scientific_f1_m2,20.839057022147166,7,19,True,False
+margin,Miami,scientific_f1_m2,20.393843363399853,8,18,True,False
+margin,Texas A&M,scientific_f1_m2,19.02395073170481,9,17,True,False
+margin,Ole Miss,scientific_f1_m2,18.974758133969058,10,16,True,False
+margin,Texas,scientific_f1_m2,18.219105376397195,11,15,True,False
+margin,Virginia,scientific_f1_m2,16.199319890435106,12,14,True,False
+margin,USC,scientific_f1_m2,15.911005896543664,13,13,True,False
+margin,Tennessee,scientific_f1_m2,15.395118908130437,14,12,True,False
+margin,Oklahoma,scientific_f1_m2,14.84489146493599,15,11,True,False
+margin,Michigan,scientific_f1_m2,14.580754472259128,16,10,True,False
+margin,North Carolina,scientific_f1_m2,14.469236547941891,17,9,True,False
+margin,Utah,scientific_f1_m2,14.33015558443931,18,8,True,False
+margin,Missouri,scientific_f1_m2,13.479239336387154,19,7,True,False
+margin,LSU,scientific_f1_m2,13.389344352769916,20,6,True,False
+margin,Clemson,scientific_f1_m2,13.285079777235149,21,5,True,False
+margin,Florida State,scientific_f1_m2,12.941744360770466,22,4,True,False
+margin,Vanderbilt,scientific_f1_m2,12.733638438394252,23,3,True,False
+margin,Washington,scientific_f1_m2,12.66662393898566,24,2,True,False
+margin,Eastern Michigan,scientific_f1_m2,12.283201370061311,25,1,True,False
+margin,Notre Dame,scientific_f1_m3,26.75098395454449,1,25,True,True
+margin,Ohio State,scientific_f1_m3,24.68370962863895,2,24,True,False
+margin,Indiana,scientific_f1_m3,23.936902380952365,3,23,True,False
+margin,Oregon,scientific_f1_m3,22.205108241099293,4,22,True,False
+margin,Texas Tech,scientific_f1_m3,21.86652619047618,5,21,True,False
+margin,Ole Miss,scientific_f1_m3,19.66762063492064,6,20,True,False
+margin,Georgia,scientific_f1_m3,19.64428293508332,7,19,True,False
+margin,Florida State,scientific_f1_m3,17.95694761904763,8,18,True,False
+margin,Alabama,scientific_f1_m3,17.772180280309193,9,17,True,False
+margin,Miami,scientific_f1_m3,17.278359861775648,10,16,True,False
+margin,South Florida,scientific_f1_m3,16.944131746031744,11,15,True,False
+margin,Texas A&M,scientific_f1_m3,16.60165382536853,12,14,True,False
+margin,USC,scientific_f1_m3,16.412445238095227,13,13,True,False
+margin,Washington,scientific_f1_m3,16.254584256854255,14,12,True,False
+margin,Texas,scientific_f1_m3,15.86473728914964,15,11,True,False
+margin,Tennessee,scientific_f1_m3,14.93404047619048,16,10,True,False
+margin,LSU,scientific_f1_m3,14.838332325969182,17,9,True,False
+margin,Missouri,scientific_f1_m3,14.229816209307492,18,8,True,False
+margin,Arizona,scientific_f1_m3,13.634137251918768,19,7,True,False
+margin,Utah,scientific_f1_m3,13.55371984126984,20,6,True,False
+margin,Clemson,scientific_f1_m3,13.295111413626284,21,5,True,False
+margin,Oklahoma,scientific_f1_m3,13.098593703232156,22,4,True,False
+margin,Auburn,scientific_f1_m3,12.270122266900072,23,3,True,False
+margin,BYU,scientific_f1_m3,12.15588831498614,24,2,True,False
+margin,Michigan,scientific_f1_m3,12.085952198378584,25,1,True,False
+margin,Oregon,scientific_f1_m4,27.14378648089448,1,25,True,True
+margin,Notre Dame,scientific_f1_m4,27.085812578294878,2,24,True,False
+margin,Ohio State,scientific_f1_m4,26.996092437660405,3,23,True,False
+margin,Indiana,scientific_f1_m4,23.051562090462387,4,22,True,False
+margin,Georgia,scientific_f1_m4,22.66526567450656,5,21,True,False
+margin,Texas Tech,scientific_f1_m4,22.654236866051228,6,20,True,False
+margin,Alabama,scientific_f1_m4,19.088402870732363,7,19,True,False
+margin,Texas A&M,scientific_f1_m4,18.02199654814761,8,18,True,False
+margin,Miami,scientific_f1_m4,17.86731877153588,9,17,True,False
+margin,Ole Miss,scientific_f1_m4,17.553417301824283,10,16,True,False
+margin,Texas,scientific_f1_m4,17.071391694442752,11,15,True,False
+margin,Michigan,scientific_f1_m4,16.718203664915404,12,14,True,False
+margin,Tennessee,scientific_f1_m4,16.71412406761454,13,13,True,False
+margin,Virginia,scientific_f1_m4,16.42128857991288,14,12,True,False
+margin,USC,scientific_f1_m4,16.40015051243836,15,11,True,False
+margin,Utah,scientific_f1_m4,15.98667441641021,16,10,True,False
+margin,LSU,scientific_f1_m4,15.443593732553946,17,9,True,False
+margin,South Florida,scientific_f1_m4,14.719059203422123,18,8,True,False
+margin,Oklahoma,scientific_f1_m4,14.55984422907186,19,7,True,False
+margin,Washington,scientific_f1_m4,14.045030091215835,20,6,True,False
+margin,Florida State,scientific_f1_m4,13.976541477541854,21,5,True,False
+margin,Clemson,scientific_f1_m4,13.510726977924362,22,4,True,False
+margin,Vanderbilt,scientific_f1_m4,13.243766300180436,23,3,True,False
+margin,Missouri,scientific_f1_m4,12.896776338277975,24,2,True,False
+margin,North Dakota State,scientific_f1_m4,12.673286617276275,25,1,True,False
+margin,Eastern Michigan,scientific_f1_m5,59.37916946411133,1,25,True,True
+margin,North Carolina,scientific_f1_m5,53.41949081420898,2,24,True,False
+margin,Memphis,scientific_f1_m5,52.7651252746582,3,23,True,False
+margin,TCU,scientific_f1_m5,52.58469772338867,4,22,True,False
+margin,Sacramento State,scientific_f1_m5,46.651023864746094,5,21,True,False
+margin,UNLV,scientific_f1_m5,44.55783462524414,6,20,True,False
+margin,Hawai'i,scientific_f1_m5,33.58217239379883,7,19,True,False
+margin,NC State,scientific_f1_m5,29.673084259033203,8,18,True,False
+margin,Jacksonville State,scientific_f1_m5,28.933225631713867,9,17,True,False
+margin,Ohio State,scientific_f1_m5,25.678050994873047,10,16,True,False
+margin,Notre Dame,scientific_f1_m5,24.851381301879883,11,15,True,False
+margin,Oregon,scientific_f1_m5,24.814472198486328,12,14,True,False
+margin,Texas Tech,scientific_f1_m5,24.598825454711918,13,13,True,False
+margin,Indiana,scientific_f1_m5,22.75798225402832,14,12,True,False
+margin,Utah,scientific_f1_m5,22.198102951049805,15,11,True,False
+margin,Georgia,scientific_f1_m5,22.14557266235352,16,10,True,False
+margin,Ole Miss,scientific_f1_m5,21.10422134399414,17,9,True,False
+margin,Miami,scientific_f1_m5,21.037647247314453,18,8,True,False
+margin,Alabama,scientific_f1_m5,20.68071556091309,19,7,True,False
+margin,Vanderbilt,scientific_f1_m5,20.542709350585938,20,6,True,False
+margin,Texas A&M,scientific_f1_m5,19.51763916015625,21,5,True,False
+margin,South Florida,scientific_f1_m5,19.436208724975582,22,4,True,False
+margin,Tennessee,scientific_f1_m5,18.56768226623535,23,3,True,False
+margin,Washington,scientific_f1_m5,18.010456085205078,24,2,True,False
+margin,North Texas,scientific_f1_m5,17.37223243713379,25,1,True,False
+margin,Texas Tech,scientific_f1_m10,27.263724825677937,1,25,True,True
+margin,UNLV,scientific_f1_m10,19.52340925486121,2,24,True,False
+margin,Notre Dame,scientific_f1_m10,18.578835021396863,3,23,True,False
+margin,South Florida,scientific_f1_m10,18.20589777146819,4,22,True,False
+margin,Indiana,scientific_f1_m10,18.17530162425952,5,21,True,False
+margin,Texas,scientific_f1_m10,18.171552955706638,6,20,True,False
+margin,TCU,scientific_f1_m10,17.85368272613298,7,19,True,False
+margin,Florida,scientific_f1_m10,17.099881287935272,8,18,True,False
+margin,Georgia,scientific_f1_m10,16.40070836169792,9,17,True,False
+margin,Alabama,scientific_f1_m10,15.764447416835962,10,16,True,False
+margin,USC,scientific_f1_m10,15.662355835169494,11,15,True,False
+margin,Wisconsin,scientific_f1_m10,15.342644304469392,12,14,True,False
+margin,Texas A&M,scientific_f1_m10,14.659475467545164,13,13,True,False
+margin,Ole Miss,scientific_f1_m10,14.58220970423117,14,12,True,False
+margin,Arizona,scientific_f1_m10,14.061375831392088,15,11,True,False
+margin,Eastern Michigan,scientific_f1_m10,13.751238605667217,16,10,True,False
+margin,Sacramento State,scientific_f1_m10,13.68382358839293,17,9,True,False
+margin,North Carolina,scientific_f1_m10,13.572082852316017,18,8,True,False
+margin,Oregon,scientific_f1_m10,13.454394648777036,19,7,True,False
+margin,Iowa State,scientific_f1_m10,13.429717548744744,20,6,True,False
+margin,Memphis,scientific_f1_m10,13.139567125095946,21,5,True,False
+margin,Georgia Tech,scientific_f1_m10,12.88116801512236,22,4,True,False
+margin,James Madison,scientific_f1_m10,12.825046072066318,23,3,True,False
+margin,Utah,scientific_f1_m10,12.639525486899208,24,2,True,False
+margin,Washington,scientific_f1_m10,12.52532301073698,25,1,True,False
+margin,North Carolina,scientific_f2_m1,28.24691778394505,1,25,True,True
+margin,Ohio State,scientific_f2_m1,19.783609415811146,2,24,True,False
+margin,Eastern Michigan,scientific_f2_m1,18.20058704318002,3,23,True,False
+margin,Oregon,scientific_f2_m1,18.00733006043476,4,22,True,False
+margin,Notre Dame,scientific_f2_m1,17.843567197091225,5,21,True,False
+margin,Memphis,scientific_f2_m1,17.086966488589702,6,20,True,False
+margin,Georgia,scientific_f2_m1,15.287654372331737,7,19,True,False
+margin,Alabama,scientific_f2_m1,14.812418890414149,8,18,True,False
+margin,Indiana,scientific_f2_m1,13.541326224285338,9,17,True,False
+margin,Miami,scientific_f2_m1,13.403271221480669,10,16,True,False
+margin,Ole Miss,scientific_f2_m1,12.746553730618706,11,15,True,False
+margin,Texas A&M,scientific_f2_m1,12.673041930478645,12,14,True,False
+margin,Texas Tech,scientific_f2_m1,12.278977412428262,13,13,True,False
+margin,Texas,scientific_f2_m1,12.026700307886417,14,12,True,False
+margin,Florida State,scientific_f2_m1,11.07689760505894,15,11,True,False
+margin,Michigan,scientific_f2_m1,10.44460929797054,16,10,True,False
+margin,USC,scientific_f2_m1,10.382718595703173,17,9,True,False
+margin,UNLV,scientific_f2_m1,10.173948236566392,18,8,True,False
+margin,TCU,scientific_f2_m1,9.934695004499323,19,7,True,False
+margin,Oklahoma,scientific_f2_m1,9.772428814430482,20,6,True,False
+margin,Missouri,scientific_f2_m1,9.507812426484952,21,5,True,False
+margin,Vanderbilt,scientific_f2_m1,9.38406826633778,22,4,True,False
+margin,Clemson,scientific_f2_m1,9.315460416928191,23,3,True,False
+margin,Virginia,scientific_f2_m1,9.23304666467329,24,2,True,False
+margin,Tennessee,scientific_f2_m1,8.454032369103391,25,1,True,False
+margin,Ohio State,scientific_f2_m2,28.725003881776708,1,25,True,True
+margin,Oregon,scientific_f2_m2,27.485717440400144,2,24,True,False
+margin,Notre Dame,scientific_f2_m2,26.03132422675656,3,23,True,False
+margin,North Carolina,scientific_f2_m2,24.154648487035782,4,22,True,False
+margin,Georgia,scientific_f2_m2,23.67605477267113,5,21,True,False
+margin,Alabama,scientific_f2_m2,23.12495092965156,6,20,True,False
+margin,Indiana,scientific_f2_m2,21.56657010678108,7,19,True,False
+margin,Miami,scientific_f2_m2,21.38294704793045,8,18,True,False
+margin,Ole Miss,scientific_f2_m2,21.24643575231428,9,17,True,False
+margin,Texas A&M,scientific_f2_m2,20.86725317541416,10,16,True,False
+margin,Texas Tech,scientific_f2_m2,20.43944769534681,11,15,True,False
+margin,Texas,scientific_f2_m2,19.401448236321947,12,14,True,False
+margin,Michigan,scientific_f2_m2,17.688369098529922,13,13,True,False
+margin,Missouri,scientific_f2_m2,17.267068671445287,14,12,True,False
+margin,Vanderbilt,scientific_f2_m2,16.572730862953627,15,11,True,False
+margin,Tennessee,scientific_f2_m2,16.460665619495412,16,10,True,False
+margin,Virginia,scientific_f2_m2,16.088568581427037,17,9,True,False
+margin,Florida State,scientific_f2_m2,16.08404744480165,18,8,True,False
+margin,Oklahoma,scientific_f2_m2,15.743852133426843,19,7,True,False
+margin,Utah,scientific_f2_m2,15.081927266167291,20,6,True,False
+margin,Memphis,scientific_f2_m2,14.9338771904955,21,5,True,False
+margin,Washington,scientific_f2_m2,14.824668916053191,22,4,True,False
+margin,Clemson,scientific_f2_m2,14.52342084046468,23,3,True,False
+margin,USC,scientific_f2_m2,14.31328101235929,24,2,True,False
+margin,South Florida,scientific_f2_m2,13.655588783383958,25,1,True,False
+margin,Ohio State,scientific_f2_m3,27.012076190476176,1,25,True,True
+margin,Oregon,scientific_f2_m3,26.646182508412984,2,24,True,False
+margin,Notre Dame,scientific_f2_m3,23.53369306599832,3,23,True,False
+margin,Indiana,scientific_f2_m3,23.479182539682533,4,22,True,False
+margin,Texas Tech,scientific_f2_m3,22.249178571428548,5,21,True,False
+margin,Miami,scientific_f2_m3,21.50111391941391,6,20,True,False
+margin,Georgia,scientific_f2_m3,19.50934008386051,7,19,True,False
+margin,Texas A&M,scientific_f2_m3,18.324317331654925,8,18,True,False
+margin,USC,scientific_f2_m3,17.824507865724318,9,17,True,False
+margin,Ole Miss,scientific_f2_m3,17.70698114277942,10,16,True,False
+margin,Vanderbilt,scientific_f2_m3,17.243437301587303,11,15,True,False
+margin,South Florida,scientific_f2_m3,16.905841414141413,12,14,True,False
+margin,Washington,scientific_f2_m3,16.7525873015873,13,13,True,False
+margin,Alabama,scientific_f2_m3,16.519281025998485,14,12,True,False
+margin,Utah,scientific_f2_m3,16.485469047619063,15,11,True,False
+margin,Virginia,scientific_f2_m3,15.68486984126984,16,10,True,False
+margin,Tennessee,scientific_f2_m3,15.515327419354833,17,9,True,False
+margin,Texas,scientific_f2_m3,15.110015009009736,18,8,True,False
+margin,North Texas,scientific_f2_m3,14.060596783625732,19,7,True,False
+margin,James Madison,scientific_f2_m3,13.928026767676776,20,6,True,False
+margin,Missouri,scientific_f2_m3,13.849571428571432,21,5,True,False
+margin,Florida State,scientific_f2_m3,13.831230158730165,22,4,True,False
+margin,Oklahoma,scientific_f2_m3,13.222269403850133,23,3,True,False
+margin,BYU,scientific_f2_m3,13.10128871870759,24,2,True,False
+margin,Toledo,scientific_f2_m3,13.026983365079367,25,1,True,False
+margin,Oregon,scientific_f2_m4,29.61919219165038,1,25,True,True
+margin,Ohio State,scientific_f2_m4,29.382659448631347,2,24,True,False
+margin,Notre Dame,scientific_f2_m4,28.024568290976266,3,23,True,False
+margin,Texas Tech,scientific_f2_m4,26.321183486467373,4,22,True,False
+margin,Indiana,scientific_f2_m4,23.603993459589173,5,21,True,False
+margin,Georgia,scientific_f2_m4,22.370736403739333,6,20,True,False
+margin,Miami,scientific_f2_m4,20.53109474959928,7,19,True,False
+margin,Texas A&M,scientific_f2_m4,19.04916329026331,8,18,True,False
+margin,South Florida,scientific_f2_m4,18.90454019740952,9,17,True,False
+margin,Ole Miss,scientific_f2_m4,18.543903901921265,10,16,True,False
+margin,Alabama,scientific_f2_m4,18.46538159752614,11,15,True,False
+margin,Texas,scientific_f2_m4,18.22453571935805,12,14,True,False
+margin,Virginia,scientific_f2_m4,17.81471722731065,13,13,True,False
+margin,Michigan,scientific_f2_m4,17.593749625312096,14,12,True,False
+margin,Utah,scientific_f2_m4,17.482309906079635,15,11,True,False
+margin,Tennessee,scientific_f2_m4,16.67336636215625,16,10,True,False
+margin,Vanderbilt,scientific_f2_m4,16.37202525795095,17,9,True,False
+margin,Missouri,scientific_f2_m4,15.668307413354093,18,8,True,False
+margin,Oklahoma,scientific_f2_m4,15.65975500858156,19,7,True,False
+margin,Washington,scientific_f2_m4,15.596742240774129,20,6,True,False
+margin,Florida State,scientific_f2_m4,14.897168442687418,21,5,True,False
+margin,LSU,scientific_f2_m4,14.696396713302764,22,4,True,False
+margin,USC,scientific_f2_m4,14.582681799028796,23,3,True,False
+margin,Clemson,scientific_f2_m4,12.558718221281834,24,2,True,False
+margin,BYU,scientific_f2_m4,12.209119706221005,25,1,True,False
+margin,Vanderbilt,scientific_f2_m5,31.625905990600582,1,25,True,True
+margin,Notre Dame,scientific_f2_m5,31.106000900268555,2,24,True,False
+margin,Ohio State,scientific_f2_m5,30.186981201171875,3,23,True,False
+margin,Indiana,scientific_f2_m5,27.028255462646484,4,22,True,False
+margin,Oregon,scientific_f2_m5,25.41435813903809,5,21,True,False
+margin,Texas Tech,scientific_f2_m5,24.386329650878903,6,20,True,False
+margin,Miami,scientific_f2_m5,22.509445190429688,7,19,True,False
+margin,Alabama,scientific_f2_m5,21.352039337158203,8,18,True,False
+margin,USC,scientific_f2_m5,21.263164520263672,9,17,True,False
+margin,Michigan,scientific_f2_m5,20.73890686035156,10,16,True,False
+margin,Texas A&M,scientific_f2_m5,20.423622131347656,11,15,True,False
+margin,Utah,scientific_f2_m5,20.035703659057617,12,14,True,False
+margin,Texas,scientific_f2_m5,19.62446975708008,13,13,True,False
+margin,Florida State,scientific_f2_m5,19.55286407470703,14,12,True,False
+margin,James Madison,scientific_f2_m5,19.47154235839844,15,11,True,False
+margin,Tennessee,scientific_f2_m5,19.313453674316406,16,10,True,False
+margin,Georgia,scientific_f2_m5,18.104137420654297,17,9,True,False
+margin,Ole Miss,scientific_f2_m5,17.26827621459961,18,8,True,False
+margin,Missouri,scientific_f2_m5,17.213516235351562,19,7,True,False
+margin,SMU,scientific_f2_m5,16.75271224975586,20,6,True,False
+margin,Oklahoma,scientific_f2_m5,16.60466194152832,21,5,True,False
+margin,Washington,scientific_f2_m5,15.830714225769045,22,4,True,False
+margin,North Texas,scientific_f2_m5,15.182011604309082,23,3,True,False
+margin,North Carolina,scientific_f2_m5,14.653883934020996,24,2,True,False
+margin,Georgia Tech,scientific_f2_m5,14.578569412231444,25,1,True,False
+margin,Virginia,scientific_f2_m10,22.92766819065082,1,25,True,True
+margin,USC,scientific_f2_m10,16.395282214172486,2,24,True,False
+margin,North Dakota State,scientific_f2_m10,15.228410131826095,3,23,True,False
+margin,Texas Tech,scientific_f2_m10,13.668587604034412,4,22,True,False
+margin,Memphis,scientific_f2_m10,12.664797225217114,5,21,True,False
+margin,Ohio State,scientific_f2_m10,12.415024525145531,6,20,True,False
+margin,Eastern Michigan,scientific_f2_m10,10.301601490319552,7,19,True,False
+margin,Notre Dame,scientific_f2_m10,9.703956484103369,8,18,True,False
+margin,Miami,scientific_f2_m10,9.25184703537046,9,17,True,False
+margin,Indiana,scientific_f2_m10,9.101968011019384,10,16,True,False
+margin,Vanderbilt,scientific_f2_m10,8.09641852179882,11,15,True,False
+margin,UNLV,scientific_f2_m10,6.61180926676793,12,14,True,False
+margin,Oregon,scientific_f2_m10,6.599202958646947,13,13,True,False
+margin,Tennessee,scientific_f2_m10,6.267382475409477,14,12,True,False
+margin,North Carolina,scientific_f2_m10,4.999211817812411,15,11,True,False
+margin,Toledo,scientific_f2_m10,4.990263060890344,16,10,True,False
+margin,Georgia Tech,scientific_f2_m10,4.915259393453918,17,9,True,False
+margin,Hawai'i,scientific_f2_m10,4.91342088055325,18,8,True,False
+margin,North Texas,scientific_f2_m10,4.738942527503814,19,7,True,False
+margin,South Florida,scientific_f2_m10,4.520652777572307,20,6,True,False
+margin,TCU,scientific_f2_m10,4.50700537612739,21,5,True,False
+margin,Washington,scientific_f2_m10,4.202595757036049,22,4,True,False
+margin,Florida State,scientific_f2_m10,4.104256636226268,23,3,True,False
+margin,Georgia,scientific_f2_m10,3.9538795444095314,24,2,True,False
+margin,James Madison,scientific_f2_m10,3.77616473614079,25,1,True,False
+margin,North Carolina,scientific_f3_m1,32.01803815967222,1,25,True,True
+margin,Oregon,scientific_f3_m1,27.506128992422504,2,24,True,False
+margin,Ole Miss,scientific_f3_m1,24.52976942771092,3,23,True,False
+margin,Notre Dame,scientific_f3_m1,22.87395954807508,4,22,True,False
+margin,Indiana,scientific_f3_m1,21.645458489471984,5,21,True,False
+margin,Ohio State,scientific_f3_m1,21.18983170527141,6,20,True,False
+margin,Alabama,scientific_f3_m1,21.104806150137925,7,19,True,False
+margin,Memphis,scientific_f3_m1,20.90047000537273,8,18,True,False
+margin,Clemson,scientific_f3_m1,18.66510599965551,9,17,True,False
+margin,Georgia,scientific_f3_m1,16.663669859618032,10,16,True,False
+margin,Boise State,scientific_f3_m1,16.574009830017342,11,15,True,False
+margin,East Carolina,scientific_f3_m1,16.472584759328605,12,14,True,False
+margin,LSU,scientific_f3_m1,16.07355336863585,13,13,True,False
+margin,Miami,scientific_f3_m1,15.96701220008581,14,12,True,False
+margin,Louisville,scientific_f3_m1,15.215230415242065,15,11,True,False
+margin,TCU,scientific_f3_m1,15.197489808720528,16,10,True,False
+margin,Texas,scientific_f3_m1,14.84098477227628,17,9,True,False
+margin,North Texas,scientific_f3_m1,14.641747356036134,18,8,True,False
+margin,UNLV,scientific_f3_m1,14.384005666583574,19,7,True,False
+margin,Washington,scientific_f3_m1,13.549280745654796,20,6,True,False
+margin,USC,scientific_f3_m1,13.44506182327726,21,5,True,False
+margin,Eastern Michigan,scientific_f3_m1,12.451424682934835,22,4,True,False
+margin,Michigan,scientific_f3_m1,12.1836587850845,23,3,True,False
+margin,Texas Tech,scientific_f3_m1,11.230619375219128,24,2,True,False
+margin,SMU,scientific_f3_m1,10.942075298761765,25,1,True,False
+margin,Oregon,scientific_f3_m2,32.71641458806498,1,25,True,True
+margin,Notre Dame,scientific_f3_m2,28.99086564848644,2,24,True,False
+margin,Indiana,scientific_f3_m2,28.468544498389036,3,23,True,False
+margin,North Carolina,scientific_f3_m2,28.311053925720547,4,22,True,False
+margin,Alabama,scientific_f3_m2,27.490780721295028,5,21,True,False
+margin,Ole Miss,scientific_f3_m2,27.4449794827346,6,20,True,False
+margin,Ohio State,scientific_f3_m2,26.366793414119616,7,19,True,False
+margin,Miami,scientific_f3_m2,24.103781546731412,8,18,True,False
+margin,Texas,scientific_f3_m2,22.131362789593464,9,17,True,False
+margin,Georgia,scientific_f3_m2,21.90238159353928,10,16,True,False
+margin,Memphis,scientific_f3_m2,20.93981732157401,11,15,True,False
+margin,Virginia,scientific_f3_m2,20.779321298884003,12,14,True,False
+margin,Washington,scientific_f3_m2,20.52631281040256,13,13,True,False
+margin,Texas Tech,scientific_f3_m2,20.39138814847998,14,12,True,False
+margin,Clemson,scientific_f3_m2,19.785544658467643,15,11,True,False
+margin,Michigan,scientific_f3_m2,19.7623817880173,16,10,True,False
+margin,Texas A&M,scientific_f3_m2,19.484478619492727,17,9,True,False
+margin,SMU,scientific_f3_m2,18.458660323234536,18,8,True,False
+margin,Penn State,scientific_f3_m2,18.075116231887204,19,7,True,False
+margin,LSU,scientific_f3_m2,17.81995757629347,20,6,True,False
+margin,North Texas,scientific_f3_m2,17.05294977910429,21,5,True,False
+margin,Oklahoma,scientific_f3_m2,16.575512582972394,22,4,True,False
+margin,Florida State,scientific_f3_m2,16.38565388470484,23,3,True,False
+margin,Auburn,scientific_f3_m2,15.734729562847754,24,2,True,False
+margin,USC,scientific_f3_m2,15.429269605297918,25,1,True,False
+margin,Oregon,scientific_f3_m3,26.13972899584075,1,25,True,True
+margin,Ohio State,scientific_f3_m3,26.064314493676253,2,24,True,False
+margin,USC,scientific_f3_m3,22.250617460317464,3,23,True,False
+margin,Indiana,scientific_f3_m3,22.0916738095238,4,22,True,False
+margin,Notre Dame,scientific_f3_m3,21.23997798541106,5,21,True,False
+margin,Georgia,scientific_f3_m3,19.70116394088761,6,20,True,False
+margin,Miami,scientific_f3_m3,19.320850505050515,7,19,True,False
+margin,Ole Miss,scientific_f3_m3,19.18815133477633,8,18,True,False
+margin,Texas Tech,scientific_f3_m3,19.090787301587284,9,17,True,False
+margin,Alabama,scientific_f3_m3,18.55506379370921,10,16,True,False
+margin,Texas A&M,scientific_f3_m3,17.564194712472094,11,15,True,False
+margin,Virginia,scientific_f3_m3,15.6354611111111,12,14,True,False
+margin,Washington,scientific_f3_m3,15.13814694194693,13,13,True,False
+margin,Texas,scientific_f3_m3,15.021899246514002,14,12,True,False
+margin,Clemson,scientific_f3_m3,14.789380013327436,15,11,True,False
+margin,Oklahoma,scientific_f3_m3,14.70070698009986,16,10,True,False
+margin,James Madison,scientific_f3_m3,14.025921428571424,17,9,True,False
+margin,Utah,scientific_f3_m3,13.87333492063492,18,8,True,False
+margin,SMU,scientific_f3_m3,13.42206652405772,19,7,True,False
+margin,Vanderbilt,scientific_f3_m3,13.35505692640693,20,6,True,False
+margin,LSU,scientific_f3_m3,13.34964548685942,21,5,True,False
+margin,North Texas,scientific_f3_m3,12.890510927960934,22,4,True,False
+margin,Michigan,scientific_f3_m3,12.554717860337473,23,3,True,False
+margin,Toledo,scientific_f3_m3,12.546221132035956,24,2,True,False
+margin,Missouri,scientific_f3_m3,12.385073418803426,25,1,True,False
+margin,Oregon,scientific_f3_m4,30.37638386006868,1,25,True,True
+margin,Ohio State,scientific_f3_m4,29.03818254393349,2,24,True,False
+margin,Notre Dame,scientific_f3_m4,26.506640882906723,3,23,True,False
+margin,Indiana,scientific_f3_m4,24.38009857801437,4,22,True,False
+margin,Virginia,scientific_f3_m4,22.35732391257732,5,21,True,False
+margin,Georgia,scientific_f3_m4,21.95719853326438,6,20,True,False
+margin,USC,scientific_f3_m4,20.932095220942724,7,19,True,False
+margin,Ole Miss,scientific_f3_m4,20.91999152131192,8,18,True,False
+margin,Texas Tech,scientific_f3_m4,20.10050872639518,9,17,True,False
+margin,LSU,scientific_f3_m4,20.066261814969582,10,16,True,False
+margin,Alabama,scientific_f3_m4,19.59062846345925,11,15,True,False
+margin,Miami,scientific_f3_m4,19.12407662043014,12,14,True,False
+margin,Clemson,scientific_f3_m4,18.01329082619422,13,13,True,False
+margin,Texas,scientific_f3_m4,17.21071352640655,14,12,True,False
+margin,Texas A&M,scientific_f3_m4,16.820224285006205,15,11,True,False
+margin,Florida State,scientific_f3_m4,16.58835802701341,16,10,True,False
+margin,Michigan,scientific_f3_m4,16.546690670392184,17,9,True,False
+margin,Washington,scientific_f3_m4,16.40707053744959,18,8,True,False
+margin,North Texas,scientific_f3_m4,14.779059923083691,19,7,True,False
+margin,Memphis,scientific_f3_m4,14.561715979872169,20,6,True,False
+margin,Auburn,scientific_f3_m4,14.269703995722644,21,5,True,False
+margin,Penn State,scientific_f3_m4,13.913126283569175,22,4,True,False
+margin,Louisville,scientific_f3_m4,13.868190327440049,23,3,True,False
+margin,SMU,scientific_f3_m4,13.22869802557262,24,2,True,False
+margin,James Madison,scientific_f3_m4,13.14581291813522,25,1,True,False
+margin,Notre Dame,scientific_f3_m5,31.10807609558105,1,25,True,True
+margin,Michigan,scientific_f3_m5,25.938770294189453,2,24,True,False
+margin,LSU,scientific_f3_m5,24.752347946166992,3,23,True,False
+margin,Oregon,scientific_f3_m5,24.726951599121094,4,22,True,False
+margin,Clemson,scientific_f3_m5,24.44271850585937,5,21,True,False
+margin,Memphis,scientific_f3_m5,24.40264892578125,6,20,True,False
+margin,Duke,scientific_f3_m5,24.04642105102539,7,19,True,False
+margin,Alabama,scientific_f3_m5,23.27402877807617,8,18,True,False
+margin,UNLV,scientific_f3_m5,21.20661163330078,9,17,True,False
+margin,SMU,scientific_f3_m5,21.02381134033203,10,16,True,False
+margin,Texas,scientific_f3_m5,20.69155502319336,11,15,True,False
+margin,Washington,scientific_f3_m5,19.72086334228516,12,14,True,False
+margin,Vanderbilt,scientific_f3_m5,19.60339736938477,13,13,True,False
+margin,Nebraska,scientific_f3_m5,19.262680053710938,14,12,True,False
+margin,Ohio State,scientific_f3_m5,19.022560119628903,15,11,True,False
+margin,Georgia,scientific_f3_m5,18.823352813720703,16,10,True,False
+margin,Indiana,scientific_f3_m5,18.68510055541992,17,9,True,False
+margin,Navy,scientific_f3_m5,17.94860076904297,18,8,True,False
+margin,Ole Miss,scientific_f3_m5,16.246315002441406,19,7,True,False
+margin,Louisville,scientific_f3_m5,15.850237846374512,20,6,True,False
+margin,Pittsburgh,scientific_f3_m5,15.767807006835938,21,5,True,False
+margin,North Texas,scientific_f3_m5,15.35853385925293,22,4,True,False
+margin,Arizona State,scientific_f3_m5,14.975528717041016,23,3,True,False
+margin,Texas A&M,scientific_f3_m5,14.5552978515625,24,2,True,False
+margin,Boise State,scientific_f3_m5,13.92376708984375,25,1,True,False
+margin,USC,scientific_f3_m10,27.986889435303787,1,25,True,True
+margin,Ohio State,scientific_f3_m10,24.22843778391941,2,24,True,False
+margin,North Dakota State,scientific_f3_m10,19.299547588549203,3,23,True,False
+margin,Virginia,scientific_f3_m10,18.64087780107645,4,22,True,False
+margin,Indiana,scientific_f3_m10,17.136467884363356,5,21,True,False
+margin,Eastern Michigan,scientific_f3_m10,14.176868201817594,6,20,True,False
+margin,Stanford,scientific_f3_m10,12.159611208399488,7,19,True,False
+margin,Miami,scientific_f3_m10,12.144822335295329,8,18,True,False
+margin,Texas Tech,scientific_f3_m10,10.85518132894918,9,17,True,False
+margin,Oregon,scientific_f3_m10,10.666331205326776,10,16,True,False
+margin,TCU,scientific_f3_m10,10.591225575881806,11,15,True,False
+margin,Michigan,scientific_f3_m10,10.585648849594396,12,14,True,False
+margin,Texas A&M,scientific_f3_m10,10.148865108694933,13,13,True,False
+margin,Memphis,scientific_f3_m10,10.019302005291198,14,12,True,False
+margin,Notre Dame,scientific_f3_m10,9.82406806661052,15,11,True,False
+margin,Old Dominion,scientific_f3_m10,9.56766562528385,16,10,True,False
+margin,Ole Miss,scientific_f3_m10,9.54027012149736,17,9,True,False
+margin,Toledo,scientific_f3_m10,8.707060432886594,18,8,True,False
+margin,Utah State,scientific_f3_m10,8.665445894371084,19,7,True,False
+margin,South Florida,scientific_f3_m10,8.20687830828307,20,6,True,False
+margin,Georgia,scientific_f3_m10,8.151752215934959,21,5,True,False
+margin,Vanderbilt,scientific_f3_m10,8.023377864499091,22,4,True,False
+margin,Arkansas,scientific_f3_m10,8.007854779196961,23,3,True,False
+margin,Florida State,scientific_f3_m10,7.642454887682428,24,2,True,False
+margin,Air Force,scientific_f3_m10,7.24703852170065,25,1,True,False
+margin,Oregon,scientific_f4_m1,31.39148616847646,1,25,True,True
+margin,North Carolina,scientific_f4_m1,30.16652977926271,2,24,True,False
+margin,Ohio State,scientific_f4_m1,26.416611225325703,3,23,True,False
+margin,Notre Dame,scientific_f4_m1,25.15962937383189,4,22,True,False
+margin,Indiana,scientific_f4_m1,24.6012894691827,5,21,True,False
+margin,Ole Miss,scientific_f4_m1,24.396699565013712,6,20,True,False
+margin,Alabama,scientific_f4_m1,21.64820338285295,7,19,True,False
+margin,Clemson,scientific_f4_m1,20.30308525663227,8,18,True,False
+margin,Memphis,scientific_f4_m1,20.152928017145705,9,17,True,False
+margin,Miami,scientific_f4_m1,19.29278684499888,10,16,True,False
+margin,Boise State,scientific_f4_m1,19.073903002594456,11,15,True,False
+margin,Georgia,scientific_f4_m1,17.93031065501097,12,14,True,False
+margin,USC,scientific_f4_m1,17.902001289042147,13,13,True,False
+margin,East Carolina,scientific_f4_m1,17.63470598679538,14,12,True,False
+margin,Texas,scientific_f4_m1,17.168919363387598,15,11,True,False
+margin,LSU,scientific_f4_m1,16.700711654528757,16,10,True,False
+margin,Louisville,scientific_f4_m1,16.618001876856006,17,9,True,False
+margin,Texas A&M,scientific_f4_m1,15.61880295398612,18,8,True,False
+margin,Washington,scientific_f4_m1,15.578944805997075,19,7,True,False
+margin,UNLV,scientific_f4_m1,15.276578587932695,20,6,True,False
+margin,TCU,scientific_f4_m1,13.8934249588028,21,5,True,False
+margin,Michigan,scientific_f4_m1,13.761637223229735,22,4,True,False
+margin,SMU,scientific_f4_m1,13.47751991895095,23,3,True,False
+margin,North Texas,scientific_f4_m1,13.295701023915688,24,2,True,False
+margin,Texas Tech,scientific_f4_m1,12.948915525674623,25,1,True,False
+margin,Oregon,scientific_f4_m2,37.216166864926834,1,25,True,True
+margin,Ohio State,scientific_f4_m2,32.81796346248829,2,24,True,False
+margin,Notre Dame,scientific_f4_m2,32.17303461238716,3,23,True,False
+margin,Indiana,scientific_f4_m2,31.243722365265956,4,22,True,False
+margin,Alabama,scientific_f4_m2,28.637609255672945,5,21,True,False
+margin,Ole Miss,scientific_f4_m2,27.41260485370686,6,20,True,False
+margin,Miami,scientific_f4_m2,27.016305808231685,7,19,True,False
+margin,North Carolina,scientific_f4_m2,26.34986138237121,8,18,True,False
+margin,Georgia,scientific_f4_m2,25.39917348654907,9,17,True,False
+margin,Texas A&M,scientific_f4_m2,24.590894846438054,10,16,True,False
+margin,Texas,scientific_f4_m2,24.57450880258516,11,15,True,False
+margin,Washington,scientific_f4_m2,22.92708207686908,12,14,True,False
+margin,Texas Tech,scientific_f4_m2,22.451483949283965,13,13,True,False
+margin,Oklahoma,scientific_f4_m2,21.83180451707599,14,12,True,False
+margin,Michigan,scientific_f4_m2,21.528135245801717,15,11,True,False
+margin,Memphis,scientific_f4_m2,21.20109557671259,16,10,True,False
+margin,Virginia,scientific_f4_m2,20.82381517754185,17,9,True,False
+margin,SMU,scientific_f4_m2,20.522959751569147,18,8,True,False
+margin,USC,scientific_f4_m2,20.175691858987825,19,7,True,False
+margin,Clemson,scientific_f4_m2,20.098780857904902,20,6,True,False
+margin,Florida State,scientific_f4_m2,17.846255709063474,21,5,True,False
+margin,James Madison,scientific_f4_m2,17.242360830653105,22,4,True,False
+margin,LSU,scientific_f4_m2,17.13530002721879,23,3,True,False
+margin,Penn State,scientific_f4_m2,17.025685665196132,24,2,True,False
+margin,Tennessee,scientific_f4_m2,16.84768741243539,25,1,True,False
+margin,Ohio State,scientific_f4_m3,28.07576882868089,1,25,True,True
+margin,Oregon,scientific_f4_m3,26.210160561660555,2,24,True,False
+margin,Notre Dame,scientific_f4_m3,22.755235714285718,3,23,True,False
+margin,USC,scientific_f4_m3,21.39455108225108,4,22,True,False
+margin,Indiana,scientific_f4_m3,21.23239047619049,5,21,True,False
+margin,Ole Miss,scientific_f4_m3,20.38673142232529,6,20,True,False
+margin,Georgia,scientific_f4_m3,19.726960839268607,7,19,True,False
+margin,Texas Tech,scientific_f4_m3,18.92770634920636,8,18,True,False
+margin,Miami,scientific_f4_m3,18.085362009173725,9,17,True,False
+margin,Alabama,scientific_f4_m3,17.94465654999926,10,16,True,False
+margin,Washington,scientific_f4_m3,16.137784920634918,11,15,True,False
+margin,James Madison,scientific_f4_m3,16.000135714285722,12,14,True,False
+margin,Texas A&M,scientific_f4_m3,15.621085710347009,13,13,True,False
+margin,Utah,scientific_f4_m3,15.291423737373746,14,12,True,False
+margin,Clemson,scientific_f4_m3,14.701612901425788,15,11,True,False
+margin,Texas,scientific_f4_m3,14.579413325063705,16,10,True,False
+margin,Oklahoma,scientific_f4_m3,14.486075559163062,17,9,True,False
+margin,Virginia,scientific_f4_m3,14.482109523809513,18,8,True,False
+margin,Toledo,scientific_f4_m3,13.90947511425623,19,7,True,False
+margin,Michigan,scientific_f4_m3,13.73513577910909,20,6,True,False
+margin,SMU,scientific_f4_m3,13.490303868153866,21,5,True,False
+margin,Missouri,scientific_f4_m3,13.294299725022457,22,4,True,False
+margin,Tennessee,scientific_f4_m3,13.145027363000889,23,3,True,False
+margin,Florida State,scientific_f4_m3,12.925204761904755,24,2,True,False
+margin,LSU,scientific_f4_m3,12.897647031329258,25,1,True,False
+margin,Ohio State,scientific_f4_m4,32.25445039477436,1,25,True,True
+margin,Oregon,scientific_f4_m4,29.521545428781444,2,24,True,False
+margin,Notre Dame,scientific_f4_m4,26.30294282569474,3,23,True,False
+margin,Indiana,scientific_f4_m4,25.039144988607514,4,22,True,False
+margin,Miami,scientific_f4_m4,22.15389178446077,5,21,True,False
+margin,Ole Miss,scientific_f4_m4,21.63757628648827,6,20,True,False
+margin,Georgia,scientific_f4_m4,21.185513614964428,7,19,True,False
+margin,Alabama,scientific_f4_m4,20.697518460844773,8,18,True,False
+margin,USC,scientific_f4_m4,20.495325439373065,9,17,True,False
+margin,Texas Tech,scientific_f4_m4,17.76859261626761,10,16,True,False
+margin,Virginia,scientific_f4_m4,17.40965681484227,11,15,True,False
+margin,Washington,scientific_f4_m4,17.319093785912912,12,14,True,False
+margin,Clemson,scientific_f4_m4,17.252399092874505,13,13,True,False
+margin,LSU,scientific_f4_m4,17.1963558496071,14,12,True,False
+margin,Texas,scientific_f4_m4,17.17691676509708,15,11,True,False
+margin,Texas A&M,scientific_f4_m4,16.141375086348933,16,10,True,False
+margin,Florida State,scientific_f4_m4,15.827305888839843,17,9,True,False
+margin,Michigan,scientific_f4_m4,15.56177130882162,18,8,True,False
+margin,SMU,scientific_f4_m4,15.08242786588458,19,7,True,False
+margin,James Madison,scientific_f4_m4,14.506577013152215,20,6,True,False
+margin,Boise State,scientific_f4_m4,14.177793774339438,21,5,True,False
+margin,Toledo,scientific_f4_m4,13.533895753693004,22,4,True,False
+margin,Louisville,scientific_f4_m4,12.924111320384414,23,3,True,False
+margin,Auburn,scientific_f4_m4,12.712463786617644,24,2,True,False
+margin,Oklahoma,scientific_f4_m4,12.343812432617504,25,1,True,False
+margin,Memphis,scientific_f4_m5,41.96453094482422,1,25,True,True
+margin,Notre Dame,scientific_f4_m5,34.734371185302734,2,24,True,False
+margin,TCU,scientific_f4_m5,29.33375358581543,3,23,True,False
+margin,Ohio State,scientific_f4_m5,26.82060432434082,4,22,True,False
+margin,UNLV,scientific_f4_m5,26.08652114868164,5,21,True,False
+margin,Oklahoma,scientific_f4_m5,24.674049377441406,6,20,True,False
+margin,Oregon,scientific_f4_m5,24.327489852905277,7,19,True,False
+margin,Alabama,scientific_f4_m5,23.159069061279297,8,18,True,False
+margin,Texas Tech,scientific_f4_m5,23.11170768737793,9,17,True,False
+margin,Vanderbilt,scientific_f4_m5,21.52271842956543,10,16,True,False
+margin,Texas,scientific_f4_m5,20.963117599487305,11,15,True,False
+margin,Indiana,scientific_f4_m5,20.22949981689453,12,14,True,False
+margin,Arizona State,scientific_f4_m5,20.150768280029297,13,13,True,False
+margin,Wake Forest,scientific_f4_m5,18.439088821411133,14,12,True,False
+margin,SMU,scientific_f4_m5,17.883913040161133,15,11,True,False
+margin,App State,scientific_f4_m5,17.261568069458008,16,10,True,False
+margin,Texas A&M,scientific_f4_m5,17.179935455322266,17,9,True,False
+margin,Missouri,scientific_f4_m5,16.674556732177734,18,8,True,False
+margin,Michigan,scientific_f4_m5,16.538923263549805,19,7,True,False
+margin,Louisville,scientific_f4_m5,16.338577270507812,20,6,True,False
+margin,Texas State,scientific_f4_m5,15.48109245300293,21,5,True,False
+margin,NC State,scientific_f4_m5,15.092185974121094,22,4,True,False
+margin,Clemson,scientific_f4_m5,14.922286987304688,23,3,True,False
+margin,Navy,scientific_f4_m5,14.673540115356444,24,2,True,False
+margin,Kansas State,scientific_f4_m5,14.649983406066896,25,1,True,False
+margin,Michigan,scientific_f4_m10,23.751879699884373,1,25,True,True
+margin,USC,scientific_f4_m10,23.426170517593555,2,24,True,False
+margin,Georgia,scientific_f4_m10,19.67024863042842,3,23,True,False
+margin,North Dakota State,scientific_f4_m10,19.01647493899504,4,22,True,False
+margin,Ohio State,scientific_f4_m10,17.341837055010277,5,21,True,False
+margin,LSU,scientific_f4_m10,16.79850939970892,6,20,True,False
+margin,Virginia,scientific_f4_m10,16.232549883918463,7,19,True,False
+margin,Florida State,scientific_f4_m10,15.871058127561032,8,18,True,False
+margin,Oregon,scientific_f4_m10,15.598162204338042,9,17,True,False
+margin,Indiana,scientific_f4_m10,14.749607477459064,10,16,True,False
+margin,Florida,scientific_f4_m10,14.67900866068824,11,15,True,False
+margin,Texas A&M,scientific_f4_m10,14.532194136956075,12,14,True,False
+margin,Eastern Michigan,scientific_f4_m10,14.190720985131977,13,13,True,False
+margin,Notre Dame,scientific_f4_m10,14.059264075595026,14,12,True,False
+margin,San Diego State,scientific_f4_m10,14.054640422716664,15,11,True,False
+margin,Iowa,scientific_f4_m10,13.878435189500165,16,10,True,False
+margin,Oklahoma,scientific_f4_m10,13.139467694167717,17,9,True,False
+margin,Memphis,scientific_f4_m10,12.131836252177695,18,8,True,False
+margin,Texas Tech,scientific_f4_m10,11.28068616135198,19,7,True,False
+margin,Texas,scientific_f4_m10,10.897530381353732,20,6,True,False
+margin,Texas State,scientific_f4_m10,10.634682287617755,21,5,True,False
+margin,Minnesota,scientific_f4_m10,10.016023272730976,22,4,True,False
+margin,Utah,scientific_f4_m10,9.707646766262236,23,3,True,False
+margin,South Carolina,scientific_f4_m10,9.702038205680818,24,2,True,False
+margin,Tennessee,scientific_f4_m10,9.602660772135804,25,1,True,False
+margin,Oregon,scientific_f5_m1,36.92138603812317,1,25,True,True
+margin,Ohio State,scientific_f5_m1,30.09602189820918,2,24,True,False
+margin,Notre Dame,scientific_f5_m1,28.43856172701033,3,23,True,False
+margin,Indiana,scientific_f5_m1,27.93253782611716,4,22,True,False
+margin,Ole Miss,scientific_f5_m1,27.873279182633425,5,21,True,False
+margin,USC,scientific_f5_m1,23.92165504752591,6,20,True,False
+margin,Miami,scientific_f5_m1,23.04724178075637,7,19,True,False
+margin,Boise State,scientific_f5_m1,22.905619155410776,8,18,True,False
+margin,Georgia,scientific_f5_m1,22.839789384621437,9,17,True,False
+margin,Louisville,scientific_f5_m1,22.466452941611024,10,16,True,False
+margin,Alabama,scientific_f5_m1,22.10322183852528,11,15,True,False
+margin,Clemson,scientific_f5_m1,21.47819601682862,12,14,True,False
+margin,East Carolina,scientific_f5_m1,21.18882229909568,13,13,True,False
+margin,LSU,scientific_f5_m1,19.940709441053396,14,12,True,False
+margin,Texas,scientific_f5_m1,19.88344784443706,15,11,True,False
+margin,Washington,scientific_f5_m1,19.55753876784561,16,10,True,False
+margin,Texas A&M,scientific_f5_m1,17.987445410616935,17,9,True,False
+margin,North Carolina,scientific_f5_m1,17.875392356978303,18,8,True,False
+margin,North Texas,scientific_f5_m1,17.696761742096577,19,7,True,False
+margin,Texas Tech,scientific_f5_m1,17.25348012425154,20,6,True,False
+margin,Michigan,scientific_f5_m1,17.164911752530376,21,5,True,False
+margin,SMU,scientific_f5_m1,17.03787394398791,22,4,True,False
+margin,Virginia,scientific_f5_m1,16.31308336636175,23,3,True,False
+margin,Texas State,scientific_f5_m1,16.15625604511856,24,2,True,False
+margin,Penn State,scientific_f5_m1,15.11755494537506,25,1,True,False
+margin,Oregon,scientific_f5_m2,34.814903227230566,1,25,True,True
+margin,Ohio State,scientific_f5_m2,27.6788433798396,2,24,True,False
+margin,Notre Dame,scientific_f5_m2,27.453976897157467,3,23,True,False
+margin,Indiana,scientific_f5_m2,27.08358237753308,4,22,True,False
+margin,Ole Miss,scientific_f5_m2,26.710788261185265,5,21,True,False
+margin,USC,scientific_f5_m2,23.500453672968867,6,20,True,False
+margin,Louisville,scientific_f5_m2,22.247947019765483,7,19,True,False
+margin,Clemson,scientific_f5_m2,21.95813955840984,8,18,True,False
+margin,Miami,scientific_f5_m2,21.81936690930048,9,17,True,False
+margin,Alabama,scientific_f5_m2,21.57998904170652,10,16,True,False
+margin,Georgia,scientific_f5_m2,21.513307843232653,11,15,True,False
+margin,Washington,scientific_f5_m2,20.645652444986148,12,14,True,False
+margin,Texas Tech,scientific_f5_m2,20.30280885963572,13,13,True,False
+margin,Texas A&M,scientific_f5_m2,20.27273396673612,14,12,True,False
+margin,Virginia,scientific_f5_m2,20.15831420839735,15,11,True,False
+margin,Texas,scientific_f5_m2,19.670276273892306,16,10,True,False
+margin,LSU,scientific_f5_m2,19.355398692527167,17,9,True,False
+margin,Michigan,scientific_f5_m2,19.0474260748676,18,8,True,False
+margin,SMU,scientific_f5_m2,18.043843427932075,19,7,True,False
+margin,Penn State,scientific_f5_m2,17.70528681883973,20,6,True,False
+margin,Boise State,scientific_f5_m2,17.373717422504157,21,5,True,False
+margin,Oklahoma,scientific_f5_m2,17.125686774737197,22,4,True,False
+margin,James Madison,scientific_f5_m2,16.74261604352192,23,3,True,False
+margin,Florida State,scientific_f5_m2,16.13046266066224,24,2,True,False
+margin,Tennessee,scientific_f5_m2,15.273104800080873,25,1,True,False
+margin,Ohio State,scientific_f5_m3,29.990987372954688,1,25,True,True
+margin,Oregon,scientific_f5_m3,28.94599435208888,2,24,True,False
+margin,Notre Dame,scientific_f5_m3,24.02705562438694,3,23,True,False
+margin,Indiana,scientific_f5_m3,23.324249308650625,4,22,True,False
+margin,USC,scientific_f5_m3,21.779622150747663,5,21,True,False
+margin,Georgia,scientific_f5_m3,21.717558987297707,6,20,True,False
+margin,Texas Tech,scientific_f5_m3,20.62185621596131,7,19,True,False
+margin,Miami,scientific_f5_m3,19.55488401355708,8,18,True,False
+margin,Ole Miss,scientific_f5_m3,19.398242356405333,9,17,True,False
+margin,Alabama,scientific_f5_m3,18.57690685798365,10,16,True,False
+margin,Virginia,scientific_f5_m3,17.005897311061613,11,15,True,False
+margin,Texas A&M,scientific_f5_m3,16.661137799558244,12,14,True,False
+margin,Clemson,scientific_f5_m3,16.427234701338055,13,13,True,False
+margin,LSU,scientific_f5_m3,16.349705206635083,14,12,True,False
+margin,Washington,scientific_f5_m3,16.19755708764395,15,11,True,False
+margin,Texas,scientific_f5_m3,16.137166302525415,16,10,True,False
+margin,Michigan,scientific_f5_m3,15.960246174190134,17,9,True,False
+margin,SMU,scientific_f5_m3,14.307444546602042,18,8,True,False
+margin,Utah,scientific_f5_m3,14.161922024452329,19,7,True,False
+margin,Tennessee,scientific_f5_m3,13.872533467299924,20,6,True,False
+margin,Oklahoma,scientific_f5_m3,13.685791529318228,21,5,True,False
+margin,Florida State,scientific_f5_m3,13.444397864800406,22,4,True,False
+margin,James Madison,scientific_f5_m3,13.111186976435258,23,3,True,False
+margin,Penn State,scientific_f5_m3,12.840856684105692,24,2,True,False
+margin,Louisville,scientific_f5_m3,12.77388344175126,25,1,True,False
+margin,Oregon,scientific_f5_m4,27.982950649390627,1,25,True,True
+margin,Notre Dame,scientific_f5_m4,26.59982080301564,2,24,True,False
+margin,Indiana,scientific_f5_m4,25.04334014712289,3,23,True,False
+margin,Ohio State,scientific_f5_m4,23.978259044421414,4,22,True,False
+margin,USC,scientific_f5_m4,22.93202070025954,5,21,True,False
+margin,Georgia,scientific_f5_m4,21.83048524871213,6,20,True,False
+margin,Alabama,scientific_f5_m4,20.31745448751978,7,19,True,False
+margin,Ole Miss,scientific_f5_m4,20.143370366033523,8,18,True,False
+margin,Miami,scientific_f5_m4,19.39925149110349,9,17,True,False
+margin,Washington,scientific_f5_m4,18.30215443745629,10,16,True,False
+margin,Texas Tech,scientific_f5_m4,18.08242422140502,11,15,True,False
+margin,Virginia,scientific_f5_m4,17.343421120713742,12,14,True,False
+margin,Texas A&M,scientific_f5_m4,16.624434397124244,13,13,True,False
+margin,Texas,scientific_f5_m4,16.233605329512297,14,12,True,False
+margin,Florida State,scientific_f5_m4,15.700532176262277,15,11,True,False
+margin,Clemson,scientific_f5_m4,15.627875179549894,16,10,True,False
+margin,Michigan,scientific_f5_m4,14.331454655593657,17,9,True,False
+margin,LSU,scientific_f5_m4,13.894524136818928,18,8,True,False
+margin,SMU,scientific_f5_m4,13.309812999482055,19,7,True,False
+margin,Toledo,scientific_f5_m4,12.144200144277791,20,6,True,False
+margin,Utah,scientific_f5_m4,12.123026636249856,21,5,True,False
+margin,Tennessee,scientific_f5_m4,12.000888226138134,22,4,True,False
+margin,Oklahoma,scientific_f5_m4,11.973790472362548,23,3,True,False
+margin,Penn State,scientific_f5_m4,11.610107236694455,24,2,True,False
+margin,James Madison,scientific_f5_m4,11.550279476138568,25,1,True,False
+margin,Notre Dame,scientific_f5_m5,36.81183624267578,1,25,True,True
+margin,Ohio State,scientific_f5_m5,35.597110748291016,2,24,True,False
+margin,Tulane,scientific_f5_m5,35.48320388793945,3,23,True,False
+margin,Michigan,scientific_f5_m5,32.83327102661133,4,22,True,False
+margin,Boise State,scientific_f5_m5,29.85861015319824,5,21,True,False
+margin,Oregon,scientific_f5_m5,29.25386619567871,6,20,True,False
+margin,Texas State,scientific_f5_m5,29.081016540527344,7,19,True,False
+margin,Indiana,scientific_f5_m5,28.00939178466797,8,18,True,False
+margin,North Texas,scientific_f5_m5,27.79259490966797,9,17,True,False
+margin,Memphis,scientific_f5_m5,27.53110122680664,10,16,True,False
+margin,LSU,scientific_f5_m5,26.965940475463867,11,15,True,False
+margin,Alabama,scientific_f5_m5,26.82666015625,12,14,True,False
+margin,Miami,scientific_f5_m5,26.504039764404297,13,13,True,False
+margin,UNLV,scientific_f5_m5,25.580799102783203,14,12,True,False
+margin,Washington,scientific_f5_m5,25.54927062988281,15,11,True,False
+margin,Louisville,scientific_f5_m5,24.802772521972656,16,10,True,False
+margin,Texas A&M,scientific_f5_m5,24.691904067993164,17,9,True,False
+margin,Fresno State,scientific_f5_m5,23.410160064697266,18,8,True,False
+margin,East Carolina,scientific_f5_m5,22.088905334472656,19,7,True,False
+margin,SMU,scientific_f5_m5,21.799766540527344,20,6,True,False
+margin,Tennessee,scientific_f5_m5,21.50731468200684,21,5,True,False
+margin,Duke,scientific_f5_m5,21.48043441772461,22,4,True,False
+margin,Kennesaw State,scientific_f5_m5,20.73189163208008,23,3,True,False
+margin,South Florida,scientific_f5_m5,19.98765754699707,24,2,True,False
+margin,Florida International,scientific_f5_m5,19.85543441772461,25,1,True,False
+margin,Ohio State,scientific_f5_m10,29.95,1,25,True,True
+margin,Georgia,scientific_f5_m10,26.0,2,24,True,False
+margin,Clemson,scientific_f5_m10,23.7,3,23,True,False
+margin,Oregon,scientific_f5_m10,21.2,4,22,True,False
+margin,Ole Miss,scientific_f5_m10,20.05,5,21,True,False
+margin,LSU,scientific_f5_m10,19.0,6,20,True,False
+margin,Tennessee,scientific_f5_m10,18.85,7,19,True,False
+margin,USC,scientific_f5_m10,17.5,8,18,True,False
+margin,Virginia,scientific_f5_m10,17.35,9,17,True,False
+margin,Michigan,scientific_f5_m10,16.95,10,16,True,False
+margin,Iowa,scientific_f5_m10,16.45,11,15,True,False
+margin,Oklahoma,scientific_f5_m10,16.25,12,14,True,False
+margin,Florida,scientific_f5_m10,15.75,13,13,True,False
+margin,Notre Dame,scientific_f5_m10,15.55,14,12,True,False
+margin,Virginia Tech,scientific_f5_m10,15.55,15,11,True,False
+margin,Texas A&M,scientific_f5_m10,15.5,16,10,True,False
+margin,Texas,scientific_f5_m10,15.35,17,9,True,False
+margin,Kansas State,scientific_f5_m10,15.3,18,8,True,False
+margin,Penn State,scientific_f5_m10,14.8,19,7,True,False
+margin,Alabama,scientific_f5_m10,14.75,20,6,True,False
+margin,Indiana,scientific_f5_m10,14.15,21,5,True,False
+margin,Wisconsin,scientific_f5_m10,14.0,22,4,True,False
+margin,Missouri,scientific_f5_m10,13.3,23,3,True,False
+margin,Miami,scientific_f5_m10,12.55,24,2,True,False
+margin,Florida State,scientific_f5_m10,12.35,25,1,True,False
+margin,Oregon,scientific_f6_m1,33.17824815604147,1,25,True,True
+margin,Ohio State,scientific_f6_m1,27.487098781025807,2,24,True,False
+margin,Notre Dame,scientific_f6_m1,25.27307678743622,3,23,True,False
+margin,Ole Miss,scientific_f6_m1,24.82257289711332,4,22,True,False
+margin,Indiana,scientific_f6_m1,24.793258149188382,5,21,True,False
+margin,USC,scientific_f6_m1,22.75446351687609,6,20,True,False
+margin,Georgia,scientific_f6_m1,20.955279520203863,7,19,True,False
+margin,Miami,scientific_f6_m1,20.94780448069781,8,18,True,False
+margin,North Carolina,scientific_f6_m1,20.277196999199838,9,17,True,False
+margin,Louisville,scientific_f6_m1,19.60840458673993,10,16,True,False
+margin,Alabama,scientific_f6_m1,19.601883571060828,11,15,True,False
+margin,Boise State,scientific_f6_m1,19.392762457423185,12,14,True,False
+margin,Clemson,scientific_f6_m1,19.09163519302308,13,13,True,False
+margin,East Carolina,scientific_f6_m1,18.375628757148096,14,12,True,False
+margin,Texas,scientific_f6_m1,17.87569603405402,15,11,True,False
+margin,LSU,scientific_f6_m1,17.544999783295324,16,10,True,False
+margin,Memphis,scientific_f6_m1,17.423424470787673,17,9,True,False
+margin,Washington,scientific_f6_m1,17.373725457595015,18,8,True,False
+margin,Texas A&M,scientific_f6_m1,16.129596357403624,19,7,True,False
+margin,Texas Tech,scientific_f6_m1,15.761732108745443,20,6,True,False
+margin,Michigan,scientific_f6_m1,15.472583885217606,21,5,True,False
+margin,North Texas,scientific_f6_m1,15.359302543048742,22,4,True,False
+margin,SMU,scientific_f6_m1,15.243102350610211,23,3,True,False
+margin,Virginia,scientific_f6_m1,14.087954177278856,24,2,True,False
+margin,Texas State,scientific_f6_m1,14.037254530001364,25,1,True,False
+margin,Oregon,scientific_f6_m2,31.297549827759106,1,25,True,True
+margin,Ohio State,scientific_f6_m2,26.01847038141604,2,24,True,False
+margin,Notre Dame,scientific_f6_m2,24.95008411460318,3,23,True,False
+margin,Indiana,scientific_f6_m2,24.365037820664572,4,22,True,False
+margin,Ole Miss,scientific_f6_m2,24.194486488578885,5,21,True,False
+margin,USC,scientific_f6_m2,22.87016326981593,6,20,True,False
+margin,Georgia,scientific_f6_m2,21.06271970274005,7,19,True,False
+margin,Miami,scientific_f6_m2,20.57397349626597,8,18,True,False
+margin,Louisville,scientific_f6_m2,20.41015079856675,9,17,True,False
+margin,Alabama,scientific_f6_m2,20.3226316807422,10,16,True,False
+margin,Clemson,scientific_f6_m2,20.23884719750972,11,15,True,False
+margin,Texas Tech,scientific_f6_m2,19.4778997764553,12,14,True,False
+margin,Texas A&M,scientific_f6_m2,19.28392814660877,13,13,True,False
+margin,Washington,scientific_f6_m2,19.108406880275517,14,12,True,False
+margin,Texas,scientific_f6_m2,18.721297353366623,15,11,True,False
+margin,Michigan,scientific_f6_m2,18.37672799523015,16,10,True,False
+margin,LSU,scientific_f6_m2,17.822396400518837,17,9,True,False
+margin,SMU,scientific_f6_m2,17.08611980407885,18,8,True,False
+margin,Oklahoma,scientific_f6_m2,17.02025595223956,19,7,True,False
+margin,Virginia,scientific_f6_m2,16.95898388572549,20,6,True,False
+margin,Penn State,scientific_f6_m2,16.617660994717127,21,5,True,False
+margin,North Carolina,scientific_f6_m2,15.629959136844857,22,4,True,False
+margin,Tennessee,scientific_f6_m2,15.582395419250515,23,3,True,False
+margin,James Madison,scientific_f6_m2,15.530466541236404,24,2,True,False
+margin,Missouri,scientific_f6_m2,15.22168448078356,25,1,True,False
+margin,Ohio State,scientific_f6_m3,24.72652605393361,1,25,True,True
+margin,Oregon,scientific_f6_m3,22.9619242677994,2,24,True,False
+margin,USC,scientific_f6_m3,21.53747776257642,3,23,True,False
+margin,Notre Dame,scientific_f6_m3,20.775014650529197,4,22,True,False
+margin,Georgia,scientific_f6_m3,20.244836278224028,5,21,True,False
+margin,Indiana,scientific_f6_m3,19.297979879559755,6,20,True,False
+margin,Miami,scientific_f6_m3,18.309749325409264,7,19,True,False
+margin,Ole Miss,scientific_f6_m3,18.107170009504365,8,18,True,False
+margin,Texas Tech,scientific_f6_m3,17.282457062249552,9,17,True,False
+margin,Alabama,scientific_f6_m3,16.715743586544754,10,16,True,False
+margin,Texas A&M,scientific_f6_m3,16.55900349743733,11,15,True,False
+margin,Texas,scientific_f6_m3,14.625097287173087,12,14,True,False
+margin,Clemson,scientific_f6_m3,14.271739459845817,13,13,True,False
+margin,Utah,scientific_f6_m3,14.232191572949182,14,12,True,False
+margin,Tennessee,scientific_f6_m3,14.03583368453786,15,11,True,False
+margin,Washington,scientific_f6_m3,13.559762294702466,16,10,True,False
+margin,Virginia,scientific_f6_m3,13.53227012521632,17,9,True,False
+margin,Michigan,scientific_f6_m3,13.475316711780684,18,8,True,False
+margin,James Madison,scientific_f6_m3,13.04113217049128,19,7,True,False
+margin,Florida State,scientific_f6_m3,12.845658063123846,20,6,True,False
+margin,SMU,scientific_f6_m3,12.811186810540828,21,5,True,False
+margin,Oklahoma,scientific_f6_m3,12.46938250416826,22,4,True,False
+margin,Penn State,scientific_f6_m3,12.263978316957086,23,3,True,False
+margin,Missouri,scientific_f6_m3,12.225065154018845,24,2,True,False
+margin,LSU,scientific_f6_m3,11.43850133846118,25,1,True,False
+margin,Oregon,scientific_f6_m4,24.363655523446045,1,25,True,True
+margin,Ohio State,scientific_f6_m4,23.156897396169917,2,24,True,False
+margin,USC,scientific_f6_m4,22.95279885070196,3,23,True,False
+margin,Notre Dame,scientific_f6_m4,21.290448690679156,4,22,True,False
+margin,Indiana,scientific_f6_m4,20.36646623836311,5,21,True,False
+margin,Georgia,scientific_f6_m4,20.364498523116897,6,20,True,False
+margin,Miami,scientific_f6_m4,19.153486638812144,7,19,True,False
+margin,Ole Miss,scientific_f6_m4,17.408805414798113,8,18,True,False
+margin,Alabama,scientific_f6_m4,17.18101770899611,9,17,True,False
+margin,Texas Tech,scientific_f6_m4,16.651679336125586,10,16,True,False
+margin,Texas A&M,scientific_f6_m4,16.130462097491296,11,15,True,False
+margin,Virginia,scientific_f6_m4,15.996082617060251,12,14,True,False
+margin,Texas,scientific_f6_m4,15.752538478839892,13,13,True,False
+margin,Florida State,scientific_f6_m4,14.89976973929618,14,12,True,False
+margin,Washington,scientific_f6_m4,14.673571946692864,15,11,True,False
+margin,LSU,scientific_f6_m4,13.477754514359429,16,10,True,False
+margin,Clemson,scientific_f6_m4,13.40104741475029,17,9,True,False
+margin,Tennessee,scientific_f6_m4,13.338357402871525,18,8,True,False
+margin,Michigan,scientific_f6_m4,12.773790534138572,19,7,True,False
+margin,Utah,scientific_f6_m4,12.63135821215874,20,6,True,False
+margin,Memphis,scientific_f6_m4,12.48763186810926,21,5,True,False
+margin,Oklahoma,scientific_f6_m4,10.988277682062549,22,4,True,False
+margin,SMU,scientific_f6_m4,10.967342454513984,23,3,True,False
+margin,Auburn,scientific_f6_m4,10.2901593217969,24,2,True,False
+margin,Penn State,scientific_f6_m4,10.12982899677744,25,1,True,False
+margin,LSU,scientific_f6_m5,31.98786163330078,1,25,True,True
+margin,Oregon,scientific_f6_m5,29.896656036376957,2,24,True,False
+margin,Virginia,scientific_f6_m5,27.717235565185547,3,23,True,False
+margin,Alabama,scientific_f6_m5,27.604076385498047,4,22,True,False
+margin,Clemson,scientific_f6_m5,25.49155807495117,5,21,True,False
+margin,Indiana,scientific_f6_m5,24.93172645568848,6,20,True,False
+margin,Ohio State,scientific_f6_m5,24.871387481689453,7,19,True,False
+margin,USC,scientific_f6_m5,24.175891876220703,8,18,True,False
+margin,Vanderbilt,scientific_f6_m5,23.082761764526367,9,17,True,False
+margin,Texas Tech,scientific_f6_m5,21.91695213317871,10,16,True,False
+margin,Michigan,scientific_f6_m5,21.64556884765625,11,15,True,False
+margin,Louisville,scientific_f6_m5,21.612224578857425,12,14,True,False
+margin,Boise State,scientific_f6_m5,21.60830307006836,13,13,True,False
+margin,SMU,scientific_f6_m5,21.33251190185547,14,12,True,False
+margin,Texas State,scientific_f6_m5,21.10868453979492,15,11,True,False
+margin,Texas A&M,scientific_f6_m5,20.50840759277344,16,10,True,False
+margin,Texas,scientific_f6_m5,20.321866989135746,17,9,True,False
+margin,Pittsburgh,scientific_f6_m5,20.31132125854492,18,8,True,False
+margin,Miami (OH),scientific_f6_m5,20.256759643554688,19,7,True,False
+margin,Miami,scientific_f6_m5,19.93268203735352,20,6,True,False
+margin,Iowa,scientific_f6_m5,19.90921401977539,21,5,True,False
+margin,TCU,scientific_f6_m5,19.695634841918945,22,4,True,False
+margin,Illinois,scientific_f6_m5,19.33352470397949,23,3,True,False
+margin,Washington,scientific_f6_m5,18.540355682373047,24,2,True,False
+margin,Arizona,scientific_f6_m5,17.83381462097168,25,1,True,False
+margin,Ohio State,scientific_f6_m10,28.45,1,25,True,True
+margin,Georgia,scientific_f6_m10,24.45,2,24,True,False
+margin,Clemson,scientific_f6_m10,23.1,3,23,True,False
+margin,Michigan,scientific_f6_m10,20.2,4,22,True,False
+margin,Virginia,scientific_f6_m10,19.7,5,21,True,False
+margin,LSU,scientific_f6_m10,19.2,6,20,True,False
+margin,Oregon,scientific_f6_m10,19.2,7,19,True,False
+margin,Ole Miss,scientific_f6_m10,17.95,8,18,True,False
+margin,Kentucky,scientific_f6_m10,17.85,9,17,True,False
+margin,USC,scientific_f6_m10,17.6,10,16,True,False
+margin,Nebraska,scientific_f6_m10,17.55,11,15,True,False
+margin,Tennessee,scientific_f6_m10,16.9,12,14,True,False
+margin,Virginia Tech,scientific_f6_m10,16.85,13,13,True,False
+margin,Texas,scientific_f6_m10,16.7,14,12,True,False
+margin,Iowa,scientific_f6_m10,16.45,15,11,True,False
+margin,Florida State,scientific_f6_m10,16.4,16,10,True,False
+margin,Texas A&M,scientific_f6_m10,15.85,17,9,True,False
+margin,Alabama,scientific_f6_m10,15.8,18,8,True,False
+margin,Miami,scientific_f6_m10,15.5,19,7,True,False
+margin,Indiana,scientific_f6_m10,15.45,20,6,True,False
+margin,Utah,scientific_f6_m10,15.2,21,5,True,False
+margin,Penn State,scientific_f6_m10,14.85,22,4,True,False
+margin,Oklahoma,scientific_f6_m10,14.75,23,3,True,False
+margin,Missouri,scientific_f6_m10,14.45,24,2,True,False
+margin,Kansas State,scientific_f6_m10,14.35,25,1,True,False

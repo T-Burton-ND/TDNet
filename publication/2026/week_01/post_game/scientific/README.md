@@ -6,5 +6,4 @@ The performance files score the immutable 42-model pregame scientific prediction
 - `scientific_full_ballots.csv` contains one complete all-team ballot per scientific model.
 - `scientific_consensus_power_rankings.csv` independently aggregates predicted margin versus the constructed average FBS team.
 - `scientific_poll_power_divergence.json` records differences without forcing the two rankings to agree.
-- The retained PNGs are the consensus game scorecard, model scorecard, Top 25, ballots, all-team power ranking, and two social formats.
 - No next-week matchup predictions are generated in this directory.

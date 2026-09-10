@@ -19,3 +19,10 @@ This archive is a permanent public-Git exception. Future weekly scientific
 pre-game predictions and post-game results—including the scientific consensus
 results PNG—are retained, hash-verified, committed, and pushed with the weekly
 publication. Operational/private frozen bundles remain outside this exception.
+
+## Post-game scientific results
+
+| Week | Games | Package | Post-game manifest SHA-256 | Consensus-results PNG SHA-256 |
+|---:|---:|---|---|---|
+| 0 | 8 | [`week_00/post_game/scientific`](week_00/post_game/scientific/) | `35cb5911db889bfaf162813103cbbeecec2c7c9921d53bb5990c1fcac9ed15a0` | `0e1aa74e8f3800f6eb7992a65f3fca0b06361dd4f813dd1d914fcb99c537a544` |
+| 1 | 39 | [`week_01/post_game/scientific`](week_01/post_game/scientific/) | `6a1956b0dd645486ca47d985c995fc26bbedc9413b497de1cb3a64869662146e` | `1c9a19134fc2456f6d530953766ce566533d3061634e3f4f62447f70664af612` |

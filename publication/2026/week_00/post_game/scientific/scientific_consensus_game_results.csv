@@ -1,0 +1,9 @@
+game_id,away_team,home_team,away_points,home_points,actual_winner,consensus_straight_up_pick,consensus_winner_correct,consensus_predicted_home_margin,actual_home_margin,consensus_absolute_margin_error,consensus_against_spread_team,consensus_home_team_market_spread,actual_against_spread_winner,consensus_ats_result
+401856766,North Carolina,TCU,15,10,North Carolina,TCU,False,7.3,-5,12.3,North Carolina,-8.75,North Carolina,Win
+401864494,San José State,USC,26,42,USC,USC,True,23.94,16,7.940000000000001,San José State,-38.75,San José State,Win
+401858202,NC State,Virginia,8,34,Virginia,Virginia,True,3.5,26,22.5,NC State,-4.0,Virginia,Loss
+401864577,Jacksonville State,North Dakota State,7,33,North Dakota State,Jacksonville State,False,-1.0,26,27.0,Jacksonville State,-7.0,North Dakota State,Loss
+401866408,Sacramento State,Eastern Michigan,17,28,Eastern Michigan,Eastern Michigan,True,2.79,11,8.21,Sacramento State,-9.5,Eastern Michigan,Loss
+401858201,Hawai'i,Stanford,27,37,Stanford,Stanford,True,0.55,10,9.45,Hawai'i,-4.0,Stanford,Loss
+401864570,New Mexico State,Florida State,17,34,Florida State,Florida State,True,22.96,17,5.960000000000001,New Mexico State,-31.75,New Mexico State,Win
+401862693,Memphis,UNLV,27,21,Memphis,UNLV,False,1.83,-6,7.83,Memphis,-4.25,Memphis,Win

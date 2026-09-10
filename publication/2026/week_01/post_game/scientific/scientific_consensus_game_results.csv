@@ -1,0 +1,40 @@
+game_id,away_team,home_team,away_points,home_points,actual_winner,consensus_straight_up_pick,consensus_winner_correct,consensus_predicted_home_margin,actual_home_margin,consensus_absolute_margin_error,consensus_against_spread_team,consensus_home_team_market_spread,actual_against_spread_winner,consensus_ats_result
+401864495,San José State,Eastern Michigan,27.0,21.0,San José State,Eastern Michigan,False,11.6,-6.0,17.6,Eastern Michigan,-3.0,San José State,Loss
+401856664,UTEP,Oklahoma,0.0,51.0,Oklahoma,Oklahoma,True,21.21,51.0,29.79,UTEP,-41.5,Oklahoma,Loss
+401858429,Toledo,Michigan State,20.0,30.0,Michigan State,Toledo,False,-2.28,10.0,12.28,Toledo,-9.5,Michigan State,Loss
+401858206,Miami,Stanford,45.0,6.0,Miami,Miami,True,-10.47,-39.0,28.53,Stanford,24.5,Miami,Loss
+401858436,Fresno State,USC,0.0,39.0,USC,USC,True,14.54,39.0,24.46,Fresno State,-21.5,USC,Loss
+401856634,East Carolina,Alabama,10.0,48.0,Alabama,Alabama,True,12.84,38.0,25.16,East Carolina,-27.75,Alabama,Loss
+401856778,Oregon State,Houston,20.0,33.0,Houston,Houston,True,10.37,13.0,2.630000000000001,Oregon State,-21.0,Oregon State,Win
+401856780,Coastal Carolina,West Virginia,24.0,31.0,West Virginia,West Virginia,True,9.86,7.0,2.8599999999999994,Coastal Carolina,-21.25,Coastal Carolina,Win
+401858425,North Texas,Indiana,16.0,52.0,Indiana,Indiana,True,13.04,36.0,22.96,North Texas,-40.25,North Texas,Win
+401858430,Ohio,Nebraska,21.0,49.0,Nebraska,Nebraska,True,10.7,28.0,17.3,Ohio,-23.75,Nebraska,Loss
+401869960,Liberty,James Madison,13.0,20.0,James Madison,James Madison,True,10.03,7.0,3.0299999999999994,James Madison,-6.25,James Madison,Win
+401858207,Miami (OH),Pittsburgh,14.0,59.0,Pittsburgh,Pittsburgh,True,7.77,45.0,37.230000000000004,Miami (OH),-16.75,Pittsburgh,Loss
+401858432,Ball State,Ohio State,3.0,56.0,Ohio State,Ohio State,True,28.73,53.0,24.27,Ball State,-50.75,Ohio State,Loss
+401856665,Kent State,South Carolina,0.0,57.0,South Carolina,South Carolina,True,20.21,57.0,36.79,Kent State,-36.0,South Carolina,Loss
+401856636,Baylor,Auburn,16.0,17.0,Auburn,Auburn,True,8.3,1.0,7.300000000000001,Auburn,-7.25,Baylor,Loss
+401856667,Texas State,Texas,7.0,59.0,Texas,Texas,True,12.35,52.0,39.65,Texas State,-29.5,Texas,Loss
+401856777,Boston College,Cincinnati,15.0,34.0,Cincinnati,Cincinnati,True,7.31,19.0,11.690000000000001,Boston College,-7.5,Cincinnati,Loss
+401858209,Tulane,Duke,3.0,17.0,Duke,Duke,True,4.21,14.0,9.79,Tulane,-7.5,Duke,Loss
+401858433,Boise State,Oregon,27.0,34.0,Oregon,Oregon,True,18.73,7.0,11.73,Boise State,-24.5,Boise State,Win
+401858434,Marshall,Penn State,0.0,45.0,Penn State,Penn State,True,11.0,45.0,34.0,Marshall,-24.25,Penn State,Loss
+401856772,Oklahoma State,Tulsa,10.0,24.0,Tulsa,Tulsa,True,6.53,14.0,7.47,Tulsa,13.5,Tulsa,Win
+401858426,Northern Illinois,Iowa,0.0,40.0,Iowa,Iowa,True,18.59,40.0,21.41,Northern Illinois,-31.25,Iowa,Loss
+401860878,Wyoming,Colorado State,13.0,35.0,Colorado State,Colorado State,True,6.82,22.0,15.18,Colorado State,-3.0,Colorado State,Win
+401856668,Missouri State,Texas A&M,0.0,50.0,Texas A&M,Texas A&M,True,20.69,50.0,29.31,Missouri State,-40.5,Texas A&M,Loss
+401862695,Arkansas State,Memphis,24.0,42.0,Memphis,Memphis,True,10.87,18.0,7.130000000000001,Arkansas State,-11.25,Memphis,Loss
+401862699,Florida International,South Florida,9.0,19.0,South Florida,South Florida,True,12.75,10.0,2.75,Florida International,-14.25,Florida International,Win
+401870763,Sam Houston,Troy,21.0,24.0,Troy,Troy,True,13.62,3.0,10.62,Sam Houston,-16.5,Sam Houston,Win
+401856660,Clemson,LSU,10.0,51.0,LSU,LSU,True,1.28,41.0,39.72,Clemson,-10.0,LSU,Loss
+401856662,UL Monroe,Mississippi State,13.0,62.0,Mississippi State,Mississippi State,True,15.06,49.0,33.94,UL Monroe,-28.5,Mississippi State,Loss
+401858428,Western Michigan,Michigan,12.0,13.0,Michigan,Michigan,True,15.24,1.0,14.24,Western Michigan,-27.5,Western Michigan,Win
+401856637,Florida Atlantic,Florida,21.0,66.0,Florida,Florida,True,13.78,45.0,31.22,Florida Atlantic,-26.5,Florida,Loss
+401864497,UNLV,Hawai'i,21.0,6.0,UNLV,UNLV,True,-5.88,-15.0,9.120000000000001,UNLV,3.0,UNLV,Win
+401864498,Central Michigan,New Mexico,7.0,38.0,New Mexico,New Mexico,True,6.69,31.0,24.31,Central Michigan,-10.25,New Mexico,Loss
+401858210,UCLA,California,45.0,24.0,UCLA,California,False,5.07,-21.0,26.07,California,1.75,UCLA,Loss
+401864432,Western Kentucky,Nevada,14.0,49.0,Nevada,Western Kentucky,False,-5.61,35.0,40.61,Western Kentucky,1.75,Nevada,Loss
+401858437,Washington State,Washington,10.0,24.0,Washington,Washington,True,12.58,14.0,1.42,Washington State,-23.25,Washington State,Win
+401856661,Louisville,Ole Miss,38.0,41.0,Ole Miss,Ole Miss,True,11.47,3.0,8.47,Ole Miss,-7.0,Louisville,Loss
+401858438,Wisconsin,Notre Dame,13.0,41.0,Notre Dame,Notre Dame,True,21.14,28.0,6.859999999999999,Notre Dame,-20.25,Notre Dame,Win
+401858212,SMU,Florida State,27.0,24.0,SMU,Florida State,False,3.44,-3.0,6.4399999999999995,Florida State,3.0,Push,Push

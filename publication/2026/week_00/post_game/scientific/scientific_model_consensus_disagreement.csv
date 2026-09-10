@@ -1,0 +1,43 @@
+ballot_model,mean_absolute_rank_delta,median_absolute_rank_delta,top25_overlap,top25_membership_disagreements,largest_rank_outlier_team,largest_rank_outlier_delta,rank_correlation
+scientific_f3_m10,24.88,10.0,15,10,Clemson,96.0,0.4707692307692308
+scientific_f0_m3,21.04,9.0,13,12,North Carolina,109.0,0.3946153846153846
+scientific_f0_m10,20.88,11.0,13,12,North Carolina,90.0,0.5576923076923077
+scientific_f3_m5,19.4,13.0,15,10,Miami,59.0,0.43153846153846154
+scientific_f5_m5,18.96,9.0,12,13,USC,56.0,0.4623076923076923
+scientific_f2_m10,18.28,12.0,15,10,Florida,71.0,0.2723076923076923
+scientific_f1_m10,16.96,11.0,15,10,Tennessee,72.0,0.45
+scientific_f4_m5,16.24,14.0,13,12,USC,43.0,0.31846153846153846
+scientific_f4_m10,15.36,9.0,18,7,Vanderbilt,52.0,0.3230769230769231
+scientific_f6_m10,15.32,8.0,18,7,North Carolina,65.0,0.46615384615384614
+scientific_f1_m5,15.08,11.0,16,9,LSU,38.0,0.3853846153846154
+scientific_f6_m5,14.64,10.0,15,10,Florida,61.0,0.43846153846153846
+scientific_f0_m4,13.28,7.0,16,9,Memphis,48.0,0.696923076923077
+scientific_f5_m10,13.28,9.0,19,6,North Carolina,58.0,0.5
+scientific_f0_m5,12.36,6.0,17,8,Memphis,56.0,0.6338461538461538
+scientific_f0_m2,12.16,6.0,17,8,Memphis,57.0,0.6492307692307693
+scientific_f0_m1,12.12,6.0,17,8,Memphis,56.0,0.63
+scientific_f3_m1,10.72,7.0,17,8,Florida,43.0,0.6907692307692308
+scientific_f2_m5,9.36,4.0,20,5,Virginia,55.0,0.5176923076923077
+scientific_f4_m1,9.28,7.0,18,7,Florida,36.0,0.7361538461538462
+scientific_f2_m3,7.72,3.0,19,6,Florida,37.0,0.7438461538461538
+scientific_f5_m1,6.88,4.0,18,7,Vanderbilt,34.0,0.9215384615384615
+scientific_f6_m1,6.72,4.0,19,6,Vanderbilt,32.0,0.8723076923076923
+scientific_f1_m3,6.52,3.0,20,5,North Carolina,22.0,0.7953846153846154
+scientific_f3_m2,6.28,4.0,21,4,Florida,34.0,0.7253846153846154
+scientific_f2_m4,5.88,3.0,22,3,Memphis,27.0,0.7661538461538462
+scientific_f2_m1,5.84,4.0,21,4,North Carolina,19.0,0.65
+scientific_f4_m3,5.84,4.0,21,4,North Carolina,32.0,0.8438461538461538
+scientific_f3_m3,5.8,4.0,20,5,Florida,28.0,0.87
+scientific_f4_m4,5.72,4.0,19,6,Vanderbilt,39.0,0.9
+scientific_f1_m4,5.48,2.0,22,3,Memphis,38.0,0.8746153846153846
+scientific_f3_m4,5.36,3.0,19,6,Vanderbilt,20.0,0.8746153846153846
+scientific_f5_m4,5.24,3.0,21,4,Florida,26.0,0.8961538461538462
+scientific_f5_m2,5.12,4.0,20,5,Vanderbilt,22.0,0.9007692307692308
+scientific_f4_m2,5.04,2.0,22,3,Florida,19.0,0.8238461538461539
+scientific_f1_m1,5.0,3.0,22,3,Memphis,39.0,0.8730769230769231
+scientific_f5_m3,4.88,2.0,21,4,North Carolina,31.0,0.9107692307692308
+scientific_f6_m3,4.56,2.0,21,4,North Carolina,27.0,0.8792307692307693
+scientific_f2_m2,4.08,2.0,23,2,USC,16.0,0.6846153846153846
+scientific_f6_m2,3.96,3.0,20,5,Vanderbilt,18.0,0.943076923076923
+scientific_f1_m2,3.76,3.0,23,2,Florida,17.0,0.8707692307692307
+scientific_f6_m4,3.48,2.0,22,3,Florida,17.0,0.9115384615384615
