@@ -52,10 +52,22 @@ publication/**/*.csv.gz
 # Weekly prediction, ballot, market, and analysis tables remain local. Publish
 # the reviewed figures, write-up, and compact provenance only.
 publication/2026/week_*/**/tables/**
-# The paper-only scientific weekly package deliberately publishes its three
-# compact audit CSVs beside the corresponding figures.
+# Permanent paper-record exception: publish reviewed scientific prediction and
+# postgame result packages (data tables, manifests, documentation, and PNGs).
+# This exception does not extend to Parquet, checkpoints, raw CFBD data,
+# operational frozen_bundle/private trees, or contest/API audit artifacts.
 !publication/2026/week_*/pre_game/scientific/*.csv
+!publication/2026/week_*/pre_game/scientific/*.csv.gz
+!publication/2026/week_*/pre_game/scientific/*.json
+!publication/2026/week_*/pre_game/scientific/*.md
+!publication/2026/week_*/pre_game/scientific/*.png
+!publication/2026/week_*/pre_game/scientific/*.txt
 !publication/2026/week_*/post_game/scientific/*.csv
+!publication/2026/week_*/post_game/scientific/*.csv.gz
+!publication/2026/week_*/post_game/scientific/*.json
+!publication/2026/week_*/post_game/scientific/*.md
+!publication/2026/week_*/post_game/scientific/*.png
+!publication/2026/week_*/post_game/scientific/*.txt
 # A compact, source-only ladder table accompanies the public introductory
 # figure; it contains canonical labels, not CFBD or derived result rows.
 !publication/2026/intro/fingerprint_ladder.csv

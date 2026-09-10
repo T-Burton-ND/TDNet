@@ -1,12 +1,16 @@
 {
   "artifacts": {
     "README.md": {
-      "sha256": "f97813cc963d2a737a0323068398f5926589c5a8c8270d14fd4265ddc0489686",
-      "size_bytes": 755
+      "sha256": "a396b8263fca06f43ad80af699a205b5744e851a08020b73ef3482697e60c65a",
+      "size_bytes": 751
     },
     "manifest.json": {
-      "sha256": "83e123b1b59b8cb61acc8b42e00339fb2b60f85ddf0bcd820f93edced0eea1e8",
-      "size_bytes": 989
+      "sha256": "50c555915bba4357095c38c9051309858c161e3ee0dd43c4b0a613fd77ea1e39",
+      "size_bytes": 1436
+    },
+    "scientific_all_team_power_rankings.png": {
+      "sha256": "f4b3c9ad5b13c3cc820a9f651052c123317c1d3fff3b02d1656cfb0e0a1123e1",
+      "size_bytes": 861548
     },
     "scientific_all_game_predictions.csv": {
       "sha256": "79e27d59eef3fe23914d442849bda646087fa60c9f409f927a399a3496afcf94",
@@ -24,6 +28,14 @@
       "sha256": "916294e81743d5f06b73cf3a1c55b87b99fde2c837ec375688d7c294c3a031b5",
       "size_bytes": 470607
     },
+    "scientific_research_ballot_social_16x9.png": {
+      "sha256": "0873c87dfbf3e8d4dafbba9496440d353f2b6d576417082c9f0cf6843e19a9ca",
+      "size_bytes": 161814
+    },
+    "scientific_research_ballot_social_4x5.png": {
+      "sha256": "85bc656d7d6b1c88875e37c5aa676b033c0e3fbd38f3ea9ecc2bfc6214548a8e",
+      "size_bytes": 171834
+    },
     "scientific_top25.png": {
       "sha256": "baae71bb6e7889a3d6eb2207b39a04b46c12addb392e1f082ced0599615d58b6",
       "size_bytes": 478618
@@ -33,6 +45,28 @@
       "size_bytes": 2130964
     }
   },
+  "amendments": [
+    {
+      "artifact": "scientific_all_team_power_rankings.png",
+      "generated_at_eastern": "2026-08-28T15:41:29-04:00",
+      "generated_before_earliest_kickoff": true,
+      "generator_source_sha256": "b3a6ee46ce2abdf7683349a4dcfb74a651ab51d5190bb96997b3350f5d709827",
+      "reason": "Added the requested ballot-ranked, consensus-margin all-team archival figure."
+    },
+    {
+      "artifacts": [
+        "scientific_research_ballot_social_4x5.png",
+        "scientific_research_ballot_social_16x9.png"
+      ],
+      "generated_at_eastern": "2026-08-28T15:46:58-04:00",
+      "generated_before_earliest_kickoff": true,
+      "generator_source_sha256": {
+        "src/gridiron_ml/publication/scientific_weekly.py": "fc4cbc939e1a48b5a1f553b2ab9b938c5fa873c6a116c95d1d8984f41a087fa9",
+        "src/gridiron_ml/publication/social_top10.py": "1066cd9c4317488028117acb8e8f0b37e3b5cbf68c6cd57f2417ccf7cd1b1904"
+      },
+      "reason": "Added the requested scientific research-ballot social variants."
+    }
+  ],
   "code_commit": "291e978b86f0336837c97c761474acf8007858f7",
   "code_worktree_dirty_at_generation": true,
   "dirty_paths_at_generation": [

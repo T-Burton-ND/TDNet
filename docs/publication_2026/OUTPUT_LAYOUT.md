@@ -192,12 +192,15 @@ occupied `T-#` rank label, and the next ordinal rank is skipped.
 
 Each pre-game package records the generation timestamp, wide-margin roster
 label, model-bundle hash, fit cutoff, data snapshot hashes, and model count.
-The scientific directory contains three committed CSVs and three PNGs: model ×
-game predictions with consensus straight-up/ATS picks, full model × team
-ballots with predicted margin against the average team, and an all-team
-consensus power ranking. Its reproducibility payload freezes input, code, and
-artifact hashes before kickoff. Post-game generation writes only to the sibling
-`post_game/scientific/` directory and cannot overwrite pre-game evidence.
+The scientific directory permanently publishes its complete reviewed package:
+model × game predictions with consensus straight-up/ATS picks, full model ×
+team ballots with predicted margin against the average team, an all-team
+consensus power ranking, paper/social PNGs, and hash-bound provenance. Its
+reproducibility payload freezes input, code, and artifact hashes before kickoff.
+Post-game generation writes only to the sibling `post_game/scientific/`
+directory and cannot overwrite pre-game evidence. That sibling's scored tables,
+manifest, README, and `scientific_consensus_game_results.png` are likewise
+committed and pushed after review.
 
 `full_ballots.png` shows every model ballot. Scientific retrospective ballot
 grids constructed from held-out game predictions are visualization-only implied

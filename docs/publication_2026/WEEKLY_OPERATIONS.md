@@ -19,6 +19,9 @@ pick table, ten closest games, Top-25 games, poll and ballots, and the 4:5 and
 16:9 social graphics. Figures are PNG-only. A separate `scientific/` subtree
 contains immutable, paper-only market-free F0–F6 predictions, full ballots,
 and all-team consensus power ratings; it does not feed the social workflow.
+The complete reviewed scientific subtree is a permanent public-Git exception:
+after its manifest hashes pass, commit and push its CSV data, JSON/Markdown
+provenance, and PNG figures as part of every weekly publication.
 
 All publication-facing timestamps are timezone-aware America/New_York values
 with the applicable UTC offset. Provider/API timestamps may remain in their

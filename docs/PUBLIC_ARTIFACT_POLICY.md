@@ -12,12 +12,21 @@ The public TDNet repository is code-and-figures first.
 - Small model-roster metadata required by the current runtime. These temporary
   CSV exceptions are explicitly allowlisted in `.gitignore` and should move to
   JSON/YAML when their readers are migrated.
+- The permanent scientific weekly-record exception under
+  `publication/2026/week_*/{pre_game,post_game}/scientific/`: immutable
+  model-level predictions, ballots, consensus rankings, scored results,
+  manifests, reproducibility hashes, documentation, and publication PNGs.
+  In particular, the scientific consensus-results PNG is a required post-game
+  publication artifact. Each package must pass its recorded hash checks before
+  it is committed and pushed.
 
 ## Excluded
 
 - CFBD source rows or bulk exports.
-- Derived game-, team-, player-, prediction-, ballot-, or market-level tables.
-- Generated CSV/Parquet evaluation and manuscript tables.
+- Derived game-, team-, player-, prediction-, ballot-, or market-level tables,
+  except for the permanent scientific weekly-record exception above.
+- Generated CSV/Parquet evaluation and manuscript tables, except allowlisted
+  scientific weekly-record CSVs. Parquet remains excluded from public Git.
 - Credentials and local environment files.
 - Checkpoint bytes unless a separately reviewed release asset and license are
   provided.

@@ -1,0 +1,175 @@
+{
+  "artifacts": {
+    "README.md": {
+      "sha256": "a396b8263fca06f43ad80af699a205b5744e851a08020b73ef3482697e60c65a",
+      "size_bytes": 751
+    },
+    "manifest.json": {
+      "sha256": "162811310997996b1074f2c9aba50af9b04ac32647b802ce6a52a495bcad1b50",
+      "size_bytes": 1308
+    },
+    "scientific_all_game_predictions.csv": {
+      "sha256": "442351394c577545330b7459771dc0afe4c7cdea9fcc0980ddbc578f15566c8e",
+      "size_bytes": 1296031
+    },
+    "scientific_all_game_predictions.png": {
+      "sha256": "d4181e7cce2089e4b9c7e080ca26635f799cdef2f97fe6278c9b8b9d6b15dbe5",
+      "size_bytes": 1305220
+    },
+    "scientific_all_team_power_rankings.png": {
+      "sha256": "0886fa549c7b75c519b573d95a6f7a74ca8acf1458f29d2ec15359f73e0948cc",
+      "size_bytes": 931050
+    },
+    "scientific_consensus_power_rankings.csv": {
+      "sha256": "2f4ad5d0bd5ec72bc132a15d26146230e8d6ed6a20ff0fcef9ae6908c086cfba",
+      "size_bytes": 12140
+    },
+    "scientific_full_ballots.csv": {
+      "sha256": "38aae0ba71a37fd1815832b8013ffc098d4b53113d81bff005f7c7ded5d2c836",
+      "size_bytes": 470952
+    },
+    "scientific_research_ballot_social_16x9.png": {
+      "sha256": "dfc3f7f85e25c6974a090383617f0856cc05138de769712be07a26534c33e405",
+      "size_bytes": 177210
+    },
+    "scientific_research_ballot_social_1x1.png": {
+      "sha256": "6492886036abd0facd40fe9a2044de579ae5e24f97b453d23f2be1638c64b123",
+      "size_bytes": 130518
+    },
+    "scientific_research_ballot_social_4x5.png": {
+      "sha256": "6beb4a0b44b730c9482a63ee32cf724b1550a8cd46aab8fa403603dfb10b95bb",
+      "size_bytes": 178637
+    },
+    "scientific_top25.png": {
+      "sha256": "9c1386eb3b869752a55ab071ee454331ab907ee2a51bed7c0942f7ab80897fed",
+      "size_bytes": 490716
+    },
+    "scientific_top25_ballots.png": {
+      "sha256": "d20ad994ffae13ea7e1ab2b25789fd07bc7d3f29adcf1170079603d159bf4a7a",
+      "size_bytes": 2244361
+    }
+  },
+  "code_commit": "52e3a2555aee053bfbdcaf5dd6b8e3f58be7d45a",
+  "code_worktree_dirty_at_generation": true,
+  "dirty_paths_at_generation": [
+    " M publication/2026/week_00/post_game/README.md",
+    " M publication/2026/week_00/post_game/scientific/README.md",
+    " M publication/2026/week_00/pre_game/figures/all_games_predictions.png",
+    " M publication/2026/week_00/pre_game/figures/closest_games.png",
+    " M publication/2026/week_00/pre_game/figures/games_of_the_week_key_stats.png",
+    " M publication/2026/week_00/pre_game/figures/tdnet_model_ballots.png",
+    " M publication/2026/week_00/pre_game/figures/tdnet_top25.png",
+    " M publication/2026/week_00/pre_game/figures/tdnet_vs_ap_top25.png",
+    " M publication/2026/week_00/pre_game/figures/top25_consensus_spread.png",
+    " M publication/2026/week_00/pre_game/figures/top25_discrepancy_features.png",
+    " M publication/2026/week_00/pre_game/figures/top25_week_matchups.png",
+    " M publication/2026/week_00/pre_game/scientific/README.md",
+    " M publication/2026/week_00/pre_game/scientific/manifest.json",
+    " M publication/2026/week_00/pre_game/scientific/scientific_reproducibility_payload.json",
+    " M src/gridiron_ml/cli/publication/build_scientific_weekly_outputs.py",
+    " M src/gridiron_ml/cli/publication/build_weekly_learned_model_inventory.py",
+    " M src/gridiron_ml/cli/publication/render_predictions_social.py",
+    " M src/gridiron_ml/cli/publication/render_top10_social.py",
+    " M src/gridiron_ml/cli/publication/run_monday_refresh.py",
+    " M src/gridiron_ml/cli/publication/run_sunday_publication_pipeline.py",
+    " M src/gridiron_ml/cli/publication/run_tuesday_publish.py",
+    " M src/gridiron_ml/cli/publication/run_weekly_publication_pipeline.py",
+    " M src/gridiron_ml/fingerprints/builders/v0.py",
+    " M src/gridiron_ml/pipeline/raw_weekly_builder.py",
+    " M src/gridiron_ml/publication/__init__.py",
+    " M src/gridiron_ml/publication/preseason_states.py",
+    " M src/gridiron_ml/publication/recaps.py",
+    " M src/gridiron_ml/publication/roster_poll.py",
+    " M src/gridiron_ml/publication/scientific_weekly.py",
+    " M src/gridiron_ml/publication/social_predictions.py",
+    " M src/gridiron_ml/publication/social_top10.py",
+    " M src/gridiron_ml/publication/weekly.py",
+    " M src/gridiron_ml/publication/weekly_protocol.py",
+    " M tests/test_publication_scientific_weekly.py",
+    " M tests/test_publication_sunday_pipeline.py",
+    " M tests/test_publication_weekly_figures.py",
+    " M tests/test_publication_weekly_protocol.py",
+    "?? publication/2026/week_00/post_game/blog/",
+    "?? publication/2026/week_00/post_game/full_postgame_manifest.json",
+    "?? publication/2026/week_00/post_game/metadata/",
+    "?? publication/2026/week_00/post_game/scientific/scientific_consensus_game_results.csv",
+    "?? publication/2026/week_00/post_game/scientific/scientific_consensus_power_rankings.csv",
+    "?? publication/2026/week_00/post_game/scientific/scientific_full_ballots.csv",
+    "?? publication/2026/week_00/post_game/scientific/scientific_model_consensus_disagreement.csv",
+    "?? publication/2026/week_00/post_game/scientific/scientific_model_game_results.csv",
+    "?? publication/2026/week_00/post_game/scientific/scientific_model_scorecard.csv",
+    "?? publication/2026/week_00/post_game/scientific/scientific_model_scorecard_enriched.csv",
+    "?? publication/2026/week_00/post_game/scientific/scientific_per_model_top25.csv",
+    "?? publication/2026/week_00/post_game/scientific/scientific_per_model_top25_long.csv",
+    "?? publication/2026/week_00/post_game/scientific/scientific_poll_power_divergence.json",
+    "?? publication/2026/week_00/post_game/scientific/scientific_postgame_manifest.json",
+    "?? publication/2026/week_00/post_game/scientific/scientific_receiving_votes.txt",
+    "?? publication/2026/week_00/post_game/scientific/scientific_tdnet_receiving_votes.csv",
+    "?? publication/2026/week_00/post_game/scientific/scientific_tdnet_top25.csv",
+    "?? publication/2026/week_00/post_game/sunday_publication_manifest.json",
+    "?? publication/2026/week_00/pre_game/frozen_bundle/",
+    "?? publication/2026/week_00/pre_game/scientific/scientific_all_team_power_rankings.png",
+    "?? publication/2026/week_00/pre_game/scientific/scientific_research_ballot_social_16x9.png",
+    "?? publication/2026/week_00/pre_game/scientific/scientific_research_ballot_social_4x5.png",
+    "?? publication/2026/week_01/post_game/",
+    "?? publication/2026/week_01/pre_game/blog/",
+    "?? publication/2026/week_01/pre_game/frozen_bundle/",
+    "?? publication/2026/week_01/pre_game/metadata/",
+    "?? publication/2026/week_01/pre_game/scientific/README.md",
+    "?? publication/2026/week_01/pre_game/scientific/manifest.json",
+    "?? publication/2026/week_01/pre_game/scientific/scientific_all_game_predictions.csv",
+    "?? publication/2026/week_01/pre_game/scientific/scientific_consensus_power_rankings.csv",
+    "?? publication/2026/week_01/pre_game/scientific/scientific_full_ballots.csv",
+    "?? publication/2026/week_01/pre_game/scientific/scientific_reproducibility_payload.json",
+    "?? publication/2026/week_01/pre_game/x_post_package/",
+    "?? publication/2026/week_02/",
+    "?? src/gridiron_ml/cli/publication/build_full_postgame_package.py",
+    "?? src/gridiron_ml/cli/publication/recover_prediction_bundle_from_pregame.py",
+    "?? src/gridiron_ml/cli/publication/refresh_postgame_rank_inputs.py",
+    "?? src/gridiron_ml/publication/postgame_full.py",
+    "?? src/gridiron_ml/publication/scientific_postgame.py",
+    "?? tests/test_cfbd_pickem_export.py",
+    "?? tests/test_postgame_rank_refresh.py",
+    "?? tests/test_publication_scientific_postgame.py",
+    "?? tools/"
+  ],
+  "earliest_game_kickoff_utc": "2026-09-11T23:30:00+00:00",
+  "full_ballot_rows": 5796,
+  "generated_at_eastern": "2026-09-10T09:02:13.696924-04:00",
+  "generated_at_utc": "2026-09-10T13:02:13.696924+00:00",
+  "generated_before_earliest_kickoff": true,
+  "generator_sources": {
+    "src/gridiron_ml/publication/scientific_weekly.py": "56f458692859ab34a8fae21886b9693ab0643ae17c11d18d97bc34ebf086a801",
+    "src/gridiron_ml/publication/weekly.py": "dc59e839f95b938ad9c49c61ec547289e9c1f188ab26ce09c7f8b399cd9e85bf",
+    "src/gridiron_ml/td_run/evaluator.py": "868557b68fde8e7cdac01a48c569d38bde5d6fb850e35dcfdd2b8f5e7851a47f"
+  },
+  "immutable": true,
+  "model_release": "week_02",
+  "phase": "pre_game",
+  "post_game_destination": "sibling post_game/scientific directory only",
+  "post_game_overwrite_prohibited": true,
+  "schema": "tdnet-scientific-weekly-reproducibility-v1",
+  "scientific_roster_size": 42,
+  "season": 2026,
+  "source_inputs": {
+    "market_lines_snapshot": {
+      "path": null,
+      "sha256": null
+    },
+    "reference_poll": {
+      "path": "/users/tburton2/Repos/TDNet/data/private/2026/week_01/postgame_rank_inputs/ap_top25_post_week_01.csv",
+      "sha256": "0e8abc8516abfb92f921da10184a39402af6c6f9042aefdd4b658a9ee5a7fb9f"
+    },
+    "schedule_snapshot": {
+      "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/games/2026.parquet",
+      "sha256": "fe8d64cca8a2779ab494c1a7b62c50d02fb321782233ddc60672459bb8b7bf4a"
+    },
+    "scientific_inventory": {
+      "path": "/users/tburton2/Repos/TDNet/data/publication/2026/weekly_operations/week_02/scientific_runtime_inventory.csv",
+      "sha256": "e385d6d3adddef21d38b3fe1eabd725e0768ab102327ac3b38b44eda59766917"
+    }
+  },
+  "teams_per_model_ballot": 138,
+  "training_cutoff_season": 2025,
+  "week": 2
+}

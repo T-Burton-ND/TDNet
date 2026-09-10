@@ -1,16 +1,15 @@
 {
   "artifact_policy": "scientific_publication_with_social_variants",
-  "amended_at_eastern": "2026-08-28T15:46:58-04:00",
-  "amendment": "Added the all-team archival figure and two scientific research-ballot social variants before the earliest kickoff.",
-  "created_at_eastern": "2026-08-28T15:34:50.227856-04:00",
+  "created_at_eastern": "2026-09-10T09:02:33.269757-04:00",
   "files": {
+    "all_team_power_rankings_png": "scientific_all_team_power_rankings.png",
     "ballots_csv": "scientific_full_ballots.csv",
     "ballots_png": "scientific_top25_ballots.png",
-    "all_team_power_rankings_png": "scientific_all_team_power_rankings.png",
     "power_rankings_csv": "scientific_consensus_power_rankings.csv",
     "predictions_csv": "scientific_all_game_predictions.csv",
     "predictions_png": "scientific_all_game_predictions.png",
     "research_ballot_social_16x9_png": "scientific_research_ballot_social_16x9.png",
+    "research_ballot_social_1x1_png": "scientific_research_ballot_social_1x1.png",
     "research_ballot_social_4x5_png": "scientific_research_ballot_social_4x5.png",
     "top25_png": "scientific_top25.png"
   },
@@ -23,8 +22,8 @@
   "roster": "Scientific roster (market-free F0\u2013F6)",
   "scientific_model_count": 42,
   "season": 2026,
-  "source_inventory": "/groups/bsavoie2/tburton2/TDNet/publication_artifacts/scientific_roster_refits/f0_f8_margin_through_2025_v1/final_model_inventory.csv",
-  "source_inventory_sha256": "d76c839288cdaa188b562e32d8d2fbed93e33557ebcbe027c75b6307038b67ca",
+  "source_inventory": "/users/tburton2/Repos/TDNet/data/publication/2026/weekly_operations/week_02/scientific_runtime_inventory.csv",
+  "source_inventory_sha256": "e385d6d3adddef21d38b3fe1eabd725e0768ab102327ac3b38b44eda59766917",
   "teams_per_model_ballot": 138,
-  "week": 0
+  "week": 2
 }
