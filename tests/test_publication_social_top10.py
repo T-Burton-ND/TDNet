@@ -156,6 +156,18 @@ def test_weekly_top25_loader_preserves_social_point_totals(tmp_path):
     assert loaded.loc[3, "reference_rank"] == 12
 
 
+def test_weekly_top25_loader_keeps_team_missing_optional_reference_rank(tmp_path):
+    path = tmp_path / "poll.csv"
+    poll = _poll()
+    poll.loc[poll["rank"].eq(10), "reference_rank"] = np.nan
+    poll.to_csv(path, index=False)
+
+    loaded = load_top25(path, season=2026, week=0)
+
+    assert loaded["rank"].tolist() == list(range(1, 11))
+    assert pd.isna(loaded.loc[loaded["rank"].eq(10), "reference_rank"]).all()
+
+
 def test_social_variants_have_exact_dimensions_and_are_deterministic(tmp_path):
     poll = _poll()
     logos = tmp_path / "logos"

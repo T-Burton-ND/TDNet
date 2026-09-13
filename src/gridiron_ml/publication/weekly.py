@@ -503,7 +503,15 @@ def load_top25(path: str | Path, *, season: int | None = None, week: int | None 
         columns={rank_column: "rank", team_column: "team"}
     )
     out["rank"] = pd.to_numeric(out["rank"], errors="coerce")
-    return out.dropna().sort_values("rank").head(25).reset_index(drop=True)
+    # Optional comparison fields (for example ``reference_rank``) are allowed
+    # to be missing when TDNet ranks a team outside the reference poll.  Only
+    # the canonical rank/team identity is required for a valid TDNet ballot.
+    return (
+        out.dropna(subset=["rank", "team"])
+        .sort_values("rank")
+        .head(25)
+        .reset_index(drop=True)
+    )
 
 
 def select_top25_games(games: pd.DataFrame, top25: pd.DataFrame) -> pd.DataFrame:
