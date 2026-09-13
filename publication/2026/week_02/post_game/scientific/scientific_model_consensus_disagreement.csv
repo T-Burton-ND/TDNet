@@ -1,0 +1,43 @@
+ballot_model,mean_absolute_rank_delta,median_absolute_rank_delta,top25_overlap,top25_membership_disagreements,largest_rank_outlier_team,largest_rank_outlier_delta,rank_correlation
+scientific_f0_m3,26.08,12.0,15,10,James Madison,108.0,0.5
+scientific_f0_m10,22.64,15.0,12,13,James Madison,109.0,0.47846153846153844
+scientific_f3_m5,20.56,16.0,14,11,Virginia Tech,84.0,0.5438461538461539
+scientific_f4_m5,20.0,11.0,14,11,Florida,70.0,0.3546153846153846
+scientific_f5_m5,18.68,14.0,14,11,USC,56.0,0.4338461538461538
+scientific_f6_m5,16.64,13.0,18,7,Miami,70.0,0.016153846153846154
+scientific_f0_m1,15.76,7.0,16,9,James Madison,80.0,0.61
+scientific_f0_m4,15.76,8.0,16,9,James Madison,69.0,0.6046153846153847
+scientific_f0_m2,15.68,7.0,16,9,James Madison,80.0,0.61
+scientific_f0_m5,15.6,7.0,16,9,James Madison,80.0,0.61
+scientific_f2_m10,12.8,10.0,17,8,Ole Miss,42.0,0.11153846153846154
+scientific_f3_m10,9.64,7.0,17,8,Notre Dame,34.0,0.3546153846153846
+scientific_f4_m10,9.52,9.0,18,7,Notre Dame,34.0,0.4307692307692308
+scientific_f2_m5,8.16,6.0,19,6,Ohio State,32.0,0.4076923076923077
+scientific_f5_m10,7.96,7.0,20,5,Alabama,28.0,0.44769230769230767
+scientific_f6_m10,7.72,6.0,20,5,SMU,19.0,0.5592307692307692
+scientific_f1_m10,7.24,6.0,19,6,Ole Miss,30.0,0.583076923076923
+scientific_f2_m3,6.4,7.0,22,3,Ole Miss,13.0,0.5961538461538461
+scientific_f1_m5,6.12,4.0,22,3,Ole Miss,18.0,0.6961538461538461
+scientific_f1_m3,5.92,4.0,22,3,Ole Miss,25.0,0.6446153846153846
+scientific_f1_m1,5.36,5.0,21,4,James Madison,12.0,0.7630769230769231
+scientific_f6_m4,5.2,3.0,22,3,Virginia Tech,20.0,0.7069230769230769
+scientific_f1_m4,4.88,4.0,22,3,Ohio State,14.0,0.6815384615384615
+scientific_f3_m2,4.88,3.0,22,3,Virginia Tech,33.0,0.796923076923077
+scientific_f2_m1,4.68,5.0,21,4,SMU,9.0,0.84
+scientific_f2_m2,4.64,3.0,22,3,Nebraska,16.0,0.7615384615384615
+scientific_f3_m4,4.64,3.0,24,1,Virginia Tech,28.0,0.7723076923076924
+scientific_f4_m2,4.56,2.0,23,2,Virginia Tech,32.0,0.8146153846153846
+scientific_f1_m2,4.48,4.0,22,3,Virginia Tech,11.0,0.803076923076923
+scientific_f2_m4,4.2,3.0,24,1,Ohio State,11.0,0.7338461538461538
+scientific_f4_m4,4.08,3.0,24,1,Virginia Tech,19.0,0.7638461538461538
+scientific_f6_m3,4.0,3.0,22,3,Mississippi State,11.0,0.8038461538461539
+scientific_f4_m3,3.92,3.0,24,1,Texas,11.0,0.7992307692307692
+scientific_f5_m4,3.92,3.0,24,1,Virginia Tech,18.0,0.83
+scientific_f5_m3,3.88,3.0,23,2,Mississippi State,12.0,0.8153846153846154
+scientific_f3_m1,3.84,2.0,22,3,USC,21.0,0.8953846153846153
+scientific_f3_m3,3.48,3.0,24,1,Virginia Tech,9.0,0.8476923076923077
+scientific_f4_m1,3.4,3.0,23,2,Virginia,16.0,0.9023076923076923
+scientific_f6_m1,3.08,2.0,23,2,Virginia,12.0,0.89
+scientific_f5_m1,2.68,2.0,23,2,Virginia,10.0,0.9284615384615384
+scientific_f5_m2,2.44,2.0,23,2,Virginia Tech,8.0,0.9215384615384615
+scientific_f6_m2,2.4,1.0,23,2,Houston,9.0,0.9161538461538462

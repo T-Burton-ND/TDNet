@@ -1,0 +1,50 @@
+game_id,away_team,home_team,away_points,home_points,actual_winner,consensus_straight_up_pick,consensus_winner_correct,consensus_predicted_home_margin,actual_home_margin,consensus_absolute_margin_error,consensus_against_spread_team,consensus_home_team_market_spread,actual_against_spread_winner,consensus_ats_result
+401858214,Rutgers,Boston College,21.0,28.0,Boston College,Boston College,True,3.88,7.0,3.12,Boston College,-3.25,Boston College,Win
+401856678,Missouri,Kansas,38.0,21.0,Missouri,Kansas,False,1.78,-17.0,18.78,Kansas,5.5,Missouri,Loss
+401856679,Oklahoma,Michigan,10.0,17.0,Michigan,Oklahoma,False,-1.97,7.0,8.97,Michigan,5.5,Michigan,Win
+401856683,Arizona State,Texas A&M,20.0,48.0,Texas A&M,Texas A&M,True,9.37,28.0,18.630000000000003,Arizona State,-14.25,Texas A&M,Loss
+401856781,Washington State,Kansas State,7.0,34.0,Kansas State,Kansas State,True,21.01,27.0,5.989999999999998,Kansas State,-18.75,Kansas State,Win
+401856782,Oregon,Oklahoma State,31.0,39.0,Oklahoma State,Oregon,False,-17.97,8.0,25.97,Oklahoma State,22.5,Oklahoma State,Win
+401858221,Old Dominion,Virginia Tech,21.0,44.0,Virginia Tech,Virginia Tech,True,21.24,23.0,1.7600000000000016,Virginia Tech,-18.5,Virginia Tech,Win
+401858224,Wake Forest,Purdue,38.0,36.0,Wake Forest,Purdue,False,7.03,-2.0,9.030000000000001,Purdue,3.75,Purdue,Win
+401858442,Penn State,Temple,27.0,9.0,Penn State,Penn State,True,-12.02,-18.0,5.98,Temple,23.75,Temple,Win
+401862702,South Florida,Army,28.0,24.0,South Florida,Army,False,10.96,-4.0,14.96,Army,-3.5,South Florida,Loss
+401864571,App State,East Carolina,27.0,24.0,App State,App State,True,-9.16,-3.0,6.16,App State,-7.5,App State,Win
+401856673,Western Kentucky,Georgia,20.0,70.0,Georgia,Georgia,True,28.08,50.0,21.92,Western Kentucky,-40.0,Georgia,Loss
+401856674,Alabama,Kentucky,45.0,17.0,Alabama,Alabama,True,-6.58,-28.0,21.42,Kentucky,10.5,Alabama,Loss
+401856677,Mississippi State,Minnesota,38.0,13.0,Mississippi State,Minnesota,False,7.32,-25.0,32.32,Minnesota,0.25,Mississippi State,Loss
+401856790,UCF,Pittsburgh,7.0,12.0,Pittsburgh,Pittsburgh,True,0.53,5.0,4.47,UCF,-7.0,UCF,Win
+401856810,Arizona,BYU,17.0,28.0,BYU,BYU,True,10.84,11.0,0.16000000000000014,BYU,-7.5,BYU,Win
+401858216,California,Syracuse,21.0,18.0,California,Syracuse,False,18.14,-3.0,21.14,Syracuse,-3.25,California,Loss
+401858217,Duke,Illinois,31.0,27.0,Duke,Illinois,False,7.48,-4.0,11.48,Illinois,-5.75,Duke,Loss
+401858440,Eastern Michigan,Michigan State,7.0,35.0,Michigan State,Michigan State,True,10.74,28.0,17.259999999999998,Eastern Michigan,-17.25,Michigan State,Loss
+401858444,Maryland,UConn,38.0,14.0,Maryland,Maryland,True,-0.73,-24.0,23.27,UConn,12.5,Maryland,Loss
+401858446,Utah State,Washington,14.0,16.0,Washington,Washington,True,21.18,2.0,19.18,Utah State,-26.5,Utah State,Win
+401859184,Rice,Notre Dame,0.0,52.0,Notre Dame,Notre Dame,True,16.48,52.0,35.519999999999996,Rice,-44.5,Notre Dame,Loss
+401860884,UTSA,Texas State,31.0,26.0,UTSA,UTSA,True,-13.01,-5.0,8.01,UTSA,-1.5,UTSA,Win
+401862708,UL Monroe,UAB,20.0,26.0,UAB,UAB,True,16.94,6.0,10.940000000000001,UAB,-10.25,UL Monroe,Loss
+401862705,UNLV,North Texas,6.0,44.0,North Texas,UNLV,False,-10.89,38.0,48.89,UNLV,3.5,North Texas,Loss
+401856684,Delaware,Vanderbilt,26.0,35.0,Vanderbilt,Vanderbilt,True,9.21,9.0,0.21000000000000085,Delaware,-20.75,Delaware,Win
+401860881,Memphis,Boise State,20.0,38.0,Boise State,Memphis,False,-0.82,18.0,18.82,Memphis,-9.0,Boise State,Loss
+401866414,Buffalo,Florida International,20.0,33.0,Florida International,Florida International,True,1.49,13.0,11.51,Buffalo,-10.25,Florida International,Loss
+401866418,Jacksonville State,Ohio,27.0,29.0,Ohio,Jacksonville State,False,-12.02,2.0,14.02,Jacksonville State,-2.75,Jacksonville State,Win
+401856681,Tennessee,Georgia Tech,45.0,24.0,Tennessee,Tennessee,True,-11.18,-21.0,9.82,Georgia Tech,12.5,Tennessee,Loss
+401858441,Bowling Green,Nebraska,7.0,56.0,Nebraska,Nebraska,True,22.17,49.0,26.83,Bowling Green,-28.75,Nebraska,Loss
+401862707,Tulsa,Sam Houston,23.0,17.0,Tulsa,Tulsa,True,-3.66,-6.0,2.34,Sam Houston,13.5,Sam Houston,Win
+401864575,South Alabama,Tulane,24.0,28.0,Tulane,South Alabama,False,-0.6,4.0,4.6,South Alabama,-9.5,South Alabama,Win
+401869955,Georgia State,Kennesaw State,31.0,17.0,Georgia State,Kennesaw State,False,3.57,-14.0,17.57,Georgia State,-9.5,Georgia State,Win
+401871045,Middle Tennessee,Marshall,26.0,28.0,Marshall,Middle Tennessee,False,-9.51,2.0,11.51,Middle Tennessee,-13.75,Middle Tennessee,Win
+401858443,San Diego State,UCLA,10.0,28.0,UCLA,UCLA,True,9.16,18.0,8.84,San Diego State,-11.5,UCLA,Loss
+401856682,Ohio State,Texas,23.0,24.0,Texas,Texas,True,0.4,1.0,0.6,Ohio State,-1.75,Ohio State,Win
+401856783,Texas Tech,Oregon State,35.0,24.0,Texas Tech,Texas Tech,True,-16.46,-11.0,5.460000000000001,Oregon State,26.0,Oregon State,Win
+401856788,Iowa State,Iowa,13.0,16.0,Iowa,Iowa,True,9.5,3.0,6.5,Iowa State,-15.0,Iowa State,Win
+401858219,Georgia Southern,Clemson,7.0,22.0,Clemson,Georgia Southern,False,-1.21,15.0,16.21,Georgia Southern,-21.0,Georgia Southern,Win
+401862703,Navy,Florida Atlantic,30.0,38.0,Florida Atlantic,Navy,False,-4.78,8.0,12.780000000000001,Florida Atlantic,5.0,Florida Atlantic,Win
+401867796,Louisiana Tech,LSU,14.0,45.0,LSU,LSU,True,13.89,31.0,17.11,Louisiana Tech,-36.0,Louisiana Tech,Win
+401856671,Southern Miss,Auburn,8.0,43.0,Auburn,Auburn,True,0.92,35.0,34.08,Southern Miss,-33.0,Auburn,Loss
+401856676,Charlotte,Ole Miss,9.0,41.0,Ole Miss,Ole Miss,True,18.92,32.0,13.079999999999998,Charlotte,-47.5,Charlotte,Win
+401864502,North Dakota State,Air Force,38.0,32.0,North Dakota State,Air Force,False,1.54,-6.0,7.54,Air Force,2.5,North Dakota State,Loss
+401856670,Arkansas,Utah,10.0,43.0,Utah,Utah,True,14.32,33.0,18.68,Utah,-12.0,Utah,Win
+401860883,Sacramento State,Fresno State,3.0,49.0,Fresno State,Sacramento State,False,-6.04,46.0,52.04,Sacramento State,-18.25,Fresno State,Loss
+401858445,Louisiana,USC,30.0,49.0,USC,USC,True,11.05,19.0,7.949999999999999,Louisiana,-31.0,Louisiana,Win
+401864578,New Mexico State,Hawai'i,19.0,29.0,Hawai'i,New Mexico State,False,-5.15,10.0,15.15,New Mexico State,-8.5,Hawai'i,Loss
