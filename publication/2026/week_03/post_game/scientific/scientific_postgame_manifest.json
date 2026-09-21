@@ -10,6 +10,11 @@
       "sha256": "c341af922fe5b803dbd81405a5b574d20dbe1f098f4bdd252ffe6e8eca6e1e15",
       "size_bytes": 1448937
     },
+    "cumulative_all_models_performance_png": {
+      "path": "scientific_cumulative_all_models_performance.png",
+      "sha256": "43928faf2af7c00c0d3f57cfa4866ea1c0b4abb95fb7f728dc0dce29b05306d6",
+      "size_bytes": 1214773
+    },
     "model_game_results_csv": {
       "path": "scientific_model_game_results.csv",
       "sha256": "236766ec668bee03cabdcc318a5c8d625ccea52073011fc1f377322ae31b069c",
@@ -19,6 +24,16 @@
       "path": "scientific_model_scorecard.csv",
       "sha256": "78b5eea93c74ed5981f7d61eeac46dfee244fe649f6474e1821d252ef8246136",
       "size_bytes": 2979
+    },
+    "rolling_cumulative_performance_csv": {
+      "path": "scientific_rolling_cumulative_performance.csv",
+      "sha256": "c33983c55511309f775cf59d7d57155deb535f0650417b9ad6899b912ee23075",
+      "size_bytes": 39740
+    },
+    "rolling_cumulative_roster_performance_png": {
+      "path": "scientific_rolling_cumulative_roster_performance.png",
+      "sha256": "825327a8a6096fb80e53924cc1e719463aa69ecd39b8701fb1264b0224aa9974",
+      "size_bytes": 514445
     }
   },
   "frozen_pregame_predictions": "publication/2026/week_03/pre_game/scientific/scientific_all_game_predictions.csv",

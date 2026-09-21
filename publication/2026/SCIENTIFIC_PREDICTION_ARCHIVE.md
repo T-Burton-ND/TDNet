@@ -29,4 +29,4 @@ publication. Operational/private frozen bundles remain outside this exception.
 | 0 | 8 | [`week_00/post_game/scientific`](week_00/post_game/scientific/) | `35cb5911db889bfaf162813103cbbeecec2c7c9921d53bb5990c1fcac9ed15a0` | `0e1aa74e8f3800f6eb7992a65f3fca0b06361dd4f813dd1d914fcb99c537a544` |
 | 1 | 39 | [`week_01/post_game/scientific`](week_01/post_game/scientific/) | `6a1956b0dd645486ca47d985c995fc26bbedc9413b497de1cb3a64869662146e` | `1c9a19134fc2456f6d530953766ce566533d3061634e3f4f62447f70664af612` |
 | 2 | 49 | [`week_02/post_game/scientific`](week_02/post_game/scientific/) | `c1e4e15203743d63b22a894b4d5cefb44b1ee6029a6a47c2d255988f5a1c8a60` | `0800faea597b3a5af9403c1683a688962c91823441b9676699ada112ecc75be9` |
-| 3 | 57 | [`week_03/post_game/scientific`](week_03/post_game/scientific/) | `ea388efe83298b777f7ba77cc68b2dc7eb85f85e65cd5bf32442c10ed3d12314` | `c341af922fe5b803dbd81405a5b574d20dbe1f098f4bdd252ffe6e8eca6e1e15` |
+| 3 | 57 | [`week_03/post_game/scientific`](week_03/post_game/scientific/) | `a67c252d95a2f50322ce9d5121f57c462b3b2860144bffccd8812ca79ad0be43` | `c341af922fe5b803dbd81405a5b574d20dbe1f098f4bdd252ffe6e8eca6e1e15` |
