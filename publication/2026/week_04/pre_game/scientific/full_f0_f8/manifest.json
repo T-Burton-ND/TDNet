@@ -1,0 +1,44 @@
+{
+  "artifact_policy": "scientific_publication_with_social_variants",
+  "created_at_eastern": "2026-09-21T19:16:17.316657-04:00",
+  "files": {
+    "all_team_power_rankings_png": "scientific_all_team_power_rankings.png",
+    "ballots_csv": "scientific_full_ballots.csv",
+    "ballots_png": "scientific_top25_ballots.png",
+    "power_rankings_csv": "scientific_consensus_power_rankings.csv",
+    "predictions_csv": "scientific_all_game_predictions.csv",
+    "predictions_png": "scientific_all_game_predictions.png",
+    "research_ballot_social_16x9_png": "scientific_research_ballot_social_16x9.png",
+    "research_ballot_social_1x1_png": "scientific_research_ballot_social_1x1.png",
+    "research_ballot_social_4x5_png": "scientific_research_ballot_social_4x5.png",
+    "top25_png": "scientific_top25.png"
+  },
+  "full_ballot_rows": 6624,
+  "included_fingerprint_tiers": [
+    "F0",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7",
+    "F8"
+  ],
+  "market_bearing_models_included": true,
+  "market_bearing_tiers_excluded": [],
+  "phase": "pre_game",
+  "poll_excluded_fingerprint_tiers": [
+    "F7"
+  ],
+  "roster": "Scientific roster (full F0\u2013F8)",
+  "scientific_ballot_model_count": 48,
+  "scientific_cohort": "full_f0_f8",
+  "scientific_model_count": 54,
+  "scientific_prediction_model_count": 54,
+  "season": 2026,
+  "source_inventory": "/users/tburton2/Repos/TDNet/data/publication/2026/weekly_operations/week_04/scientific_runtime_inventory.csv",
+  "source_inventory_sha256": "5f8758dcb21a7b9977e0c786258facd08eae3b774af33a0332571be8cc34037b",
+  "teams_per_model_ballot": 138,
+  "week": 4
+}

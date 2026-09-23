@@ -1,0 +1,78 @@
+{
+  "backfill_provenance": {
+    "frozen_market_input": "Original pregame consensus_home_team_market_spread only",
+    "input_manifest": "/users/tburton2/Repos/TDNet/data/publication/2026/weekly_operations/week_01/full_f0_f8_backfill_inputs/manifest.json",
+    "input_manifest_sha256": "f4ec5eb91c136ce1ff8c746c50bbd857c948286e00d70eb0b672e9eacb23be89",
+    "prospective": false,
+    "status": "retrospective_reconstruction",
+    "unavailable_market_fields": [
+      "market_spread_open",
+      "market_over_under",
+      "market_win_probability"
+    ],
+    "warning": "Generated after results with frozen through-2025 checkpoints and preserved pregame inputs; do not label as prospective."
+  },
+  "cumulative_display_excluded_fingerprints": [
+    "F7"
+  ],
+  "cumulative_through_week": 1,
+  "files": {
+    "all_models_png": {
+      "path": "scientific_cumulative_all_models_performance.png",
+      "sha256": "2b6b01f8eb5a894ddcbf39087210d3b67fd8c44cdc6bc44c2aa2277dd464e4c4",
+      "size_bytes": 908414
+    },
+    "consensus_results_csv": {
+      "path": "scientific_consensus_game_results.csv",
+      "sha256": "ca2b9185b1dc9b083c12975b1b7b4d32f50a1daf5967b11d01289fff2cdda2cf",
+      "size_bytes": 4933
+    },
+    "consensus_results_png": {
+      "path": "scientific_consensus_game_results.png",
+      "sha256": "8928a67925951306160f323c6700a2cad5d92da78926197eb7004774a4f81886",
+      "size_bytes": 1052687
+    },
+    "model_game_results_csv": {
+      "path": "scientific_model_game_results.csv",
+      "sha256": "5f663c18a2bae0b256e3e66823f1bc4408f72d1e930e11354eb2b254463791c1",
+      "size_bytes": 1467637
+    },
+    "model_scorecard_csv": {
+      "path": "scientific_model_scorecard.csv",
+      "sha256": "0cd38ad57163f25567b25737d212053c7f083c6913041d70d96effb90d16a978",
+      "size_bytes": 3802
+    },
+    "rolling_csv": {
+      "path": "scientific_rolling_cumulative_performance.csv",
+      "sha256": "0e88969e8352addbc6c756f2f0d521a89c3418a966cdf6dd0f760cce287307e3",
+      "size_bytes": 28255
+    },
+    "rolling_png": {
+      "path": "scientific_rolling_cumulative_roster_performance.png",
+      "sha256": "e8677dde131e11f537901ce65bfb2f7e5fa680200f9ad16507902bd14a1f305b",
+      "size_bytes": 436915
+    },
+    "scorecard_csv": {
+      "path": "scientific_cumulative_model_scorecard.csv",
+      "sha256": "a26e59d7f9c1a26981643a7f678409e786b44cbb4afb82b4c145f705e7f34bb5",
+      "size_bytes": 6922
+    },
+    "scorecard_png": {
+      "path": "scientific_cumulative_model_scorecard.png",
+      "sha256": "f94bd049cdc77a090131f4a7b484c93ff0e992afb5acff0f753ecb89b7756dab",
+      "size_bytes": 938789
+    }
+  },
+  "frozen_pregame_predictions": "publication/2026/week_01/pre_game/scientific/full_f0_f8/scientific_all_game_predictions.csv",
+  "frozen_pregame_predictions_sha256": "b517809184a635b603652e83f504d3a095fdad0b31269807b75ba474c629e7ce",
+  "game_count": 39,
+  "generated_at_eastern": "2026-09-21T20:06:21.179458-04:00",
+  "predictions_recalculated": false,
+  "results_sha256": "e013f910657388f4226d796b064b42cea2467cad2a1cc8131723c24122e121a7",
+  "results_source": "data/publication/2026/weekly_operations/week_01/postgame_results.csv",
+  "schema": "tdnet-scientific-postgame-evaluation-v1",
+  "scientific_model_count": 54,
+  "season": 2026,
+  "vegas_baselines_included": true,
+  "week": 1
+}

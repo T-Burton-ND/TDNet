@@ -1,0 +1,11 @@
+{
+  "note": "Poll points and consensus margin versus average are intentionally independent summaries.",
+  "ordering_identical": false,
+  "poll_points_only": [
+    "Oregon"
+  ],
+  "power_rating_only": [
+    "Penn State"
+  ],
+  "top25_membership_difference_count": 2
+}

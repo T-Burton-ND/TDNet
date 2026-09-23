@@ -1,0 +1,13 @@
+{
+  "note": "Poll points and consensus margin versus average are intentionally independent summaries.",
+  "ordering_identical": false,
+  "poll_points_only": [
+    "Houston",
+    "Virginia Tech"
+  ],
+  "power_rating_only": [
+    "Louisville",
+    "Mississippi State"
+  ],
+  "top25_membership_difference_count": 4
+}

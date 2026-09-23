@@ -1,0 +1,359 @@
+{
+  "artifact_layout": {
+    "directories": [
+      "blog",
+      "figures",
+      "metadata",
+      "scientific",
+      "tables"
+    ],
+    "excluded_png_categories": [
+      "individual_model_scorecards",
+      "frozen_top_n_duplicates",
+      "confusion_matrix_diagnostics",
+      "scientific_ranking_diagnostics"
+    ],
+    "name": "pregame-parity-lean-v1",
+    "png_retention": {
+      "figures": 12,
+      "scientific": 7,
+      "total": 19
+    }
+  },
+  "created_at_eastern": "2026-08-30T13:31:00.429081-04:00",
+  "external_send": "disabled",
+  "files": {
+    "README.md": {
+      "sha256": "3fe1e8412b13a8f398e1f250383ce8dc0469a964d31335c0fcdfd1f1787b7fed",
+      "size_bytes": 592
+    },
+    "blog/alt_text.md": {
+      "sha256": "95355ec93d9111d91212d9c06196c91b4a81044f28fc2bbda21096df2aaeafe9",
+      "size_bytes": 73
+    },
+    "blog/post.txt": {
+      "sha256": "226f43bb72703f03639694bfb5744cc10c19f869fcb188673a338425b07729e6",
+      "size_bytes": 65
+    },
+    "blog/summary.md": {
+      "sha256": "f71d82698443cc23a7cc81eb24d319da7b63b7df049c4032b95a0d24886a6ae6",
+      "size_bytes": 210
+    },
+    "figures/margin_wide_all_team_power_rankings.png": {
+      "sha256": "733a6578ba1e0162d8bcb6b09e1896d1b4d781d3039b4f47f1d1330fb7e41942",
+      "size_bytes": 926764
+    },
+    "figures/margin_wide_model_scorecard.png": {
+      "sha256": "9308fee4717320fba32ec1bf179766b0c21f59db52a2d3331d520325cd3b5b4c",
+      "size_bytes": 802506
+    },
+    "figures/margin_wide_prediction_scorecard.png": {
+      "sha256": "ef7136bef2dbf85e857808ad2bf4d7d58cd2ad6c9e2cc64e1f877dcee6a75866",
+      "size_bytes": 274276
+    },
+    "figures/model_consensus_disagreement.png": {
+      "sha256": "916b7188ed8c347d0d92b2d4c405e5a3225ce092cbae2d9dc081321dc2d38b12",
+      "size_bytes": 364826
+    },
+    "figures/sunday_performance.png": {
+      "sha256": "943a517c05bcea5d883085fcb11ca277beb5def6de5517cd9236f96b921be424",
+      "size_bytes": 144320
+    },
+    "figures/tdnet_model_ballots.png": {
+      "sha256": "17ca1f5b243cd94dfba84121acbcaed3144f523a7fd54e7af6b5acf0581472d4",
+      "size_bytes": 1646047
+    },
+    "figures/tdnet_top10_social_16x9.png": {
+      "sha256": "353f5d09552e3ff6081fdac01947ab97d3c01de6b4342f595fa5689c9ca86bdd",
+      "size_bytes": 181248
+    },
+    "figures/tdnet_top10_social_4x5.png": {
+      "sha256": "f1d01a20f546531d31d6a165b58f34bfa70250514bbb4bf9baa16a2ccaef9e53",
+      "size_bytes": 194650
+    },
+    "figures/tdnet_top25.png": {
+      "sha256": "01c3094f7952f0b1d759aeb0faafc17bb5a67da9defb65f93965c59442b88151",
+      "size_bytes": 487830
+    },
+    "figures/tdnet_vs_ap_preseason_top25.png": {
+      "sha256": "ed8a3d2eb9edd23b03e8e020e87d7491d4597c5511ccea3dfcc3cc5e168c512c",
+      "size_bytes": 188337
+    },
+    "figures/team_margin_parity.png": {
+      "sha256": "56d4f79a467e1ca5be1260b2e4148613e14a6f9db3f366ff0233662e7399cf95",
+      "size_bytes": 209415
+    },
+    "figures/top25_consensus_spread.png": {
+      "sha256": "46399264b4cfcc44fbc905a0efd55865260e1e2ff0a81f45743573c1932ee047",
+      "size_bytes": 258818
+    },
+    "full_postgame_manifest.json": {
+      "sha256": "caf8e62a5378bd2218513ac14a6336f01259e569534b4adef0c544d8f09df8f9",
+      "size_bytes": 17578
+    },
+    "metadata/poll_power_divergence.json": {
+      "sha256": "d5d0c49fbfbf72264a50312c3e677e8bd9af922e87eb3e00baef4e322e61872a",
+      "size_bytes": 274
+    },
+    "scientific/README.md": {
+      "sha256": "12b70e81f428fc19da08d5dd1bfbf9ffe907ce9f479a4b469f7e004f3201c13a",
+      "size_bytes": 794
+    },
+    "scientific/full_f0_f8/README.md": {
+      "sha256": "862786af5298a6435b41ef95c914aed115c1bedd51aa9f2bd75cbb121a4fb2bf",
+      "size_bytes": 598
+    },
+    "scientific/full_f0_f8/scientific_consensus_game_results.csv": {
+      "sha256": "67c42a7e2cf1de8ba9c2359171a61eddcc88620e73f33c5fe068ef129933bb9b",
+      "size_bytes": 1257
+    },
+    "scientific/full_f0_f8/scientific_consensus_game_results.png": {
+      "sha256": "cad835acc2a4ed724ba74e3d0dec2e48b9e1d2e946575a1f81fb31e3d919ada9",
+      "size_bytes": 326707
+    },
+    "scientific/full_f0_f8/scientific_cumulative_all_models_performance.png": {
+      "sha256": "3764abaca5e86db414783576ae7b6d8a2e4a27584d1cf6b57c53695e94897ebf",
+      "size_bytes": 242786
+    },
+    "scientific/full_f0_f8/scientific_cumulative_model_scorecard.csv": {
+      "sha256": "fe56e3aa83ed07ae253916d449ce6c652dcfbeef795a58852de99416a02350dc",
+      "size_bytes": 5177
+    },
+    "scientific/full_f0_f8/scientific_cumulative_model_scorecard.png": {
+      "sha256": "d1cebfe78c67b6efcc79950b9b552bb5bdc0c86ecd242865b55cae5f709a4ec3",
+      "size_bytes": 937032
+    },
+    "scientific/full_f0_f8/scientific_model_game_results.csv": {
+      "sha256": "f5279dcffcf3a1c0a328ac6cbda75267a02ca1e98f8b5ee6157cf1f4f88ffb76",
+      "size_bytes": 304048
+    },
+    "scientific/full_f0_f8/scientific_model_scorecard.csv": {
+      "sha256": "f48378946aba5222368e67377fa3e5498a72f26c2c84b411ada899e335eb7266",
+      "size_bytes": 2846
+    },
+    "scientific/full_f0_f8/scientific_postgame_manifest.json": {
+      "sha256": "f1062a36305c2478b064ec3b1b8efb12f4d4650cdd6a6f7b28998035e78bc6c3",
+      "size_bytes": 3310
+    },
+    "scientific/full_f0_f8/scientific_rolling_cumulative_performance.csv": {
+      "sha256": "85496b50e5fb20818c2c3c9ec851d6867ab8a7aabbf49de3ea6839c50d2b4eeb",
+      "size_bytes": 12277
+    },
+    "scientific/full_f0_f8/scientific_rolling_cumulative_roster_performance.png": {
+      "sha256": "0a75ea0285e8d72d81cfec84be6b5d2ca5cff5978b3cf80c2c39698e232d5a36",
+      "size_bytes": 296199
+    },
+    "scientific/scientific_all_team_power_rankings.png": {
+      "sha256": "cf2eb33350144d2202483a9c6d7b57f73fb6dcab45218ed73cd0ea74badf1e73",
+      "size_bytes": 923071
+    },
+    "scientific/scientific_consensus_game_results.csv": {
+      "sha256": "234fd45758f08c7fd63267648492d01fb7d3bdad0ecd121f4cedb726796200d9",
+      "size_bytes": 1281
+    },
+    "scientific/scientific_consensus_game_results.png": {
+      "sha256": "0e1aa74e8f3800f6eb7992a65f3fca0b06361dd4f813dd1d914fcb99c537a544",
+      "size_bytes": 272772
+    },
+    "scientific/scientific_consensus_power_rankings.csv": {
+      "sha256": "0ffd69481446619b751d93ff1dc882799f6ee043e34c2f7b43b8c7a5580972ce",
+      "size_bytes": 12083
+    },
+    "scientific/scientific_full_ballots.csv": {
+      "sha256": "e72b9351b119c222c24dd291e43b157a9f8fdf7ac9dbb4bf4edb3848c5bcb4e1",
+      "size_bytes": 1664623
+    },
+    "scientific/scientific_model_consensus_disagreement.csv": {
+      "sha256": "7679374c2a3e199985b873af0a84892905bdf28f61734eafe46e397136b905b2",
+      "size_bytes": 2851
+    },
+    "scientific/scientific_model_game_results.csv": {
+      "sha256": "09daaa7e32bc161f92a946f78e18cbf812631100910b0666e0ad1736739d01d7",
+      "size_bytes": 238102
+    },
+    "scientific/scientific_model_scorecard.csv": {
+      "sha256": "f23154a9c567d8227f88468a5808c7eda7fefb6fc14b67b7884467dfed002ac5",
+      "size_bytes": 2248
+    },
+    "scientific/scientific_model_scorecard.png": {
+      "sha256": "fb83eb8a2b5ccc09222a127598e14312ad76e8444e8d306266229569b5b35d13",
+      "size_bytes": 812140
+    },
+    "scientific/scientific_model_scorecard_enriched.csv": {
+      "sha256": "d9049b19f6c026b80a2c75e983d6a2bd69b39e379e70a2ce7915cfe8fbfe4528",
+      "size_bytes": 4262
+    },
+    "scientific/scientific_per_model_top25.csv": {
+      "sha256": "f07cfd8a2e1330f2d7c53b8666881e13bd18cdded74e1597094bfceb29a669d4",
+      "size_bytes": 10246
+    },
+    "scientific/scientific_per_model_top25_long.csv": {
+      "sha256": "06dc7fde0afbbf0d3201f2e3ab7021e9baa6b653a1e790e1d2eda9e272d41ba6",
+      "size_bytes": 70792
+    },
+    "scientific/scientific_poll_power_divergence.json": {
+      "sha256": "849718ee03cd05d1e76194c82aed616ded5105b284d333341b32491f128ad3f0",
+      "size_bytes": 325
+    },
+    "scientific/scientific_postgame_manifest.json": {
+      "sha256": "35cb5911db889bfaf162813103cbbeecec2c7c9921d53bb5990c1fcac9ed15a0",
+      "size_bytes": 1459
+    },
+    "scientific/scientific_receiving_votes.txt": {
+      "sha256": "1e13edc4bf36e555ba1406e6928050b917a5e354959df33aefe560b825bf673f",
+      "size_bytes": 952
+    },
+    "scientific/scientific_research_ballot_social_16x9.png": {
+      "sha256": "a9a0523f372dfe5f6a1479360e3c2338bcd2786e0157540d316d62dea34d9ea0",
+      "size_bytes": 171019
+    },
+    "scientific/scientific_research_ballot_social_4x5.png": {
+      "sha256": "5f0d81794555a54d27fb0a23a2854545e4c6637d988f98d2c0991a747596b4ea",
+      "size_bytes": 178626
+    },
+    "scientific/scientific_tdnet_receiving_votes.csv": {
+      "sha256": "bea65f34da3fa302cc57fe874f628f1d59f53c9435cb4e4df82eb4ab6af68976",
+      "size_bytes": 1291
+    },
+    "scientific/scientific_tdnet_top25.csv": {
+      "sha256": "733481b32e7af67ed52d263e3b7ff42e3ca56ff24b161be2b12e70dfb5600658",
+      "size_bytes": 3274
+    },
+    "scientific/scientific_tdnet_top25.png": {
+      "sha256": "2c9e42f572b7875ee4f4c975cbccb48ebe8d7d353ee50896b893bc66f002bfa8",
+      "size_bytes": 580876
+    },
+    "scientific/scientific_top25_ballots.png": {
+      "sha256": "70ffe0cdb928a6947b972c8d2db69dd8bb44dd7a99085d482fc91ec9e3adba38",
+      "size_bytes": 2064809
+    },
+    "scoring/scorecard.csv": {
+      "sha256": "d419045f2b6602f719f7bd22f0aeeec45bb7684acfe6c0a7435a3aac0b5572b8",
+      "size_bytes": 2227
+    },
+    "scoring/scored_predictions.parquet": {
+      "sha256": "5fb9084f2340e99209e603ae598bd18fce21d32497ae7ec97d2f724e5b56fef3",
+      "size_bytes": 72060
+    },
+    "tables/baseline_comparison.csv": {
+      "sha256": "4d4d8654e088a9ebbd9009db49d2e96fd87f29bd2789ec94fb104ae09cefe586",
+      "size_bytes": 1510
+    },
+    "tables/cumulative_metrics.csv": {
+      "sha256": "213a2b11f7a82c5c8fad5a58b07fa197fc442ea63986190ecd5b66313cc799fa",
+      "size_bytes": 3720
+    },
+    "tables/margin_wide_consensus_power_rankings.csv": {
+      "sha256": "2c6bda145516e91e90441e25bcd8ddd5efccccc01d73a8d79c54e360fb58c0a7",
+      "size_bytes": 11995
+    },
+    "tables/margin_wide_model_game_results.csv": {
+      "sha256": "5108d6466044f821d65772e9248ac06a246cfa542940190a6850bf0e54ae114d",
+      "size_bytes": 335403
+    },
+    "tables/margin_wide_model_scorecard.csv": {
+      "sha256": "f1fb432797acfa7d89745e5a20adf7c01d39611aa74c4d19ec712c206e31c997",
+      "size_bytes": 3981
+    },
+    "tables/margin_wide_prediction_vs_actual.csv": {
+      "sha256": "936be33158c0cced0c3b84f2c6c89abbd61e50f14ba56cdb883b5d8471bcb949",
+      "size_bytes": 2132
+    },
+    "tables/model_consensus_disagreement.csv": {
+      "sha256": "f3702b52dd07b776399d6b1c9031f0f4e637d8cf1f070d834796ec816792c04d",
+      "size_bytes": 2696
+    },
+    "tables/per_model_top25.csv": {
+      "sha256": "57b09edd909b4f69b4bc7c08f5e3fbe66d50007e7a73fb63625f0f18978facf3",
+      "size_bytes": 8305
+    },
+    "tables/per_model_top25_long.csv": {
+      "sha256": "724d95fedc4150973c386158dd31744f532d6cc2767abc1e395f44a4a2407382",
+      "size_bytes": 368631
+    },
+    "tables/receiving_votes.txt": {
+      "sha256": "9202c39f624540b523cb3544c0d5ba5e52bbb3538d9d016407eebe486f1ef6df",
+      "size_bytes": 577
+    },
+    "tables/scorecard.csv": {
+      "sha256": "d419045f2b6602f719f7bd22f0aeeec45bb7684acfe6c0a7435a3aac0b5572b8",
+      "size_bytes": 2227
+    },
+    "tables/tdnet_model_ballots.csv": {
+      "sha256": "8d9cd2139ef7df5516ff6d468511874cbf0863c503037997eae577f03bd9ba89",
+      "size_bytes": 2045616
+    },
+    "tables/tdnet_poll_model_failures.csv": {
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    "tables/tdnet_receiving_votes.csv": {
+      "sha256": "cb1e303a382a1c650ff62caa1511987881fe5cc0654d1832e3f61c5343dc281d",
+      "size_bytes": 826
+    },
+    "tables/tdnet_top25.csv": {
+      "sha256": "b2acb875b86e92a9d9de41f96fab0559bc44597ce9accd73e96c77ca1e8d298f",
+      "size_bytes": 3286
+    },
+    "tables/weekly_metrics.csv": {
+      "sha256": "213a2b11f7a82c5c8fad5a58b07fa197fc442ea63986190ecd5b66313cc799fa",
+      "size_bytes": 3720
+    }
+  },
+  "full_postgame_manifest": {
+    "path": "full_postgame_manifest.json",
+    "sha256": "caf8e62a5378bd2218513ac14a6336f01259e569534b4adef0c544d8f09df8f9"
+  },
+  "layout_updated_at_eastern": "2026-09-21T20:24:34.511816-04:00",
+  "prediction_bundle": "publication/2026/week_00/pre_game/frozen_bundle",
+  "prediction_bundle_verification": {
+    "failures": [],
+    "manifest_sha256": "30863e7c9ea9de238b37c30967ca142089bfce24cce7c7cb8c048d1b368b74a3",
+    "prediction_rows": 288,
+    "valid": true
+  },
+  "results_path": "data/publication/2026/weekly_operations/week_00/postgame_results.csv",
+  "results_sha256": "f8108b13596298670ab08d4da5750ed18de53141484ce385f5608d1b2c026b58",
+  "scientific_outputs": {
+    "consensus_results_csv": "scientific/scientific_consensus_game_results.csv",
+    "consensus_results_png": "scientific/scientific_consensus_game_results.png",
+    "manifest": "scientific/scientific_postgame_manifest.json",
+    "model_game_results_csv": "scientific/scientific_model_game_results.csv",
+    "model_scorecard_csv": "scientific/scientific_model_scorecard.csv"
+  },
+  "snapshot_completeness": {
+    "api_calls": 1,
+    "certification": "postgame_results_certified",
+    "completed_game_count": 8,
+    "created_at_eastern": "2026-08-30T12:46:04-04:00",
+    "created_at_utc": "2026-08-30T16:46:04+00:00",
+    "expected_game_count": 8,
+    "expected_game_ids": [
+      401856766,
+      401858201,
+      401858202,
+      401862693,
+      401864494,
+      401864570,
+      401864577,
+      401866408
+    ],
+    "missing_game_ids": [],
+    "provider_week": 1,
+    "publication_week": 0,
+    "results_path": "data/publication/2026/weekly_operations/week_00/postgame_results.csv",
+    "results_sha256": "f8108b13596298670ab08d4da5750ed18de53141484ce385f5608d1b2c026b58",
+    "season": 2026,
+    "source_endpoint": "https://api.collegefootballdata.com/games",
+    "source_query": {
+      "division": "fbs",
+      "seasonType": "both",
+      "year": 2026
+    },
+    "source_response_path": "data/publication/2026/weekly_operations/week_00/postgame_source/cfbd_games_2026.json",
+    "source_response_sha256": "62a47ab0e398b1ca763d3d347b4da61a7f1e5e8ebe84c1a63d874c9cc6864856",
+    "status": "pass"
+  },
+  "status": "full_sunday_review_bundle_ready",
+  "week_1_game_predictions_generated": false
+}

@@ -1,0 +1,695 @@
+{
+  "schema_version": 2,
+  "status": "submitted",
+  "created_at_utc": "2026-08-28T23:51:41.374394+00:00",
+  "entry_name": "TDNet corrected-F6 margin consensus",
+  "source": {
+    "path": "/users/tburton2/Repos/TDNet/tools/cfbd_pickem/audit/2026_current_slate/2026_current_slate_margin_consensus_source.csv",
+    "sha256": "6c291794bae3adc3a5fec8657ff5afc769b525ed23e9ab42ad00b32bd5348e79",
+    "authoritative_column": "pred_home_margin",
+    "margin_convention": "home_score_minus_away_score",
+    "roster": "corrected-F6 wide-margin operational roster",
+    "model_count": 36
+  },
+  "selection": {
+    "season": 2026,
+    "reader_week": 0,
+    "cfbd_provider_weeks": [
+      1,
+      2
+    ],
+    "season_type": "regular",
+    "full_authenticated_slate_required": true
+  },
+  "cfbd_contract": {
+    "api_base_url": "https://predictionsapi.collegefootballdata.com",
+    "read_endpoint": "GET /api/picks",
+    "submit_endpoint": "POST /api/picks",
+    "api_body_schema": {
+      "picks": [
+        {
+          "gameId": "integer",
+          "pick": "number"
+        }
+      ]
+    },
+    "csv_columns": [
+      "id",
+      "home",
+      "away",
+      "predicted"
+    ],
+    "margin_convention": "away_score_minus_home_score",
+    "authentication": "Authorization: Bearer <API key>",
+    "neutral_site_required": false,
+    "documented_deadline": "before kickoff",
+    "cfbd_slate_fetched_at_utc": "2026-08-28T23:38:51.842314+00:00"
+  },
+  "transformation": {
+    "formula": "cfbd_pick = -pred_home_margin",
+    "rounding": "none",
+    "decimal_text_preserved": true
+  },
+  "validation": {
+    "passed": true,
+    "tdnet_game_count": 53,
+    "cfbd_mapped_count": 53,
+    "duplicate_tdnet_games": 0,
+    "duplicate_cfbd_games": 0,
+    "missing_tdnet_games": [],
+    "unexpected_cfbd_games": [],
+    "orientation_mismatches": [],
+    "neutral_site_game_ids": [
+      401856766,
+      401856636,
+      401856661,
+      401858438
+    ],
+    "neutral_site_game_count": 4,
+    "existing_cfbd_picks_on_selected_games": {},
+    "authenticated_cfbd_slate_game_count": 53,
+    "earliest_kickoff_utc": "2026-08-29T16:00:00+00:00",
+    "latest_kickoff_utc": "2026-09-12T23:30:00+00:00",
+    "all_games_before_kickoff_at_validation": true,
+    "margin_sign_check": "passed",
+    "precision_check": "passed"
+  },
+  "games": [
+    {
+      "game_id": 401856766,
+      "provider_week": 1,
+      "away_team": "North Carolina",
+      "home_team": "TCU",
+      "kickoff_utc": "2026-08-29T16:00:00.000Z",
+      "neutral_site": true,
+      "tdnet_pred_home_margin": "9.740370362697526",
+      "cfbd_pick_away_minus_home": "-9.740370362697526",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401864494,
+      "provider_week": 1,
+      "away_team": "San José State",
+      "home_team": "USC",
+      "kickoff_utc": "2026-08-29T19:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "22.675789432410422",
+      "cfbd_pick_away_minus_home": "-22.675789432410422",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858202,
+      "provider_week": 1,
+      "away_team": "NC State",
+      "home_team": "Virginia",
+      "kickoff_utc": "2026-08-29T19:30:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "1.6872995137411528",
+      "cfbd_pick_away_minus_home": "-1.6872995137411528",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401864577,
+      "provider_week": 1,
+      "away_team": "Jacksonville State",
+      "home_team": "North Dakota State",
+      "kickoff_utc": "2026-08-29T21:30:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "0.47649728433810573",
+      "cfbd_pick_away_minus_home": "-0.47649728433810573",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401866408,
+      "provider_week": 1,
+      "away_team": "Sacramento State",
+      "home_team": "Eastern Michigan",
+      "kickoff_utc": "2026-08-29T22:30:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "1.9519969301400808",
+      "cfbd_pick_away_minus_home": "-1.9519969301400808",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401864570,
+      "provider_week": 1,
+      "away_team": "New Mexico State",
+      "home_team": "Florida State",
+      "kickoff_utc": "2026-08-29T23:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "20.12082998029924",
+      "cfbd_pick_away_minus_home": "-20.12082998029924",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858201,
+      "provider_week": 1,
+      "away_team": "Hawai'i",
+      "home_team": "Stanford",
+      "kickoff_utc": "2026-08-29T23:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "1.0449361946930489",
+      "cfbd_pick_away_minus_home": "-1.0449361946930489",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401862693,
+      "provider_week": 1,
+      "away_team": "Memphis",
+      "home_team": "UNLV",
+      "kickoff_utc": "2026-08-30T02:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "3.9832301854181487",
+      "cfbd_pick_away_minus_home": "-3.9832301854181487",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858423,
+      "provider_week": 1,
+      "away_team": "Massachusetts",
+      "home_team": "Rutgers",
+      "kickoff_utc": "2026-09-03T22:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "19.538162124743195",
+      "cfbd_pick_away_minus_home": "-19.538162124743195",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858204,
+      "provider_week": 1,
+      "away_team": "Akron",
+      "home_team": "Wake Forest",
+      "kickoff_utc": "2026-09-03T23:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "12.517779257275173",
+      "cfbd_pick_away_minus_home": "-12.517779257275173",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401856776,
+      "provider_week": 1,
+      "away_team": "Colorado",
+      "home_team": "Georgia Tech",
+      "kickoff_utc": "2026-09-04T00:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "11.8098571360558",
+      "cfbd_pick_away_minus_home": "-11.8098571360558",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858424,
+      "provider_week": 1,
+      "away_team": "UAB",
+      "home_team": "Illinois",
+      "kickoff_utc": "2026-09-04T01:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "15.736007906409318",
+      "cfbd_pick_away_minus_home": "-15.736007906409318",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401864495,
+      "provider_week": 1,
+      "away_team": "San José State",
+      "home_team": "Eastern Michigan",
+      "kickoff_utc": "2026-09-04T22:30:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "4.570254798480117",
+      "cfbd_pick_away_minus_home": "-4.570254798480117",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401856664,
+      "provider_week": 1,
+      "away_team": "UTEP",
+      "home_team": "Oklahoma",
+      "kickoff_utc": "2026-09-05T00:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "23.798762465537024",
+      "cfbd_pick_away_minus_home": "-23.798762465537024",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858429,
+      "provider_week": 1,
+      "away_team": "Toledo",
+      "home_team": "Michigan State",
+      "kickoff_utc": "2026-09-05T00:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "-2.148409890251508",
+      "cfbd_pick_away_minus_home": "2.148409890251508",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858206,
+      "provider_week": 1,
+      "away_team": "Miami",
+      "home_team": "Stanford",
+      "kickoff_utc": "2026-09-05T01:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "-12.510562422487924",
+      "cfbd_pick_away_minus_home": "12.510562422487924",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858436,
+      "provider_week": 1,
+      "away_team": "Fresno State",
+      "home_team": "USC",
+      "kickoff_utc": "2026-09-05T01:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "14.484929454866993",
+      "cfbd_pick_away_minus_home": "-14.484929454866993",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401856667,
+      "provider_week": 1,
+      "away_team": "Texas State",
+      "home_team": "Texas",
+      "kickoff_utc": "2026-09-05T19:30:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "10.218510390341732",
+      "cfbd_pick_away_minus_home": "-10.218510390341732",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401856637,
+      "provider_week": 1,
+      "away_team": "Florida Atlantic",
+      "home_team": "Florida",
+      "kickoff_utc": "2026-09-05T23:45:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "13.096712444546963",
+      "cfbd_pick_away_minus_home": "-13.096712444546963",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858433,
+      "provider_week": 1,
+      "away_team": "Boise State",
+      "home_team": "Oregon",
+      "kickoff_utc": "2026-09-05T19:30:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "17.563861508329435",
+      "cfbd_pick_away_minus_home": "-17.563861508329435",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401856780,
+      "provider_week": 1,
+      "away_team": "Coastal Carolina",
+      "home_team": "West Virginia",
+      "kickoff_utc": "2026-09-05T16:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "8.74615998016511",
+      "cfbd_pick_away_minus_home": "-8.74615998016511",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401856634,
+      "provider_week": 1,
+      "away_team": "East Carolina",
+      "home_team": "Alabama",
+      "kickoff_utc": "2026-09-05T16:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "11.954877327355224",
+      "cfbd_pick_away_minus_home": "-11.954877327355224",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401856778,
+      "provider_week": 1,
+      "away_team": "Oregon State",
+      "home_team": "Houston",
+      "kickoff_utc": "2026-09-05T16:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "11.467592452962583",
+      "cfbd_pick_away_minus_home": "-11.467592452962583",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858207,
+      "provider_week": 1,
+      "away_team": "Miami (OH)",
+      "home_team": "Pittsburgh",
+      "kickoff_utc": "2026-09-05T16:30:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "9.822728916910828",
+      "cfbd_pick_away_minus_home": "-9.822728916910828",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858430,
+      "provider_week": 1,
+      "away_team": "Ohio",
+      "home_team": "Nebraska",
+      "kickoff_utc": "2026-09-05T16:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "7.483009143268997",
+      "cfbd_pick_away_minus_home": "-7.483009143268997",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858425,
+      "provider_week": 1,
+      "away_team": "North Texas",
+      "home_team": "Indiana",
+      "kickoff_utc": "2026-09-05T16:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "13.780777820476082",
+      "cfbd_pick_away_minus_home": "-13.780777820476082",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401869960,
+      "provider_week": 1,
+      "away_team": "Liberty",
+      "home_team": "James Madison",
+      "kickoff_utc": "2026-09-05T16:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "13.13724793992177",
+      "cfbd_pick_away_minus_home": "-13.13724793992177",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858432,
+      "provider_week": 1,
+      "away_team": "Ball State",
+      "home_team": "Ohio State",
+      "kickoff_utc": "2026-09-05T16:30:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "26.84465619359188",
+      "cfbd_pick_away_minus_home": "-26.84465619359188",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401856665,
+      "provider_week": 1,
+      "away_team": "Kent State",
+      "home_team": "South Carolina",
+      "kickoff_utc": "2026-09-05T16:45:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "14.885816182088085",
+      "cfbd_pick_away_minus_home": "-14.885816182088085",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401870763,
+      "provider_week": 1,
+      "away_team": "Sam Houston",
+      "home_team": "Troy",
+      "kickoff_utc": "2026-09-05T23:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "11.564253462864908",
+      "cfbd_pick_away_minus_home": "-11.564253462864908",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858209,
+      "provider_week": 1,
+      "away_team": "Tulane",
+      "home_team": "Duke",
+      "kickoff_utc": "2026-09-05T19:30:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "3.2592899113780542",
+      "cfbd_pick_away_minus_home": "-3.2592899113780542",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401856777,
+      "provider_week": 1,
+      "away_team": "Boston College",
+      "home_team": "Cincinnati",
+      "kickoff_utc": "2026-09-05T19:30:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "6.691583886955303",
+      "cfbd_pick_away_minus_home": "-6.691583886955303",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401856636,
+      "provider_week": 1,
+      "away_team": "Baylor",
+      "home_team": "Auburn",
+      "kickoff_utc": "2026-09-05T19:30:00.000Z",
+      "neutral_site": true,
+      "tdnet_pred_home_margin": "7.359778643240651",
+      "cfbd_pick_away_minus_home": "-7.359778643240651",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858434,
+      "provider_week": 1,
+      "away_team": "Marshall",
+      "home_team": "Penn State",
+      "kickoff_utc": "2026-09-05T19:30:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "8.517867848663817",
+      "cfbd_pick_away_minus_home": "-8.517867848663817",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401856772,
+      "provider_week": 1,
+      "away_team": "Oklahoma State",
+      "home_team": "Tulsa",
+      "kickoff_utc": "2026-09-05T19:45:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "9.07319810321518",
+      "cfbd_pick_away_minus_home": "-9.07319810321518",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858426,
+      "provider_week": 1,
+      "away_team": "Northern Illinois",
+      "home_team": "Iowa",
+      "kickoff_utc": "2026-09-05T20:15:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "19.427538029976777",
+      "cfbd_pick_away_minus_home": "-19.427538029976777",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401860878,
+      "provider_week": 1,
+      "away_team": "Wyoming",
+      "home_team": "Colorado State",
+      "kickoff_utc": "2026-09-05T22:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "3.9913076112975108",
+      "cfbd_pick_away_minus_home": "-3.9913076112975108",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401862695,
+      "provider_week": 1,
+      "away_team": "Arkansas State",
+      "home_team": "Memphis",
+      "kickoff_utc": "2026-09-05T23:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "8.79245224052587",
+      "cfbd_pick_away_minus_home": "-8.79245224052587",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401856668,
+      "provider_week": 1,
+      "away_team": "Missouri State",
+      "home_team": "Texas A&M",
+      "kickoff_utc": "2026-09-05T23:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "18.49361380692826",
+      "cfbd_pick_away_minus_home": "-18.49361380692826",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401862699,
+      "provider_week": 1,
+      "away_team": "Florida International",
+      "home_team": "South Florida",
+      "kickoff_utc": "2026-09-05T23:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "13.866309218258474",
+      "cfbd_pick_away_minus_home": "-13.866309218258474",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401856662,
+      "provider_week": 1,
+      "away_team": "UL Monroe",
+      "home_team": "Mississippi State",
+      "kickoff_utc": "2026-09-05T23:30:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "12.79398154479862",
+      "cfbd_pick_away_minus_home": "-12.79398154479862",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401856660,
+      "provider_week": 1,
+      "away_team": "Clemson",
+      "home_team": "LSU",
+      "kickoff_utc": "2026-09-05T23:30:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "3.096832901464024",
+      "cfbd_pick_away_minus_home": "-3.096832901464024",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858428,
+      "provider_week": 1,
+      "away_team": "Western Michigan",
+      "home_team": "Michigan",
+      "kickoff_utc": "2026-09-05T23:30:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "14.351840457816657",
+      "cfbd_pick_away_minus_home": "-14.351840457816657",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401864498,
+      "provider_week": 1,
+      "away_team": "Central Michigan",
+      "home_team": "New Mexico",
+      "kickoff_utc": "2026-09-06T02:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "6.086699011566953",
+      "cfbd_pick_away_minus_home": "-6.086699011566953",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401864497,
+      "provider_week": 1,
+      "away_team": "UNLV",
+      "home_team": "Hawai'i",
+      "kickoff_utc": "2026-09-06T02:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "-3.6736129882384074",
+      "cfbd_pick_away_minus_home": "3.6736129882384074",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401864432,
+      "provider_week": 1,
+      "away_team": "Western Kentucky",
+      "home_team": "Nevada",
+      "kickoff_utc": "2026-09-06T02:30:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "-7.6342531310339705",
+      "cfbd_pick_away_minus_home": "7.6342531310339705",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858210,
+      "provider_week": 1,
+      "away_team": "UCLA",
+      "home_team": "California",
+      "kickoff_utc": "2026-09-06T02:30:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "6.271914374879258",
+      "cfbd_pick_away_minus_home": "-6.271914374879258",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858437,
+      "provider_week": 1,
+      "away_team": "Washington State",
+      "home_team": "Washington",
+      "kickoff_utc": "2026-09-06T20:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "10.188578804872124",
+      "cfbd_pick_away_minus_home": "-10.188578804872124",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401856661,
+      "provider_week": 1,
+      "away_team": "Louisville",
+      "home_team": "Ole Miss",
+      "kickoff_utc": "2026-09-06T23:30:00.000Z",
+      "neutral_site": true,
+      "tdnet_pred_home_margin": "10.899986792192555",
+      "cfbd_pick_away_minus_home": "-10.899986792192555",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858438,
+      "provider_week": 1,
+      "away_team": "Notre Dame",
+      "home_team": "Wisconsin",
+      "kickoff_utc": "2026-09-06T23:30:00.000Z",
+      "neutral_site": true,
+      "tdnet_pred_home_margin": "-20.487936067256722",
+      "cfbd_pick_away_minus_home": "20.487936067256722",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401858212,
+      "provider_week": 1,
+      "away_team": "SMU",
+      "home_team": "Florida State",
+      "kickoff_utc": "2026-09-07T23:30:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "3.3625075496964416",
+      "cfbd_pick_away_minus_home": "-3.3625075496964416",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401856679,
+      "provider_week": 2,
+      "away_team": "Oklahoma",
+      "home_team": "Michigan",
+      "kickoff_utc": "2026-09-12T16:00:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "8.987017886130904",
+      "cfbd_pick_away_minus_home": "-8.987017886130904",
+      "existing_cfbd_pick": null
+    },
+    {
+      "game_id": 401856682,
+      "provider_week": 2,
+      "away_team": "Ohio State",
+      "home_team": "Texas",
+      "kickoff_utc": "2026-09-12T23:30:00.000Z",
+      "neutral_site": false,
+      "tdnet_pred_home_margin": "6.0412685844273915",
+      "cfbd_pick_away_minus_home": "-6.0412685844273915",
+      "existing_cfbd_pick": null
+    }
+  ],
+  "artifacts": {
+    "csv": {
+      "path": "/users/tburton2/Repos/TDNet/tools/cfbd_pickem/audit/2026_current_slate/2026_current_slate_tdnet_corrected_f6_margin_consensus_cfbd_submission.csv",
+      "sha256": "cbe30927484cfbbb0a261159d7a989b8b509c62894bd194f958ec3554d26342b"
+    },
+    "api_payload": {
+      "path": "/users/tburton2/Repos/TDNet/tools/cfbd_pickem/audit/2026_current_slate/2026_current_slate_tdnet_corrected_f6_margin_consensus_cfbd_submission.json",
+      "sha256": "c84f9a41208dc060f658ad3ac8a615ae5e672ea31b2ea04ce7f78da706308779"
+    },
+    "cfbd_contest_games": {
+      "path": "/users/tburton2/Repos/TDNet/tools/cfbd_pickem/audit/2026_current_slate/2026_current_slate_tdnet_corrected_f6_margin_consensus_cfbd_contest_games.json",
+      "sha256": "ed143a8426748c654abe8601ba711ab226024d76f55c240d504d7db237fdea50"
+    },
+    "input_cfbd_slate": {
+      "path": "/users/tburton2/Repos/TDNet/tools/cfbd_pickem/audit/2026_current_slate/cfbd_contest_slate.json",
+      "sha256": "ddf694729087c05f8302096d3253934208fa3ca53fb4cf205dd638818eaca9c4"
+    }
+  },
+  "submission": {
+    "submitted_at_utc": "2026-08-29T00:00:02.500354+00:00",
+    "endpoint": "https://predictionsapi.collegefootballdata.com/api/picks",
+    "payload_sha256": "c84f9a41208dc060f658ad3ac8a615ae5e672ea31b2ea04ce7f78da706308779",
+    "post_http_status": 200,
+    "post_response": null,
+    "readback_http_status": 200,
+    "readback_verified": true,
+    "readback_mismatches": {},
+    "submission_id": null,
+    "api_key_fingerprint": "61d2b56d86db478b",
+    "entry_name": "TDNet corrected-F6 margin consensus",
+    "response_record_path": "/users/tburton2/Repos/TDNet/tools/cfbd_pickem/audit/2026_current_slate/2026_current_slate_tdnet_corrected_f6_margin_consensus_cfbd_submission_response.json",
+    "response_record_sha256": "797d6af728b5ac087695592490b74c754b9a01155cd29a4dfcfb72fd891318e5"
+  }
+}

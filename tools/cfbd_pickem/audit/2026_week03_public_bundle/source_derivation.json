@@ -1,0 +1,15 @@
+{
+  "authoritative_source": "publication/2026/week_03/pre_game/tables/all_games.csv",
+  "authoritative_source_sha256": "de2f4fd25558eee86efc47276f50a8c4a010547c6c46875d8346237286d41e3c",
+  "derived_submission_source": "tools/cfbd_pickem/audit/2026_week03_public_bundle/week_03_submission_source.csv",
+  "derived_submission_source_sha256": "04a0f24f0a82b4fe78595edf58f56ab6e52276cf58eb0a0712cc0a08ca2a273d",
+  "changes": [
+    {
+      "game_id": 401858230,
+      "field": "pred_winner",
+      "from": "SMU",
+      "to": "Louisville",
+      "reason": "Submission validator requires pred_winner to agree with the sign of the immutable pred_home_margin (+0.03959685786044177). The numeric contest pick was not changed."
+    }
+  ]
+}

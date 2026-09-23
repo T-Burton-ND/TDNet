@@ -13,14 +13,17 @@ from gridiron_ml.td_run.evaluator import TDEval
 from gridiron_ml.td_run.matchups import MatchupBuilder
 from gridiron_ml.td_run.poll_viz import plot_ballot_logo_grid
 
-from .poll_recaps import aggregate_receiving_votes, format_receiving_votes, plot_consensus_poll_table
 from .poll_explainability import (
     build_ap_peer_signal_proxy,
     plot_top25_consensus_spread,
     plot_top25_discrepancy_features,
 )
-from .preseason_states import build_preseason_state_frame
-
+from .poll_recaps import (
+    aggregate_receiving_votes,
+    format_receiving_votes,
+    plot_consensus_poll_table,
+)
+from .preseason_states import build_inseason_state_frame, build_preseason_state_frame
 
 # KNN is a ballot-producing model in the weekly workflow.  Only explicit
 # naive baselines are excluded from the model-produced Top-25 poll.
@@ -51,6 +54,7 @@ def build_frozen_roster_poll(
     reference_poll: pd.DataFrame | None = None,
     reference_label: str = "AP",
     render_figures: bool = True,
+    allow_market_bearing: bool = False,
 ) -> dict[str, pd.DataFrame]:
     """Create one objective-specific ballot per registered model.
 
@@ -62,76 +66,133 @@ def build_frozen_roster_poll(
     inventory = pd.read_csv(inventory_path)
     required = {"checkpoint_path", "fingerprint_path"}
     if not required.issubset(inventory):
-        raise ValueError(f"Frozen roster is missing {sorted(required - set(inventory))}.")
+        raise ValueError(
+            f"Frozen roster is missing {sorted(required - set(inventory))}."
+        )
     ballots = []
     failures = []
     explanation_frame: pd.DataFrame | None = None
     enabled = inventory.loc[
-        inventory.get("use_in_tdnet_poll", True).astype(str).str.lower().isin({"1", "true", "yes", "y"})
+        inventory.get("use_in_tdnet_poll", True)
+        .astype(str)
+        .str.lower()
+        .isin({"1", "true", "yes", "y"})
     ].copy()
-    family = enabled.get("model_family", enabled.get("family", pd.Series("", index=enabled.index))).astype(str).str.lower()
+    family = (
+        enabled.get(
+            "model_family", enabled.get("family", pd.Series("", index=enabled.index))
+        )
+        .astype(str)
+        .str.lower()
+    )
     enabled = enabled.loc[~family.isin(COMPARATIVE_BASELINE_FAMILIES)].copy()
-    if "feature_config" in enabled:
-        enabled = enabled.loc[~enabled["feature_config"].astype(str).isin(INVALID_POLL_FEATURE_CONFIGS)].copy()
+    if "feature_config" in enabled and not allow_market_bearing:
+        enabled = enabled.loc[
+            ~enabled["feature_config"].astype(str).isin(INVALID_POLL_FEATURE_CONFIGS)
+        ].copy()
     if "model_id" in enabled:
-        enabled = enabled.loc[~enabled["model_id"].astype(str).isin(POLL_EXCLUDED_MODEL_IDS)].copy()
+        enabled = enabled.loc[
+            ~enabled["model_id"].astype(str).isin(POLL_EXCLUDED_MODEL_IDS)
+        ].copy()
     poll_objective = str(objective).strip().lower() if objective is not None else "all"
     if poll_objective not in {"all", "winner", "margin"}:
         raise ValueError("objective must be one of: winner, margin, or None.")
     if poll_objective != "all":
         if "objective" not in enabled:
-            raise ValueError("Objective-specific polling requires an objective column in the inventory.")
-        enabled = enabled.loc[enabled["objective"].astype(str).str.lower().eq(poll_objective)].copy()
+            raise ValueError(
+                "Objective-specific polling requires an objective column in the inventory."
+            )
+        enabled = enabled.loc[
+            enabled["objective"].astype(str).str.lower().eq(poll_objective)
+        ].copy()
     if enabled.empty:
-        raise ValueError(f"No enabled frozen-roster models exist for objective={poll_objective!r}.")
+        raise ValueError(
+            f"No enabled frozen-roster models exist for objective={poll_objective!r}."
+        )
     # Group by fingerprint so the expensive preseason-state construction and
     # matchup matrix are done once per fingerprint, while every checkpoint in
     # that group still contributes its own ballot.
-    for fingerprint_path, group in enabled.groupby("fingerprint_path", dropna=False, sort=True):
+    for fingerprint_path, group in enabled.groupby(
+        "fingerprint_path", dropna=False, sort=True
+    ):
         try:
             fp = Path(str(fingerprint_path))
             if not fp.is_absolute():
                 fp = root / fp
             frame = pd.read_parquet(fp)
             if int(season) == 2026:
-                state = build_preseason_state_frame(frame, season=season, project_root=root)
+                state = (
+                    build_preseason_state_frame(frame, season=season, project_root=root)
+                    if int(week) == 0
+                    else build_inseason_state_frame(
+                        frame,
+                        season=season,
+                        week=week,
+                        project_root=root,
+                    )
+                )
                 keep = ~(
                     pd.to_numeric(frame["keys_season"], errors="coerce").eq(season)
-                    & pd.to_numeric(frame["keys_week"], errors="coerce").eq(0)
                 )
                 shared = [column for column in frame if column in state]
-                frame = pd.concat([frame.loc[keep], state[shared]], ignore_index=True, sort=False)
+                frame = pd.concat(
+                    [frame.loc[keep], state[shared]], ignore_index=True, sort=False
+                )
             # The wide margin roster uses F6. Retain only the public-week team
             # state for a descriptive, non-model-mutating graphic.
-            if str(group.get("feature_config", pd.Series("", index=group.index)).iloc[0]) == "F6":
+            if (
+                str(
+                    group.get("feature_config", pd.Series("", index=group.index)).iloc[
+                        0
+                    ]
+                )
+                == "F6"
+            ):
                 if int(season) == 2026:
                     explanation_frame = state.copy()
                 else:
-                    is_public_week = (
-                        pd.to_numeric(frame["keys_season"], errors="coerce").eq(int(season))
-                        & pd.to_numeric(frame["keys_week"], errors="coerce").eq(int(week))
-                    )
+                    is_public_week = pd.to_numeric(
+                        frame["keys_season"], errors="coerce"
+                    ).eq(int(season)) & pd.to_numeric(
+                        frame["keys_week"], errors="coerce"
+                    ).eq(int(week))
                     explanation_frame = frame.loc[is_public_week].copy()
             models = []
             for _, row in group.iterrows():
                 checkpoint = Path(str(row["checkpoint_path"]))
                 if not checkpoint.is_absolute():
                     checkpoint = root / checkpoint
-                label = str(row.get("final_model_name", row.get("model_name", row.get("concrete_model_type", "model"))))
+                label = str(
+                    row.get(
+                        "final_model_name",
+                        row.get("model_name", row.get("concrete_model_type", "model")),
+                    )
+                )
                 model = load_model_checkpoint(checkpoint)
                 model.model_name = label
                 models.append(model)
             evaluator = TDEval(
-                config={"eval": {"artifact_root": str(Path(output_dir) / "_private_eval")}},
+                config={
+                    "eval": {"artifact_root": str(Path(output_dir) / "_private_eval")}
+                },
                 fingerprints=StaticFrameFingerprints(frame),
                 matchup_builder=MatchupBuilder(representation="unit_matchup"),
                 model=models[0],
             )
-            evaluator.poll(models=models, season=season, week=week, top_n=top_n, average_scope="season")
+            evaluator.poll(
+                models=models,
+                season=season,
+                week=week,
+                top_n=top_n,
+                average_scope="season",
+            )
             ballots.append(evaluator.poll_ballots_.copy())
             failures.extend(getattr(evaluator, "poll_model_failures_", []))
         except Exception as exc:
-            failures.extend({"model": str(row.get("final_model_name", "model")), "reason": str(exc)} for _, row in group.iterrows())
+            failures.extend(
+                {"model": str(row.get("final_model_name", "model")), "reason": str(exc)}
+                for _, row in group.iterrows()
+            )
     if not ballots:
         reasons = "; ".join(
             f"{item.get('model', 'model')}: {item.get('reason', 'unknown failure')}"
@@ -146,12 +207,18 @@ def build_frozen_roster_poll(
     poll = (
         ballots.groupby("keys_team", as_index=False)
         .agg(
-            poll_points=("poll_points", "sum"), ballots_seen=("ballot_model", "nunique"),
-            top25_votes=("top25_vote", "sum"), first_place_votes=("first_place_vote", "sum"),
-            average_rank=("ballot_rank", "mean"), best_rank=("ballot_rank", "min"),
+            poll_points=("poll_points", "sum"),
+            ballots_seen=("ballot_model", "nunique"),
+            top25_votes=("top25_vote", "sum"),
+            first_place_votes=("first_place_vote", "sum"),
+            average_rank=("ballot_rank", "mean"),
+            best_rank=("ballot_rank", "min"),
             worst_rank=("ballot_rank", "max"),
         )
-        .sort_values(["poll_points", "average_rank", "best_rank", "keys_team"], ascending=[False, True, True, True])
+        .sort_values(
+            ["poll_points", "average_rank", "best_rank", "keys_team"],
+            ascending=[False, True, True, True],
+        )
         .reset_index(drop=True)
     )
     poll.insert(0, "rank", np.arange(1, len(poll) + 1))
@@ -176,25 +243,45 @@ def build_frozen_roster_poll(
     pd.DataFrame(failures).to_csv(output / "tdnet_poll_model_failures.csv", index=False)
     if render_figures:
         plot_consensus_poll_table(
-            poll, output / "tdnet_top25.png", title=f"{season} Week {week}: TDNet {poll_objective.title()}-Objective Top 25",
+            poll,
+            output / "tdnet_top25.png",
+            title=f"{season} Week {week}: TDNet {poll_objective.title()}-Objective Top 25",
             receiving_votes=receiving_text,
-            logo_dir=logo_dir, reference_label=reference_label,
+            logo_dir=logo_dir,
+            reference_label=reference_label,
         )
         plot_ballot_logo_grid(
-            ballots, output / "tdnet_model_ballots.png", top_n=top_n, logo_dir=logo_dir,
+            ballots,
+            output / "tdnet_model_ballots.png",
+            top_n=top_n,
+            logo_dir=logo_dir,
             title=f"{season} Week {week}: TDNet {poll_objective.title()}-Objective Model Ballots",
         )
         plot_top25_consensus_spread(
-            poll, ballots, output / "top25_consensus_spread.png",
-            reference_poll=reference_poll, reference_label=reference_label,
+            poll,
+            ballots,
+            output / "top25_consensus_spread.png",
+            reference_poll=reference_poll,
+            reference_label=reference_label,
             title=f"{season} Week {week}: TDNet Model Ballot Spread",
         )
         metadata_path = root / "docs/publication_2026/FINGERPRINT_FEATURE_MATRIX.csv"
-        if explanation_frame is not None and reference_poll is not None and metadata_path.exists():
+        if (
+            explanation_frame is not None
+            and reference_poll is not None
+            and metadata_path.exists()
+        ):
             signals = build_ap_peer_signal_proxy(
-                poll, explanation_frame, pd.read_csv(metadata_path), reference_poll=reference_poll,
+                poll,
+                explanation_frame,
+                pd.read_csv(metadata_path),
+                reference_poll=reference_poll,
             )
             if not signals.empty:
-                signals.to_csv(output / "top25_discrepancy_feature_signals.csv", index=False)
-                plot_top25_discrepancy_features(signals, output / "top25_discrepancy_features.png")
+                signals.to_csv(
+                    output / "top25_discrepancy_feature_signals.csv", index=False
+                )
+                plot_top25_discrepancy_features(
+                    signals, output / "top25_discrepancy_features.png"
+                )
     return {"poll": poll, "ballots": ballots, "failures": pd.DataFrame(failures)}

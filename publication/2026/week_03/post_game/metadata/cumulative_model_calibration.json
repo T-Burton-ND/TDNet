@@ -1,0 +1,96 @@
+{
+  "completed_week": 3,
+  "definition": {
+    "bin_rationale": "Keep roughly 30 games per point while growing toward the historical ten-bin format.",
+    "bins_per_model": "adaptive: max(3, min(10, completed games // 30))",
+    "density": "individual model predicted home-win probability distribution",
+    "x": "mean predicted home-win probability within equal-count model-specific bins",
+    "y": "observed home-win rate within the same bins"
+  },
+  "rosters": {
+    "margin_wide": {
+      "bins_per_model": 5,
+      "figure": "figures/margin_wide_cumulative_model_calibration.png",
+      "fingerprints": [
+        "F6"
+      ],
+      "games_per_model_max": 153,
+      "games_per_model_min": 153,
+      "label": "Margin-wide roster",
+      "models": 33,
+      "omitted_fingerprints": [],
+      "readable_detail_figures": [
+        "figures/calibration_by_model_group/linear_calibration.png",
+        "figures/calibration_by_model_group/neighbors_and_kernels_calibration.png",
+        "figures/calibration_by_model_group/trees_and_temporal_calibration.png",
+        "figures/calibration_by_model_group/ensembles_and_other_calibration.png"
+      ],
+      "source": "tables/margin_wide_model_game_results.csv",
+      "table": "tables/margin_wide_cumulative_model_calibration.csv"
+    },
+    "scientific_f0_f6": {
+      "bins_per_model": 5,
+      "figure": "scientific/scientific_cumulative_model_calibration.png",
+      "fingerprints": [
+        "F0",
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5",
+        "F6"
+      ],
+      "games_per_model_max": 153,
+      "games_per_model_min": 153,
+      "label": "Scientific F0\u2013F6 roster",
+      "models": 42,
+      "omitted_fingerprints": [],
+      "readable_detail_figures": [
+        "scientific/calibration_by_fingerprint/f0_calibration.png",
+        "scientific/calibration_by_fingerprint/f1_calibration.png",
+        "scientific/calibration_by_fingerprint/f2_calibration.png",
+        "scientific/calibration_by_fingerprint/f3_calibration.png",
+        "scientific/calibration_by_fingerprint/f4_calibration.png",
+        "scientific/calibration_by_fingerprint/f5_calibration.png",
+        "scientific/calibration_by_fingerprint/f6_calibration.png"
+      ],
+      "source": "scientific/scientific_model_game_results.csv",
+      "table": "scientific/scientific_cumulative_model_calibration.csv"
+    },
+    "scientific_full_f0_f8": {
+      "bins_per_model": 5,
+      "figure": "scientific/full_f0_f8/scientific_cumulative_model_calibration.png",
+      "fingerprints": [
+        "F0",
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5",
+        "F6",
+        "F8"
+      ],
+      "games_per_model_max": 153,
+      "games_per_model_min": 153,
+      "label": "Full scientific F0\u2013F8 roster (F7 omitted)",
+      "models": 48,
+      "omitted_fingerprints": [
+        "F7"
+      ],
+      "readable_detail_figures": [
+        "scientific/full_f0_f8/calibration_by_fingerprint/f0_calibration.png",
+        "scientific/full_f0_f8/calibration_by_fingerprint/f1_calibration.png",
+        "scientific/full_f0_f8/calibration_by_fingerprint/f2_calibration.png",
+        "scientific/full_f0_f8/calibration_by_fingerprint/f3_calibration.png",
+        "scientific/full_f0_f8/calibration_by_fingerprint/f4_calibration.png",
+        "scientific/full_f0_f8/calibration_by_fingerprint/f5_calibration.png",
+        "scientific/full_f0_f8/calibration_by_fingerprint/f6_calibration.png",
+        "scientific/full_f0_f8/calibration_by_fingerprint/f8_calibration.png"
+      ],
+      "source": "scientific/full_f0_f8/scientific_model_game_results.csv",
+      "table": "scientific/full_f0_f8/scientific_cumulative_model_calibration.csv"
+    }
+  },
+  "schema": "tdnet-cumulative-individual-model-calibration-v1",
+  "season": 2026
+}

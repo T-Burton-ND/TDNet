@@ -57,11 +57,12 @@ def select_week_state(
 
 def build_matchup_signals(
     games: pd.DataFrame,
-    tdnet_poll: pd.DataFrame,
+    ranking_poll: pd.DataFrame,
     feature_frame: pd.DataFrame,
     *,
     season: int,
     week: int,
+    rank_source: str = "tdnet",
     signals_per_game: int = 3,
     project_root: str | Path | None = None,
 ) -> pd.DataFrame:
@@ -72,7 +73,9 @@ def build_matchup_signals(
     numeric = state[[feature for feature, _, _, _ in available]].apply(pd.to_numeric, errors="coerce")
     scale = numeric.std(ddof=0).replace(0, np.nan)
     standardized = (numeric - numeric.median()) / scale
-    featured, sickos = select_featured_games(games, tdnet_poll)
+    featured, sickos = select_featured_games(
+        games, ranking_poll, rank_source=rank_source
+    )
     selected = [(f"Featured {index}", game) for index, game in enumerate(featured, start=1)]
     if sickos is not None:
         selected.append(("Sickos game", sickos))
@@ -200,7 +203,8 @@ def build_weekly_analysis(
             title=f"TDNet {season} Week {week}: Disparity Signals vs AP Peers",
         )
     matchup = build_matchup_signals(
-        games, tdnet, features, season=season, week=week, project_root=project_root
+        games, ap, features, season=season, week=week,
+        rank_source="ap", project_root=project_root,
     )
     matchup.to_csv(tables / "games_of_the_week_key_stats.csv", index=False)
     plot_matchup_signals(matchup, figures / "games_of_the_week_key_stats.png", season=season, week=week)
@@ -213,7 +217,10 @@ def build_weekly_analysis(
         "ap_poll_sha256": sha256_file(ap_poll_path),
         "fingerprint_sha256": sha256_file(fingerprint_path),
         "feature_metadata_sha256": sha256_file(feature_metadata_path),
-        "matchup_selection": "same three featured games plus Sickos game as prediction social card",
+        "matchup_selection": (
+            "three closest games involving an AP Top 25 team, displayed with "
+            "ranked-vs-ranked games first, plus the closest fully unranked Sickos game"
+        ),
         "matchup_signal_policy": "three largest standardized differences from fixed interpretable F6 feature shortlist",
         "disparity_policy": "descriptive AP-rank-peer proxy; not SHAP or causal attribution",
     }

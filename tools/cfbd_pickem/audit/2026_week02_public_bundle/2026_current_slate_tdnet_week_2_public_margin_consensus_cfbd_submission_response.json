@@ -1,0 +1,13 @@
+{
+  "submitted_at_utc": "2026-09-10T16:48:33.795878+00:00",
+  "endpoint": "https://predictionsapi.collegefootballdata.com/api/picks",
+  "payload_sha256": "529b6a0d245d41e309f8c49c1a151288481aa504442aa908cd6131dfa2234f93",
+  "post_http_status": 200,
+  "post_response": null,
+  "readback_http_status": 200,
+  "readback_verified": true,
+  "readback_mismatches": {},
+  "submission_id": null,
+  "api_key_fingerprint": "61d2b56d86db478b",
+  "entry_name": "TDNet Week 2 public margin consensus"
+}

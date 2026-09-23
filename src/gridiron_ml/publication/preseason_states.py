@@ -93,6 +93,67 @@ def build_preseason_state_frame(
     return target_rows.reset_index(drop=True)
 
 
+def build_inseason_state_frame(
+    frame: pd.DataFrame,
+    *,
+    season: int,
+    week: int,
+    project_root: str | Path | None = None,
+) -> pd.DataFrame:
+    """Blend a postgame team snapshot with its frozen preseason fallback.
+
+    Only teams that have completed a game should replace performance features
+    with current-season observations.  Teams that have not played, and
+    individual statistics omitted by a provider, retain the auditable Week-0
+    prior.  Current graph features remain valid for every team because they
+    are built solely from games completed through ``week``.
+    """
+    if int(week) < 1:
+        raise ValueError("In-season state requires week >= 1.")
+    required = {"keys_season", "keys_week", "keys_team"}
+    if not required.issubset(frame):
+        raise ValueError(f"Fingerprint frame lacks {sorted(required - set(frame))}")
+
+    preseason = build_preseason_state_frame(
+        frame,
+        season=int(season),
+        project_root=project_root,
+    )
+    current = frame.loc[
+        pd.to_numeric(frame["keys_season"], errors="coerce").eq(int(season))
+        & pd.to_numeric(frame["keys_week"], errors="coerce").eq(int(week))
+    ].copy()
+    if current.empty:
+        raise ValueError(f"No fingerprint rows exist for season {season}, week {week}.")
+    current = current.sort_values("keys_team", kind="stable").drop_duplicates(
+        "keys_team", keep="last"
+    )
+    prior = preseason.sort_values("keys_team", kind="stable").drop_duplicates(
+        "keys_team", keep="last"
+    ).set_index("keys_team")
+
+    feature_columns = [
+        column
+        for column in current.columns
+        if column in prior.columns
+        and is_feature_column(column)
+        and not str(column).startswith(("next_", "keys_", "fp_", "y_", "market_"))
+    ]
+    current["inseason_preseason_fallback_count"] = 0
+    team_keys = current["keys_team"].astype(str)
+    for column in feature_columns:
+        fallback = team_keys.map(prior[column])
+        missing = current[column].isna() & fallback.notna()
+        if missing.any():
+            current.loc[missing, column] = fallback.loc[missing].to_numpy()
+            current.loc[missing, "inseason_preseason_fallback_count"] += 1
+    current["inseason_state_week"] = int(week)
+    current["inseason_completed_games"] = pd.to_numeric(
+        current.get("games_played"), errors="coerce"
+    ).fillna(0)
+    return current.reset_index(drop=True)
+
+
 def _overlay_raw_preseason_context(
     target_rows: pd.DataFrame, *, season: int, project_root: Path
 ) -> pd.DataFrame:

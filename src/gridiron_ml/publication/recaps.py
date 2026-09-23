@@ -456,7 +456,14 @@ def plot_sunday_recap_table(
                 color = {"✓": "#DCEFE1", "✗": "#F6DDDA", "P": "#FFF0C7", "—": "#E8E8E8"}[value]
                 cell.set_facecolor(color)
                 cell.set_text_props(weight="bold", ha="center", color="#183321" if value == "✓" else "#702820")
-    footer = "Projected scores combine TDNet's predicted margin with the captured closing total. ATS uses the captured closing home-team spread; pushes and missing lines are excluded from ATS accuracy."
+    if games[["projected_away_points", "projected_home_points"]].notna().all(axis=1).any():
+        projection_note = "Projected scores combine TDNet's predicted margin with the captured closing total."
+    else:
+        projection_note = (
+            "The frozen bundle did not retain closing totals, so the projected column reports "
+            "TDNet's winner and margin instead of a synthetic score."
+        )
+    footer = projection_note + " ATS uses the captured closing home-team spread; pushes and missing lines are excluded from ATS accuracy."
     fig.text(0.5, 0.015, footer, ha="center", fontsize=8.5, color="#555B63")
     if warning_label:
         fig.text(0.5, 0.002, warning_label, ha="center", fontsize=8.2, weight="bold", color="#9F3A38")

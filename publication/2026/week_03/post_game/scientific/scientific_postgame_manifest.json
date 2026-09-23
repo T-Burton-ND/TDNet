@@ -1,5 +1,11 @@
 {
+  "cumulative_through_week": 3,
   "files": {
+    "all_models_png": {
+      "path": "scientific_cumulative_all_models_performance.png",
+      "sha256": "1d44b01415ca4ce8ea78e7f61b85fadb7f454b4da24587e111f746020f102ed5",
+      "size_bytes": 1053227
+    },
     "consensus_results_csv": {
       "path": "scientific_consensus_game_results.csv",
       "sha256": "238b5197048cf8807fa8b2059f967239f8a2d9f55b57c15116b0b750b50b82c6",
@@ -25,6 +31,11 @@
       "sha256": "78b5eea93c74ed5981f7d61eeac46dfee244fe649f6474e1821d252ef8246136",
       "size_bytes": 2979
     },
+    "rolling_csv": {
+      "path": "scientific_rolling_cumulative_performance.csv",
+      "sha256": "4298b867ddc88ead70b6b4ed4481d2c86a2a316c922959900be26e9f65ab897a",
+      "size_bytes": 47344
+    },
     "rolling_cumulative_performance_csv": {
       "path": "scientific_rolling_cumulative_performance.csv",
       "sha256": "c33983c55511309f775cf59d7d57155deb535f0650417b9ad6899b912ee23075",
@@ -34,6 +45,21 @@
       "path": "scientific_rolling_cumulative_roster_performance.png",
       "sha256": "825327a8a6096fb80e53924cc1e719463aa69ecd39b8701fb1264b0224aa9974",
       "size_bytes": 514445
+    },
+    "rolling_png": {
+      "path": "scientific_rolling_cumulative_roster_performance.png",
+      "sha256": "d45fa03008fe0e0403037a2fce978c6d1dac48cc75a8ee00051ed22c9ea6765c",
+      "size_bytes": 499730
+    },
+    "scorecard_csv": {
+      "path": "scientific_cumulative_model_scorecard.csv",
+      "sha256": "c90fa1fd8cbc075e66aa6b31f4ad48e44d55cdd99da98f1f463074af4f7608e8",
+      "size_bytes": 6168
+    },
+    "scorecard_png": {
+      "path": "scientific_cumulative_model_scorecard.png",
+      "sha256": "f04d3e82c345e580b077265c53fa1f12c4433137889647e5e8980098967003d8",
+      "size_bytes": 906131
     }
   },
   "frozen_pregame_predictions": "publication/2026/week_03/pre_game/scientific/scientific_all_game_predictions.csv",
@@ -46,5 +72,6 @@
   "schema": "tdnet-scientific-postgame-evaluation-v1",
   "scientific_model_count": 42,
   "season": 2026,
+  "vegas_baselines_included": true,
   "week": 3
 }

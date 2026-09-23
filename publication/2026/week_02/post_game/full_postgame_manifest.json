@@ -1,0 +1,719 @@
+{
+  "api_refresh": {
+    "automated_status": "pass",
+    "checks": {
+      "rankings_snapshot_exists": true,
+      "schedule_duplicate_game_ids": 0,
+      "schedule_rows": 3679,
+      "snapshot_completeness": {
+        "certification": "weekly_snapshot_certified",
+        "created_at_utc": "2026-09-13T18:31:32.556131+00:00",
+        "endpoint_count": 8,
+        "endpoints": [
+          {
+            "captured_at_utc": "2026-09-13T18:31:32.499074+00:00",
+            "columns": [
+              "id",
+              "season",
+              "week",
+              "season_type",
+              "start_date",
+              "start_time_t_b_d",
+              "completed",
+              "neutral_site",
+              "conference_game",
+              "attendance",
+              "venue_id",
+              "venue",
+              "home_id",
+              "home_team",
+              "home_classification",
+              "home_conference",
+              "home_points",
+              "home_line_scores",
+              "home_postgame_win_probability",
+              "home_pregame_elo",
+              "home_postgame_elo",
+              "away_id",
+              "away_team",
+              "away_classification",
+              "away_conference",
+              "away_points",
+              "away_line_scores",
+              "away_postgame_win_probability",
+              "away_pregame_elo",
+              "away_postgame_elo",
+              "excitement_index",
+              "highlights",
+              "notes",
+              "playoff"
+            ],
+            "endpoint": "games",
+            "error": null,
+            "exists": true,
+            "missing_columns": [],
+            "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/games/2026.parquet",
+            "required_columns": [
+              "id",
+              "season",
+              "week",
+              "start_date",
+              "completed",
+              "home_id",
+              "away_id"
+            ],
+            "required_for_certification": true,
+            "rows": 3679,
+            "sha256": "0be6075db379815ec3b155cc959c7fd56a440e08b25def27e1217c6666a871de",
+            "status": "pass"
+          },
+          {
+            "captured_at_utc": "2026-09-13T18:31:32.506255+00:00",
+            "columns": [
+              "id",
+              "teams",
+              "season",
+              "week"
+            ],
+            "endpoint": "game_team_stats",
+            "error": null,
+            "exists": true,
+            "missing_columns": [],
+            "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/game_team_stats/2026.parquet",
+            "required_columns": [
+              "id",
+              "season",
+              "week",
+              "teams"
+            ],
+            "required_for_certification": true,
+            "rows": 334,
+            "sha256": "729d591212af387a48c5d03b1b37d5b6ba632ee767ed442adef8bda196f261ee",
+            "status": "pass"
+          },
+          {
+            "captured_at_utc": "2026-09-13T18:31:32.520899+00:00",
+            "columns": [
+              "game_id",
+              "season",
+              "season_type",
+              "week",
+              "team",
+              "opponent",
+              "offense",
+              "defense"
+            ],
+            "endpoint": "stats_advanced_game",
+            "error": null,
+            "exists": true,
+            "missing_columns": [],
+            "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/stats_advanced_game/2026.parquet",
+            "required_columns": [
+              "game_id",
+              "season",
+              "week",
+              "team",
+              "opponent"
+            ],
+            "required_for_certification": true,
+            "rows": 668,
+            "sha256": "fee308d893db3ac95bff6fec0a4f7a2dba25e59193b6da044d673b8a3ba273a1",
+            "status": "pass"
+          },
+          {
+            "captured_at_utc": "2026-09-13T18:31:32.534394+00:00",
+            "columns": [
+              "game_id",
+              "season",
+              "season_type",
+              "week",
+              "team",
+              "conference",
+              "opponent",
+              "opponent_conference",
+              "offense",
+              "defense"
+            ],
+            "endpoint": "havoc_game",
+            "error": null,
+            "exists": true,
+            "missing_columns": [],
+            "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/havoc_game/2026.parquet",
+            "required_columns": [
+              "game_id",
+              "season",
+              "week",
+              "team",
+              "opponent"
+            ],
+            "required_for_certification": true,
+            "rows": 656,
+            "sha256": "cfc37d9e56f2eaec66330b8324f21248c801713aef697443171040a2d9df20aa",
+            "status": "pass"
+          },
+          {
+            "captured_at_utc": "2026-09-13T18:31:32.539641+00:00",
+            "columns": [
+              "id",
+              "season",
+              "season_type",
+              "week",
+              "start_date",
+              "home_team_id",
+              "home_team",
+              "home_conference",
+              "home_classification",
+              "home_score",
+              "away_team_id",
+              "away_team",
+              "away_conference",
+              "away_classification",
+              "away_score",
+              "lines"
+            ],
+            "endpoint": "lines",
+            "error": null,
+            "exists": true,
+            "missing_columns": [],
+            "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/lines/2026.parquet",
+            "required_columns": [
+              "id",
+              "season",
+              "week",
+              "lines"
+            ],
+            "required_for_certification": true,
+            "rows": 993,
+            "sha256": "482bb1683633bdd7d777ff9b588c883445aaf45c3741940ec84c5359e0cce544",
+            "status": "pass"
+          },
+          {
+            "captured_at_utc": "2026-09-13T18:31:32.545587+00:00",
+            "columns": [
+              "season",
+              "week",
+              "season_type",
+              "game_id",
+              "home_team",
+              "away_team",
+              "spread",
+              "home_win_probability"
+            ],
+            "endpoint": "pregame_wp",
+            "error": null,
+            "exists": true,
+            "missing_columns": [],
+            "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/pregame_wp/2026.parquet",
+            "required_columns": [
+              "season",
+              "week",
+              "game_id"
+            ],
+            "required_for_certification": true,
+            "rows": 393,
+            "sha256": "c6e3d78e4e446ab8b3b408092cd35341d625be2921def7843a721e3c019dc487",
+            "status": "pass"
+          },
+          {
+            "captured_at_utc": "2026-09-13T18:31:32.548847+00:00",
+            "columns": [
+              "game_id",
+              "season",
+              "week",
+              "season_type",
+              "team",
+              "conference",
+              "opponent",
+              "offense",
+              "defense"
+            ],
+            "endpoint": "ppa_games",
+            "error": null,
+            "exists": true,
+            "missing_columns": [],
+            "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/ppa_games/2026.parquet",
+            "required_columns": [
+              "game_id",
+              "season",
+              "week",
+              "team",
+              "opponent"
+            ],
+            "required_for_certification": true,
+            "rows": 285,
+            "sha256": "366a9049f85b21bc653877887a453bd88982d30f48188ea5ff16c7f26a6b750a",
+            "status": "pass"
+          },
+          {
+            "captured_at_utc": "2026-09-13T18:31:32.553230+00:00",
+            "columns": [
+              "season",
+              "season_type",
+              "week",
+              "polls"
+            ],
+            "endpoint": "rankings",
+            "error": null,
+            "exists": true,
+            "missing_columns": [],
+            "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/rankings/2026.parquet",
+            "required_columns": [],
+            "required_for_certification": false,
+            "rows": 3,
+            "sha256": "9c53ec6c3b7c44773ab86e4c009d745943fb696ef7623dc52cebc0c8531163bd",
+            "status": "pass"
+          }
+        ],
+        "failures": [],
+        "raw_cache_dir": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2",
+        "required_endpoints": [
+          "game_team_stats",
+          "games",
+          "havoc_game",
+          "lines",
+          "ppa_games",
+          "pregame_wp",
+          "stats_advanced_game"
+        ],
+        "season": 2026,
+        "status": "pass"
+      },
+      "target_week_games": 311
+    },
+    "created_at_utc": "2026-09-13T18:31:32.483534+00:00",
+    "failures": [],
+    "fingerprints": {
+      "v1.1": {
+        "columns": 178,
+        "prior_methods": {
+          "conference_mean": 2,
+          "same_team_carry_forward": 136
+        },
+        "rows": 34817,
+        "unfilled_week0_teams": 0,
+        "week0_teams": 138
+      },
+      "v1.2": {
+        "columns": 178,
+        "prior_methods": {
+          "conference_mean": 2,
+          "same_team_carry_forward": 136
+        },
+        "rows": 34817,
+        "unfilled_week0_teams": 0,
+        "week0_teams": 138
+      },
+      "v1.3": {
+        "columns": 178,
+        "prior_methods": {
+          "conference_mean": 2,
+          "same_team_carry_forward": 136
+        },
+        "rows": 34817,
+        "unfilled_week0_teams": 0,
+        "week0_teams": 138
+      },
+      "v1.4": {
+        "columns": 187,
+        "prior_methods": {
+          "conference_mean": 2,
+          "same_team_carry_forward": 136
+        },
+        "rows": 34817,
+        "unfilled_week0_teams": 0,
+        "week0_teams": 138
+      },
+      "v1.5": {
+        "columns": 187,
+        "prior_methods": {
+          "conference_mean": 2,
+          "same_team_carry_forward": 136
+        },
+        "rows": 34817,
+        "unfilled_week0_teams": 0,
+        "week0_teams": 138
+      },
+      "v1.6": {
+        "columns": 178,
+        "prior_methods": {
+          "conference_mean": 2,
+          "same_team_carry_forward": 136
+        },
+        "rows": 34817,
+        "unfilled_week0_teams": 0,
+        "week0_teams": 138
+      },
+      "v1.7": {
+        "columns": 196,
+        "prior_methods": {
+          "conference_mean": 2,
+          "same_team_carry_forward": 136
+        },
+        "rows": 34817,
+        "unfilled_week0_teams": 0,
+        "week0_teams": 138
+      }
+    },
+    "review_status": "pending_owner_approval",
+    "season": 2026,
+    "week": 3
+  },
+  "artifact_layout": {
+    "directories": [
+      "blog",
+      "figures",
+      "metadata",
+      "scientific",
+      "tables"
+    ],
+    "excluded_png_categories": [
+      "individual_model_scorecards",
+      "frozen_top_n_duplicates",
+      "confusion_matrix_diagnostics",
+      "scientific_ranking_diagnostics"
+    ],
+    "name": "pregame-parity-lean-v1",
+    "png_retention": {
+      "figures": 14,
+      "scientific": 7,
+      "total": 21
+    }
+  },
+  "files": {
+    "README.md": {
+      "sha256": "50b6629a81dccf38c03545f49a0d2b2a6cd6ce00c8f2377c5f24f2b25542c7d3",
+      "size_bytes": 580
+    },
+    "blog/alt_text.md": {
+      "sha256": "95355ec93d9111d91212d9c06196c91b4a81044f28fc2bbda21096df2aaeafe9",
+      "size_bytes": 73
+    },
+    "blog/post.txt": {
+      "sha256": "226f43bb72703f03639694bfb5744cc10c19f869fcb188673a338425b07729e6",
+      "size_bytes": 65
+    },
+    "blog/summary.md": {
+      "sha256": "b92947db903c2136767044f53fbf39d9fa611fc68ce6da3f38861095bbd1ece8",
+      "size_bytes": 211
+    },
+    "figures/cumulative_margin_wide_performance.png": {
+      "sha256": "3ee57cb437815d9a2337ca50e8c65f8a86dc29142adb5608f051dfedfe1bb639",
+      "size_bytes": 1328387
+    },
+    "figures/margin_wide_all_team_power_rankings.png": {
+      "sha256": "5be6160d21f31b0794391134b7d75265f0f489c23a3bdd30ade187924ccba140",
+      "size_bytes": 936100
+    },
+    "figures/margin_wide_model_scorecard.png": {
+      "sha256": "3d869b8af0f703b87b0383559118bb3d816f99de8fdb591ba346902349aa1567",
+      "size_bytes": 771893
+    },
+    "figures/margin_wide_prediction_scorecard.png": {
+      "sha256": "fd84fba58171491c9fe17cc9f65bbcb14bc64bab5b0329a4408730a43a77635d",
+      "size_bytes": 1012868
+    },
+    "figures/margin_wide_rank_vs_projected_margin.png": {
+      "sha256": "c0982f3ac43a96af39ec58f6b905755a0e741899b1e482e990fb17d90e573773",
+      "size_bytes": 707295
+    },
+    "figures/model_consensus_disagreement.png": {
+      "sha256": "d2bb77f2d9e277833a31ff850e4200ec28c6a0357a29c65de6bbfc7fd1fab079",
+      "size_bytes": 420698
+    },
+    "figures/sunday_performance.png": {
+      "sha256": "385a5c0f75fe665a1a4e8b6784891790bab3e85684d83a80aa077285fe878db3",
+      "size_bytes": 176518
+    },
+    "figures/tdnet_model_ballots.png": {
+      "sha256": "6759046a15d8c1ec926f6aabd7dc64fc3380c9e57657974b3ed46caa143a3d85",
+      "size_bytes": 1561936
+    },
+    "figures/tdnet_top10_social_16x9.png": {
+      "sha256": "0f67e2ddeed9d88797a0b152b83496b4d6d07d1264e655976a5ea1275e29f89e",
+      "size_bytes": 186178
+    },
+    "figures/tdnet_top10_social_4x5.png": {
+      "sha256": "1e9bd55a81bc95c365ceb4972e4ee42befbdba7e054f77f8310c1da5943cc6a2",
+      "size_bytes": 191285
+    },
+    "figures/tdnet_top25.png": {
+      "sha256": "78f20cbd940a9f8aa203d14651314cbf9ed0b58a1604aa888623b4c58f8e41f6",
+      "size_bytes": 455937
+    },
+    "figures/tdnet_vs_ap_top25.png": {
+      "sha256": "8794e0c5ee582470bff9e752998981efa57e488d815625b7c741f47245504343",
+      "size_bytes": 168494
+    },
+    "figures/team_margin_parity.png": {
+      "sha256": "0e8949bb08015f82b7ce7af0643edf41abfe02dc888b7bbb86ab4f41ab5e8b0a",
+      "size_bytes": 473793
+    },
+    "figures/top25_consensus_spread.png": {
+      "sha256": "0d6e6718f73b37deeadb2a143f0d6b4f1bc6e8eb81922ce4482e6206dee7442e",
+      "size_bytes": 276173
+    },
+    "metadata/poll_power_divergence.json": {
+      "sha256": "920c787ed17c11adfb46796fa463cfe69d5d4ae41dd4d0a845c9904bfe3337d4",
+      "size_bytes": 267
+    },
+    "scientific/README.md": {
+      "sha256": "c19a6f3769c26dffcac74b8202198ca23924a65aab2cc3c3122a55ce6e83f8fb",
+      "size_bytes": 658
+    },
+    "scientific/full_f0_f8/README.md": {
+      "sha256": "862786af5298a6435b41ef95c914aed115c1bedd51aa9f2bd75cbb121a4fb2bf",
+      "size_bytes": 598
+    },
+    "scientific/full_f0_f8/scientific_consensus_game_results.csv": {
+      "sha256": "24219c45321ddb338199b0c99e13be23ddc26559da82ee9988a4b0f52a13cd18",
+      "size_bytes": 6082
+    },
+    "scientific/full_f0_f8/scientific_consensus_game_results.png": {
+      "sha256": "861c31f26918a671238819fb2e21634a699bb0d4f15b729f284e4df2d044fd12",
+      "size_bytes": 1278737
+    },
+    "scientific/full_f0_f8/scientific_cumulative_all_models_performance.png": {
+      "sha256": "a9ba6daf8eb8e26214ec39bbd479d9efabc18d8051d199976836712dc2bcd1eb",
+      "size_bytes": 1068191
+    },
+    "scientific/full_f0_f8/scientific_cumulative_model_scorecard.csv": {
+      "sha256": "2f166d417a7cc73c7f0f6e257aae3c366e49608470325033fa9964c5d9f9ecba",
+      "size_bytes": 6803
+    },
+    "scientific/full_f0_f8/scientific_cumulative_model_scorecard.png": {
+      "sha256": "8748f2761b913e21aacdd80b30cdbda3326d04deb9a0273cd7c6de5e7429c91a",
+      "size_bytes": 970456
+    },
+    "scientific/full_f0_f8/scientific_model_game_results.csv": {
+      "sha256": "a9e032ba28024792ff37719afb96e0071ed050e8e0eafdc33abcf74f7ba99f12",
+      "size_bytes": 1829032
+    },
+    "scientific/full_f0_f8/scientific_model_scorecard.csv": {
+      "sha256": "80e13e453021a8d2f287c99a0eb8ef1381aadaddd331f6a3ba47625d4214ecdd",
+      "size_bytes": 3808
+    },
+    "scientific/full_f0_f8/scientific_postgame_manifest.json": {
+      "sha256": "93124f656987a1a8e29a27a7fc375c9c1a9f6a7b975a898a8ece4ff1705bdc19",
+      "size_bytes": 3314
+    },
+    "scientific/full_f0_f8/scientific_rolling_cumulative_performance.csv": {
+      "sha256": "0473bc3803fe7e35e8946c20f30608085cdd8efc9c1b5d5cb280a8a694c1ca31",
+      "size_bytes": 44150
+    },
+    "scientific/full_f0_f8/scientific_rolling_cumulative_roster_performance.png": {
+      "sha256": "38bd9cfb7b2fe836e1717630e3af4434c5f5335a65928a2a1b0f225dfd2dded7",
+      "size_bytes": 484888
+    },
+    "scientific/scientific_all_team_power_rankings.png": {
+      "sha256": "8c508268a0236f5b960cd629477bcf4504c574d841859d2bcfb329ee8debafc9",
+      "size_bytes": 917526
+    },
+    "scientific/scientific_consensus_game_results.csv": {
+      "sha256": "83efa12329ed68c4f4466d257a3bbd6237f51f8d7a29f6d6bf967d70d67c3092",
+      "size_bytes": 6109
+    },
+    "scientific/scientific_consensus_game_results.png": {
+      "sha256": "0800faea597b3a5af9403c1683a688962c91823441b9676699ada112ecc75be9",
+      "size_bytes": 1259527
+    },
+    "scientific/scientific_consensus_power_rankings.csv": {
+      "sha256": "e6e930d0108d8c46071f325aa4d471edc73cfbbee8bf66e0a8a69937fad6b53c",
+      "size_bytes": 12108
+    },
+    "scientific/scientific_full_ballots.csv": {
+      "sha256": "e6994cb040094688b8787482ada348fa550ea424f92c0207ead3235bf8660245",
+      "size_bytes": 1647490
+    },
+    "scientific/scientific_model_consensus_disagreement.csv": {
+      "sha256": "40fe3c222e92efbff17de9746d3b1c0a0da733a6951a0c96f807e10e78390626",
+      "size_bytes": 2874
+    },
+    "scientific/scientific_model_game_results.csv": {
+      "sha256": "6dcac3bf0b05fbba02393d900ed0afbcecebdd6b0f22bfff196c85346460d6e9",
+      "size_bytes": 1433341
+    },
+    "scientific/scientific_model_scorecard.csv": {
+      "sha256": "6a8223b4a709e01c83f63ec997be3653c681daf325281cf49332572680c15a8b",
+      "size_bytes": 2975
+    },
+    "scientific/scientific_model_scorecard.png": {
+      "sha256": "62c61631bafb3125a40cf70206223965117ee46db807c6618f754ab1dade97ee",
+      "size_bytes": 871341
+    },
+    "scientific/scientific_model_scorecard_enriched.csv": {
+      "sha256": "07667f083e14d82b6bf5ac855c06a8ba568184fb6e84bfa9b082ef04e8a53332",
+      "size_bytes": 5657
+    },
+    "scientific/scientific_per_model_top25.csv": {
+      "sha256": "5162ea34bea2ddac3a8d2bbaf2741e1880f6b18e9a103802a77bc9422660001b",
+      "size_bytes": 10425
+    },
+    "scientific/scientific_per_model_top25_long.csv": {
+      "sha256": "3e73aa51e259908d5726196aeb344d366b5bb0b54b541c5962a162186a9653d4",
+      "size_bytes": 67767
+    },
+    "scientific/scientific_poll_power_divergence.json": {
+      "sha256": "705bf9f7bd86dd39658fd9c890b0c507f30592ef22a948f1d94356a168534464",
+      "size_bytes": 231
+    },
+    "scientific/scientific_postgame_manifest.json": {
+      "sha256": "c1e4e15203743d63b22a894b4d5cefb44b1ee6029a6a47c2d255988f5a1c8a60",
+      "size_bytes": 1462
+    },
+    "scientific/scientific_receiving_votes.txt": {
+      "sha256": "6256054d0f97dd3351efc518b54fee3cc271835f6c1acc7b9aeca20bcaab23ff",
+      "size_bytes": 682
+    },
+    "scientific/scientific_research_ballot_social_16x9.png": {
+      "sha256": "38eb7a116862f2cd6a2f1f304666cd57ac4146d8e2dd186a465557da0731ef07",
+      "size_bytes": 178489
+    },
+    "scientific/scientific_research_ballot_social_4x5.png": {
+      "sha256": "b90d56907f71e399cd3be1c8dbbbe8f6bbe9292cff4241dc0d19f8bcde207396",
+      "size_bytes": 177269
+    },
+    "scientific/scientific_tdnet_receiving_votes.csv": {
+      "sha256": "87c4f764e0daabe7dd839d1a751c71441568950ab0155b70418b2f163b65872e",
+      "size_bytes": 957
+    },
+    "scientific/scientific_tdnet_top25.csv": {
+      "sha256": "4909c92ecd0cef3573c312319dd39a3fce3236cbb2cfa799c30e7c2a816ffe60",
+      "size_bytes": 2707
+    },
+    "scientific/scientific_tdnet_top25.png": {
+      "sha256": "226a941309049f0cea1587f2785d209d99ab68f3ede751633d9c25061f6a60bf",
+      "size_bytes": 537670
+    },
+    "scientific/scientific_top25_ballots.png": {
+      "sha256": "cec6bd60b524ec81bbb0ebfbaaff3869e3091cfaffbd26eca321999159234f05",
+      "size_bytes": 2014662
+    },
+    "scoring/scorecard.csv": {
+      "sha256": "c53e91948c2ffe0141f5f8202f5f9c04dfe72ef9516a3e2fe84da456be72267a",
+      "size_bytes": 2553
+    },
+    "scoring/scored_predictions.parquet": {
+      "sha256": "c419f696c8b94483744013b1b0f4f4950677024efc3ba31c3d9dcd3b3d90d021",
+      "size_bytes": 214916
+    },
+    "tables/baseline_comparison.csv": {
+      "sha256": "ef3d737194c9480babd6f70ec80aaddab06d2afa657774d193cbf7ab6d512281",
+      "size_bytes": 1411
+    },
+    "tables/cumulative_margin_wide_performance.csv": {
+      "sha256": "e320c295d0c558922f41869ea76de4aa569929317fba4b515fc3553c8cc4a219",
+      "size_bytes": 11593
+    },
+    "tables/cumulative_metrics.csv": {
+      "sha256": "89654c1d4534bd522d8eacd99af9e58d2111db50188411a57f92bbc2006e08f5",
+      "size_bytes": 3919
+    },
+    "tables/margin_wide_consensus_power_rankings.csv": {
+      "sha256": "b2e8d66307252e2d8f7e25ff60524e4285bc41b271b6fe712e8483b78fd59e9b",
+      "size_bytes": 12036
+    },
+    "tables/margin_wide_model_game_results.csv": {
+      "sha256": "3f8f93b4312697cc848a8e3d3fd47b7dd2a270cf15530f038c0c72770820d8fb",
+      "size_bytes": 1843994
+    },
+    "tables/margin_wide_model_scorecard.csv": {
+      "sha256": "e64cf1f95c84077a0725c71b0e549f675e7828622f0156a189f09f8c748cd191",
+      "size_bytes": 4753
+    },
+    "tables/margin_wide_prediction_vs_actual.csv": {
+      "sha256": "3d4a972c0270f9a3797eee39752eee0b04c8030dd73a4e8b58dbdd61088c7c9c",
+      "size_bytes": 11158
+    },
+    "tables/model_consensus_disagreement.csv": {
+      "sha256": "13d83ba34355dc95dec7a0be05479d1cde9f476460e5d911428d0c15b9e8ac91",
+      "size_bytes": 2565
+    },
+    "tables/per_model_top25.csv": {
+      "sha256": "4a2a716ed8282cd3a8209110b17eae97e188c89e33fec454c9466a63b340485e",
+      "size_bytes": 8442
+    },
+    "tables/per_model_top25_long.csv": {
+      "sha256": "3b759cee359dee6c62e075b59c3984658039db8ccfeb539712f8e0b33ad45ab8",
+      "size_bytes": 62197
+    },
+    "tables/receiving_votes.txt": {
+      "sha256": "5d0a3ad50f220e952a66bcdf959d1424359c765f95d0c67e64f8bd9e40538d88",
+      "size_bytes": 399
+    },
+    "tables/scorecard.csv": {
+      "sha256": "c53e91948c2ffe0141f5f8202f5f9c04dfe72ef9516a3e2fe84da456be72267a",
+      "size_bytes": 2553
+    },
+    "tables/tdnet_model_ballots.csv": {
+      "sha256": "f553fbdd47288ca960eed9d05835ffddb85bed46ed4802d702c03e5e59cecde2",
+      "size_bytes": 914389
+    },
+    "tables/tdnet_receiving_votes.csv": {
+      "sha256": "1a5c48b24fb28d5df855edf82723e0bc51f1fd40d5a5c36f030efa0ddf0b5d18",
+      "size_bytes": 598
+    },
+    "tables/tdnet_top25.csv": {
+      "sha256": "3ebfa08dd276b012c216558bc3c5414f47d1b04b25e7cb230f1ed68d271afa8b",
+      "size_bytes": 2718
+    },
+    "tables/weekly_metrics.csv": {
+      "sha256": "89654c1d4534bd522d8eacd99af9e58d2111db50188411a57f92bbc2006e08f5",
+      "size_bytes": 3919
+    }
+  },
+  "generated_at_eastern": "2026-09-13T14:57:30.087548-04:00",
+  "layout_updated_at_eastern": "2026-09-21T20:24:43.905276-04:00",
+  "margin_wide_poll_models": 33,
+  "margin_wide_prediction_models": 33,
+  "poll_power_divergence": {
+    "margin_wide": {
+      "note": "Poll points and consensus margin versus average are intentionally independent summaries.",
+      "ordering_identical": false,
+      "poll_points_only": [
+        "Oregon"
+      ],
+      "power_rating_only": [
+        "Penn State"
+      ],
+      "top25_membership_difference_count": 2
+    },
+    "scientific": {
+      "note": "Poll points and consensus margin versus average are intentionally independent summaries.",
+      "ordering_identical": false,
+      "poll_points_only": [],
+      "power_rating_only": [],
+      "top25_membership_difference_count": 0
+    }
+  },
+  "provider_state_week": 3,
+  "publication_completed_week": 2,
+  "reference_poll_label": "AP Top 25 (Post-Week 2)",
+  "reference_poll_short_label": "AP",
+  "schema": "tdnet-full-postgame-publication-v2",
+  "scientific_poll_models": 42,
+  "season": 2026,
+  "sources": {
+    "margin_inventory": {
+      "path": "/users/tburton2/Repos/TDNet/data/publication/2026/weekly_operations/week_03/weekly_learned_model_inventory.csv",
+      "sha256": "83d1bf39a3ed665251958ff69bcf01f3976b050665ebde8a8101816524e85eac"
+    },
+    "raw_games": {
+      "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/games/2026.parquet",
+      "sha256": "0be6075db379815ec3b155cc959c7fd56a440e08b25def27e1217c6666a871de"
+    },
+    "reference_poll": {
+      "path": "/users/tburton2/Repos/TDNet/data/private/2026/week_02/postgame_rank_inputs/ap_top25_post_week_02.csv",
+      "sha256": "6a951c5ba2b8c689baebd042136de97bc7a48e36913da7f1d326afc3f799d245"
+    },
+    "scientific_inventory": {
+      "path": "/users/tburton2/Repos/TDNet/data/publication/2026/weekly_operations/week_03/scientific_runtime_inventory.csv",
+      "sha256": "99acb05572a4089c82d9160b792dc80ab6ebf91df1399b52362483355111601b"
+    },
+    "scored_predictions": {
+      "path": "/users/tburton2/Repos/TDNet/publication/2026/week_02/post_game/scoring/scored_predictions.parquet",
+      "sha256": "c419f696c8b94483744013b1b0f4f4950677024efc3ba31c3d9dcd3b3d90d021"
+    }
+  },
+  "week_1_game_predictions_generated": false,
+  "week_1_pregame_destination": "publication/2026/week_03/pre_game"
+}

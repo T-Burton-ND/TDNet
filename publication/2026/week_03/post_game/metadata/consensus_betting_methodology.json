@@ -1,0 +1,43 @@
+{
+  "ats_american_odds": -110.0,
+  "calibration": {
+    "ats_outcome": "whether the consensus ATS pick covered; pushes excluded",
+    "curve": "percent correct among all picks with confidence greater than or equal to each cutoff from 0.50 through 1.00",
+    "moneyline_outcome": "whether the consensus straight-up pick won; price availability is not required"
+  },
+  "cfbd_limitation": "CFBD betting-line records provide spread, opening spread, total, and moneylines, but no price for either side of the point spread.",
+  "completed_week": 3,
+  "confidence_staking": {
+    "ats_confidence": "share of underlying models supporting the published consensus ATS side",
+    "confidence_floor": 0.499,
+    "formula": "stake = clip(25 * (confidence - 0.499) / (1 - 0.499), 0, 25)",
+    "maximum_stake_usd": 25.0,
+    "moneyline_confidence": "published win probability assigned to the selected team"
+  },
+  "confidence_threshold_sweep": {
+    "cutoffs": "0.50 through 1.00 in 0.01 increments",
+    "selection_rule": "bet only when confidence >= cutoff",
+    "stake_usd": 10.0,
+    "supported_result_minimum_bets": 10,
+    "warning": "in-sample season-to-date diagnostic; selecting a cutoff on these outcomes is not forward validation"
+  },
+  "missing_line_policy": "No ATS bet is placed when the frozen spread or grade is missing.",
+  "moneyline_missing_price_policy": "No moneyline bet is placed when CFBD has no quoted price for the selected team.",
+  "moneyline_odds_source": "best available quoted price across CFBD providers",
+  "moneyline_policy": "CFBD moneyline odds are not used as ATS odds.",
+  "moneyline_timing_policy": "Use the frozen pregame CFBD moneyline snapshot when present; otherwise label the quote as retrospective and do not claim it was available at prediction time.",
+  "odds_source": "assumed_standard_price",
+  "schema": "tdnet-consensus-betting-bankroll-v1",
+  "season": 2026,
+  "settlement": {
+    "loss": "entire stake lost",
+    "push": "stake returned; zero net profit",
+    "win": "stake returned plus stake * 100 / abs(odds) for negative odds"
+  },
+  "stake_per_graded_pick_usd": 10.0,
+  "strategies": [
+    "Margin-wide consensus",
+    "F0\u2013F6 scientific consensus",
+    "Full F0\u2013F8 scientific consensus"
+  ]
+}

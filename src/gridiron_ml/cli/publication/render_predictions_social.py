@@ -18,6 +18,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--games", type=Path, required=True)
     parser.add_argument("--poll", type=Path, help="Optional TDNet Top 25 CSV or parquet.")
+    parser.add_argument("--rank-source", choices=["tdnet", "ap"], default="tdnet")
+    parser.add_argument("--ranking-label", help="Rank-source label shown in the graphic header.")
     parser.add_argument(
         "--market-lines", type=Path,
         help="Optional raw CFBD /lines CSV or parquet, merged by game id using the provider average.",
@@ -44,11 +46,12 @@ def main() -> None:
     if args.market_lines:
         source_hash.update(args.market_lines.read_bytes())
     source_sha256 = source_hash.hexdigest()
-    for variant in ("4x5", "16x9"):
+    for variant in ("4x5", "1x1", "16x9"):
         output = args.output_dir / f"week_{args.week:02d}_tdnet_predictions_{variant}.png"
         render_predictions_social(
             games, output, season=args.season, week=args.week, logo_dir=args.logo_dir,
-            tdnet_poll=poll, variant=variant, generated_at_utc=generated,
+            ranking_poll=poll, rank_source=args.rank_source,
+            ranking_label=args.ranking_label, variant=variant, generated_at_utc=generated,
             git_commit=commit, source_sha256=source_sha256,
         )
         print(output)

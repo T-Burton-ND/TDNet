@@ -9,4 +9,5 @@ The performance files score the immutable 42-model pregame scientific prediction
 - `scientific_rolling_cumulative_roster_performance.png` contrasts weekly and cumulative consensus with the 42-model distribution through Week 3.
 - `scientific_cumulative_all_models_performance.png` shows cumulative trajectories for every F0–F6 scientific model and the 42-model consensus.
 - `scientific_rolling_cumulative_performance.csv` is the tidy source table for both performance figures.
+- `scientific_cumulative_model_scorecard.csv` and `.png` rank the season-to-date scientific roster and include the evaluation-only Vegas baselines.
 - No next-week matchup predictions are generated in this directory.

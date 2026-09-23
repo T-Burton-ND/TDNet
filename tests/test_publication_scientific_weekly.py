@@ -4,7 +4,10 @@ import pandas as pd
 
 from gridiron_ml.publication.scientific_weekly import (
     market_free_scientific_inventory,
+    plot_power_rank_vs_projected_margin,
+    plot_scientific_all_team_power_ranking,
     scientific_consensus_power_rankings,
+    scientific_inventory_for_cohort,
     scientific_prediction_table,
     validate_scientific_ballots,
     write_scientific_weekly_outputs,
@@ -23,6 +26,20 @@ def test_scientific_inventory_excludes_market_tiers_and_disabled_cells():
     )
     selected = market_free_scientific_inventory(inventory)
     assert selected["model_id"].tolist() == ["f6"]
+
+
+def test_full_scientific_cohort_keeps_f7_and_f8_as_separate_consensus_members():
+    inventory = pd.DataFrame(
+        {
+            "model_id": ["f6", "f7", "f8", "winner", "disabled"],
+            "feature_config": ["F6", "F7", "F8", "F8", "F5"],
+            "market_bearing": [False, True, True, True, False],
+            "objective": ["margin", "margin", "margin", "winner", "margin"],
+            "use_in_weekly_consensus": [True, True, True, True, False],
+        }
+    )
+    selected = scientific_inventory_for_cohort(inventory, cohort="full_f0_f8")
+    assert selected["model_id"].tolist() == ["f6", "f7", "f8"]
 
 
 def test_scientific_predictions_make_straight_up_and_ats_picks_explicit():
@@ -69,7 +86,7 @@ def test_scientific_predictions_make_straight_up_and_ats_picks_explicit():
     assert first["kickoff_eastern"] == "Sat 3:00 PM"
 
 
-def test_scientific_writer_emits_three_csv_png_pairs(tmp_path: Path):
+def test_scientific_writer_emits_three_csvs_and_six_pngs(tmp_path: Path):
     games = pd.DataFrame(
         [
             {
@@ -138,6 +155,9 @@ def test_scientific_writer_emits_three_csv_png_pairs(tmp_path: Path):
         "scientific_top25_ballots.png",
         "scientific_consensus_power_rankings.csv",
         "scientific_top25.png",
+        "scientific_all_team_power_rankings.png",
+        "scientific_research_ballot_social_4x5.png",
+        "scientific_research_ballot_social_16x9.png",
     }
     assert expected.issubset({path.name for path in tmp_path.iterdir()})
     assert len(pd.read_csv(tmp_path / "scientific_full_ballots.csv")) == 25
@@ -146,13 +166,97 @@ def test_scientific_writer_emits_three_csv_png_pairs(tmp_path: Path):
     assert power.loc[0, "poll_points"] == 25
 
 
+def test_all_team_power_graphic_uses_ballot_rank_and_consensus_margin(tmp_path: Path):
+    power = pd.DataFrame(
+        [
+            {
+                "poll_points_rank": 2,
+                "keys_team": "Margin Leader",
+                "predicted_margin_vs_average_team": 9.5,
+            },
+            {
+                "poll_points_rank": 1,
+                "keys_team": "Ballot Leader",
+                "predicted_margin_vs_average_team": 8.0,
+            },
+        ]
+    )
+    output = plot_scientific_all_team_power_ranking(
+        power,
+        tmp_path / "all-teams.png",
+        season=2026,
+        week=0,
+        dpi=72,
+    )
+    assert output.is_file()
+    assert output.stat().st_size > 0
+
+
+def test_power_rank_vs_projected_margin_graphic_uses_ballot_rank(tmp_path: Path):
+    power = pd.DataFrame(
+        [
+            {
+                "poll_points_rank": 2,
+                "keys_team": "Margin Leader",
+                "predicted_margin_vs_average_team": 9.5,
+            },
+            {
+                "poll_points_rank": 1,
+                "keys_team": "Ballot Leader",
+                "predicted_margin_vs_average_team": 8.0,
+            },
+        ]
+    )
+    output = plot_power_rank_vs_projected_margin(
+        power,
+        tmp_path / "rank-vs-margin.png",
+        season=2026,
+        week=1,
+        dpi=72,
+    )
+    assert output.is_file()
+    assert output.stat().st_size > 0
+
+
 def test_consensus_power_ranking_averages_model_margins():
     ballots = pd.DataFrame(
         [
-            {"keys_team": "A", "ballot_model": "m1", "ballot_rank": 1, "power_rating_vs_average": 7.0, "top25_vote": True, "poll_points": 10, "first_place_vote": True},
-            {"keys_team": "A", "ballot_model": "m2", "ballot_rank": 2, "power_rating_vs_average": 5.0, "top25_vote": True, "poll_points": 10, "first_place_vote": False},
-            {"keys_team": "B", "ballot_model": "m1", "ballot_rank": 2, "power_rating_vs_average": 2.0, "top25_vote": True, "poll_points": 25, "first_place_vote": False},
-            {"keys_team": "B", "ballot_model": "m2", "ballot_rank": 1, "power_rating_vs_average": 4.0, "top25_vote": True, "poll_points": 25, "first_place_vote": True},
+            {
+                "keys_team": "A",
+                "ballot_model": "m1",
+                "ballot_rank": 1,
+                "power_rating_vs_average": 7.0,
+                "top25_vote": True,
+                "poll_points": 10,
+                "first_place_vote": True,
+            },
+            {
+                "keys_team": "A",
+                "ballot_model": "m2",
+                "ballot_rank": 2,
+                "power_rating_vs_average": 5.0,
+                "top25_vote": True,
+                "poll_points": 10,
+                "first_place_vote": False,
+            },
+            {
+                "keys_team": "B",
+                "ballot_model": "m1",
+                "ballot_rank": 2,
+                "power_rating_vs_average": 2.0,
+                "top25_vote": True,
+                "poll_points": 25,
+                "first_place_vote": False,
+            },
+            {
+                "keys_team": "B",
+                "ballot_model": "m2",
+                "ballot_rank": 1,
+                "power_rating_vs_average": 4.0,
+                "top25_vote": True,
+                "poll_points": 25,
+                "first_place_vote": True,
+            },
         ]
     )
     power = scientific_consensus_power_rankings(ballots)
@@ -165,13 +269,20 @@ def test_consensus_power_ranking_averages_model_margins():
 def test_each_scientific_model_must_have_its_own_complete_ballot():
     valid = pd.DataFrame(
         [
-            {"ballot_model": model, "keys_team": team, "ballot_rank": rank, "power_rating_vs_average": score}
+            {
+                "ballot_model": model,
+                "keys_team": team,
+                "ballot_rank": rank,
+                "power_rating_vs_average": score,
+            }
             for model in ["m1", "m2"]
             for team, rank, score in [("A", 1, 2.0), ("B", 2, -1.0)]
         ]
     )
     validate_scientific_ballots(valid)
-    incomplete = valid.loc[~((valid["ballot_model"] == "m2") & (valid["keys_team"] == "B"))]
+    incomplete = valid.loc[
+        ~((valid["ballot_model"] == "m2") & (valid["keys_team"] == "B"))
+    ]
     try:
         validate_scientific_ballots(incomplete)
     except ValueError as exc:

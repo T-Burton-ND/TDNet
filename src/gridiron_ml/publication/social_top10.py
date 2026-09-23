@@ -23,7 +23,7 @@ from .figure_theme import TDNET_COLORS
 # This is the single edit point for colors, dimensions, type, spacing, and badge
 # behavior in the TDNet social visual system.
 SOCIAL_STYLE = {
-    "canvases": {"4x5": (1080, 1350), "16x9": (1280, 720)},
+    "canvases": {"4x5": (1080, 1350), "1x1": (1080, 1080), "16x9": (1280, 720)},
     "fonts": {
         "body_regular": ("DejaVuSans.ttf",),
         "body_bold": ("DejaVuSans-Bold.ttf",),
@@ -51,9 +51,9 @@ SOCIAL_STYLE = {
     "tie_hyphen_gap_ratio": 0.08,
     "discrepancy_stamp_angle": -9,
     "discrepancy_stamp_scale": 1.10,
-    "discrepancy_stamp_right_offset": {"4x5": -4, "16x9": -8},
+    "discrepancy_stamp_right_offset": {"4x5": -4, "1x1": -6, "16x9": -8},
     "discrepancy_stamp_y_offset": 4,
-    "title_segment_gap": {"4x5": 18, "16x9": 12},
+    "title_segment_gap": {"4x5": 18, "1x1": 18, "16x9": 12},
     "header_rule_width": 2,
     "ballot_count_last_week": None,
     "landscape_header_label": "WEEKLY MODEL CONSENSUS",
@@ -65,15 +65,19 @@ SOCIAL_STYLE = {
         "boxes": {
             "16x9": (455, 408, 725, 678),
             "4x5": (900, 18, 1020, 138),
+            "1x1": (900, 18, 1020, 138),
         },
-        "scale": {"16x9": 1.05, "4x5": 1.0},
+        "scale": {"16x9": 1.05, "4x5": 1.0, "1x1": 1.0},
     },
-    "safe_margin": {"4x5": 58, "16x9": 40},
+    "safe_margin": {"4x5": 58, "1x1": 48, "16x9": 40},
     "colors": TDNET_COLORS,
     "font_sizes": {
         "4x5": {"title": 58, "meta": 22, "hero_rank": 165, "hero_name": 54,
                  "pod_rank": 64, "pod_name": 34, "row_rank": 40, "row_name": 31,
                  "points": 15, "badge": 20, "footer": 16},
+        "1x1": {"title": 56, "meta": 21, "hero_rank": 120, "hero_name": 42,
+                 "pod_rank": 52, "pod_name": 29, "row_rank": 36, "row_name": 25,
+                 "points": 14, "badge": 17, "footer": 14},
         "16x9": {"title": 45, "meta": 18, "hero_rank": 150, "hero_name": 45,
                   "pod_rank": 52, "pod_name": 29, "row_rank": 31, "row_name": 24,
                   "points": 12, "badge": 18, "footer": 13},
@@ -239,6 +243,9 @@ def render_top10_social(
     git_commit: str | None = None,
     source_sha256: str | None = None,
     reference_label: str = "AP",
+    header_title: str | None = None,
+    header_subtitle: str | None = None,
+    header_accent_color: str | None = None,
 ) -> Path:
     """Render a native portrait or landscape Top 10 PNG from a TDNet poll."""
     if variant not in SOCIAL_STYLE["canvases"]:
@@ -251,9 +258,44 @@ def render_top10_social(
     draw = ImageDraw.Draw(image, "RGBA")
     _draw_data_field(draw, size)
     if variant == "4x5":
-        _draw_portrait(draw, image, teams, season, week, logo_dir, reference_label)
+        _draw_portrait(
+            draw,
+            image,
+            teams,
+            season,
+            week,
+            logo_dir,
+            reference_label,
+            header_title,
+            header_subtitle,
+            header_accent_color,
+        )
+    elif variant == "1x1":
+        _draw_square(
+            draw,
+            image,
+            teams,
+            season,
+            week,
+            logo_dir,
+            reference_label,
+            header_title,
+            header_subtitle,
+            header_accent_color,
+        )
     else:
-        _draw_landscape(draw, image, teams, season, week, logo_dir, reference_label)
+        _draw_landscape(
+            draw,
+            image,
+            teams,
+            season,
+            week,
+            logo_dir,
+            reference_label,
+            header_title,
+            header_subtitle,
+            header_accent_color,
+        )
     _draw_footer(draw, size, variant, generated_at_utc, git_commit, source_sha256)
     path = Path(output_path)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -284,11 +326,58 @@ def _draw_data_field(draw: ImageDraw.ImageDraw, size: tuple[int, int]) -> None:
         draw.line((width * .505, y, width * .52, y), fill=_rgba(colors["soft_mint"], 22), width=1)
 
 
-def _draw_header(draw, variant: str, season: int, week: int, ballot_count: int | None) -> None:
+def _draw_header(
+    draw,
+    variant: str,
+    season: int,
+    week: int,
+    ballot_count: int | None,
+    header_title: str | None = None,
+    header_subtitle: str | None = None,
+    header_accent_color: str | None = None,
+) -> None:
     colors = SOCIAL_STYLE["colors"]
     sizes = SOCIAL_STYLE["font_sizes"][variant]
     margin = SOCIAL_STYLE["safe_margin"][variant]
-    title_y = 25 if variant == "4x5" else 14
+    portrait_like = variant in {"4x5", "1x1"}
+    title_y = 25 if portrait_like else 14
+    width = SOCIAL_STYLE["canvases"][variant][0]
+    if header_title:
+        _fit_text(
+            draw,
+            (margin, title_y, width - margin, title_y + sizes["title"] + 8),
+            header_title,
+            sizes["title"],
+            max(28, sizes["title"] - 16),
+            colors["white"],
+            bold=True,
+            anchor="la",
+        )
+        subtitle = header_subtitle or "Scientific Model Consensus"
+        meta_y = 98 if portrait_like else 66
+        draw.text(
+            (margin + 2, meta_y),
+            f"— {subtitle.upper()}",
+            font=_font(sizes["meta"], bold=True),
+            fill=header_accent_color or colors["signal_orange"],
+        )
+        meta = f"{int(season)}  •  WEEK {int(week)}"
+        if ballot_count:
+            meta += f"  •  {int(ballot_count)} BALLOTS"
+        draw.text(
+            (width - margin, meta_y),
+            meta,
+            font=_font(sizes["meta"]),
+            fill=colors["polar_mist"],
+            anchor="ra",
+        )
+        line_y = 145 if portrait_like else 104
+        draw.line(
+            (margin, line_y, width - margin, line_y),
+            fill=header_accent_color or colors["signal_orange"],
+            width=max(3, int(SOCIAL_STYLE["header_rule_width"]) + 1),
+        )
+        return
     draw.text((margin, title_y), "TDNet", font=_font(sizes["title"], bold=True), fill=colors["white"])
     bbox = draw.textbbox((margin, title_y), "TDNet", font=_font(sizes["title"], bold=True))
     x = bbox[2] + int(SOCIAL_STYLE["title_segment_gap"][variant])
@@ -297,7 +386,7 @@ def _draw_header(draw, variant: str, season: int, week: int, ballot_count: int |
     ballot_cutoff = SOCIAL_STYLE["ballot_count_last_week"]
     if ballot_count and (ballot_cutoff is None or int(week) <= int(ballot_cutoff)):
         meta += f"  •  {int(ballot_count)} MODEL BALLOTS"
-    meta_y = 98 if variant == "4x5" else 66
+    meta_y = 98 if portrait_like else 66
     draw.text((margin + 2, meta_y), meta, font=_font(sizes["meta"]), fill=colors["polar_mist"])
     if variant == "16x9":
         draw.text(
@@ -305,13 +394,33 @@ def _draw_header(draw, variant: str, season: int, week: int, ballot_count: int |
             font=_font(sizes["footer"], bold=True),
             fill=_rgba(colors["medium_gray"], 190), anchor="rm",
         )
-    line_y = 145 if variant == "4x5" else 104
-    draw.line((margin, line_y, (1080 if variant == "4x5" else 1280) - margin, line_y),
+    line_y = 145 if portrait_like else 104
+    draw.line((margin, line_y, width - margin, line_y),
               fill=colors["ion_blue"], width=int(SOCIAL_STYLE["header_rule_width"]))
 
 
-def _draw_portrait(draw, image, teams, season, week, logo_dir, reference_label) -> None:
-    _draw_header(draw, "4x5", season, week, teams[0].ballots_seen)
+def _draw_portrait(
+    draw,
+    image,
+    teams,
+    season,
+    week,
+    logo_dir,
+    reference_label,
+    header_title=None,
+    header_subtitle=None,
+    header_accent_color=None,
+) -> None:
+    _draw_header(
+        draw,
+        "4x5",
+        season,
+        week,
+        teams[0].ballots_seen,
+        header_title,
+        header_subtitle,
+        header_accent_color,
+    )
     _place_brand_mark(image, "4x5")
     colors = SOCIAL_STYLE["colors"]
     sizes = SOCIAL_STYLE["font_sizes"]["4x5"]
@@ -367,8 +476,28 @@ def _draw_portrait(draw, image, teams, season, week, logo_dir, reference_label) 
         )
 
 
-def _draw_landscape(draw, image, teams, season, week, logo_dir, reference_label) -> None:
-    _draw_header(draw, "16x9", season, week, teams[0].ballots_seen)
+def _draw_landscape(
+    draw,
+    image,
+    teams,
+    season,
+    week,
+    logo_dir,
+    reference_label,
+    header_title=None,
+    header_subtitle=None,
+    header_accent_color=None,
+) -> None:
+    _draw_header(
+        draw,
+        "16x9",
+        season,
+        week,
+        teams[0].ballots_seen,
+        header_title,
+        header_subtitle,
+        header_accent_color,
+    )
     colors = SOCIAL_STYLE["colors"]
     sizes = SOCIAL_STYLE["font_sizes"]["16x9"]
     _panel(
@@ -422,6 +551,50 @@ def _draw_landscape(draw, image, teams, season, week, logo_dir, reference_label)
         _rank_row(
             draw, image, team, (774, y1, 1240, y1 + row_panel_height),
             logo_dir, "16x9", reference_label,
+        )
+
+
+def _draw_square(
+    draw,
+    image,
+    teams,
+    season,
+    week,
+    logo_dir,
+    reference_label,
+    header_title=None,
+    header_subtitle=None,
+    header_accent_color=None,
+) -> None:
+    """Draw a native two-column Instagram grid without cropping or distortion."""
+    _draw_header(
+        draw,
+        "1x1",
+        season,
+        week,
+        teams[0].ballots_seen,
+        header_title,
+        header_subtitle,
+        header_accent_color,
+    )
+    _place_brand_mark(image, "1x1")
+    left, right, gap = 48, 1032, 12
+    top, bottom, row_gap = 168, 1038, 12
+    card_width = (right - left - gap) // 2
+    card_height = (bottom - top - row_gap * 4) // 5
+    for index, team in enumerate(teams):
+        column = index % 2
+        row = index // 2
+        x1 = left + column * (card_width + gap)
+        y1 = top + row * (card_height + row_gap)
+        _rank_row(
+            draw,
+            image,
+            team,
+            (x1, y1, x1 + card_width, y1 + card_height),
+            logo_dir,
+            "1x1",
+            reference_label,
         )
 
 
@@ -917,6 +1090,11 @@ def _draw_footer(
     *, left_text="TDNet • FULL TOP 25 IN THE WEEKLY REPORT", source_label="poll",
 ) -> None:
     colors = SOCIAL_STYLE["colors"]
+    if variant == "1x1":
+        left_text = {
+            "TDNet • FULL TOP 25 IN THE WEEKLY REPORT": "TDNet • FULL TOP 25 IN REPORT",
+            "TDNet • FULL PREDICTION SLATE IN THE ARTICLE": "TDNet • FULL SLATE IN ARTICLE",
+        }.get(left_text, left_text)
     font = _font(SOCIAL_STYLE["font_sizes"][variant]["footer"])
     margin = SOCIAL_STYLE["safe_margin"][variant]
     y = size[1] - (28 if variant == "4x5" else 19)

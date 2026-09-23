@@ -40,7 +40,11 @@ PREDICTIONS_STYLE = {
         "path": "docs/style/logos/dark_trans.png",
         "opacity": 50,
         "angle": 6,
-        "boxes": {"4x5": (900, 18, 1020, 138), "16x9": (1136, 8, 1234, 100)},
+        "boxes": {
+            "4x5": (900, 18, 1020, 138),
+            "1x1": (900, 18, 1020, 138),
+            "16x9": (1136, 8, 1234, 100),
+        },
     },
     "sickos": {
         "background_tint": (20, 17, 66, 242),
@@ -55,6 +59,11 @@ PREDICTIONS_STYLE = {
                 "glow_radius": 16,
                 "positions": ((-0.01, 0.30), (1.01, 0.72)),
             },
+            "1x1": {
+                "opacity": 9, "glow_opacity": 13, "scale": 0.24,
+                "glow_radius": 15,
+                "positions": ((-0.01, 0.32), (1.01, 0.70)),
+            },
             "16x9": {
                 "opacity": 9, "glow_opacity": 13, "scale": 0.23,
                 "glow_radius": 14,
@@ -65,12 +74,16 @@ PREDICTIONS_STYLE = {
     "divider_width": 5,
     "logo_sizes": {
         "4x5": {"feature": 85, "sickos": 132},
+        "1x1": {"feature": 66, "sickos": 108},
         "16x9": {"feature": 82, "sickos": 94},
     },
     "font_sizes": {
         "4x5": {"title": 55, "meta": 20, "label": 19, "team": 25,
                 "prediction": 30, "probability": 26, "detail": 17,
                 "market": 12, "sickos_team": 29},
+        "1x1": {"title": 53, "meta": 19, "label": 17, "team": 23,
+                 "prediction": 27, "probability": 23, "detail": 15,
+                 "market": 11, "sickos_team": 27},
         "16x9": {"title": 43, "meta": 16, "label": 15, "team": 21,
                   "prediction": 23, "probability": 20, "detail": 14,
                   "market": 11, "sickos_team": 23},
@@ -81,6 +94,12 @@ PREDICTIONS_STYLE = {
                          (58, 600, 1022, 804)),
             "divider_y": 824,
             "sickos": (58, 844, 1022, 1289),
+        },
+        "1x1": {
+            "featured": ((48, 168, 1032, 306), (48, 318, 1032, 456),
+                         (48, 468, 1032, 606)),
+            "divider_y": 626,
+            "sickos": (48, 646, 1032, 1028),
         },
         "16x9": {
             "featured": ((40, 122, 426, 370), (447, 122, 833, 370),
@@ -122,20 +141,25 @@ class FeaturedGame:
 
 def select_featured_games(
     games: pd.DataFrame,
-    tdnet_poll: pd.DataFrame | None = None,
+    ranking_poll: pd.DataFrame | None = None,
     *,
     count: int = 3,
+    rank_source: str = "tdnet",
 ) -> tuple[list[FeaturedGame], FeaturedGame | None]:
-    """Select ranked features and the closest unranked Sickos matchup.
+    """Select the closest ranked features and closest unranked Sickos matchup.
 
-    The closest unranked game is reserved for Sickos. If fewer than ``count``
-    ranked games exist, remaining slots use the next-closest unranked games.
+    Feature eligibility is determined by projected closeness among every game
+    involving at least one ranked team. The selected games are then displayed
+    with ranked-vs-ranked matchups first and AP/TDNet prominence as a secondary
+    ordering. The closest fully unranked game is reserved for Sickos. If fewer
+    than ``count`` ranked games exist, remaining slots use the next-closest
+    unranked games.
     """
-    normalized = _normalize_games(games, tdnet_poll)
+    normalized = _normalize_games(games, ranking_poll, rank_source=rank_source)
     ranked = [game for game in normalized if game.ranked_count]
     unranked = [game for game in normalized if not game.ranked_count]
     ranked.sort(key=lambda game: (
-        -game.ranked_count, game.best_rank, abs(game.predicted_margin),
+        abs(game.predicted_margin), -game.ranked_count, game.best_rank,
         game.combined_rank, game.game_id,
     ))
     unranked.sort(key=lambda game: (
@@ -145,7 +169,12 @@ def select_featured_games(
     ))
     sickos = unranked[0] if unranked else None
     fallback = unranked[1:] if sickos else unranked
-    featured = (ranked + fallback)[: int(count)]
+    featured = ranked[: int(count)]
+    featured.sort(key=lambda game: (
+        -game.ranked_count, game.best_rank, abs(game.predicted_margin),
+        game.combined_rank, game.game_id,
+    ))
+    featured.extend(fallback[: max(0, int(count) - len(featured))])
     return featured, sickos
 
 
@@ -157,6 +186,9 @@ def render_predictions_social(
     week: int,
     logo_dir: str | Path | None,
     tdnet_poll: pd.DataFrame | None = None,
+    ranking_poll: pd.DataFrame | None = None,
+    rank_source: str = "tdnet",
+    ranking_label: str | None = None,
     variant: str = "4x5",
     generated_at_utc: str | None = None,
     git_commit: str | None = None,
@@ -165,7 +197,10 @@ def render_predictions_social(
     """Render the prediction companion to the TDNet Top 10 graphic."""
     if variant not in PREDICTIONS_STYLE["canvases"]:
         raise ValueError(f"Unsupported social variant: {variant}")
-    featured, sickos = select_featured_games(games, tdnet_poll)
+    selected_poll = ranking_poll if ranking_poll is not None else tdnet_poll
+    featured, sickos = select_featured_games(
+        games, selected_poll, rank_source=rank_source
+    )
     if not featured:
         raise ValueError("Prediction social rendering requires at least one valid game.")
     _require_high_resolution_game_logos([*featured, *([sickos] if sickos else [])], logo_dir)
@@ -173,7 +208,7 @@ def render_predictions_social(
     image = Image.new("RGB", size, PREDICTIONS_STYLE["background"])
     draw = ImageDraw.Draw(image, "RGBA")
     _draw_data_field(draw, size)
-    _draw_prediction_header(draw, variant, season, week)
+    _draw_prediction_header(draw, variant, season, week, ranking_label=ranking_label)
     _place_prediction_brand_mark(image, variant)
     layout = PREDICTIONS_STYLE["layouts"][variant]
     for index, box in enumerate(layout["featured"]):
@@ -183,18 +218,36 @@ def render_predictions_social(
     _draw_section_divider(draw, variant, int(layout["divider_y"]))
     _draw_matchup_card(draw, image, sickos, layout["sickos"], logo_dir,
                        variant=variant, role="sickos", label=PREDICTIONS_STYLE["sickos_title"])
+    # The Sickos watermark composites a new image buffer; refresh the drawing
+    # context so footer glyphs are not partially lost on Pillow builds that
+    # retain the pre-composite buffer.
+    draw = ImageDraw.Draw(image, "RGBA")
     _draw_footer(
         draw, size, variant, generated_at_utc, git_commit, source_sha256,
         left_text="TDNet • FULL PREDICTION SLATE IN THE ARTICLE",
         source_label="predictions",
     )
+    if variant == "1x1":
+        draw.rectangle((0, size[1] - 38, 430, size[1]), fill=PREDICTIONS_STYLE["background"])
+        draw.text(
+            (PREDICTIONS_STYLE["safe_margin"][variant], size[1] - 29),
+            "TDNet • FULL SLATE IN ARTICLE",
+            font=_font(SOCIAL_STYLE["font_sizes"][variant]["footer"]),
+            fill=_rgba(PREDICTIONS_STYLE["colors"]["polar_mist"], 155),
+            anchor="la",
+        )
     path = Path(output_path)
     path.parent.mkdir(parents=True, exist_ok=True)
     image.save(path, format="PNG", optimize=False, compress_level=9)
     return path
 
 
-def _normalize_games(games: pd.DataFrame, poll: pd.DataFrame | None) -> list[FeaturedGame]:
+def _normalize_games(
+    games: pd.DataFrame,
+    poll: pd.DataFrame | None,
+    *,
+    rank_source: str = "tdnet",
+) -> list[FeaturedGame]:
     if games is None or games.empty:
         return []
     frame = games.copy()
@@ -213,8 +266,8 @@ def _normalize_games(games: pd.DataFrame, poll: pd.DataFrame | None) -> list[Fea
     output = []
     for index, row in frame.iterrows():
         away, home = str(row["away_team"]), str(row["home_team"])
-        away_rank = _optional_int(row.get("tdnet_rank_away"))
-        home_rank = _optional_int(row.get("tdnet_rank_home"))
+        away_rank = _optional_int(row.get(f"{rank_source}_rank_away"))
+        home_rank = _optional_int(row.get(f"{rank_source}_rank_home"))
         away_rank = away_rank if away_rank is not None else ranks.get(away)
         home_rank = home_rank if home_rank is not None else ranks.get(home)
         signed_margin = pd.to_numeric(row.get("pred_home_margin"), errors="coerce")
@@ -246,22 +299,35 @@ def _normalize_games(games: pd.DataFrame, poll: pd.DataFrame | None) -> list[Fea
     return output
 
 
-def _draw_prediction_header(draw, variant: str, season: int, week: int) -> None:
+def _draw_prediction_header(
+    draw,
+    variant: str,
+    season: int,
+    week: int,
+    *,
+    ranking_label: str | None = None,
+) -> None:
     style, colors = PREDICTIONS_STYLE, PREDICTIONS_STYLE["colors"]
     sizes, margin = style["font_sizes"][variant], style["safe_margin"][variant]
-    y = 25 if variant == "4x5" else 14
+    portrait_like = variant in {"4x5", "1x1"}
+    y = 25 if portrait_like else 14
     draw.text((margin, y), "TDNet", font=_font(sizes["title"], bold=True), fill=colors["white"])
     box = draw.textbbox((margin, y), "TDNet", font=_font(sizes["title"], bold=True))
-    draw.text((box[2] + (16 if variant == "4x5" else 11), y), "PREDICTIONS",
+    draw.text((box[2] + (16 if portrait_like else 11), y), "PREDICTIONS",
               font=_font(sizes["title"], bold=True), fill=colors["edge_pink"])
-    meta_y = 98 if variant == "4x5" else 66
+    meta_y = 98 if portrait_like else 66
     draw.text((margin + 2, meta_y), f"{season}  •  WEEK {week}",
               font=_font(sizes["meta"]), fill=colors["polar_mist"])
     width = style["canvases"][variant][0]
-    draw.text((width // 2, meta_y), style["subtitle"],
+    subtitle = (
+        f"3 {ranking_label.upper()}-RANKED GAMES + SICKOS PICK"
+        if ranking_label
+        else style["subtitle"]
+    )
+    draw.text((width // 2, meta_y), subtitle,
               font=_font(sizes["meta"], bold=True),
               fill=_rgba(colors["medium_gray"], 190), anchor="ma")
-    line_y = 145 if variant == "4x5" else 104
+    line_y = 145 if portrait_like else 104
     draw.line((margin, line_y, width - margin, line_y), fill=colors["ion_blue"], width=2)
 
 
@@ -291,8 +357,16 @@ def _draw_matchup_card(draw, image, game, box, logo_dir, *, variant, role, label
     if role == "sickos" and variant == "16x9":
         _draw_landscape_sickos_content(draw, image, game, box, logo_dir, sizes)
         return
+    if role == "feature" and variant == "1x1":
+        _draw_square_feature_content(draw, image, game, box, logo_dir, sizes)
+        return
     compact = role == "feature"
-    top_pad = (22 if compact and variant == "4x5" else 48) if role != "sickos" else 95
+    if role == "sickos":
+        top_pad = 82 if variant == "1x1" else 95
+    elif compact and variant in {"4x5", "1x1"}:
+        top_pad = 16 if variant == "1x1" else 22
+    else:
+        top_pad = 48
     logo_size = int(PREDICTIONS_STYLE["logo_sizes"][variant]["feature" if compact else "sickos"])
     center_y = y1 + top_pad + logo_size // 2
     left_cx, right_cx = x1 + width * .28, x1 + width * .72
@@ -314,7 +388,7 @@ def _draw_matchup_card(draw, image, game, box, logo_dir, *, variant, role, label
     prediction_gap = 30 if compact and variant == "16x9" else (22 if compact else 35)
     prediction_y = team_y + team_size + prediction_gap
     probability_y = prediction_y + sizes["prediction"] + 5
-    if compact and variant == "4x5":
+    if compact and variant in {"4x5", "1x1"}:
         probability_y = y2 - 14
         prediction_y = probability_y - sizes["probability"] - 2
     winner = _short_name(game.predicted_winner, 22 if compact else 28)
@@ -463,6 +537,64 @@ def _draw_landscape_sickos_content(draw, image, game, box, logo_dir, sizes) -> N
                   f"{game.winner_probability:.0%} WIN PROB",
                   font=_font(sizes["probability"], bold=True),
                   fill=_rgba(colors["white"], 230), anchor="mm")
+
+
+def _draw_square_feature_content(draw, image, game, box, logo_dir, sizes) -> None:
+    """Use the square canvas width for a compact, legible horizontal matchup card."""
+    colors = PREDICTIONS_STYLE["colors"]
+    x1, y1, x2, y2 = map(int, box)
+    logo_size = int(PREDICTIONS_STYLE["logo_sizes"]["1x1"]["feature"])
+    centers = (x1 + 170, x1 + 380)
+    center_y = y1 + 59
+    team_y = y2 - 35
+    for team, rank, center_x in (
+        (game.away_team, game.away_rank, centers[0]),
+        (game.home_team, game.home_rank, centers[1]),
+    ):
+        logo_box = (
+            center_x - logo_size // 2,
+            center_y - logo_size // 2,
+            center_x + logo_size // 2,
+            center_y + logo_size // 2,
+        )
+        _place_logo(image, team, logo_dir, logo_box, fallback_size=22)
+        _team_label(
+            draw, team, rank, center_x, team_y, 190,
+            max(17, sizes["team"] - 3), colors["white"],
+        )
+    _draw_market_line(
+        draw,
+        game,
+        centers[0],
+        centers[1],
+        team_y + max(17, sizes["team"] - 3) + 1,
+        sizes["market"],
+        colors["signal_orange"],
+    )
+    draw.text(
+        ((centers[0] + centers[1]) // 2, center_y),
+        "VS" if game.neutral_site else "@",
+        font=_font(sizes["label"] + 3, bold=True),
+        fill=_rgba(colors["polar_mist"], 225),
+        anchor="mm",
+    )
+    prediction_x = x1 + 730
+    winner = _short_name(game.predicted_winner, 23)
+    draw.text(
+        (prediction_x, y1 + 58),
+        f"{winner} BY {_format_margin(game.predicted_margin)}",
+        font=_font(sizes["prediction"], bold=True),
+        fill=colors["soft_mint"],
+        anchor="mm",
+    )
+    if game.winner_probability is not None:
+        draw.text(
+            (prediction_x, y1 + 92),
+            f"{game.winner_probability:.0%} WIN PROB",
+            font=_font(sizes["probability"], bold=True),
+            fill=_rgba(colors["polar_mist"], 220),
+            anchor="mm",
+        )
 
 
 def _team_label(draw, team, rank, x, y, max_width, preferred, fill) -> None:

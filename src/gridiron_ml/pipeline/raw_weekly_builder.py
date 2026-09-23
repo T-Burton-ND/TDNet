@@ -164,7 +164,25 @@ def _build_team_week_from_games(games: pd.DataFrame) -> pd.DataFrame:
     if game_id_col:
         base_cols.append(game_id_col)
     
-    extra_cols = [c for c in ("venue_id", "home_id", "away_id") if c in games.columns]
+    # Preserve game-level result and timing fields on both team rows.  CFBD's
+    # /games/teams feed carries a team score, but the downstream cleaner has
+    # always derived team-centric targets from home_score/away_score.  Modern
+    # /games responses name those columns home_points/away_points, so normalize
+    # them here instead of silently producing an all-null target season.
+    extra_cols = [
+        c
+        for c in (
+            "venue_id",
+            "home_id",
+            "away_id",
+            "home_points",
+            "away_points",
+            "start_date",
+            "season_type",
+            "completed",
+        )
+        if c in games.columns
+    ]
 
     # Home side
     required_home = base_cols + ["home_team", "away_team"] + extra_cols
@@ -191,6 +209,14 @@ def _build_team_week_from_games(games: pd.DataFrame) -> pd.DataFrame:
         "home_team": "opponent",
     })
     away["is_home"] = False
+
+    result_renames = {
+        "home_points": "home_score",
+        "away_points": "away_score",
+        "start_date": "game_date",
+    }
+    home = home.rename(columns={key: value for key, value in result_renames.items() if key in home})
+    away = away.rename(columns={key: value for key, value in result_renames.items() if key in away})
 
     # Use a unified 'game_id' column name if possible
     if game_id_col:

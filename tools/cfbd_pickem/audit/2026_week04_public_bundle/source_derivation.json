@@ -1,0 +1,15 @@
+{
+  "authoritative_source": "publication/2026/week_04/pre_game/tables/all_games.csv",
+  "authoritative_source_sha256": "5784982276e412b772b23a6e1490c9698c783d986454f65ed26a29f600158f46",
+  "derived_submission_source": "tools/cfbd_pickem/audit/2026_week04_public_bundle/week_04_submission_source.csv",
+  "derived_submission_source_sha256": "6b4054e2a6d20a145964c4c48eaa7268d895a48837dda793791db62ef09720d5",
+  "changes": [
+    {
+      "game_id": 401861970,
+      "field": "pred_winner",
+      "from": "UConn",
+      "to": "Miami (OH)",
+      "reason": "Submission validator requires pred_winner to agree with the sign of the immutable pred_home_margin (0.0104092951446815). The numeric contest pick was not changed."
+    }
+  ]
+}

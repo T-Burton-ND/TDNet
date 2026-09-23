@@ -15,7 +15,10 @@ import yaml
 from gridiron_ml.pipeline.build_full_pipeline import normalize_raw_endpoint_flags
 from gridiron_ml.experiments.opponent_adjusted import build_opponent_adjusted_experiment_frames
 from gridiron_ml.publication.preseason_states import build_preseason_state_frame
-from gridiron_ml.publication.weekly_protocol import build_snapshot_completeness
+from gridiron_ml.publication.weekly_protocol import (
+    build_snapshot_completeness,
+    write_snapshot_completeness,
+)
 
 
 def main():
@@ -64,6 +67,14 @@ def main():
         endpoints=normalize_raw_endpoint_flags(raw_cfg.get("endpoints")),
         completeness_config=raw_cfg.get("completeness"),
         required_endpoints=raw_cfg.get("required_endpoints"),
+    )
+    write_snapshot_completeness(
+        report["checks"]["snapshot_completeness"],
+        root / f"data/publication/{args.season}/weekly_operations/snapshot_completeness.json",
+    )
+    write_snapshot_completeness(
+        report["checks"]["snapshot_completeness"],
+        operations / "snapshot_completeness.json",
     )
     failures = []
     if report["checks"]["schedule_duplicate_game_ids"]:

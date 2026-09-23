@@ -1,0 +1,44 @@
+{
+  "bundle_version": 1,
+  "created_at_utc": "2026-08-30T16:47:35.798045+00:00",
+  "files": {
+    "private/model_inventory.csv": {
+      "sha256": "5777f247b280fcfbfa8d755088ef3eb9cdda6a04ece2202bae882d2ff2b42ff1",
+      "size_bytes": 338272
+    },
+    "private/report_manifest.json": {
+      "sha256": "ea983d8360a9cdc7e6cb31bbfd55de9a7ca8e760dd916724336cef66809b2964",
+      "size_bytes": 5463
+    },
+    "private/schedule_snapshot.parquet": {
+      "sha256": "96a7714fda9e8d17ad8fe8dccb441a0f024c9173d74b6d9414e40916a56d9a30",
+      "size_bytes": 19929
+    },
+    "private/source_predictions.csv": {
+      "sha256": "03bec893f06ebfab0962ef81cc54a81f0c650c8eee7aea07f3710d69a9561e1b",
+      "size_bytes": 135292
+    },
+    "public/predictions.csv.gz": {
+      "sha256": "2c027515f36233807dd46688b4e092a2d67c277e44b41884060dc31f642dba9f",
+      "size_bytes": 27546
+    },
+    "public/predictions.parquet": {
+      "sha256": "188b2e004db786b68aad0cf966567958797f69a7cdd29e9efc60fa56796a8dd0",
+      "size_bytes": 65073
+    }
+  },
+  "game_count": 8,
+  "git_commit": "5bd64d6a3a27458faafeab34d1deb87c013b74be",
+  "git_dirty": true,
+  "git_tree": "07f8cec25ba876b90f975703d93e54813cb01045",
+  "manifest_sha256": "30863e7c9ea9de238b37c30967ca142089bfce24cce7c7cb8c048d1b368b74a3",
+  "model_count": 36,
+  "prediction_rows": 288,
+  "predictions_recalculated": false,
+  "recovery_packaged_at_utc": "2026-08-30T16:47:35.430599+00:00",
+  "recovery_packaging_only": true,
+  "retained_prediction_created_at_utc": "2026-08-28T15:32:24.994442+00:00",
+  "retained_prediction_source": "publication/2026/week_00/pre_game/tables/all_game_model_predictions.csv",
+  "retained_prediction_source_sha256": "03bec893f06ebfab0962ef81cc54a81f0c650c8eee7aea07f3710d69a9561e1b",
+  "source_report_manifest_sha256": "ea983d8360a9cdc7e6cb31bbfd55de9a7ca8e760dd916724336cef66809b2964"
+}

@@ -17,7 +17,7 @@ from typing import Any, Mapping, Sequence
 
 import pandas as pd
 
-from .amendments import deadline_record, thursday_deadline_utc
+from .amendments import DEADLINE_ZONE, DEADLINE_ZONE_NAME, thursday_deadline_utc
 
 
 DEFAULT_REQUIRED_COLUMNS: dict[str, tuple[str, ...]] = {
@@ -151,17 +151,23 @@ def write_snapshot_completeness(report: Mapping[str, Any], path: str | Path) -> 
 
 
 def validate_deadline_utc(deadline_utc: str, *, local_date: str | date) -> dict[str, str]:
-    """Require the supplied UTC deadline to equal Thursday 23:59 New York time."""
+    """Validate an owner-selected Thursday cutoff no later than 23:59 New York time."""
     day = date.fromisoformat(local_date) if isinstance(local_date, str) else local_date
-    expected = thursday_deadline_utc(day)
+    latest = thursday_deadline_utc(day)
     text = str(deadline_utc).strip()
     parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
     if parsed.tzinfo is None:
         raise ValueError("deadline-utc must include an explicit UTC offset or Z suffix")
     parsed_utc = parsed.astimezone(timezone.utc)
-    if parsed_utc != expected:
+    parsed_local = parsed_utc.astimezone(DEADLINE_ZONE)
+    if parsed_local.date() != day or parsed_utc > latest:
         raise ValueError(
-            f"deadline-utc {deadline_utc!r} does not equal the declared Thursday deadline "
-            f"{expected.isoformat().replace('+00:00', 'Z')}"
+            f"deadline-utc {deadline_utc!r} must fall on the declared Thursday in "
+            f"{DEADLINE_ZONE_NAME} and be no later than "
+            f"{latest.isoformat().replace('+00:00', 'Z')}"
         )
-    return deadline_record(day)
+    return {
+        "deadline_local": parsed_local.isoformat(),
+        "deadline_timezone": DEADLINE_ZONE_NAME,
+        "deadline_utc": parsed_utc.isoformat().replace("+00:00", "Z"),
+    }

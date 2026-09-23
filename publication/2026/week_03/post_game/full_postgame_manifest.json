@@ -1,0 +1,957 @@
+{
+  "api_refresh": {
+    "automated_status": "pass",
+    "checks": {
+      "rankings_snapshot_exists": true,
+      "schedule_duplicate_game_ids": 0,
+      "schedule_rows": 3679,
+      "snapshot_completeness": {
+        "certification": "weekly_snapshot_certified",
+        "created_at_utc": "2026-09-21T18:36:16.880799+00:00",
+        "endpoint_count": 8,
+        "endpoints": [
+          {
+            "captured_at_utc": "2026-09-21T18:36:16.819133+00:00",
+            "columns": [
+              "id",
+              "season",
+              "week",
+              "season_type",
+              "start_date",
+              "start_time_t_b_d",
+              "completed",
+              "neutral_site",
+              "conference_game",
+              "attendance",
+              "venue_id",
+              "venue",
+              "home_id",
+              "home_team",
+              "home_classification",
+              "home_conference",
+              "home_points",
+              "home_line_scores",
+              "home_postgame_win_probability",
+              "home_pregame_elo",
+              "home_postgame_elo",
+              "away_id",
+              "away_team",
+              "away_classification",
+              "away_conference",
+              "away_points",
+              "away_line_scores",
+              "away_postgame_win_probability",
+              "away_pregame_elo",
+              "away_postgame_elo",
+              "excitement_index",
+              "highlights",
+              "notes",
+              "playoff"
+            ],
+            "endpoint": "games",
+            "error": null,
+            "exists": true,
+            "missing_columns": [],
+            "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/games/2026.parquet",
+            "required_columns": [
+              "id",
+              "season",
+              "week",
+              "start_date",
+              "completed",
+              "home_id",
+              "away_id"
+            ],
+            "required_for_certification": true,
+            "rows": 3679,
+            "sha256": "6d3bd25e37f2ce032531e667e5ce670e0ae6f22fa082890154ec58ccd97844dd",
+            "status": "pass"
+          },
+          {
+            "captured_at_utc": "2026-09-21T18:36:16.826348+00:00",
+            "columns": [
+              "id",
+              "teams",
+              "season",
+              "week"
+            ],
+            "endpoint": "game_team_stats",
+            "error": null,
+            "exists": true,
+            "missing_columns": [],
+            "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/game_team_stats/2026.parquet",
+            "required_columns": [
+              "id",
+              "season",
+              "week",
+              "teams"
+            ],
+            "required_for_certification": true,
+            "rows": 463,
+            "sha256": "dbd5f4612e714ffd2376dec4e02e1ab5a8711fbe93b5997845833e68eeb4c76a",
+            "status": "pass"
+          },
+          {
+            "captured_at_utc": "2026-09-21T18:36:16.843483+00:00",
+            "columns": [
+              "game_id",
+              "season",
+              "season_type",
+              "week",
+              "team",
+              "opponent",
+              "offense",
+              "defense"
+            ],
+            "endpoint": "stats_advanced_game",
+            "error": null,
+            "exists": true,
+            "missing_columns": [],
+            "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/stats_advanced_game/2026.parquet",
+            "required_columns": [
+              "game_id",
+              "season",
+              "week",
+              "team",
+              "opponent"
+            ],
+            "required_for_certification": true,
+            "rows": 926,
+            "sha256": "29dc0dd1d0b4e71d036080fb64764d2d7634c69941eb2278fdbabee92be7137a",
+            "status": "pass"
+          },
+          {
+            "captured_at_utc": "2026-09-21T18:36:16.857749+00:00",
+            "columns": [
+              "game_id",
+              "season",
+              "season_type",
+              "week",
+              "team",
+              "conference",
+              "opponent",
+              "opponent_conference",
+              "offense",
+              "defense"
+            ],
+            "endpoint": "havoc_game",
+            "error": null,
+            "exists": true,
+            "missing_columns": [],
+            "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/havoc_game/2026.parquet",
+            "required_columns": [
+              "game_id",
+              "season",
+              "week",
+              "team",
+              "opponent"
+            ],
+            "required_for_certification": true,
+            "rows": 911,
+            "sha256": "31feb3e6ebe78ca92ec399a127ab5096b1310aaf706b2be71908caaaa224c111",
+            "status": "pass"
+          },
+          {
+            "captured_at_utc": "2026-09-21T18:36:16.863348+00:00",
+            "columns": [
+              "id",
+              "season",
+              "season_type",
+              "week",
+              "start_date",
+              "home_team_id",
+              "home_team",
+              "home_conference",
+              "home_classification",
+              "home_score",
+              "away_team_id",
+              "away_team",
+              "away_conference",
+              "away_classification",
+              "away_score",
+              "lines"
+            ],
+            "endpoint": "lines",
+            "error": null,
+            "exists": true,
+            "missing_columns": [],
+            "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/lines/2026.parquet",
+            "required_columns": [
+              "id",
+              "season",
+              "week",
+              "lines"
+            ],
+            "required_for_certification": true,
+            "rows": 1037,
+            "sha256": "46d22697568a2d727f2af0d6174609ef78ff704da465132727e9d45f2c213e34",
+            "status": "pass"
+          },
+          {
+            "captured_at_utc": "2026-09-21T18:36:16.869025+00:00",
+            "columns": [
+              "season",
+              "week",
+              "season_type",
+              "game_id",
+              "home_team",
+              "away_team",
+              "spread",
+              "home_win_probability"
+            ],
+            "endpoint": "pregame_wp",
+            "error": null,
+            "exists": true,
+            "missing_columns": [],
+            "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/pregame_wp/2026.parquet",
+            "required_columns": [
+              "season",
+              "week",
+              "game_id"
+            ],
+            "required_for_certification": true,
+            "rows": 509,
+            "sha256": "c52c2cf4b0398c621fb2e1f7bdd96b7662fc256bf10bc879fa8569f5d1902290",
+            "status": "pass"
+          },
+          {
+            "captured_at_utc": "2026-09-21T18:36:16.871930+00:00",
+            "columns": [
+              "game_id",
+              "season",
+              "week",
+              "season_type",
+              "team",
+              "conference",
+              "opponent",
+              "offense",
+              "defense"
+            ],
+            "endpoint": "ppa_games",
+            "error": null,
+            "exists": true,
+            "missing_columns": [],
+            "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/ppa_games/2026.parquet",
+            "required_columns": [
+              "game_id",
+              "season",
+              "week",
+              "team",
+              "opponent"
+            ],
+            "required_for_certification": true,
+            "rows": 417,
+            "sha256": "039a06c26edd23514f75b57385b1496e32975f3b79c03d8369b5390afe1150b6",
+            "status": "pass"
+          },
+          {
+            "captured_at_utc": "2026-09-21T18:36:16.875073+00:00",
+            "columns": [
+              "season",
+              "season_type",
+              "week",
+              "polls"
+            ],
+            "endpoint": "rankings",
+            "error": null,
+            "exists": true,
+            "missing_columns": [],
+            "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/rankings/2026.parquet",
+            "required_columns": [],
+            "required_for_certification": false,
+            "rows": 4,
+            "sha256": "53b6f75379faf0942ec036260a5d19661506f6ce7361a3139280985974306ac5",
+            "status": "pass"
+          }
+        ],
+        "failures": [],
+        "raw_cache_dir": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2",
+        "required_endpoints": [
+          "game_team_stats",
+          "games",
+          "havoc_game",
+          "lines",
+          "ppa_games",
+          "pregame_wp",
+          "stats_advanced_game"
+        ],
+        "season": 2026,
+        "status": "pass"
+      },
+      "target_week_games": 285
+    },
+    "created_at_utc": "2026-09-21T18:36:16.802137+00:00",
+    "failures": [],
+    "fingerprints": {
+      "v1.1": {
+        "columns": 178,
+        "prior_methods": {
+          "conference_mean": 2,
+          "same_team_carry_forward": 136
+        },
+        "rows": 34817,
+        "unfilled_week0_teams": 0,
+        "week0_teams": 138
+      },
+      "v1.2": {
+        "columns": 178,
+        "prior_methods": {
+          "conference_mean": 2,
+          "same_team_carry_forward": 136
+        },
+        "rows": 34817,
+        "unfilled_week0_teams": 0,
+        "week0_teams": 138
+      },
+      "v1.3": {
+        "columns": 178,
+        "prior_methods": {
+          "conference_mean": 2,
+          "same_team_carry_forward": 136
+        },
+        "rows": 34817,
+        "unfilled_week0_teams": 0,
+        "week0_teams": 138
+      },
+      "v1.4": {
+        "columns": 187,
+        "prior_methods": {
+          "conference_mean": 2,
+          "same_team_carry_forward": 136
+        },
+        "rows": 34817,
+        "unfilled_week0_teams": 0,
+        "week0_teams": 138
+      },
+      "v1.5": {
+        "columns": 187,
+        "prior_methods": {
+          "conference_mean": 2,
+          "same_team_carry_forward": 136
+        },
+        "rows": 34817,
+        "unfilled_week0_teams": 0,
+        "week0_teams": 138
+      },
+      "v1.6": {
+        "columns": 178,
+        "prior_methods": {
+          "conference_mean": 2,
+          "same_team_carry_forward": 136
+        },
+        "rows": 34817,
+        "unfilled_week0_teams": 0,
+        "week0_teams": 138
+      },
+      "v1.7": {
+        "columns": 196,
+        "prior_methods": {
+          "conference_mean": 2,
+          "same_team_carry_forward": 136
+        },
+        "rows": 34817,
+        "unfilled_week0_teams": 0,
+        "week0_teams": 138
+      }
+    },
+    "review_status": "pending_owner_approval",
+    "season": 2026,
+    "week": 4
+  },
+  "artifact_layout": {
+    "directories": [
+      "blog",
+      "figures",
+      "metadata",
+      "scientific",
+      "tables"
+    ],
+    "excluded_png_categories": [
+      "individual_model_scorecards",
+      "frozen_top_n_duplicates",
+      "confusion_matrix_diagnostics",
+      "scientific_ranking_diagnostics"
+    ],
+    "name": "pregame-parity-lean-v1",
+    "png_retention": {
+      "figures": 23,
+      "scientific": 11,
+      "total": 34
+    }
+  },
+  "files": {
+    "EXPLORATORY_ANALYSIS.md": {
+      "sha256": "628880255068f9d76a30dca40aaf430714f272b6ed80339a9c8674c09ea6a8bd",
+      "size_bytes": 530
+    },
+    "README.md": {
+      "sha256": "27e227fa3f84cc813a9676fa00a4b848bbc905fab4d99834aae3e7006a1bc146",
+      "size_bytes": 1687
+    },
+    "blog/alt_text.md": {
+      "sha256": "95355ec93d9111d91212d9c06196c91b4a81044f28fc2bbda21096df2aaeafe9",
+      "size_bytes": 73
+    },
+    "blog/post.txt": {
+      "sha256": "226f43bb72703f03639694bfb5744cc10c19f869fcb188673a338425b07729e6",
+      "size_bytes": 65
+    },
+    "blog/summary.md": {
+      "sha256": "d01c186123d64cb7bf4175b741823b79a875b112f7aca29a3caaae0cdbb85b51",
+      "size_bytes": 211
+    },
+    "figures/calibration_by_model_group/ensembles_and_other_calibration.png": {
+      "sha256": "4b631ce7cf4be67d66da5d8a412e685382a98021da6ff6a9b506df00b47c0a62",
+      "size_bytes": 411684
+    },
+    "figures/calibration_by_model_group/linear_calibration.png": {
+      "sha256": "3d87e0eefe2f188f8d6a370b0d324e1454cb8f5edb8292da9fdeb6bf5e2dbafc",
+      "size_bytes": 567421
+    },
+    "figures/calibration_by_model_group/neighbors_and_kernels_calibration.png": {
+      "sha256": "f103c3970d28df431d9fe0e74c93f38fdcd6db6ddfc4dacfc223337c7a646655",
+      "size_bytes": 478137
+    },
+    "figures/calibration_by_model_group/trees_and_temporal_calibration.png": {
+      "sha256": "70b7ce67b9523c825fd6895ddfaa7276123c507e4ca5293cc4c694cfad9785da",
+      "size_bytes": 502782
+    },
+    "figures/consensus_ats_bankroll.png": {
+      "sha256": "326285cfb0cbb9b293f2bb7ea6019479ca7edd78810dcfd444235f90852bf12b",
+      "size_bytes": 312334
+    },
+    "figures/consensus_ats_confidence_threshold_sweep.png": {
+      "sha256": "06e1beb621f69d5bb87f2461593607e2feb71d220376460050ffc0c9fbc85294",
+      "size_bytes": 355349
+    },
+    "figures/consensus_confidence_scaled_ats_bankroll.png": {
+      "sha256": "035764d7bc2d577aab914bf0baf982a26115740af8e8da8f17a07039576f3add",
+      "size_bytes": 315355
+    },
+    "figures/consensus_confidence_scaled_moneyline_bankroll.png": {
+      "sha256": "17fd74048368ee1a8b9b19f8d33b102fa00cb1f38871f52ac6f2076b9e841add",
+      "size_bytes": 346846
+    },
+    "figures/consensus_moneyline_bankroll.png": {
+      "sha256": "adc15049aa74690b288aede8f3437d018debea5f3d0791e8bc8c0a86a889cb68",
+      "size_bytes": 328949
+    },
+    "figures/consensus_moneyline_confidence_threshold_sweep.png": {
+      "sha256": "dd1c21cb8757cf48191da82f3195cbb14441d6946e9c18ea2d579a388eae7582",
+      "size_bytes": 427175
+    },
+    "figures/cumulative_margin_wide_performance.png": {
+      "sha256": "35a8e80a0e15072b662087265e54e07031eb5f476ed79d882a8dcc53f34ab7f0",
+      "size_bytes": 1331242
+    },
+    "figures/cumulative_team_margin_parity.png": {
+      "sha256": "9d4feeda47c40ce036216d25675078b9e05faddfcd9ca11bfafbb71492009614",
+      "size_bytes": 284426
+    },
+    "figures/exploratory_postgame_diagnostics.png": {
+      "sha256": "0d34ce7f009bd77a91f58577f3e84dc30679b31e12899a98f457c5cfcc5af11f",
+      "size_bytes": 174619
+    },
+    "figures/margin_wide_all_team_power_rankings.png": {
+      "sha256": "02fc0c24e191dcce0f5aa81c1920ffe94a477b09fb9696a9c17b6d45ebd981bc",
+      "size_bytes": 937371
+    },
+    "figures/margin_wide_cumulative_model_calibration.png": {
+      "sha256": "90388b55479ac96be1af951fd5925d8331e506ff0a3d218bca47900d844e6406",
+      "size_bytes": 1008825
+    },
+    "figures/margin_wide_model_scorecard.png": {
+      "sha256": "525afe564863dbfcc7041f7745fb82222d0f9096dcb547451c2ed2ff3c11d881",
+      "size_bytes": 787945
+    },
+    "figures/margin_wide_prediction_scorecard.png": {
+      "sha256": "1311bc15bf6af03fc966498b8fcfc4bc94ed6344b9b43c3380d7ca1ca399b3f5",
+      "size_bytes": 1214047
+    },
+    "figures/margin_wide_rank_vs_projected_margin.png": {
+      "sha256": "dd5ef368576a1fe0238548fd494074626790b7523e815214edfa2edefd8d99fb",
+      "size_bytes": 696759
+    },
+    "figures/model_consensus_disagreement.png": {
+      "sha256": "4a928f3a342701d36042127c7bda7962a10686816f2d9fc0fc7a3d2ad7d2b79d",
+      "size_bytes": 366258
+    },
+    "figures/sunday_performance.png": {
+      "sha256": "a6511ae013c6a8898e1abc8ff73dc392555eb83b016568d5a40bcc3b732940d4",
+      "size_bytes": 160854
+    },
+    "figures/tdnet_model_ballots.png": {
+      "sha256": "200e7fb34a2bde27b01552add55413d3b130ba6db0d021b843fa534ab124ccef",
+      "size_bytes": 1494738
+    },
+    "figures/tdnet_top10_social_16x9.png": {
+      "sha256": "43e4811af6f047fdafea8c95d07f14a64e50fb36cdfe60c297da4d29ebb10b20",
+      "size_bytes": 179463
+    },
+    "figures/tdnet_top10_social_4x5.png": {
+      "sha256": "8aa13ca9b9e2f105f5ebee96f7dad723cf38186fed39768ee021776b37e21a3f",
+      "size_bytes": 188594
+    },
+    "figures/tdnet_top25.png": {
+      "sha256": "36b6f2895582a094d442deb28b24c27e1710a4b0eb20b0e936d7d346deb4f3ca",
+      "size_bytes": 459649
+    },
+    "figures/tdnet_vs_ap_top25.png": {
+      "sha256": "d3c0df1b4ec3584ce97c7470ac4225f3095584cdda1050f435cff5b701baf65d",
+      "size_bytes": 157175
+    },
+    "figures/team_margin_parity.png": {
+      "sha256": "6a238c81831683a6f73e4bbffddc11f38f02fe8c3be04219b6d241e9f43b13bd",
+      "size_bytes": 221901
+    },
+    "figures/top25_consensus_spread.png": {
+      "sha256": "2fc1688eb4583fc62203c5217b7c1fd86aa0ff3edda97b5ce7f39b28e00aca7e",
+      "size_bytes": 246121
+    },
+    "metadata/consensus_betting_methodology.json": {
+      "sha256": "d4092cf63a382292f80d12397545a79463f6a3844a9f160f86c2b436fd02d850",
+      "size_bytes": 2247
+    },
+    "metadata/cumulative_model_calibration.json": {
+      "sha256": "190e11d58a9b25ec5dacbb0665514ba7cce59830240ce7e70448234431eeb058",
+      "size_bytes": 3796
+    },
+    "metadata/margin_parity_manifest.json": {
+      "sha256": "ff5204376f7f4b3938f323d2714f1f2d6474ada490f28b80c518a3ae05a1ed99",
+      "size_bytes": 536
+    },
+    "metadata/poll_power_divergence.json": {
+      "sha256": "f21e08de94e12800696ea9edca54c383ef04d7170a8c2ccecde1d775810f0c2b",
+      "size_bytes": 314
+    },
+    "scientific/README.md": {
+      "sha256": "fa4ba7dad0af98b61dd3481454cb08bbce789613833f97cff5918c1b5b29deea",
+      "size_bytes": 1203
+    },
+    "scientific/calibration_by_fingerprint/f0_calibration.png": {
+      "sha256": "e5f4309f2ac262731f9b41f3c1adc45c06ab7f227b41fa4d227df7b6500da90c",
+      "size_bytes": 410100
+    },
+    "scientific/calibration_by_fingerprint/f1_calibration.png": {
+      "sha256": "c2e4f0e7ee48bc3c73ce2c22960e885dce4005f1bf4c94b9f15537bfd7fca13d",
+      "size_bytes": 420177
+    },
+    "scientific/calibration_by_fingerprint/f2_calibration.png": {
+      "sha256": "5bae0ecdfe7e5d626e9543cf04c889ea02cf33cb61a544d7c37c9e8cfdce18c0",
+      "size_bytes": 408314
+    },
+    "scientific/calibration_by_fingerprint/f3_calibration.png": {
+      "sha256": "ff6b840a9cfe50660b35de785c4b1424ab7e479264d1c6ca16e99736c0aec58a",
+      "size_bytes": 419742
+    },
+    "scientific/calibration_by_fingerprint/f4_calibration.png": {
+      "sha256": "e6b66d1331926c85208c473486c6ae0e755c8c59ae5612353443d0807bae75e9",
+      "size_bytes": 412356
+    },
+    "scientific/calibration_by_fingerprint/f5_calibration.png": {
+      "sha256": "134493a99c0cfb4a3fefba555b142de6425c7d421606a1fed29728a27f0bfbcd",
+      "size_bytes": 429439
+    },
+    "scientific/calibration_by_fingerprint/f6_calibration.png": {
+      "sha256": "aed2f7e48b97376a3cfd59e950f774c7e00344992d4a187e3436edd6d6391a33",
+      "size_bytes": 415035
+    },
+    "scientific/full_f0_f8/README.md": {
+      "sha256": "862786af5298a6435b41ef95c914aed115c1bedd51aa9f2bd75cbb121a4fb2bf",
+      "size_bytes": 598
+    },
+    "scientific/full_f0_f8/calibration_by_fingerprint/f0_calibration.png": {
+      "sha256": "48e0dcfa8729a26de9fb15de2115bc12f347d127bc2ea85038ebef8ebdc98d94",
+      "size_bytes": 416813
+    },
+    "scientific/full_f0_f8/calibration_by_fingerprint/f1_calibration.png": {
+      "sha256": "19e0a19314d6927c0d234d104a3c87c3880d32b937824323327fe06479fd7e14",
+      "size_bytes": 426605
+    },
+    "scientific/full_f0_f8/calibration_by_fingerprint/f2_calibration.png": {
+      "sha256": "2b87f0935ac8a2d2fdb8a4df9ecdc52c45547dd88deb01d25ada0fb488917180",
+      "size_bytes": 414880
+    },
+    "scientific/full_f0_f8/calibration_by_fingerprint/f3_calibration.png": {
+      "sha256": "8bacf63e0f429800fa56dccae6faed92cf57242c2933f033ed1e34440a5f882f",
+      "size_bytes": 425830
+    },
+    "scientific/full_f0_f8/calibration_by_fingerprint/f4_calibration.png": {
+      "sha256": "08f87c75f490db6a40d5af7a5f226bcc2e402fc2af7dd628fc266c0b47278245",
+      "size_bytes": 418683
+    },
+    "scientific/full_f0_f8/calibration_by_fingerprint/f5_calibration.png": {
+      "sha256": "7ef36cce893a496bfd84c0f733434e5c8066f2a4fe71757f5aa3fd118b1be5d9",
+      "size_bytes": 436617
+    },
+    "scientific/full_f0_f8/calibration_by_fingerprint/f6_calibration.png": {
+      "sha256": "034f9760dba12c7e9ec76348ee30987d27c0a20219c5aacfb02b3de377f1d7ec",
+      "size_bytes": 421269
+    },
+    "scientific/full_f0_f8/calibration_by_fingerprint/f8_calibration.png": {
+      "sha256": "eeae3794b1ee83da6d5a49c59ccbeb5542ab60eea550c82727aa488346a4343b",
+      "size_bytes": 455919
+    },
+    "scientific/full_f0_f8/scientific_consensus_game_results.csv": {
+      "sha256": "82851e028744c2a90f60b299dfc2f670eb205d11ee87d781aff49338d2f00114",
+      "size_bytes": 7128
+    },
+    "scientific/full_f0_f8/scientific_consensus_game_results.png": {
+      "sha256": "372f0ca8a9009478b4f36fe50558562a14f38bb3001804c1be62dc5119466ede",
+      "size_bytes": 1461308
+    },
+    "scientific/full_f0_f8/scientific_cumulative_all_models_performance.png": {
+      "sha256": "2195fc68d654fb8f84bbcacb90301807df0a2d5878d7a75110d90397560875b5",
+      "size_bytes": 1138434
+    },
+    "scientific/full_f0_f8/scientific_cumulative_model_calibration.csv": {
+      "sha256": "8efd993239f65ba27d446e6a064d31dd63a3e21df0035076557bc0dd0d254da2",
+      "size_bytes": 19746
+    },
+    "scientific/full_f0_f8/scientific_cumulative_model_calibration.png": {
+      "sha256": "a9015f137a2cece447cfd41780b8eae15d4e75efe59326798e21f7a18ff0cd73",
+      "size_bytes": 1232927
+    },
+    "scientific/full_f0_f8/scientific_cumulative_model_scorecard.csv": {
+      "sha256": "d28c0dc52f2e4147b4bfa2113569a2aa3385c72af2f83f37cc71ae3fa9bb2ac6",
+      "size_bytes": 6969
+    },
+    "scientific/full_f0_f8/scientific_cumulative_model_scorecard.png": {
+      "sha256": "fe908928d2d45d61f8178b7682b8f81b5ce62ab7771bb12a5ab29be3a6f1b2cd",
+      "size_bytes": 972393
+    },
+    "scientific/full_f0_f8/scientific_model_game_results.csv": {
+      "sha256": "0a5e7a566d7d681ccc2c11fc112d7cd9a236441f0aa6450778cd90d1998db792",
+      "size_bytes": 2133582
+    },
+    "scientific/full_f0_f8/scientific_model_scorecard.csv": {
+      "sha256": "8d16042c010eeaee519199df4e2cbc62feda48af1b99d26507a21a1e9116e2b0",
+      "size_bytes": 3800
+    },
+    "scientific/full_f0_f8/scientific_postgame_manifest.json": {
+      "sha256": "436daffcd3b3893bd7515d8d787148b7e00dff8ee0db2e2609236cf74b652640",
+      "size_bytes": 3314
+    },
+    "scientific/full_f0_f8/scientific_rolling_cumulative_performance.csv": {
+      "sha256": "a32ab611c9dd633f7a7ed977fabfd5e7946df95ee4bd6541baf6dbef030cf2c6",
+      "size_bytes": 60117
+    },
+    "scientific/full_f0_f8/scientific_rolling_cumulative_roster_performance.png": {
+      "sha256": "5899dd9fc40ea1c2a5ab6fa56c774a21087e7e303351866ae67d3153be8a1c89",
+      "size_bytes": 497890
+    },
+    "scientific/scientific_all_team_power_rankings.png": {
+      "sha256": "a152b5e48942e4189741d156a9e2ab4e047caa72a8ada8b9a1e5160426b6cdb5",
+      "size_bytes": 920983
+    },
+    "scientific/scientific_consensus_game_results.csv": {
+      "sha256": "238b5197048cf8807fa8b2059f967239f8a2d9f55b57c15116b0b750b50b82c6",
+      "size_bytes": 7114
+    },
+    "scientific/scientific_consensus_game_results.png": {
+      "sha256": "c341af922fe5b803dbd81405a5b574d20dbe1f098f4bdd252ffe6e8eca6e1e15",
+      "size_bytes": 1448937
+    },
+    "scientific/scientific_consensus_power_rankings.csv": {
+      "sha256": "23178d02f26d18d4147be706b25a22179f4b4c2fa9a485abfc8a6eb8a9977fbd",
+      "size_bytes": 12066
+    },
+    "scientific/scientific_cumulative_all_models_performance.png": {
+      "sha256": "1d44b01415ca4ce8ea78e7f61b85fadb7f454b4da24587e111f746020f102ed5",
+      "size_bytes": 1053227
+    },
+    "scientific/scientific_cumulative_model_calibration.csv": {
+      "sha256": "0f819e6cf66ec0c7c30fbebda1d26cb890e4dd2bb41e54116da63abc265f1556",
+      "size_bytes": 17364
+    },
+    "scientific/scientific_cumulative_model_calibration.png": {
+      "sha256": "0050d3f1a2cae9793384864531fe63b04178f4eed9be9ecc9bd7071ecfff0909",
+      "size_bytes": 1107777
+    },
+    "scientific/scientific_cumulative_model_scorecard.csv": {
+      "sha256": "c90fa1fd8cbc075e66aa6b31f4ad48e44d55cdd99da98f1f463074af4f7608e8",
+      "size_bytes": 6168
+    },
+    "scientific/scientific_cumulative_model_scorecard.png": {
+      "sha256": "f04d3e82c345e580b077265c53fa1f12c4433137889647e5e8980098967003d8",
+      "size_bytes": 906131
+    },
+    "scientific/scientific_full_ballots.csv": {
+      "sha256": "bea0efa46993ee14fd63fe773fef3ba42c658a88b285b944c85cdf0408b07e97",
+      "size_bytes": 1647376
+    },
+    "scientific/scientific_model_consensus_disagreement.csv": {
+      "sha256": "a9e3917e37376cedeea42c5e51d59c5747596b18d33d5cbe496cb1b856855d95",
+      "size_bytes": 2901
+    },
+    "scientific/scientific_model_game_results.csv": {
+      "sha256": "236766ec668bee03cabdcc318a5c8d625ccea52073011fc1f377322ae31b069c",
+      "size_bytes": 1670320
+    },
+    "scientific/scientific_model_scorecard.csv": {
+      "sha256": "78b5eea93c74ed5981f7d61eeac46dfee244fe649f6474e1821d252ef8246136",
+      "size_bytes": 2979
+    },
+    "scientific/scientific_model_scorecard.png": {
+      "sha256": "823b4cbe7d492520954c8d9df69c8988a24ae37448b26948aa1216f6b7c300b1",
+      "size_bytes": 870995
+    },
+    "scientific/scientific_model_scorecard_enriched.csv": {
+      "sha256": "7f415397e48c378db9893c58d17400b4775b4b73506dd21fc56156fe3ef62b41",
+      "size_bytes": 5568
+    },
+    "scientific/scientific_per_model_top25.csv": {
+      "sha256": "28eeb4b7a55dc606fe313cc648e58ca8db09fe36f08cad1c4a9edc8617cae924",
+      "size_bytes": 10199
+    },
+    "scientific/scientific_per_model_top25_long.csv": {
+      "sha256": "9d4f089de7611e49d82f97d448cfb75b1955d9f00f9b7d9e6251d5c1bb22c4fe",
+      "size_bytes": 67566
+    },
+    "scientific/scientific_poll_power_divergence.json": {
+      "sha256": "2282a032cf12633d72faf9d46563860bdc5ef6cd7559736a428206404b4679dc",
+      "size_bytes": 271
+    },
+    "scientific/scientific_postgame_manifest.json": {
+      "sha256": "9138574c9bbc739d18c7c33ecb5eeef3668b4a90840f87fbafbc31fc582fa8d3",
+      "size_bytes": 3242
+    },
+    "scientific/scientific_receiving_votes.txt": {
+      "sha256": "8bae1af183070fec8fa1ae660d661f1a463e7e378343c5712298b3d31682724c",
+      "size_bytes": 719
+    },
+    "scientific/scientific_research_ballot_social_16x9.png": {
+      "sha256": "3237b7db195567007f4291ff61438e4451b1b1eddf4754bc902661d0dc685412",
+      "size_bytes": 170893
+    },
+    "scientific/scientific_research_ballot_social_4x5.png": {
+      "sha256": "31ea327252ec5a94eb3e129fab65fd147f5d975bea92ccc10ec7a5ce45b7519a",
+      "size_bytes": 175092
+    },
+    "scientific/scientific_rolling_cumulative_performance.csv": {
+      "sha256": "4298b867ddc88ead70b6b4ed4481d2c86a2a316c922959900be26e9f65ab897a",
+      "size_bytes": 47344
+    },
+    "scientific/scientific_rolling_cumulative_roster_performance.png": {
+      "sha256": "d45fa03008fe0e0403037a2fce978c6d1dac48cc75a8ee00051ed22c9ea6765c",
+      "size_bytes": 499730
+    },
+    "scientific/scientific_tdnet_receiving_votes.csv": {
+      "sha256": "3b68c8e0b6fdcd6058b201f2aa08f33a69b3039a2b1271d08a71d5018914c640",
+      "size_bytes": 1011
+    },
+    "scientific/scientific_tdnet_top25.csv": {
+      "sha256": "9fa45ff4bb45f94242718f8bf540cb8e93866e2e2e12e46f32f883c7f30c80c8",
+      "size_bytes": 2729
+    },
+    "scientific/scientific_tdnet_top25.png": {
+      "sha256": "bbdf82c991dff2df63a3d469770d0e47706708aadfa9c586175ecf0f6611c312",
+      "size_bytes": 542044
+    },
+    "scientific/scientific_top25_ballots.png": {
+      "sha256": "aca788a838f047b6b0ba4c08fcaf1f39af5f7e85796be7bd57fb2489c8dafedc",
+      "size_bytes": 1986211
+    },
+    "scoring/scorecard.csv": {
+      "sha256": "23a975f4ddb9b5adeb524c0db07d5568e0d1dd5810e63a5a6f869943760bbe73",
+      "size_bytes": 2555
+    },
+    "scoring/scored_predictions.parquet": {
+      "sha256": "6f46979e492e9d23eeba512bd1950e1511b461e7b572b46879e69217a2c6583f",
+      "size_bytes": 242923
+    },
+    "tables/baseline_comparison.csv": {
+      "sha256": "ef3d737194c9480babd6f70ec80aaddab06d2afa657774d193cbf7ab6d512281",
+      "size_bytes": 1411
+    },
+    "tables/consensus_ats_bankroll_bets.csv": {
+      "sha256": "5cbc5a549ccff0cc353464bfe6b07709933e22b75c91ba5b0d2f7a5fd7aeda26",
+      "size_bytes": 114284
+    },
+    "tables/consensus_ats_bankroll_weekly.csv": {
+      "sha256": "d798d2b079e3f8a143dcef5397417dca8a54155583c34973ff5fd12215e06a03",
+      "size_bytes": 2198
+    },
+    "tables/consensus_ats_confidence_threshold_sweep.csv": {
+      "sha256": "49c8f440b3196816c33f6093c44bf65ddea450e2eca68c6bea1b48fe4727b5f2",
+      "size_bytes": 14118
+    },
+    "tables/consensus_ats_profitable_confidence_thresholds.csv": {
+      "sha256": "eeb30b8d9fb395f0b24b3dc820671cd7805fcbbad2d8826471e3172aeffa1e43",
+      "size_bytes": 694
+    },
+    "tables/consensus_confidence_scaled_ats_bankroll_bets.csv": {
+      "sha256": "fee16cd69161e9258889082356b27d8dd0361209a394f1ce48c11d69fdb935e9",
+      "size_bytes": 164361
+    },
+    "tables/consensus_confidence_scaled_ats_bankroll_weekly.csv": {
+      "sha256": "85ebfb1a439835833d9b806c5d0b8046dd898c94eb87373291c53ddb3146f6a5",
+      "size_bytes": 2492
+    },
+    "tables/consensus_confidence_scaled_moneyline_bankroll_bets.csv": {
+      "sha256": "cc0c79f6adade53afc6f43509eed1184ee7e94e7d7311f900cec2695388d5576",
+      "size_bytes": 172770
+    },
+    "tables/consensus_confidence_scaled_moneyline_bankroll_weekly.csv": {
+      "sha256": "581d892e76a577a43d77ae85cccb9847ff80149e48d00a1c2a217e7632666cee",
+      "size_bytes": 2508
+    },
+    "tables/consensus_moneyline_bankroll_bets.csv": {
+      "sha256": "db097eb1749de4f3e3f1e79c62f8923eb7a8e5cd29f588372cb42c4bdd3d4f71",
+      "size_bytes": 120996
+    },
+    "tables/consensus_moneyline_bankroll_weekly.csv": {
+      "sha256": "6138ebb973abaf9b91ffe48c940424c0a365e1fbf1a484401fdb6850f522e491",
+      "size_bytes": 2208
+    },
+    "tables/consensus_moneyline_confidence_threshold_sweep.csv": {
+      "sha256": "5e2494fa9583c954d6ceab8f08ce040974e314c04924cae5dcb4274859c38924",
+      "size_bytes": 11801
+    },
+    "tables/consensus_moneyline_profitable_confidence_thresholds.csv": {
+      "sha256": "66a4d210a53efa298b51c02b26cfd3bbfff2dd74c1ff835ea73cdb60a41fa3e3",
+      "size_bytes": 704
+    },
+    "tables/cumulative_margin_wide_performance.csv": {
+      "sha256": "9a92ad347306ee6f5f8ad7527bbf68475cfc931d32092a8df1e0fb9f7714160f",
+      "size_bytes": 15762
+    },
+    "tables/cumulative_metrics.csv": {
+      "sha256": "cd116363cb1f64cadfd2ffed05e59014f04e631dfb6f33f6a32eaf3a7a7d4e5d",
+      "size_bytes": 3925
+    },
+    "tables/exploratory_confidence_calibration.csv": {
+      "sha256": "01273010e31c5abf273353ae4570cdd31c1b542963e1352d5d0fe697ff581371",
+      "size_bytes": 395
+    },
+    "tables/exploratory_disagreement_association.json": {
+      "sha256": "66c8cc915ff2ada6871a807f5be10bcca693961073bf2aa2d77c1b4b4889195d",
+      "size_bytes": 388
+    },
+    "tables/exploratory_disagreement_tertiles.csv": {
+      "sha256": "5798bfd0acd1451e2fcaaa99f98f14f79754292b683b5b2fafeb0c276846e861",
+      "size_bytes": 205
+    },
+    "tables/exploratory_market_spread_buckets.csv": {
+      "sha256": "ddc079451beab446ea2ea02c2b325ab4f405b96b0e92e274bea499d730b98c67",
+      "size_bytes": 470
+    },
+    "tables/margin_wide_consensus_power_rankings.csv": {
+      "sha256": "a64af5c4927087572942183193edd8150ea12921f4948e9fdfc8f7d01df77088",
+      "size_bytes": 12020
+    },
+    "tables/margin_wide_cumulative_model_calibration.csv": {
+      "sha256": "747cf3496d894eacc11c5415359021aaa3e3aca071566e8fd70d91dd6c424237",
+      "size_bytes": 17094
+    },
+    "tables/margin_wide_model_game_results.csv": {
+      "sha256": "1d156b804bcdc1848d9b4453d275137882ea7b3d586518e13dba40de45b122b3",
+      "size_bytes": 2147588
+    },
+    "tables/margin_wide_model_scorecard.csv": {
+      "sha256": "9bf131d3bdef026eeecbafb74e8d3bccbd56781a5a183fce9c795190bbef46b0",
+      "size_bytes": 4703
+    },
+    "tables/margin_wide_prediction_vs_actual.csv": {
+      "sha256": "b336e637d815bf6d2e60b70aa15f1b66f55bbd494c9f6ef552872484f8f08280",
+      "size_bytes": 12973
+    },
+    "tables/model_consensus_disagreement.csv": {
+      "sha256": "e30a7ccde6276005f46d047e53978c7ade1987546ad1e20d689b4a750eda2d23",
+      "size_bytes": 2585
+    },
+    "tables/per_model_top25.csv": {
+      "sha256": "4bc6c7fc157c087744d3e7b7b6c6df7af220f0c7e8b737b27cb4eccb33d696ff",
+      "size_bytes": 8256
+    },
+    "tables/per_model_top25_long.csv": {
+      "sha256": "0517eded30952804d34c2adf0df501f0e5c2ddc65fa6f959f39808741e85c34b",
+      "size_bytes": 61940
+    },
+    "tables/receiving_votes.txt": {
+      "sha256": "b5315dd44e4fff24dd5efdd024bd2648da29a7eef2d055546e171c49cd701235",
+      "size_bytes": 435
+    },
+    "tables/scorecard.csv": {
+      "sha256": "23a975f4ddb9b5adeb524c0db07d5568e0d1dd5810e63a5a6f869943760bbe73",
+      "size_bytes": 2555
+    },
+    "tables/tdnet_model_ballots.csv": {
+      "sha256": "bb768d829ad4c9ebf5fc54cda67484f865fad5d77077e87ad17c4beb952d1305",
+      "size_bytes": 914275
+    },
+    "tables/tdnet_receiving_votes.csv": {
+      "sha256": "1d945529cd2345210ff9f1b3f45e441530c94c3f662ea58b7cf6a70de4fbf116",
+      "size_bytes": 634
+    },
+    "tables/tdnet_top25.csv": {
+      "sha256": "aca24a8c95f8b3b2cf1eb91bc423b765fbb682ceaf8ff019823310113e28bc5f",
+      "size_bytes": 2723
+    },
+    "tables/weekly_metrics.csv": {
+      "sha256": "cd116363cb1f64cadfd2ffed05e59014f04e631dfb6f33f6a32eaf3a7a7d4e5d",
+      "size_bytes": 3925
+    }
+  },
+  "generated_at_eastern": "2026-09-21T15:02:25.691992-04:00",
+  "layout_updated_at_eastern": "2026-09-21T22:05:03.188473-04:00",
+  "margin_wide_poll_models": 33,
+  "margin_wide_prediction_models": 33,
+  "poll_power_divergence": {
+    "margin_wide": {
+      "note": "Poll points and consensus margin versus average are intentionally independent summaries.",
+      "ordering_identical": false,
+      "poll_points_only": [
+        "Houston",
+        "Virginia Tech"
+      ],
+      "power_rating_only": [
+        "Louisville",
+        "Mississippi State"
+      ],
+      "top25_membership_difference_count": 4
+    },
+    "scientific": {
+      "note": "Poll points and consensus margin versus average are intentionally independent summaries.",
+      "ordering_identical": false,
+      "poll_points_only": [
+        "James Madison"
+      ],
+      "power_rating_only": [
+        "Houston"
+      ],
+      "top25_membership_difference_count": 2
+    }
+  },
+  "provider_state_week": 4,
+  "publication_completed_week": 3,
+  "reference_poll_label": "AP Top 25 (Post-Week 3)",
+  "reference_poll_short_label": "AP",
+  "schema": "tdnet-full-postgame-publication-v2",
+  "scientific_poll_models": 42,
+  "season": 2026,
+  "sources": {
+    "margin_inventory": {
+      "path": "/users/tburton2/Repos/TDNet/data/publication/2026/weekly_operations/week_04/weekly_learned_model_inventory.csv",
+      "sha256": "569dd64c10e534b0e615e3621797d1bc3cdfeb0e031c091eb642729cd893ce71"
+    },
+    "raw_games": {
+      "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/games/2026.parquet",
+      "sha256": "6d3bd25e37f2ce032531e667e5ce670e0ae6f22fa082890154ec58ccd97844dd"
+    },
+    "reference_poll": {
+      "path": "/users/tburton2/Repos/TDNet/data/private/2026/week_03/postgame_rank_inputs/ap_top25_post_week_03.csv",
+      "sha256": "295c57926eac4e9858d4e58dc309800f6d3ab85dabcb1175e4d5f0b1ad529abf"
+    },
+    "scientific_inventory": {
+      "path": "/users/tburton2/Repos/TDNet/data/publication/2026/weekly_operations/week_04/scientific_runtime_inventory.csv",
+      "sha256": "5f8758dcb21a7b9977e0c786258facd08eae3b774af33a0332571be8cc34037b"
+    },
+    "scored_predictions": {
+      "path": "/users/tburton2/Repos/TDNet/publication/2026/week_03/post_game/scoring/scored_predictions.parquet",
+      "sha256": "6f46979e492e9d23eeba512bd1950e1511b461e7b572b46879e69217a2c6583f"
+    }
+  },
+  "week_1_game_predictions_generated": false,
+  "week_1_pregame_destination": "publication/2026/week_04/pre_game"
+}

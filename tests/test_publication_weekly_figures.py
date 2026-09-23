@@ -3,7 +3,10 @@ from gridiron_ml.publication.polls import load_ap_top25
 from gridiron_ml.cli.publication.build_2025_roster_outputs import _write_poll_support
 
 from gridiron_ml.publication import PublicationFigureBuilder
-from gridiron_ml.publication.preseason_states import build_preseason_state_frame
+from gridiron_ml.publication.preseason_states import (
+    build_inseason_state_frame,
+    build_preseason_state_frame,
+)
 from gridiron_ml.publication.poll_recaps import (
     plot_season_podium_gaps,
     plot_season_poll_race,
@@ -337,16 +340,42 @@ def test_preseason_state_overlays_live_raw_returning_context(tmp_path):
     assert state.loc[0, "preseason_current_overlay_count"] == 1
 
 
+def test_inseason_state_uses_current_game_and_preseason_fallback():
+    frame = pd.DataFrame(
+        [
+            {"keys_season": 2025, "keys_week": 15, "keys_team": "A", "games_played": 12.0, "offense_ppa": 0.2, "graph_colley_rating": 0.7},
+            {"keys_season": 2025, "keys_week": 15, "keys_team": "B", "games_played": 12.0, "offense_ppa": 0.1, "graph_colley_rating": 0.6},
+            {"keys_season": 2026, "keys_week": 0, "keys_team": "A", "games_played": 0.0, "offense_ppa": None, "graph_colley_rating": 0.5},
+            {"keys_season": 2026, "keys_week": 0, "keys_team": "B", "games_played": 0.0, "offense_ppa": None, "graph_colley_rating": 0.5},
+            {"keys_season": 2026, "keys_week": 1, "keys_team": "A", "games_played": 1.0, "offense_ppa": 0.4, "graph_colley_rating": 0.625},
+            {"keys_season": 2026, "keys_week": 1, "keys_team": "B", "games_played": 0.0, "offense_ppa": None, "graph_colley_rating": 0.375},
+        ]
+    )
+    state = build_inseason_state_frame(frame, season=2026, week=1).set_index("keys_team")
+    assert state.at["A", "offense_ppa"] == 0.4
+    assert state.at["A", "games_played"] == 1.0
+    assert state.at["B", "offense_ppa"] == 0.1
+    assert state.at["B", "games_played"] == 0.0
+    assert state.at["B", "graph_colley_rating"] == 0.375
+    assert state.at["B", "inseason_preseason_fallback_count"] == 1
+
+
 def test_schedule_driven_matchups_keep_two_games_for_same_team():
     class Snapshot:
         def season_snapshot(self, season, week):
-            features = pd.DataFrame({"rating": [3.0, 2.0, 1.0], "game_is_home": [0.0, 0.0, 0.0]})
+            features = pd.DataFrame(
+                {
+                    "rating": [3.0, 2.0, 1.0],
+                    "game_is_home": [0.0, 0.0, 0.0],
+                    "market_spread_close": [0.0, 0.0, 0.0],
+                }
+            )
             meta = pd.DataFrame({"keys_team": ["A", "B", "C"]})
             return features, meta, pd.DataFrame(index=meta.index)
 
     schedule = pd.DataFrame([
-        {"game_id": 1, "season": 2026, "week": 1, "game_start_time_utc": "2026-08-29", "home_team": "A", "away_team": "B", "neutral_site": False, "conference_game": False, "season_type": "regular"},
-        {"game_id": 2, "season": 2026, "week": 1, "game_start_time_utc": "2026-09-05", "home_team": "C", "away_team": "A", "neutral_site": False, "conference_game": False, "season_type": "regular"},
+        {"game_id": 1, "season": 2026, "week": 1, "game_start_time_utc": "2026-08-29", "home_team": "A", "away_team": "B", "neutral_site": False, "conference_game": False, "season_type": "regular", "market_spread_close": -3.0},
+        {"game_id": 2, "season": 2026, "week": 1, "game_start_time_utc": "2026-09-05", "home_team": "C", "away_team": "A", "neutral_site": False, "conference_game": False, "season_type": "regular", "market_spread_close": 2.5},
     ])
     matchups, context = _build_schedule_driven_matchups(
         Snapshot(), schedule, MatchupBuilder(representation="diff"), season=2026, week=1
@@ -354,6 +383,7 @@ def test_schedule_driven_matchups_keep_two_games_for_same_team():
     assert len(matchups) == 2
     assert context["game_id"].tolist() == [1, 2]
     assert matchups["rating_diff"].tolist() == [1.0, -2.0]
+    assert matchups["market_spread_close_diff"].tolist() == [-6.0, 5.0]
 
 
 def test_load_nested_cfbd_ap_poll(tmp_path):

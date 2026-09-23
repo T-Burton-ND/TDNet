@@ -29,7 +29,11 @@ from .freeze import (
     verify_preseason_freeze,
     write_sha256sums,
 )
-from .preseason_states import build_preseason_state_frame, materialize_preseason_state
+from .preseason_states import (
+    build_inseason_state_frame,
+    build_preseason_state_frame,
+    materialize_preseason_state,
+)
 from .polls import load_ap_top25
 from .manual_poll import (
     ballot_store_path,
@@ -86,6 +90,7 @@ __all__ = [
     "verify_preseason_freeze",
     "write_sha256sums",
     "build_preseason_state_frame",
+    "build_inseason_state_frame",
     "materialize_preseason_state",
     "load_ap_top25",
     "ballot_store_path",

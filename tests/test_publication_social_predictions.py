@@ -1,4 +1,5 @@
 from hashlib import sha256
+from unittest.mock import patch
 
 import pandas as pd
 from PIL import Image, ImageDraw
@@ -43,9 +44,9 @@ def _logos(directory, games):
         image.save(directory / (team.lower().replace(" ", "_") + ".png"))
 
 
-def test_selection_prefers_ranked_buckets_and_reserves_sickos():
+def test_selection_uses_closest_ranked_games_and_reserves_sickos():
     featured, sickos = select_featured_games(_games())
-    assert [game.game_id for game in featured] == ["both", "both-low", "one-high"]
+    assert [game.game_id for game in featured] == ["both", "both-low", "one-close"]
     assert featured[0].vegas_favorite == "Ranked 3"
     assert featured[0].vegas_line == -6.5
     all_featured, _ = select_featured_games(_games(), count=10)
@@ -53,6 +54,15 @@ def test_selection_prefers_ranked_buckets_and_reserves_sickos():
     assert away_favorite.vegas_favorite == "Plain A"
     assert away_favorite.vegas_line == -2.5
     assert sickos.game_id == "sickos"
+
+
+def test_selection_can_use_ap_ranks_instead_of_tdnet_ranks():
+    games = _games()
+    games["ap_rank_away"] = pd.Series([2, pd.NA, 7, 19, pd.NA, pd.NA], dtype="Int64")
+    games["ap_rank_home"] = pd.Series([1, 4, pd.NA, 20, pd.NA, pd.NA], dtype="Int64")
+    featured, _ = select_featured_games(games, rank_source="ap")
+    both = next(game for game in featured if game.game_id == "both")
+    assert (both.away_rank, both.home_rank) == (2, 1)
     featured, sickos = select_featured_games(
         _games().query("game_id not in ['one-close', 'both-low']")
     )
@@ -101,3 +111,24 @@ def test_prediction_variants_are_exact_and_deterministic(tmp_path):
         assert sha256(path.read_bytes()).hexdigest() == first
         hashes.append(first)
     assert hashes[0] != hashes[1]
+
+
+def test_square_feature_cards_draw_market_lines(tmp_path):
+    games = _games()
+    logos = tmp_path / "logos"
+    _logos(logos, games)
+    with patch(
+        "gridiron_ml.publication.social_predictions._draw_market_line"
+    ) as draw_market_line:
+        render_predictions_social(
+            games,
+            tmp_path / "predictions_1x1.png",
+            season=2026,
+            week=2,
+            logo_dir=logos,
+            variant="1x1",
+            generated_at_utc="2026-09-10T12:00:00Z",
+            git_commit="a" * 40,
+            source_sha256="b" * 64,
+        )
+    assert draw_market_line.call_count == 4

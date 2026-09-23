@@ -65,6 +65,7 @@ def build_weekly_blog_package(
     include_collapsed_models: bool = False,
     schedule_driven_matchups: bool = False,
     render_social_assets: bool = True,
+    prediction_cutoff_utc: str | None = None,
 ) -> dict[str, object]:
     """Predict every scheduled game and render the Top-25 matchup slate.
 
@@ -94,7 +95,12 @@ def build_weekly_blog_package(
             else pd.read_csv(resolved_market_lines)
         )
         schedule = merge_cfbd_market_lines(schedule, raw_lines, season=season, week=week)
-    schedule = _normalize_schedule(schedule, season=season, week=week)
+    schedule = _normalize_schedule(
+        schedule,
+        season=season,
+        week=week,
+        not_before_utc=prediction_cutoff_utc,
+    )
     model_entries, load_failures = _load_inventory_models(
         inventory, root, preseason_ranking_path=preseason_ranking_path
     )
@@ -119,6 +125,8 @@ def build_weekly_blog_package(
                     fingerprint_label=fingerprint_label,
                     fingerprint_path=entry.get("fingerprint_path"),
                     fallback_version=fingerprint_version,
+                    season=int(season),
+                    week=int(week),
                 )
                 if schedule_driven_matchups:
                     matchup_X, context = _build_schedule_driven_matchups(
@@ -137,6 +145,12 @@ def build_weekly_blog_package(
                     )
                     context = context.loc[:, ~context.columns.duplicated()].copy()
                     context = _normalize_matchup_context(context)
+                    eligible_game_ids = set(schedule["game_id"].astype(str))
+                    eligible = context["game_id"].astype(str).isin(eligible_game_ids).to_numpy()
+                    matchup_X = matchup_X.iloc[np.flatnonzero(eligible)].reset_index(drop=True)
+                    context = context.iloc[np.flatnonzero(eligible)].reset_index(drop=True)
+                    if context.empty:
+                        raise ValueError("No model matchup rows remain after the prediction cutoff.")
                     context = context.merge(schedule, on="game_id", how="left", suffixes=("", "_schedule"))
                     for column in [
                         "home_team", "away_team", "game_start_time_utc",
@@ -276,30 +290,21 @@ def build_weekly_blog_package(
         git_commit = None
     if render_social_assets and not consensus.empty:
         predictions_source = tables / "all_games.csv"
-        figure_paths["tdnet_predictions_4x5"] = render_predictions_social(
-            consensus,
-            figures / f"week_{int(week):02d}_tdnet_predictions_4x5.png",
-            season=season,
-            week=week,
-            logo_dir=logo_dir,
-            tdnet_poll=tdnet_top25,
-            variant="4x5",
-            generated_at_utc=created_at,
-            git_commit=git_commit,
-            source_sha256=sha256_file(predictions_source),
-        )
-        figure_paths["tdnet_predictions_16x9"] = render_predictions_social(
-            consensus,
-            figures / f"week_{int(week):02d}_tdnet_predictions_16x9.png",
-            season=season,
-            week=week,
-            logo_dir=logo_dir,
-            tdnet_poll=tdnet_top25,
-            variant="16x9",
-            generated_at_utc=created_at,
-            git_commit=git_commit,
-            source_sha256=sha256_file(predictions_source),
-        )
+        for variant in ("4x5", "1x1", "16x9"):
+            figure_paths[f"tdnet_predictions_{variant}"] = render_predictions_social(
+                consensus,
+                figures / f"week_{int(week):02d}_tdnet_predictions_{variant}.png",
+                season=season,
+                week=week,
+                logo_dir=logo_dir,
+                ranking_poll=ap_top25,
+                rank_source="ap",
+                ranking_label="AP",
+                variant=variant,
+                generated_at_utc=created_at,
+                git_commit=git_commit,
+                source_sha256=sha256_file(predictions_source),
+            )
     if render_social_assets and not tdnet_top25.empty:
         social_poll = tdnet_top25.copy()
         if not ap_top25.empty and "reference_rank" not in social_poll:
@@ -307,28 +312,18 @@ def build_weekly_blog_package(
                 columns={"rank": "reference_rank"}
             )
             social_poll = social_poll.merge(ap_reference, on="team", how="left")
-        figure_paths["tdnet_top10_social_4x5"] = render_top10_social(
-            social_poll,
-            figures / f"week_{int(week):02d}_tdnet_top10_social_4x5.png",
-            season=season,
-            week=week,
-            logo_dir=logo_dir,
-            variant="4x5",
-            generated_at_utc=created_at,
-            git_commit=git_commit,
-            source_sha256=sha256_file(tdnet_top25_path) if tdnet_top25_path else None,
-        )
-        figure_paths["tdnet_top10_social_16x9"] = render_top10_social(
-            social_poll,
-            figures / f"week_{int(week):02d}_tdnet_top10_social_16x9.png",
-            season=season,
-            week=week,
-            logo_dir=logo_dir,
-            variant="16x9",
-            generated_at_utc=created_at,
-            git_commit=git_commit,
-            source_sha256=sha256_file(tdnet_top25_path) if tdnet_top25_path else None,
-        )
+        for variant in ("4x5", "1x1", "16x9"):
+            figure_paths[f"tdnet_top10_social_{variant}"] = render_top10_social(
+                social_poll,
+                figures / f"week_{int(week):02d}_tdnet_top10_social_{variant}.png",
+                season=season,
+                week=week,
+                logo_dir=logo_dir,
+                variant=variant,
+                generated_at_utc=created_at,
+                git_commit=git_commit,
+                source_sha256=sha256_file(tdnet_top25_path) if tdnet_top25_path else None,
+            )
     if not tdnet_top25.empty and not ap_top25.empty:
         comparison_label = top25_label or "AP Top 25"
         figure_paths["tdnet_vs_ap_top25"] = plot_tdnet_vs_ap_poll(
@@ -350,12 +345,12 @@ def build_weekly_blog_package(
     )
     (blog / "summary.md").write_text(summary_md, encoding="utf-8")
     social_captions = (
-        "\n\n4. **TDNet prediction social graphics.** Mobile-first 4:5 and native 16:9 summaries of the Top 3 featured games plus the closest unranked Sickos matchup."
+        "\n\n4. **TDNet prediction social graphics.** Native 4:5, square 1:1 Instagram, and 16:9 summaries of the Top 3 featured games plus the closest unranked Sickos matchup."
         if render_social_assets else ""
     )
     if render_social_assets and not tdnet_top25.empty:
         social_captions += (
-            "\n\n5. **TDNet Top 10 social graphics.** Mobile-first 4:5 and native 16:9 summaries of the frozen margin-model consensus poll."
+            "\n\n5. **TDNet Top 10 social graphics.** Native 4:5, square 1:1 Instagram, and 16:9 summaries of the frozen margin-model consensus poll."
         )
     (blog / "figure_captions.md").write_text(
         "# Figure captions\n\n"
@@ -784,7 +779,15 @@ def _load_inventory_models(inventory, project_root, *, preseason_ranking_path=No
     return entries, failures
 
 
-def _weekly_fingerprints(project_root, *, fingerprint_label, fingerprint_path=None, fallback_version):
+def _weekly_fingerprints(
+    project_root,
+    *,
+    fingerprint_label,
+    fingerprint_path=None,
+    fallback_version,
+    season=None,
+    week=None,
+):
     """Load the exact experiment fingerprint variant recorded by a checkpoint."""
     if fingerprint_path:
         path = Path(str(fingerprint_path))
@@ -796,6 +799,9 @@ def _weekly_fingerprints(project_root, *, fingerprint_label, fingerprint_path=No
             )
         frame = pd.read_parquet(path)
         frame = _apply_preseason_priors(frame, project_root=project_root)
+        frame = _apply_inseason_priors(
+            frame, season=season, week=week, project_root=project_root
+        )
         return StaticFrameFingerprints(frame, postseason=False)
     if fingerprint_label:
         safe = str(fingerprint_label).strip().lower().replace(".", "_").replace("-", "_")
@@ -811,6 +817,9 @@ def _weekly_fingerprints(project_root, *, fingerprint_label, fingerprint_path=No
             )
         frame = pd.read_parquet(path)
         frame = _apply_preseason_priors(frame, project_root=project_root)
+        frame = _apply_inseason_priors(
+            frame, season=season, week=week, project_root=project_root
+        )
         return StaticFrameFingerprints(frame, postseason=False)
     return Fingerprints(version=int(fallback_version), postseason=False, root=project_root)
 
@@ -834,7 +843,36 @@ def _apply_preseason_priors(frame: pd.DataFrame, *, project_root: str | Path | N
     return pd.concat([frame.loc[target], state.loc[:, shared]], ignore_index=True, sort=False)
 
 
-def _normalize_schedule(schedule, *, season, week):
+def _apply_inseason_priors(
+    frame: pd.DataFrame,
+    *,
+    season: int | None,
+    week: int | None,
+    project_root: str | Path | None = None,
+) -> pd.DataFrame:
+    """Materialize the current-week state when a provider week is already in progress."""
+    if season is None or week is None or int(week) < 1:
+        return frame
+    from .preseason_states import build_inseason_state_frame
+
+    try:
+        state = build_inseason_state_frame(
+            frame,
+            season=int(season),
+            week=int(week),
+            project_root=project_root,
+        )
+    except ValueError:
+        return frame
+    target = ~(
+        pd.to_numeric(frame["keys_season"], errors="coerce").eq(int(season))
+        & pd.to_numeric(frame["keys_week"], errors="coerce").eq(int(week))
+    )
+    shared = [column for column in frame.columns if column in state.columns]
+    return pd.concat([frame.loc[target], state.loc[:, shared]], ignore_index=True, sort=False)
+
+
+def _normalize_schedule(schedule, *, season, week, not_before_utc=None):
     frame = schedule.copy()
     frame = frame.loc[
         (pd.to_numeric(frame["season"], errors="coerce") == int(season))
@@ -845,6 +883,14 @@ def _normalize_schedule(schedule, *, season, week):
         "start_date": "game_start_time_utc",
     }
     frame = frame.rename(columns=rename)
+    if not_before_utc is not None:
+        cutoff = pd.to_datetime(not_before_utc, utc=True, errors="raise")
+        kickoff = pd.to_datetime(frame["game_start_time_utc"], utc=True, errors="coerce")
+        frame = frame.loc[kickoff.gt(cutoff)].copy()
+        if frame.empty:
+            raise ValueError(
+                f"No {season} Week {week} games kick off after the prediction cutoff {cutoff.isoformat()}."
+            )
     if "market_spread_close" not in frame:
         market_column = next(
             (column for column in (
@@ -866,7 +912,16 @@ def _normalize_schedule(schedule, *, season, week):
     ]:
         if column not in frame:
             frame[column] = default
-    optional = [column for column in ("market_spread_close", "market_over_under") if column in frame]
+    optional = [
+        column
+        for column in (
+            "market_spread_close",
+            "market_spread_open",
+            "market_over_under",
+            "market_win_probability",
+        )
+        if column in frame
+    ]
     return frame.loc[:, required + ["neutral_site", "conference_game", "season_type", *optional]].drop_duplicates("game_id")
 
 
@@ -891,31 +946,55 @@ def merge_cfbd_market_lines(schedule, raw_lines, *, season, week):
     if "game_id" not in lines or "lines" not in lines:
         return out
 
-    def provider_average(value):
+    def provider_summary(value):
         if isinstance(value, np.ndarray):
             value = value.tolist()
         if isinstance(value, dict):
             value = [value]
         if not isinstance(value, (list, tuple)):
-            return np.nan
-        spreads = [
-            pd.to_numeric(item.get("spread"), errors="coerce")
-            for item in value if isinstance(item, dict)
-        ]
-        valid = pd.Series(spreads, dtype="float64").dropna()
-        return float(valid.mean()) if not valid.empty else np.nan
+            return {
+                "market_spread_close": np.nan,
+                "market_spread_open": np.nan,
+                "market_over_under": np.nan,
+                "market_win_probability": np.nan,
+            }
+        providers = [item for item in value if isinstance(item, dict)]
 
-    market = lines.assign(
-        market_spread_close=lines["lines"].map(provider_average)
-    ).dropna(subset=["market_spread_close"])
-    market = market.groupby("game_id", as_index=False)["market_spread_close"].mean()
-    mapped = out["game_id"].map(market.set_index("game_id")["market_spread_close"])
-    if "market_spread_close" in out:
-        out["market_spread_close"] = pd.to_numeric(
-            out["market_spread_close"], errors="coerce"
-        ).combine_first(mapped)
-    else:
-        out["market_spread_close"] = mapped
+        def average(field):
+            values = pd.to_numeric(
+                pd.Series([item.get(field) for item in providers]), errors="coerce"
+            ).dropna()
+            return float(values.mean()) if not values.empty else np.nan
+
+        probabilities = []
+        for item in providers:
+            home_odds = pd.to_numeric(item.get("homeMoneyline"), errors="coerce")
+            away_odds = pd.to_numeric(item.get("awayMoneyline"), errors="coerce")
+            if pd.isna(home_odds) or pd.isna(away_odds) or home_odds == 0 or away_odds == 0:
+                continue
+            home = -home_odds / (-home_odds + 100) if home_odds < 0 else 100 / (home_odds + 100)
+            away = -away_odds / (-away_odds + 100) if away_odds < 0 else 100 / (away_odds + 100)
+            if home + away > 0:
+                probabilities.append(home / (home + away))
+        return {
+            "market_spread_close": average("spread"),
+            "market_spread_open": average("spreadOpen"),
+            "market_over_under": average("overUnder"),
+            "market_win_probability": (
+                float(np.mean(probabilities)) if probabilities else np.nan
+            ),
+        }
+
+    summaries = pd.DataFrame(lines["lines"].map(provider_summary).tolist(), index=lines.index)
+    market = pd.concat([lines[["game_id"]], summaries], axis=1)
+    market = market.groupby("game_id", as_index=False).mean(numeric_only=True)
+    lookup = market.set_index("game_id")
+    for column in summaries.columns:
+        mapped = out["game_id"].map(lookup[column])
+        if column in out:
+            out[column] = pd.to_numeric(out[column], errors="coerce").combine_first(mapped)
+        else:
+            out[column] = mapped
     return out
 
 
@@ -927,7 +1006,14 @@ def _build_schedule_driven_matchups(fingerprints, schedule, matchup_builder, *, 
     are set missing so each frozen model's fitted preprocessing handles them
     instead of reusing a different game's travel context.
     """
-    snapshot = fingerprints.season_snapshot(season, max(int(week) - 1, 0))
+    source_week = max(int(week) - 1, 0)
+    current_snapshot = fingerprints.season_snapshot(season, int(week))
+    current_features = current_snapshot[0]
+    if "games_played" in current_features and pd.to_numeric(
+        current_features["games_played"], errors="coerce"
+    ).fillna(0).gt(0).any():
+        source_week = int(week)
+    snapshot = fingerprints.season_snapshot(season, source_week)
     if len(snapshot) == 4:
         features, _, meta, _ = snapshot
     else:
@@ -943,6 +1029,19 @@ def _build_schedule_driven_matchups(fingerprints, schedule, matchup_builder, *, 
         raise ValueError("No scheduled games have both teams in the pre-week fingerprint state.")
     home = features.iloc[[team_rows[str(team)] for team in eligible["home_team"]]].reset_index(drop=True)
     away = features.iloc[[team_rows[str(team)] for team in eligible["away_team"]]].reset_index(drop=True)
+    for column in ("market_spread_close", "market_spread_open"):
+        if column in eligible:
+            values = pd.to_numeric(eligible[column], errors="coerce")
+            home[column] = values.to_numpy()
+            away[column] = -values.to_numpy()
+    if "market_over_under" in eligible:
+        values = pd.to_numeric(eligible["market_over_under"], errors="coerce")
+        home["market_over_under"] = values.to_numpy()
+        away["market_over_under"] = values.to_numpy()
+    if "market_win_probability" in eligible:
+        values = pd.to_numeric(eligible["market_win_probability"], errors="coerce")
+        home["market_win_probability"] = values.to_numpy()
+        away["market_win_probability"] = (1.0 - values).to_numpy()
     for column in ["game_is_home", "next_game_is_home"]:
         if column in home:
             home[column] = 1.0

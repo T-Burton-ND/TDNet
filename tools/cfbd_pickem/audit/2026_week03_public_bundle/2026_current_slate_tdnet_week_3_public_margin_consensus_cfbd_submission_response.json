@@ -1,0 +1,13 @@
+{
+  "submitted_at_utc": "2026-09-17T18:44:59.610051+00:00",
+  "endpoint": "https://predictionsapi.collegefootballdata.com/api/picks",
+  "payload_sha256": "f74bd1281455c0327e06d638fcc9d9ef961fbf215addf3b76876ea821c6e3a1f",
+  "post_http_status": 200,
+  "post_response": null,
+  "readback_http_status": 200,
+  "readback_verified": true,
+  "readback_mismatches": {},
+  "submission_id": null,
+  "api_key_fingerprint": "61d2b56d86db478b",
+  "entry_name": "TDNet Week 3 public margin consensus"
+}

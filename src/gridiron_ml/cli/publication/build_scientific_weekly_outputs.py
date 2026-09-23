@@ -18,12 +18,20 @@ def main() -> int:
     parser.add_argument("--schedule-snapshot", type=Path, required=True)
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--season", type=int, required=True)
-    parser.add_argument("--week", type=int, required=True, help="Reader-facing week label.")
+    parser.add_argument(
+        "--week", type=int, required=True, help="Reader-facing week label."
+    )
     parser.add_argument("--phase", choices=["pre_game", "post_game"], required=True)
     parser.add_argument("--poll-week", type=int)
     parser.add_argument("--prediction-week", type=int)
     parser.add_argument("--market-lines", type=Path)
     parser.add_argument("--reference-poll", type=Path)
+    parser.add_argument("--prediction-cutoff-utc")
+    parser.add_argument(
+        "--cohort",
+        choices=["market_free_f0_f6", "full_f0_f8"],
+        default="market_free_f0_f6",
+    )
     args = parser.parse_args()
     paths = build_scientific_weekly_outputs(
         project_root=ROOT,
@@ -37,6 +45,8 @@ def main() -> int:
         poll_week=args.poll_week,
         prediction_week=args.prediction_week,
         phase=args.phase,
+        prediction_cutoff_utc=args.prediction_cutoff_utc,
+        cohort=args.cohort,
     )
     print(json.dumps({name: str(path) for name, path in paths.items()}, indent=2))
     return 0

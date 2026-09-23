@@ -43,7 +43,7 @@ def main() -> None:
     except (OSError, subprocess.CalledProcessError):
         commit = None
     generated = args.generated_at_utc or datetime.now(timezone.utc).isoformat()
-    for variant in ("4x5", "16x9"):
+    for variant in ("4x5", "1x1", "16x9"):
         output = args.output_dir / f"week_{args.week:02d}_tdnet_top10_social_{variant}.png"
         render_top10_social(
             poll, output, season=args.season, week=args.week, logo_dir=args.logo_dir,

@@ -181,7 +181,26 @@ class V0FingerprintBuilder(BaseFingerprintBuilder):
             )
             target_avg_cols = list(TARGET_AVG_COLUMNS)
 
-        base["games_played"] = grouped.cumcount() + 1
+        # A current-season table includes future scheduled rows.  Counting
+        # rows would therefore claim that every team had played in Week 1 and
+        # would leak the schedule into temporal features.  Count only rows
+        # with a completed-game target; historical complete seasons retain the
+        # same 1..N sequence while future/bye rows carry the prior count.
+        completed_column = next(
+            (
+                column
+                for column in ("target_team_margin", "target_points_for")
+                if column in base.columns
+            ),
+            None,
+        )
+        if completed_column is None:
+            base["games_played"] = grouped.cumcount() + 1
+        else:
+            completed = pd.to_numeric(base[completed_column], errors="coerce").notna()
+            base["games_played"] = completed.groupby(
+                [base["keys_season"], base["keys_team"]], sort=False
+            ).cumsum()
 
         for col in mean_cols:
             base[col] = grouped[col].expanding(1).mean().reset_index(level=[0, 1], drop=True)

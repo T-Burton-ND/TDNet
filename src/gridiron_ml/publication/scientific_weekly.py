@@ -1,4 +1,4 @@
-"""Paper-only weekly outputs from the frozen scientific model roster."""
+"""Weekly publication outputs from the frozen scientific model roster."""
 
 from __future__ import annotations
 
@@ -10,6 +10,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 
 from gridiron_ml.td_run.poll_viz import (
@@ -20,10 +21,33 @@ from gridiron_ml.td_run.poll_viz import (
 
 from .bundles import sha256_file
 from .figure_theme import TDNET_COLORS, apply_tdnet_theme
+from .polls import load_ap_top25
 from .roster_poll import build_frozen_roster_poll
+from .social_top10 import render_top10_social
 from .weekly import build_weekly_blog_package, format_eastern_kickoffs
 
 SCIENTIFIC_ROSTER_LABEL = "Scientific roster (market-free F0–F6)"
+FULL_SCIENTIFIC_ROSTER_LABEL = "Scientific roster (full F0–F8)"
+SCIENTIFIC_COHORTS = {
+    "market_free_f0_f6": {
+        "roster_label": SCIENTIFIC_ROSTER_LABEL,
+        "display_label": "F0–F6 market-free consensus",
+        "included_tiers": ["F0", "F1", "F2", "F3", "F4", "F5", "F6"],
+        "excluded_tiers": ["F7", "F8"],
+        "poll_excluded_tiers": [],
+        "ballot_display_label": "F0–F6 market-free consensus",
+        "allow_market_bearing": False,
+    },
+    "full_f0_f8": {
+        "roster_label": FULL_SCIENTIFIC_ROSTER_LABEL,
+        "display_label": "F0–F8 full scientific consensus",
+        "included_tiers": ["F0", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8"],
+        "excluded_tiers": [],
+        "poll_excluded_tiers": ["F7"],
+        "ballot_display_label": "F0–F6 + F8 scientific ballots",
+        "allow_market_bearing": True,
+    },
+}
 
 
 def _as_bool(series: pd.Series) -> pd.Series:
@@ -36,13 +60,46 @@ def market_free_scientific_inventory(inventory: pd.DataFrame) -> pd.DataFrame:
     if "market_bearing" in frame:
         frame = frame.loc[~_as_bool(frame["market_bearing"])].copy()
     if "feature_config" in frame:
-        frame = frame.loc[~frame["feature_config"].astype(str).isin({"F7", "F8"})].copy()
+        frame = frame.loc[
+            ~frame["feature_config"].astype(str).isin({"F7", "F8"})
+        ].copy()
     if "objective" in frame:
-        frame = frame.loc[frame["objective"].astype(str).str.casefold().eq("margin")].copy()
+        frame = frame.loc[
+            frame["objective"].astype(str).str.casefold().eq("margin")
+        ].copy()
     if "use_in_weekly_consensus" in frame:
         frame = frame.loc[_as_bool(frame["use_in_weekly_consensus"])].copy()
     if frame.empty:
-        raise ValueError("The scientific inventory has no eligible market-free F0–F6 margin models.")
+        raise ValueError(
+            "The scientific inventory has no eligible market-free F0–F6 margin models."
+        )
+    return frame.reset_index(drop=True)
+
+
+def scientific_inventory_for_cohort(
+    inventory: pd.DataFrame, *, cohort: str = "market_free_f0_f6"
+) -> pd.DataFrame:
+    """Select an explicitly labeled scientific consensus cohort."""
+    if cohort not in SCIENTIFIC_COHORTS:
+        raise ValueError(
+            f"Unknown scientific cohort {cohort!r}; expected one of {sorted(SCIENTIFIC_COHORTS)}."
+        )
+    if cohort == "market_free_f0_f6":
+        return market_free_scientific_inventory(inventory)
+    frame = inventory.copy()
+    if "objective" in frame:
+        frame = frame.loc[
+            frame["objective"].astype(str).str.casefold().eq("margin")
+        ].copy()
+    if "use_in_weekly_consensus" in frame:
+        frame = frame.loc[_as_bool(frame["use_in_weekly_consensus"])].copy()
+    if "feature_config" in frame:
+        included = SCIENTIFIC_COHORTS[cohort]["included_tiers"]
+        frame = frame.loc[frame["feature_config"].astype(str).isin(included)].copy()
+    if frame.empty:
+        raise ValueError(
+            "The scientific inventory has no eligible full F0–F8 margin models."
+        )
     return frame.reset_index(drop=True)
 
 
@@ -51,6 +108,7 @@ def scientific_prediction_table(
     *,
     reader_week: int,
     phase: str,
+    roster_label: str = SCIENTIFIC_ROSTER_LABEL,
 ) -> pd.DataFrame:
     """Add explicit straight-up and against-the-spread picks to game rows."""
     frame = games.copy()
@@ -84,34 +142,46 @@ def scientific_prediction_table(
     output = pd.DataFrame(
         {
             "phase": phase,
-            "roster": SCIENTIFIC_ROSTER_LABEL,
+            "roster": roster_label,
             "reader_week": int(reader_week),
-            "provider_week": pd.to_numeric(frame.get("week"), errors="coerce").astype("Int64"),
+            "provider_week": pd.to_numeric(frame.get("week"), errors="coerce").astype(
+                "Int64"
+            ),
             "game_id": frame["game_id"],
             "game_start_time_utc": frame["game_start_time_utc"],
             "kickoff_eastern": format_eastern_kickoffs(frame["game_start_time_utc"]),
             "away_team": frame["away_team"],
             "home_team": frame["home_team"],
             "straight_up_pick": frame["pred_winner"],
-            "predicted_winner_margin": pd.to_numeric(frame["predicted_margin"], errors="coerce").round(2),
+            "predicted_winner_margin": pd.to_numeric(
+                frame["predicted_margin"], errors="coerce"
+            ).round(2),
             "predicted_home_win_probability": pd.to_numeric(
                 frame["pred_home_win_probability"], errors="coerce"
             ).round(4),
             "home_team_market_spread": spread.round(2),
-            "against_spread_pick": [ats_label(team, line) for team, line in zip(ats_team, ats_line)],
+            "against_spread_pick": [
+                ats_label(team, line) for team, line in zip(ats_team, ats_line)
+            ],
             "against_spread_team": ats_team,
             "against_spread_line": ats_line,
             "model_edge_vs_spread_points": home_edge.abs().round(2),
-            "model_agreement": pd.to_numeric(frame["model_agreement"], errors="coerce").round(4),
-            "scientific_model_count": pd.to_numeric(frame["model_count"], errors="coerce").astype("Int64"),
+            "model_agreement": pd.to_numeric(
+                frame["model_agreement"], errors="coerce"
+            ).round(4),
+            "scientific_model_count": pd.to_numeric(
+                frame["model_count"], errors="coerce"
+            ).astype("Int64"),
         }
     )
     output["__kickoff_sort"] = pd.to_datetime(
         output["game_start_time_utc"], utc=True, errors="coerce"
     )
-    return output.sort_values(["__kickoff_sort", "game_id"], kind="stable").drop(
-        columns="__kickoff_sort"
-    ).reset_index(drop=True)
+    return (
+        output.sort_values(["__kickoff_sort", "game_id"], kind="stable")
+        .drop(columns="__kickoff_sort")
+        .reset_index(drop=True)
+    )
 
 
 def scientific_model_game_predictions(
@@ -190,9 +260,11 @@ def scientific_model_game_predictions(
     ]
     ordered = [column for column in priority if column in frame]
     remainder = [column for column in frame if column not in ordered]
-    return frame[ordered + remainder].sort_values(
-        ["game_id", "model_name"], kind="stable"
-    ).reset_index(drop=True)
+    return (
+        frame[ordered + remainder]
+        .sort_values(["game_id", "model_name"], kind="stable")
+        .reset_index(drop=True)
+    )
 
 
 def plot_scientific_predictions(
@@ -202,6 +274,7 @@ def plot_scientific_predictions(
     season: int,
     week: int,
     phase: str,
+    display_label: str = "F0–F6 market-free consensus",
     dpi: int = 200,
 ) -> Path:
     """Render paper-first scientific predictions with explicit SU and ATS picks."""
@@ -209,9 +282,13 @@ def plot_scientific_predictions(
     table = pd.DataFrame(
         {
             "Kickoff (ET)": predictions["kickoff_eastern"],
-            "Matchup": predictions["away_team"].astype(str) + " at " + predictions["home_team"].astype(str),
+            "Matchup": predictions["away_team"].astype(str)
+            + " at "
+            + predictions["home_team"].astype(str),
             "Straight up": predictions["straight_up_pick"].astype(str),
-            "Margin": predictions["predicted_winner_margin"].map(lambda value: f"{float(value):.1f}"),
+            "Margin": predictions["predicted_winner_margin"].map(
+                lambda value: f"{float(value):.1f}"
+            ),
             "Vegas (home)": predictions["home_team_market_spread"].map(
                 lambda value: "No line" if pd.isna(value) else f"{float(value):+g}"
             ),
@@ -245,7 +322,7 @@ def plot_scientific_predictions(
             cell.set_facecolor("#FFFFFF" if row % 2 else "#EEF2F5")
     phase_label = phase.replace("_", " ").title()
     axis.set_title(
-        f"{season} Week {week} • SCIENTIFIC ROSTER PICKS • {phase_label}",
+        f"{season} Week {week} • {display_label.upper()} PICKS • {phase_label}",
         fontsize=21,
         weight="bold",
         pad=26,
@@ -254,7 +331,7 @@ def plot_scientific_predictions(
     fig.text(
         0.5,
         0.025,
-        "PAPER-ONLY F0–F6 MARKET-FREE ENSEMBLE  •  STRAIGHT-UP AND AGAINST-THE-SPREAD PICKS SHOWN SEPARATELY  •  NOT BETTING ADVICE",
+        f"PAPER-ONLY {display_label.upper()}  •  STRAIGHT-UP AND AGAINST-THE-SPREAD PICKS SHOWN SEPARATELY  •  NOT BETTING ADVICE",
         ha="center",
         fontsize=10.5,
         weight="bold",
@@ -312,7 +389,9 @@ def scientific_consensus_power_rankings(ballots: pd.DataFrame) -> pd.DataFrame:
         range(1, len(points_order) + 1), index=points_order["keys_team"].astype(str)
     )
     power.insert(
-        1, "poll_points_rank", power["keys_team"].astype(str).map(points_rank).astype(int)
+        1,
+        "poll_points_rank",
+        power["keys_team"].astype(str).map(points_rank).astype(int),
     )
     power.insert(2, "consensus_power_top25", power["consensus_power_rank"].le(25))
     power.insert(3, "poll_points_top25", power["poll_points_rank"].le(25))
@@ -332,7 +411,9 @@ def validate_scientific_ballots(ballots: pd.DataFrame) -> None:
     """Require one complete, independent all-team ballot per scientific model."""
     required = {"ballot_model", "keys_team", "ballot_rank", "power_rating_vs_average"}
     if not required.issubset(ballots):
-        raise ValueError(f"Scientific ballots are missing {sorted(required - set(ballots))}.")
+        raise ValueError(
+            f"Scientific ballots are missing {sorted(required - set(ballots))}."
+        )
     if ballots.duplicated(["ballot_model", "keys_team"]).any():
         raise ValueError("A scientific model ballot contains duplicate team rows.")
     expected_teams = int(ballots["keys_team"].nunique())
@@ -343,9 +424,17 @@ def validate_scientific_ballots(ballots: pd.DataFrame) -> None:
             )
         ranks = sorted(pd.to_numeric(frame["ballot_rank"], errors="raise").astype(int))
         if ranks != list(range(1, expected_teams + 1)):
-            raise ValueError(f"Scientific model {model!r} does not have consecutive 1..N ranks.")
-        if pd.to_numeric(frame["power_rating_vs_average"], errors="coerce").isna().any():
-            raise ValueError(f"Scientific model {model!r} has missing average-team scores.")
+            raise ValueError(
+                f"Scientific model {model!r} does not have consecutive 1..N ranks."
+            )
+        if (
+            pd.to_numeric(frame["power_rating_vs_average"], errors="coerce")
+            .isna()
+            .any()
+        ):
+            raise ValueError(
+                f"Scientific model {model!r} has missing average-team scores."
+            )
 
 
 def plot_scientific_power_top25(
@@ -355,6 +444,7 @@ def plot_scientific_power_top25(
     season: int,
     week: int,
     logo_dir: str | Path | None = None,
+    display_label: str = "Scientific roster",
     dpi: int = 200,
 ) -> Path:
     """Render the Top 25 directly from the all-team consensus power table."""
@@ -374,7 +464,9 @@ def plot_scientific_power_top25(
             "Median": frame["median_margin_vs_average_team"].map(
                 lambda value: f"{float(value):+.1f}"
             ),
-            "Avg ballot": frame["average_ballot_rank"].map(lambda value: f"{float(value):.1f}"),
+            "Avg ballot": frame["average_ballot_rank"].map(
+                lambda value: f"{float(value):.1f}"
+            ),
             "Top-25 votes": frame["top25_votes"].astype(int).astype(str)
             + "/"
             + frame["scientific_models"].astype(int).astype(str),
@@ -426,7 +518,7 @@ def plot_scientific_power_top25(
             target_px=24,
         )
     axis.set_title(
-        f"{season} Week {week}: SCIENTIFIC ROSTER Consensus Power Top 25 • Paper Only",
+        f"{season} Week {week}: {display_label} Power Top 25 • Paper Only",
         fontsize=21,
         weight="bold",
         pad=22,
@@ -447,6 +539,353 @@ def plot_scientific_power_top25(
     return target
 
 
+def plot_scientific_all_team_power_ranking(
+    power: pd.DataFrame,
+    path: str | Path,
+    *,
+    season: int,
+    week: int,
+    bulletin_label: str = "TDNET RESEARCH BULLETIN",
+    title: str = "TDNET SCIENTIFIC ALL-TEAM POWER RANKING",
+    footer_label: str = "RANK IS DERIVED FROM AGGREGATED SCIENTIFIC BALLOT POINTS",
+    dpi: int = 220,
+) -> Path:
+    """Render a four-column archival table ordered by scientific ballot rank."""
+    required = {"poll_points_rank", "keys_team", "predicted_margin_vs_average_team"}
+    if not required.issubset(power):
+        raise ValueError(
+            f"Scientific power table is missing {sorted(required - set(power))}."
+        )
+
+    apply_tdnet_theme()
+    frame = power.copy()
+    frame["poll_points_rank"] = pd.to_numeric(frame["poll_points_rank"], errors="raise")
+    frame["predicted_margin_vs_average_team"] = pd.to_numeric(
+        frame["predicted_margin_vs_average_team"], errors="raise"
+    )
+    frame = frame.sort_values(
+        ["poll_points_rank", "keys_team"], kind="stable"
+    ).reset_index(drop=True)
+
+    paper = "#F1E7D2"
+    ink = "#282017"
+    faded_ink = "#675845"
+    rule = "#8B775D"
+    accent = "#733A2C"
+    fig, axis = plt.subplots(figsize=(18, 11.5))
+    fig.patch.set_facecolor(paper)
+    axis.set_facecolor(paper)
+    axis.set_xlim(0, 1)
+    axis.set_ylim(0, 1)
+    axis.axis("off")
+
+    # A restrained double-rule frame and serif masthead evoke an old research bulletin
+    # while keeping all 138 entries comfortably legible on a landscape page.
+    for inset, width in [(0.012, 1.4), (0.018, 0.55)]:
+        axis.add_patch(
+            plt.Rectangle(
+                (inset, inset),
+                1 - 2 * inset,
+                1 - 2 * inset,
+                fill=False,
+                edgecolor=rule,
+                linewidth=width,
+                transform=axis.transAxes,
+            )
+        )
+    axis.text(
+        0.5,
+        0.965,
+        f"{bulletin_label}  ·  {season}  ·  WEEK {week}",
+        ha="center",
+        va="center",
+        fontsize=10.5,
+        color=faded_ink,
+        family="Aptos Serif",
+        weight="bold",
+    )
+    axis.text(
+        0.5,
+        0.925,
+        title,
+        ha="center",
+        va="center",
+        fontsize=23,
+        color=ink,
+        family="Aptos Serif",
+        weight="bold",
+    )
+    axis.text(
+        0.5,
+        0.892,
+        "Predicted margin vs. average FBS team",
+        ha="center",
+        va="center",
+        fontsize=13,
+        color=accent,
+        family="Aptos Serif",
+        style="italic",
+    )
+    axis.plot([0.035, 0.965], [0.868, 0.868], color=rule, linewidth=1.2)
+    axis.plot([0.035, 0.965], [0.863, 0.863], color=rule, linewidth=0.45)
+
+    columns = 4
+    rows = (len(frame) + columns - 1) // columns
+    column_width = 0.2325
+    left_edge = 0.035
+    header_y = 0.844
+    first_row_y = 0.818
+    last_row_y = 0.079
+    row_step = (first_row_y - last_row_y) / max(rows - 1, 1)
+
+    for column in range(columns):
+        x0 = left_edge + column * column_width
+        if column:
+            divider_x = x0 - 0.008
+            axis.plot(
+                [divider_x, divider_x], [0.067, 0.852], color=rule, linewidth=0.55
+            )
+        axis.text(
+            x0 + 0.006,
+            header_y,
+            "RANK",
+            ha="left",
+            va="center",
+            fontsize=8.3,
+            color=faded_ink,
+            family="Aptos Serif",
+            weight="bold",
+        )
+        axis.text(
+            x0 + 0.045,
+            header_y,
+            "TEAM",
+            ha="left",
+            va="center",
+            fontsize=8.3,
+            color=faded_ink,
+            family="Aptos Serif",
+            weight="bold",
+        )
+        axis.text(
+            x0 + 0.219,
+            header_y,
+            "VS AVG",
+            ha="right",
+            va="center",
+            fontsize=8.3,
+            color=faded_ink,
+            family="Aptos Serif",
+            weight="bold",
+        )
+
+        start = column * rows
+        stop = min(start + rows, len(frame))
+        for local_row, (_, team) in enumerate(frame.iloc[start:stop].iterrows()):
+            y = first_row_y - local_row * row_step
+            rank = int(team["poll_points_rank"])
+            margin = float(team["predicted_margin_vs_average_team"])
+            axis.text(
+                x0 + 0.031,
+                y,
+                str(rank),
+                ha="right",
+                va="center",
+                fontsize=10.2,
+                color=accent if rank <= 25 else ink,
+                family="Aptos Mono",
+                weight="bold" if rank <= 25 else "normal",
+            )
+            axis.text(
+                x0 + 0.045,
+                y,
+                str(team["keys_team"]),
+                ha="left",
+                va="center",
+                fontsize=10.4,
+                color=ink,
+                family="Aptos Serif",
+                weight="bold" if rank <= 25 else "normal",
+            )
+            axis.text(
+                x0 + 0.219,
+                y,
+                f"{margin:+.1f}",
+                ha="right",
+                va="center",
+                fontsize=10.2,
+                color=ink,
+                family="Aptos Mono",
+            )
+
+    axis.plot([0.035, 0.965], [0.057, 0.057], color=rule, linewidth=0.65)
+    axis.text(
+        0.5,
+        0.038,
+        f"TABLE I  ·  {footer_label}; RATING IS THE INDEPENDENT CONSENSUS MARGIN.  POSITIVE IS ABOVE AVERAGE.",
+        ha="center",
+        va="center",
+        fontsize=8.9,
+        color=faded_ink,
+        family="Aptos Serif",
+    )
+
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(target, dpi=dpi, bbox_inches="tight", facecolor=paper)
+    plt.close(fig)
+    return target
+
+
+def plot_power_rank_vs_projected_margin(
+    power: pd.DataFrame,
+    path: str | Path,
+    *,
+    season: int,
+    week: int,
+    logo_dir: str | Path | None = None,
+    rank_column: str = "poll_points_rank",
+    title: str = "TDNET WIDE-MARGIN RANK VS. PROJECTED MARGIN",
+    dpi: int = 220,
+) -> Path:
+    """Plot ballot rank against projected margin with team logos as markers.
+
+    ``poll_points_rank`` intentionally defaults to the rank published in the
+    all-team table. Using ``consensus_power_rank`` would be circular because
+    that field is itself the ordering of projected margin.
+    """
+    required = {rank_column, "keys_team", "predicted_margin_vs_average_team"}
+    if not required.issubset(power):
+        raise ValueError(f"Power table is missing {sorted(required - set(power))}.")
+
+    frame = power.loc[:, list(required)].copy()
+    frame[rank_column] = pd.to_numeric(frame[rank_column], errors="raise")
+    frame["predicted_margin_vs_average_team"] = pd.to_numeric(
+        frame["predicted_margin_vs_average_team"], errors="raise"
+    )
+    frame = (
+        frame.dropna().sort_values(rank_column, kind="stable").reset_index(drop=True)
+    )
+    if frame.empty:
+        raise ValueError("Power table has no plottable ranking rows.")
+    if frame[rank_column].duplicated().any():
+        raise ValueError(f"Power table contains duplicate {rank_column} values.")
+
+    apply_tdnet_theme()
+    paper = "#F1E7D2"
+    ink = "#282017"
+    faded_ink = "#675845"
+    rule = "#8B775D"
+    accent = "#733A2C"
+    top25_fill = "#D9C5A0"
+
+    fig, axis = plt.subplots(figsize=(16, 20))
+    fig.patch.set_facecolor(paper)
+    axis.set_facecolor(paper)
+
+    x = frame["predicted_margin_vs_average_team"]
+    rank = frame[rank_column]
+    x_min = 5 * np.floor((float(x.min()) - 2.0) / 5.0)
+    x_max = 5 * np.ceil((float(x.max()) + 2.0) / 5.0)
+    max_rank = int(rank.max())
+
+    axis.axhspan(0.5, min(25.5, max_rank + 0.5), color=top25_fill, alpha=0.28, zorder=0)
+    axis.axvline(0, color=accent, linewidth=1.5, alpha=0.8, zorder=1)
+    axis.set_xlim(x_min, x_max)
+    axis.set_ylim(max_rank + 0.75, 0.25)
+    axis.set_xticks(np.arange(x_min, x_max + 0.1, 5.0))
+    y_ticks = sorted({1, *range(5, max_rank + 1, 5), max_rank})
+    axis.set_yticks(y_ticks)
+    axis.grid(axis="x", color=rule, linewidth=0.65, alpha=0.35, zorder=0)
+    axis.grid(axis="y", color=rule, linewidth=0.4, alpha=0.22, zorder=0)
+
+    missing_logos: list[str] = []
+    for row in frame.itertuples(index=False):
+        team = str(row.keys_team)
+        team_rank = float(getattr(row, rank_column))
+        margin = float(row.predicted_margin_vs_average_team)
+        logo_path = resolve_team_logo_path(team, logo_dir)
+        if logo_path is not None:
+            draw_team_logo(axis, logo_path, margin, team_rank, target_px=22)
+        else:
+            missing_logos.append(team)
+            axis.scatter(
+                margin,
+                team_rank,
+                s=78,
+                color=accent,
+                edgecolor=paper,
+                linewidth=0.8,
+                zorder=3,
+            )
+            axis.annotate(
+                "".join(part[0] for part in team.split() if part)[:4].upper(),
+                (margin, team_rank),
+                ha="center",
+                va="center",
+                fontsize=5.5,
+                weight="bold",
+                color=paper,
+                zorder=4,
+            )
+
+    for spine in axis.spines.values():
+        spine.set_color(rule)
+        spine.set_linewidth(0.8)
+    axis.tick_params(colors=ink, labelsize=10)
+    axis.set_xlabel(
+        "PROJECTED MARGIN VS. AVERAGE FBS TEAM (POINTS)",
+        fontsize=12,
+        weight="bold",
+        color=ink,
+        labelpad=14,
+    )
+    axis.set_ylabel(
+        "WIDE-MARGIN BALLOT RANK  •  1 IS BEST",
+        fontsize=12,
+        weight="bold",
+        color=ink,
+        labelpad=14,
+    )
+    axis.set_title(
+        f"{title}\n{season}  ·  WEEK {week}",
+        fontsize=22,
+        weight="bold",
+        color=ink,
+        pad=24,
+    )
+    fig.text(
+        0.5,
+        0.045,
+        "SHADED BAND = TOP 25  ·  VERTICAL RULE = CONSTRUCTED AVERAGE TEAM"
+        + (
+            f"  ·  TEXT MARKS = {len(missing_logos)} MISSING LOGO"
+            if missing_logos
+            else ""
+        ),
+        ha="center",
+        va="center",
+        fontsize=9.5,
+        color=faded_ink,
+        weight="bold",
+    )
+    fig.text(
+        0.5,
+        0.027,
+        "RANK COMES FROM AGGREGATED BALLOT POINTS; PROJECTED MARGIN IS THE MEAN MODEL RATING.",
+        ha="center",
+        va="center",
+        fontsize=9,
+        color=faded_ink,
+    )
+
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(target, dpi=dpi, bbox_inches="tight", facecolor=paper)
+    plt.close(fig)
+    return target
+
+
 def write_scientific_weekly_outputs(
     *,
     games: pd.DataFrame,
@@ -461,10 +900,19 @@ def write_scientific_weekly_outputs(
     logo_dir: str | Path | None = None,
     source_inventory: str | Path | None = None,
     input_provenance: dict[str, str | Path | None] | None = None,
+    cohort: str = "market_free_f0_f6",
 ) -> dict[str, Path]:
     """Write three scientific CSVs and their readable publication figures."""
     if phase not in {"pre_game", "post_game"}:
         raise ValueError("phase must be 'pre_game' or 'post_game'.")
+    if cohort not in SCIENTIFIC_COHORTS:
+        raise ValueError(
+            f"Unknown scientific cohort {cohort!r}; expected one of {sorted(SCIENTIFIC_COHORTS)}."
+        )
+    cohort_config = SCIENTIFIC_COHORTS[cohort]
+    roster_label = str(cohort_config["roster_label"])
+    display_label = str(cohort_config["display_label"])
+    ballot_display_label = str(cohort_config["ballot_display_label"])
     apply_tdnet_theme()
     output = Path(output_root)
     output.mkdir(parents=True, exist_ok=True)
@@ -474,7 +922,12 @@ def write_scientific_weekly_outputs(
             "Scientific weekly artifacts are immutable once generated; refusing to overwrite: "
             + ", ".join(sorted(path.name for path in existing))
         )
-    predictions = scientific_prediction_table(games, reader_week=week, phase=phase)
+    predictions = scientific_prediction_table(
+        games,
+        reader_week=week,
+        phase=phase,
+        roster_label=roster_label,
+    )
     validate_scientific_ballots(ballots)
     prediction_export = (
         scientific_model_game_predictions(model_predictions, predictions)
@@ -484,7 +937,9 @@ def write_scientific_weekly_outputs(
     ballot_export = ballots.copy()
     if model_metadata is not None and not model_metadata.empty:
         metadata = model_metadata.copy()
-        label_column = "final_model_name" if "final_model_name" in metadata else "model_id"
+        label_column = (
+            "final_model_name" if "final_model_name" in metadata else "model_id"
+        )
         keep = [
             label_column,
             "model_id",
@@ -500,16 +955,30 @@ def write_scientific_weekly_outputs(
             "calibrator_sha256",
         ]
         keep = list(dict.fromkeys(column for column in keep if column in metadata))
-        metadata = metadata[keep].drop_duplicates(label_column).rename(
-            columns={label_column: "ballot_model"}
+        metadata = (
+            metadata[keep]
+            .drop_duplicates(label_column)
+            .rename(columns={label_column: "ballot_model"})
         )
         ballot_export = ballot_export.merge(
             metadata, on="ballot_model", how="left", validate="many_to_one"
         )
     top_ballots = ballots.loc[
-        pd.to_numeric(ballots["ballot_rank"], errors="coerce").between(1, 25, inclusive="both")
+        pd.to_numeric(ballots["ballot_rank"], errors="coerce").between(
+            1, 25, inclusive="both"
+        )
     ].copy()
     power = scientific_consensus_power_rankings(ballots)
+    generated_utc = datetime.now(UTC)
+    scientific_social_poll = power.rename(
+        columns={
+            "poll_points_rank": "rank",
+            "keys_team": "team",
+            "scientific_models": "ballots_seen",
+            "best_ballot_rank": "best_rank",
+            "consensus_power_rank": "reference_rank",
+        }
+    )
 
     paths = {
         "predictions_csv": output / "scientific_all_game_predictions.csv",
@@ -518,19 +987,32 @@ def write_scientific_weekly_outputs(
         "ballots_png": output / "scientific_top25_ballots.png",
         "power_rankings_csv": output / "scientific_consensus_power_rankings.csv",
         "top25_png": output / "scientific_top25.png",
+        "all_team_power_rankings_png": output
+        / "scientific_all_team_power_rankings.png",
+        "research_ballot_social_4x5_png": output
+        / "scientific_research_ballot_social_4x5.png",
+        "research_ballot_social_1x1_png": output
+        / "scientific_research_ballot_social_1x1.png",
+        "research_ballot_social_16x9_png": output
+        / "scientific_research_ballot_social_16x9.png",
     }
     prediction_export.to_csv(paths["predictions_csv"], index=False)
     ballot_export.to_csv(paths["ballots_csv"], index=False)
     power.to_csv(paths["power_rankings_csv"], index=False)
     plot_scientific_predictions(
-        predictions, paths["predictions_png"], season=season, week=week, phase=phase
+        predictions,
+        paths["predictions_png"],
+        season=season,
+        week=week,
+        phase=phase,
+        display_label=display_label,
     )
     plot_ballot_logo_grid(
         top_ballots,
         paths["ballots_png"],
         top_n=25,
         logo_dir=logo_dir,
-        title=f"{season} Week {week}: SCIENTIFIC ROSTER Top 25 Ballots • Paper Only",
+        title=f"{season} Week {week}: {ballot_display_label} Top 25 • Paper Only",
     )
     plot_scientific_power_top25(
         power,
@@ -538,44 +1020,92 @@ def write_scientific_weekly_outputs(
         season=season,
         week=week,
         logo_dir=logo_dir,
+        display_label=ballot_display_label,
     )
+    plot_scientific_all_team_power_ranking(
+        power,
+        paths["all_team_power_rankings_png"],
+        season=season,
+        week=week,
+        bulletin_label=f"TDNET RESEARCH BULLETIN · {ballot_display_label.upper()}",
+        title=f"TDNET {ballot_display_label.upper()} ALL-TEAM POWER RANKING",
+    )
+    for variant in ("4x5", "1x1", "16x9"):
+        render_top10_social(
+            scientific_social_poll,
+            paths[f"research_ballot_social_{variant}_png"],
+            season=season,
+            week=week,
+            logo_dir=logo_dir,
+            variant=variant,
+            generated_at_utc=generated_utc.isoformat(),
+            source_sha256=sha256_file(paths["power_rankings_csv"]),
+            reference_label="POWER",
+            header_title="TDNet Research Ballot",
+            header_subtitle=ballot_display_label,
+            header_accent_color=TDNET_COLORS["signal_orange"],
+        )
     manifest = {
-        "created_at_eastern": datetime.now(UTC).astimezone(
-            ZoneInfo("America/New_York")
-        ).isoformat(),
+        "created_at_eastern": datetime.now(UTC)
+        .astimezone(ZoneInfo("America/New_York"))
+        .isoformat(),
         "season": int(season),
         "week": int(week),
         "phase": phase,
-        "roster": SCIENTIFIC_ROSTER_LABEL,
-        "market_bearing_tiers_excluded": ["F7", "F8"],
-        "scientific_model_count": int(ballots["ballot_model"].nunique()),
+        "roster": roster_label,
+        "scientific_cohort": cohort,
+        "included_fingerprint_tiers": cohort_config["included_tiers"],
+        "market_bearing_tiers_excluded": cohort_config["excluded_tiers"],
+        "market_bearing_models_included": bool(cohort_config["allow_market_bearing"]),
+        "scientific_model_count": int(
+            model_predictions["model_name"].nunique()
+            if model_predictions is not None and not model_predictions.empty
+            else ballots["ballot_model"].nunique()
+        ),
+        "scientific_prediction_model_count": int(
+            model_predictions["model_name"].nunique()
+            if model_predictions is not None and not model_predictions.empty
+            else ballots["ballot_model"].nunique()
+        ),
+        "scientific_ballot_model_count": int(ballots["ballot_model"].nunique()),
+        "poll_excluded_fingerprint_tiers": cohort_config["poll_excluded_tiers"],
         "teams_per_model_ballot": int(ballots["keys_team"].nunique()),
         "full_ballot_rows": len(ballots),
-        "artifact_policy": "paper_only_not_social_media",
+        "artifact_policy": "scientific_publication_with_social_variants",
         "source_inventory": str(source_inventory) if source_inventory else None,
         "source_inventory_sha256": (
-            sha256_file(source_inventory) if source_inventory and Path(source_inventory).exists() else None
+            sha256_file(source_inventory)
+            if source_inventory and Path(source_inventory).exists()
+            else None
         ),
         "files": {name: path.name for name, path in paths.items()},
     }
     (output / "manifest.json").write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
+    cohort_note = (
+        "F7 participates in scheduled-game predictions but not the all-team power ballot: "
+        "a market-only model has no defined line against a constructed average opponent. "
+        "F8 remains in both predictions and ballots.\n\n"
+        if cohort == "full_f0_f8"
+        else ""
+    )
     (output / "README.md").write_text(
         "# TDNet scientific weekly package\n\n"
-        "Paper-only outputs from the frozen, market-free F0–F6 scientific roster. "
-        "These files are separate from TDNet's operational and social-media products.\n\n"
+        f"Outputs from the frozen {display_label} roster. These files are separate from "
+        "TDNet's operational publication products and from the canonical F0–F6 scientific consensus.\n\n"
+        + cohort_note
+        +
         "- `scientific_all_game_predictions.csv` is model × game long form and preserves "
         "every model score plus consensus straight-up and against-the-spread picks.\n"
         "- `scientific_full_ballots.csv` preserves every model × team predicted margin "
         "against the constructed average team and its resulting ballot rank.\n"
         "- `scientific_consensus_power_rankings.csv` aggregates those model scores for "
         "every team; `predicted_margin_vs_average_team` is the consensus power rating.\n"
-        "- The three PNGs are readable paper figures: all-game picks, Top-25 ballot slots, "
-        "and the consensus Top 25.\n",
+        "- The six PNGs include four readable paper figures plus native 4:5 and 16:9 "
+        "scientific research-ballot social graphics.\n",
         encoding="utf-8",
     )
-    generated_utc = datetime.now(UTC)
     kickoff = pd.to_datetime(games["game_start_time_utc"], utc=True, errors="coerce")
     earliest_kickoff = kickoff.min()
     source_inputs = {}
@@ -606,7 +1136,9 @@ def write_scientific_weekly_outputs(
         dirty_paths = []
     training_cutoff = None
     if model_metadata is not None and "training_end_season" in model_metadata:
-        values = pd.to_numeric(model_metadata["training_end_season"], errors="coerce").dropna()
+        values = pd.to_numeric(
+            model_metadata["training_end_season"], errors="coerce"
+        ).dropna()
         training_cutoff = int(values.max()) if not values.empty else None
     payload = {
         "schema": "tdnet-scientific-weekly-reproducibility-v1",
@@ -622,6 +1154,16 @@ def write_scientific_weekly_outputs(
         ),
         "training_cutoff_season": training_cutoff,
         "scientific_roster_size": int(ballots["ballot_model"].nunique()),
+        "scientific_prediction_model_count": int(
+            model_predictions["model_name"].nunique()
+            if model_predictions is not None and not model_predictions.empty
+            else ballots["ballot_model"].nunique()
+        ),
+        "scientific_ballot_model_count": int(ballots["ballot_model"].nunique()),
+        "poll_excluded_fingerprint_tiers": cohort_config["poll_excluded_tiers"],
+        "scientific_cohort": cohort,
+        "scientific_roster_label": roster_label,
+        "market_bearing_models_included": bool(cohort_config["allow_market_bearing"]),
         "teams_per_model_ballot": int(ballots["keys_team"].nunique()),
         "full_ballot_rows": len(ballots),
         "post_game_overwrite_prohibited": True,
@@ -635,7 +1177,8 @@ def write_scientific_weekly_outputs(
         ),
         "generated_before_earliest_kickoff": (
             bool(generated_utc < earliest_kickoff.to_pydatetime())
-            if pd.notna(earliest_kickoff) else None
+            if pd.notna(earliest_kickoff)
+            else None
         ),
         "source_inputs": source_inputs,
         "generator_sources": {
@@ -644,7 +1187,11 @@ def write_scientific_weekly_outputs(
         },
         "artifacts": {
             path.name: {"sha256": sha256_file(path), "size_bytes": path.stat().st_size}
-            for path in [*paths.values(), output / "manifest.json", output / "README.md"]
+            for path in [
+                *paths.values(),
+                output / "manifest.json",
+                output / "README.md",
+            ]
         },
     }
     (output / "scientific_reproducibility_payload.json").write_text(
@@ -666,18 +1213,35 @@ def build_scientific_weekly_outputs(
     prediction_week: int | None = None,
     market_lines_path: str | Path | None = None,
     reference_poll_path: str | Path | None = None,
+    prediction_cutoff_utc: str | None = None,
+    cohort: str = "market_free_f0_f6",
 ) -> dict[str, Path]:
     """Run the frozen scientific roster and emit the compact weekly package."""
     root = Path(project_root).resolve()
     source_inventory = Path(inventory_path).resolve()
-    inventory = market_free_scientific_inventory(pd.read_csv(source_inventory))
-    reference = pd.read_csv(reference_poll_path) if reference_poll_path else pd.DataFrame()
+    inventory = scientific_inventory_for_cohort(
+        pd.read_csv(source_inventory), cohort=cohort
+    )
+    cohort_config = SCIENTIFIC_COHORTS[cohort]
+    reference = (
+        load_ap_top25(reference_poll_path, season=season, week=week)
+        if reference_poll_path
+        else pd.DataFrame()
+    )
     with tempfile.TemporaryDirectory(prefix="tdnet-scientific-weekly-") as temporary:
         staging = Path(temporary)
         runtime_inventory = staging / "scientific_runtime_inventory.csv"
         inventory.to_csv(runtime_inventory, index=False)
+        poll_inventory = inventory.copy()
+        poll_excluded_tiers = set(cohort_config["poll_excluded_tiers"])
+        if poll_excluded_tiers and "feature_config" in poll_inventory:
+            poll_inventory = poll_inventory.loc[
+                ~poll_inventory["feature_config"].astype(str).isin(poll_excluded_tiers)
+            ].copy()
+        runtime_poll_inventory = staging / "scientific_poll_runtime_inventory.csv"
+        poll_inventory.to_csv(runtime_poll_inventory, index=False)
         poll_result = build_frozen_roster_poll(
-            runtime_inventory,
+            runtime_poll_inventory,
             season=season,
             week=week if poll_week is None else poll_week,
             output_dir=staging / "poll",
@@ -687,6 +1251,7 @@ def build_scientific_weekly_outputs(
             reference_poll=reference,
             reference_label="AP",
             render_figures=False,
+            allow_market_bearing=bool(cohort_config["allow_market_bearing"]),
         )
         report = build_weekly_blog_package(
             project_root=root,
@@ -701,6 +1266,7 @@ def build_scientific_weekly_outputs(
             logo_dir=root / "data/meta/logos/by_team",
             schedule_driven_matchups=True,
             render_social_assets=False,
+            prediction_cutoff_utc=prediction_cutoff_utc,
         )
         return write_scientific_weekly_outputs(
             games=report["all_games"],
@@ -720,4 +1286,5 @@ def build_scientific_weekly_outputs(
                 "market_lines_snapshot": market_lines_path,
                 "reference_poll": reference_poll_path,
             },
+            cohort=cohort,
         )

@@ -1,0 +1,13 @@
+{
+  "submitted_at_utc": "2026-09-03T13:02:29.332397+00:00",
+  "endpoint": "https://predictionsapi.collegefootballdata.com/api/picks",
+  "payload_sha256": "9827ea87fd244c9e4475af0f2eeb4911025f8ea6d81cb8a15f44ec954016a8b9",
+  "post_http_status": 200,
+  "post_response": null,
+  "readback_http_status": 200,
+  "readback_verified": true,
+  "readback_mismatches": {},
+  "submission_id": null,
+  "api_key_fingerprint": "61d2b56d86db478b",
+  "entry_name": "TDNet Week 1 fresh-fingerprint consensus"
+}

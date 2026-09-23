@@ -1,0 +1,22 @@
+{
+  "send_status": "draft_only_requires_explicit_approval",
+  "post_text": "post.txt",
+  "alt_text": "alt_text.md",
+  "media": [
+    {
+      "role": "all_model_predictions",
+      "path": "/users/tburton2/Repos/TDNet/publication/2026/week_03/pre_game/figures/all_games_predictions.png",
+      "exists": true
+    },
+    {
+      "role": "top25_games",
+      "path": "/users/tburton2/Repos/TDNet/publication/2026/week_03/pre_game/figures/top25_week_matchups.png",
+      "exists": true
+    },
+    {
+      "role": "tdnet_poll",
+      "path": "/users/tburton2/Repos/TDNet/publication/2026/week_03/pre_game/figures/tdnet_top25.png",
+      "exists": true
+    }
+  ]
+}

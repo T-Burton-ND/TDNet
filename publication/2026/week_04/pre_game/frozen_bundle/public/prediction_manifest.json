@@ -1,0 +1,248 @@
+{
+  "bundle_version": 1,
+  "canonical_poll_objective": "margin",
+  "created_at_utc": "2026-09-21T18:51:56.197802+00:00",
+  "deadline": {
+    "deadline_local": "2026-09-24T11:59:00-04:00",
+    "deadline_timezone": "America/New_York",
+    "deadline_utc": "2026-09-24T15:59:00Z"
+  },
+  "files": {
+    "private/blog__alt_text.md": {
+      "sha256": "c235eebaf0cb8b1ddf43025e393565480c7966c8a96ea43ba90e33a5017863e4",
+      "size_bytes": 974
+    },
+    "private/blog__figure_captions.md": {
+      "sha256": "56323b650782c4994a5bd069ab228411615ad5bd4f913dccabe47157c597bec6",
+      "size_bytes": 779
+    },
+    "private/blog__summary.md": {
+      "sha256": "208f9dffa4a5f7f028d5bbe64df1fcf456958a2c5d65f692fba6ad3b27b55842",
+      "size_bytes": 2429
+    },
+    "private/figures__all_games_predictions.png": {
+      "sha256": "ac99381c5bee725a057b28ed452408b9e03ff51cf079be9c46b068f582075eb1",
+      "size_bytes": 1306250
+    },
+    "private/figures__closest_games.png": {
+      "sha256": "5333c8330b9a03f4c47eebb692356cfb9cfee9e2bc90e356152fe418f672c5aa",
+      "size_bytes": 594250
+    },
+    "private/figures__tdnet_vs_ap_top25.png": {
+      "sha256": "5866e6413bd3842a0e78c135627437c8d35a1b57070fc9a97abc4253e472094e",
+      "size_bytes": 169687
+    },
+    "private/figures__top25_week_matchups.png": {
+      "sha256": "818141f97b8d18cb9e3ae7390f5e763a6ef690a89aa8524954148ddc13c480db",
+      "size_bytes": 1069146
+    },
+    "private/figures__week_04_tdnet_predictions_16x9.png": {
+      "sha256": "e23bb69a8c11b291be0ad7642f295c5e0c7be79ff8694df21140a58d1b16f0e6",
+      "size_bytes": 142211
+    },
+    "private/figures__week_04_tdnet_predictions_1x1.png": {
+      "sha256": "62af3a499d1926d0651782f6833291e6aa74cbacc25217dbf3eeabc16b9a6690",
+      "size_bytes": 168047
+    },
+    "private/figures__week_04_tdnet_predictions_4x5.png": {
+      "sha256": "d5d320cbbfd7b0e8af45ad77a57ce929874f7a74f3340b13a55c82b35c8541bf",
+      "size_bytes": 203595
+    },
+    "private/figures__week_04_tdnet_top10_social_16x9.png": {
+      "sha256": "0328ae80116e0bcfe874c1d3032c3034ca6a85008594f261b687d62c0c9451e7",
+      "size_bytes": 180166
+    },
+    "private/figures__week_04_tdnet_top10_social_1x1.png": {
+      "sha256": "eeb36b4e195ee2fdbfbc63bd3f16806bd91b1be06f7cc17f3eb2f67fdfc6fac4",
+      "size_bytes": 145188
+    },
+    "private/figures__week_04_tdnet_top10_social_4x5.png": {
+      "sha256": "3f7e4aadddecc01118bf4d23413f1aa867062649a478c18b1e1548c6f24e23da",
+      "size_bytes": 189600
+    },
+    "private/metadata__report_manifest.json": {
+      "sha256": "198add095d4f85138bf5130a01a7491d8693877e762fcedcd019b6dff1ec7faf",
+      "size_bytes": 5286
+    },
+    "private/tables__all_game_model_predictions.csv": {
+      "sha256": "cab1c78d56b35bf49fd6a369ffee17c5431b57968af7105b598c6ab2557b587b",
+      "size_bytes": 893142
+    },
+    "private/tables__all_game_model_predictions.parquet": {
+      "sha256": "17c7fd64826d581c0563175df4c34a1e954e5974e25183827c8bfc506f5be25a",
+      "size_bytes": 78860
+    },
+    "private/tables__all_games.csv": {
+      "sha256": "5784982276e412b772b23a6e1490c9698c783d986454f65ed26a29f600158f46",
+      "size_bytes": 13917
+    },
+    "private/tables__all_games.parquet": {
+      "sha256": "560a0439e60301c0e0de9bc97c32d01fd0730d80f2b497fa89c9b1467f9ee72d",
+      "size_bytes": 19913
+    },
+    "private/tables__ap_top25_games.csv": {
+      "sha256": "6ae0b365f263d25fa7e5a5c78e7fc8dbe1453aabdab71082115fc89dcb91a8a6",
+      "size_bytes": 4474
+    },
+    "private/tables__closest_games.csv": {
+      "sha256": "2e4c58a5a4996e5ba8833085c9db544d2be62694de83ade93abda7b728ba0637",
+      "size_bytes": 2736
+    },
+    "private/tables__model_failures.csv": {
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    "private/tables__tdnet_top25_snapshot.csv": {
+      "sha256": "707004ad9ac979f79aaa003b4a91cf187f76ba19b8394fecbfc3c6b01f49ce94",
+      "size_bytes": 817
+    },
+    "private/tdnet_model_poll__margin__receiving_votes.txt": {
+      "sha256": "b5315dd44e4fff24dd5efdd024bd2648da29a7eef2d055546e171c49cd701235",
+      "size_bytes": 435
+    },
+    "private/tdnet_model_poll__margin__tdnet_model_ballots.csv": {
+      "sha256": "6fb3eaf84200c9051e6394c80f3b093574d4216e2c95eb557eeb0d0503ff24df",
+      "size_bytes": 369550
+    },
+    "private/tdnet_model_poll__margin__tdnet_model_ballots.png": {
+      "sha256": "e9cc1be7dd5bacb5e3b4077eb723b8c68a9658e864b2a1b7e21f54f67375fd84",
+      "size_bytes": 1492854
+    },
+    "private/tdnet_model_poll__margin__tdnet_poll_model_failures.csv": {
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    "private/tdnet_model_poll__margin__tdnet_receiving_votes.csv": {
+      "sha256": "1d945529cd2345210ff9f1b3f45e441530c94c3f662ea58b7cf6a70de4fbf116",
+      "size_bytes": 634
+    },
+    "private/tdnet_model_poll__margin__tdnet_top25.csv": {
+      "sha256": "298968b883d3f9734acdcda774833f67e57412c8d090cf6c94ac27732c88aa13",
+      "size_bytes": 1881
+    },
+    "private/tdnet_model_poll__margin__tdnet_top25.png": {
+      "sha256": "40941d863af07cc96cd62eb5bd595d5dc9e3871359cbdc3715a971c4d989b9be",
+      "size_bytes": 438539
+    },
+    "private/tdnet_model_poll__margin__top25_consensus_spread.png": {
+      "sha256": "90ea7cd01a388235a4276e7dd7d221f4fa1257541b4ed9feafc083cf2b6be894",
+      "size_bytes": 238393
+    },
+    "private/tdnet_model_poll__margin__top25_discrepancy_feature_signals.csv": {
+      "sha256": "808bec059d6699b3d58698959eb291d47f78ff6c42f55b31486121c2e838926c",
+      "size_bytes": 545
+    },
+    "private/tdnet_model_poll__margin__top25_discrepancy_features.png": {
+      "sha256": "9f1e504442f71247cd5c919217e418379dfb45bbd623e7d08651de67fa806a06",
+      "size_bytes": 251527
+    },
+    "public/predictions.csv.gz": {
+      "sha256": "ce92ab132f40c15d75e6a75bd9fea1c4ce6fd1998807ab32100dc5429ab3c908",
+      "size_bytes": 216386
+    },
+    "public/predictions.parquet": {
+      "sha256": "42d1349520f9774c42f87be3eed134c2051dee9777ec5c0d3baaf3c8779f48d5",
+      "size_bytes": 227228
+    }
+  },
+  "freeze_manifest_sha256": "7dc45f5ea3609bfc85b895ba5870c3fd75b29b78a52f95a419ffbebec4b065d8",
+  "freeze_version": "canonical-2026-corrected-f6-v2",
+  "game_count": 58,
+  "git_commit": "2b1617eb94206e10050cc968243326c60c98cf28",
+  "git_dirty": true,
+  "git_tree": "0ca1ba0775f3f7f2ec39550c006897460b19c61c",
+  "manifest_sha256": "faf8d8cc73b836b5c546782ea6b7a892f081979e1002e002233c937a77a7bc87",
+  "model_count": 33,
+  "prediction_rows": 1914,
+  "report_manifest": {
+    "ap_top25_label": "AP Top 25",
+    "ap_top25_path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/rankings/2026.parquet",
+    "ap_top25_sha256": "53b6f75379faf0942ec036260a5d19661506f6ce7361a3139280985974306ac5",
+    "checkpoint_sha256s": [
+      "012bea45590217f57cb0932d810fb6147bb8cbaa2cda333ffdf36c5795ad3d37",
+      "033c5ed365f840c8644b315e68503e43c67c96c900801186296cbef9df472bcc",
+      "036f1861c20a2b90d3326fc57a1c4f92a13d39c17c443668c64dda10a440cce5",
+      "0cb25f333688daa4306c325825b6595f395ea77400cfef9a24938e757f056971",
+      "15e710b28f7d328db42c0a3c716ea8dc97ced876e30d7ef87a9960178e9039e7",
+      "16a4e35d652f96915dd1e0f2a0d5b165920af8509159a2fbd9b5c1036c7e1727",
+      "1dd3f8a82f66a5df134f7d6e5a15007387c25ac6a28d86ea22e3afa87f211997",
+      "1ede7b74b5491d5d025ba9812ec115dcb46d1f87e3a500fbfdf8f4525509c538",
+      "27d8b1ea44f824cd70d1a42a173b766255310544087431b44165de11a8a734fc",
+      "2dbb72fb93200923fd665838b274b83193bc34fcfcd71f7bdeb04371806267c0",
+      "3a23277e8fc54ef67871de329ca46004fea458ca4493318c55a89fa23752630d",
+      "43e2c875ac1428becd518fe820ec209300b3d8c49c27143bb7ae0aa4cbedbe04",
+      "4f32c314b8a38930c31fa013c8173bbb28f11bf84a1bcb72a563dfc4c6ac4339",
+      "516df024bc9c1ca715c16d9d9b7d98922e55d9082427f6c97f053974708908b9",
+      "5ad7206687c3cdc2a493293469ec1266e6372f8b0a2ed9b787b6ead8ae4419d3",
+      "65038d214f296c00c1f34040a6d5fbeaeb570e443283aaaf4c849b6cb5bb72c7",
+      "6f224c5f223dcc66783cdca2b2407904cef9daec7da6c45bc7ac31ecbeddfb9f",
+      "7759917ee1e83a0c43f22c30a6c5da1d330622d9311500c8fb970aa7e7da1b58",
+      "87e9f1426733842b8b25e13fb92b80b924b3660f446a9a16218f6fd465b6a06e",
+      "8f9a35345f517b4b59c80a436063bf938326ff4bcbba098d7f4d0f6b9f87f150",
+      "952e22197b558b1179a022f8d7198a6dad1eb68110babafd6194cb97597b1cba",
+      "9825120976cfb66848a68f207cd49649a5b386863825645a1a246b4eb2077dfd",
+      "a58c5270dd2b38893bbe8955662d6596385433454fa4eee13b345cd1c79ca0c0",
+      "bbe4bafcef438b4a7aa536f9f79dd7a00c65f32da115301518cb59dbc5067188",
+      "c17a7bb695df49d6a21b74f7b6002e1ac5164b8ada55feeb41080ed89246bd3f",
+      "c522b661f4ef845e32629ac5d5831cc5fbfc4ecda081163540346d653e70756a",
+      "c609ee66ee90ac0ad83453c978e8b861623de8aa30a2870f5d495a5b2e73688b",
+      "cdf023a506eb4a274a497cba604e29db1c31e52f37a0bb5bbcceb6c12a2f139c",
+      "cffafd191920bd953cf7e57e3c9520143785f9485a4956f6a3fd32e6414098d0",
+      "df6cea8c3feb2391a944363e5e5817f82c6c1c8f46e0335821698d977ca3e9a2",
+      "ea9f3fbafb9b3195a504d6e8d2885b4ff1aa83d286d83727892a90e54517a4ee",
+      "f3ef324415da951d0bf4f40c5c369792c2025a6427a4ab36276f04bf1dff1d79",
+      "f86b07645268395106902b3bf4e4b5cc00414911b74f7e7e20d5188da19f342e"
+    ],
+    "closest_game_count": 10,
+    "collapsed_model_count": 0,
+    "collapsed_models_detected": [],
+    "collapsed_models_skipped": [],
+    "created_at_utc": "2026-09-21T18:51:16.269840+00:00",
+    "figures": {
+      "all_games_table": "/tmp/tdnet-week-04-thv8o7yz/figures/all_games_predictions.png",
+      "closest_games": "/tmp/tdnet-week-04-thv8o7yz/figures/closest_games.png",
+      "tdnet_predictions_16x9": "/tmp/tdnet-week-04-thv8o7yz/figures/week_04_tdnet_predictions_16x9.png",
+      "tdnet_predictions_1x1": "/tmp/tdnet-week-04-thv8o7yz/figures/week_04_tdnet_predictions_1x1.png",
+      "tdnet_predictions_4x5": "/tmp/tdnet-week-04-thv8o7yz/figures/week_04_tdnet_predictions_4x5.png",
+      "tdnet_top10_social_16x9": "/tmp/tdnet-week-04-thv8o7yz/figures/week_04_tdnet_top10_social_16x9.png",
+      "tdnet_top10_social_1x1": "/tmp/tdnet-week-04-thv8o7yz/figures/week_04_tdnet_top10_social_1x1.png",
+      "tdnet_top10_social_4x5": "/tmp/tdnet-week-04-thv8o7yz/figures/week_04_tdnet_top10_social_4x5.png",
+      "tdnet_vs_ap_top25": "/tmp/tdnet-week-04-thv8o7yz/figures/tdnet_vs_ap_top25.png",
+      "top25_matchups": "/tmp/tdnet-week-04-thv8o7yz/figures/top25_week_matchups.png"
+    },
+    "fingerprint_variants": [
+      "F6"
+    ],
+    "frozen_model_set_sha256": "108290b376de935a44d4c886553609d0dec2cbcbe7a6e6f126e103d96fc1c9d7",
+    "game_count": 58,
+    "market_lines_path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/lines/2026.parquet",
+    "market_lines_published_at_utc": "2026-09-21T18:51:16.269840+00:00",
+    "market_lines_semantics": "pregame provider-average spread frozen at publication",
+    "market_lines_sha256": "46d22697568a2d727f2af0d6174609ef78ff704da465132727e9d45f2c213e34",
+    "model_count": 33,
+    "model_failure_count": 0,
+    "model_inventory_path": "/users/tburton2/Repos/TDNet/data/publication/2026/weekly_operations/week_04/weekly_learned_model_inventory.csv",
+    "model_inventory_sha256": "569dd64c10e534b0e615e3621797d1bc3cdfeb0e031c091eb642729cd893ce71",
+    "preseason_prior_policy": "same_team_carry_forward_then_conference_mean",
+    "preseason_ranking_path": null,
+    "preseason_ranking_sha256": null,
+    "ranking_source_is_ap": true,
+    "schedule_driven_matchups": true,
+    "schedule_snapshot_path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/games/2026.parquet",
+    "schedule_snapshot_sha256": "6d3bd25e37f2ce032531e667e5ce670e0ae6f22fa082890154ec58ccd97844dd",
+    "season": 2026,
+    "tdnet_top25_path": "/tmp/tdnet-week-04-thv8o7yz/tdnet_model_poll/margin/tdnet_top25.csv",
+    "tdnet_top25_sha256": "298968b883d3f9734acdcda774833f67e57412c8d090cf6c94ac27732c88aa13",
+    "top25_game_count": 18,
+    "top_selection_policy": "preseason_frozen_historical_performance_rank",
+    "week": 4
+  },
+  "roster_type": "wide_margin_corrected_f6",
+  "season": 2026,
+  "tdnet_objective_poll_model_counts": {
+    "margin": 33
+  },
+  "tdnet_poll_model_count": 33,
+  "tdnet_poll_source": "frozen_objective_poll",
+  "week": 4
+}

@@ -33,6 +33,11 @@ def main() -> int:
         type=Path,
         default=ROOT / "docs/publication_2026/weekly_learned_model_inventory.csv",
     )
+    parser.add_argument(
+        "--fingerprint-path",
+        type=Path,
+        help="Override the frozen inventory's data path with a refreshed, schema-compatible weekly ladder.",
+    )
     args = parser.parse_args()
     bundle = args.bundle.resolve()
     inventory = pd.read_csv(bundle / "final_model_inventory.csv")
@@ -61,7 +66,13 @@ def main() -> int:
         except ValueError:
             return str(resolved)
 
-    selected["fingerprint_path"] = selected["fingerprint_path"].map(portable_or_absolute)
+    if args.fingerprint_path is not None:
+        fingerprint_path = args.fingerprint_path.resolve()
+        if not fingerprint_path.exists():
+            raise FileNotFoundError(f"Missing refreshed weekly fingerprint: {fingerprint_path}")
+        selected["fingerprint_path"] = str(fingerprint_path)
+    else:
+        selected["fingerprint_path"] = selected["fingerprint_path"].map(portable_or_absolute)
     missing = [path for path in selected["checkpoint_path"] if not Path(path).exists()]
     if missing:
         raise FileNotFoundError(f"Missing weekly checkpoint bytes: {missing[:5]}")
@@ -79,6 +90,7 @@ def main() -> int:
         ),
         "knn_model_count": int(selected["model_family"].astype(str).str.lower().eq("knn").sum()),
         "model_families": sorted(selected["model_family"].astype(str).unique()),
+        "fingerprint_path": str(selected["fingerprint_path"].iloc[0]),
     }
     args.output.with_suffix(".json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps(summary, indent=2, sort_keys=True))

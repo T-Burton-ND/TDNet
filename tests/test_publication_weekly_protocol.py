@@ -38,3 +38,18 @@ def test_snapshot_certification_requires_all_declared_endpoints(tmp_path: Path):
 def test_deadline_requires_thursday_new_york_cutoff():
     record = validate_deadline_utc("2026-09-11T03:59:00Z", local_date="2026-09-10")
     assert record["deadline_timezone"] == "America/New_York"
+
+
+def test_deadline_allows_owner_selected_pre_kickoff_thursday_cutoff():
+    record = validate_deadline_utc("2026-09-10T15:59:00Z", local_date="2026-09-10")
+    assert record["deadline_local"] == "2026-09-10T11:59:00-04:00"
+    assert record["deadline_utc"] == "2026-09-10T15:59:00Z"
+
+
+def test_deadline_rejects_cutoff_after_declared_thursday():
+    try:
+        validate_deadline_utc("2026-09-11T04:00:00Z", local_date="2026-09-10")
+    except ValueError as exc:
+        assert "no later than" in str(exc)
+    else:
+        raise AssertionError("Friday-local deadline should be rejected")

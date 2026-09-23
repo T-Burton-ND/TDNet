@@ -1,9 +1,7 @@
-# TDNet 2026 Week 0 post-game package
+# TDNet 2026 Week 0 postgame package
 
-This directory is intentionally empty until the Week 0 games are complete and
-the results snapshot passes certification. The Sunday pipeline writes scored
-predictions, weekly and cumulative performance, and a separate post-game Top
-25 snapshot here. It never mutates the pre-game package.
+This lean Sunday release mirrors the pregame layout: reader-facing wide-margin output lives in `figures/`, its source tables live in `tables/`, and the paper-oriented roster lives in `scientific/`. Per-model PNGs and redundant diagnostic renders are not retained.
 
-Post-game figures are PNG-only. Exact post-game poll, ballot, and scoring data
-belong in this directory's `tables/` and `scoring/` subdirectories once built.
+The latest available AP poll is still the preseason Week 1 snapshot and is labeled that way in every retained comparison. Poll points and consensus power ratings remain independent.
+
+Week 1 matchup predictions are intentionally absent; those belong in `publication/2026/week_01/pre_game`.
