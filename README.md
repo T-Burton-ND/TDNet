@@ -90,7 +90,7 @@ pip install -e ".[dev,notebooks]"
 Run tests:
 
 ```bash
-pytest -q
+python -m pytest -q
 ```
 
 Run common workflows from the repo root:

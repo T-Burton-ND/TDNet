@@ -22,6 +22,6 @@ jobs:
       - name: Run tests
         env:
           MPLCONFIGDIR: /tmp/tdnet-matplotlib
-        run: pytest -q
+        run: python -m pytest -q
       - name: Verify release manifest
         run: python -m gridiron_ml.cli.publication.verify_release_candidate --manifest FREEZE_MANIFEST.json
