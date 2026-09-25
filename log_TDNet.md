@@ -17,3 +17,9 @@ Chronological record of wiki activity.
 - Added project overview, package architecture, fingerprint, temporal-semantics, protocol, model/poll, and weekly-operations pages from repository sources.
 - Added source summaries for the README, current confirmatory protocol, model guide, weekly runbooks, and dated master plan; flagged superseded protocol language.
 - Linked all pages from the index and grouped representative navigation on Home.
+
+## [2026-09-25] ingest | TDNet project history and directions
+- by: Thomas J. Burton via codex
+- Added a dated project timeline with explicit limits on what the available Git history can establish.
+- Recorded model/fingerprint selection, superseded candidates, dropped and deferred work, temporary rehearsal rules, and the July run interruption followed by later completion.
+- Added source summaries for decision, run-inventory, deferred-research, opponent-adjustment, and release/operations records; updated navigation and backlinks.
