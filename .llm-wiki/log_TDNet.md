@@ -29,3 +29,9 @@ Chronological record of wiki activity.
 - Moved the wiki history into the TDNet repository tree under `.llm-wiki/`, preserving the independent wiki commit history.
 - Preserved 43 tracked Markdown documents verbatim in the wiki source archive and removed their duplicate locations under `docs/`.
 - Updated project, configuration, and publication provenance references; retained machine-readable source data and publication/style assets in `docs/`.
+
+## [2026-09-25] update | Next-generation fingerprint setup contract
+- by: Thomas J. Burton via codex
+- Expanded the master ladder while preserving historical F00–F08 meaning and the intentional F06→F09 market-free jump.
+- Added one page per F00–F12 generation and the next-generation experiment contract, including next-game timing and 2026 quarantine.
+- Updated index, Home, temporal, overview, and confirmatory backlinks; source contract remains in TDNet repository configs and docs.
