@@ -45,4 +45,4 @@ Do not install cron until the owner chooses exact run times and the environment 
 
 ## See also
 
-[TDNet Overview](TDNet-Overview) · [Package Architecture](Package-Architecture) · [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) · [Model and Poll Surfaces](Model-and-Poll-Surfaces) · [Source-README](Source-README)
+[TDNet Overview](TDNet-Overview) · [Package Architecture](Package-Architecture) · [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) · [Model and Poll Surfaces](Model-and-Poll-Surfaces) · [Source-README](Source-README) · [Experiment Program Recovery](Experiment-Program-Recovery) · [Release and Operations History Source](Source-Release-and-Operations-History)

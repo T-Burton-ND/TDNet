@@ -11,6 +11,17 @@ Catalog of all wiki pages, organized by category.
 - [Home](Home_TDNet) — Project summary and navigation
 - [TDNet Overview](TDNet-Overview) — scope, source authority, and research boundary
 
+## Project history and decisions
+- [Project History and Directions](Project-History-and-Directions) — documented timeline and evidence limits
+- [Fingerprint and Model Decision History](Fingerprint-and-Model-Decision-History) — F6, F6-C, roster, and opponent-adjustment choices
+- [Deferred and Abandoned Directions](Deferred-and-Abandoned-Directions) — superseded, dropped, deferred, and temporary directions
+- [Experiment Program Recovery](Experiment-Program-Recovery) — July run interruption and later completion
+- [Wide Margin Decisions Source](Source-Wide-Margin-Decisions) — F6 selection and operational cleanup evidence
+- [Run Inventory Source](Source-Run-Inventory) — dated July 20 SGE snapshot
+- [Deferred Research Source](Source-Deferred-Research) — future directions and freeze boundaries
+- [Opponent Adjustment Source](Source-Opponent-Adjustment) — development and holdout selection evidence
+- [Release and Operations History Source](Source-Release-and-Operations-History) — release status and weekly publication timeline
+
 ## Project and code
 - [Package Architecture](Package-Architecture) — code subsystems and data flow
 - [README Source](Source-README) — project purpose, workflows, and public-data boundaries

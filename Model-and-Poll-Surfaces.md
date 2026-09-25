@@ -16,7 +16,7 @@ In protocol version 2, the confirmatory matrix crosses six architectures—linea
 
 The README-documented corrected-F6 wide-margin bundle is a separate, broader operational roster. Its documented inventory has 34 learned estimators and two equal-weight ensembles. Three statistical estimators remain game-prediction members but are excluded from Top-25 voting, leaving 33 automated poll ballots. One owner-supplied ballot is reported separately and does not change model consensus or model metrics.
 
-Do not equate this diverse weekly roster with the six-architecture scientific panel. The broader set includes model variants, KNN configurations, ensembles, and specialized candidates; it offers diversity but is less suited to a single controlled architecture comparison. See [Model Guide Source](Source-Model-Guide) for implementation-family behavior.
+Do not equate this diverse weekly roster with the six-architecture scientific panel. The broader set includes model variants, KNN configurations, ensembles, and specialized candidates; it offers diversity but is less suited to a single controlled architecture comparison. See [Model Guide Source](Source-Model-Guide) for implementation-family behavior and [Fingerprint and Model Decision History](Fingerprint-and-Model-Decision-History) for the roster cleanup and full-F6 selection evidence.
 
 ## Consensus boundaries
 
@@ -37,4 +37,4 @@ All-model consensus is equal-weight across valid eligible margin members for a w
 
 ## See also
 
-[TDNet Overview](TDNet-Overview) · [Fingerprint Ladder](Fingerprint-Ladder) · [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) · [Weekly Publication Workflow](Weekly-Publication-Workflow) · [Package Architecture](Package-Architecture) · [README Source](Source-README) · [TDNet Master Plan Source](Source-TDNet-Master-Plan)
+[TDNet Overview](TDNet-Overview) · [Fingerprint Ladder](Fingerprint-Ladder) · [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) · [Weekly Publication Workflow](Weekly-Publication-Workflow) · [Package Architecture](Package-Architecture) · [README Source](Source-README) · [TDNet Master Plan Source](Source-TDNet-Master-Plan) · [Fingerprint and Model Decision History](Fingerprint-and-Model-Decision-History) · [Wide Margin Decisions Source](Source-Wide-Margin-Decisions)

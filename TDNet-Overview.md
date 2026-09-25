@@ -34,6 +34,10 @@ Use `configs/publication/confirmatory_protocol.yaml` as the machine-readable sou
 - [Weekly Operations Source](Source-Weekly-Operations) — recurring runbook and notebook responsibilities.
 - [TDNet Master Plan Source](Source-TDNet-Master-Plan) — dated design record with explicit stale-section warnings.
 
+## Project history
+
+The checked-out Git history begins at a public-release commit in August 2026 and is not a complete origin story. Dated planning, run-inventory, decision, and release records establish a partial project timeline and distinguish later completion from earlier interrupted work. See [Project History and Directions](Project-History-and-Directions) and [Deferred and Abandoned Directions](Deferred-and-Abandoned-Directions).
+
 ## See also
 
-[Package Architecture](Package-Architecture) · [Fingerprint Ladder](Fingerprint-Ladder) · [Temporal Data Semantics](Temporal-Data-Semantics) · [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) · [Model and Poll Surfaces](Model-and-Poll-Surfaces) · [Weekly Publication Workflow](Weekly-Publication-Workflow)
+[Package Architecture](Package-Architecture) · [Fingerprint Ladder](Fingerprint-Ladder) · [Temporal Data Semantics](Temporal-Data-Semantics) · [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) · [Model and Poll Surfaces](Model-and-Poll-Surfaces) · [Weekly Publication Workflow](Weekly-Publication-Workflow) · [Project History and Directions](Project-History-and-Directions) · [Deferred and Abandoned Directions](Deferred-and-Abandoned-Directions) · [Opponent Adjustment Source](Source-Opponent-Adjustment)

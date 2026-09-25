@@ -23,6 +23,8 @@ However, the dated active-protocol section is not the current authority for live
 
 Its research rationale informs [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) and [Fingerprint Ladder](Fingerprint-Ladder). The architecture questions connect to [Model and Poll Surfaces](Model-and-Poll-Surfaces), but the dated roster language must not override that page’s newer sources.
 
+The plan’s status ledger and P2 candidates also inform [Project History and Directions](Project-History-and-Directions) and [Deferred and Abandoned Directions](Deferred-and-Abandoned-Directions). Later July run and August release records are summarized in [Experiment Program Recovery](Experiment-Program-Recovery).
+
 ## Quotes worth keeping
 
 > “Feature and model complexity must be varied independently.”
@@ -33,4 +35,4 @@ Source file: `../docs/TDNET_MASTER_PLAN.md`.
 
 ## See also
 
-[TDNet Overview](TDNet-Overview) · [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) · [Fingerprint Ladder](Fingerprint-Ladder) · [Model and Poll Surfaces](Model-and-Poll-Surfaces)
+[TDNet Overview](TDNet-Overview) · [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) · [Fingerprint Ladder](Fingerprint-Ladder) · [Model and Poll Surfaces](Model-and-Poll-Surfaces) · [Project History and Directions](Project-History-and-Directions) · [Deferred and Abandoned Directions](Deferred-and-Abandoned-Directions) · [Deferred Research Source](Source-Deferred-Research) · [Experiment Program Recovery](Experiment-Program-Recovery)

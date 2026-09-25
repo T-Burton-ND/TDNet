@@ -38,4 +38,4 @@ These rules are expanded in [Confirmatory Protocol 2026](Confirmatory-Protocol-2
 
 ## See also
 
-[Confirmatory Protocol 2026](Confirmatory-Protocol-2026) · [Fingerprint Ladder](Fingerprint-Ladder) · [Temporal Data Semantics](Temporal-Data-Semantics) · [Model and Poll Surfaces](Model-and-Poll-Surfaces) · [Weekly Publication Workflow](Weekly-Publication-Workflow) · [TDNet Overview](TDNet-Overview) · [Model Guide Source](Source-Model-Guide) · [TDNet Master Plan Source](Source-TDNet-Master-Plan)
+[Confirmatory Protocol 2026](Confirmatory-Protocol-2026) · [Fingerprint Ladder](Fingerprint-Ladder) · [Temporal Data Semantics](Temporal-Data-Semantics) · [Model and Poll Surfaces](Model-and-Poll-Surfaces) · [Weekly Publication Workflow](Weekly-Publication-Workflow) · [TDNet Overview](TDNet-Overview) · [Model Guide Source](Source-Model-Guide) · [TDNet Master Plan Source](Source-TDNet-Master-Plan) · [Deferred Research Source](Source-Deferred-Research)

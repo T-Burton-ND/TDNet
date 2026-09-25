@@ -41,4 +41,4 @@ The tier answers which feature families are present; it does not by itself guara
 
 ## See also
 
-[TDNet Overview](TDNet-Overview) · [Temporal Data Semantics](Temporal-Data-Semantics) · [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) · [Model and Poll Surfaces](Model-and-Poll-Surfaces) · [README Source](Source-README)
+[TDNet Overview](TDNet-Overview) · [Temporal Data Semantics](Temporal-Data-Semantics) · [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) · [Model and Poll Surfaces](Model-and-Poll-Surfaces) · [README Source](Source-README) · [Fingerprint and Model Decision History](Fingerprint-and-Model-Decision-History)

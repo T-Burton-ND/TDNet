@@ -27,6 +27,12 @@ TDNet is a research-oriented Python package for time-dependent college-football 
 - [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) — fixed study design
 - [Model and Poll Surfaces](Model-and-Poll-Surfaces) — scientific panel and operational roster
 
+### Project history and decisions
+
+- [Project History and Directions](Project-History-and-Directions) — documented timeline and evidence limits
+- [Fingerprint and Model Decision History](Fingerprint-and-Model-Decision-History) — selection and roster changes
+- [Deferred and Abandoned Directions](Deferred-and-Abandoned-Directions) — superseded, dropped, and future work
+
 ### Operations
 
 - [Weekly Publication Workflow](Weekly-Publication-Workflow) — refresh, freeze, and score sequence
@@ -38,6 +44,7 @@ TDNet is a research-oriented Python package for time-dependent college-football 
 - [Model Guide Source](Source-Model-Guide)
 - [Weekly Operations Source](Source-Weekly-Operations)
 - [TDNet Master Plan Source](Source-TDNet-Master-Plan) — historical with superseded sections flagged
+- [Release and Operations History Source](Source-Release-and-Operations-History)
 
 ## Getting Started
 
