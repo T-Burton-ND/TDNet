@@ -159,6 +159,9 @@ def validate_contract(config: dict, *, repo_root: Path) -> None:
             raise ValueError("Market comparator is an ancestor")
     if config["scheduler"]["max_running_jobs_project_wide"] > 50:
         raise ValueError("Scheduler cap exceeds 50")
+    budget = config["cfbd_api_call_budget"]
+    if budget["hard_limit"] != 20000 or not budget["ledger"].startswith(str(root) + "/"):
+        raise ValueError("Next-generation CFBD budget must be 20,000 under artifact root")
 
 
 def validate_setup(repo_root: Path) -> None:
@@ -166,6 +169,11 @@ def validate_setup(repo_root: Path) -> None:
     config = load_json(base / "nextgen_fingerprints_v1.json")
     validate_contract(config, repo_root=repo_root)
     setpoints = load_json(base / "nextgen_screening_setpoints_v1.json")
+    acquisition = load_json(base / "nextgen_acquisition_v1.json")
+    if acquisition["api_call_budget"]["hard_limit"] != config["cfbd_api_call_budget"]["hard_limit"]:
+        raise ValueError("Acquisition budget differs from experiment contract")
+    if acquisition["api_call_budget"]["ledger"] != config["cfbd_api_call_budget"]["ledger"]:
+        raise ValueError("Acquisition ledger differs from experiment contract")
     if setpoints["seed"] != config["screening"]["seed"]:
         raise ValueError("Setpoint seed differs from contract")
     for architecture in config["screening"]["architectures"]:

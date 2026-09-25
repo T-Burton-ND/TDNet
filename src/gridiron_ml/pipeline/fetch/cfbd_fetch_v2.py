@@ -16,17 +16,34 @@ Notes:
     and counts only real outbound API attempts.
 """
 
-import os, time, argparse, re
+import os, time, argparse, re, json, fcntl, tempfile
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Any, List, Tuple
 import pandas as pd
 import requests
 import yaml
-from tqdm import tqdm
 
 
 BASE = "https://api.collegefootballdata.com"
 DEFAULT_CONFIG_PATH = Path(__file__).resolve().parents[4] / "configs" / "fetch" / "cfbd_single_year.yaml"
+
+
+def load_cfbd_key_file(path: Path) -> str:
+    """Read only the ignored CFBD_API_KEY entry without exposing its value."""
+    path = Path(path)
+    if not path.is_file():
+        raise RuntimeError(f"Missing CFBD key file: {path}")
+    if path.stat().st_mode & 0o077:
+        raise RuntimeError("CFBD key file must be owner-only (chmod 600)")
+    matches = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        name, separator, value = line.partition("=")
+        if separator and name.strip() == "CFBD_API_KEY":
+            matches.append(value.strip().strip("\"'"))
+    if len(matches) != 1 or not matches[0]:
+        raise RuntimeError("CFBD key file must contain exactly one nonempty CFBD_API_KEY entry")
+    return matches[0]
 
 # --------------- Env expansion for ${env:VAR,"default"} ----------------
 def expand_env_like(s: str) -> str:
@@ -63,9 +80,87 @@ def write_parquet(df: pd.DataFrame, path: Path, snake: bool):
     df.to_parquet(path, index=False)
 
 # ---------------- Minimal client with call counter ----------------
+class CallBudgetExceeded(RuntimeError):
+    """The experiment has reserved all allowed outbound CFBD attempts."""
+
+
+class CallBudget:
+    """A durable, cross-process reservation counter for one experiment.
+
+    Reserve before the HTTP request. Failed network attempts and retries still
+    consume a slot, so crashes cannot make the ledger undercount actual calls.
+    """
+
+    def __init__(self, ledger_path: Path, limit: int):
+        self.path = Path(ledger_path)
+        self.limit = int(limit)
+        if self.limit <= 0 or self.limit > 20000:
+            raise ValueError("Next-generation CFBD call budget must be between 1 and 20,000")
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        self.lock_path = self.path.with_name(self.path.name + ".lock")
+
+    def _read(self):
+        if not self.path.exists():
+            if self.lock_path.exists() and self.lock_path.stat().st_size:
+                raise RuntimeError("CFBD budget ledger disappeared; refusing to reset the counter")
+            return {"limit": self.limit, "reserved": 0, "experiment": "nextgen_fingerprints_v1"}
+        with self.path.open(encoding="utf-8") as handle:
+            state = json.load(handle)
+        if state.get("limit") != self.limit or state.get("experiment") != "nextgen_fingerprints_v1":
+            raise ValueError("CFBD budget ledger identity or limit differs from configuration")
+        used = state.get("reserved")
+        if not isinstance(used, int) or used < 0 or used > self.limit:
+            raise ValueError("CFBD budget ledger has invalid reserved count")
+        return state
+
+    def _locked(self, exclusive: bool, operation):
+        fd = os.open(self.lock_path, os.O_CREAT | os.O_RDWR, 0o600)
+        try:
+            fcntl.flock(fd, fcntl.LOCK_EX if exclusive else fcntl.LOCK_SH)
+            return operation()
+        finally:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+            os.close(fd)
+
+    def status(self):
+        """Return the current counter without spending a call."""
+        return self._locked(False, lambda: dict(self._read()))
+
+    def reserve(self, endpoint: str):
+        """Atomically reserve exactly one request attempt or fail closed."""
+        def update():
+            state = self._read()
+            if state["reserved"] >= self.limit:
+                raise CallBudgetExceeded(f"CFBD experiment call budget exhausted at {self.limit}")
+            state["reserved"] += 1
+            state["last_endpoint"] = endpoint
+            state["last_reserved_utc"] = datetime.now(timezone.utc).isoformat()
+            descriptor, temp_name = tempfile.mkstemp(prefix=".cfbd_budget_", dir=self.path.parent)
+            try:
+                os.fchmod(descriptor, 0o600)
+                with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+                    json.dump(state, handle, sort_keys=True)
+                    handle.write("\n")
+                    handle.flush()
+                    os.fsync(handle.fileno())
+                if self.lock_path.stat().st_size == 0:
+                    with self.lock_path.open("ab") as marker:
+                        marker.write(b"initialized\n")
+                        marker.flush()
+                        os.fsync(marker.fileno())
+                os.replace(temp_name, self.path)
+            finally:
+                if os.path.exists(temp_name):
+                    os.unlink(temp_name)
+            return dict(state)
+        return self._locked(True, update)
+
+
 class CFBDClient:
     """Represent the CFBDClient component and its local behavior."""
-    def __init__(self, api_key_env: str = "CFBD_API_KEY", timeout: int = 60):
+    def __init__(self, api_key_env: str = "CFBD_API_KEY", timeout: int = 60,
+                 call_budget: CallBudget = None, max_retries: int = 5,
+                 strict_http_errors: bool = False):
         """Internal helper for the init__ step."""
         key = os.environ.get(api_key_env)
         if not key:
@@ -74,27 +169,37 @@ class CFBDClient:
         self.s.headers.update({"Authorization": f"Bearer {key}"})
         self.s.timeout = timeout
         self.api_calls = 0  # counts only real network calls (no cache hits)
+        self.call_budget = call_budget
+        self.max_retries = int(max_retries)
+        self.strict_http_errors = bool(strict_http_errors)
 
-    def get_json(self, path: str, params: Dict[str, Any], max_retries: int = 5, backoff: float = 1.5):
+    def get_json(self, path: str, params: Dict[str, Any], max_retries: int = None, backoff: float = 1.5):
         """Run the get_json step and return its normalized result."""
         url = f"{BASE}{path}"
         attempt = 0
+        retries = self.max_retries if max_retries is None else int(max_retries)
         while True:
-            # COUNT each outbound request attempt
+            if self.call_budget is not None:
+                self.call_budget.reserve(path)
             self.api_calls += 1
-            r = self.s.get(url, params=params)
+            r = self.s.get(url, params=params, timeout=self.s.timeout)
             if r.status_code == 404:
+                if self.strict_http_errors:
+                    r.raise_for_status()
                 return []
             if r.status_code in (429, 502, 503, 504):
                 attempt += 1
-                if attempt > max_retries:
+                if attempt > retries:
                     r.raise_for_status()
                 time.sleep(backoff ** attempt)
                 continue
             if r.status_code == 400:
-                # Often means "no data for this slice"
+                if self.strict_http_errors:
+                    r.raise_for_status()
                 return []
             r.raise_for_status()
+            if "application/json" not in r.headers.get("Content-Type", ""):
+                raise RuntimeError(f"Non-JSON response from {path}")
             return r.json()
 
     def df_from(self, path: str, params: Dict[str, Any]) -> pd.DataFrame:
@@ -251,6 +356,8 @@ def fetch_stats_basic_game(client: CFBDClient, year: int) -> pd.DataFrame:
         try:
             data = client.get_json("/games/teams", params)
         except Exception as e:
+            if client.strict_http_errors or isinstance(e, CallBudgetExceeded):
+                raise
             print(f"[cfbd] ERROR fetching game_team_stats year={year} week={week}: {e}")
             continue
 
@@ -303,38 +410,10 @@ def fetch_weather(client: CFBDClient, year: int) -> pd.DataFrame:
     df = pd.json_normalize(json)
     return df
 
-# --- strengthen JSON parsing in CFBDClient.get_json ---
-# (replace your current get_json with this version)
-def get_json(self, path: str, params: Dict[str, Any], max_retries: int = 5, backoff: float = 1.5):
-    """Run the get_json step and return its normalized result."""
-    url = f"{BASE}{path}"
-    attempt = 0
-    while True:
-        self.api_calls += 1
-        r = self.s.get(url, params=params)
-        if r.status_code == 404:
-            return []
-        if r.status_code in (429, 502, 503, 504):
-            attempt += 1
-            if attempt > max_retries:
-                r.raise_for_status()
-            time.sleep(backoff ** attempt)
-            continue
-        if r.status_code == 400:
-            return []
-        r.raise_for_status()
-        # guard non-JSON bodies
-        if "application/json" not in r.headers.get("Content-Type", ""):
-            txt = (r.text or "")[:200].replace("\n", " ")
-            raise RuntimeError(f"Non-JSON response from {path} params={params}: {txt!r}")
-        return r.json()
-
-
-CFBDClient.get_json = get_json  # monkey-patch if defined below class
-
 # ---------------- Main ----------------
 def main():
     """Run the main step and return its normalized result."""
+    from tqdm import tqdm
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", default=str(DEFAULT_CONFIG_PATH),
                     help="YAML config with: cache_dir, year, endpoints{}, division, sleep_seconds, snake_case, refresh")
@@ -359,7 +438,19 @@ def main():
     snake_case = bool(raw_cfg.get("snake_case", False))
     refresh = args.refresh or bool(raw_cfg.get("refresh", False))
 
-    client = CFBDClient()
+    budget = None
+    if raw_cfg.get("api_budget_ledger") is not None:
+        if raw_cfg.get("api_budget_limit") is None:
+            raise ValueError("api_budget_limit is required with api_budget_ledger")
+        budget = CallBudget(Path(raw_cfg["api_budget_ledger"]), raw_cfg["api_budget_limit"])
+    if raw_cfg.get("api_key_file"):
+        key_path = Path(raw_cfg["api_key_file"])
+        if not key_path.is_absolute():
+            key_path = Path(__file__).resolve().parents[4] / key_path
+        os.environ["CFBD_API_KEY"] = load_cfbd_key_file(key_path)
+    client = CFBDClient(call_budget=budget,
+                        max_retries=int(raw_cfg.get("max_retries", 5)),
+                        strict_http_errors=bool(raw_cfg.get("strict_http_errors", False)))
 
     # Build single-season, one-call tasks
     Task = Tuple[str, int, str, Path, callable]  # (name, year, subdir, out_path, fetch_fn)
@@ -425,6 +516,8 @@ def main():
                 pbar.update(1)
                 pbar.set_postfix_str(f"{status}; rows={nrows}; out={outp.name}")
             except Exception as e:
+                if isinstance(e, CallBudgetExceeded):
+                    raise
                 fail += 1
                 pbar.set_postfix_str("error")
                 tqdm.write(f"[ERROR] {name} {yr}: {e}")
