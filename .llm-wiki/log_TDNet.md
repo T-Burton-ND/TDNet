@@ -35,3 +35,9 @@ Chronological record of wiki activity.
 - Expanded the master ladder while preserving historical F00–F08 meaning and the intentional F06→F09 market-free jump.
 - Added one page per F00–F12 generation and the next-generation experiment contract, including next-game timing and 2026 quarantine.
 - Updated index, Home, temporal, overview, and confirmatory backlinks; source contract remains in TDNet repository configs and docs.
+
+## [2026-09-25] update | Next-generation CFBD call budget
+- by: Thomas J. Burton via codex
+- Recorded the user-reported 30,000-call account allowance and TDNet's stricter 20,000-attempt experiment ceiling.
+- Linked the shared reservation ledger and private key location to the acquisition contract.
+- Recorded the one-request CFBD key check and its 2025 FBS team response without exposing the key.
