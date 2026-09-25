@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "required": ["name", "generation", "designs", "raw_endpoints", "raw_columns", "source_inputs", "equation_excel", "units", "interpretation", "direction", "availability_rule", "temporal_cutoff", "aggregation_window", "minimum_sample_rule", "missingness_policy", "static_or_dynamic", "opponent_adjusted", "market_derived", "target_derived", "garbage_time_handling", "matchup_counterpart", "matchup_formula", "provenance", "code_path", "version"],
+  "enums": {"generation": ["F06", "F09", "F10", "F11", "F12"], "designs": ["a", "b", "c"], "static_or_dynamic": ["static_preseason", "dynamic"], "provenance": ["standard/source-defined", "literature-derived", "TDNet-derived"], "direction": ["higher_better", "lower_better", "context_only"]},
+  "c_max_source_inputs": 5,
+  "unique_key": "name",
+  "matchup_counterpart_rule": "must_exist_in_same_materialized_manifest_or_be_self",
+  "dynamic_availability_rule": "must_precede_target_game",
+  "static_availability_rule": "must_be_known_by_week0_snapshot_or_expose_later_availability"
+}

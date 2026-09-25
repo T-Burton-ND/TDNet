@@ -45,4 +45,4 @@ The protocol does not authorize default claims that TDNet beats Vegas, complexit
 
 ## See also
 
-[Fingerprint Ladder](Fingerprint-Ladder) · [Temporal Data Semantics](Temporal-Data-Semantics) · [Model and Poll Surfaces](Model-and-Poll-Surfaces) · [Weekly Publication Workflow](Weekly-Publication-Workflow) · [README Source](Source-README) · [Model Guide Source](Source-Model-Guide) · [Weekly Operations Source](Source-Weekly-Operations) · [Project History and Directions](Project-History-and-Directions) · [Deferred and Abandoned Directions](Deferred-and-Abandoned-Directions)
+[Fingerprint Ladder](Fingerprint-Ladder) · [Temporal Data Semantics](Temporal-Data-Semantics) · [Model and Poll Surfaces](Model-and-Poll-Surfaces) · [Weekly Publication Workflow](Weekly-Publication-Workflow) · [README Source](Source-README) · [Model Guide Source](Source-Model-Guide) · [Weekly Operations Source](Source-Weekly-Operations) · [Project History and Directions](Project-History-and-Directions) · [Deferred and Abandoned Directions](Deferred-and-Abandoned-Directions) · [Next-Generation Fingerprint Experiment](Next-Generation-Fingerprint-Experiment)

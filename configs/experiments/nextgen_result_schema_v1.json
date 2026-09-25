@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "format": "parquet",
+  "grain": "one row per actual run plus summary rows per fingerprint architecture",
+  "row_types": ["run", "fingerprint_architecture_summary"],
+  "required_columns": ["row_type", "run_id", "fingerprint_id", "generation", "lineage", "design", "ancestry", "feature_count", "feature_counts_by_generation_json", "model", "hyperparameter_setpoint", "seed", "status", "runtime_seconds", "train_metrics_json", "validation_2024_metrics_json", "late_development_2025_metrics_json", "mae", "brier_score", "ats_accuracy", "chalk_accuracy", "upset_accuracy", "winner_accuracy", "feature_manifest_sha256", "correlation_summary_json", "shap_summary_ref", "missingness_summary_json", "coverage_summary_json", "failure_reason"],
+  "status_values": ["success", "failed", "incomplete", "skipped"],
+  "large_model_artifacts": "discard_after_compact_diagnostics_extracted",
+  "market_metrics": "evaluation_sidecar_only"
+}

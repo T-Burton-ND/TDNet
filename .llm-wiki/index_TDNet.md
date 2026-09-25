@@ -28,7 +28,21 @@ Catalog of all wiki pages, organized by category.
 - [Model Guide Source](Source-Model-Guide) — implementation families and caveats
 
 ## Research methods and data
-- [Fingerprint Ladder](Fingerprint-Ladder) — F0–F8 tiers and their roles
+- [Fingerprint Ladder](Fingerprint-Ladder) — historical F00–F08 plus next-generation F06→F09→F12 map
+- [Next-Generation Fingerprint Experiment](Next-Generation-Fingerprint-Experiment) — exploratory next-game contract, 2026 quarantine, lineage, reduction and acquisition
+- [Fingerprint F00](Fingerprint-F00) — Preseason baseline historical generation
+- [Fingerprint F01](Fingerprint-F01) — Raw box scores historical generation
+- [Fingerprint F02](Fingerprint-F02) — Efficiency and rates historical generation
+- [Fingerprint F03](Fingerprint-F03) — Opponent adjustment historical generation
+- [Fingerprint F04](Fingerprint-F04) — Situational context historical generation
+- [Fingerprint F05](Fingerprint-F05) — Temporal dynamics historical generation
+- [Fingerprint F06](Fingerprint-F06) — Schedule graph historical generation
+- [Fingerprint F07](Fingerprint-F07) — Market-only comparator historical generation
+- [Fingerprint F08](Fingerprint-F08) — F06 plus market comparator historical generation
+- [Fingerprint F09](Fingerprint-F09) — Game microstructure exploratory generation
+- [Fingerprint F10](Fingerprint-F10) — Roster and player state exploratory generation
+- [Fingerprint F11](Fingerprint-F11) — Coaching history exploratory generation
+- [Fingerprint F12](Fingerprint-F12) — Unit-level team states exploratory generation
 - [Temporal Data Semantics](Temporal-Data-Semantics) — row meanings, targets, cutoffs, and market boundary
 - [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) — scope, matrix, inference, and freeze rules
 - [Confirmatory Protocol Source](Source-Confirmatory-Protocol) — Markdown interpretation and version-2 YAML source

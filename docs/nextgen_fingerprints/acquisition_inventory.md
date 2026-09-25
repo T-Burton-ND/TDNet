@@ -1,0 +1,23 @@
+# Acquisition inventory and launch checks
+
+This is a **plan**, not an acquisition run. On 2026-09-25, `data/raw/cfbd/v2` held about 32 MB of local cached Parquets. Core games, team-game stats, advanced game stats, havoc, PPA games, coaches, recruiting teams, talent, returning, lines, and pregame win probability had files named 2010–2026; roster and recruiting-player files existed for only ten years. File presence alone does **not** prove endpoint, row, or as-of completeness. The existing standalone fetcher is `src/gridiron_ml/pipeline/fetch/cfbd_fetch_v2.py`.
+
+| Priority | Family | Existing coverage / proposed partition | Completeness check |
+|---|---|---|---|
+| 1 | `/games`, `/games/teams`, advanced game, havoc, game PPA | Existing; reuse verified year or year/week partitions | Compare game IDs/team rows with regular-season schedule; record source schema/hash |
+| 1 | `/plays` | New; **year/week required** | Validate each scheduled game ID and play IDs; exclude play text from features |
+| 1 | `/drives` | New; year if complete, then year/week | Match game coverage and drive IDs to plays/schedule |
+| 2 | `/roster`, recruiting, talent, returning | Existing but incomplete local years | Verify provider-era coverage and Week-0 availability, not just row count |
+| 2 | `/player/usage`, `/stats/player/season`, `/games/players`, `/ppa/players/games`, `/stats/player/success/game` | New; year or narrower required partition | Reconstruct current-season as-of values from game/week records; season totals only for prior completed years |
+| 2 | `/plays/stats` | New; game ID, then narrower filters if needed | CFBD caps response at **2,000 rows**; exactly 2,000 is incomplete until disproved |
+| 2 | `/player/portal`, `/coaches/tenures`, `/coaches/seasons` | New; year or supported identity partition | Distinguish structural absence, verify dates and join quality |
+| 3 | 2025+ enriched passing/rushing, team overview, affiliations, venues, weather | New or partly cached; endpoint legal minimum | Cache for future research only when scope/time semantics are safe; don't use later knowledge pregame |
+| Sidecar | `/lines`, `/metrics/wp/pregame`, `/teams/ats` | Already cached | Strictly separate evaluation/cache; never F09–F12 input |
+
+The [current CFBD reference](https://api.collegefootballdata.com/api/plays) requires year/week on `/plays` and caps `/plays/stats` at 2,000 rows. [Provider coverage](https://api.collegefootballdata.com/data-availability) places raw plays and drives from 2001, play-level player attribution from 2012, player usage from 2013, returning production from 2014, talent from 2015, portal from 2021, and enriched passing/rushing from 2025. Actual completeness varies by game and field. Empty responses inside these eras require investigation, not automatic zero imputation. The [player API](https://api.collegefootballdata.com/api/players) documents `/player/portal` and `/player/usage`.
+
+For 2010–2025, `/plays` has roughly 16 seasons × 15–16 regular-season weeks, or **about 240–256 minimum calls**. `/drives` needs at least 16 year calls if complete. Game-partitioned `/plays/stats` could require on the order of **13,000–16,000 calls** (roughly 800–1,000 relevant games per season) plus overflow subdivisions; count actual scheduled game IDs before submission. Other year-grain families contribute roughly 16 calls each. These are planning ranges, not verified provider totals.
+
+Before launch, extend the existing fetcher to enforce at most three total attempts with backoff, reject silent HTTP-400-as-empty behavior, capture per-partition schema/row/hash/status, avoid refetching complete partitions, and prove capped endpoints complete by subdivision. The present `fetch_stats_basic_game` catches per-week errors and continues, which can silently write a partial year; it needs explicit incomplete status. Version incompatible historical schemas instead of overwriting. Refresh 2026 only into quarantine. Exclude postseason numeric history at canonicalization even if raw cache contains it.
+
+The empty `/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/` structure was created with `raw_cache`, `canonical`, `feature_families`, `fingerprints`, `experiments`, `results`, `feature_diagnostics`, `shap_tmp`, and `scratch`. The group filesystem reported about 1 TB available but 96% overall use on 2026-09-25; the **experiment soft budget is 100 GB**. Raw play/player-stat payloads and duplicated Parquet intermediates are the main space risks. Sample one year, measure compressed bytes per family and expected total, then release a bounded full pull; clean temporary payloads after canonicalization. Do not retain routine scheduler logs.
