@@ -22,6 +22,6 @@ market_lines:
   closing_line_comparison: retrospective and separately labeled only
 attribution_surfaces:
   - README.md
-  - docs/publication_2026/CONFIRMATORY_PROTOCOL.md
-  - docs/publication_2026/WEEKLY_OPERATIONS.md
+  - .llm-wiki/source-archive/docs/publication_2026/CONFIRMATORY_PROTOCOL.md.txt
+  - .llm-wiki/source-archive/docs/publication_2026/WEEKLY_OPERATIONS.md.txt
   - publication/2026/weekly_predictions/*/public

@@ -19,8 +19,8 @@ claim that TDNet beats Vegas, that complexity universally improves prediction,
 that feature importance is causal, or that every opponent-adjustment method
 helps.
 
-The publication-facing rules are in
-[`docs/publication_2026/CONFIRMATORY_PROTOCOL.md`](docs/publication_2026/CONFIRMATORY_PROTOCOL.md)
+The publication-facing rules are in the
+[Confirmatory Protocol wiki summary](.llm-wiki/Source-Confirmatory-Protocol.md)
 and the machine-readable source is
 [`configs/publication/confirmatory_protocol.yaml`](configs/publication/confirmatory_protocol.yaml).
 
@@ -67,7 +67,7 @@ prove that no leakage occurred; that requires cutoff audits, immutable
 prediction bundles, future-perturbation tests, and exclusion of 2026 outcomes
 from model selection and retraining.
 
-For model-family details, see [docs/MODEL_GUIDE.md](docs/MODEL_GUIDE.md). The consolidated project plan is [TDNET_MASTER_PLAN.md](docs/TDNET_MASTER_PLAN.md).
+For model-family details, see [the Model Guide wiki summary](.llm-wiki/Source-Model-Guide.md). The project plan’s history and current-status caveats are in [the TDNet Master Plan wiki summary](.llm-wiki/Source-TDNet-Master-Plan.md); its full original is preserved in the source archive.
 
 ## Setup
 
@@ -251,8 +251,8 @@ Raw data comes from CollegeFootballData (CFBD). This repository does not distrib
 
 Publications and presentations using TDNet should credit CFBD with: “Data
 provided by [CollegeFootballData (CFBD)](https://collegefootballdata.com/).”
-See [docs/DATA_ATTRIBUTION.md](docs/DATA_ATTRIBUTION.md) for the full attribution and
-redistribution policy and [docs/PUBLIC_ARTIFACT_POLICY.md](docs/PUBLIC_ARTIFACT_POLICY.md)
+See the archived [data attribution policy](.llm-wiki/source-archive/docs/DATA_ATTRIBUTION.md.txt) for attribution and
+redistribution rules and the archived [public artifact policy](.llm-wiki/source-archive/docs/PUBLIC_ARTIFACT_POLICY.md.txt)
 for the code-and-figures public repository policy.
 
 ## License
@@ -260,5 +260,5 @@ for the code-and-figures public repository policy.
 TDNet-authored source code is licensed under Apache-2.0. CFBD data are not
 included, and the TDNet license does not grant rights to CFBD data,
 third-party team marks, logos, or separately distributed model artifacts. See
-[`docs/LICENSE_REVIEW.md`](docs/LICENSE_REVIEW.md) and
-[`docs/DATA_ATTRIBUTION.md`](docs/DATA_ATTRIBUTION.md).
+[the archived license review](.llm-wiki/source-archive/docs/LICENSE_REVIEW.md.txt) and
+[the data attribution policy](.llm-wiki/source-archive/docs/DATA_ATTRIBUTION.md.txt).

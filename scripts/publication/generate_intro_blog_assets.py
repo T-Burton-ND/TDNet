@@ -24,9 +24,9 @@ OUT = ROOT / "publication/2026/intro"
 SCRIPT = "scripts/publication/generate_intro_blog_assets.py"
 SOURCE_PATHS = [
     "FREEZE_MANIFEST.json",
-    "docs/PUBLIC_ARTIFACT_POLICY.md",
+    ".llm-wiki/source-archive/docs/PUBLIC_ARTIFACT_POLICY.md.txt",
     "docs/publication_2026/FINGERPRINT_REGISTRY.yaml",
-    "docs/publication_2026/FINGERPRINT_EQUATIONS.md",
+    ".llm-wiki/source-archive/docs/publication_2026/FINGERPRINT_EQUATIONS.md.txt",
     "docs/publication_2026/MODEL_ARTIFACT_RELEASE.json",
     "docs/publication_2026/MODEL_ARTIFACT_SHA256SUMS",
     "docs/publication_2026/MODEL_ARTIFACT_STATUS.json",

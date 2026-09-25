@@ -78,8 +78,8 @@ def scan() -> dict:
 def main() -> int:
     root = ROOT
     parser = ArgumentParser()
-    parser.add_argument("--json", type=Path, default=root / "docs/publication_2026/portability_audit.json")
-    parser.add_argument("--markdown", type=Path, default=root / "docs/publication_2026/portability_audit.md")
+    parser.add_argument("--json", type=Path, default=root / "outputs/portability_audit.json")
+    parser.add_argument("--markdown", type=Path, default=root / "outputs/portability_audit.md")
     args = parser.parse_args()
     report = scan()
     args.json.parent.mkdir(parents=True, exist_ok=True)
