@@ -1,43 +1,263 @@
 {
   "version": 1,
   "status": "plan_only_no_bulk_fetch",
-  "years": {"start": 2010, "end": 2026, "pre_2010": "only_targeted_coach_player_program_initialization"},
+  "years": {
+    "start": 2010,
+    "end": 2025,
+    "quarantined_2026": "cache_only_separate_future_refresh",
+    "pre_2010": "only_targeted_coach_player_program_initialization"
+  },
   "raw_cache_root": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/raw_cache",
-  "api_call_budget": {"hard_limit": 20000, "ledger": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/results/cfbd_api_call_budget.json", "scope": "all_nextgen_cfbd_requests_including_retries_and_key_check"},
+  "api_call_budget": {
+    "preferred_new_call_target": 20000,
+    "hard_limit": 24000,
+    "minimum_reserve": 6000,
+    "ledger": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/results/cfbd_api_call_budget.json",
+    "scope": "all_nextgen_cfbd_requests_including_retries_and_key_check"
+  },
   "existing_local_cache": "data/raw/cfbd/v2",
   "existing_fetcher": "src/gridiron_ml/pipeline/fetch/cfbd_fetch_v2.py",
-  "retry": {"maximum_total_attempts": 3, "backoff": "polite_exponential", "on_exhaustion": "record_incomplete_and_continue"},
-  "cache": {"skip_valid_complete_partition": true, "historical_schema_change": "new_version_directory", "refresh_2026": "allowed_but_quarantined", "manifest_fields": ["endpoint", "year", "partition", "schema_version", "row_count", "byte_size", "sha256", "completeness_status", "fetched_at_utc"]},
+  "retry": {
+    "maximum_total_attempts": 3,
+    "backoff": "polite_exponential",
+    "on_exhaustion": "record_incomplete_and_continue"
+  },
+  "cache": {
+    "skip_valid_complete_partition": true,
+    "historical_schema_change": "new_version_directory",
+    "refresh_2026": "allowed_but_quarantined",
+    "manifest_fields": [
+      "endpoint",
+      "year",
+      "partition",
+      "schema_version",
+      "row_count",
+      "byte_size",
+      "sha256",
+      "completeness_status",
+      "fetched_at_utc",
+      "request_id",
+      "parameters_json",
+      "game_id",
+      "team",
+      "attempt_count",
+      "status",
+      "http_status",
+      "schema_hash",
+      "error_summary"
+    ]
+  },
   "families": [
-    {"endpoint": "/games", "partition": "year", "existing": true, "purpose": "schedules_targets_fbs_fcs_context"},
-    {"endpoint": "/games/teams", "partition": "year_week_or_year_if_proven_complete", "existing": true, "purpose": "team_game_box_scores"},
-    {"endpoint": "/stats/game/advanced", "partition": "year", "existing": true, "purpose": "advanced_team_game"},
-    {"endpoint": "/stats/game/havoc", "partition": "year", "existing": true, "purpose": "havoc"},
-    {"endpoint": "/ppa/games", "partition": "year", "existing": true, "purpose": "ppa_game"},
-    {"endpoint": "/coaches", "partition": "year", "existing": true, "purpose": "career_tenure"},
-    {"endpoint": "/roster", "partition": "year", "existing": true, "purpose": "week0_roster_physical"},
-    {"endpoint": "/recruiting/players", "partition": "year", "existing": true, "purpose": "recruiting"},
-    {"endpoint": "/recruiting/teams", "partition": "year", "existing": true, "purpose": "recruiting"},
-    {"endpoint": "/talent", "partition": "year", "existing": true, "purpose": "team_talent"},
-    {"endpoint": "/player/returning", "partition": "year", "existing": true, "purpose": "returning_production"},
-    {"endpoint": "/plays", "partition": "year_week_required", "existing": false, "purpose": "structured_microstructure", "exclude_columns_from_features": ["playText"]},
-    {"endpoint": "/drives", "partition": "year_or_year_week_if_response_limit", "existing": false, "purpose": "drive_outcomes_field_position"},
-    {"endpoint": "/plays/stats", "partition": "game_id_then_subdivide_if_2000_rows", "existing": false, "purpose": "player_participation", "response_row_cap": 2000},
-    {"endpoint": "/player/usage", "partition": "year_or_team_if_response_limit", "existing": false, "purpose": "player_usage"},
-    {"endpoint": "/stats/player/season", "partition": "year_or_team_if_response_limit", "existing": false, "purpose": "player_production"},
-    {"endpoint": "/games/players", "partition": "year_week_or_game_if_required", "existing": false, "purpose": "player_game_production"},
-    {"endpoint": "/stats/player/success/game", "partition": "year_week_required_unless_team", "existing": false, "purpose": "player_game_efficiency", "earliest_year": 2012},
-    {"endpoint": "/ppa/players/games", "partition": "year_or_year_week_if_response_limit", "existing": false, "purpose": "player_game_ppa"},
-    {"endpoint": "/player/portal", "partition": "year", "existing": false, "purpose": "transfer_history"},
-    {"endpoint": "/coaches/tenures", "partition": "year", "existing": false, "purpose": "coaching_history"},
-    {"endpoint": "/coaches/seasons", "partition": "year", "existing": false, "purpose": "coaching_season_history"},
-    {"endpoint": "/teams/season/overview", "partition": "year", "existing": false, "purpose": "team_season_crosscheck_not_asof_input_without_reconstruction"},
-    {"endpoint": "/passing/plays", "partition": "year_week_or_game_per_schema", "existing": false, "purpose": "future_enriched_passing", "earliest_year": 2025},
-    {"endpoint": "/rushing/plays", "partition": "year_week_or_game_per_schema", "existing": false, "purpose": "future_enriched_rushing", "earliest_year": 2025},
-    {"endpoint": "/conferences/affiliations", "partition": "year_or_documented_range", "existing": false, "purpose": "historical_membership"},
-    {"endpoint": "/games/weather", "partition": "year", "existing": true, "purpose": "historical_weather_only_no_future_weather_leakage"},
-    {"endpoint": "/venues", "partition": "global_or_year", "existing": true, "purpose": "venue_context"},
-    {"endpoint": "/lines", "partition": "year", "existing": true, "purpose": "evaluation_sidecar_only"},
-    {"endpoint": "/metrics/wp/pregame", "partition": "year", "existing": true, "purpose": "historical_cache_only_never_model_or_design"}
-  ]
+    {
+      "endpoint": "/games",
+      "partition": "year",
+      "existing": true,
+      "purpose": "schedules_targets_fbs_fcs_context"
+    },
+    {
+      "endpoint": "/games/teams",
+      "partition": "year_week_required_unless_valid_legacy_superset",
+      "existing": true,
+      "purpose": "team_game_box_scores"
+    },
+    {
+      "endpoint": "/stats/game/advanced",
+      "partition": "year",
+      "existing": true,
+      "purpose": "advanced_team_game"
+    },
+    {
+      "endpoint": "/stats/game/havoc",
+      "partition": "year",
+      "existing": true,
+      "purpose": "havoc"
+    },
+    {
+      "endpoint": "/ppa/games",
+      "partition": "year",
+      "existing": true,
+      "purpose": "ppa_game"
+    },
+    {
+      "endpoint": "/coaches",
+      "partition": "year",
+      "existing": true,
+      "purpose": "career_tenure"
+    },
+    {
+      "endpoint": "/roster",
+      "partition": "year",
+      "existing": true,
+      "purpose": "week0_roster_physical"
+    },
+    {
+      "endpoint": "/recruiting/players",
+      "partition": "year",
+      "existing": true,
+      "purpose": "recruiting"
+    },
+    {
+      "endpoint": "/recruiting/teams",
+      "partition": "year",
+      "existing": true,
+      "purpose": "recruiting"
+    },
+    {
+      "endpoint": "/talent",
+      "partition": "year",
+      "existing": true,
+      "purpose": "team_talent"
+    },
+    {
+      "endpoint": "/player/returning",
+      "partition": "year",
+      "existing": true,
+      "purpose": "returning_production"
+    },
+    {
+      "endpoint": "/plays",
+      "partition": "year_week_required",
+      "existing": false,
+      "purpose": "structured_microstructure",
+      "exclude_columns_from_features": [
+        "playText"
+      ]
+    },
+    {
+      "endpoint": "/drives",
+      "partition": "year_or_year_week_if_response_limit",
+      "existing": false,
+      "purpose": "drive_outcomes_field_position"
+    },
+    {
+      "endpoint": "/plays/stats",
+      "partition": "game_id_then_subdivide_if_2000_rows",
+      "existing": false,
+      "purpose": "optional_player_play_stat_attribution_not_snap_participation",
+      "response_row_cap": 2000
+    },
+    {
+      "endpoint": "/player/usage",
+      "partition": "year_or_team_if_response_limit",
+      "existing": false,
+      "purpose": "player_usage"
+    },
+    {
+      "endpoint": "/stats/player/season",
+      "partition": "year_or_team_if_response_limit",
+      "existing": false,
+      "purpose": "player_production"
+    },
+    {
+      "endpoint": "/games/players",
+      "partition": "year_week_or_game_if_required",
+      "existing": false,
+      "purpose": "player_game_production"
+    },
+    {
+      "endpoint": "/stats/player/success/game",
+      "partition": "year_week_required_unless_team",
+      "existing": false,
+      "purpose": "player_game_efficiency",
+      "earliest_year": 2012
+    },
+    {
+      "endpoint": "/ppa/players/games",
+      "partition": "year_or_year_week_if_response_limit",
+      "existing": false,
+      "purpose": "player_game_ppa"
+    },
+    {
+      "endpoint": "/player/portal",
+      "partition": "year",
+      "existing": false,
+      "purpose": "transfer_history"
+    },
+    {
+      "endpoint": "/coaches/tenures",
+      "partition": "year",
+      "existing": false,
+      "purpose": "coaching_history"
+    },
+    {
+      "endpoint": "/coaches/seasons",
+      "partition": "year",
+      "existing": false,
+      "purpose": "coaching_season_history"
+    },
+    {
+      "endpoint": "/teams/season/overview",
+      "partition": "year_team_optional_temporal_risk",
+      "existing": false,
+      "purpose": "team_season_crosscheck_not_asof_input_without_reconstruction"
+    },
+    {
+      "endpoint": "/passing/plays",
+      "partition": "year_week_or_game_per_schema",
+      "existing": false,
+      "purpose": "future_enriched_passing",
+      "earliest_year": 2025
+    },
+    {
+      "endpoint": "/rushing/plays",
+      "partition": "year_week_or_game_per_schema",
+      "existing": false,
+      "purpose": "future_enriched_rushing",
+      "earliest_year": 2025
+    },
+    {
+      "endpoint": "/conferences/affiliations",
+      "partition": "year_or_documented_range",
+      "existing": false,
+      "purpose": "historical_membership"
+    },
+    {
+      "endpoint": "/games/weather",
+      "partition": "year",
+      "existing": true,
+      "purpose": "historical_weather_only_no_future_weather_leakage"
+    },
+    {
+      "endpoint": "/venues",
+      "partition": "global_or_year",
+      "existing": true,
+      "purpose": "venue_context"
+    },
+    {
+      "endpoint": "/lines",
+      "partition": "year",
+      "existing": true,
+      "purpose": "evaluation_sidecar_only"
+    },
+    {
+      "endpoint": "/metrics/wp/pregame",
+      "partition": "year",
+      "existing": true,
+      "purpose": "historical_cache_only_never_model_or_design"
+    }
+  ],
+  "inventory": "configs/experiments/nextgen_cfbd_endpoint_inventory_v1.json",
+  "manifest": "results/preflight/cfbd_request_manifest_v1.jsonl",
+  "manifest_summary": "results/preflight/cfbd_plan_summary_v1.json",
+  "request_ledger": "request_ledger/",
+  "quota_check": {
+    "endpoint": "/info",
+    "required_before_bulk": true,
+    "minimum_provider_remaining_after_plan": 6000
+  },
+  "stages": {
+    "A": "local_inventory_manifest_schema_quota_storage",
+    "B": "cheap_year_metadata_roster_coaching_rating_cache",
+    "C": "plays_drives",
+    "D": "player_detail",
+    "E": "plays_stats_only_after_value_and_quota_gate"
+  },
+  "plays_stats_decision": "optional_if_budget",
+  "storage_soft_limit_gb": 100,
+  "canonicalization": {
+    "targets": "completed_regular_fbs_vs_fbs",
+    "context": "completed_regular_fbs_involved_including_fcs_opponent",
+    "postseason_numeric_history": false,
+    "2026_design_rows": false
+  }
 }

@@ -41,3 +41,9 @@ Chronological record of wiki activity.
 - Recorded the user-reported 30,000-call account allowance and TDNet's stricter 20,000-attempt experiment ceiling.
 - Linked the shared reservation ledger and private key location to the acquisition contract.
 - Recorded the one-request CFBD key check and its 2025 FBS team response without exposing the key.
+
+## [2026-09-25] update | Next-generation preflight hardening
+- by: Thomas J. Burton via codex
+- Replaced the previous 20,000-attempt ceiling with the preflight-verified 20,000 preferred target, 24,000 hard ceiling, and 6,000-call reserve against CFBD's 30,000 monthly capacity.
+- Recorded the 2010–2025 manifest's 1,224 remaining planned calls and 533 structurally reusable cache partitions after the one-week play smoke; no bulk acquisition or training ran.
+- Documented the 85-route OpenAPI audit, durable request ledger, stage order, optional `/plays/stats` gate, widened results table, and next-game smoke checks.

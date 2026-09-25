@@ -3,41 +3,270 @@
   "experiment_id": "nextgen_fingerprints_v1",
   "status": "setup_only",
   "artifact_root": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen",
-  "artifact_subdirectories": ["raw_cache", "canonical", "feature_families", "fingerprints", "experiments", "results", "feature_diagnostics", "shap_tmp", "scratch"],
+  "artifact_subdirectories": [
+    "raw_cache",
+    "canonical",
+    "feature_families",
+    "fingerprints",
+    "experiments",
+    "results",
+    "feature_diagnostics",
+    "shap_tmp",
+    "scratch"
+  ],
   "storage_soft_limit_gb": 100,
-  "cfbd_api_call_budget": {"hard_limit": 20000, "account_allowance": 30000, "ledger": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/results/cfbd_api_call_budget.json", "count": "all_outbound_attempts_including_retries_and_key_check"},
+  "cfbd_api_call_budget": {
+    "preferred_new_call_target": 20000,
+    "hard_limit": 24000,
+    "account_allowance": 30000,
+    "minimum_reserve": 6000,
+    "ledger": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/results/cfbd_api_call_budget.json",
+    "count": "all_outbound_attempts_including_retries_and_key_check",
+    "live_quota_endpoint": "/info"
+  },
   "source_f6_manifest": "docs/publication_2026/feature_manifests/F6.json",
   "source_f6_feature_count": 227,
   "source_f6_schema_hash": "7679eb1eac141ce1fcc2e3690bee848b12a3a753903699c32826640af568d224",
   "scientific_invariant": "Each dynamic team-week feature uses only information available before its target game; the central target is that team's next-game margin.",
-  "seasons": {"historical_start": 2010, "base_development_end": 2023, "validation": 2024, "late_development": 2025, "prospective_quarantine_start": 2026, "design_max_year": 2025},
-  "target_games": {"classification": "fbs_vs_fbs", "season_type": "regular", "postseason_targets": false, "fcs_games_as_context": true, "postseason_numeric_history": false},
-  "design_operations": ["feature_discovery", "equations", "composite_fitting", "scaling", "imputation", "missingness_rules", "correlation", "pruning", "shap", "hyperparameters", "lineage", "recommendations", "model_evaluation"],
-  "quarantine": {"year": 2026, "cached_only": true, "design_rows_forbidden": true},
-  "market": {"model_inputs": false, "feature_engineering_inputs": false, "pregame_win_probability_inputs": false, "evaluation_sidecar_only": true, "sidecar_metrics": ["ats_accuracy", "chalk_accuracy", "upset_accuracy"]},
-  "generations": {
-    "F06": {"parent": null, "information": "canonical_market_free_f6", "variants": ["F", "R"], "minimum_concrete_survivors": 60},
-    "F09": {"parent": "F06", "information": "structured_game_microstructure", "variants": ["F", "LR", "PR"], "minimum_concrete_survivors": 10},
-    "F10": {"parent": "F09", "information": "week0_roster_recruiting_transfers_player_usage", "variants": ["F", "LR", "PR"], "minimum_concrete_survivors": 10},
-    "F11": {"parent": "F10", "information": "derived_coaching_history", "variants": ["F", "LR", "PR"], "minimum_concrete_survivors": 10},
-    "F12": {"parent": "F11", "information": "team_driven_unit_states", "variants": ["F", "LR", "PR"], "minimum_concrete_survivors": 10}
+  "seasons": {
+    "historical_start": 2010,
+    "base_development_end": 2023,
+    "validation": 2024,
+    "late_development": 2025,
+    "prospective_quarantine_start": 2026,
+    "design_max_year": 2025
   },
-  "historical_market_comparators": ["F07", "F08"],
+  "target_games": {
+    "classification": "fbs_vs_fbs",
+    "season_type": "regular",
+    "postseason_targets": false,
+    "fcs_games_as_context": true,
+    "postseason_numeric_history": false
+  },
+  "design_operations": [
+    "feature_discovery",
+    "equations",
+    "composite_fitting",
+    "scaling",
+    "imputation",
+    "missingness_rules",
+    "correlation",
+    "pruning",
+    "shap",
+    "hyperparameters",
+    "lineage",
+    "recommendations",
+    "model_evaluation"
+  ],
+  "quarantine": {
+    "year": 2026,
+    "cached_only": true,
+    "design_rows_forbidden": true
+  },
+  "market": {
+    "model_inputs": false,
+    "feature_engineering_inputs": false,
+    "pregame_win_probability_inputs": false,
+    "evaluation_sidecar_only": true,
+    "sidecar_metrics": [
+      "ats_accuracy",
+      "chalk_accuracy",
+      "upset_accuracy"
+    ]
+  },
+  "generations": {
+    "F06": {
+      "parent": null,
+      "information": "canonical_market_free_f6",
+      "variants": [
+        "F",
+        "R"
+      ],
+      "minimum_concrete_survivors": 60
+    },
+    "F09": {
+      "parent": "F06",
+      "information": "structured_game_microstructure",
+      "variants": [
+        "F",
+        "LR",
+        "PR"
+      ],
+      "minimum_concrete_survivors": 10
+    },
+    "F10": {
+      "parent": "F09",
+      "information": "week0_roster_recruiting_transfers_player_usage",
+      "variants": [
+        "F",
+        "LR",
+        "PR"
+      ],
+      "minimum_concrete_survivors": 10
+    },
+    "F11": {
+      "parent": "F10",
+      "information": "derived_coaching_history",
+      "variants": [
+        "F",
+        "LR",
+        "PR"
+      ],
+      "minimum_concrete_survivors": 10
+    },
+    "F12": {
+      "parent": "F11",
+      "information": "team_driven_unit_states",
+      "variants": [
+        "F",
+        "LR",
+        "PR"
+      ],
+      "minimum_concrete_survivors": 10
+    }
+  },
+  "historical_market_comparators": [
+    "F07",
+    "F08"
+  ],
   "designs": {
     "a": "atomic_canonical_one_primary_temporal_aggregation",
     "b": "football_informed_interactions_with_redundancy_control",
     "c": "interpretable_composites_max_five_source_inputs_excel_reproducible"
   },
-  "lineage": {"F": "previous_full_same_design_plus_current_full_family", "LR": "prune_current_full_same_design", "PR": "previous_reduced_same_design_plus_current_full_family_then_prune", "F09_PR_parent_variant": "F06_R", "cross_design_inheritance": false},
-  "matching": {"team_week_opponent_independent": true, "each_source_has_counterpart": true, "pair_atomic_pruning": true, "same_selected_fingerprint_all_architectures": true},
-  "microstructure": {"time_splits": ["whole_game", "first_half", "second_half", "q1", "q2", "q3", "q4", "middle_eight"], "middle_eight": "last_4_minutes_q2_plus_first_4_minutes_q3", "free_text_play_parsing": false, "required_rushing_pair": ["offense_rush_ypa_q4_minus_q1", "defense_rush_ypa_q4_minus_q1"], "investigate_rushing_quarter_slope": true},
-  "garbage_time": {"q1_lead_gt": 28, "q2_lead_gt": 24, "q3_lead_gt": 21, "q4_whole_quarter_all_qualifying_plays_absolute_lead_gt": 16, "overrides_time_leverage": true, "location_exception": true, "uses_win_probability": false},
-  "roster": {"freeze": "week_0", "actual_usage_first": true, "identity_priority": ["stable_id", "exact_normalized", "conservative_fuzzy_team_year_position"], "uncertain_matches_forbidden": true, "injury_from_nonparticipation_forbidden": true, "external_combine_scraping": false},
-  "screening": {"architectures": ["M2", "M4"], "setpoints_per_architecture": 10, "seed": 1701, "shap_background_games": 256, "shap_explanation_games": 512, "shap_source_aggregation": "sum_absolute_home_away_then_normalize_within_architecture", "weak_pair_requires_both_architectures_for_a_b": true, "c_joint_average_m2_m4_allowed": true},
-  "reduction": {"duplicate_abs_r_gte": 0.995, "strong_redundancy_abs_r_gte": 0.98, "report_only_abs_r_gte": 0.9, "maximum_mae_degradation_points": 0.25, "independent_signal_floor": 10, "independent_signal_abs_r_lt": 0.9, "floor_exception_if_genuinely_unavailable": true},
-  "recommendation": {"practical_tie_mae_points": 0.5, "tie_break_order": ["brier_score", "ats_accuracy", "upset_accuracy", "chalk_accuracy", "fewer_features"], "report_2024_2025_separately": true},
-  "average_team": {"annual_freeze": true, "reference_end": "prior_completed_season", "weighting": "equal_team_within_season_then_equal_season"},
-  "scheduler": {"system": "sge_uge", "max_running_jobs_project_wide": 50, "max_generations_training_simultaneously": 1, "minimum_successful_setpoints_to_proceed": 3, "retry_only_below_minimum": true, "maximum_retry_attempts": 3},
-  "artifacts": {"retain_model_checkpoints": false, "retain_routine_logs": false, "single_ultrawide_results_parquet": true, "diagnostic_feature_cap": 1000, "diagnostic_target": "next_game_margin", "diagnostic_formats": ["png", "markdown"]},
-  "future": {"F13_F15": "design_only_unassigned_information_families", "pca": "deferred_derived_suffix_not_new_generation"}
+  "lineage": {
+    "F": "previous_full_same_design_plus_current_full_family",
+    "LR": "prune_current_full_same_design",
+    "PR": "previous_reduced_same_design_plus_current_full_family_then_prune",
+    "F09_PR_parent_variant": "F06_R",
+    "cross_design_inheritance": false
+  },
+  "matching": {
+    "team_week_opponent_independent": true,
+    "each_source_has_counterpart": true,
+    "pair_atomic_pruning": true,
+    "same_selected_fingerprint_all_architectures": true
+  },
+  "microstructure": {
+    "time_splits": [
+      "whole_game",
+      "first_half",
+      "second_half",
+      "q1",
+      "q2",
+      "q3",
+      "q4",
+      "middle_eight"
+    ],
+    "middle_eight": "last_4_minutes_q2_plus_first_4_minutes_q3",
+    "free_text_play_parsing": false,
+    "required_rushing_pair": [
+      "offense_rush_ypa_q4_minus_q1",
+      "defense_rush_ypa_q4_minus_q1"
+    ],
+    "investigate_rushing_quarter_slope": true
+  },
+  "garbage_time": {
+    "q1_lead_gt": 28,
+    "q2_lead_gt": 24,
+    "q3_lead_gt": 21,
+    "q4_whole_quarter_all_qualifying_plays_absolute_lead_gt": 16,
+    "overrides_time_leverage": true,
+    "location_exception": true,
+    "uses_win_probability": false
+  },
+  "roster": {
+    "freeze": "week_0",
+    "actual_usage_first": true,
+    "identity_priority": [
+      "stable_id",
+      "exact_normalized",
+      "conservative_fuzzy_team_year_position"
+    ],
+    "uncertain_matches_forbidden": true,
+    "injury_from_nonparticipation_forbidden": true,
+    "external_combine_scraping": false
+  },
+  "screening": {
+    "architectures": [
+      "M2",
+      "M4"
+    ],
+    "setpoints_per_architecture": 10,
+    "seed": 1701,
+    "shap_background_games": 256,
+    "shap_explanation_games": 512,
+    "shap_source_aggregation": "sum_absolute_home_away_then_normalize_within_architecture",
+    "weak_pair_requires_both_architectures_for_a_b": true,
+    "c_joint_average_m2_m4_allowed": true
+  },
+  "reduction": {
+    "duplicate_abs_r_gte": 0.995,
+    "strong_redundancy_abs_r_gte": 0.98,
+    "report_only_abs_r_gte": 0.9,
+    "maximum_mae_degradation_points": 0.25,
+    "independent_signal_floor": 10,
+    "independent_signal_abs_r_lt": 0.9,
+    "floor_exception_if_genuinely_unavailable": true
+  },
+  "recommendation": {
+    "practical_tie_mae_points": 0.5,
+    "tie_break_order": [
+      "brier_score",
+      "ats_accuracy",
+      "upset_accuracy",
+      "chalk_accuracy",
+      "fewer_features"
+    ],
+    "report_2024_2025_separately": true
+  },
+  "average_team": {
+    "annual_freeze": true,
+    "reference_end": "prior_completed_season",
+    "weighting": "equal_team_within_season_then_equal_season"
+  },
+  "scheduler": {
+    "system": "sge_uge",
+    "max_running_jobs_project_wide": 50,
+    "max_generations_training_simultaneously": 1,
+    "minimum_successful_setpoints_to_proceed": 3,
+    "retry_only_below_minimum": true,
+    "maximum_retry_attempts": 3
+  },
+  "artifacts": {
+    "retain_model_checkpoints": false,
+    "retain_routine_logs": false,
+    "single_ultrawide_results_parquet": true,
+    "diagnostic_feature_cap": 1000,
+    "diagnostic_target": "next_game_margin",
+    "diagnostic_formats": [
+      "png",
+      "markdown"
+    ],
+    "diagnostic_feature_cap_scope": "total_across_all_advanced_features_and_generations",
+    "diagnostic_priority": "consensus_architecture_normalized_shap_impact",
+    "diagnostic_deduplication": "one_plot_per_formula_unless_materially_different",
+    "diagnostic_retention": [
+      "png",
+      "compact_markdown",
+      "lightweight_index"
+    ],
+    "no_separate_observation_tables": true,
+    "canonical_superset_plus_manifests": true
+  },
+  "future": {
+    "F13_F15": "design_only_unassigned_information_families",
+    "pca": "deferred_derived_suffix_not_new_generation"
+  },
+  "diagnostics": {
+    "primary_x": "pre_target_game_team_week_feature",
+    "default_y": [
+      "next_game_margin",
+      "next_game_win",
+      "next_game_points_for",
+      "next_game_points_against",
+      "next_game_time_of_possession_when_meaningful"
+    ],
+    "same_game_association": "descriptive_only"
+  }
 }

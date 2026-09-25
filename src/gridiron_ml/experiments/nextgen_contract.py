@@ -74,6 +74,19 @@ def assert_design_years(years: Iterable[int], *, maximum: int = 2025) -> None:
         raise ValueError(f"Design evidence includes quarantined years: {rejected}")
 
 
+def assert_design_operation_frame(frame, operation: str, *, season_column: str = "season") -> None:
+    """Guard any later fitted/design operation at its input boundary."""
+    allowed = {"feature_discovery", "equations", "composite_fitting", "scaling",
+               "imputation", "missingness_rules", "correlation", "pruning", "shap",
+               "hyperparameters", "lineage", "recommendations", "model_evaluation"}
+    if operation not in allowed:
+        raise ValueError(f"Unknown nextgen design operation: {operation}")
+    if season_column not in frame:
+        raise ValueError(f"Missing season column for {operation}")
+    assert_design_years(int(year) for year in frame[season_column]
+                        if year is not None and str(year).lower() != "nan")
+
+
 def assert_average_reference_years(target_year: int, source_years: Iterable[int]) -> None:
     rejected = sorted({int(year) for year in source_years if int(year) >= target_year})
     if rejected:
@@ -160,8 +173,11 @@ def validate_contract(config: dict, *, repo_root: Path) -> None:
     if config["scheduler"]["max_running_jobs_project_wide"] > 50:
         raise ValueError("Scheduler cap exceeds 50")
     budget = config["cfbd_api_call_budget"]
-    if budget["hard_limit"] != 20000 or not budget["ledger"].startswith(str(root) + "/"):
-        raise ValueError("Next-generation CFBD budget must be 20,000 under artifact root")
+    if (budget["preferred_new_call_target"] != 20000 or budget["hard_limit"] != 24000
+            or budget["minimum_reserve"] != 6000
+            or budget["account_allowance"] - budget["hard_limit"] < budget["minimum_reserve"]
+            or not budget["ledger"].startswith(str(root) + "/")):
+        raise ValueError("Next-generation CFBD budget must target 20,000, cap 24,000, reserve 6,000")
 
 
 def validate_setup(repo_root: Path) -> None:

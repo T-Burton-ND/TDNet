@@ -1,0 +1,1749 @@
+{
+  "version": 1,
+  "source": "https://api.collegefootballdata.com/api/5.30.0/cfbd-openapi.json",
+  "source_sha256": "2408616f7d6d1649580db00d327c7bf49347bb6a88dd68ca0387348be202604e",
+  "source_path_count": 85,
+  "data_availability_source": "https://api.collegefootballdata.com/data-availability",
+  "classes": [
+    "current_feature_eligible",
+    "future_feature_candidate",
+    "evaluation_sidecar",
+    "cache_only_temporal_risk",
+    "skip_irrelevant"
+  ],
+  "endpoints": [
+    {
+      "endpoint": "/calendar",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/coaches",
+      "classification": "current_feature_eligible",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "firstName",
+        "lastName",
+        "maxYear",
+        "minYear",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": "coaches",
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/coaches/profile",
+      "classification": "skip_irrelevant",
+      "stage": "skip",
+      "partition_strategy": "manual_or_skip",
+      "default_acquire": false,
+      "required_query_parameters": [
+        "coachId"
+      ],
+      "legal_query_parameters": [
+        "coachId"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/coaches/seasons",
+      "classification": "current_feature_eligible",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "coachId",
+        "maxYear",
+        "minYear",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/coaches/tenures",
+      "classification": "current_feature_eligible",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "active",
+        "coachId",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/conferences",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "classification",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/conferences/affiliations",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "maxYear",
+        "minYear",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/conferences/changes",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/draft/picks",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "conference",
+        "position",
+        "school",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/draft/positions",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "static_once",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/draft/teams",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "static_once",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/drives",
+      "classification": "current_feature_eligible",
+      "stage": "C",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "defense",
+        "defenseConference",
+        "offense",
+        "offenseConference",
+        "seasonType",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {
+        "seasonType": "regular",
+        "classification": "fbs"
+      },
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/game/box/advanced",
+      "classification": "cache_only_temporal_risk",
+      "stage": "B",
+      "partition_strategy": "game",
+      "default_acquire": false,
+      "required_query_parameters": [
+        "id"
+      ],
+      "legal_query_parameters": [
+        "id"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "verify_asof_before_predictor"
+    },
+    {
+      "endpoint": "/games",
+      "classification": "current_feature_eligible",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "away",
+        "classification",
+        "competition",
+        "conference",
+        "home",
+        "id",
+        "round",
+        "seasonType",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {
+        "seasonType": "regular"
+      },
+      "earliest_year": 2010,
+      "existing_cache_alias": "games",
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/games/media",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "mediaType",
+        "seasonType",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/games/players",
+      "classification": "current_feature_eligible",
+      "stage": "D",
+      "partition_strategy": "year_week",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "category",
+        "classification",
+        "conference",
+        "id",
+        "seasonType",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {
+        "seasonType": "regular",
+        "classification": "fbs"
+      },
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/games/teams",
+      "classification": "current_feature_eligible",
+      "stage": "C",
+      "partition_strategy": "year_week",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "id",
+        "seasonType",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {
+        "seasonType": "regular",
+        "classification": "fbs"
+      },
+      "earliest_year": 2010,
+      "existing_cache_alias": "game_team_stats",
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/games/weather",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "gameId",
+        "seasonType",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": "weather",
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/info",
+      "classification": "skip_irrelevant",
+      "stage": "skip",
+      "partition_strategy": "manual_or_skip",
+      "default_acquire": false,
+      "required_query_parameters": [],
+      "legal_query_parameters": [],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/info/usage",
+      "classification": "skip_irrelevant",
+      "stage": "skip",
+      "partition_strategy": "manual_or_skip",
+      "default_acquire": false,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "api",
+        "days",
+        "limit"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/lines",
+      "classification": "evaluation_sidecar",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "away",
+        "conference",
+        "gameId",
+        "home",
+        "provider",
+        "seasonType",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {
+        "seasonType": "regular"
+      },
+      "earliest_year": 2010,
+      "existing_cache_alias": "lines",
+      "response_row_cap": null,
+      "temporal_rule": "never_predictor"
+    },
+    {
+      "endpoint": "/live/plays",
+      "classification": "skip_irrelevant",
+      "stage": "skip",
+      "partition_strategy": "manual_or_skip",
+      "default_acquire": false,
+      "required_query_parameters": [
+        "gameId"
+      ],
+      "legal_query_parameters": [
+        "gameId"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/metrics/fg/ep",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "static_once",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/metrics/wp",
+      "classification": "cache_only_temporal_risk",
+      "stage": "B",
+      "partition_strategy": "manual_or_skip",
+      "default_acquire": false,
+      "required_query_parameters": [
+        "gameId"
+      ],
+      "legal_query_parameters": [
+        "gameId"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "never_predictor"
+    },
+    {
+      "endpoint": "/metrics/wp/pregame",
+      "classification": "evaluation_sidecar",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "seasonType",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {
+        "seasonType": "regular"
+      },
+      "earliest_year": 2010,
+      "existing_cache_alias": "pregame_wp",
+      "response_row_cap": null,
+      "temporal_rule": "never_predictor"
+    },
+    {
+      "endpoint": "/passing/players/games",
+      "classification": "future_feature_candidate",
+      "stage": "D",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "passerId",
+        "seasonType",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2025,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/passing/players/season",
+      "classification": "future_feature_candidate",
+      "stage": "D",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "passerId",
+        "seasonType",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2025,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_season_or_reconstruct_asof"
+    },
+    {
+      "endpoint": "/passing/plays",
+      "classification": "future_feature_candidate",
+      "stage": "C",
+      "partition_strategy": "year_week",
+      "default_acquire": true,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "defense",
+        "gameId",
+        "offense",
+        "outcome",
+        "passerId",
+        "seasonType",
+        "targetId",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {
+        "seasonType": "regular",
+        "classification": "fbs"
+      },
+      "earliest_year": 2025,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/passing/teams/games",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "seasonType",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2025,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/passing/teams/season",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "seasonType",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2025,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_season_or_reconstruct_asof"
+    },
+    {
+      "endpoint": "/player/portal",
+      "classification": "current_feature_eligible",
+      "stage": "D",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2021,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/player/returning",
+      "classification": "current_feature_eligible",
+      "stage": "D",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "conference",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2014,
+      "existing_cache_alias": "returning",
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/player/search",
+      "classification": "skip_irrelevant",
+      "stage": "skip",
+      "partition_strategy": "year",
+      "default_acquire": false,
+      "required_query_parameters": [
+        "searchTerm"
+      ],
+      "legal_query_parameters": [
+        "position",
+        "searchTerm",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/player/season/overview",
+      "classification": "cache_only_temporal_risk",
+      "stage": "D",
+      "partition_strategy": "year_player",
+      "default_acquire": false,
+      "required_query_parameters": [
+        "playerId",
+        "year"
+      ],
+      "legal_query_parameters": [
+        "playerId",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_season_or_reconstruct_asof"
+    },
+    {
+      "endpoint": "/player/usage",
+      "classification": "current_feature_eligible",
+      "stage": "D",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "conference",
+        "excludeGarbageTime",
+        "playerId",
+        "position",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2013,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/playoffs/cfp",
+      "classification": "skip_irrelevant",
+      "stage": "skip",
+      "partition_strategy": "year",
+      "default_acquire": false,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/playoffs/cfp/games",
+      "classification": "skip_irrelevant",
+      "stage": "skip",
+      "partition_strategy": "year",
+      "default_acquire": false,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "round",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/playoffs/cfp/participants",
+      "classification": "skip_irrelevant",
+      "stage": "skip",
+      "partition_strategy": "year",
+      "default_acquire": false,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/plays",
+      "classification": "current_feature_eligible",
+      "stage": "C",
+      "partition_strategy": "year_week",
+      "default_acquire": true,
+      "required_query_parameters": [
+        "week",
+        "year"
+      ],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "defense",
+        "defenseConference",
+        "offense",
+        "offenseConference",
+        "playType",
+        "seasonType",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {
+        "seasonType": "regular",
+        "classification": "fbs"
+      },
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/plays/stats",
+      "classification": "future_feature_candidate",
+      "stage": "E",
+      "partition_strategy": "game",
+      "default_acquire": false,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "athleteId",
+        "conference",
+        "gameId",
+        "seasonType",
+        "statTypeId",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2012,
+      "existing_cache_alias": null,
+      "response_row_cap": 2000,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/plays/stats/types",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "static_once",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/plays/types",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "static_once",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/ppa/games",
+      "classification": "current_feature_eligible",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "excludeGarbageTime",
+        "seasonType",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {
+        "seasonType": "regular"
+      },
+      "earliest_year": 2010,
+      "existing_cache_alias": "ppa_games",
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/ppa/players/games",
+      "classification": "current_feature_eligible",
+      "stage": "D",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "excludeGarbageTime",
+        "playerId",
+        "position",
+        "seasonType",
+        "team",
+        "threshold",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/ppa/players/season",
+      "classification": "current_feature_eligible",
+      "stage": "D",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "conference",
+        "excludeGarbageTime",
+        "playerId",
+        "position",
+        "team",
+        "threshold",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_season_or_reconstruct_asof"
+    },
+    {
+      "endpoint": "/ppa/predicted",
+      "classification": "cache_only_temporal_risk",
+      "stage": "B",
+      "partition_strategy": "manual_or_skip",
+      "default_acquire": false,
+      "required_query_parameters": [
+        "distance",
+        "down"
+      ],
+      "legal_query_parameters": [
+        "distance",
+        "down"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "verify_asof_before_predictor"
+    },
+    {
+      "endpoint": "/ppa/teams",
+      "classification": "cache_only_temporal_risk",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "excludeGarbageTime",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": "ppa_teams",
+      "response_row_cap": null,
+      "temporal_rule": "verify_asof_before_predictor"
+    },
+    {
+      "endpoint": "/rankings",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "final",
+        "latest",
+        "poll",
+        "seasonType",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {
+        "seasonType": "regular"
+      },
+      "earliest_year": 2010,
+      "existing_cache_alias": "rankings",
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/ratings/core",
+      "classification": "cache_only_temporal_risk",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "conference",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "verify_asof_before_predictor"
+    },
+    {
+      "endpoint": "/ratings/elo",
+      "classification": "cache_only_temporal_risk",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "conference",
+        "preseason",
+        "seasonType",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": "ratings_elo",
+      "response_row_cap": null,
+      "temporal_rule": "verify_asof_before_predictor"
+    },
+    {
+      "endpoint": "/ratings/fpi",
+      "classification": "cache_only_temporal_risk",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "conference",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": "ratings_fpi",
+      "response_row_cap": null,
+      "temporal_rule": "verify_asof_before_predictor"
+    },
+    {
+      "endpoint": "/ratings/sp",
+      "classification": "cache_only_temporal_risk",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": "ratings_sp",
+      "response_row_cap": null,
+      "temporal_rule": "verify_asof_before_predictor"
+    },
+    {
+      "endpoint": "/ratings/sp/conferences",
+      "classification": "cache_only_temporal_risk",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "verify_asof_before_predictor"
+    },
+    {
+      "endpoint": "/ratings/srs",
+      "classification": "cache_only_temporal_risk",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "conference",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": "ratings_srs",
+      "response_row_cap": null,
+      "temporal_rule": "verify_asof_before_predictor"
+    },
+    {
+      "endpoint": "/ratings/srs/expanded",
+      "classification": "cache_only_temporal_risk",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "verify_asof_before_predictor"
+    },
+    {
+      "endpoint": "/records",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "conference",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_season_or_reconstruct_asof"
+    },
+    {
+      "endpoint": "/recruiting/groups",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "year_range",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "conference",
+        "endYear",
+        "recruitType",
+        "startYear",
+        "team"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/recruiting/players",
+      "classification": "current_feature_eligible",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "classification",
+        "position",
+        "state",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": "recruiting_players",
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/recruiting/teams",
+      "classification": "current_feature_eligible",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": "recruiting_teams",
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/roster",
+      "classification": "current_feature_eligible",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "classification",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": "roster",
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/rushing/players/games",
+      "classification": "future_feature_candidate",
+      "stage": "D",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "rusherId",
+        "seasonType",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2025,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/rushing/players/season",
+      "classification": "future_feature_candidate",
+      "stage": "D",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "rusherId",
+        "seasonType",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2025,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_season_or_reconstruct_asof"
+    },
+    {
+      "endpoint": "/rushing/plays",
+      "classification": "future_feature_candidate",
+      "stage": "C",
+      "partition_strategy": "year_week",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "attributionStatus",
+        "classification",
+        "conference",
+        "defense",
+        "directionAnalysisEligible",
+        "gameId",
+        "isKneel",
+        "isRushingTouchdown",
+        "isSack",
+        "isTeamRush",
+        "offense",
+        "rushDirection",
+        "rusherId",
+        "seasonType",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {
+        "seasonType": "regular",
+        "classification": "fbs"
+      },
+      "earliest_year": 2025,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/rushing/teams/games",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "seasonType",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2025,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/rushing/teams/season",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "seasonType",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2025,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_season_or_reconstruct_asof"
+    },
+    {
+      "endpoint": "/scoreboard",
+      "classification": "skip_irrelevant",
+      "stage": "skip",
+      "partition_strategy": "manual_or_skip",
+      "default_acquire": false,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "classification",
+        "conference"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/stats/categories",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "static_once",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/stats/game/advanced",
+      "classification": "current_feature_eligible",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "excludeGarbageTime",
+        "opponent",
+        "seasonType",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": "stats_advanced_game",
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/stats/game/havoc",
+      "classification": "current_feature_eligible",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "opponent",
+        "seasonType",
+        "team",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {
+        "seasonType": "regular"
+      },
+      "earliest_year": 2010,
+      "existing_cache_alias": "havoc_game",
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/stats/player/season",
+      "classification": "current_feature_eligible",
+      "stage": "D",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "category",
+        "conference",
+        "endWeek",
+        "seasonType",
+        "startWeek",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_season_or_reconstruct_asof"
+    },
+    {
+      "endpoint": "/stats/player/success",
+      "classification": "future_feature_candidate",
+      "stage": "D",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "conference",
+        "endWeek",
+        "excludeGarbageTime",
+        "playerId",
+        "seasonType",
+        "startWeek",
+        "team",
+        "threshold",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_season_or_reconstruct_asof"
+    },
+    {
+      "endpoint": "/stats/player/success/game",
+      "classification": "current_feature_eligible",
+      "stage": "D",
+      "partition_strategy": "year_week",
+      "default_acquire": true,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "conference",
+        "excludeGarbageTime",
+        "playerId",
+        "seasonType",
+        "team",
+        "threshold",
+        "week",
+        "year"
+      ],
+      "fixed_parameters": {
+        "seasonType": "regular"
+      },
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/stats/season",
+      "classification": "cache_only_temporal_risk",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "classification",
+        "conference",
+        "endWeek",
+        "startWeek",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": "stats_basic",
+      "response_row_cap": null,
+      "temporal_rule": "verify_asof_before_predictor"
+    },
+    {
+      "endpoint": "/stats/season/advanced",
+      "classification": "cache_only_temporal_risk",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "classification",
+        "endWeek",
+        "excludeGarbageTime",
+        "startWeek",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": "stats_advanced",
+      "response_row_cap": null,
+      "temporal_rule": "verify_asof_before_predictor"
+    },
+    {
+      "endpoint": "/talent",
+      "classification": "current_feature_eligible",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2015,
+      "existing_cache_alias": "talent",
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/teams",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "conference",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/teams/ats",
+      "classification": "evaluation_sidecar",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [
+        "year"
+      ],
+      "legal_query_parameters": [
+        "conference",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": "teams_ats",
+      "response_row_cap": null,
+      "temporal_rule": "never_predictor"
+    },
+    {
+      "endpoint": "/teams/fbs",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": "teams_fbs",
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/teams/matchup",
+      "classification": "cache_only_temporal_risk",
+      "stage": "B",
+      "partition_strategy": "manual_or_skip",
+      "default_acquire": false,
+      "required_query_parameters": [
+        "team1",
+        "team2"
+      ],
+      "legal_query_parameters": [
+        "maxYear",
+        "minYear",
+        "team1",
+        "team2"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "verify_asof_before_predictor"
+    },
+    {
+      "endpoint": "/teams/season/overview",
+      "classification": "cache_only_temporal_risk",
+      "stage": "B",
+      "partition_strategy": "year_team",
+      "default_acquire": false,
+      "required_query_parameters": [
+        "team",
+        "year"
+      ],
+      "legal_query_parameters": [
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_season_or_reconstruct_asof"
+    },
+    {
+      "endpoint": "/venues",
+      "classification": "future_feature_candidate",
+      "stage": "B",
+      "partition_strategy": "static_once",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": "venue",
+      "response_row_cap": null,
+      "temporal_rule": "prior_completed_game_or_pregame_snapshot"
+    },
+    {
+      "endpoint": "/wepa/players/kicking",
+      "classification": "cache_only_temporal_risk",
+      "stage": "D",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "conference",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "verify_asof_before_predictor"
+    },
+    {
+      "endpoint": "/wepa/players/passing",
+      "classification": "cache_only_temporal_risk",
+      "stage": "D",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "conference",
+        "position",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "verify_asof_before_predictor"
+    },
+    {
+      "endpoint": "/wepa/players/rushing",
+      "classification": "cache_only_temporal_risk",
+      "stage": "D",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "conference",
+        "position",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "verify_asof_before_predictor"
+    },
+    {
+      "endpoint": "/wepa/team/season",
+      "classification": "cache_only_temporal_risk",
+      "stage": "B",
+      "partition_strategy": "year",
+      "default_acquire": true,
+      "required_query_parameters": [],
+      "legal_query_parameters": [
+        "conference",
+        "team",
+        "year"
+      ],
+      "fixed_parameters": {},
+      "earliest_year": 2010,
+      "existing_cache_alias": null,
+      "response_row_cap": null,
+      "temporal_rule": "verify_asof_before_predictor"
+    }
+  ]
+}

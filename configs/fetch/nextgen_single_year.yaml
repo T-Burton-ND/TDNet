@@ -1,4 +1,6 @@
-# Use only for the exploratory next-generation cache. --year overrides this default.
+# Historical nextgen settings; the direct single-year loop is disabled.
+# Use scripts/nextgen_preflight.py and scripts/nextgen_cfbd_acquire.py.
+nextgen_manifest_required: true
 cache_dir: /groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/raw_cache/v1
 api_key_file: .env
 year: 2010
@@ -6,7 +8,7 @@ division: fbs
 sleep_seconds: 0.25
 snake_case: true
 refresh: false
-api_budget_limit: 20000
+api_budget_limit: 24000
 api_budget_ledger: /groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/results/cfbd_api_call_budget.json
 max_retries: 2  # Three total outbound attempts at most.
 strict_http_errors: true

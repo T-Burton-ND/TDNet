@@ -15,6 +15,7 @@ SPEC.loader.exec_module(contract)
 all_fingerprint_ids = contract.all_fingerprint_ids
 assert_average_reference_years = contract.assert_average_reference_years
 assert_design_years = contract.assert_design_years
+assert_design_operation_frame = contract.assert_design_operation_frame
 assert_pair_closed = contract.assert_pair_closed
 assert_safe_inputs = contract.assert_safe_inputs
 parent_of = contract.parent_of
@@ -48,6 +49,9 @@ class NextgenContractTests(unittest.TestCase):
         assert_design_years([2010, 2024, 2025])
         with self.assertRaises(ValueError):
             assert_design_years([2025, 2026])
+        for operation in ("scaling", "correlation", "shap", "feature_discovery"):
+            with self.assertRaises(ValueError):
+                assert_design_operation_frame({"season": [2025, 2026]}, operation)
         assert_average_reference_years(2026, [2010, 2024, 2025])
         with self.assertRaises(ValueError):
             assert_average_reference_years(2026, [2025, 2026])
@@ -87,6 +91,18 @@ class NextgenContractTests(unittest.TestCase):
         static[0]["availability_rule"] = "available_after_game_final"
         with self.assertRaises(ValueError):
             validate_feature_manifest(static, self.schema)
+
+    def test_wide_result_schema_has_separate_validation_years(self):
+        schema = json.loads((ROOT / "configs/experiments/nextgen_result_schema_v1.json").read_text())
+        columns = set(schema["required_columns"])
+        for metric in ("mae", "rmse", "brier", "winner_accuracy", "ats_accuracy",
+                       "chalk_accuracy", "upset_accuracy"):
+            for year in (2024, 2025):
+                self.assertIn(f"{metric}_{year}", columns)
+        for name in ("recommendation_eligible", "recommendation_selected",
+                     "recommendation_basis", "prospective_boundary_year",
+                     "max_design_year_used", "acquisition_manifest_sha256"):
+            self.assertIn(name, columns)
 
 
 if __name__ == "__main__":

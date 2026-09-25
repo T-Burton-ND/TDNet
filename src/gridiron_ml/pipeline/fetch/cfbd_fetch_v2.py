@@ -77,7 +77,14 @@ def write_parquet(df: pd.DataFrame, path: Path, snake: bool):
     if df is None or len(df) == 0:
         df = pd.DataFrame()
     df = maybe_snake(df, snake)
-    df.to_parquet(path, index=False)
+    fd, temp_name = tempfile.mkstemp(prefix=".cfbd_parquet_", suffix=".parquet", dir=path.parent)
+    os.close(fd)
+    try:
+        df.to_parquet(temp_name, index=False, compression="zstd")
+        os.replace(temp_name, path)
+    finally:
+        if os.path.exists(temp_name):
+            os.unlink(temp_name)
 
 # ---------------- Minimal client with call counter ----------------
 class CallBudgetExceeded(RuntimeError):
@@ -94,8 +101,8 @@ class CallBudget:
     def __init__(self, ledger_path: Path, limit: int):
         self.path = Path(ledger_path)
         self.limit = int(limit)
-        if self.limit <= 0 or self.limit > 20000:
-            raise ValueError("Next-generation CFBD call budget must be between 1 and 20,000")
+        if self.limit <= 0 or self.limit > 24000:
+            raise ValueError("Next-generation CFBD call budget must be between 1 and 24,000")
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.lock_path = self.path.with_name(self.path.name + ".lock")
 
@@ -155,12 +162,53 @@ class CallBudget:
             return dict(state)
         return self._locked(True, update)
 
+    def migrate_20k_to_24k(self):
+        """One-time policy migration that preserves every already reserved call."""
+        if self.limit != 24000:
+            raise ValueError("Migration target must be the 24,000-call ceiling")
+
+        def migrate():
+            if not self.path.exists():
+                raise RuntimeError("Cannot migrate a missing CFBD call ledger")
+            with self.path.open(encoding="utf-8") as handle:
+                state = json.load(handle)
+            if state.get("experiment") != "nextgen_fingerprints_v1":
+                raise ValueError("CFBD call ledger belongs to a different experiment")
+            if state.get("limit") == 24000:
+                return dict(state)
+            if state.get("limit") != 20000 or not isinstance(state.get("reserved"), int):
+                raise ValueError("Only the existing 20,000-call ledger can be migrated")
+            if not 0 <= state["reserved"] <= 20000:
+                raise ValueError("Invalid count in existing CFBD call ledger")
+            state["limit"] = 24000
+            state["policy_migration"] = {
+                "from_limit": 20000,
+                "to_limit": 24000,
+                "reserved_preserved": state["reserved"],
+                "at_utc": datetime.now(timezone.utc).isoformat(),
+            }
+            descriptor, temp_name = tempfile.mkstemp(prefix=".cfbd_budget_migrate_", dir=self.path.parent)
+            try:
+                os.fchmod(descriptor, 0o600)
+                with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+                    json.dump(state, handle, sort_keys=True)
+                    handle.write("\n")
+                    handle.flush()
+                    os.fsync(handle.fileno())
+                os.replace(temp_name, self.path)
+            finally:
+                if os.path.exists(temp_name):
+                    os.unlink(temp_name)
+            return dict(state)
+
+        return self._locked(True, migrate)
+
 
 class CFBDClient:
     """Represent the CFBDClient component and its local behavior."""
     def __init__(self, api_key_env: str = "CFBD_API_KEY", timeout: int = 60,
-                 call_budget: CallBudget = None, max_retries: int = 5,
-                 strict_http_errors: bool = False):
+                 call_budget: CallBudget = None, max_retries: int = 2,
+                 strict_http_errors: bool = True):
         """Internal helper for the init__ step."""
         key = os.environ.get(api_key_env)
         if not key:
@@ -178,25 +226,26 @@ class CFBDClient:
         url = f"{BASE}{path}"
         attempt = 0
         retries = self.max_retries if max_retries is None else int(max_retries)
+        if not 0 <= retries <= 2:
+            raise ValueError("CFBD requests permit at most three total attempts")
         while True:
             if self.call_budget is not None:
                 self.call_budget.reserve(path)
             self.api_calls += 1
-            r = self.s.get(url, params=params, timeout=self.s.timeout)
-            if r.status_code == 404:
-                if self.strict_http_errors:
-                    r.raise_for_status()
-                return []
-            if r.status_code in (429, 502, 503, 504):
+            try:
+                r = self.s.get(url, params=params, timeout=self.s.timeout)
+            except requests.RequestException:
+                attempt += 1
+                if attempt > retries:
+                    raise
+                time.sleep(backoff ** attempt)
+                continue
+            if r.status_code in (408, 429, 500, 502, 503, 504):
                 attempt += 1
                 if attempt > retries:
                     r.raise_for_status()
                 time.sleep(backoff ** attempt)
                 continue
-            if r.status_code == 400:
-                if self.strict_http_errors:
-                    r.raise_for_status()
-                return []
             r.raise_for_status()
             if "application/json" not in r.headers.get("Content-Type", ""):
                 raise RuntimeError(f"Non-JSON response from {path}")
@@ -427,6 +476,8 @@ def main():
 
     with open(args.config) as f:
         raw_cfg = yaml.safe_load(f)
+    if raw_cfg.get("nextgen_manifest_required"):
+        raise RuntimeError("Nextgen acquisition requires scripts/nextgen_preflight.py and staged scripts/nextgen_cfbd_acquire.py; direct year fetch is disabled")
 
     cache_dir = Path(expand_env_like(raw_cfg["cache_dir"]))
     if args.output_root is not None:
