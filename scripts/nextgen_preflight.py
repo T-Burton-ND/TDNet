@@ -99,10 +99,10 @@ def check_temporal() -> dict:
     assert int(a.source_game_id) == 1 and int(a.game_id) == 2
     assert a.prior_mean_margin == 14 and a.next_game_margin == -7
     assert 3 not in rows.game_id.tolist()
-    feature_row = pd.DataFrame({"season": [2025], "season_type": ["regular"],
+    feature_row = pd.DataFrame({"season": [2025], "season_type": ["regular"], "team": ["A"],
                                 "feature_kind": ["dynamic"],
                                 "latest_source_game_id": [int(a.source_game_id)],
-                                "latest_source_game_utc": ["2025-08-30T15:30:00Z"],
+                                "latest_source_game_utc": ["2025-08-30T12:00:00Z"],
                                 "latest_source_season_type": ["regular"],
                                 "static_availability_documentation": [None],
                                 "target_game_id": [int(a.game_id)],
@@ -192,8 +192,8 @@ def main() -> None:
     estimate = storage_estimate(manifest, root)
     full_manifest, full_scenario = build_manifest(inventory, ROOT, root, include_plays_stats=True)
     stats_pending = full_scenario["by_endpoint"].get("/plays/stats", {}).get("new", 0)
-    summary["tentative_plays_stats_scenario"] = {
-        "status": "planning_only_pending_sample_coverage_fresh_schedule_and_quota",
+    summary["plays_stats_full_game_partition_scenario"] = {
+        "status": "uncommitted_pending_sample_feature_value_and_full_subset_skip_choice",
         "additional_first_attempt_calls": stats_pending,
         "total_new_first_attempt_calls": full_scenario["new_planned_calls"],
         "local_attempt_headroom_after_first_attempts": (
@@ -201,9 +201,9 @@ def main() -> None:
         "schedule_authoritative": full_scenario["schedule_authoritative"],
         "storage_estimate": storage_estimate(full_manifest, root),
     }
-    if (summary["tentative_plays_stats_scenario"]["local_attempt_headroom_after_first_attempts"] < 0
-            or not summary["tentative_plays_stats_scenario"]["storage_estimate"]["under_soft_limit"]):
-        raise RuntimeError("Tentative /plays/stats plan exceeds the hard call or soft storage budget")
+    summary["plays_stats_full_game_partition_scenario"]["full_scenario_within_limits"] = (
+        summary["plays_stats_full_game_partition_scenario"]["local_attempt_headroom_after_first_attempts"] >= 0
+        and summary["plays_stats_full_game_partition_scenario"]["storage_estimate"]["under_soft_limit"])
     checks["request_ledger_materialized"] = materialize_plan(manifest, AcquisitionLedger(root))
     results = root / "results/preflight"
     results.mkdir(parents=True, exist_ok=True)

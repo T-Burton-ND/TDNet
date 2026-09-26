@@ -1,9 +1,9 @@
 {
   "version": 1,
   "source_openapi": "https://api.collegefootballdata.com/api/5.30.0/cfbd-openapi.json",
-  "decision": "tentatively_plan_full_stage_e_pending_coverage_and_quota",
+  "decision": "sample_then_choose_full_subset_or_skip",
   "default_acquire": false,
-  "tentative_full_scenario": {"game_requests_2012_2025_completed_regular_fbs_involved": 11509, "pre_stage_a_total_new_first_attempt_calls": 13265, "status": "planning_only_unverified_for_response_caps_and_fresh_schedule"},
+  "uncommitted_full_game_partition_scenario": {"game_requests_2012_2025_completed_regular_fbs_involved": 11509, "pre_stage_a_total_new_first_attempt_calls": 13265, "status": "scenario_only_before_retries_or_cap_subdivisions_not_an_acquisition_commitment"},
   "unique_information": "PlayStat links playId, athleteId, statType, and stat, with game/period/clock context. This is finer player-to-play attribution than game or season aggregates.",
   "not_supplied": "The schema does not claim complete snap participation, all on-field athletes, or an as-of roster snapshot. Absence of a PlayStat row cannot establish nonparticipation or injury.",
   "cheaper_alternatives": {
@@ -17,7 +17,7 @@
   },
   "f10_f12_required_features": [],
   "potential_future_value": ["player-attributed quarter splits", "player-attributed high-leverage production"],
-  "gate": "Tentatively include full game-partition calls in the launch budget. Before full Stage E, sample a game, confirm stat meaning, row coverage and 2000-row cap handling, then recompute calls from fresh schedules and check the live quota and 20000-attempt ledger. No Stage E calls in preparation.",
+  "gate": "Sample first; verify stat meaning, coverage, and 2000-row cap handling; name concrete F10/F12 features uniquely enabled by this route; then choose full, subset, or skip based on incremental value, fresh-schedule calls, live quota, the 20000-attempt ledger, and storage. No Stage E calls in preparation.",
   "response_cap_rows": 2000,
   "cap_policy": "A 2000-row response is suspected partial, never marked complete; subdivide by documented query filters or leave unavailable.",
   "market_or_win_probability_predictor": false

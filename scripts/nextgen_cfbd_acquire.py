@@ -27,6 +27,32 @@ from gridiron_ml.pipeline.fetch.nextgen_acquisition import (  # noqa: E402
 )
 
 
+def validate_stage_e_approval(approval: dict) -> set[int]:
+    """Require sample evidence and a concrete value decision before any Stage-E pull."""
+    features = approval.get("unique_f10_f12_features")
+    if not isinstance(features, list) or not features or any(
+        not isinstance(item, dict)
+        or item.get("generation") not in {"F10", "F12"}
+        or not isinstance(item.get("name"), str)
+        or not item["name"].strip()
+        or item.get("uniquely_enabled_by_plays_stats") is not True
+        for item in features
+    ):
+        raise ValueError("Stage E needs concrete F10/F12 features uniquely enabled by /plays/stats")
+    game_ids = approval.get("approved_game_ids")
+    if (approval.get("decision") not in {"full", "subset"}
+            or not isinstance(game_ids, list) or not game_ids
+            or any(not isinstance(game_id, int) or game_id <= 0 for game_id in game_ids)
+            or len(game_ids) != len(set(game_ids))
+            or not all(approval.get(key) is True for key in (
+                "sample_coverage_and_stat_meaning_verified",
+                "response_cap_handling_verified",
+                "incremental_value_reviewed",
+                "quota_and_storage_reviewed"))):
+        raise ValueError("Stage E needs sample, cap, incremental-value, quota, storage, and full/subset approval")
+    return set(game_ids)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Future staged nextgen acquisition")
     parser.add_argument("--execute-stage", choices=["A", "B", "C", "D", "E"], required=True)
@@ -39,9 +65,7 @@ def main() -> None:
     if args.execute_stage == "E":
         gate = root / "results/preflight/plays_stats_approval.json"
         approval = json.loads(gate.read_text()) if gate.exists() else {}
-        approved_game_ids = set(approval.get("approved_game_ids", []))
-        if not approval.get("sample_coverage_and_stat_meaning_verified") or not approved_game_ids:
-            raise RuntimeError("Stage E requires sampled coverage/stat audit, approved game IDs, and a fresh call plan")
+        approved_game_ids = validate_stage_e_approval(approval)
     manifest, summary = build_manifest(inventory, ROOT, root,
                                        include_plays_stats=args.execute_stage == "E")
     if args.execute_stage != "A" and not summary["schedule_authoritative"]:
@@ -71,6 +95,8 @@ def main() -> None:
         available_ids = {item["game_id"] for item in manifest if item["endpoint"] == "/plays/stats"}
         if not approved_game_ids <= available_ids:
             raise RuntimeError("Stage E approval contains game IDs outside the fresh schedule")
+        if approval["decision"] == "full" and approved_game_ids != available_ids:
+            raise RuntimeError("Stage E full approval must cover the fresh full-game schedule")
         stage_items = [item for item in stage_items if item["game_id"] in approved_game_ids]
     if args.max_requests is not None:
         if args.max_requests <= 0:
@@ -98,7 +124,13 @@ def main() -> None:
     plan_summary = root / "results/preflight/cfbd_plan_summary_v1.json"
     if not plan_summary.exists():
         raise RuntimeError("Missing preflight plan/storage estimate")
-    estimate = json.loads(plan_summary.read_text())["storage_estimate"]
+    if args.execute_stage == "E":
+        from nextgen_preflight import storage_estimate  # local script, no acquisition on import
+        selected_plan = [item for item in manifest
+                         if item["endpoint"] != "/plays/stats" or item["game_id"] in approved_game_ids]
+        estimate = storage_estimate(selected_plan, root)
+    else:
+        estimate = json.loads(plan_summary.read_text())["storage_estimate"]
     if (estimate["estimated_total_bytes"] > estimate["soft_limit_bytes"] or
             estimate["estimated_total_bytes"] > free):
         raise RuntimeError("Storage estimate exceeds soft limit or current free space")

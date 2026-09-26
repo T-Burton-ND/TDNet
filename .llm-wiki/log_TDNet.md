@@ -59,3 +59,9 @@ Chronological record of wiki activity.
 - Set the experiment's hard limit to 20,000 outbound attempts with a 10,000-call provider reserve; atomically lowered the existing ledger while preserving four reservations.
 - Made 16 fresh ledger-backed 2010–2025 `/games` calls the Stage A prerequisite. The offline pre-Stage-A plan has 1,756 planned requests and one verified reuse; the 9,224,915,712-byte storage figure is a provisional projection.
 - Added canonical feature-family write and model-input validation boundaries with dynamic source timestamps and static Week-0 availability rules. Tentatively budgeted 11,509 `/plays/stats` game calls; the provisional combined plan is 13,265 first attempts and a projected 89,771,158,608-byte footprint. No fresh schedules or bulk experiment work ran.
+
+## [2026-09-26] update | Keyed next-generation provenance hardening
+- by: Thomas J. Burton via codex
+- Made `(target_game_id, team)` matchup identity independent of DataFrame indexes and bound canonical rows to fresh Stage-A target/source schedules, a durable team-season Week-0 freeze, and manifest/data/schedule hashes.
+- Clarified that source timestamps are schedule kickoff times; feature availability still needs documented as-of evidence from future builders.
+- Kept `/plays/stats` as a sample-first Stage E decision. The 11,509-call full game-partition estimate is an uncommitted scenario before retries or subdivisions; full, subset, or skip depends on unique F10/F12 value, quota, and storage. No acquisition or modeling ran.

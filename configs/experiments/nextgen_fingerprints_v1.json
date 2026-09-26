@@ -27,6 +27,14 @@
   "source_f6_feature_count": 227,
   "source_f6_schema_hash": "7679eb1eac141ce1fcc2e3690bee848b12a3a753903699c32826640af568d224",
   "scientific_invariant": "Each dynamic team-week feature uses only information available before its target game; the central target is that team's next-game margin.",
+  "canonical_feature_boundary": {
+    "matchup_key": ["target_game_id", "team"],
+    "schedule_authority": "fresh_stage_a_ledger_backed_games_2010_2025",
+    "source_game_time": "authoritative_schedule_kickoff_utc",
+    "week0_freeze": "first_regular_game_kickoff_exclusive_per_team_season",
+    "manifest_hash_sidecar_required": true,
+    "model_and_shap_load_revalidation_required": true
+  },
   "seasons": {
     "historical_start": 2010,
     "base_development_end": 2023,

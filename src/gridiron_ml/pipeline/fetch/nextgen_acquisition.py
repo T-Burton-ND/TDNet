@@ -152,6 +152,57 @@ def make_request(endpoint: dict, params: dict, partition: str, root: Path,
             "planned": True, "status": "planned"}
 
 
+def verified_schedule_year(games_endpoint: dict, artifact_root: Path,
+                           ledger: AcquisitionLedger, year: int) -> tuple[pd.DataFrame, str] | None:
+    """Read one fresh Stage-A schedule only through its exact successful ledger record."""
+    params = {"year": year, **games_endpoint["fixed_parameters"]}
+    expected = make_request(games_endpoint, params, str(year), artifact_root, year=year)
+    prior = ledger.read(expected["request_id"])
+    if not (prior and prior.get("status") == "success_complete"
+            and prior.get("cache_path") == expected["cache_path"]
+            and prior.get("parameters_json") == expected["parameters_json"]
+            and prior.get("endpoint") == "/games"
+            and verify_cache(Path(expected["cache_path"]), prior, year=year)):
+        return None
+    try:
+        frame = regular_fbs_games(pd.read_parquet(expected["cache_path"]))
+        required = {"id", "season", "start_date", "home_team", "away_team"}
+        if not required <= set(frame) or frame.empty or frame.id.isna().any() or not frame.id.is_unique:
+            return None
+        if not pd.to_numeric(frame.season, errors="coerce").eq(year).all():
+            return None
+        if (frame.home_team.isna().any() or frame.away_team.isna().any()
+                or frame.home_team.astype(str).str.strip().eq("").any()
+                or frame.away_team.astype(str).str.strip().eq("").any()
+                or frame.home_team.eq(frame.away_team).any()
+                or pd.to_datetime(frame.start_date, utc=True, errors="coerce").isna().any()):
+            return None
+        return frame, prior["sha256"]
+    except (OSError, ValueError, KeyError):
+        return None
+
+
+def load_authoritative_schedule(artifact_root: Path, inventory: dict,
+                                years: range = range(2010, 2026)) -> tuple[pd.DataFrame, str]:
+    """Require every Stage-A year and return the schedule plus its durable digest."""
+    endpoint = next(item for item in inventory["endpoints"] if item["endpoint"] == "/games")
+    ledger = AcquisitionLedger(artifact_root)
+    frames = []
+    hashes = {}
+    for year in years:
+        verified = verified_schedule_year(endpoint, artifact_root, ledger, year)
+        if verified is None:
+            raise RuntimeError(f"Fresh ledger-backed Stage-A /games schedule missing for {year}")
+        frame, digest = verified
+        frames.append(frame)
+        hashes[str(year)] = digest
+    schedule = pd.concat(frames, ignore_index=True)
+    if not schedule.id.is_unique:
+        raise ValueError("Authoritative schedule contains duplicate game IDs")
+    digest = hashlib.sha256(canonical_json(hashes).encode()).hexdigest()
+    return schedule, digest
+
+
 def build_manifest(inventory: dict, project_root: Path, artifact_root: Path,
                    years: range = range(2010, 2026), include_plays_stats: bool = False) -> tuple[list[dict], dict]:
     """Enumerate calls; legacy schedules support estimates only until Stage A."""
@@ -161,21 +212,10 @@ def build_manifest(inventory: dict, project_root: Path, artifact_root: Path,
     fresh_schedule = {}
     missing_fresh_years = []
     for year in years:
-        params = {"year": year, **games_endpoint["fixed_parameters"]}
-        expected = make_request(games_endpoint, params, str(year), artifact_root, year=year)
-        prior = ledger.read(expected["request_id"])
-        if (prior and prior.get("status") == "success_complete"
-                and prior.get("cache_path") == expected["cache_path"]
-                and prior.get("parameters_json") == expected["parameters_json"]
-                and prior.get("endpoint") == "/games"
-                and verify_cache(Path(expected["cache_path"]), prior, year=year)):
-            try:
-                frame = regular_fbs_games(pd.read_parquet(expected["cache_path"]))
-                if not frame.empty and frame.id.notna().all() and frame.id.is_unique:
-                    fresh_schedule[year] = frame
-                    continue
-            except (OSError, ValueError, KeyError):
-                pass
+        verified = verified_schedule_year(games_endpoint, artifact_root, ledger, year)
+        if verified is not None:
+            fresh_schedule[year] = verified[0]
+            continue
         missing_fresh_years.append(year)
     authoritative = not missing_fresh_years
     schedule = fresh_schedule if authoritative else {}

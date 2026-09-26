@@ -1,16 +1,40 @@
 """Focused guards for manifest identity, ledger resume, response cap, and timing."""
 
 import json
+import importlib.util
 from pathlib import Path
 
 import pandas as pd
 import requests
+import pytest
 
 from gridiron_ml.experiments.nextgen_temporal import next_game_rows
 from gridiron_ml.pipeline.fetch.nextgen_acquisition import (
     AcquisitionLedger, build_manifest, execute_request, make_request, materialize_plan,
     quota_allows, request_identity, verify_cache,
 )
+
+_executor_spec = importlib.util.spec_from_file_location(
+    "nextgen_cfbd_acquire", Path(__file__).resolve().parents[1] / "scripts/nextgen_cfbd_acquire.py")
+_executor = importlib.util.module_from_spec(_executor_spec)
+_executor_spec.loader.exec_module(_executor)
+validate_stage_e_approval = _executor.validate_stage_e_approval
+
+
+def test_stage_e_gate_requires_sample_unique_features_and_explicit_choice():
+    approval = {"decision": "subset", "approved_game_ids": [101],
+                "sample_coverage_and_stat_meaning_verified": True,
+                "response_cap_handling_verified": True,
+                "incremental_value_reviewed": True,
+                "quota_and_storage_reviewed": True,
+                "unique_f10_f12_features": [{"generation": "F10", "name": "player_quarter_rush_share",
+                                              "uniquely_enabled_by_plays_stats": True}]}
+    assert validate_stage_e_approval(approval) == {101}
+    for key, bad_value in (("decision", "skip"), ("approved_game_ids", []),
+                           ("sample_coverage_and_stat_meaning_verified", False),
+                           ("unique_f10_f12_features", [{"generation": "F10", "name": "x"}])):
+        with pytest.raises(ValueError):
+            validate_stage_e_approval({**approval, key: bad_value})
 
 
 class FakeClient:
@@ -125,7 +149,8 @@ def test_legacy_team_reuse_waits_for_fresh_ledger_backed_schedule(tmp_path):
     (legacy / "game_team_stats").mkdir()
     schedule_row = {"id": 1, "season": 2025, "week": 1, "season_type": "regular",
                     "completed": True, "home_classification": "fbs",
-                    "away_classification": "fbs", "extra": "x" * 500}
+                    "away_classification": "fbs", "home_team": "A", "away_team": "B",
+                    "start_date": "2025-09-06T12:00:00Z", "extra": "x" * 500}
     pd.DataFrame([schedule_row]).to_parquet(legacy / "games/2025.parquet")
     pd.DataFrame({"id": [1], "week": [1], "season": [2025],
                   "extra": ["y" * 500]}).to_parquet(legacy / "game_team_stats/2025.parquet")

@@ -256,9 +256,9 @@
     "B": "cheap_year_metadata_roster_coaching_rating_cache",
     "C": "plays_drives",
     "D": "player_detail",
-    "E": "tentative_plays_stats_after_sample_coverage_and_quota_gate"
+    "E": "gated_plays_stats_sample_then_full_subset_or_skip_decision"
   },
-  "plays_stats_decision": "tentatively_plan_full_stage_e_pending_coverage_and_quota",
+  "plays_stats_decision": "sample_then_choose_full_subset_or_skip",
   "storage_soft_limit_gb": 100,
   "canonicalization": {
     "targets": "completed_regular_fbs_vs_fbs",

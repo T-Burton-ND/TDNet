@@ -24,6 +24,7 @@ FORBIDDEN_INPUT = re.compile(
 )
 GENERATIONS = ("F06", "F09", "F10", "F11", "F12")
 DESIGNS = ("a", "b", "c")
+FORBIDDEN_RAW_ENDPOINTS = {"/lines", "/metrics/wp/pregame", "/teams/ats"}
 
 
 def load_json(path: str | Path) -> dict:
@@ -92,7 +93,7 @@ def assert_design_operation_frame(frame, operation: str, *, season_column: str =
 
 def assert_temporal_feature_rows(frame: pd.DataFrame, feature_columns: Iterable[str]) -> None:
     """Validate the common canonical write and model/SHAP load boundary."""
-    required = {"season", "season_type", "feature_kind", "target_game_id",
+    required = {"season", "season_type", "team", "feature_kind", "target_game_id",
                 "target_start_utc", "feature_available_utc", "latest_source_game_id",
                 "latest_source_game_utc", "latest_source_season_type",
                 "static_availability_documentation"}
@@ -101,7 +102,8 @@ def assert_temporal_feature_rows(frame: pd.DataFrame, feature_columns: Iterable[
     if pd.to_numeric(frame.season, errors="coerce").isna().any():
         raise ValueError("Feature row lacks a valid season")
     assert_design_operation_frame(frame, "feature_discovery")
-    if frame.empty or frame.target_game_id.isna().any():
+    if (frame.empty or frame.target_game_id.isna().any() or frame.team.isna().any()
+            or frame.team.astype(str).str.strip().eq("").any()):
         raise ValueError("Feature row lacks a target game")
     if not frame.season_type.astype(str).str.lower().eq("regular").all():
         raise ValueError("Postseason feature or target row is forbidden")
@@ -142,7 +144,8 @@ def assert_average_reference_years(target_year: int, source_years: Iterable[int]
 def assert_safe_inputs(columns: Iterable[str], records: Iterable[Mapping] = ()) -> None:
     rejected = sorted({name for name in columns if FORBIDDEN_INPUT.search(name)})
     for record in records:
-        if record.get("market_derived") or record.get("pregame_win_probability_derived"):
+        if (record.get("market_derived") or record.get("target_derived")
+                or record.get("pregame_win_probability_derived")):
             rejected.append(str(record.get("name")))
     if rejected:
         raise ValueError(f"Forbidden model/feature-engineering inputs: {sorted(set(rejected))}")
@@ -178,14 +181,20 @@ def validate_feature_manifest(records: list[dict], schema: dict) -> None:
             raise ValueError(f"{name}: C composite exceeds five source inputs")
         if not record["source_inputs"] or not record["equation_excel"] or not record["matchup_formula"]:
             raise ValueError(f"{name}: source inputs and exact equations are required")
-        if record["static_or_dynamic"] == "dynamic" and record["temporal_cutoff"] != "before_target_game":
-            raise ValueError(f"{name}: dynamic feature must precede target game")
+        if record["temporal_cutoff"] != "before_target_game":
+            raise ValueError(f"{name}: feature must precede target game")
         if record["static_or_dynamic"] == "static_preseason" and not any(
             token in record["availability_rule"] for token in ("week0", "before_season")
         ):
             raise ValueError(f"{name}: static feature requires Week-0 availability")
-        if record["market_derived"] or record.get("pregame_win_probability_derived", False):
-            raise ValueError(f"{name}: market or win-probability input forbidden")
+        if any(record.get(flag) is not False for flag in (
+                "market_derived", "target_derived", "pregame_win_probability_derived")):
+            raise ValueError(f"{name}: market, target, or win-probability input forbidden")
+        if any(FORBIDDEN_INPUT.search(str(value)) for value in
+               (*record["raw_endpoints"], *record["raw_columns"], *record["source_inputs"])):
+            raise ValueError(f"{name}: forbidden raw source or input")
+        if FORBIDDEN_RAW_ENDPOINTS.intersection(record["raw_endpoints"]):
+            raise ValueError(f"{name}: evaluation-only endpoint cannot supply a feature")
         counterpart = record["matchup_counterpart"]
         if counterpart != name and counterpart not in names:
             raise ValueError(f"{name}: missing matchup counterpart {counterpart}")
@@ -229,6 +238,14 @@ def validate_contract(config: dict, *, repo_root: Path) -> None:
             or budget["account_allowance"] - budget["hard_limit"] < budget["minimum_reserve"]
             or not budget["ledger"].startswith(str(root) + "/")):
         raise ValueError("Next-generation CFBD budget must cap at 20,000 and reserve 10,000")
+    boundary = config.get("canonical_feature_boundary", {})
+    if (boundary.get("matchup_key") != ["target_game_id", "team"]
+            or boundary.get("schedule_authority") != "fresh_stage_a_ledger_backed_games_2010_2025"
+            or boundary.get("source_game_time") != "authoritative_schedule_kickoff_utc"
+            or boundary.get("week0_freeze") != "first_regular_game_kickoff_exclusive_per_team_season"
+            or boundary.get("manifest_hash_sidecar_required") is not True
+            or boundary.get("model_and_shap_load_revalidation_required") is not True):
+        raise ValueError("Nextgen canonical feature boundary is incomplete")
 
 
 def validate_setup(repo_root: Path) -> None:
@@ -248,6 +265,11 @@ def validate_setup(repo_root: Path) -> None:
             or acquisition["cache"]["legacy_games_reuse"] is not False
             or acquisition["cache"]["games_teams_reuse_requires_authoritative_schedule"] is not True):
         raise ValueError("Fresh schedules must precede legacy team-game reuse")
+    stage_e = load_json(base / "nextgen_plays_stats_audit_v1.json")
+    if (acquisition.get("plays_stats_decision") != "sample_then_choose_full_subset_or_skip"
+            or stage_e.get("decision") != acquisition["plays_stats_decision"]
+            or stage_e.get("default_acquire") is not False):
+        raise ValueError("Stage E must remain gated until sample and value review")
     inventory = load_json(base / "nextgen_cfbd_endpoint_inventory_v1.json")
     if next(item for item in inventory["endpoints"] if item["endpoint"] == "/games")["stage"] != "A":
         raise ValueError("Fresh /games acquisition must be Stage A")

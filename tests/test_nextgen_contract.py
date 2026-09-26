@@ -107,7 +107,7 @@ class NextgenContractTests(unittest.TestCase):
             self.assertIn(name, columns)
 
     def test_temporal_feature_frame_rejects_current_game_and_late_sources(self):
-        frame = pd.DataFrame({"season": [2025], "season_type": ["regular"],
+        frame = pd.DataFrame({"season": [2025], "season_type": ["regular"], "team": ["A"],
                               "feature_kind": ["dynamic"],
                               "latest_source_game_id": [1],
                               "latest_source_game_utc": ["2025-08-31T23:00:00Z"],
