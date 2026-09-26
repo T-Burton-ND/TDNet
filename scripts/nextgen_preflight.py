@@ -100,7 +100,11 @@ def check_temporal() -> dict:
     assert a.prior_mean_margin == 14 and a.next_game_margin == -7
     assert 3 not in rows.game_id.tolist()
     feature_row = pd.DataFrame({"season": [2025], "season_type": ["regular"],
-                                "source_game_id": [int(a.source_game_id)],
+                                "feature_kind": ["dynamic"],
+                                "latest_source_game_id": [int(a.source_game_id)],
+                                "latest_source_game_utc": ["2025-08-30T15:30:00Z"],
+                                "latest_source_season_type": ["regular"],
+                                "static_availability_documentation": [None],
                                 "target_game_id": [int(a.game_id)],
                                 "feature_available_utc": ["2025-08-30T16:00:00Z"],
                                 "target_start_utc": ["2025-09-06T12:00:00Z"],
@@ -150,15 +154,16 @@ def main() -> None:
     if summary["unresolved_partial_requests"] or summary["unresolved_review_requests"]:
         raise RuntimeError("Unresolved capped or anomalous responses require review before launch")
     budget_path = Path(config["cfbd_api_call_budget"]["ledger"])
-    reserved = json.loads(budget_path.read_text())["reserved"] if budget_path.exists() else 0
-    if reserved + summary["new_planned_calls"] > 20000:
-        raise RuntimeError("Preferred 20,000-call target exceeded")
+    policy = config["cfbd_api_call_budget"]
+    budget = CallBudget(budget_path, policy["hard_limit"])
+    reserved = budget.status()["reserved"]
+    if reserved + summary["new_planned_calls"] > policy["hard_limit"]:
+        raise RuntimeError("Planned minimum requests exceed the 20,000-attempt hard cap")
     if not storage_estimate(manifest, root)["under_soft_limit"]:
         raise RuntimeError("100 GB storage soft limit exceeded")
     quota = None
     quota_snapshot_recorded_at_utc = None
     if args.live_plays:
-        budget = CallBudget(budget_path, 24000)
         os.environ["CFBD_API_KEY"] = load_cfbd_key_file(ROOT / ".env")
         client = CFBDClient(call_budget=budget, max_retries=2)
         quota = client.get_json("/info", {}, max_retries=0)
@@ -167,8 +172,9 @@ def main() -> None:
         quota_snapshot_recorded_at_utc = datetime.now(timezone.utc).isoformat()
         remaining = quota.get("remainingCalls")
         if not isinstance(remaining, int) or not quota_allows(
-            remaining, summary["new_planned_calls"] * 3, budget.status()["reserved"]):
-            raise RuntimeError("Live quota cannot cover plan and 6,000-call reserve")
+            remaining, budget.status()["reserved"], reserve=policy["minimum_reserve"],
+            hard_limit=policy["hard_limit"]):
+            raise RuntimeError("Live quota cannot cover remaining local budget and 10,000-call reserve")
         plays = next(item for item in manifest if item["endpoint"] == "/plays" and
                      item["year"] == 2025 and item["week"] == 1)
         ledger = AcquisitionLedger(root)
@@ -184,6 +190,20 @@ def main() -> None:
                                   "resume_without_call": True}
         manifest, summary = build_manifest(inventory, ROOT, root)
     estimate = storage_estimate(manifest, root)
+    full_manifest, full_scenario = build_manifest(inventory, ROOT, root, include_plays_stats=True)
+    stats_pending = full_scenario["by_endpoint"].get("/plays/stats", {}).get("new", 0)
+    summary["tentative_plays_stats_scenario"] = {
+        "status": "planning_only_pending_sample_coverage_fresh_schedule_and_quota",
+        "additional_first_attempt_calls": stats_pending,
+        "total_new_first_attempt_calls": full_scenario["new_planned_calls"],
+        "local_attempt_headroom_after_first_attempts": (
+            policy["hard_limit"] - budget.status()["reserved"] - full_scenario["new_planned_calls"]),
+        "schedule_authoritative": full_scenario["schedule_authoritative"],
+        "storage_estimate": storage_estimate(full_manifest, root),
+    }
+    if (summary["tentative_plays_stats_scenario"]["local_attempt_headroom_after_first_attempts"] < 0
+            or not summary["tentative_plays_stats_scenario"]["storage_estimate"]["under_soft_limit"]):
+        raise RuntimeError("Tentative /plays/stats plan exceeds the hard call or soft storage budget")
     checks["request_ledger_materialized"] = materialize_plan(manifest, AcquisitionLedger(root))
     results = root / "results/preflight"
     results.mkdir(parents=True, exist_ok=True)

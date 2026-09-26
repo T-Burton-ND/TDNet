@@ -53,3 +53,9 @@ Chronological record of wiki activity.
 - Recorded the revised 2010–2025 acquisition manifest: 1,500 planned requests, 257 locally validated reuses, and 283 unverified legacy candidates; the earlier cache reuse count was too permissive.
 - Recorded the 8,490,706,368-byte projected storage footprint, anomalous-response review status, and the remaining provider-side schedule coverage limit.
 - Clarified that 2024 and 2025 metrics are design-influenced development evidence, while only 2026 is prospective, and that temporal feature guard integration awaits F09–F12 builders.
+
+## [2026-09-26] update | Final next-generation launch preparation
+- by: Thomas J. Burton via codex
+- Set the experiment's hard limit to 20,000 outbound attempts with a 10,000-call provider reserve; atomically lowered the existing ledger while preserving four reservations.
+- Made 16 fresh ledger-backed 2010–2025 `/games` calls the Stage A prerequisite. The offline pre-Stage-A plan has 1,756 planned requests and one verified reuse; the 9,224,915,712-byte storage figure is a provisional projection.
+- Added canonical feature-family write and model-input validation boundaries with dynamic source timestamps and static Week-0 availability rules. Tentatively budgeted 11,509 `/plays/stats` game calls; the provisional combined plan is 13,265 first attempts and a projected 89,771,158,608-byte footprint. No fresh schedules or bulk experiment work ran.

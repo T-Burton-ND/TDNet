@@ -1,6 +1,7 @@
 """The next-generation CFBD request counter must fail closed at its cap."""
 
 import importlib.util
+import json
 import os
 import tempfile
 import unittest
@@ -54,6 +55,23 @@ class StatusSession(FakeSession):
 
 
 class BudgetTests(unittest.TestCase):
+    def test_current_nextgen_policy_has_no_higher_limit_path(self):
+        sources = [
+            ROOT / "src/gridiron_ml/pipeline/fetch/cfbd_fetch_v2.py",
+            ROOT / "src/gridiron_ml/pipeline/fetch/nextgen_acquisition.py",
+            ROOT / "src/gridiron_ml/experiments/nextgen_contract.py",
+            ROOT / "scripts/nextgen_preflight.py",
+            ROOT / "scripts/nextgen_cfbd_acquire.py",
+            ROOT / "configs/experiments/nextgen_fingerprints_v1.json",
+            ROOT / "configs/experiments/nextgen_acquisition_v1.json",
+        ]
+        for source in sources:
+            self.assertNotIn("24000", source.read_text(), source.name)
+            self.assertNotIn("24,000", source.read_text(), source.name)
+            self.assertNotIn("migrate_20k_to_24k", source.read_text(), source.name)
+        config = json.loads(sources[-2].read_text())["cfbd_api_call_budget"]
+        self.assertEqual((config["hard_limit"], config["minimum_reserve"]), (20000, 10000))
+
     def test_parallel_reservations_stay_below_cap(self):
         with tempfile.TemporaryDirectory() as directory:
             budget = fetcher.CallBudget(Path(directory) / "budget.json", 5)
@@ -92,21 +110,25 @@ class BudgetTests(unittest.TestCase):
             self.assertEqual(budget.status()["reserved"], 2)
             self.assertEqual(fetcher.CallBudget(ledger, 2).status()["reserved"], 2)
             with self.assertRaises(ValueError):
-                fetcher.CallBudget(ledger, 24001)
+                fetcher.CallBudget(ledger, 20001)
             ledger.unlink()
             with self.assertRaises(RuntimeError):
                 budget.status()
 
-    def test_policy_migration_keeps_prior_calls(self):
+    def test_twenty_thousand_is_hard_outbound_attempt_cap(self):
         with tempfile.TemporaryDirectory() as directory:
             ledger = Path(directory) / "budget.json"
-            prior = fetcher.CallBudget(ledger, 20000)
-            prior.reserve("/teams/fbs")
-            updated = fetcher.CallBudget(ledger, 24000)
-            state = updated.migrate_20k_to_24k()
-            self.assertEqual(state["reserved"], 1)
-            self.assertEqual(state["limit"], 24000)
-            self.assertEqual(updated.status()["reserved"], 1)
+            budget = fetcher.CallBudget(ledger, 20000)
+            ledger.write_text(json.dumps({"limit": 20000, "reserved": 19999,
+                                          "experiment": "nextgen_fingerprints_v1"}))
+            with patch.dict(os.environ, {"CFBD_API_KEY": "test-only-placeholder"}):
+                client = fetcher.CFBDClient(call_budget=budget, max_retries=0)
+            client.s = FakeSession()
+            client.get_json("/info", {}, max_retries=0)
+            with self.assertRaises(fetcher.CallBudgetExceeded):
+                client.get_json("/plays", {"year": 2025, "week": 1}, max_retries=0)
+            self.assertEqual(client.s.calls, 1)
+            self.assertEqual(budget.status()["reserved"], 20000)
 
     def test_http_400_is_not_silent_and_retry_ceiling_is_three_attempts(self):
         with tempfile.TemporaryDirectory() as directory:

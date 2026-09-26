@@ -263,7 +263,7 @@
     {
       "endpoint": "/games",
       "classification": "current_feature_eligible",
-      "stage": "B",
+      "stage": "A",
       "partition_strategy": "year",
       "default_acquire": true,
       "required_query_parameters": [],

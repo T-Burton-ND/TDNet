@@ -8,7 +8,8 @@ import requests
 
 from gridiron_ml.experiments.nextgen_temporal import next_game_rows
 from gridiron_ml.pipeline.fetch.nextgen_acquisition import (
-    AcquisitionLedger, execute_request, materialize_plan, quota_allows, request_identity, verify_cache,
+    AcquisitionLedger, build_manifest, execute_request, make_request, materialize_plan,
+    quota_allows, request_identity, verify_cache,
 )
 
 
@@ -65,8 +66,8 @@ def test_cap_response_never_complete(tmp_path):
     assert record["completeness_status"] == "response_cap_reached"
     assert materialize_plan([request], AcquisitionLedger(tmp_path))["preserved_terminal"] == 1
     assert AcquisitionLedger(tmp_path).read(request["request_id"])["status"] == "success_suspected_partial"
-    assert not quota_allows(6200, 300, 2)
-    assert quota_allows(7000, 300, 2)
+    assert not quota_allows(29995, 4, reserve=10000, hard_limit=20000)
+    assert quota_allows(29996, 4, reserve=10000, hard_limit=20000)
 
 
 def test_empty_and_bad_query_require_review(tmp_path):
@@ -105,6 +106,73 @@ def test_executor_does_not_reuse_unproven_legacy_ledger_record(tmp_path):
     client = FakeClient([{"id": 1, "season": 2025, "week": 1, "yardsGained": 7}])
     result = execute_request(request, ledger, client)
     assert result["status"] == "success_complete"
+    assert client.api_calls == 1
+
+
+def test_legacy_team_reuse_waits_for_fresh_ledger_backed_schedule(tmp_path):
+    games = {"endpoint": "/games", "stage": "A", "classification": "current_feature_eligible",
+             "partition_strategy": "year", "default_acquire": True, "required_query_parameters": [],
+             "legal_query_parameters": ["year", "seasonType"], "fixed_parameters": {"seasonType": "regular"},
+             "earliest_year": 2010, "existing_cache_alias": "games", "response_row_cap": None}
+    teams = {"endpoint": "/games/teams", "stage": "C", "classification": "current_feature_eligible",
+             "partition_strategy": "year_week", "default_acquire": True,
+             "required_query_parameters": [], "legal_query_parameters": ["year", "week"],
+             "fixed_parameters": {}, "earliest_year": 2010,
+             "existing_cache_alias": "game_team_stats", "response_row_cap": None}
+    inventory = {"endpoints": [games, teams]}
+    legacy = tmp_path / "data/raw/cfbd/v2"
+    (legacy / "games").mkdir(parents=True)
+    (legacy / "game_team_stats").mkdir()
+    schedule_row = {"id": 1, "season": 2025, "week": 1, "season_type": "regular",
+                    "completed": True, "home_classification": "fbs",
+                    "away_classification": "fbs", "extra": "x" * 500}
+    pd.DataFrame([schedule_row]).to_parquet(legacy / "games/2025.parquet")
+    pd.DataFrame({"id": [1], "week": [1], "season": [2025],
+                  "extra": ["y" * 500]}).to_parquet(legacy / "game_team_stats/2025.parquet")
+    root = tmp_path / "artifacts"
+    before, summary = build_manifest(inventory, tmp_path, root, years=range(2025, 2026))
+    assert not summary["schedule_authoritative"]
+    assert summary["missing_fresh_schedule_years"] == [2025]
+    assert all(row["status"] == "planned" for row in before)
+    fresh = next(row for row in before if row["endpoint"] == "/games")
+    assert fresh["request_id"] == make_request(games, {"year": 2025, "seasonType": "regular"},
+                                                "2025", root, year=2025)["request_id"]
+    execute_request(fresh, AcquisitionLedger(root), FakeClient([schedule_row]))
+    after, summary = build_manifest(inventory, tmp_path, root, years=range(2025, 2026))
+    assert summary["schedule_authoritative"]
+    assert all(row["status"] == "skipped_existing_complete" for row in after)
+    # The fresh schedule adds a game absent from the old team file: no reuse.
+    second = {**schedule_row, "id": 2}
+    fresh_path = Path(fresh["cache_path"])
+    pd.DataFrame([schedule_row, second]).to_parquet(fresh_path)
+    record = AcquisitionLedger(root).read(fresh["request_id"])
+    from gridiron_ml.pipeline.fetch.nextgen_acquisition import schema_hash, sha256_file
+    record.update(row_count=2, byte_size=fresh_path.stat().st_size,
+                  sha256=sha256_file(fresh_path), schema_hash=schema_hash(pd.read_parquet(fresh_path)))
+    AcquisitionLedger(root).write(record)
+    after, _ = build_manifest(inventory, tmp_path, root, years=range(2025, 2026))
+    assert next(row for row in after if row["endpoint"] == "/games/teams")["status"] == "planned"
+    stats = {"endpoint": "/plays/stats", "stage": "E", "classification": "future_feature_candidate",
+             "partition_strategy": "game", "default_acquire": False,
+             "required_query_parameters": ["gameId"], "legal_query_parameters": ["gameId"],
+             "fixed_parameters": {}, "earliest_year": 2012,
+             "existing_cache_alias": None, "response_row_cap": 2000}
+    full, _ = build_manifest({"endpoints": [games, teams, stats]}, tmp_path, root,
+                             years=range(2025, 2026), include_plays_stats=True)
+    stat_rows = [row for row in full if row["endpoint"] == "/plays/stats"]
+    assert len(stat_rows) == 2 and all(row["status"] == "planned" for row in stat_rows)
+    assert all(AcquisitionLedger(root).read(row["request_id"]) is None for row in stat_rows)
+    # A file with a matching hash can still lack a usable completed schedule.
+    pd.DataFrame([{**schedule_row, "completed": False}]).to_parquet(fresh_path)
+    record.update(row_count=1, byte_size=fresh_path.stat().st_size,
+                  sha256=sha256_file(fresh_path), schema_hash=schema_hash(pd.read_parquet(fresh_path)))
+    AcquisitionLedger(root).write(record)
+    invalid, invalid_summary = build_manifest(inventory, tmp_path, root, years=range(2025, 2026))
+    assert not invalid_summary["schedule_authoritative"]
+    pending_game = next(row for row in invalid if row["endpoint"] == "/games")
+    assert pending_game["status"] == "planned"
+    client = FakeClient([schedule_row])
+    execute_request(pending_game, AcquisitionLedger(root), client)
     assert client.api_calls == 1
 
 

@@ -29,7 +29,7 @@ from gridiron_ml.pipeline.fetch.nextgen_acquisition import (  # noqa: E402
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Future staged nextgen acquisition")
-    parser.add_argument("--execute-stage", choices=["B", "C", "D", "E"], required=True)
+    parser.add_argument("--execute-stage", choices=["A", "B", "C", "D", "E"], required=True)
     parser.add_argument("--max-requests", type=int, default=None)
     args = parser.parse_args()
     config = json.loads((ROOT / "configs/experiments/nextgen_fingerprints_v1.json").read_text())
@@ -40,10 +40,12 @@ def main() -> None:
         gate = root / "results/preflight/plays_stats_approval.json"
         approval = json.loads(gate.read_text()) if gate.exists() else {}
         approved_game_ids = set(approval.get("approved_game_ids", []))
-        if not approval.get("unique_feature_value_confirmed") or not approved_game_ids:
-            raise RuntimeError("Stage E requires documented unique-value approval and a fresh call plan")
+        if not approval.get("sample_coverage_and_stat_meaning_verified") or not approved_game_ids:
+            raise RuntimeError("Stage E requires sampled coverage/stat audit, approved game IDs, and a fresh call plan")
     manifest, summary = build_manifest(inventory, ROOT, root,
                                        include_plays_stats=args.execute_stage == "E")
+    if args.execute_stage != "A" and not summary["schedule_authoritative"]:
+        raise RuntimeError("Fetch all 16 fresh /games schedules in Stage A, then rerun preflight")
     if summary["unresolved_partial_requests"] or summary["unresolved_review_requests"]:
         raise RuntimeError("A capped or anomalous request remains unresolved; review before more acquisition")
     saved_manifest = root / "results/preflight/cfbd_request_manifest_v1.jsonl"
@@ -55,15 +57,21 @@ def main() -> None:
     current_default_ids = {item["request_id"] for item in manifest if item["endpoint"] != "/plays/stats"}
     if saved_ids != current_default_ids:
         raise RuntimeError("Request identities changed since preflight; rebuild and review the manifest")
+    saved_summary_path = root / "results/preflight/cfbd_plan_summary_v1.json"
+    if args.execute_stage != "A":
+        saved_summary = json.loads(saved_summary_path.read_text()) if saved_summary_path.exists() else {}
+        if not saved_summary.get("schedule_authoritative"):
+            raise RuntimeError("Rerun preflight after all fresh /games schedules are acquired")
     if any(item["status"] == "planned" and saved[item["request_id"]]["status"] == "skipped_existing_complete"
            for item in manifest if item["endpoint"] != "/plays/stats"):
         raise RuntimeError("A reused cache failed validation since preflight; refresh the manifest")
     pending = [item for item in manifest if item["status"] == "planned"]
     stage_items = [item for item in pending if item["stage"] == args.execute_stage]
     if approved_game_ids is not None:
+        available_ids = {item["game_id"] for item in manifest if item["endpoint"] == "/plays/stats"}
+        if not approved_game_ids <= available_ids:
+            raise RuntimeError("Stage E approval contains game IDs outside the fresh schedule")
         stage_items = [item for item in stage_items if item["game_id"] in approved_game_ids]
-        if len(stage_items) != len(approved_game_ids):
-            raise RuntimeError("Stage E approval contains unavailable or already acquired game IDs")
     if args.max_requests is not None:
         if args.max_requests <= 0:
             raise ValueError("--max-requests must be positive")
@@ -71,7 +79,10 @@ def main() -> None:
     if not stage_items:
         print(f"Stage {args.execute_stage}: no pending requests")
         return
-    budget = CallBudget(Path(config["cfbd_api_call_budget"]["ledger"]), 24000)
+    policy = config["cfbd_api_call_budget"]
+    budget = CallBudget(Path(policy["ledger"]), policy["hard_limit"])
+    if budget.status()["reserved"] + len(stage_items) > policy["hard_limit"]:
+        raise RuntimeError("Selected stage's minimum first attempts exceed the local hard cap")
     os.environ["CFBD_API_KEY"] = load_cfbd_key_file(ROOT / ".env")
     client = CFBDClient(call_budget=budget, max_retries=2)
     quota = client.get_json("/info", {}, max_retries=0)
@@ -79,13 +90,10 @@ def main() -> None:
         quota = quota[0] if quota else {}
     remaining = quota.get("remainingCalls")
     reserved = budget.status()["reserved"]
-    # Three attempts per pending request are possible. Check that worst case
-    # fits both the provider reserve and the local hard ceiling.
-    pending_for_quota = ([item for item in pending if item["stage"] != "E"] + stage_items
-                         if args.execute_stage == "E" else pending)
     if not isinstance(remaining, int) or not quota_allows(
-        remaining, len(pending_for_quota) * 3, reserved):
-        raise RuntimeError("Live quota or local hard ceiling cannot cover worst-case retries plus reserve")
+        remaining, reserved, reserve=policy["minimum_reserve"],
+        hard_limit=policy["hard_limit"]):
+        raise RuntimeError("Live quota cannot cover remaining local budget and provider reserve")
     free = shutil.disk_usage(root).free
     plan_summary = root / "results/preflight/cfbd_plan_summary_v1.json"
     if not plan_summary.exists():
@@ -102,7 +110,7 @@ def main() -> None:
         if record["status"] in {"success_suspected_partial", "needs_review", "failed_final", "failed_retryable"}:
             # Stop on a cap, auth/permanent error, or unstable request.
             break
-        if budget.status()["reserved"] >= 24000:
+        if budget.status()["reserved"] >= policy["hard_limit"]:
             break
         time.sleep(0.25)
     report = {"stage": args.execute_stage, "attempted_request_count": len(stage_items),

@@ -16,10 +16,9 @@
   ],
   "storage_soft_limit_gb": 100,
   "cfbd_api_call_budget": {
-    "preferred_new_call_target": 20000,
-    "hard_limit": 24000,
+    "hard_limit": 20000,
     "account_allowance": 30000,
-    "minimum_reserve": 6000,
+    "minimum_reserve": 10000,
     "ledger": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/results/cfbd_api_call_budget.json",
     "count": "all_outbound_attempts_including_retries_and_key_check",
     "live_quota_endpoint": "/info"

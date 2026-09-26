@@ -29,7 +29,7 @@ Catalog of all wiki pages, organized by category.
 
 ## Research methods and data
 - [Fingerprint Ladder](Fingerprint-Ladder) — historical F00–F08 plus next-generation F06→F09→F12 map
-- [Next-Generation Fingerprint Experiment](Next-Generation-Fingerprint-Experiment) — exploratory next-game contract, development evidence, 2026 quarantine, lineage, hardened acquisition, and 20,000 preferred / 24,000 hard call policy
+- [Next-Generation Fingerprint Experiment](Next-Generation-Fingerprint-Experiment) — exploratory next-game contract, development evidence, 2026 quarantine, fresh schedule gate, temporal artifact boundaries, and 20,000-attempt hard cap
 - [Fingerprint F00](Fingerprint-F00) — Preseason baseline historical generation
 - [Fingerprint F01](Fingerprint-F01) — Raw box scores historical generation
 - [Fingerprint F02](Fingerprint-F02) — Efficiency and rates historical generation

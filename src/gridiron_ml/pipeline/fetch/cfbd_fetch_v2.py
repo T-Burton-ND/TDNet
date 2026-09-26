@@ -101,8 +101,8 @@ class CallBudget:
     def __init__(self, ledger_path: Path, limit: int):
         self.path = Path(ledger_path)
         self.limit = int(limit)
-        if self.limit <= 0 or self.limit > 24000:
-            raise ValueError("Next-generation CFBD call budget must be between 1 and 24,000")
+        if self.limit <= 0 or self.limit > 20000:
+            raise ValueError("Next-generation CFBD call budget must be between 1 and 20,000")
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.lock_path = self.path.with_name(self.path.name + ".lock")
 
@@ -161,47 +161,6 @@ class CallBudget:
                     os.unlink(temp_name)
             return dict(state)
         return self._locked(True, update)
-
-    def migrate_20k_to_24k(self):
-        """One-time policy migration that preserves every already reserved call."""
-        if self.limit != 24000:
-            raise ValueError("Migration target must be the 24,000-call ceiling")
-
-        def migrate():
-            if not self.path.exists():
-                raise RuntimeError("Cannot migrate a missing CFBD call ledger")
-            with self.path.open(encoding="utf-8") as handle:
-                state = json.load(handle)
-            if state.get("experiment") != "nextgen_fingerprints_v1":
-                raise ValueError("CFBD call ledger belongs to a different experiment")
-            if state.get("limit") == 24000:
-                return dict(state)
-            if state.get("limit") != 20000 or not isinstance(state.get("reserved"), int):
-                raise ValueError("Only the existing 20,000-call ledger can be migrated")
-            if not 0 <= state["reserved"] <= 20000:
-                raise ValueError("Invalid count in existing CFBD call ledger")
-            state["limit"] = 24000
-            state["policy_migration"] = {
-                "from_limit": 20000,
-                "to_limit": 24000,
-                "reserved_preserved": state["reserved"],
-                "at_utc": datetime.now(timezone.utc).isoformat(),
-            }
-            descriptor, temp_name = tempfile.mkstemp(prefix=".cfbd_budget_migrate_", dir=self.path.parent)
-            try:
-                os.fchmod(descriptor, 0o600)
-                with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
-                    json.dump(state, handle, sort_keys=True)
-                    handle.write("\n")
-                    handle.flush()
-                    os.fsync(handle.fileno())
-                os.replace(temp_name, self.path)
-            finally:
-                if os.path.exists(temp_name):
-                    os.unlink(temp_name)
-            return dict(state)
-
-        return self._locked(True, migrate)
 
 
 class CFBDClient:

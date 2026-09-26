@@ -27,9 +27,9 @@ COMPLETE = {"skipped_existing_complete", "success_complete"}
 TERMINAL_UNAVAILABLE = {"structurally_unavailable", "failed_final"}
 PARTIAL = {"success_suspected_partial"}
 REVIEW_REQUIRED = {"needs_review"}
-# The games cache seeds the local schedule; team-game rows are checked against it.
-# Other year files have no request provenance or comparable scope/coverage check.
-ELIGIBLE_LEGACY_REUSE = {"/games", "/games/teams"}
+# Legacy games only support a provisional call estimate. Fresh ledger-backed
+# schedules are required before team-game legacy reuse or later stages.
+ELIGIBLE_LEGACY_REUSE = {"/games/teams"}
 
 
 def canonical_json(value: dict) -> str:
@@ -125,6 +125,17 @@ def verify_cache(path: Path, record: dict | None = None,
         return None
 
 
+def game_team_coverage(path: Path, expected_games: pd.DataFrame, week: int) -> bool:
+    """Check team-game IDs against the fresh completed FBS schedule."""
+    try:
+        frame = pd.read_parquet(path, columns=["id", "week"])
+        observed = set(pd.to_numeric(frame.loc[frame.week.eq(week), "id"], errors="coerce").dropna().astype(int))
+        expected = set(expected_games.loc[expected_games.week.eq(week), "id"].astype(int))
+        return bool(expected) and expected <= observed
+    except (OSError, ValueError, KeyError):
+        return False
+
+
 def make_request(endpoint: dict, params: dict, partition: str, root: Path,
                  year: int | None = None, week: int | None = None,
                  game_id: int | None = None) -> dict:
@@ -143,19 +154,40 @@ def make_request(endpoint: dict, params: dict, partition: str, root: Path,
 
 def build_manifest(inventory: dict, project_root: Path, artifact_root: Path,
                    years: range = range(2010, 2026), include_plays_stats: bool = False) -> tuple[list[dict], dict]:
-    """Enumerate legal, deduplicated calls from cached completed regular games."""
+    """Enumerate calls; legacy schedules support estimates only until Stage A."""
     legacy_root = project_root / "data/raw/cfbd/v2"
     ledger = AcquisitionLedger(artifact_root)
-    schedule = {}
+    games_endpoint = next(item for item in inventory["endpoints"] if item["endpoint"] == "/games")
+    fresh_schedule = {}
+    missing_fresh_years = []
     for year in years:
-        path = legacy_root / "games" / f"{year}.parquet"
-        if verify_cache(path, year=year) is None:
-            raise RuntimeError(f"Cannot enumerate exact calls without valid games cache: {path}")
-        schedule[year] = regular_fbs_games(pd.read_parquet(path))
+        params = {"year": year, **games_endpoint["fixed_parameters"]}
+        expected = make_request(games_endpoint, params, str(year), artifact_root, year=year)
+        prior = ledger.read(expected["request_id"])
+        if (prior and prior.get("status") == "success_complete"
+                and prior.get("cache_path") == expected["cache_path"]
+                and prior.get("parameters_json") == expected["parameters_json"]
+                and prior.get("endpoint") == "/games"
+                and verify_cache(Path(expected["cache_path"]), prior, year=year)):
+            try:
+                frame = regular_fbs_games(pd.read_parquet(expected["cache_path"]))
+                if not frame.empty and frame.id.notna().all() and frame.id.is_unique:
+                    fresh_schedule[year] = frame
+                    continue
+            except (OSError, ValueError, KeyError):
+                pass
+        missing_fresh_years.append(year)
+    authoritative = not missing_fresh_years
+    schedule = fresh_schedule if authoritative else {}
+    if not authoritative:
+        for year in years:
+            path = legacy_root / "games" / f"{year}.parquet"
+            if verify_cache(path, year=year) is None:
+                raise RuntimeError(f"Cannot estimate calls without a games cache: {path}")
+            schedule[year] = regular_fbs_games(pd.read_parquet(path))
     requests_by_id = {}
     skipped = []
     legacy_validation = {}
-    legacy_game_ids_by_week = {}
     for endpoint in inventory["endpoints"]:
         if not endpoint["default_acquire"] and not (include_plays_stats and endpoint["endpoint"] == "/plays/stats"):
             skipped.append({"endpoint": endpoint["endpoint"], "reason": "not_default_acquisition"})
@@ -195,7 +227,13 @@ def build_manifest(inventory: dict, project_root: Path, artifact_root: Path,
             if rid in requests_by_id:
                 raise ValueError(f"Duplicate request identity: {rid}")
             prior = ledger.read(rid)
-            if prior and prior.get("status") == "success_complete":
+            if (prior and prior.get("status") == "success_complete"
+                    and prior.get("endpoint") == path
+                    and prior.get("parameters_json") == item["parameters_json"]
+                    and prior.get("cache_path") == item["cache_path"]
+                    and (path != "/games" or year in fresh_schedule)
+                    and (path != "/games/teams" or (authoritative and
+                         game_team_coverage(Path(item["cache_path"]), schedule[year], week)))):
                 meta = verify_cache(Path(prior["cache_path"]), prior)
                 if meta:
                     item.update({"status": "skipped_existing_complete", "cache_path": prior["cache_path"],
@@ -205,27 +243,18 @@ def build_manifest(inventory: dict, project_root: Path, artifact_root: Path,
                              "http_status": prior.get("http_status")})
             if item["status"] == "planned" and item["legacy_alias"] and year is not None:
                 legacy = legacy_root / item["legacy_alias"] / f"{year}.parquet"
-                if path not in ELIGIBLE_LEGACY_REUSE:
+                if path not in ELIGIBLE_LEGACY_REUSE or not authoritative:
                     if legacy.exists():
                         item["legacy_candidate_path"] = str(legacy)
-                        item["legacy_reuse_decision"] = "unverified_request_scope_or_coverage"
+                        item["legacy_reuse_decision"] = ("fresh_schedule_required" if not authoritative
+                                                          else "unverified_request_scope_or_coverage")
                     requests_by_id[rid] = item
                     continue
                 key = (str(legacy), week)
                 if key not in legacy_validation:
                     legacy_validation[key] = verify_cache(legacy, year=year, week=week)
                     if path == "/games/teams" and legacy_validation[key]:
-                        if str(legacy) not in legacy_game_ids_by_week:
-                            try:
-                                old = pd.read_parquet(legacy, columns=["id", "week"])
-                                legacy_game_ids_by_week[str(legacy)] = {
-                                    int(w): set(group.id.dropna().astype(int))
-                                    for w, group in old.groupby("week")}
-                            except (OSError, ValueError):
-                                legacy_game_ids_by_week[str(legacy)] = {}
-                        expected = set(schedule[year].loc[schedule[year].week.eq(week), "id"].astype(int))
-                        observed = legacy_game_ids_by_week[str(legacy)].get(week, set())
-                        if not expected <= observed:
+                        if not game_team_coverage(legacy, schedule[year], week):
                             legacy_validation[key] = None
                 if legacy_validation[key]:
                     item.update({"status": "skipped_existing_complete", "cache_path": str(legacy),
@@ -242,6 +271,11 @@ def build_manifest(inventory: dict, project_root: Path, artifact_root: Path,
     reused = sum(c["reused"] for c in counts.values())
     legacy_unverified = sum("legacy_candidate_path" in item for item in manifest)
     summary = {"schema_version": SCHEMA_VERSION, "years": [min(years), max(years)],
+               "schedule_authoritative": authoritative,
+               "fresh_schedule_years": sorted(fresh_schedule),
+               "missing_fresh_schedule_years": missing_fresh_years,
+               "schedule_planning_basis": ("fresh_ledger_backed" if authoritative
+                                           else "provisional_legacy_estimate_only"),
                "include_plays_stats": include_plays_stats, "total_requests": len(manifest),
                "new_planned_calls": new, "reused_cached_partitions": reused,
                "legacy_candidates_not_reused": legacy_unverified,
@@ -288,7 +322,9 @@ def execute_request(item: dict, ledger: AcquisitionLedger, client: CFBDClient) -
     rid = item["request_id"]
     previous = ledger.read(rid)
     if (previous and previous["status"] in COMPLETE
-            and (previous["status"] == "success_complete" or item["status"] in COMPLETE)
+            and (item["status"] in COMPLETE or
+                 (previous["status"] == "success_complete"
+                  and item["endpoint"] not in {"/games", "/games/teams"}))
             and verify_cache(Path(previous["cache_path"]), previous)):
         return previous
     if item["status"] in COMPLETE and verify_cache(Path(item["cache_path"]), item):
@@ -338,8 +374,9 @@ def execute_request(item: dict, ledger: AcquisitionLedger, client: CFBDClient) -
     return record
 
 
-def quota_allows(remaining_calls: int, planned_calls: int, reserved_attempts: int,
-                 reserve: int = 6000, hard_limit: int = 24000) -> bool:
-    """Fail closed on both provider allowance and local outbound-attempt ceiling."""
-    return (planned_calls >= 0 and remaining_calls - planned_calls >= reserve and
-            reserved_attempts + planned_calls <= hard_limit)
+def quota_allows(remaining_calls: int, reserved_attempts: int, *,
+                 reserve: int, hard_limit: int) -> bool:
+    """Provider can cover every remaining local slot while retaining reserve."""
+    return (isinstance(remaining_calls, int) and isinstance(reserved_attempts, int)
+            and 0 <= reserved_attempts <= hard_limit <= 20000
+            and remaining_calls >= reserve + hard_limit - reserved_attempts)

@@ -91,27 +91,44 @@ def assert_design_operation_frame(frame, operation: str, *, season_column: str =
 
 
 def assert_temporal_feature_rows(frame: pd.DataFrame, feature_columns: Iterable[str]) -> None:
-    """Fail closed before a nextgen feature frame reaches fitting or ranking."""
-    required = {"season", "season_type", "source_game_id", "target_game_id", "target_start_utc",
-                "feature_available_utc"}
+    """Validate the common canonical write and model/SHAP load boundary."""
+    required = {"season", "season_type", "feature_kind", "target_game_id",
+                "target_start_utc", "feature_available_utc", "latest_source_game_id",
+                "latest_source_game_utc", "latest_source_season_type",
+                "static_availability_documentation"}
     if not required <= set(frame):
         raise ValueError(f"Feature rows lack temporal provenance: {sorted(required-set(frame))}")
+    if pd.to_numeric(frame.season, errors="coerce").isna().any():
+        raise ValueError("Feature row lacks a valid season")
     assert_design_operation_frame(frame, "feature_discovery")
-    if frame.target_game_id.isna().any():
+    if frame.empty or frame.target_game_id.isna().any():
         raise ValueError("Feature row lacks a target game")
     if not frame.season_type.astype(str).str.lower().eq("regular").all():
         raise ValueError("Postseason feature or target row is forbidden")
+    if not frame.feature_kind.isin(["dynamic", "static_week0"]).all():
+        raise ValueError("Unknown nextgen feature kind")
     available = pd.to_datetime(frame.feature_available_utc, utc=True, errors="coerce")
     starts = pd.to_datetime(frame.target_start_utc, utc=True, errors="coerce")
     if available.isna().any() or starts.isna().any() or not available.lt(starts).all():
         raise ValueError("A feature is not provably available before its target game")
-    if frame.source_game_id.eq(frame.target_game_id).any():
+    dynamic = frame.feature_kind.eq("dynamic")
+    source_time = pd.to_datetime(frame.latest_source_game_utc, utc=True, errors="coerce")
+    if (frame.loc[dynamic, "latest_source_game_id"].isna().any()
+            or source_time.loc[dynamic].isna().any()
+            or not source_time.loc[dynamic].lt(available.loc[dynamic]).all()
+            or not frame.loc[dynamic, "latest_source_season_type"].astype(str).str.lower().eq("regular").all()):
+        raise ValueError("Dynamic feature lacks completed regular source-game provenance")
+    if frame.loc[dynamic, "latest_source_game_id"].eq(frame.loc[dynamic, "target_game_id"]).any():
         raise ValueError("A target game cannot supply its own pregame feature")
-    forbidden_targets = {"next_game_margin", "next_game_win", "next_game_points_for",
-                         "next_game_points_against", "home_points", "away_points",
-                         "target_margin", "target_win"}
+    static = ~dynamic
+    if (frame.loc[static, ["latest_source_game_id", "latest_source_game_utc",
+                           "latest_source_season_type"]].notna().any().any()
+            or frame.loc[static, "static_availability_documentation"].fillna("").astype(str).str.strip().eq("").any()):
+        raise ValueError("Week-0 feature lacks documented static availability")
     names = set(feature_columns)
-    if names & forbidden_targets or not names <= set(frame):
+    if (not names or names & required
+            or any(name.startswith(("target_", "next_game_")) for name in names)
+            or names & {"home_points", "away_points"} or not names <= set(frame)):
         raise ValueError("Target outcome or absent column selected as a feature")
     assert_safe_inputs(names)
 
@@ -208,11 +225,10 @@ def validate_contract(config: dict, *, repo_root: Path) -> None:
     if config["scheduler"]["max_running_jobs_project_wide"] > 50:
         raise ValueError("Scheduler cap exceeds 50")
     budget = config["cfbd_api_call_budget"]
-    if (budget["preferred_new_call_target"] != 20000 or budget["hard_limit"] != 24000
-            or budget["minimum_reserve"] != 6000
+    if (budget["hard_limit"] != 20000 or budget["minimum_reserve"] != 10000
             or budget["account_allowance"] - budget["hard_limit"] < budget["minimum_reserve"]
             or not budget["ledger"].startswith(str(root) + "/")):
-        raise ValueError("Next-generation CFBD budget must target 20,000, cap 24,000, reserve 6,000")
+        raise ValueError("Next-generation CFBD budget must cap at 20,000 and reserve 10,000")
 
 
 def validate_setup(repo_root: Path) -> None:
@@ -223,8 +239,18 @@ def validate_setup(repo_root: Path) -> None:
     acquisition = load_json(base / "nextgen_acquisition_v1.json")
     if acquisition["api_call_budget"]["hard_limit"] != config["cfbd_api_call_budget"]["hard_limit"]:
         raise ValueError("Acquisition budget differs from experiment contract")
+    if acquisition["api_call_budget"]["minimum_reserve"] != config["cfbd_api_call_budget"]["minimum_reserve"]:
+        raise ValueError("Acquisition reserve differs from experiment contract")
     if acquisition["api_call_budget"]["ledger"] != config["cfbd_api_call_budget"]["ledger"]:
         raise ValueError("Acquisition ledger differs from experiment contract")
+    if (acquisition["cache"]["schedule_authority"] !=
+            "fresh_success_complete_ledger_backed_games_2010_2025"
+            or acquisition["cache"]["legacy_games_reuse"] is not False
+            or acquisition["cache"]["games_teams_reuse_requires_authoritative_schedule"] is not True):
+        raise ValueError("Fresh schedules must precede legacy team-game reuse")
+    inventory = load_json(base / "nextgen_cfbd_endpoint_inventory_v1.json")
+    if next(item for item in inventory["endpoints"] if item["endpoint"] == "/games")["stage"] != "A":
+        raise ValueError("Fresh /games acquisition must be Stage A")
     if setpoints["seed"] != config["screening"]["seed"]:
         raise ValueError("Setpoint seed differs from contract")
     for architecture in config["screening"]["architectures"]:

@@ -9,9 +9,8 @@
   },
   "raw_cache_root": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/raw_cache",
   "api_call_budget": {
-    "preferred_new_call_target": 20000,
-    "hard_limit": 24000,
-    "minimum_reserve": 6000,
+    "hard_limit": 20000,
+    "minimum_reserve": 10000,
     "ledger": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/results/cfbd_api_call_budget.json",
     "scope": "all_nextgen_cfbd_requests_including_retries_and_key_check"
   },
@@ -24,8 +23,11 @@
   },
   "cache": {
     "skip_valid_complete_partition": true,
+    "schedule_authority": "fresh_success_complete_ledger_backed_games_2010_2025",
+    "legacy_games_reuse": false,
+    "games_teams_reuse_requires_authoritative_schedule": true,
     "legacy_reuse_requires_local_scope_coverage_check": true,
-    "eligible_legacy_routes": ["/games", "/games/teams"],
+    "eligible_legacy_routes": ["/games/teams"],
     "unverified_legacy_candidates": "plan_refetch_or_manual_coverage_review",
     "empty_or_http_400_401_403_404": "needs_review_blocks_stage",
     "historical_schema_change": "new_version_directory",
@@ -247,16 +249,16 @@
   "quota_check": {
     "endpoint": "/info",
     "required_before_bulk": true,
-    "minimum_provider_remaining_after_plan": 6000
+    "minimum_provider_remaining_after_plan": 10000
   },
   "stages": {
-    "A": "local_inventory_manifest_schema_quota_storage",
+    "A": "fetch_fresh_games_2010_2025_then_refresh_preflight",
     "B": "cheap_year_metadata_roster_coaching_rating_cache",
     "C": "plays_drives",
     "D": "player_detail",
-    "E": "plays_stats_only_after_value_and_quota_gate"
+    "E": "tentative_plays_stats_after_sample_coverage_and_quota_gate"
   },
-  "plays_stats_decision": "optional_if_budget",
+  "plays_stats_decision": "tentatively_plan_full_stage_e_pending_coverage_and_quota",
   "storage_soft_limit_gb": 100,
   "canonicalization": {
     "targets": "completed_regular_fbs_vs_fbs",

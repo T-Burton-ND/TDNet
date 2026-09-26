@@ -108,20 +108,36 @@ class NextgenContractTests(unittest.TestCase):
 
     def test_temporal_feature_frame_rejects_current_game_and_late_sources(self):
         frame = pd.DataFrame({"season": [2025], "season_type": ["regular"],
-                              "source_game_id": [1], "target_game_id": [2],
+                              "feature_kind": ["dynamic"],
+                              "latest_source_game_id": [1],
+                              "latest_source_game_utc": ["2025-08-31T23:00:00Z"],
+                              "latest_source_season_type": ["regular"],
+                              "static_availability_documentation": [None],
+                              "target_game_id": [2],
                               "feature_available_utc": ["2025-09-01T00:00:00Z"],
                               "target_start_utc": ["2025-09-06T12:00:00Z"],
                               "prior_margin": [14.0]})
         assert_temporal_feature_rows(frame, ["prior_margin"])
-        for changes in ({"source_game_id": 2},
+        for changes in ({"latest_source_game_id": 2},
+                        {"latest_source_game_utc": "2025-09-01T00:00:00Z"},
+                        {"latest_source_game_utc": "2025-09-06T12:00:00Z"},
                         {"feature_available_utc": "2025-09-07T00:00:00Z"},
-                        {"season_type": "postseason"}, {"season": 2026}):
+                        {"season_type": "postseason"},
+                        {"latest_source_season_type": "postseason"}, {"season": 2026}):
             with self.assertRaises(ValueError):
                 assert_temporal_feature_rows(frame.assign(**changes), ["prior_margin"])
         with self.assertRaises(ValueError):
             assert_temporal_feature_rows(frame.assign(postgame_elo=1600), ["postgame_elo"])
         with self.assertRaises(ValueError):
-            assert_temporal_feature_rows(frame.drop(columns=["source_game_id"]), ["prior_margin"])
+            assert_temporal_feature_rows(frame, ["latest_source_game_id"])
+        with self.assertRaises(ValueError):
+            assert_temporal_feature_rows(frame.drop(columns=["latest_source_game_id"]), ["prior_margin"])
+        static = frame.assign(feature_kind="static_week0", latest_source_game_id=None,
+                              latest_source_game_utc=None, latest_source_season_type=None,
+                              static_availability_documentation="Week-0 roster snapshot")
+        assert_temporal_feature_rows(static, ["prior_margin"])
+        with self.assertRaises(ValueError):
+            assert_temporal_feature_rows(static.assign(static_availability_documentation=""), ["prior_margin"])
 
 
 if __name__ == "__main__":
