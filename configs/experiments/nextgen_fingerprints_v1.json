@@ -34,7 +34,12 @@
     "validation": 2024,
     "late_development": 2025,
     "prospective_quarantine_start": 2026,
-    "design_max_year": 2025
+    "design_max_year": 2025,
+    "evidence_roles": {
+      "2024": "design_informed_internal_validation",
+      "2025": "late_development_design_informed",
+      "2026": "untouched_prospective_only"
+    }
   },
   "target_games": {
     "classification": "fbs_vs_fbs",
@@ -218,7 +223,9 @@
       "chalk_accuracy",
       "fewer_features"
     ],
-    "report_2024_2025_separately": true
+    "report_2024_2025_separately": true,
+    "selection_uses_2024_2025": true,
+    "2024_2025_metrics_are_unbiased_holdout": false
   },
   "average_team": {
     "annual_freeze": true,

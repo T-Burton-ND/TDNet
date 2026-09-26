@@ -22,8 +22,8 @@
     "status",
     "runtime_seconds",
     "train_metrics_json",
-    "validation_2024_metrics_json",
-    "late_development_2025_metrics_json",
+    "development_2024_metrics_json",
+    "development_2025_metrics_json",
     "mae",
     "brier_score",
     "ats_accuracy",
@@ -75,5 +75,10 @@
     "summary": "results/preflight/cfbd_plan_summary_v1.json",
     "request_ledger": "request_ledger/",
     "include_in_final_result": true
+  },
+  "metric_interpretation": {
+    "2024": "design_informed_internal_validation",
+    "2025": "late_development_design_informed",
+    "2026": "prospective_untouched_until_freeze"
   }
 }

@@ -5,6 +5,7 @@ import importlib.util
 import copy
 import unittest
 from pathlib import Path
+import pandas as pd
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -16,6 +17,7 @@ all_fingerprint_ids = contract.all_fingerprint_ids
 assert_average_reference_years = contract.assert_average_reference_years
 assert_design_years = contract.assert_design_years
 assert_design_operation_frame = contract.assert_design_operation_frame
+assert_temporal_feature_rows = contract.assert_temporal_feature_rows
 assert_pair_closed = contract.assert_pair_closed
 assert_safe_inputs = contract.assert_safe_inputs
 parent_of = contract.parent_of
@@ -103,6 +105,23 @@ class NextgenContractTests(unittest.TestCase):
                      "recommendation_basis", "prospective_boundary_year",
                      "max_design_year_used", "acquisition_manifest_sha256"):
             self.assertIn(name, columns)
+
+    def test_temporal_feature_frame_rejects_current_game_and_late_sources(self):
+        frame = pd.DataFrame({"season": [2025], "season_type": ["regular"],
+                              "source_game_id": [1], "target_game_id": [2],
+                              "feature_available_utc": ["2025-09-01T00:00:00Z"],
+                              "target_start_utc": ["2025-09-06T12:00:00Z"],
+                              "prior_margin": [14.0]})
+        assert_temporal_feature_rows(frame, ["prior_margin"])
+        for changes in ({"source_game_id": 2},
+                        {"feature_available_utc": "2025-09-07T00:00:00Z"},
+                        {"season_type": "postseason"}, {"season": 2026}):
+            with self.assertRaises(ValueError):
+                assert_temporal_feature_rows(frame.assign(**changes), ["prior_margin"])
+        with self.assertRaises(ValueError):
+            assert_temporal_feature_rows(frame.assign(postgame_elo=1600), ["postgame_elo"])
+        with self.assertRaises(ValueError):
+            assert_temporal_feature_rows(frame.drop(columns=["source_game_id"]), ["prior_margin"])
 
 
 if __name__ == "__main__":

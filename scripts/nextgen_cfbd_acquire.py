@@ -44,8 +44,8 @@ def main() -> None:
             raise RuntimeError("Stage E requires documented unique-value approval and a fresh call plan")
     manifest, summary = build_manifest(inventory, ROOT, root,
                                        include_plays_stats=args.execute_stage == "E")
-    if summary["unresolved_partial_requests"]:
-        raise RuntimeError("A capped request remains unresolved; create and review legal subdivisions")
+    if summary["unresolved_partial_requests"] or summary["unresolved_review_requests"]:
+        raise RuntimeError("A capped or anomalous request remains unresolved; review before more acquisition")
     saved_manifest = root / "results/preflight/cfbd_request_manifest_v1.jsonl"
     if not saved_manifest.exists():
         raise RuntimeError("Missing persisted preflight manifest")
@@ -99,7 +99,7 @@ def main() -> None:
     for item in stage_items:
         record = execute_request(item, ledger, client)
         counts[record["status"]] += 1
-        if record["status"] in {"success_suspected_partial", "failed_final", "failed_retryable"}:
+        if record["status"] in {"success_suspected_partial", "needs_review", "failed_final", "failed_retryable"}:
             # Stop on a cap, auth/permanent error, or unstable request.
             break
         if budget.status()["reserved"] >= 24000:

@@ -12,11 +12,14 @@ import re
 from pathlib import Path
 from typing import Iterable, Mapping
 
+import pandas as pd
+
 
 ID_PATTERN = re.compile(r"^F(06|09|10|11|12)_(F|R|LR|PR)_([abc])$")
 FORBIDDEN_INPUT = re.compile(
     r"(?:market|vegas|betting|spread|moneyline|over_?under|pregame_?wp|"
-    r"pregame.*prob|win_?prob(?:ability)?|implied_?prob|(?:^|_)ats(?:_|$))",
+    r"pregame.*prob|win_?prob(?:ability)?|implied_?prob|postgame|"
+    r"pregame_elo|excitement_index|(?:^|_)ats(?:_|$))",
     re.IGNORECASE,
 )
 GENERATIONS = ("F06", "F09", "F10", "F11", "F12")
@@ -85,6 +88,32 @@ def assert_design_operation_frame(frame, operation: str, *, season_column: str =
         raise ValueError(f"Missing season column for {operation}")
     assert_design_years(int(year) for year in frame[season_column]
                         if year is not None and str(year).lower() != "nan")
+
+
+def assert_temporal_feature_rows(frame: pd.DataFrame, feature_columns: Iterable[str]) -> None:
+    """Fail closed before a nextgen feature frame reaches fitting or ranking."""
+    required = {"season", "season_type", "source_game_id", "target_game_id", "target_start_utc",
+                "feature_available_utc"}
+    if not required <= set(frame):
+        raise ValueError(f"Feature rows lack temporal provenance: {sorted(required-set(frame))}")
+    assert_design_operation_frame(frame, "feature_discovery")
+    if frame.target_game_id.isna().any():
+        raise ValueError("Feature row lacks a target game")
+    if not frame.season_type.astype(str).str.lower().eq("regular").all():
+        raise ValueError("Postseason feature or target row is forbidden")
+    available = pd.to_datetime(frame.feature_available_utc, utc=True, errors="coerce")
+    starts = pd.to_datetime(frame.target_start_utc, utc=True, errors="coerce")
+    if available.isna().any() or starts.isna().any() or not available.lt(starts).all():
+        raise ValueError("A feature is not provably available before its target game")
+    if frame.source_game_id.eq(frame.target_game_id).any():
+        raise ValueError("A target game cannot supply its own pregame feature")
+    forbidden_targets = {"next_game_margin", "next_game_win", "next_game_points_for",
+                         "next_game_points_against", "home_points", "away_points",
+                         "target_margin", "target_win"}
+    names = set(feature_columns)
+    if names & forbidden_targets or not names <= set(frame):
+        raise ValueError("Target outcome or absent column selected as a feature")
+    assert_safe_inputs(names)
 
 
 def assert_average_reference_years(target_year: int, source_years: Iterable[int]) -> None:
@@ -157,6 +186,12 @@ def validate_contract(config: dict, *, repo_root: Path) -> None:
         raise ValueError("Large artifact root must be an absolute /groups path")
     if config["seasons"]["design_max_year"] >= config["quarantine"]["year"]:
         raise ValueError("Design window reaches prospective quarantine")
+    if config["seasons"].get("evidence_roles") != {
+        "2024": "design_informed_internal_validation",
+        "2025": "late_development_design_informed",
+        "2026": "untouched_prospective_only",
+    } or config["recommendation"].get("2024_2025_metrics_are_unbiased_holdout") is not False:
+        raise ValueError("Development metrics must not be labeled as unbiased holdout results")
     if config["source_f6_feature_count"] != 227:
         raise ValueError("F06 canonical baseline count changed")
     source = load_json(repo_root / config["source_f6_manifest"])

@@ -22,6 +22,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from gridiron_ml.experiments.nextgen_contract import (  # noqa: E402
     all_fingerprint_ids, assert_design_operation_frame, assert_design_years, assert_pair_closed, assert_safe_inputs,
+    assert_temporal_feature_rows,
     load_json, validate_setup,
 )
 from gridiron_ml.experiments.nextgen_temporal import next_game_rows  # noqa: E402
@@ -98,6 +99,15 @@ def check_temporal() -> dict:
     assert int(a.source_game_id) == 1 and int(a.game_id) == 2
     assert a.prior_mean_margin == 14 and a.next_game_margin == -7
     assert 3 not in rows.game_id.tolist()
+    feature_row = pd.DataFrame({"season": [2025], "season_type": ["regular"],
+                                "source_game_id": [int(a.source_game_id)],
+                                "target_game_id": [int(a.game_id)],
+                                "feature_available_utc": ["2025-08-30T16:00:00Z"],
+                                "target_start_utc": ["2025-09-06T12:00:00Z"],
+                                "prior_mean_margin": [a.prior_mean_margin]})
+    assert_temporal_feature_rows(feature_row, ["prior_mean_margin"])
+    expect_rejected(lambda: assert_temporal_feature_rows(
+        feature_row.assign(feature_available_utc="2025-09-07T00:00:00Z"), ["prior_mean_margin"]))
     expect_rejected(lambda: next_game_rows(pd.concat([
         fixture, fixture.iloc[:1].assign(season=2026, id=4)], ignore_index=True)))
     for operation in ("scaling", "correlation", "shap", "feature_discovery", "recommendations"):
@@ -137,8 +147,8 @@ def main() -> None:
     checks = {**check_contract_and_models(), **check_temporal()}
     inventory = load_json(ROOT / "configs/experiments/nextgen_cfbd_endpoint_inventory_v1.json")
     manifest, summary = build_manifest(inventory, ROOT, root)
-    if summary["unresolved_partial_requests"]:
-        raise RuntimeError("Capped responses require a documented subdivision before launch")
+    if summary["unresolved_partial_requests"] or summary["unresolved_review_requests"]:
+        raise RuntimeError("Unresolved capped or anomalous responses require review before launch")
     budget_path = Path(config["cfbd_api_call_budget"]["ledger"])
     reserved = json.loads(budget_path.read_text())["reserved"] if budget_path.exists() else 0
     if reserved + summary["new_planned_calls"] > 20000:

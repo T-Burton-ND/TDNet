@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 import pandas as pd
+import requests
 
 from gridiron_ml.experiments.nextgen_temporal import next_game_rows
 from gridiron_ml.pipeline.fetch.nextgen_acquisition import (
@@ -66,6 +67,45 @@ def test_cap_response_never_complete(tmp_path):
     assert AcquisitionLedger(tmp_path).read(request["request_id"])["status"] == "success_suspected_partial"
     assert not quota_allows(6200, 300, 2)
     assert quota_allows(7000, 300, 2)
+
+
+def test_empty_and_bad_query_require_review(tmp_path):
+    request = item(tmp_path)
+    ledger = AcquisitionLedger(tmp_path)
+    empty = execute_request(request, ledger, FakeClient([]))
+    assert empty["status"] == "needs_review"
+    assert materialize_plan([request], ledger)["preserved_terminal"] == 1
+
+    class BadQuery(FakeClient):
+        def get_json(self, endpoint, params, max_retries=2):
+            self.api_calls += 1
+            response = requests.Response()
+            response.status_code = 400
+            response.url = "https://api.collegefootballdata.com/plays"
+            raise requests.HTTPError("bad query", response=response)
+
+    bad = execute_request(request, ledger, BadQuery(None))
+    assert bad["status"] == "needs_review" and bad["http_status"] == 400
+
+
+def test_mixed_year_legacy_file_is_not_verified(tmp_path):
+    cache = tmp_path / "mixed.parquet"
+    pd.DataFrame({"season": [2024, 2025], "week": [1, 1],
+                  "data": ["a" * 400, "b" * 400]}).to_parquet(cache)
+    assert verify_cache(cache, year=2025) is None
+
+
+def test_executor_does_not_reuse_unproven_legacy_ledger_record(tmp_path):
+    request = item(tmp_path)
+    cache = Path(request["cache_path"])
+    pd.DataFrame({"season": [2025], "week": [1], "data": ["a" * 400]}).to_parquet(cache)
+    ledger = AcquisitionLedger(tmp_path)
+    ledger.write({**request, "status": "skipped_existing_complete",
+                  "row_count": 1, "byte_size": cache.stat().st_size})
+    client = FakeClient([{"id": 1, "season": 2025, "week": 1, "yardsGained": 7}])
+    result = execute_request(request, ledger, client)
+    assert result["status"] == "success_complete"
+    assert client.api_calls == 1
 
 
 def test_regular_context_targets_following_game_and_excludes_postseason():

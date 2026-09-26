@@ -47,3 +47,9 @@ Chronological record of wiki activity.
 - Replaced the previous 20,000-attempt ceiling with the preflight-verified 20,000 preferred target, 24,000 hard ceiling, and 6,000-call reserve against CFBD's 30,000 monthly capacity.
 - Recorded the 2010–2025 manifest's 1,224 remaining planned calls and 533 structurally reusable cache partitions after the one-week play smoke; no bulk acquisition or training ran.
 - Documented the 85-route OpenAPI audit, durable request ledger, stage order, optional `/plays/stats` gate, widened results table, and next-game smoke checks.
+
+## [2026-09-26] update | Next-generation experiment adversarial review fixes
+- by: Thomas J. Burton via codex
+- Recorded the revised 2010–2025 acquisition manifest: 1,500 planned requests, 257 locally validated reuses, and 283 unverified legacy candidates; the earlier cache reuse count was too permissive.
+- Recorded the 8,490,706,368-byte projected storage footprint, anomalous-response review status, and the remaining provider-side schedule coverage limit.
+- Clarified that 2024 and 2025 metrics are design-influenced development evidence, while only 2026 is prospective, and that temporal feature guard integration awaits F09–F12 builders.

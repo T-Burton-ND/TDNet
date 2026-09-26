@@ -22,10 +22,14 @@ from .cfbd_fetch_v2 import CFBDClient, CallBudget, write_parquet
 SCHEMA_VERSION = "cfbd_openapi_5.30.0_parquet_v1"
 STATUSES = {"planned", "skipped_existing_complete", "success_complete",
             "success_suspected_partial", "failed_retryable", "failed_final",
-            "structurally_unavailable"}
+            "structurally_unavailable", "needs_review"}
 COMPLETE = {"skipped_existing_complete", "success_complete"}
 TERMINAL_UNAVAILABLE = {"structurally_unavailable", "failed_final"}
 PARTIAL = {"success_suspected_partial"}
+REVIEW_REQUIRED = {"needs_review"}
+# The games cache seeds the local schedule; team-game rows are checked against it.
+# Other year files have no request provenance or comparable scope/coverage check.
+ELIGIBLE_LEGACY_REUSE = {"/games", "/games/teams"}
 
 
 def canonical_json(value: dict) -> str:
@@ -106,7 +110,7 @@ def verify_cache(path: Path, record: dict | None = None,
             return None
         if year is not None:
             season_col = next((c for c in ("season", "year") if c in frame), None)
-            if season_col and not pd.to_numeric(frame[season_col], errors="coerce").eq(year).any():
+            if season_col and not pd.to_numeric(frame[season_col], errors="coerce").eq(year).all():
                 return None
         if week is not None:
             if "week" not in frame or not pd.to_numeric(frame.week, errors="coerce").eq(week).any():
@@ -191,16 +195,22 @@ def build_manifest(inventory: dict, project_root: Path, artifact_root: Path,
             if rid in requests_by_id:
                 raise ValueError(f"Duplicate request identity: {rid}")
             prior = ledger.read(rid)
-            if prior and prior.get("status") in COMPLETE:
+            if prior and prior.get("status") == "success_complete":
                 meta = verify_cache(Path(prior["cache_path"]), prior)
                 if meta:
                     item.update({"status": "skipped_existing_complete", "cache_path": prior["cache_path"],
                                  "reuse_source": "verified_request_ledger", **meta})
-            if prior and prior.get("status") in TERMINAL_UNAVAILABLE | PARTIAL:
+            if prior and prior.get("status") in TERMINAL_UNAVAILABLE | PARTIAL | REVIEW_REQUIRED:
                 item.update({"status": prior["status"], "error_summary": prior.get("error_summary"),
                              "http_status": prior.get("http_status")})
             if item["status"] == "planned" and item["legacy_alias"] and year is not None:
                 legacy = legacy_root / item["legacy_alias"] / f"{year}.parquet"
+                if path not in ELIGIBLE_LEGACY_REUSE:
+                    if legacy.exists():
+                        item["legacy_candidate_path"] = str(legacy)
+                        item["legacy_reuse_decision"] = "unverified_request_scope_or_coverage"
+                    requests_by_id[rid] = item
+                    continue
                 key = (str(legacy), week)
                 if key not in legacy_validation:
                     legacy_validation[key] = verify_cache(legacy, year=year, week=week)
@@ -226,14 +236,17 @@ def build_manifest(inventory: dict, project_root: Path, artifact_root: Path,
     counts = defaultdict(lambda: Counter())
     for item in manifest:
         category = ("reused" if item["status"] in COMPLETE else
-                    item["status"] if item["status"] in TERMINAL_UNAVAILABLE | PARTIAL else "new")
+                    item["status"] if item["status"] in TERMINAL_UNAVAILABLE | PARTIAL | REVIEW_REQUIRED else "new")
         counts[item["endpoint"]][category] += 1
     new = sum(c["new"] for c in counts.values())
     reused = sum(c["reused"] for c in counts.values())
+    legacy_unverified = sum("legacy_candidate_path" in item for item in manifest)
     summary = {"schema_version": SCHEMA_VERSION, "years": [min(years), max(years)],
                "include_plays_stats": include_plays_stats, "total_requests": len(manifest),
                "new_planned_calls": new, "reused_cached_partitions": reused,
+               "legacy_candidates_not_reused": legacy_unverified,
                "unresolved_partial_requests": sum(c["success_suspected_partial"] for c in counts.values()),
+               "unresolved_review_requests": sum(c["needs_review"] for c in counts.values()),
                "by_endpoint": {k: dict(v) for k, v in sorted(counts.items())},
                "skipped_endpoints": skipped, "excluded_due_budget": [],
                "generated_at_utc": datetime.now(timezone.utc).isoformat()}
@@ -245,10 +258,11 @@ def materialize_plan(manifest: list[dict], ledger: AcquisitionLedger) -> dict:
     counts = Counter()
     for item in manifest:
         prior = ledger.read(item["request_id"])
-        if prior and prior.get("status") in COMPLETE and verify_cache(Path(prior["cache_path"]), prior):
+        if (prior and item["status"] in COMPLETE and prior.get("status") in COMPLETE
+                and verify_cache(Path(prior["cache_path"]), prior)):
             counts["preserved_complete"] += 1
             continue
-        if prior and prior.get("status") in TERMINAL_UNAVAILABLE | PARTIAL:
+        if prior and prior.get("status") in TERMINAL_UNAVAILABLE | PARTIAL | REVIEW_REQUIRED:
             counts["preserved_terminal"] += 1
             continue
         if (prior and prior.get("status") == item["status"] == "planned"
@@ -273,7 +287,9 @@ def execute_request(item: dict, ledger: AcquisitionLedger, client: CFBDClient) -
     """Execute one manifest row, recording terminal or retryable state immediately."""
     rid = item["request_id"]
     previous = ledger.read(rid)
-    if previous and previous["status"] in COMPLETE and verify_cache(Path(previous["cache_path"]), previous):
+    if (previous and previous["status"] in COMPLETE
+            and (previous["status"] == "success_complete" or item["status"] in COMPLETE)
+            and verify_cache(Path(previous["cache_path"]), previous)):
         return previous
     if item["status"] in COMPLETE and verify_cache(Path(item["cache_path"]), item):
         record = {**item, "attempt_count": 0, "http_status": None,
@@ -291,7 +307,8 @@ def execute_request(item: dict, ledger: AcquisitionLedger, client: CFBDClient) -
         if not isinstance(payload, list):
             raise ValueError("CFBD response is not a list")
         if not payload:
-            record.update(status="structurally_unavailable", completeness_status="empty_response")
+            record.update(status="needs_review", completeness_status="empty_response_unverified",
+                          error_summary="Empty 200 response requires coverage review")
         else:
             frame = pd.json_normalize(payload)
             cap = item.get("response_row_cap")
@@ -311,7 +328,7 @@ def execute_request(item: dict, ledger: AcquisitionLedger, client: CFBDClient) -
         record["attempt_count"] = max(record["attempt_count"], client.api_calls - before)
         code = exc.response.status_code if exc.response is not None else None
         record["http_status"] = code
-        record["status"] = "structurally_unavailable" if code in (400, 404) else "failed_final"
+        record["status"] = "needs_review" if code in (400, 401, 403, 404) else "failed_retryable"
         record["error_summary"] = f"HTTP {code}: {str(exc)[:240]}"
     except Exception as exc:
         record["attempt_count"] = max(record["attempt_count"], client.api_calls - before)

@@ -24,6 +24,10 @@
   },
   "cache": {
     "skip_valid_complete_partition": true,
+    "legacy_reuse_requires_local_scope_coverage_check": true,
+    "eligible_legacy_routes": ["/games", "/games/teams"],
+    "unverified_legacy_candidates": "plan_refetch_or_manual_coverage_review",
+    "empty_or_http_400_401_403_404": "needs_review_blocks_stage",
     "historical_schema_change": "new_version_directory",
     "refresh_2026": "allowed_but_quarantined",
     "manifest_fields": [
