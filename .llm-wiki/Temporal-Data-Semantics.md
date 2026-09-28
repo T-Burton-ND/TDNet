@@ -38,4 +38,4 @@ The separate time-adjusted fingerprint experiment builds on opponent-adjusted fr
 
 ## See also
 
-[TDNet Overview](TDNet-Overview) · [Package Architecture](Package-Architecture) · [Fingerprint Ladder](Fingerprint-Ladder) · [Confirmatory Protocol 2026](Confirmatory-Protocol-2026)
+[TDNet Overview](TDNet-Overview) · [Package Architecture](Package-Architecture) · [Fingerprint Ladder](Fingerprint-Ladder) · [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) · [Next-Generation Fingerprint Experiment](Next-Generation-Fingerprint-Experiment)

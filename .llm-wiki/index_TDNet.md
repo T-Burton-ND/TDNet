@@ -28,7 +28,22 @@ Catalog of all wiki pages, organized by category.
 - [Model Guide Source](Source-Model-Guide) — implementation families and caveats
 
 ## Research methods and data
-- [Fingerprint Ladder](Fingerprint-Ladder) — F0–F8 tiers and their roles
+- [Fingerprint Ladder](Fingerprint-Ladder) — historical F00–F08 plus next-generation F06→F09→F12 map
+- [Next-Generation Fingerprint Experiment](Next-Generation-Fingerprint-Experiment) — complete inherited supplement inventory with remaining semantic caveats and parallel full/reduced screening with source dependencies, active F12 and live results table, fresh schedules, corrected game queries and completed request dispositions and measured component/source coverage, keyed temporal guards, Stage E value gate, frozen average-team references, and 20,000-attempt hard cap
+- [Fingerprint F00](Fingerprint-F00) — Preseason baseline historical generation
+- [Fingerprint F01](Fingerprint-F01) — Raw box scores historical generation
+- [Fingerprint F02](Fingerprint-F02) — Efficiency and rates historical generation
+- [Fingerprint F03](Fingerprint-F03) — Opponent adjustment historical generation
+- [Fingerprint F04](Fingerprint-F04) — Situational context historical generation
+- [Fingerprint F05](Fingerprint-F05) — Temporal dynamics historical generation
+- [Nextgen Results Snapshot — 2026-09-28](Nextgen-Results-Snapshot-2026-09-28) — paused program, verified terminal metrics, passing A/B trials, accepted C reduction and remaining work
+- [Fingerprint F06](Fingerprint-F06) — Schedule graph historical generation; exploratory coach SP exclusion, refreshed correlations, and terminal full a/b/c screening, accepted 60-feature reduced C, and completed passing A/B trials
+- [Fingerprint F07](Fingerprint-F07) — Market-only comparator historical generation
+- [Fingerprint F08](Fingerprint-F08) — F06 plus market comparator historical generation
+- [Fingerprint F09](Fingerprint-F09) — Completed full microstructure screening, unscreened progressive C pool, and pending reductions
+- [Fingerprint F10](Fingerprint-F10) — Full A M2 terminal; remaining screening and roster/transfer source gaps remain
+- [Fingerprint F11](Fingerprint-F11) — Full A terminal; B/C screening and current-assignment gaps remain
+- [Fingerprint F12](Fingerprint-F12) — Full A terminal; B/C screening and line/defensive-unit coverage gaps remain
 - [Temporal Data Semantics](Temporal-Data-Semantics) — row meanings, targets, cutoffs, and market boundary
 - [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) — scope, matrix, inference, and freeze rules
 - [Confirmatory Protocol Source](Source-Confirmatory-Protocol) — Markdown interpretation and version-2 YAML source

@@ -22,7 +22,8 @@ TDNet is a research-oriented Python package for time-dependent college-football 
 
 ### Research methods
 
-- [Fingerprint Ladder](Fingerprint-Ladder) — F0–F8 representations
+- [Fingerprint Ladder](Fingerprint-Ladder) — historical and next-generation representations
+- [Next-Generation Fingerprint Experiment](Next-Generation-Fingerprint-Experiment) — next-game research contract
 - [Temporal Data Semantics](Temporal-Data-Semantics) — as-of rules and safe targets
 - [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) — fixed study design
 - [Model and Poll Surfaces](Model-and-Poll-Surfaces) — scientific panel and operational roster

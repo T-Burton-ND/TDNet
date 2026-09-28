@@ -6,39 +6,49 @@ tags: [fingerprints, features, research-design]
 
 # Fingerprint Ladder
 
-The 2026 protocol defines nine named feature representations, F0–F8, with a fixed market-free path through F6 and separate market comparison tiers.
+The fingerprint ladder preserves the historical F00–F08 study and adds a separate market-free next-game research path F06 → F09 → F10 → F11 → F12.
 
-| Tier | Contents | Role in 2026 protocol |
+**Prediction invariant:** a dynamic team-week fingerprint uses only information available before the target game, and its central target is the team's **next-game margin**. Same-game association is descriptive, not next-game predictive evidence.
+
+## Historical 2026 ladder
+
+| Tier | Added information or role | Historical meaning |
 |---|---|---|
-| F0 | Preseason roster talent and games played; no observed performance statistics | Market-free baseline |
-| F1 | F0 plus raw box-score families | Market-free |
-| F2 | F1 plus efficiency and rate families | Market-free |
-| F3 | F2 plus the selected opponent-adjustment family | Market-free |
-| F4 | F3 plus situational, returning-production, and coaching context | Market-free |
-| F5 | F4 plus temporal dynamics | Market-free |
-| F6 | F5 plus schedule-graph features; complete market-free representation | Primary market-free representation |
-| F7 | Declared market variables only | Market-only research comparator |
-| F8 | F6 plus F7 | Market-aware research comparator |
+| [F00](Fingerprint-F00) | Preseason roster talent and games played | Market-free baseline |
+| [F01](Fingerprint-F01) | Raw box scores | Market-free |
+| [F02](Fingerprint-F02) | Efficiency and rates | Market-free |
+| [F03](Fingerprint-F03) | Selected opponent adjustment | Market-free |
+| [F04](Fingerprint-F04) | Situational, returning, coaching context | Market-free |
+| [F05](Fingerprint-F05) | Temporal dynamics | Market-free |
+| [F06](Fingerprint-F06) | Schedule graph; complete 227-feature F6 | Primary market-free baseline |
+| [F07](Fingerprint-F07) | Market variables only | Historical market-only comparator |
+| [F08](Fingerprint-F08) | F06 plus F07 | Historical market-aware comparator |
 
-Only F0–F6 are eligible for official 2026 predictions, consensus, or polls. F7 and F8 are research comparisons and must not be described as operational prediction members. These roles are established in the canonical protocol, not inferred from the older tiers in the master plan.
+F07/F08 retain their original meanings and are **not ancestors** of F09–F12. F00–F06 alone remain eligible for the frozen official 2026 protocol. This new research does not change frozen predictions or historical F0–F8 claims.
 
-## Feature contract
+## New market-free information generations
 
-The protocol requires each materialized frame to record exact feature names, count, family, source, availability rule, cutoff, missingness rule, transformation, market/opponent flags, version, and schema hash. Feature order is lexical and deterministic in the manifest. Fingerprint tiers have no aliases.
+| Generation | New information | Status |
+|---|---|---|
+| [F09](Fingerprint-F09) | Structured game microstructure | Design/setup |
+| [F10](Fingerprint-F10) | Week-0 roster, recruiting, transfer, player use and production | Design/setup |
+| [F11](Fingerprint-F11) | New derived coaching history | Design/setup |
+| [F12](Fingerprint-F12) | Team-driven unit states | Design/setup |
 
-## Relationship to temporal semantics
+F13–F15 may receive design work after F12 evaluation; their information families are intentionally unassigned. PCA would be a representation suffix rather than a new information number.
 
-The tier answers which feature families are present; it does not by itself guarantee correct timing. Every input still needs an as-of availability rule and cutoff. See [Temporal Data Semantics](Temporal-Data-Semantics) and [Package Architecture](Package-Architecture).
+## Naming and ancestry
+
+Use zero-padded generation, lineage, and design: `F09_PR_b`. The three designs are `a` atomic/canonical, `b` expanded football-informed interactions, and `c` compact interpretable Excel-reproducible composition with no more than five source inputs. They inherit only within the same letter.
+
+F06 has `F06_F_a/b/c` and independently reduced `F06_R_a/b/c`. F06_F_a reproduces the canonical 227-feature baseline. Every F09–F12 generation has `F`, `LR`, and `PR` for each of a/b/c. `F` inherits the previous full representation. `LR` prunes the full current representation. `PR` inherits the preceding reduced PR (F06_R at F09), adds the complete current information family, then prunes. LR never inherits prior LR. The old F6-C/C25 study is reference evidence only.
+
+Source features declare an explicit counterpart and matchup formula; pairs are atomic in pruning. Each final team-week fingerprint is architecture-independent. Market and pregame win-probability features cannot enter F09–F12. The 2026 season is quarantined from all new design operations, even if cached.
 
 ## Sources
 
-- `source-archive/docs/publication_2026/CONFIRMATORY_PROTOCOL.md.txt`
-- `../configs/publication/confirmatory_protocol.yaml`
-- `../configs/features/feature_ladders.yaml`
-- [Confirmatory Protocol Source](Source-Confirmatory-Protocol)
-- [README Source](Source-README)
-- [TDNet Master Plan Source](Source-TDNet-Master-Plan) for historical feature-tier proposals only.
+- `configs/features/feature_ladders.yaml` and `docs/publication_2026/feature_manifests/F6.json` for the historical ladder.
+- `configs/experiments/nextgen_fingerprints_v1.json` and `docs/nextgen_fingerprints/README.md` for the exploratory contract.
+- [CFBD data availability](https://api.collegefootballdata.com/data-availability) for provider coverage, subject to actual partition audits.
 
-## See also
-
-[TDNet Overview](TDNet-Overview) · [Temporal Data Semantics](Temporal-Data-Semantics) · [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) · [Model and Poll Surfaces](Model-and-Poll-Surfaces) · [README Source](Source-README) · [Fingerprint and Model Decision History](Fingerprint-and-Model-Decision-History)
+See also: [Next-Generation Experiment](Next-Generation-Fingerprint-Experiment) · [Temporal Data Semantics](Temporal-Data-Semantics) · [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) · [TDNet Overview](TDNet-Overview)
