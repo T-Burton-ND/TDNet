@@ -327,3 +327,9 @@ Chronological record of wiki activity.
 - Recorded direct user authorization under the unchanged 20,000-attempt budget; model experiments remain paused.
 - Recorded empty targeted play/box gap responses, sparse 2012 attribution probes and the supported 2013–2025 scope.
 - Recorded exact batch equivalence on 22 subsets across 17 games, cache reuse, adaptive provider pacing and explicitly interim counts; final acquisition audit remains pending.
+
+## [2026-09-28] update | Interim attribution coverage audit
+- by: Thomas J. Burton via codex
+- Recorded the measured 494-game interim audit, explicitly identifying its concentration in 2013 and its incomplete acquisition cutoff.
+- Saved numerical evidence for clean identity joins alongside 3,310 missing rushing plays and 3,118 row-level yardage disagreements; no source values or model inputs were changed.
+- Preserved the original audit and per-game evidence separately so the eventual final audit cannot erase this snapshot.

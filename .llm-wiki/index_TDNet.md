@@ -45,7 +45,7 @@ Catalog of all wiki pages, organized by category.
 - [Fingerprint F10](Fingerprint-F10) — Full A M2 terminal; remaining screening and roster/transfer source gaps remain
 - [Fingerprint F11](Fingerprint-F11) — Full A terminal; B/C screening and current-assignment gaps remain
 - [Fingerprint F12](Fingerprint-F12) — Full A terminal; B/C screening and line/defensive-unit coverage gaps remain
-- [Historical Archive Completion](Nextgen-Historical-Archive-Completion) — authorized cache-aware acquisition, sampled era exclusions, batching evidence and ongoing verification
+- [Historical Archive Completion](Nextgen-Historical-Archive-Completion) — authorized cache-aware acquisition, sampled era exclusions, batching evidence and measured interim coverage limits
 - [F13 Proposal](Fingerprint-F13-Proposal) — untested context-adjusted play profiles, existing archive inventory and acquisition rationale
 - [Temporal Data Semantics](Temporal-Data-Semantics) — row meanings, targets, cutoffs, and market boundary
 - [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) — scope, matrix, inference, and freeze rules

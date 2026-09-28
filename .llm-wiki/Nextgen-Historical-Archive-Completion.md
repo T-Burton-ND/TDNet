@@ -42,6 +42,14 @@ Initial four-per-second acquisition hit HTTP 429 and stopped. Four concurrent co
 
 ## Verification and remaining work
 
+### Interim measured coverage, 17:18 UTC
+
+The offline audit covered 494 successful game caches: 475 from 2013, six from 2014, one each from 2015–2025, and two sparse 2012 probes. This early, chronologically concentrated subset is not representative evidence for the full archive. Its 85,573 attribution rows joined to 91,776 canonical plays, covering 64,481 distinct play IDs. There were zero unmatched attribution rows, missing athlete IDs, duplicate actor/stat rows, rushing-team mismatches or rushing-period mismatches in this subset.
+
+The same subset contains 36,471 expected canonical rushing plays, of which 33,161 have rushing attribution and 3,310 do not. There are 16 additional rushing-attributed play IDs outside the canonical rush-type set and 3,118 row-level rushing-yardage disagreements. Missing rushing attribution occurs in 415 audited games and yardage disagreements in 479. These are measured source limitations, not imputed nonparticipation or model-performance results. Future contextual features must preserve event support/missingness and use the original structured-play outcome when joining yardage; player-event attribution alone does not reproduce all rushing outcomes.
+
+[Saved numerical evidence](evidence/Archive-Interim-Audit-2026-09-28.json) records the exact cutoff, year/status counts and evidence hashes. The full original audit and per-game Parquet are preserved under `results/preflight/archive_completion_20260928/interim_audit_171827/`. The final audit remains pending.
+
 The acquisition tools and guards passed 22 tests before the final adaptive-pacing change; ten acquisition/batching tests subsequently passed after that change. Tests cover avoiding duplicate outbound queries, preserving the shared budget under concurrency, cache corruption rejection, refusing capped reconstruction, preserving missing/disputed events and increasing cooldown without spending a call.
 
 The offline audit in `scripts/nextgen_archive_audit.py` verifies each cached response and original play source, then records per-game missing events, unmatched plays, missing athlete IDs, duplicate attributions and yardage/team/period disagreements. Its outputs are `attribution_coverage.parquet` and `attribution_audit.json` in the evidence directory. Final verification, unresolved-source dispositions and final quota readback are outstanding at the interim cutoff.

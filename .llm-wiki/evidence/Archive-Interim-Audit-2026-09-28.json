@@ -1,0 +1,188 @@
+{
+  "at_utc": "2026-09-28T17:18:27.698841+00:00",
+  "counts_by_year_status": [
+    {
+      "games": 1,
+      "season": 2012,
+      "status": "needs_review"
+    },
+    {
+      "games": 802,
+      "season": 2012,
+      "status": "not_acquired"
+    },
+    {
+      "games": 2,
+      "season": 2012,
+      "status": "success_complete"
+    },
+    {
+      "games": 2,
+      "season": 2013,
+      "status": "failed_retryable"
+    },
+    {
+      "games": 336,
+      "season": 2013,
+      "status": "not_acquired"
+    },
+    {
+      "games": 475,
+      "season": 2013,
+      "status": "success_complete"
+    },
+    {
+      "games": 823,
+      "season": 2014,
+      "status": "not_acquired"
+    },
+    {
+      "games": 6,
+      "season": 2014,
+      "status": "success_complete"
+    },
+    {
+      "games": 828,
+      "season": 2015,
+      "status": "not_acquired"
+    },
+    {
+      "games": 1,
+      "season": 2015,
+      "status": "success_complete"
+    },
+    {
+      "games": 831,
+      "season": 2016,
+      "status": "not_acquired"
+    },
+    {
+      "games": 1,
+      "season": 2016,
+      "status": "success_complete"
+    },
+    {
+      "games": 833,
+      "season": 2017,
+      "status": "not_acquired"
+    },
+    {
+      "games": 1,
+      "season": 2017,
+      "status": "success_complete"
+    },
+    {
+      "games": 844,
+      "season": 2018,
+      "status": "not_acquired"
+    },
+    {
+      "games": 1,
+      "season": 2018,
+      "status": "success_complete"
+    },
+    {
+      "games": 847,
+      "season": 2019,
+      "status": "not_acquired"
+    },
+    {
+      "games": 1,
+      "season": 2019,
+      "status": "success_complete"
+    },
+    {
+      "games": 541,
+      "season": 2020,
+      "status": "not_acquired"
+    },
+    {
+      "games": 1,
+      "season": 2020,
+      "status": "success_complete"
+    },
+    {
+      "games": 848,
+      "season": 2021,
+      "status": "not_acquired"
+    },
+    {
+      "games": 1,
+      "season": 2021,
+      "status": "success_complete"
+    },
+    {
+      "games": 853,
+      "season": 2022,
+      "status": "not_acquired"
+    },
+    {
+      "games": 1,
+      "season": 2022,
+      "status": "success_complete"
+    },
+    {
+      "games": 867,
+      "season": 2023,
+      "status": "not_acquired"
+    },
+    {
+      "games": 1,
+      "season": 2023,
+      "status": "success_complete"
+    },
+    {
+      "games": 872,
+      "season": 2024,
+      "status": "not_acquired"
+    },
+    {
+      "games": 1,
+      "season": 2024,
+      "status": "success_complete"
+    },
+    {
+      "games": 887,
+      "season": 2025,
+      "status": "not_acquired"
+    },
+    {
+      "games": 1,
+      "season": 2025,
+      "status": "success_complete"
+    }
+  ],
+  "games_missing_canonical_play_coverage": 0,
+  "games_with_missing_rushes": 415,
+  "games_with_unmatched_rows": 0,
+  "games_with_yardage_disagreements": 479,
+  "per_game_report": {
+    "path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/results/preflight/archive_completion_20260928/attribution_coverage.parquet",
+    "sha256": "4f609e747964401f0ccd3c6e41ace3e8836e2901b59ce56b63afaf327a3ca7f3"
+  },
+  "scope": "All successfully cached planned 2012-2025 event-attribution responses; 2012 bulk excluded after samples.",
+  "semantic_limits": [
+    "Response completeness is not event completeness.",
+    "Missing event does not mean nonparticipation.",
+    "Retain source yardage disagreement; use original structured play outcome for future joins.",
+    "No data imputation, canonical mutation or model experiment performed."
+  ],
+  "totals": {
+    "canonical_plays": 91776,
+    "duplicate_actor_stat_rows": 0,
+    "expected_rush_plays": 36471,
+    "extra_rush_plays": 16,
+    "matched_rush_plays": 33161,
+    "missing_athlete_ids": 0,
+    "missing_rush_plays": 3310,
+    "rows": 85573,
+    "rush_period_mismatches": 0,
+    "rush_team_mismatches": 0,
+    "rush_yardage_mismatches": 3118,
+    "unique_attributed_plays": 64481,
+    "unmatched_attributed_rows": 0
+  },
+  "snapshot": "Interim only; acquisition still running. Not final archive totals.",
+  "original_audit_sha256": "04e0b3f73468489f76132c44e86a2c6e4016dff9a9e0969b4f33f69f66cd77a3",
+  "preserved_audit_directory": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/results/preflight/archive_completion_20260928/interim_audit_171827"
+}
