@@ -127,3 +127,7 @@ See also: [Frozen result inventory](Nextgen-Results-Snapshot-2026-09-28) · [Exp
 ## Proposed research beyond the current experiment
 
 See [F13 proposal](Fingerprint-F13-Proposal) for a context-adjusted play-profile hypothesis and the measured existing play archive. This is untested and does not authorize acquisition, training or a lineage change.
+
+## Authorized archive acquisition — 2026-09-28
+
+The user subsequently approved filling useful historical data within the existing budget. See [historical archive completion](Nextgen-Historical-Archive-Completion) for verified cache reuse, sampled coverage limits and progress. This authorizes raw acquisition only; model experiments remain paused and F13 remains untested.

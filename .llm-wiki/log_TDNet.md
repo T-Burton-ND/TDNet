@@ -321,3 +321,9 @@ Chronological record of wiki activity.
 - Recorded an explicitly untested F13 context-adjusted play-profile proposal grounded in the measured F09 and later-generation results.
 - Aggregated actual F09 coverage: 2,351,115 raw rows, 245 partitions, 12,964 observed versus 13,059 expected games, and 95 missing IDs across 2010–2025.
 - Distinguished reuse/backfill from broader acquisition and documented current API association limits; no experiments, acquisitions or lineage changes were made.
+
+## [2026-09-28] update | Authorized historical archive acquisition
+- by: Thomas J. Burton via codex
+- Recorded direct user authorization under the unchanged 20,000-attempt budget; model experiments remain paused.
+- Recorded empty targeted play/box gap responses, sparse 2012 attribution probes and the supported 2013–2025 scope.
+- Recorded exact batch equivalence on 22 subsets across 17 games, cache reuse, adaptive provider pacing and explicitly interim counts; final acquisition audit remains pending.

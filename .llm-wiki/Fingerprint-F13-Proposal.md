@@ -59,3 +59,7 @@ Raw outcomes and context support internally fitted, time-safe baselines. A provi
 Untested proposal only. No expected improvement size is asserted. No new model, data pull, scheduler action or F13 artifact was created. The scientific goal remains paused.
 
 See also: [Measured lessons](Nextgen-Empirical-Lessons-2026-09-28) · [F09](Fingerprint-F09) · [Experiment contract](Next-Generation-Fingerprint-Experiment).
+
+## Authorized archive acquisition — 2026-09-28
+
+The user subsequently approved filling useful historical data within the existing budget. See [historical archive completion](Nextgen-Historical-Archive-Completion) for verified cache reuse, sampled coverage limits and progress. This authorizes raw acquisition only; model experiments remain paused and F13 remains untested.
