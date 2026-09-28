@@ -8,6 +8,10 @@ tags: [fingerprints, historical-ladder]
 
 F06 is the historical market-free fingerprint tier: schedule graph.
 
+## Measured lessons — 2026-09-28
+
+The reduction evidence supports substantial compression, but M2 improves more consistently than M4. Reduced B M4 2024 improves the aggregate median while only four of ten matched configurations improve. Reduced C also loses 2025 upset recognition despite passing MAE tolerance. See [empirical lessons and paired evidence](Nextgen-Empirical-Lessons-2026-09-28) for exact values, scope and limits. No new experiments were run.
+
 ## Current snapshot — 2026-09-28
 
 All six full/reduced fingerprints have terminal matrices: 116 successes and four full A/B M2 memory failures. Reduced A (162 features) and B (170) now pass the measured MAE tolerance; their joint mean MAE deltas are −0.046495 and −0.072737 against their respective full references. Neither is a validated minimum. C (60) remains the only immutable accepted reduction. No smaller trials were launched. See the [verified paused snapshot](Nextgen-Results-Snapshot-2026-09-28) for all metrics, evidence paths, source gaps and scheduler counts as of 12:52 UTC. This supersedes earlier live-status statements; the goal is paused and existing queued cells may still dispatch.

@@ -9,6 +9,10 @@ tags: [fingerprints, next-generation, design]
 
 F11 is the planned market-free information generation for coaching history; supported full fingerprints are validated and screening is active, while evaluation remains unfinished.
 
+## Measured lessons — 2026-09-28
+
+Re-scoring existing F10 A predictions on F11 A evaluation games reverses the apparent 2025 M2 gain: F10 median 12.446026 versus F11 12.537048 on 553 games. F11 also worsens 2024 M2 on 626 shared games. Training coverage remains different, so this is a pipeline comparison, not a coaching-feature ablation. See [empirical lessons and paired evidence](Nextgen-Empirical-Lessons-2026-09-28) for exact values, scope and limits. No new experiments were run.
+
 ## Current snapshot — 2026-09-28
 
 Full A has ten successes per architecture. Median development MAE 2024 / 2025 is 13.706990 / 12.537048 (M2), 13.141755 / 12.206475 (M4). B remains partial. Overall 26 successful, nine running and 25 queued cells. Its smaller cohort prevents interpreting cross-generation differences as measured feature gains. See the [verified paused snapshot](Nextgen-Results-Snapshot-2026-09-28) for all metrics, evidence paths, source gaps and scheduler counts as of 12:52 UTC. This supersedes earlier live-status statements; the goal is paused and existing queued cells may still dispatch.

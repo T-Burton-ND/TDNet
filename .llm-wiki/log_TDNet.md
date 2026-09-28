@@ -309,3 +309,9 @@ Chronological record of wiki activity.
 - Filed verified frozen results: 241 successful, four failed, twenty running/incomplete and ninety-five queued cells; no new experiments or scheduler changes.
 - Recorded all terminal architecture metrics, newly passing F06 A/B tolerance checks, existing accepted C floor reduction, and completed F09 full screening.
 - Updated generation pages and index with source coverage, documentation, reference and diagnostic limits; preserved pending work and uncommitted tested helpers.
+
+## [2026-09-28] update | Empirical lessons from saved predictions
+- by: Thomas J. Burton via codex
+- Verified all 241 successful prediction hashes in the frozen snapshot and computed shared-configuration, common-game comparisons without retraining.
+- Recorded F09 M4 and F10 A/M2 gains, F06 compression tradeoffs, negative F11/F12 A results and reversals hidden by aggregate medians.
+- Corrected the overly broad evaluation-cohort caveat; published numerical evidence and analysis code, preserving development-data and training-cohort limits.

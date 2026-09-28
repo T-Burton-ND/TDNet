@@ -36,6 +36,7 @@ Catalog of all wiki pages, organized by category.
 - [Fingerprint F03](Fingerprint-F03) — Opponent adjustment historical generation
 - [Fingerprint F04](Fingerprint-F04) — Situational context historical generation
 - [Fingerprint F05](Fingerprint-F05) — Temporal dynamics historical generation
+- [Nextgen Empirical Lessons — 2026-09-28](Nextgen-Empirical-Lessons-2026-09-28) — measured gains, negative F11/F12 results, same-game comparisons and median-versus-paired reversals
 - [Nextgen Results Snapshot — 2026-09-28](Nextgen-Results-Snapshot-2026-09-28) — paused program, verified terminal metrics, passing A/B trials, accepted C reduction and remaining work
 - [Fingerprint F06](Fingerprint-F06) — Schedule graph historical generation; exploratory coach SP exclusion, refreshed correlations, and terminal full a/b/c screening, accepted 60-feature reduced C, and completed passing A/B trials
 - [Fingerprint F07](Fingerprint-F07) — Market-only comparator historical generation

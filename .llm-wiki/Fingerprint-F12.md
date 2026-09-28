@@ -9,6 +9,10 @@ tags: [fingerprints, next-generation, design]
 
 F12 is the market-free information generation for unit-level team states. Its supported full fingerprints are assembled from special teams and observed offensive rooms; full screening is active, while evaluation and missing unit coverage remain unfinished.
 
+## Measured lessons — 2026-09-28
+
+Full A worsens MAE relative to F11 A on identical evaluation IDs: all ten M2 configurations in each year, and seven of ten M4 configurations in each year. Brier medians worsen for both models in both years. Different historical training coverage does not erase this measured negative evaluation result. See [empirical lessons and paired evidence](Nextgen-Empirical-Lessons-2026-09-28) for exact values, scope and limits. No new experiments were run.
+
 ## Current snapshot — 2026-09-28
 
 Full A has ten successes per architecture. Median development MAE 2024 / 2025 is 13.823579 / 12.729218 (M2), 13.186888 / 12.393033 (M4). B remains partial. Overall 22 successful, six running and 32 queued cells. Supported source coverage and smaller-cohort caveats remain; no generation recommendation exists. See the [verified paused snapshot](Nextgen-Results-Snapshot-2026-09-28) for all metrics, evidence paths, source gaps and scheduler counts as of 12:52 UTC. This supersedes earlier live-status statements; the goal is paused and existing queued cells may still dispatch.

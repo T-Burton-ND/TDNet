@@ -9,6 +9,10 @@ tags: [fingerprints, next-generation, experiment-contract]
 
 This page records the execution contract for exploratory, market-free F06→F09→F10→F11→F12 next-game fingerprints.
 
+## Measured lessons — 2026-09-28
+
+Empirical lessons now distinguish aggregate medians from matched configurations and verify common evaluation games. Observed F09 M4 gains, F06 compression tradeoffs, F10 A/M2 gains, and negative F11/F12 A comparisons are documented without attributing untested causes. See [empirical lessons and paired evidence](Nextgen-Empirical-Lessons-2026-09-28) for exact values, scope and limits. No new experiments were run.
+
 ## Current snapshot — 2026-09-28
 
 Goal paused at user request. Verified existing outputs now include terminal F06 full/reduced and F09 full screening, F10 A M2, and F11/F12 A both architectures. F06 reduced A/B pass the numerical MAE tolerance but remain nonminimum first trials; C is the only accepted floor reduction. Existing F10/F11/F12 submissions remain active; no new experiment or acceptance was issued. See the [verified paused snapshot](Nextgen-Results-Snapshot-2026-09-28) for all metrics, evidence paths, source gaps and scheduler counts as of 12:52 UTC. This supersedes earlier live-status statements; the goal is paused and existing queued cells may still dispatch.

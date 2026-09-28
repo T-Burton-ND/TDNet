@@ -9,6 +9,10 @@ tags: [fingerprints, next-generation, design]
 
 F09 is the planned market-free information generation for game microstructure; its structured-play builder is implemented, with canonical artifacts verified; evaluation remains incomplete.
 
+## Measured lessons — 2026-09-28
+
+On the same 746/757 development games as F06, F09 M4 improves all ten configurations in 2024 for every full design. Gains are less consistent in 2025, and F09 B M2 worsens its 2025 median. This is observed architecture dependence, not proof of a specific mechanism. See [empirical lessons and paired evidence](Nextgen-Empirical-Lessons-2026-09-28) for exact values, scope and limits. No new experiments were run.
+
 ## Current snapshot — 2026-09-28
 
 Full A/B/C screening is complete: 60 successful cells. C M4 median development MAE is 13.214108 / 12.728329 for 2024 / 2025. The 90-feature progressive C pool remains unscreened. The completed C correlation audit reports 43 pairs and authorizes no removal. No LR/PR trial was started. See the [verified paused snapshot](Nextgen-Results-Snapshot-2026-09-28) for all metrics, evidence paths, source gaps and scheduler counts as of 12:52 UTC. This supersedes earlier live-status statements; the goal is paused and existing queued cells may still dispatch.

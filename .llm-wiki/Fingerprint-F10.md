@@ -9,6 +9,10 @@ tags: [fingerprints, next-generation, design]
 
 F10 is the planned market-free information generation for roster and player state; source preparation is implemented, while complete features and evaluation remain unfinished.
 
+## Measured lessons — 2026-09-28
+
+Supported full A improves M2 on the same evaluation games as F09 A: nine of ten configurations improve in 2024 and eight of ten in 2025. The complete roster-source proposal remains untested; this finding applies to the implemented pipeline. See [empirical lessons and paired evidence](Nextgen-Empirical-Lessons-2026-09-28) for exact values, scope and limits. No new experiments were run.
+
 ## Current snapshot — 2026-09-28
 
 Full A M2 is terminal with ten successes: median development MAE 13.393119 / 12.896856 (2024 / 2025). Full A M4 has seven successes and three running cells; B M2 has two running cells. Overall 17 successful, five running and 38 queued cells. No generation recommendation exists. See the [verified paused snapshot](Nextgen-Results-Snapshot-2026-09-28) for all metrics, evidence paths, source gaps and scheduler counts as of 12:52 UTC. This supersedes earlier live-status statements; the goal is paused and existing queued cells may still dispatch.
