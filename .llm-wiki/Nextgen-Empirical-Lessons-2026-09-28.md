@@ -123,3 +123,7 @@ These conclusions are observations of the tested fitted pipelines and developmen
 The experiment goal remains paused. No follow-up experiment is authorized by this analysis. Still unresolved are causal separation of feature additions from training-coverage changes, prospective generalization, missing source families, incomplete frozen-cutoff architecture matrices and later reductions. A/B minimum representations remain unproven. No new acceptance receipt or final program recommendation was issued.
 
 See also: [Frozen result inventory](Nextgen-Results-Snapshot-2026-09-28) · [Experiment](Next-Generation-Fingerprint-Experiment) · [F06](Fingerprint-F06) · [F09](Fingerprint-F09) · [F10](Fingerprint-F10) · [F11](Fingerprint-F11) · [F12](Fingerprint-F12).
+
+## Proposed research beyond the current experiment
+
+See [F13 proposal](Fingerprint-F13-Proposal) for a context-adjusted play-profile hypothesis and the measured existing play archive. This is untested and does not authorize acquisition, training or a lineage change.

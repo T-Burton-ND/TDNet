@@ -192,3 +192,7 @@ The box-score supplement now gives the inferred offensive-turnover interpretatio
 F09 C now has ten successful M2 and seven successful M4 results; three M4 cells remain active. Full C M2 median development MAE is 13.379143 / 12.920867, RMSE 16.943794 / 16.410657 and Brier 0.196414 / 0.187185 for 2024 / 2025. Evidence: `results/F09/full_c_m2_interim.json`. These design-informed results do not authorize the incomplete joint full reference or compare generations on different cohorts.
 
 Latest verified caps are F09 24, F10 5, F11 5, F12 6, reduced A 4, reduced B 6: fifty total. Receipts: `results/concurrency_f12_expansion_6.json` and `results/concurrency_reduced_ab_expansion_2.json`. Earlier caps are superseded.
+
+## Proposed research beyond the current experiment
+
+See [F13 proposal](Fingerprint-F13-Proposal) for a context-adjusted play-profile hypothesis and the measured existing play archive. This is untested and does not authorize acquisition, training or a lineage change.

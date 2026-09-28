@@ -315,3 +315,9 @@ Chronological record of wiki activity.
 - Verified all 241 successful prediction hashes in the frozen snapshot and computed shared-configuration, common-game comparisons without retraining.
 - Recorded F09 M4 and F10 A/M2 gains, F06 compression tradeoffs, negative F11/F12 A results and reversals hidden by aggregate medians.
 - Corrected the overly broad evaluation-cohort caveat; published numerical evidence and analysis code, preserving development-data and training-cohort limits.
+
+## [2026-09-28] update | F13 proposal and existing play archive
+- by: Thomas J. Burton via codex
+- Recorded an explicitly untested F13 context-adjusted play-profile proposal grounded in the measured F09 and later-generation results.
+- Aggregated actual F09 coverage: 2,351,115 raw rows, 245 partitions, 12,964 observed versus 13,059 expected games, and 95 missing IDs across 2010–2025.
+- Distinguished reuse/backfill from broader acquisition and documented current API association limits; no experiments, acquisitions or lineage changes were made.
