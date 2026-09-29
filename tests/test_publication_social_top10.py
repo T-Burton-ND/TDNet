@@ -197,6 +197,20 @@ def test_social_variants_have_exact_dimensions_and_are_deterministic(tmp_path):
     assert hashes[0] != hashes[1]
 
 
+def test_tied_support_rank_keeps_logo_gap(tmp_path):
+    poll = _poll()
+    poll.loc[poll["rank"].isin([2, 3]), "poll_points"] = 760
+    logos = tmp_path / "logos"
+    _logos(logos, poll)
+    for variant in ("4x5", "16x9"):
+        path = render_top10_social(
+            poll, tmp_path / f"tied_support_{variant}.png", season=2026, week=5,
+            logo_dir=logos, variant=variant, generated_at_utc="2026-09-29T14:00:00Z",
+            git_commit="a" * 40,
+        )
+        assert path.exists()
+
+
 def test_sunday_margin_poll_recap_emits_both_social_variants(tmp_path, monkeypatch):
     tables = tmp_path / "tables"
     tables.mkdir()

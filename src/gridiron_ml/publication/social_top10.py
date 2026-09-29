@@ -456,7 +456,7 @@ def _draw_portrait(
         )
         x1, y1, x2, y2 = box
         logo_box = (x1 + 125, y1 + 18, x1 + 272, y2 - 18)
-        _draw_rank(draw, (x1 + 22, y1 + 12), _rank_label(team), sizes["pod_rank"],
+        _draw_rank(draw, (x1 + 10, y1 + 12), _rank_label(team), sizes["pod_rank"],
                    colors["ion_blue"], logo_box)
         _place_logo(image, team.team, logo_dir, logo_box, fallback_size=48)
         _draw_team_text_block(
@@ -527,14 +527,14 @@ def _draw_landscape(
         x1, y1, x2, y2 = box
         # Keep the #2/#3 logo plate optically locked to its card: the 100px
         # plate has identical 15px clearance above and below.
-        logo_box = (x1 + 90, y1 + 15, x1 + 170, y2 - 15)
+        logo_box = (x1 + 100, y1 + 15, x1 + 180, y2 - 15)
         # Reserve the full 10px rank/logo gap even under CI font metrics,
         # where the rank glyphs render slightly wider than on the authoring host.
         _draw_rank(draw, (x1 + 8, y1 + 8), _rank_label(team), sizes["pod_rank"],
                    colors["ion_blue"], logo_box)
         _place_logo(image, team.team, logo_dir, logo_box, fallback_size=39)
         _draw_team_text_block(
-            draw, (x1 + 178, y1 + 12, x2 - 10, y2 - 4), team,
+            draw, (x1 + 188, y1 + 12, x2 - 10, y2 - 4), team,
             sizes["pod_name"], 17, sizes["points"], 10,
             colors["white"], colors["soft_mint"], centered=False,
         )

@@ -132,16 +132,27 @@ def prepare_public_prediction_table(
     return validate_public_prediction_table(frame.loc[:, required_order + extra])
 
 
-def git_state(project_root: str | Path) -> dict[str, Any]:
+def git_state(
+    project_root: str | Path, *, generated_root: str | Path | None = None
+) -> dict[str, Any]:
     root = Path(project_root)
     def run(*args):
         return subprocess.run(
             ["git", *args], cwd=root, check=True, capture_output=True, text=True
         ).stdout.strip()
+    status_args = ["status", "--porcelain", "--untracked-files=all"]
+    if generated_root is not None:
+        try:
+            relative = Path(generated_root).resolve().relative_to(root.resolve())
+        except ValueError:
+            # A bundle written outside the repository cannot dirty its source.
+            pass
+        else:
+            status_args.extend(["--", ".", f":(exclude){relative.as_posix()}"])
     return {
         "git_commit": run("rev-parse", "HEAD"),
         "git_tree": run("rev-parse", "HEAD^{tree}"),
-        "git_dirty": bool(run("status", "--porcelain")),
+        "git_dirty": bool(run(*status_args)),
     }
 
 
@@ -164,7 +175,9 @@ def build_prediction_bundle(
     verification = root / "verification"
     for directory in [public, private, verification]:
         directory.mkdir(parents=True, exist_ok=True)
-    state = git_state(project_root)
+    # The weekly writer creates its public files before freezing the bundle.
+    # Exclude only this generated package from the source cleanliness check.
+    state = git_state(project_root, generated_root=root.parent)
     if state["git_dirty"] and not allow_dirty_code:
         raise RuntimeError("Refusing to build a public bundle from a dirty worktree.")
 

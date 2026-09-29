@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 import json
+import subprocess
 
 import pandas as pd
 
@@ -12,6 +13,39 @@ from gridiron_ml.publication import (
     verify_prediction_bundle,
     verify_preseason_freeze,
 )
+from gridiron_ml.publication.bundles import git_state
+
+
+def test_git_state_excludes_only_generated_publication(tmp_path):
+    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
+    source = tmp_path / "source.py"
+    source.write_text("value = 1\n")
+    subprocess.run(["git", "-C", str(tmp_path), "add", "source.py"], check=True)
+    subprocess.run(
+        ["git", "-C", str(tmp_path), "-c", "user.name=TDNet Test",
+         "-c", "user.email=tdnet@example.test", "commit", "-qm", "fixture"],
+        check=True,
+    )
+    generated = tmp_path / "publication" / "2026" / "week_05" / "pre_game"
+    generated.mkdir(parents=True)
+    (generated / "summary.md").write_text("generated\n")
+    assert git_state(tmp_path, generated_root=generated)["git_dirty"] is False
+    (tmp_path / "other.txt").write_text("unexpected\n")
+    assert git_state(tmp_path, generated_root=generated)["git_dirty"] is True
+
+
+def test_git_state_accepts_generated_bundle_outside_repository(tmp_path):
+    project = tmp_path / "project"
+    project.mkdir()
+    subprocess.run(["git", "init", "-q", str(project)], check=True)
+    (project / "source.py").write_text("value = 1\n")
+    subprocess.run(["git", "-C", str(project), "add", "source.py"], check=True)
+    subprocess.run(
+        ["git", "-C", str(project), "-c", "user.name=TDNet Test",
+         "-c", "user.email=tdnet@example.test", "commit", "-qm", "fixture"],
+        check=True,
+    )
+    assert git_state(project, generated_root=tmp_path / "bundle")["git_dirty"] is False
 
 
 def _predictions():
