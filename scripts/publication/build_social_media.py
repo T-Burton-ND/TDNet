@@ -115,8 +115,17 @@ def render_games(path: Path, games: pd.DataFrame, title: str, subtitle: str) -> 
         draw.text((1342, y + 67), row.home_team, font=fit_text(draw, row.home_team, 440, 42, bold=True), fill=NAVY, anchor="rm")
         margin = float(row.predicted_margin)
         pick = "Essentially even" if margin < 0.05 else f"{row.pred_winner} by {margin:.1f}"
-        draw.text((800, y + 145), f"TDNet: {pick}", font=fit_text(draw, f"TDNet: {pick}", 980, 45, bold=True), fill=PINK, anchor="mm")
-        draw.text((800, y + 191), f"{float(row.model_agreement):.0%} model agreement", font=font(27), fill=MUTED, anchor="mm")
+        prediction = f"TDNet: {pick}"
+        prediction_font = fit_text(draw, prediction, 930, 45, bold=True)
+        text_width = draw.textbbox((0, 0), prediction, font=prediction_font)[2]
+        half_width = (text_width + 76) // 2
+        draw.rounded_rectangle(
+            (800 - half_width, y + 111, 800 + half_width, y + 178),
+            radius=26,
+            fill=NAVY,
+        )
+        draw.text((800, y + 145), prediction, font=prediction_font, fill=PINK, anchor="mm")
+        draw.text((800, y + 199), f"{float(row.model_agreement):.0%} model agreement", font=font(27), fill=MUTED, anchor="mm")
     canvas.save(path, optimize=True)
 
 
