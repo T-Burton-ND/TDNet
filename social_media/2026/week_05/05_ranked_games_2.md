@@ -4,7 +4,7 @@
 
 ## Image alt text
 
-Ranked-team games with both team logos, TDNet projected winner and margin, and model agreement.
+Ranked-team games with team logos, TDNet projected winner and margin, model agreement, and the published Vegas line beneath the market favorite.
 
 ## Sources
 

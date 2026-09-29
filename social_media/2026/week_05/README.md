@@ -14,4 +14,4 @@
 | [08_tdnet_vs_ap.png](08_tdnet_vs_ap.png) | TDNet vs. AP poll gaps; [caption](08_tdnet_vs_ap.md) |
 | [09_model_splits.png](09_model_splits.png) | Games with the lowest model agreement; [caption](09_model_splits.md) |
 
-Review the image and caption before scheduling. Post game previews before the relevant kickoff; avoid sharing outdated predictions after results are known. Captions omit links to keep them short. Team logos come from the repository's logo set.
+The parenthetical Vegas line is the spread captured at publication, shown beneath the market favorite; it can differ from the TDNet pick. Review the image and caption before scheduling. Post game previews before the relevant kickoff; avoid sharing outdated predictions after results are known. Captions omit links to keep them short. Team logos come from the repository's logo set.
