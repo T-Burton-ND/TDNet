@@ -6,6 +6,12 @@
 
 The [Top 25 ratings comparison](../tables/ratings_comparison_top25.csv) includes TDNet, SP+, FPI, FEI, Sagarin, SRS, Elo, and Massey. Each system is standardized across the same 138 FBS teams to a mean of zero and standard deviation of ten. The composite equally averages the six remaining values after dropping each team's highest and lowest. The number in parentheses beside each score is that column's rank among all 138 FBS teams; ties share a rank. These values compare relative team strength; they are not predicted point margins. [Source details and file hashes](../metadata/ratings_comparison_manifest.json) accompany the graphic.
 
+### Where the systems disagree
+
+![Rank spread for the composite Top 25](../figures/week_05_rating_rank_disagreement.png)
+
+Each colored dot marks one system's FBS rank for a team; the dark tick marks its composite rank. Pink callouts identify the largest system gaps of at least 15 rank spots. The bottom bars show mean absolute rank gap across these 25 teams, which measures disagreement with the composite rather than predictive accuracy. [Calculation details](../metadata/rating_rank_disagreement_manifest.json) accompany the chart.
+
 This report covers **56 games** using consensus predictions from **33 models**.
 
 Margins are reported as the predicted winner's advantage. The canonical tables retain signed home margins.

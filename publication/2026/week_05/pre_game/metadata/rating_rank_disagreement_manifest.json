@@ -1,0 +1,70 @@
+{
+  "input": "publication/2026/week_05/pre_game/tables/ratings_comparison_top25.csv",
+  "input_sha256": "03ed3df8ad3b487f6c0825d7cc3f4470768e851c6361e94b87d721fd74bc7a36",
+  "figure": "publication/2026/week_05/pre_game/figures/week_05_rating_rank_disagreement.png",
+  "figure_sha256": "5fbe90efe653b38dbdbc124716a75b50c61b82f4cb9bae6a6ff315343748465e",
+  "rank_scope": "All 138 FBS teams; ties use minimum competition rank",
+  "rank_gap": "system rank minus composite rank; positive means system rates team lower",
+  "outlier_threshold_rank_spots": 15,
+  "system_average_absolute_rank_gap_top25": {
+    "srs": 9.2,
+    "tdnet": 4.6,
+    "elo": 3.92,
+    "sag": 3.76,
+    "massey": 3.24,
+    "sp": 2.72,
+    "fei": 2.72,
+    "fpi": 2.16
+  },
+  "highlighted_team_system_outliers": [
+    {
+      "team": "Penn State",
+      "system": "SRS",
+      "system_rank": 36,
+      "composite_rank": 13,
+      "rank_gap": 23
+    },
+    {
+      "team": "Texas Tech",
+      "system": "SRS",
+      "system_rank": 30,
+      "composite_rank": 14,
+      "rank_gap": 16
+    },
+    {
+      "team": "USC",
+      "system": "SRS",
+      "system_rank": 38,
+      "composite_rank": 16,
+      "rank_gap": 22
+    },
+    {
+      "team": "Michigan",
+      "system": "SRS",
+      "system_rank": 45,
+      "composite_rank": 19,
+      "rank_gap": 26
+    },
+    {
+      "team": "Ole Miss",
+      "system": "TDNet",
+      "system_rank": 49,
+      "composite_rank": 20,
+      "rank_gap": 29
+    },
+    {
+      "team": "Texas A&M",
+      "system": "SP+",
+      "system_rank": 39,
+      "composite_rank": 22,
+      "rank_gap": 17
+    },
+    {
+      "team": "Oklahoma",
+      "system": "SRS",
+      "system_rank": 58,
+      "composite_rank": 24,
+      "rank_gap": 34
+    }
+  ]
+}
