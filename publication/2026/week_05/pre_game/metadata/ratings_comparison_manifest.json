@@ -1,0 +1,43 @@
+{
+  "created_at_utc": "2026-09-29T14:57:07.317569+00:00",
+  "season": 2026,
+  "completed_week": 4,
+  "publication_week": 5,
+  "teams": 138,
+  "systems_in_average": [
+    "tdnet",
+    "sp",
+    "fpi",
+    "fei",
+    "sag",
+    "srs",
+    "elo",
+    "massey"
+  ],
+  "composite": "per-system FBS z-score scaled by 10; per-team highest and lowest dropped; mean of remaining six",
+  "massey": "Week 4 power rating through September 27, 2026",
+  "source_urls": {
+    "TDNet": "scientific/scientific_consensus_power_rankings.csv",
+    "SP+": "https://api.collegefootballdata.com/ratings/sp?year=2026",
+    "FPI": "https://api.collegefootballdata.com/ratings/fpi?year=2026",
+    "SRS": "https://api.collegefootballdata.com/ratings/srs?year=2026",
+    "Elo": "https://api.collegefootballdata.com/ratings/elo?year=2026",
+    "FEI": "https://bcftoys.com/2026-fei",
+    "Sagarin": "https://sagarin.com/sports/cfsend.htm",
+    "Massey": "https://masseyratings.com/cf/ratings"
+  },
+  "source_sha256": {
+    "publication/2026/week_05/pre_game/scientific/scientific_consensus_power_rankings.csv": "d54974fff2e454676e145ed4a9988f0b5c107efcb9f13398b237992587a82c96",
+    "data/publication/2026/weekly_operations/week_05/ratings_sources/tdnet_elo_2026w4.json": "ea3e5cadf1f4f1cb88b2e2a745cee9dc705f10ee8ecf12c04fdb147b90d6a2ac",
+    "data/publication/2026/weekly_operations/week_05/ratings_sources/tdnet_fei_2026w4.csv": "0e5f6c06c1838a7b4930238518057261df31341efdcaefb1479ab8d8082cd415",
+    "data/publication/2026/weekly_operations/week_05/ratings_sources/tdnet_fpi_2026w4.json": "9d717aadaca771b17f8b99b3f3db86390154c20e39450d525fd0133ce3a04628",
+    "data/publication/2026/weekly_operations/week_05/ratings_sources/tdnet_massey_2026w4.csv": "2fba900e8930705686d565769dbd34a82233a72ac1ca9962dfc4a19092f5415d",
+    "data/publication/2026/weekly_operations/week_05/ratings_sources/tdnet_massey_aliases.json": "c8ae773a725b9d31d74c811b7ecea66061f9cc9b50ea638c47983de3922c4d98",
+    "data/publication/2026/weekly_operations/week_05/ratings_sources/tdnet_sagarin_2026w4.csv": "b0fdc5580303302654545aa925708a2e20d0c5e95c06289bcba05e4eb433cc8a",
+    "data/publication/2026/weekly_operations/week_05/ratings_sources/tdnet_sp_2026w4.json": "4b50f1045aa85e44f536fe16abf738d2f1101208002cfc92e3ac4bb7567dd122",
+    "data/publication/2026/weekly_operations/week_05/ratings_sources/tdnet_srs_2026w4.json": "fd7bf0395bb0061d50ce94a8d9cb0a9902e2f8cf3bf090e1cf21d62f0bfc7fe5"
+  },
+  "raw_data_local": "data/publication/2026/weekly_operations/week_05/ratings_comparison_all_fbs.csv",
+  "top25_table": "publication/2026/week_05/pre_game/tables/ratings_comparison_top25.csv",
+  "figure": "publication/2026/week_05/pre_game/figures/week_05_ratings_comparison.png"
+}

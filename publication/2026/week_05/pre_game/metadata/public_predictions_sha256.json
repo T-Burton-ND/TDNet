@@ -1,0 +1,10 @@
+{
+  "season": 2026,
+  "week": 5,
+  "games": 56,
+  "prediction_rows": 1848,
+  "model_names": 33,
+  "source_git_commit": "9963860a5291f5ca464a0c09a47038976449aa3d",
+  "prediction_sha256": "dd2ad005dbb9d9353080a8b1e4df5716ab4bb34115fffc305ff927e594863543",
+  "prediction_path": "frozen_bundle/public/predictions.csv.gz"
+}
