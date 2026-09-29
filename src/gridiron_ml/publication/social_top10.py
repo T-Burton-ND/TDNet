@@ -79,7 +79,7 @@ SOCIAL_STYLE = {
                  "pod_rank": 52, "pod_name": 29, "row_rank": 36, "row_name": 25,
                  "points": 14, "badge": 17, "footer": 14},
         "16x9": {"title": 45, "meta": 18, "hero_rank": 150, "hero_name": 45,
-                  "pod_rank": 52, "pod_name": 29, "row_rank": 31, "row_name": 24,
+                  "pod_rank": 50, "pod_name": 29, "row_rank": 31, "row_name": 24,
                   "points": 12, "badge": 18, "footer": 13},
     },
 }
@@ -528,8 +528,7 @@ def _draw_landscape(
         # Keep the #2/#3 logo plate optically locked to its card: the 100px
         # plate has identical 15px clearance above and below.
         logo_box = (x1 + 100, y1 + 15, x1 + 180, y2 - 15)
-        # Reserve the full 10px rank/logo gap even under CI font metrics,
-        # where the rank glyphs render slightly wider than on the authoring host.
+        # The pod rank font leaves a full 10px rank/logo gap under CI font metrics.
         _draw_rank(draw, (x1 + 8, y1 + 8), _rank_label(team), sizes["pod_rank"],
                    colors["ion_blue"], logo_box)
         _place_logo(image, team.team, logo_dir, logo_box, fallback_size=39)
