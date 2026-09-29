@@ -4,7 +4,7 @@ Week 5's five closest TDNet projections are all within 1.3 points. Which one goe
 
 ## Image alt text
 
-Five games with the smallest TDNet projected margins, team logos, model agreement, and the published Vegas line beneath the market favorite.
+Five games with the smallest TDNet projected margins, team logos and AP rank badges where applicable, model agreement, and the published Vegas line beneath the market favorite.
 
 ## Sources
 

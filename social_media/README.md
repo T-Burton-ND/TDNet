@@ -12,4 +12,6 @@ The ratings comparison and rank-disagreement graphics are included when their pu
 
 Matchup cards show each game's Vegas spread captured at publication in parentheses beneath the market favorite. That line can differ from the TDNet predicted winner or margin. A missing published line stops generation rather than leaving a game unlabeled.
 
+Blue `AP #` badges next to team logos show the AP Top 25 rank in the published pregame snapshot. Teams outside that Top 25 have no badge.
+
 On Monday, review the pack, choose five or six posts, and schedule game previews before their kickoffs. Rankings and ratings can stay relevant longer; do not schedule a prediction after the game. The captions deliberately omit URLs, so you can paste them directly into X and add a link only when useful.
