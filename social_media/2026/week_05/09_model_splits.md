@@ -4,7 +4,7 @@ The TDNet models disagree most on these five Week 5 games. The closest vote is j
 
 ## Image alt text
 
-Five games with the lowest model agreement, team logos and AP rank badges where applicable, TDNet projected margins, and the published Vegas line beneath the market favorite.
+Five games with the lowest model agreement, team logos and slate AP rank text where applicable, TDNet projected margins, and the published Vegas line beneath the market favorite.
 
 ## Sources
 

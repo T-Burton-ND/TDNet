@@ -107,7 +107,7 @@ def render_games(path: Path, games: pd.DataFrame, title: str, subtitle: str) -> 
         raise ValueError("A matchup card needs one to five games")
     canvas, draw, step = base_card(
         title, subtitle,
-        "AP badge = published Top 25 rank | Vegas line under market favorite | TDNet is an estimate.",
+        "Slate AP rank = published Top 25 | Vegas line under market favorite | TDNet is an estimate.",
         len(games),
     )
 
@@ -129,11 +129,9 @@ def render_games(path: Path, games: pd.DataFrame, title: str, subtitle: str) -> 
         logo(canvas, row.home_team, 1378, y + 35, 108)
         away_rank, home_rank = ap_rank(row, "away"), ap_rank(row, "home")
         if away_rank is not None:
-            draw.rounded_rectangle((197, y + 46, 294, y + 90), radius=18, fill=BLUE)
-            draw.text((245, y + 68), f"AP #{away_rank}", font=font(22, True), fill="white", anchor="mm")
+            draw.text((245, y + 68), f"AP #{away_rank}", font=font(25, True), fill=MUTED, anchor="mm")
         if home_rank is not None:
-            draw.rounded_rectangle((1282, y + 46, 1379, y + 90), radius=18, fill=BLUE)
-            draw.text((1330, y + 68), f"AP #{home_rank}", font=font(22, True), fill="white", anchor="mm")
+            draw.text((1330, y + 68), f"AP #{home_rank}", font=font(25, True), fill=MUTED, anchor="mm")
         away_text_x = 312 if away_rank is not None else 230
         home_text_x = 1262 if home_rank is not None else 1342
         draw.text((away_text_x, y + 67), row.away_team, font=fit_text(draw, row.away_team, 400, 42, bold=True), fill=NAVY, anchor="lm")
@@ -247,11 +245,11 @@ def build(season: int, week: int, output: Path) -> list[Path]:
         render_games(output / f"{stem}.png", group, f"RANKED-GAME WATCH {part + 1}/{ranked_groups}", f"{season} WEEK {week}  |  TDNET PREDICTIONS")
         close = group.sort_values("predicted_margin").iloc[0]
         matchup = f"{close.away_team} at {close.home_team}"
-        add(stem, f"{len(group)} Week {week} games involving AP-ranked teams. The tightest projection here: {matchup}, {close.pred_winner} by {float(close.predicted_margin):.1f}. #CFB #CollegeFootball #CFBPredictions", "Ranked-team games with team logos and AP rank badges, TDNet projected winner and margin, model agreement, and the published Vegas line beneath the market favorite.", [games_path])
+        add(stem, f"{len(group)} Week {week} games involving AP-ranked teams. The tightest projection here: {matchup}, {close.pred_winner} by {float(close.predicted_margin):.1f}. #CFB #CollegeFootball #CFBPredictions", "Ranked-team games with team logos and slate AP rank text, TDNet projected winner and margin, model agreement, and the published Vegas line beneath the market favorite.", [games_path])
 
     close5 = closest.head(5)
     render_games(output / "07_closest_games.png", close5, "FIVE GAMES ON THE EDGE", f"{season} WEEK {week}  |  SMALLEST PROJECTED MARGINS")
-    add("07_closest_games", f"Week {week}'s five closest TDNet projections are all within {float(close5['predicted_margin'].max()):.1f} points. Which one goes down to the wire? #CFB #CollegeFootball #CFBPredictions", "Five games with the smallest TDNet projected margins, team logos and AP rank badges where applicable, model agreement, and the published Vegas line beneath the market favorite.", [closest_path])
+    add("07_closest_games", f"Week {week}'s five closest TDNet projections are all within {float(close5['predicted_margin'].max()):.1f} points. Which one goes down to the wire? #CFB #CollegeFootball #CFBPredictions", "Five games with the smallest TDNet projected margins, team logos and slate AP rank text where applicable, model agreement, and the published Vegas line beneath the market favorite.", [closest_path])
 
     gaps = render_poll_gaps(output / "08_tdnet_vs_ap.png", poll, season, week)
     leader = gaps.iloc[0]
@@ -259,14 +257,14 @@ def build(season: int, week: int, output: Path) -> list[Path]:
 
     split5 = all_games.sort_values(["model_agreement", "game_id"]).head(5)
     render_games(output / "09_model_splits.png", split5, "WHERE MODELS SPLIT", f"{season} WEEK {week}  |  LOWEST PICK AGREEMENT")
-    add("09_model_splits", f"The TDNet models disagree most on these five Week {week} games. The closest vote is just {float(split5['model_agreement'].min()):.0%} for one side. #CFB #CollegeFootball #CFBPredictions", "Five games with the lowest model agreement, team logos and AP rank badges where applicable, TDNet projected margins, and the published Vegas line beneath the market favorite.", [all_games_path])
+    add("09_model_splits", f"The TDNet models disagree most on these five Week {week} games. The closest vote is just {float(split5['model_agreement'].min()):.0%} for one side. #CFB #CollegeFootball #CFBPredictions", "Five games with the lowest model agreement, team logos and slate AP rank text where applicable, TDNet projected margins, and the published Vegas line beneath the market favorite.", [all_games_path])
 
     index = [f"# {season} Week {week} social media pack", "", f"{len(created)} graphics with captions in matching `.md` files. Pick five or six to schedule on Monday. All figures use the published Week {week} snapshot; game predictions can become stale after kickoff.", "", "| Graphic | Topic |", "| --- | --- |"]
     topics = {"01_ratings_comparison": "Eight-system ratings table", "02_rating_rank_disagreement": "Rating-system rank disagreement", "03_tdnet_top10": "TDNet Top 10", "04_ranked_games_1": "Ranked games, part 1", "05_ranked_games_2": "Ranked games, part 2", "06_ranked_games_3": "Ranked games, part 3", "07_closest_games": "Closest projected games", "08_tdnet_vs_ap": "TDNet vs. AP poll gaps", "09_model_splits": "Games with the lowest model agreement"}
     for image in created:
         topic = topics[image.stem]
         index.append(f"| [{image.name}]({image.name}) | {topic}; [caption]({image.stem}.md) |")
-    index.extend(["", "Blue AP badges beside team logos show the published AP Top 25 rank; unranked teams have no badge. The parenthetical Vegas line is the spread captured at publication, shown beneath the market favorite; it can differ from the TDNet pick. Review the image and caption before scheduling. Post game previews before the relevant kickoff; avoid sharing outdated predictions after results are known. Captions omit links to keep them short. Team logos come from the repository's logo set.", ""])
+    index.extend(["", "Slate AP rank text beside team logos shows the published AP Top 25 rank; unranked teams have no rank label. The parenthetical Vegas line is the spread captured at publication, shown beneath the market favorite; it can differ from the TDNet pick. Review the image and caption before scheduling. Post game previews before the relevant kickoff; avoid sharing outdated predictions after results are known. Captions omit links to keep them short. Team logos come from the repository's logo set.", ""])
     (output / "README.md").write_text("\n".join(index), encoding="utf-8")
     return created
 
