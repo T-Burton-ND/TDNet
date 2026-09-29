@@ -4,7 +4,7 @@
 
 ![TDNet Week 5 Top 25 composite ratings](../figures/week_05_ratings_comparison.png)
 
-The [Top 25 ratings comparison](../tables/ratings_comparison_top25.csv) includes TDNet, SP+, FPI, FEI, Sagarin, SRS, Elo, and Massey. Each system is standardized across the same 138 FBS teams to a mean of zero and standard deviation of ten. The composite equally averages the six remaining values after dropping each team's highest and lowest. These values compare relative team strength; they are not predicted point margins. [Source details and file hashes](../metadata/ratings_comparison_manifest.json) accompany the graphic.
+The [Top 25 ratings comparison](../tables/ratings_comparison_top25.csv) includes TDNet, SP+, FPI, FEI, Sagarin, SRS, Elo, and Massey. Each system is standardized across the same 138 FBS teams to a mean of zero and standard deviation of ten. The composite equally averages the six remaining values after dropping each team's highest and lowest. The number in parentheses beside each score is that column's rank among all 138 FBS teams; ties share a rank. These values compare relative team strength; they are not predicted point margins. [Source details and file hashes](../metadata/ratings_comparison_manifest.json) accompany the graphic.
 
 This report covers **56 games** using consensus predictions from **33 models**.
 

@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-09-29T14:57:07.317569+00:00",
+  "created_at_utc": "2026-09-29T15:11:25.029377+00:00",
   "season": 2026,
   "completed_week": 4,
   "publication_week": 5,
@@ -15,6 +15,7 @@
     "massey"
   ],
   "composite": "per-system FBS z-score scaled by 10; per-team highest and lowest dropped; mean of remaining six",
+  "rank_display": "Each parenthetical rank is among all 138 FBS teams for that column, descending; ties use competition ranking (minimum rank). AVG is ranked by the trimmed composite.",
   "massey": "Week 4 power rating through September 27, 2026",
   "source_urls": {
     "TDNet": "scientific/scientific_consensus_power_rankings.csv",
