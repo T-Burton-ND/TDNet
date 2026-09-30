@@ -345,3 +345,10 @@ Chronological record of wiki activity.
 - Recorded 10,637 successful approved game caches and 67 unresolved games; the acquisition pass and audit finished with 5,571 cumulative attempts.
 - Verified the audit and per-game report hashes, preserving measured missing rushing events, disputed yardage/team attribution and duplicate actor/stat rows.
 - Distinguished completed dispatch from complete source coverage and retained recovery work without imputing absent events.
+
+## [2026-09-30] update | Best-effort archive gap recovery
+- by: Thomas J. Burton via codex
+- Recovered both interrupted game queries, adding 335 attribution rows; all 54 first-time direct queries after empty conference unions also returned empty.
+- Recorded 10,639 successful approved games, 65 provider-empty gaps, and no retry failures; retained known-empty queries without repetition.
+- Verified the full audit against the prior totals plus recovered games and saved the exact gap CSV, including 16 games with ordinary plays and 49 with earlier empty play probes.
+- Recorded 58 recovery attempts including quota checks and 5,629 cumulative reservations against the original 20,000 cap.

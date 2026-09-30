@@ -9,6 +9,20 @@ tags: [acquisition, archive, budget, attribution]
 
 The user approved completing useful historical data on 2026-09-28, reusing valid caches and retaining the original 20,000-attempt budget; model experiments remain paused.
 
+## Reviewed recovery — 2026-09-30 UTC
+
+The user requested best-effort completion after reviewing the first pass. This recovery supersedes its unresolved-failure count: both failed game queries succeeded on one manually reviewed attempt each. The original throttled request now has four cumulative attempts and the interrupted request three; their history was retained, and this was a specifically reviewed recovery rather than resetting the automated retry counter. The recovered games are 2013 TCU–LSU (158 attribution rows) and Arizona State–Sacramento State (177 rows).
+
+The other 54 selected requests were first-time direct game queries following empty conference unions. All returned empty HTTP 200 responses. The 11 earlier empty direct responses were retained without another call. Thus **10,639 of 10,704 approved games have successful attribution caches**, with **65 provider-empty games and no remaining retry failures**. This is best-effort completion against the queried source, not proof that missing observations never existed. A dry run after recovery selected zero requests.
+
+Existing raw play partitions were inspected offline with 44 source hashes verified. Of the 65 remaining attribution gaps, 16 have ordinary play rows and 49 do not. Each of those 49 already has a documented empty targeted ordinary-play query from the first acquisition pass. These calls were not repeated. [The remaining-gap CSV](evidence/Archive-Unresolved-Games-2026-09-30.csv) identifies every game, both teams, the direct query, its timestamp, ordinary-play coverage and the earlier probe where applicable. Revisit these cases if the provider supplies new coverage or a separately verified source becomes available; do not impute nonparticipation from emptiness.
+
+The recovered 335 rows refer to 258 of the 359 canonical plays across the two games. Their focused audit found zero unmatched rows, missing athlete IDs, duplicate actor/stat rows or rushing team/period disagreements; six canonical rushes lack attribution and 11 rushing-yardage values disagree. Raw values and missingness remain unchanged. Recovery implementation is repository commit `97a4b25`, `scripts/nextgen_archive_recover.py`; the group artifact directory `recovery_pass_1/` retains the reviewed prior records, original audit, request outcomes and gap dispositions.
+
+The full post-recovery audit passed and reconciled exactly to the earlier audit plus the two recovered games. Including the retained two sparse 2012 probes, it covers 10,641 successful game caches and 2,161,110 attribution rows. It records zero unmatched attributed rows or missing athlete IDs, 33,260 missing canonical rush attributions, 13,341 rushing-yardage disagreements, 14 rushing-team disagreements and 40 duplicate actor/stat rows. Source limitations remain explicit.
+
+The recovery used **58 outbound attempts including both quota checks**, bringing the unchanged cumulative ledger to **5,629 / 20,000**. The final provider readback showed 24,539 calls remaining. [Recovery audit and receipt](evidence/Archive-Recovery-Audit-2026-09-30.json) preserve the final metrics, scope, hashes and unresolved identities. No further acquisitions, canonical mutations or model experiments were launched after this recovery.
+
 ## Completed pass and audit — 2026-09-29
 
 The acquisition pass finished at 21:01 UTC and its audit/quota readback finished at 21:10 UTC (5:10 p.m. America/New_York). This supersedes the historical interim operational statements below. The background executor has exited. The pass is complete **with unresolved games**, not a claim of a complete source archive.
