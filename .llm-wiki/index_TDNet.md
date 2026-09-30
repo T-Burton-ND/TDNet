@@ -47,6 +47,8 @@ Catalog of all wiki pages, organized by category.
 - [Fingerprint F11](Fingerprint-F11) — Full A terminal; B/C screening and current-assignment gaps remain
 - [Fingerprint F12](Fingerprint-F12) — Full A terminal; B/C screening and line/defensive-unit coverage gaps remain
 - [Historical Archive Completion](Nextgen-Historical-Archive-Completion) — best-effort recovery, 10,639 game caches, 65 provider-empty gaps and source-quality audits
+- [Full Archive Review](Nextgen-Full-Archive-Review-2026-09-30) — exhaustive cache integrity, field coverage, taxonomy repair and limits
+- [F13–F17 Roadmap](Nextgen-F13-F17-Roadmap) — five untested research generations grounded in the completed archive
 - [F13 Proposal](Fingerprint-F13-Proposal) — untested context-adjusted play profiles, existing archive inventory and acquisition rationale
 - [Temporal Data Semantics](Temporal-Data-Semantics) — row meanings, targets, cutoffs, and market boundary
 - [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) — scope, matrix, inference, and freeze rules

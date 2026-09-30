@@ -204,3 +204,8 @@ See [F13 proposal](Fingerprint-F13-Proposal) for a context-adjusted play-profile
 ## Authorized archive acquisition — 2026-09-28
 
 The user subsequently approved filling useful historical data within the existing budget. See [historical archive completion](Nextgen-Historical-Archive-Completion) for verified cache reuse, sampled coverage limits and progress. This authorizes raw acquisition only; model experiments remain paused and F13 remains untested.
+
+
+## Archive review and proposed next generations — 2026-09-30 UTC
+
+See the [full archive review](Nextgen-Full-Archive-Review-2026-09-30) for verified file/field coverage and the newly identified historical play-label omission, and the [F13–F17 roadmap](Nextgen-F13-F17-Roadmap) for untested, source-grounded plans. Source repairs are recorded separately from original model results; no new experiments or API calls were started.

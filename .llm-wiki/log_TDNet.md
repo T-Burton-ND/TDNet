@@ -352,3 +352,11 @@ Chronological record of wiki activity.
 - Recorded 10,639 successful approved games, 65 provider-empty gaps, and no retry failures; retained known-empty queries without repetition.
 - Verified the full audit against the prior totals plus recovered games and saved the exact gap CSV, including 16 games with ordinary plays and 49 with earlier empty play probes.
 - Recorded 58 recovery attempts including quota checks and 5,629 cumulative reservations against the original 20,000 cap.
+
+## [2026-09-30] update | Full archive review and F13–F17 roadmap
+
+- by: Thomas J. Burton via codex
+- Verified all 14,102 ledger-linked cache files and reconciled all raw Parquet paths, with no hash or row-count discrepancies; profiled all 2,351,115 ordinary plays and their drive joins.
+- Identified historical pass-label omissions and ambiguous sequence positions; recorded the authorized local repair, validation and requirement to preserve original model results until a separate corrected-reference comparison.
+- Filed five untested directions: context residuals, possession sequences, observed player roles, adjusted-state change and opponent-style response, with temporal, support and common-cohort gates.
+- Published Markdown documentation only; raw archive, private review outputs and source changes stay out of this public wiki push. No API calls or model experiments were started.

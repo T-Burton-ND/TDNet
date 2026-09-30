@@ -7,7 +7,7 @@ tags: [fingerprints, next-generation, design]
 
 # Fingerprint F09
 
-F09 is the planned market-free information generation for game microstructure; its structured-play builder is implemented, with canonical artifacts verified; evaluation remains incomplete.
+F09 is the market-free game-microstructure generation with completed full A/B/C screening; reductions remain separate work and a later archive audit identified source-classification limitations in the saved artifacts.
 
 ## Measured lessons — 2026-09-28
 
@@ -61,3 +61,8 @@ F09 C now has ten successful M2 and seven successful M4 results; three M4 cells 
 ## Proposed research beyond the current experiment
 
 See [F13 proposal](Fingerprint-F13-Proposal) for a context-adjusted play-profile hypothesis and the measured existing play archive. This is untested and does not authorize acquisition, training or a lineage change.
+
+
+## Source-classification repair — 2026-09-30 UTC
+
+The [full archive review](Nextgen-Full-Archive-Review-2026-09-30) found 118,823 archived `Pass Completion` and 5,816 `Pass Interception` rows omitted by the classifier whose hash is recorded in saved F09 metadata. This limits interpretation of historical pass-related states. The local source repair adds those structured labels and handles uncertain chronology conservatively, with focused regression validation. Existing canonical/model artifacts were preserved, so the recorded results still describe the original implementation. A later versioned rebuild and correction-only comparison are required before claiming a measured improvement. The [F13–F17 roadmap](Nextgen-F13-F17-Roadmap) makes that comparison a prerequisite to attributing gains to new information.

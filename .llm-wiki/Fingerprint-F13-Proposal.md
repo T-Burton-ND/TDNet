@@ -7,7 +7,7 @@ tags: [fingerprints, proposal, untested, play-by-play]
 
 # Fingerprint F13 Proposal
 
-Proposed future research: context-adjusted play performance and outcome distributions, motivated by measured F09 gains; no F13 experiment, acquisition, lineage change or implementation is authorized or completed.
+Proposed future research: context-adjusted play performance and outcome distributions, motivated by measured F09 gains; the approved historical acquisition is complete, while F13 feature implementation, experiments and lineage changes remain unexecuted. The user subsequently authorized source repairs during the archive review; those are documented separately from any F13 experiment.
 
 ## Evidence motivating the proposal
 
@@ -46,17 +46,17 @@ A read-only aggregation of `results/f09_play_coverage.json` under `/groups/bsavo
 
 The request ledger identifies FBS, regular-season, year/week partitions. This is a substantial existing archive, not proof of complete play-level coverage within every represented game. Some games versus FCS opponents may be included by the FBS filter. The 95 absent game IDs warrant coverage investigation, not an assumption they are recoverable by another request. These play-coverage counts differ in scope from the paired next-game training cohort.
 
-## When broader acquisition is justified
+## Acquisition is complete; validation is now the priority
 
-A complete, cached archive of **in-scope** plays is justified for fitting contextual baselines, rare-event estimates and reproducible alternative aggregations. The present archive already provides most of that starting point. Inventory and reuse it first; backfill only verified missing or insufficient partitions. Expanding to older seasons, other divisions or postseason needs a stated target and coverage/domain validation, and would change the current experiment scope. Keep 2026 quarantined from development.
+The approved 2013–2025 attribution pass and best-effort recovery are complete: 10,639 of 10,704 approved games have successful caches and 65 returned empty responses. See [archive completion](Nextgen-Historical-Archive-Completion) for exact scope, missingness and budget. The [full archive review](Nextgen-Full-Archive-Review-2026-09-30) verifies file integrity, structured field support, historical label omissions and actor semantics. The [F13–F17 roadmap](Nextgen-F13-F17-Roadmap) supersedes the earlier sample-first acquisition advice with a concrete sequence of research proposals.
 
-Player-play associations could support a separate participation study, but should be sampled for historical coverage and attribution completeness before bulk acquisition. Ordinary play-by-play cannot be assumed to provide complete eleven-player participation, blocking assignments or defensive alignments. CFBD's current `/plays` schema exposes structured game state and outcomes; `/plays/stats` returns player/stat associations with a documented 2,000-record limit, which requires explicit completeness handling. See [official Plays API](https://api.collegefootballdata.com/api/plays), consulted 2026-09-28. Current documentation is not proof of uniform historical field availability.
+No further pull is needed to start these candidate audits. More seasons, divisions or postseason would change scope and require a stated research need. Existing player associations support observed roles, not complete eleven-player participation or blocking assignments. Provider PPA/adjusted ratings remain temporally unverified; market inputs and provider pregame win probabilities remain excluded. Keep 2026 quarantined.
 
-Raw outcomes and context support internally fitted, time-safe baselines. A provider's present-day PPA/adjusted rating should not be assumed historically available or trained without later data. The proposal does not authorize importing pregame win probabilities or market inputs.
+Before F13, separate a versioned taxonomy/order repair from new information. The audit found historical pass labels excluded from the saved F09 classifier; the local repair and validation are recorded in the review. Existing model scores remain the outputs of their original source version. Any later corrected-reference comparison must precede a claim that F13 adds predictive value.
 
 ## Status
 
-Untested proposal only. No expected improvement size is asserted. No new model, data pull, scheduler action or F13 artifact was created. The scientific goal remains paused.
+Untested proposal only. No expected improvement size is asserted. No new model, data pull, scheduler action or F13 artifact was created by this proposal/review; earlier authorized acquisition is documented below. The scientific goal remains paused.
 
 See also: [Measured lessons](Nextgen-Empirical-Lessons-2026-09-28) · [F09](Fingerprint-F09) · [Experiment contract](Next-Generation-Fingerprint-Experiment).
 

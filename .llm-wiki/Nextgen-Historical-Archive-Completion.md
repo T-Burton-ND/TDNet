@@ -85,3 +85,8 @@ The offline audit in `scripts/nextgen_archive_audit.py` verifies each cached res
 Code/runbook: repository `scripts/nextgen_archive_complete.py`, `nextgen_archive_batch.py`, `nextgen_archive_audit.py`, and `docs/nextgen_fingerprints/archive_completion.md`; initial implementation commit `de6dc3b`, adaptive changes through `8531903`.
 
 See also: [Experiment](Next-Generation-Fingerprint-Experiment) · [F13 proposal](Fingerprint-F13-Proposal) · [Measured lessons](Nextgen-Empirical-Lessons-2026-09-28).
+
+
+## Archive review and proposed next generations — 2026-09-30 UTC
+
+See the [full archive review](Nextgen-Full-Archive-Review-2026-09-30) for verified file/field coverage and the newly identified historical play-label omission, and the [F13–F17 roadmap](Nextgen-F13-F17-Roadmap) for untested, source-grounded plans. Source repairs are recorded separately from original model results; no new experiments or API calls were started.
