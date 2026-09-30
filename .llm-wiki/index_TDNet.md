@@ -28,6 +28,7 @@ Catalog of all wiki pages, organized by category.
 - [Model Guide Source](Source-Model-Guide) — implementation families and caveats
 
 ## Research methods and data
+- [Completed Model Results — 2026-09-29](Nextgen-Completed-Model-Results-2026-09-29) — all terminal screening cells, verified prediction hashes and descriptive development metrics
 - [Fingerprint Ladder](Fingerprint-Ladder) — historical F00–F08 plus next-generation F06→F09→F12 map
 - [Next-Generation Fingerprint Experiment](Next-Generation-Fingerprint-Experiment) — complete inherited supplement inventory with remaining semantic caveats and parallel full/reduced screening with source dependencies, active F12 and live results table, fresh schedules, corrected game queries and completed request dispositions and measured component/source coverage, keyed temporal guards, Stage E value gate, frozen average-team references, and 20,000-attempt hard cap
 - [Fingerprint F00](Fingerprint-F00) — Preseason baseline historical generation
@@ -45,7 +46,7 @@ Catalog of all wiki pages, organized by category.
 - [Fingerprint F10](Fingerprint-F10) — Full A M2 terminal; remaining screening and roster/transfer source gaps remain
 - [Fingerprint F11](Fingerprint-F11) — Full A terminal; B/C screening and current-assignment gaps remain
 - [Fingerprint F12](Fingerprint-F12) — Full A terminal; B/C screening and line/defensive-unit coverage gaps remain
-- [Historical Archive Completion](Nextgen-Historical-Archive-Completion) — authorized cache-aware acquisition, sampled era exclusions, batching evidence and measured interim coverage limits
+- [Historical Archive Completion](Nextgen-Historical-Archive-Completion) — completed acquisition pass, 99.4% game-cache coverage, unresolved gaps and final source-quality audit
 - [F13 Proposal](Fingerprint-F13-Proposal) — untested context-adjusted play profiles, existing archive inventory and acquisition rationale
 - [Temporal Data Semantics](Temporal-Data-Semantics) — row meanings, targets, cutoffs, and market boundary
 - [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) — scope, matrix, inference, and freeze rules

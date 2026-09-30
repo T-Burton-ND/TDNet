@@ -1,0 +1,780 @@
+{
+  "at_utc": "2026-09-29T21:09:59.952662+00:00",
+  "counts_by_year_status": [
+    {
+      "games": 1,
+      "season": 2012,
+      "status": "needs_review"
+    },
+    {
+      "games": 802,
+      "season": 2012,
+      "status": "not_acquired"
+    },
+    {
+      "games": 2,
+      "season": 2012,
+      "status": "success_complete"
+    },
+    {
+      "games": 2,
+      "season": 2013,
+      "status": "failed_retryable"
+    },
+    {
+      "games": 811,
+      "season": 2013,
+      "status": "success_complete"
+    },
+    {
+      "games": 17,
+      "season": 2014,
+      "status": "needs_review"
+    },
+    {
+      "games": 812,
+      "season": 2014,
+      "status": "success_complete"
+    },
+    {
+      "games": 7,
+      "season": 2015,
+      "status": "needs_review"
+    },
+    {
+      "games": 822,
+      "season": 2015,
+      "status": "success_complete"
+    },
+    {
+      "games": 16,
+      "season": 2016,
+      "status": "needs_review"
+    },
+    {
+      "games": 816,
+      "season": 2016,
+      "status": "success_complete"
+    },
+    {
+      "games": 5,
+      "season": 2017,
+      "status": "needs_review"
+    },
+    {
+      "games": 829,
+      "season": 2017,
+      "status": "success_complete"
+    },
+    {
+      "games": 3,
+      "season": 2018,
+      "status": "needs_review"
+    },
+    {
+      "games": 842,
+      "season": 2018,
+      "status": "success_complete"
+    },
+    {
+      "games": 1,
+      "season": 2019,
+      "status": "needs_review"
+    },
+    {
+      "games": 847,
+      "season": 2019,
+      "status": "success_complete"
+    },
+    {
+      "games": 542,
+      "season": 2020,
+      "status": "success_complete"
+    },
+    {
+      "games": 4,
+      "season": 2021,
+      "status": "needs_review"
+    },
+    {
+      "games": 845,
+      "season": 2021,
+      "status": "success_complete"
+    },
+    {
+      "games": 2,
+      "season": 2022,
+      "status": "needs_review"
+    },
+    {
+      "games": 852,
+      "season": 2022,
+      "status": "success_complete"
+    },
+    {
+      "games": 6,
+      "season": 2023,
+      "status": "needs_review"
+    },
+    {
+      "games": 862,
+      "season": 2023,
+      "status": "success_complete"
+    },
+    {
+      "games": 4,
+      "season": 2024,
+      "status": "needs_review"
+    },
+    {
+      "games": 869,
+      "season": 2024,
+      "status": "success_complete"
+    },
+    {
+      "games": 888,
+      "season": 2025,
+      "status": "success_complete"
+    }
+  ],
+  "games_missing_canonical_play_coverage": 0,
+  "games_with_missing_rushes": 7615,
+  "games_with_unmatched_rows": 0,
+  "games_with_yardage_disagreements": 5665,
+  "per_game_report": {
+    "path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/results/preflight/archive_completion_20260928/attribution_coverage.parquet",
+    "sha256": "4f097ca6bf1c7cdc13b5ae1fdc9ca771e7d1f373d9180afe437331d91c3d1e92"
+  },
+  "scope": "All successfully cached planned 2012-2025 event-attribution responses; 2012 bulk excluded after samples.",
+  "semantic_limits": [
+    "Response completeness is not event completeness.",
+    "Missing event does not mean nonparticipation.",
+    "Retain source yardage disagreement; use original structured play outcome for future joins.",
+    "No data imputation, canonical mutation or model experiment performed."
+  ],
+  "totals": {
+    "canonical_plays": 1925317,
+    "duplicate_actor_stat_rows": 40,
+    "expected_rush_plays": 745087,
+    "extra_rush_plays": 9327,
+    "matched_rush_plays": 711833,
+    "missing_athlete_ids": 0,
+    "missing_rush_plays": 33254,
+    "rows": 2160775,
+    "rush_period_mismatches": 0,
+    "rush_team_mismatches": 14,
+    "rush_yardage_mismatches": 13330,
+    "unique_attributed_plays": 1435920,
+    "unmatched_attributed_rows": 0
+  },
+  "completion_receipt": {
+    "approved_game_count": 10704,
+    "approved_game_statuses": {
+      "failed_retryable": 2,
+      "needs_review": 65,
+      "success_complete": 10637
+    },
+    "audit_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/results/preflight/archive_completion_20260928/attribution_audit.json",
+    "audit_sha256": "a9c0a1b4e6a5ae5c264ed37d3fba3cb1207f85da152c94855944a58bbff09a50",
+    "audit_totals": {
+      "canonical_plays": 1925317,
+      "duplicate_actor_stat_rows": 40,
+      "expected_rush_plays": 745087,
+      "extra_rush_plays": 9327,
+      "matched_rush_plays": 711833,
+      "missing_athlete_ids": 0,
+      "missing_rush_plays": 33254,
+      "rows": 2160775,
+      "rush_period_mismatches": 0,
+      "rush_team_mismatches": 14,
+      "rush_yardage_mismatches": 13330,
+      "unique_attributed_plays": 1435920,
+      "unmatched_attributed_rows": 0
+    },
+    "budget_at_finish": {
+      "experiment": "nextgen_fingerprints_v1",
+      "last_endpoint": "/info",
+      "last_reserved_utc": "2026-09-29T21:10:00.346623+00:00",
+      "limit": 20000,
+      "reserved": 5571
+    },
+    "budget_before_final_quota": {
+      "experiment": "nextgen_fingerprints_v1",
+      "last_endpoint": "/plays/stats",
+      "last_reserved_utc": "2026-09-29T21:01:39.334724+00:00",
+      "limit": 20000,
+      "reserved": 5570
+    },
+    "checked_at_utc": "2026-09-29T21:01:49.659184+00:00",
+    "completeness_note": "Query completeness is not complete event or participation coverage.",
+    "dispatch_finished": true,
+    "executor_phase": "complete",
+    "executor_started_utc": "2026-09-29T00:29:58.165028+00:00",
+    "finished_at_utc": "2026-09-29T21:10:00.618218+00:00",
+    "no_model_experiments": true,
+    "quota_at_finish": {
+      "features": {
+        "adjustedMetrics": true,
+        "graphQl": false,
+        "livePlayByPlay": true,
+        "scoreboard": true,
+        "weather": true
+      },
+      "monthlyLimit": 30000,
+      "patronLevel": 2,
+      "products": [
+        "cfb",
+        "cbb"
+      ],
+      "remainingCalls": 24594,
+      "resetAt": "2026-10-01T00:00:00.000Z",
+      "sharedPool": true,
+      "tierName": "Tier 2",
+      "usedCalls": 5406
+    },
+    "status": "audited_with_unresolved_games",
+    "successful_cache_origins": {
+      "derived_complete_conference_partitions": 8873,
+      "direct_cached_response": 1764
+    },
+    "unresolved_games": [
+      {
+        "attempts": 3,
+        "error": "HTTP 429: 429 Client Error: Too Many Requests for url: https://api.collegefootballdata.com/plays/stats?gameId=332432628",
+        "game_id": 332432628,
+        "request_id": "d92b7701f8b6e04007c0e9049ad5a7d43b9cc533b606032c2137df7fadb78a7b",
+        "season": 2013,
+        "status": "failed_retryable"
+      },
+      {
+        "attempts": 2,
+        "error": "RuntimeError: Archive paused or provider/local reserve reached",
+        "game_id": 332480009,
+        "request_id": "50ab88ea364a76a0e41f43b5e2584f522a8b675ce6faba9030c350e6b1d98004",
+        "season": 2013,
+        "status": "failed_retryable"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400547715,
+        "request_id": "6e92eea89c0ca12b3ab095c49586ba0ecc9dbc13c7115f21e9e55201d96779b1",
+        "season": 2014,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 1,
+        "error": "Empty 200 response requires coverage review",
+        "game_id": 400547808,
+        "request_id": "a090ade02fbcf196dbb0818c692d374c3b7f399fc9b6c683b2621b8ea8c2e2d4",
+        "season": 2014,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400547809,
+        "request_id": "bb4667c35853730a6dbf1afefb29c3942920cd6f6daba1d99bd0892370951394",
+        "season": 2014,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400547919,
+        "request_id": "dc96708543b06449c44d5c9148c6e48adccf908b06df89969cc51fc2252f6954",
+        "season": 2014,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 1,
+        "error": "Empty 200 response requires coverage review",
+        "game_id": 400548012,
+        "request_id": "ab8b0f52e97cd396a9d284b4d6e6956f2eee846e2b17b63722e7a50e210e1cea",
+        "season": 2014,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400548062,
+        "request_id": "a81ab8d31a8a814e01a40ba03c5609c7a4ee7135b08d9a443f694004cd40a19e",
+        "season": 2014,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400548068,
+        "request_id": "e6e233d16d4f1ed70c47f635a9a543b78c1bc8a4a5f9ec99f293b3ced0946cee",
+        "season": 2014,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400548080,
+        "request_id": "8c57b02293d0fc0d53d5ef99a97ad83217b2b919d763316e13f3872e6dfe9840",
+        "season": 2014,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400548081,
+        "request_id": "7450d00101998cba1b69e0f6199d5a82cf8f3bf3ce82033fac4c600b24ddd5e9",
+        "season": 2014,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 1,
+        "error": "Empty 200 response requires coverage review",
+        "game_id": 400548095,
+        "request_id": "292784f6d6648e6943becb839b4d98b4fd60328d88a6478e24f620eef16da05f",
+        "season": 2014,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400548125,
+        "request_id": "0a466fae8a12314606e25979a77827671653f48ec7935de2bfd1927b7d97d53f",
+        "season": 2014,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400548173,
+        "request_id": "bc3e8ee1e5b9d3bc668980cad0d406bf9db79571ecea6bdb77b38e25c0cd07f3",
+        "season": 2014,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400548223,
+        "request_id": "9bdf4d641520f08fce379df624ea849fe2a128048fa0bd458ce575cc23e42511",
+        "season": 2014,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400548227,
+        "request_id": "107a25d621ee958fbbfc35f9056d18c13664cc4761903f38d52e3d245a5ea078",
+        "season": 2014,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400548269,
+        "request_id": "1f37e12f1dd334037cbfc64f537e0b67510623c7aaf974cfd14698ce17633cc8",
+        "season": 2014,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400548409,
+        "request_id": "cc0a4ec0bb330addd692a6450a0a61fb17c510307747411fef200195ae3b0e35",
+        "season": 2014,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400548416,
+        "request_id": "d5b8692cc41cd25c1d956afdf27e35945d04ea17b4781aff50f5e305a770b9db",
+        "season": 2014,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400763646,
+        "request_id": "cb1780f7693f961abf5e1297fde3388a7684317c04ce71613d36d25a2312bf2a",
+        "season": 2015,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400763654,
+        "request_id": "770fd9c919dfeb9a147c4f49a9fb17fbc9538d78b2a06d7b07c7e1e2b7196e01",
+        "season": 2015,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400787107,
+        "request_id": "d4c9c9c3da1d3add73b728d112b07d9c964dbd00dd2c09f29930c530cc701db4",
+        "season": 2015,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400787345,
+        "request_id": "35e75aee71629bec930dbcf222d9e2c3b5122723b555fa5e89107050b33c36a9",
+        "season": 2015,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400787357,
+        "request_id": "e43a7befe94dc936a0fab45489c7285933322e3842d796709f2dc1c271a0001e",
+        "season": 2015,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400787363,
+        "request_id": "f6b49584c34c72b93389c298d519cc3a15c52c120f643840359fd634e2457afb",
+        "season": 2015,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400787481,
+        "request_id": "48b8e2d3ded767c95bed5d48750f0d69cd09d94f6753fa863ac49c63a7e06674",
+        "season": 2015,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400868914,
+        "request_id": "86e548ef495d7e29d1369cac2d88adfa7ce012f8c89eb182a99131d6ce222f1b",
+        "season": 2016,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400868922,
+        "request_id": "b074fa7a334dd51f0e3c543f34657532d14c47b2578827e09afe44d469065d95",
+        "season": 2016,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400869156,
+        "request_id": "31f34e1c205f5631eb95283d2adbc67e53400c24b84a8f83ef35064691f60f12",
+        "season": 2016,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 1,
+        "error": "Empty 200 response requires coverage review",
+        "game_id": 400869182,
+        "request_id": "d104d9f8cb92d3f3484f06d57945515c001e110ea29eba0da251732a50a239e7",
+        "season": 2016,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400869229,
+        "request_id": "3d25bac2de6a3c403253b2f166831badb82ab7c8c12ed0d58cdcbbc2d272fa78",
+        "season": 2016,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400869241,
+        "request_id": "b9ef3dfd213ae64b21b1e9826942286c76a2bfbd0fb5f50330800a5a80822531",
+        "season": 2016,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 1,
+        "error": "Empty 200 response requires coverage review",
+        "game_id": 400869274,
+        "request_id": "c005bca905666cb12144a5a9c9917ac957e8b790bb86da556146de216203c3b0",
+        "season": 2016,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400869306,
+        "request_id": "c418bcde6d28693d07ee63a5a02fd9f9d5979667787f5adac6e351b3aa1a253a",
+        "season": 2016,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 1,
+        "error": "Empty 200 response requires coverage review",
+        "game_id": 400869353,
+        "request_id": "ea889a56c35c1d0bc9ab0078415c9c7f56617999356333a7f3006a9ccf605b29",
+        "season": 2016,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400869370,
+        "request_id": "6d99a7099e11b999fe79f7b32c60ca054d0fc059705a5019a9e347e23d8bb0cd",
+        "season": 2016,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400869383,
+        "request_id": "d14aec48db93d7a125eac342fa148bde19ac8ef2e47f4f5930f3210b16f0f74a",
+        "season": 2016,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400869390,
+        "request_id": "0d7645ca6b74059db896cd3e7cd61a9b6c8ed8f48eb2dab23a6344593586b05c",
+        "season": 2016,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400869569,
+        "request_id": "22cbb034cd46d48781b5653563ad5a4b3132f0532905b397c62d03b27619b11c",
+        "season": 2016,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400869819,
+        "request_id": "417390ed762d6cff8e20adf2df117dd897aeaa83da63d11e2f8022c7aa282755",
+        "season": 2016,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400869828,
+        "request_id": "cf29b911f65d93568d45bb458e559820e7cf23f6d241d0db66c7bb06f1f5642a",
+        "season": 2016,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400869842,
+        "request_id": "cddbaafca789f8ce1cde43e2ee7be1ca1c834bacf9b655a4eb9b4bab59da5491",
+        "season": 2016,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400935239,
+        "request_id": "e20f687f8a6bbdf0961509dac8d2c9978fb301ebd29ac457f1cf9d3a012cac58",
+        "season": 2017,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400941794,
+        "request_id": "b96270501ad5477fe946b80b4dedebbf6e5f2fcd01be7fa9bbbacc2bdc200a69",
+        "season": 2017,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 1,
+        "error": "Empty 200 response requires coverage review",
+        "game_id": 400944828,
+        "request_id": "ef271ecdaae84a858ef460bd68399f63f882cf11642a68a32a8b572f2e02bab3",
+        "season": 2017,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400944860,
+        "request_id": "e2755ca1572b8024ba187aecc92b1a9c1e2b6259ec7cbeb8ca092f02ea766163",
+        "season": 2017,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 400944873,
+        "request_id": "f433813318a06c970cf2bb1b951a783c5315ca68327f22fe8d0d97530aff043e",
+        "season": 2017,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 401015050,
+        "request_id": "96566365635a8ffa603d1a5fd60fa6ef2038f5dee9d4dc27dbd02cd38b550f8d",
+        "season": 2018,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 401019521,
+        "request_id": "9490c0784e64484ecb5dadff82f3cc02961ed1075418a4321676697aca51f504",
+        "season": 2018,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 1,
+        "error": "Empty 200 response requires coverage review",
+        "game_id": 401021675,
+        "request_id": "b2de369109563e9860893e241a509427e30296e93ad86e54345e89030ba173f0",
+        "season": 2018,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 401121942,
+        "request_id": "efadf50e14c1e088e5e03be8a8903863c3fc3c4e911794bab391ca5d3a534d63",
+        "season": 2019,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 1,
+        "error": "Empty 200 response requires coverage review",
+        "game_id": 401282051,
+        "request_id": "83ed19945f2d4ea92981c5f6dd91b679e53920974c99da3b0d1099c3202b17a4",
+        "season": 2021,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 401282257,
+        "request_id": "d72b14e6f527ed8bc5a81c7235e8222821273ca634b93b13f72735640251b0eb",
+        "season": 2021,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 401282259,
+        "request_id": "89d0eb3310d4581511d2be7eb57d0089078508d0be854db3ff68c6dcd2b3871e",
+        "season": 2021,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 401282262,
+        "request_id": "ff9a5adbb30ae99b281fe8a02c9f68110f36e8e60c18690a50016c9837fc7f63",
+        "season": 2021,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 401426373,
+        "request_id": "611bf2a17842797b12e54dff2d19f71f2f65194740e8afbc99884e0df673204d",
+        "season": 2022,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 401426604,
+        "request_id": "9af3a13ca41c6f40e154dfb104e4fca10b8404bae9da331e720cec30b23eab02",
+        "season": 2022,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 401525877,
+        "request_id": "c4cbd22a6cc81065cec90e09574645b2d94af6d9a8eddc767f530611a429fa69",
+        "season": 2023,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 401531893,
+        "request_id": "eff63fcf72ba7bf8a4ab65e0b1536a9820847bbc392c17465914ab2085a2a3d2",
+        "season": 2023,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 401532412,
+        "request_id": "1c5e30be372777d9a78e2a48fc888bbf641463b8e41b52b96f5a8e45e9ca1cdd",
+        "season": 2023,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 401532598,
+        "request_id": "de856f83a01e07d1afa6bbc4e5cc476c8bc15aa2565fb05eb641d5d583b50a38",
+        "season": 2023,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 401532602,
+        "request_id": "bcf2685fab00417912ed218143c3c7fd6a959cdf8906da76df51a2a1a2967814",
+        "season": 2023,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 401532612,
+        "request_id": "574b23b8623fc5f6b4cdc99a5b306374500599d6bd9162d864d68227d383158b",
+        "season": 2023,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 1,
+        "error": "Empty 200 response requires coverage review",
+        "game_id": 401634133,
+        "request_id": "dd32b36a5d2db2629328e1e01b6e066c631aebb4cf04ac51ad22e0058ce2be93",
+        "season": 2024,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 401635532,
+        "request_id": "03fb6b5dd85275c8529a5bc005bc5f13dde693378513a5a6592b8e74ad6706b0",
+        "season": 2024,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 1,
+        "error": "Empty 200 response requires coverage review",
+        "game_id": 401644737,
+        "request_id": "31109403a0795ac3cacf3550f0eb702836d4bcbf51a93d78e2317f01973fa8d9",
+        "season": 2024,
+        "status": "needs_review"
+      },
+      {
+        "attempts": 0,
+        "error": "No attributed events in complete conference partitions",
+        "game_id": 401645340,
+        "request_id": "f01bd85883903e09b8ea9b75c1e5fc56c65cc3b349493772d70bc867302d87c8",
+        "season": 2024,
+        "status": "needs_review"
+      }
+    ],
+    "verified_source_partition_count": 1789
+  }
+}

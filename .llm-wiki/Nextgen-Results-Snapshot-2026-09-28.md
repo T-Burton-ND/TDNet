@@ -8,6 +8,8 @@ tags: [nextgen, experiments, results, paused]
 
 Verified results available at 2026-09-28T12:52:56.970123+00:00 for the [next-generation experiment](Next-Generation-Fingerprint-Experiment), recorded when the user requested no new experiments and a wiki summary.
 
+Later completion: [the 2026-09-29 results table](Nextgen-Completed-Model-Results-2026-09-29) records all terminal cells and verified prediction hashes. This page preserves the earlier frozen cutoff.
+
 ## Measured lessons — 2026-09-28
 
 Subsequent read-only analysis of this frozen snapshot verified evaluation IDs and paired configurations. F06/F09/F10 A share their evaluation games; F11 A/F12 A also share theirs. On intersecting F10/F11 A games, F11 M2 is worse in both years. The earlier general coverage warning does not rule out these measured comparisons. See [empirical lessons and paired evidence](Nextgen-Empirical-Lessons-2026-09-28) for exact values, scope and limits. No new experiments were run.

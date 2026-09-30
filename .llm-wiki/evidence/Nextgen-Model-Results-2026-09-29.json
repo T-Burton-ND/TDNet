@@ -1,0 +1,2544 @@
+{
+  "aggregation": "Median across successful frozen configurations, separately for each metric; not one selected fitted model.",
+  "rows": [
+    {
+      "fingerprint": "F06_F_a",
+      "model": "M2",
+      "successes": 8,
+      "failures": 2,
+      "features": 225,
+      "mae_2024": 13.47304635684291,
+      "rmse_2024": 17.17610916314529,
+      "brier_2024": 0.19907388887150024,
+      "winner_accuracy_2024": 0.6916890080428955,
+      "ats_accuracy_2024": 0.49383561643835616,
+      "upset_accuracy_2024": 0.22325581395348837,
+      "mae_2025": 13.080402036547666,
+      "rmse_2025": 16.50734557178607,
+      "brier_2025": 0.18753450868024252,
+      "winner_accuracy_2025": 0.7173051519154557,
+      "ats_accuracy_2025": 0.5087719298245614,
+      "upset_accuracy_2025": 0.26666666666666666,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F06_F_a",
+      "model": "M4",
+      "successes": 10,
+      "failures": 0,
+      "features": 225,
+      "mae_2024": 13.3017587938217,
+      "rmse_2024": 16.856629845032547,
+      "brier_2024": 0.19722664787364166,
+      "winner_accuracy_2024": 0.697721179624665,
+      "ats_accuracy_2024": 0.5013698630136987,
+      "upset_accuracy_2024": 0.22093023255813954,
+      "mae_2025": 12.861403853443138,
+      "rmse_2025": 16.345938654187812,
+      "brier_2025": 0.18503961247734257,
+      "winner_accuracy_2025": 0.714663143989432,
+      "ats_accuracy_2025": 0.5134952766531713,
+      "upset_accuracy_2025": 0.2205128205128205,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F06_F_b",
+      "model": "M2",
+      "successes": 8,
+      "failures": 2,
+      "features": 235,
+      "mae_2024": 13.481028801717063,
+      "rmse_2024": 17.20070570194557,
+      "brier_2024": 0.19888962435840263,
+      "winner_accuracy_2024": 0.6943699731903485,
+      "ats_accuracy_2024": 0.4917808219178082,
+      "upset_accuracy_2024": 0.2255813953488372,
+      "mae_2025": 13.127555193727918,
+      "rmse_2025": 16.621840894807185,
+      "brier_2025": 0.18854632468720184,
+      "winner_accuracy_2025": 0.714663143989432,
+      "ats_accuracy_2025": 0.5087719298245614,
+      "upset_accuracy_2025": 0.26666666666666666,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F06_F_b",
+      "model": "M4",
+      "successes": 10,
+      "failures": 0,
+      "features": 235,
+      "mae_2024": 13.316359780192824,
+      "rmse_2024": 16.85575438311332,
+      "brier_2024": 0.19778955563867642,
+      "winner_accuracy_2024": 0.6957104557640751,
+      "ats_accuracy_2024": 0.5027397260273972,
+      "upset_accuracy_2024": 0.21395348837209302,
+      "mae_2025": 12.883628810764122,
+      "rmse_2025": 16.383258579314663,
+      "brier_2025": 0.18536427477176376,
+      "winner_accuracy_2025": 0.7126816380449141,
+      "ats_accuracy_2025": 0.5168690958164642,
+      "upset_accuracy_2025": 0.21794871794871795,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F06_F_c",
+      "model": "M2",
+      "successes": 10,
+      "failures": 0,
+      "features": 153,
+      "mae_2024": 13.386496170753837,
+      "rmse_2024": 17.097036487157304,
+      "brier_2024": 0.19736556133789898,
+      "winner_accuracy_2024": 0.6943699731903485,
+      "ats_accuracy_2024": 0.4945205479452055,
+      "upset_accuracy_2024": 0.22325581395348837,
+      "mae_2025": 13.020017422730252,
+      "rmse_2025": 16.467371794569367,
+      "brier_2025": 0.18657607478015092,
+      "winner_accuracy_2025": 0.7192866578599736,
+      "ats_accuracy_2025": 0.50944669365722,
+      "upset_accuracy_2025": 0.27179487179487183,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F06_F_c",
+      "model": "M4",
+      "successes": 10,
+      "failures": 0,
+      "features": 153,
+      "mae_2024": 13.388646095875632,
+      "rmse_2024": 16.905474572625415,
+      "brier_2024": 0.19904215099923508,
+      "winner_accuracy_2024": 0.6936997319034852,
+      "ats_accuracy_2024": 0.4965753424657534,
+      "upset_accuracy_2024": 0.20465116279069767,
+      "mae_2025": 12.843854093631105,
+      "rmse_2025": 16.391148881114063,
+      "brier_2025": 0.18487084773749482,
+      "winner_accuracy_2025": 0.7186261558784677,
+      "ats_accuracy_2025": 0.5155195681511471,
+      "upset_accuracy_2025": 0.22820512820512823,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F06_R_a",
+      "model": "M2",
+      "successes": 10,
+      "failures": 0,
+      "features": 162,
+      "mae_2024": 13.434763912545739,
+      "rmse_2024": 17.116032994006105,
+      "brier_2024": 0.19856971105447518,
+      "winner_accuracy_2024": 0.6936997319034852,
+      "ats_accuracy_2024": 0.4931506849315068,
+      "upset_accuracy_2024": 0.23488372093023258,
+      "mae_2025": 12.985210243960912,
+      "rmse_2025": 16.465127567615795,
+      "brier_2025": 0.18715102143563878,
+      "winner_accuracy_2025": 0.7166446499339498,
+      "ats_accuracy_2025": 0.5080971659919029,
+      "upset_accuracy_2025": 0.25897435897435894,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F06_R_a",
+      "model": "M4",
+      "successes": 10,
+      "failures": 0,
+      "features": 162,
+      "mae_2024": 13.310209565808451,
+      "rmse_2024": 16.863108055208755,
+      "brier_2024": 0.19681738895006515,
+      "winner_accuracy_2024": 0.6997319034852547,
+      "ats_accuracy_2024": 0.5006849315068493,
+      "upset_accuracy_2024": 0.2255813953488372,
+      "mae_2025": 12.800447601968903,
+      "rmse_2025": 16.302223085681604,
+      "brier_2025": 0.18464433182156056,
+      "winner_accuracy_2025": 0.714663143989432,
+      "ats_accuracy_2025": 0.5215924426450742,
+      "upset_accuracy_2025": 0.2153846153846154,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F06_R_b",
+      "model": "M2",
+      "successes": 10,
+      "failures": 0,
+      "features": 170,
+      "mae_2024": 13.427414535311154,
+      "rmse_2024": 17.123447591163448,
+      "brier_2024": 0.1983301685306914,
+      "winner_accuracy_2024": 0.6896782841823057,
+      "ats_accuracy_2024": 0.4931506849315068,
+      "upset_accuracy_2024": 0.23255813953488372,
+      "mae_2025": 13.011444263863929,
+      "rmse_2025": 16.51926284288215,
+      "brier_2025": 0.1874943478549292,
+      "winner_accuracy_2025": 0.7225891677675033,
+      "ats_accuracy_2025": 0.5080971659919028,
+      "upset_accuracy_2025": 0.27692307692307694,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F06_R_b",
+      "model": "M4",
+      "successes": 10,
+      "failures": 0,
+      "features": 170,
+      "mae_2024": 13.272905671643969,
+      "rmse_2024": 16.810478439260535,
+      "brier_2024": 0.19717122566185416,
+      "winner_accuracy_2024": 0.6983914209115282,
+      "ats_accuracy_2024": 0.5034246575342466,
+      "upset_accuracy_2024": 0.21395348837209302,
+      "mae_2025": 12.805861058075962,
+      "rmse_2025": 16.32911111148375,
+      "brier_2025": 0.18446506624848916,
+      "winner_accuracy_2025": 0.7166446499339498,
+      "ats_accuracy_2025": 0.5195681511470985,
+      "upset_accuracy_2025": 0.21025641025641026,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F06_R_c",
+      "model": "M2",
+      "successes": 10,
+      "failures": 0,
+      "features": 60,
+      "mae_2024": 13.34354850736689,
+      "rmse_2024": 17.056880080662612,
+      "brier_2024": 0.19806263183227657,
+      "winner_accuracy_2024": 0.6943699731903485,
+      "ats_accuracy_2024": 0.4863013698630137,
+      "upset_accuracy_2024": 0.2186046511627907,
+      "mae_2025": 12.937766518369124,
+      "rmse_2025": 16.372433905804616,
+      "brier_2025": 0.186106637720188,
+      "winner_accuracy_2025": 0.7225891677675033,
+      "ats_accuracy_2025": 0.5242914979757085,
+      "upset_accuracy_2025": 0.24102564102564103,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F06_R_c",
+      "model": "M4",
+      "successes": 10,
+      "failures": 0,
+      "features": 60,
+      "mae_2024": 13.413353120653362,
+      "rmse_2024": 17.001624618609412,
+      "brier_2024": 0.19958266611105127,
+      "winner_accuracy_2024": 0.6896782841823057,
+      "ats_accuracy_2024": 0.4904109589041096,
+      "upset_accuracy_2024": 0.20465116279069767,
+      "mae_2025": 12.823702912018419,
+      "rmse_2025": 16.33158887843772,
+      "brier_2025": 0.18463900091082458,
+      "winner_accuracy_2025": 0.7186261558784677,
+      "ats_accuracy_2025": 0.5114709851551957,
+      "upset_accuracy_2025": 0.2205128205128205,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F09_F_a",
+      "model": "M2",
+      "successes": 10,
+      "failures": 0,
+      "features": 263,
+      "mae_2024": 13.44811825012288,
+      "rmse_2024": 17.026787721364098,
+      "brier_2024": 0.19805153486615218,
+      "winner_accuracy_2024": 0.67828418230563,
+      "ats_accuracy_2024": 0.4849315068493151,
+      "upset_accuracy_2024": 0.2186046511627907,
+      "mae_2025": 13.037091832711848,
+      "rmse_2025": 16.503339890222687,
+      "brier_2025": 0.18896202204004064,
+      "winner_accuracy_2025": 0.7153236459709379,
+      "ats_accuracy_2025": 0.50944669365722,
+      "upset_accuracy_2025": 0.2512820512820513,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F09_F_a",
+      "model": "M4",
+      "successes": 10,
+      "failures": 0,
+      "features": 263,
+      "mae_2024": 13.133993104204508,
+      "rmse_2024": 16.633669454951594,
+      "brier_2024": 0.1940891426319069,
+      "winner_accuracy_2024": 0.697721179624665,
+      "ats_accuracy_2024": 0.4986301369863014,
+      "upset_accuracy_2024": 0.22325581395348837,
+      "mae_2025": 12.747901637611783,
+      "rmse_2025": 16.175479719259403,
+      "brier_2025": 0.1838261511948192,
+      "winner_accuracy_2025": 0.7113606340819023,
+      "ats_accuracy_2025": 0.5215924426450742,
+      "upset_accuracy_2025": 0.2153846153846154,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F09_F_b",
+      "model": "M2",
+      "successes": 10,
+      "failures": 0,
+      "features": 281,
+      "mae_2024": 13.478394395399555,
+      "rmse_2024": 17.0805535033514,
+      "brier_2024": 0.19769222740162068,
+      "winner_accuracy_2024": 0.6802949061662198,
+      "ats_accuracy_2024": 0.49178082191780825,
+      "upset_accuracy_2024": 0.22790697674418606,
+      "mae_2025": 13.184257213274812,
+      "rmse_2025": 16.677172959483734,
+      "brier_2025": 0.1915628006226196,
+      "winner_accuracy_2025": 0.7186261558784677,
+      "ats_accuracy_2025": 0.5020242914979757,
+      "upset_accuracy_2025": 0.2717948717948718,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F09_F_b",
+      "model": "M4",
+      "successes": 10,
+      "failures": 0,
+      "features": 281,
+      "mae_2024": 13.122054169853477,
+      "rmse_2024": 16.619963157769124,
+      "brier_2024": 0.1935076141589007,
+      "winner_accuracy_2024": 0.693029490616622,
+      "ats_accuracy_2024": 0.5034246575342466,
+      "upset_accuracy_2024": 0.21395348837209302,
+      "mae_2025": 12.763479069655952,
+      "rmse_2025": 16.18030644058883,
+      "brier_2025": 0.18482830985353638,
+      "winner_accuracy_2025": 0.714663143989432,
+      "ats_accuracy_2025": 0.5236167341430499,
+      "upset_accuracy_2025": 0.2205128205128205,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F09_F_c",
+      "model": "M2",
+      "successes": 10,
+      "failures": 0,
+      "features": 183,
+      "mae_2024": 13.379143012553099,
+      "rmse_2024": 16.94379356522838,
+      "brier_2024": 0.19641390379907975,
+      "winner_accuracy_2024": 0.6843163538873995,
+      "ats_accuracy_2024": 0.48904109589041095,
+      "upset_accuracy_2024": 0.2186046511627907,
+      "mae_2025": 12.920866642311353,
+      "rmse_2025": 16.410657006988107,
+      "brier_2025": 0.18718474370434846,
+      "winner_accuracy_2025": 0.7166446499339498,
+      "ats_accuracy_2025": 0.5060728744939271,
+      "upset_accuracy_2025": 0.2512820512820513,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F09_F_c",
+      "model": "M4",
+      "successes": 10,
+      "failures": 0,
+      "features": 183,
+      "mae_2024": 13.214108025159266,
+      "rmse_2024": 16.708442064254655,
+      "brier_2024": 0.19558863417981123,
+      "winner_accuracy_2024": 0.6863270777479893,
+      "ats_accuracy_2024": 0.48972602739726023,
+      "upset_accuracy_2024": 0.20930232558139536,
+      "mae_2025": 12.728328980649389,
+      "rmse_2025": 16.194766244345256,
+      "brier_2025": 0.18459677527009488,
+      "winner_accuracy_2025": 0.7159841479524438,
+      "ats_accuracy_2025": 0.5209176788124157,
+      "upset_accuracy_2025": 0.2205128205128205,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F10_F_a",
+      "model": "M2",
+      "successes": 10,
+      "failures": 0,
+      "features": 319,
+      "mae_2024": 13.393119437181566,
+      "rmse_2024": 16.934777372504584,
+      "brier_2024": 0.19549638727665597,
+      "winner_accuracy_2024": 0.6816353887399464,
+      "ats_accuracy_2024": 0.4979452054794521,
+      "upset_accuracy_2024": 0.23488372093023258,
+      "mae_2025": 12.896855628856546,
+      "rmse_2025": 16.415873489956315,
+      "brier_2025": 0.18689671063905164,
+      "winner_accuracy_2025": 0.7239101717305152,
+      "ats_accuracy_2025": 0.5182186234817814,
+      "upset_accuracy_2025": 0.2897435897435897,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F10_F_a",
+      "model": "M4",
+      "successes": 10,
+      "failures": 0,
+      "features": 319,
+      "mae_2024": 13.062622656884676,
+      "rmse_2024": 16.515870663244378,
+      "brier_2024": 0.19270169196076858,
+      "winner_accuracy_2024": 0.7024128686327078,
+      "ats_accuracy_2024": 0.49726027397260275,
+      "upset_accuracy_2024": 0.23255813953488372,
+      "mae_2025": 12.572285750789677,
+      "rmse_2025": 16.021208629166914,
+      "brier_2025": 0.18136317342575412,
+      "winner_accuracy_2025": 0.7225891677675033,
+      "ats_accuracy_2025": 0.5296896086369771,
+      "upset_accuracy_2025": 0.2435897435897436,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F10_F_b",
+      "model": "M2",
+      "successes": 10,
+      "failures": 0,
+      "features": 341,
+      "mae_2024": 13.46427869956058,
+      "rmse_2024": 17.005497365407535,
+      "brier_2024": 0.19550819967507355,
+      "winner_accuracy_2024": 0.6823056300268097,
+      "ats_accuracy_2024": 0.4917808219178082,
+      "upset_accuracy_2024": 0.2255813953488372,
+      "mae_2025": 13.03746670029128,
+      "rmse_2025": 16.593594043542666,
+      "brier_2025": 0.1897563111571165,
+      "winner_accuracy_2025": 0.7232496697490092,
+      "ats_accuracy_2025": 0.5202429149797572,
+      "upset_accuracy_2025": 0.2948717948717948,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F10_F_b",
+      "model": "M4",
+      "successes": 10,
+      "failures": 0,
+      "features": 341,
+      "mae_2024": 13.113278478361401,
+      "rmse_2024": 16.520147471497797,
+      "brier_2024": 0.19240980917265132,
+      "winner_accuracy_2024": 0.6983914209115282,
+      "ats_accuracy_2024": 0.48904109589041095,
+      "upset_accuracy_2024": 0.21395348837209302,
+      "mae_2025": 12.566535073590813,
+      "rmse_2025": 16.04421156913044,
+      "brier_2025": 0.18175864997284874,
+      "winner_accuracy_2025": 0.7239101717305152,
+      "ats_accuracy_2025": 0.5330634278002699,
+      "upset_accuracy_2025": 0.2435897435897436,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F10_F_c",
+      "model": "M2",
+      "successes": 10,
+      "failures": 0,
+      "features": 210,
+      "mae_2024": 13.416791876524453,
+      "rmse_2024": 16.974578279676948,
+      "brier_2024": 0.19409412973883677,
+      "winner_accuracy_2024": 0.6829758713136729,
+      "ats_accuracy_2024": 0.4849315068493151,
+      "upset_accuracy_2024": 0.22790697674418606,
+      "mae_2025": 12.762273368841747,
+      "rmse_2025": 16.33143992372102,
+      "brier_2025": 0.18505620846167253,
+      "winner_accuracy_2025": 0.714663143989432,
+      "ats_accuracy_2025": 0.5195681511470985,
+      "upset_accuracy_2025": 0.28205128205128205,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F10_F_c",
+      "model": "M4",
+      "successes": 10,
+      "failures": 0,
+      "features": 210,
+      "mae_2024": 13.190194670796226,
+      "rmse_2024": 16.72937790178762,
+      "brier_2024": 0.19456903535970826,
+      "winner_accuracy_2024": 0.6990616621983914,
+      "ats_accuracy_2024": 0.49931506849315066,
+      "upset_accuracy_2024": 0.22790697674418603,
+      "mae_2025": 12.592610078380973,
+      "rmse_2025": 16.04427415317494,
+      "brier_2025": 0.1809837270638196,
+      "winner_accuracy_2025": 0.7278731836195509,
+      "ats_accuracy_2025": 0.5330634278002699,
+      "upset_accuracy_2025": 0.2564102564102564,
+      "n_games_2024": 746,
+      "n_games_2025": 757
+    },
+    {
+      "fingerprint": "F11_F_a",
+      "model": "M2",
+      "successes": 10,
+      "failures": 0,
+      "features": 326,
+      "mae_2024": 13.706990014413861,
+      "rmse_2024": 17.25545267172526,
+      "brier_2024": 0.19901744610357525,
+      "winner_accuracy_2024": 0.6789137380191693,
+      "ats_accuracy_2024": 0.4812091503267974,
+      "upset_accuracy_2024": 0.25,
+      "mae_2025": 12.537048340483967,
+      "rmse_2025": 16.133478554722984,
+      "brier_2025": 0.19176109441190028,
+      "winner_accuracy_2025": 0.7097649186256781,
+      "ats_accuracy_2025": 0.533210332103321,
+      "upset_accuracy_2025": 0.2785234899328859,
+      "n_games_2024": 626,
+      "n_games_2025": 553
+    },
+    {
+      "fingerprint": "F11_F_a",
+      "model": "M4",
+      "successes": 10,
+      "failures": 0,
+      "features": 326,
+      "mae_2024": 13.14175469847654,
+      "rmse_2024": 16.620010340941477,
+      "brier_2024": 0.19317179453633287,
+      "winner_accuracy_2024": 0.694888178913738,
+      "ats_accuracy_2024": 0.4918300653594771,
+      "upset_accuracy_2024": 0.239010989010989,
+      "mae_2025": 12.206475215438145,
+      "rmse_2025": 15.700043711080685,
+      "brier_2025": 0.1841012996099775,
+      "winner_accuracy_2025": 0.7151898734177216,
+      "ats_accuracy_2025": 0.5461254612546126,
+      "upset_accuracy_2025": 0.23154362416107382,
+      "n_games_2024": 626,
+      "n_games_2025": 553
+    },
+    {
+      "fingerprint": "F11_F_b",
+      "model": "M2",
+      "successes": 10,
+      "failures": 0,
+      "features": 349,
+      "mae_2024": 13.83148033795374,
+      "rmse_2024": 17.367154787695327,
+      "brier_2024": 0.1998317367429761,
+      "winner_accuracy_2024": 0.6781150159744409,
+      "ats_accuracy_2024": 0.4812091503267974,
+      "upset_accuracy_2024": 0.24175824175824176,
+      "mae_2025": 12.670112028026718,
+      "rmse_2025": 16.352753529309666,
+      "brier_2025": 0.19438925404751095,
+      "winner_accuracy_2025": 0.7061482820976492,
+      "ats_accuracy_2025": 0.525830258302583,
+      "upset_accuracy_2025": 0.2785234899328859,
+      "n_games_2024": 626,
+      "n_games_2025": 553
+    },
+    {
+      "fingerprint": "F11_F_b",
+      "model": "M4",
+      "successes": 10,
+      "failures": 0,
+      "features": 349,
+      "mae_2024": 13.196166887411835,
+      "rmse_2024": 16.704803790068297,
+      "brier_2024": 0.19338455922670836,
+      "winner_accuracy_2024": 0.6980830670926518,
+      "ats_accuracy_2024": 0.49019607843137253,
+      "upset_accuracy_2024": 0.24725274725274726,
+      "mae_2025": 12.2013701801248,
+      "rmse_2025": 15.72394280959677,
+      "brier_2025": 0.1842579041755307,
+      "winner_accuracy_2025": 0.7142857142857143,
+      "ats_accuracy_2025": 0.5285977859778598,
+      "upset_accuracy_2025": 0.21476510067114093,
+      "n_games_2024": 626,
+      "n_games_2025": 553
+    },
+    {
+      "fingerprint": "F11_F_c",
+      "model": "M2",
+      "successes": 10,
+      "failures": 0,
+      "features": 215,
+      "mae_2024": 13.711376767988519,
+      "rmse_2024": 17.319371033039435,
+      "brier_2024": 0.197726532400247,
+      "winner_accuracy_2024": 0.6757188498402555,
+      "ats_accuracy_2024": 0.46486928104575165,
+      "upset_accuracy_2024": 0.23351648351648352,
+      "mae_2025": 12.370673974040987,
+      "rmse_2025": 15.955206690969948,
+      "brier_2025": 0.18800371566550855,
+      "winner_accuracy_2025": 0.7115732368896925,
+      "ats_accuracy_2025": 0.5313653136531364,
+      "upset_accuracy_2025": 0.2516778523489933,
+      "n_games_2024": 626,
+      "n_games_2025": 553
+    },
+    {
+      "fingerprint": "F11_F_c",
+      "model": "M4",
+      "successes": 10,
+      "failures": 0,
+      "features": 215,
+      "mae_2024": 13.209141356910871,
+      "rmse_2024": 16.81870714406085,
+      "brier_2024": 0.19405759556776225,
+      "winner_accuracy_2024": 0.6964856230031948,
+      "ats_accuracy_2024": 0.48447712418300654,
+      "upset_accuracy_2024": 0.24450549450549453,
+      "mae_2025": 12.27608215761548,
+      "rmse_2025": 15.81768049770416,
+      "brier_2025": 0.18516950107990912,
+      "winner_accuracy_2025": 0.7151898734177216,
+      "ats_accuracy_2025": 0.5285977859778598,
+      "upset_accuracy_2025": 0.21140939597315436,
+      "n_games_2024": 626,
+      "n_games_2025": 553
+    },
+    {
+      "fingerprint": "F12_F_a",
+      "model": "M2",
+      "successes": 10,
+      "failures": 0,
+      "features": 339,
+      "mae_2024": 13.823579144525388,
+      "rmse_2024": 17.40437364204805,
+      "brier_2024": 0.20115961979449723,
+      "winner_accuracy_2024": 0.6725239616613419,
+      "ats_accuracy_2024": 0.49019607843137253,
+      "upset_accuracy_2024": 0.2554945054945055,
+      "mae_2025": 12.729217637671049,
+      "rmse_2025": 16.319427828491087,
+      "brier_2025": 0.19431238303428766,
+      "winner_accuracy_2025": 0.6980108499095841,
+      "ats_accuracy_2025": 0.5313653136531366,
+      "upset_accuracy_2025": 0.26174496644295303,
+      "n_games_2024": 626,
+      "n_games_2025": 553
+    },
+    {
+      "fingerprint": "F12_F_a",
+      "model": "M4",
+      "successes": 10,
+      "failures": 0,
+      "features": 339,
+      "mae_2024": 13.186887587286755,
+      "rmse_2024": 16.708434886196017,
+      "brier_2024": 0.19383642355311248,
+      "winner_accuracy_2024": 0.6916932907348243,
+      "ats_accuracy_2024": 0.48856209150326796,
+      "upset_accuracy_2024": 0.25274725274725274,
+      "mae_2025": 12.393033142160293,
+      "rmse_2025": 15.873102931646658,
+      "brier_2025": 0.18665828467663967,
+      "winner_accuracy_2025": 0.7142857142857143,
+      "ats_accuracy_2025": 0.514760147601476,
+      "upset_accuracy_2025": 0.2080536912751678,
+      "n_games_2024": 626,
+      "n_games_2025": 553
+    },
+    {
+      "fingerprint": "F12_F_b",
+      "model": "M2",
+      "successes": 10,
+      "failures": 0,
+      "features": 365,
+      "mae_2024": 13.967944712089931,
+      "rmse_2024": 17.539875088641175,
+      "brier_2024": 0.20202393267308105,
+      "winner_accuracy_2024": 0.6765175718849841,
+      "ats_accuracy_2024": 0.4877450980392157,
+      "upset_accuracy_2024": 0.24725274725274726,
+      "mae_2025": 12.915773739664075,
+      "rmse_2025": 16.620820556854135,
+      "brier_2025": 0.1981463443176565,
+      "winner_accuracy_2025": 0.6907775768535263,
+      "ats_accuracy_2025": 0.5193726937269373,
+      "upset_accuracy_2025": 0.2651006711409396,
+      "n_games_2024": 626,
+      "n_games_2025": 553
+    },
+    {
+      "fingerprint": "F12_F_b",
+      "model": "M4",
+      "successes": 10,
+      "failures": 0,
+      "features": 365,
+      "mae_2024": 13.205214714586486,
+      "rmse_2024": 16.760235857974205,
+      "brier_2024": 0.1930596360962269,
+      "winner_accuracy_2024": 0.6988817891373802,
+      "ats_accuracy_2024": 0.4803921568627451,
+      "upset_accuracy_2024": 0.260989010989011,
+      "mae_2025": 12.283780104140192,
+      "rmse_2025": 15.790044432554637,
+      "brier_2025": 0.18503818284629406,
+      "winner_accuracy_2025": 0.7179023508137432,
+      "ats_accuracy_2025": 0.5285977859778598,
+      "upset_accuracy_2025": 0.2046979865771812,
+      "n_games_2024": 626,
+      "n_games_2025": 553
+    },
+    {
+      "fingerprint": "F12_F_c",
+      "model": "M2",
+      "successes": 10,
+      "failures": 0,
+      "features": 224,
+      "mae_2024": 13.745576359211181,
+      "rmse_2024": 17.329380670609915,
+      "brier_2024": 0.19821651038306964,
+      "winner_accuracy_2024": 0.6741214057507987,
+      "ats_accuracy_2024": 0.4599673202614379,
+      "upset_accuracy_2024": 0.24175824175824176,
+      "mae_2025": 12.595006474093129,
+      "rmse_2025": 16.15782004269205,
+      "brier_2025": 0.190829504180486,
+      "winner_accuracy_2025": 0.7061482820976492,
+      "ats_accuracy_2025": 0.5267527675276753,
+      "upset_accuracy_2025": 0.2550335570469799,
+      "n_games_2024": 626,
+      "n_games_2025": 553
+    },
+    {
+      "fingerprint": "F12_F_c",
+      "model": "M4",
+      "successes": 10,
+      "failures": 0,
+      "features": 224,
+      "mae_2024": 13.179017826106191,
+      "rmse_2024": 16.795480826332188,
+      "brier_2024": 0.19341322016476592,
+      "winner_accuracy_2024": 0.6972843450479234,
+      "ats_accuracy_2024": 0.4950980392156863,
+      "upset_accuracy_2024": 0.26373626373626374,
+      "mae_2025": 12.356687179249667,
+      "rmse_2025": 15.90033897064734,
+      "brier_2025": 0.18562501703906314,
+      "winner_accuracy_2025": 0.716998191681736,
+      "ats_accuracy_2025": 0.5166051660516605,
+      "upset_accuracy_2025": 0.20134228187919462,
+      "n_games_2024": 626,
+      "n_games_2025": 553
+    }
+  ],
+  "verified_prediction_files": 356,
+  "evidence": [
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_a__M2__m2_01/result.json",
+      "result_sha256": "8028188f7dca1eeb476aa3136a571238efd668d1f269ec7eadcd8a634c603731",
+      "predictions_sha256": "1a357bf6ee16334c04a6c1b5cdff5a40ed4bb918893cf17261daf010a59d05cf"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_a__M2__m2_02/result.json",
+      "result_sha256": "a820ec1ef19e9af0d6941cefbcc94fda7b3fa93e19f90c250fa59983331920fe",
+      "predictions_sha256": "899172462e8278cd6ab5ac038f6eb95049bc3dec980239da3bf692420cc775ec"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_a__M2__m2_03/result.json",
+      "result_sha256": "d54a6645842b10b61eccc1a5a21cd9cd7ce1b7a1199ecf3fd753cb1e572346e4",
+      "predictions_sha256": "ad54011804fcff6ea361642bfcbbb4ed725e9ee4d8b0e3c14cdd419d502f39f5"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_a__M2__m2_04/result.json",
+      "result_sha256": "4439fb5a9bc2ec563aa2894ef1cdb8c161f8b28320e1742ca74b1831d0110b96",
+      "predictions_sha256": "e4be5a9c45d584190e51e8a179cfb4befd640d6b982495705a3f15317cb786c0"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_a__M2__m2_05/result.json",
+      "result_sha256": "ea3d16c73dd4448cf7d837d7452c6ed63418c350010584954834650406d84afd",
+      "predictions_sha256": "64f016f3c238fbed11656184540103b83e2b0d997899e8f1486728a7aef436b4"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_a__M2__m2_06/result.json",
+      "result_sha256": "d2e672aaf1119ba90752ad6933d53baee16ff2c5773f656e904fcae7690a943a",
+      "predictions_sha256": "87a420e0294c7c26b089970ef9740849564d68909bcdc0d3036a618a779e198a"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_a__M2__m2_07/result.json",
+      "result_sha256": "cc265ce1ea42059c6ba82493fe4ad02d3553017b89ddd98e94a60e660da12ee3",
+      "predictions_sha256": "8b734e1bc25570418dff97dbd3c4ca0be5048387f778fb217d04c90eeb0e4b11"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_a__M2__m2_08/result.json",
+      "result_sha256": "e03280646066b180f61dbcab57f566b0a06150f450e1f75f2ced68296531df39",
+      "predictions_sha256": "ecb3edfff6fab3136279ee3d67b023ba93387fd9b66dbecd53ea5b4ab053ece0"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_a__M4__m4_01/result.json",
+      "result_sha256": "f4c801715ce13a907f308c594f326c15232d6a8a867660e32c923ce67255358c",
+      "predictions_sha256": "7232f703eb0f80606b67c84f9902ccc6979a87a6e96fa5f6446b5091fe63cd2f"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_a__M4__m4_02/result.json",
+      "result_sha256": "8ccd1273cebf3ae74618cb6a5c64fa8bf602293b0943f9bdffad0aa9ecfc1e6b",
+      "predictions_sha256": "e4d8fadeb559891a61ba97e7ac977c700f5a5c71fa36ea94bc396fdaa0806db4"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_a__M4__m4_03/result.json",
+      "result_sha256": "a04627c55abfe193ece52cf8f8d494066f1ebf440e69c32d3f98e1ece7f6fe03",
+      "predictions_sha256": "79123979b6c1e52130d915f1b0291eb466beed8d8a8545d7d12de5729ae0d611"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_a__M4__m4_04/result.json",
+      "result_sha256": "d90d1d5ca67f48d6008c583550a42a8e3dac89bedbde455fb733880824044e9e",
+      "predictions_sha256": "1c89d050daaa370cfca7ed98cb7795633d1ced1d53b586e4b9d30c21022f329c"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_a__M4__m4_05/result.json",
+      "result_sha256": "f4b51579c773f67190c1e05bb0011677ff9dcd8388dd4228254e82fe3c1b855e",
+      "predictions_sha256": "302a487407ae80bacf2ed4bcb61da9550e842ed7856fbbed78d418f2b0c9b484"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_a__M4__m4_06/result.json",
+      "result_sha256": "a29c4376abdb2a8e8be2c11396453305060e8514c2997776529d2b155e933a75",
+      "predictions_sha256": "93f981a986d2ceb163a9685ecd6e241a97d09cdb623c1a32a321e4de9794c1df"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_a__M4__m4_07/result.json",
+      "result_sha256": "25c7adc322e8681c332102072f0d61d5664fe4caa96df89c672697618f0f809d",
+      "predictions_sha256": "6298028c5074327d67719580ec1e309c5e04b3fad2bc3d9ed33535e27a4bc766"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_a__M4__m4_08/result.json",
+      "result_sha256": "2db8b4625405199b4c143fcdf6a4a2f5e51db59a884803ffa24d66742c776f76",
+      "predictions_sha256": "36efcd5ec07d1e06942415f50876e38e46f6c535635afd6f05addf1cf3297b73"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_a__M4__m4_09/result.json",
+      "result_sha256": "5792679024fbc36ce6e6f4354f3e882ee9473964715023c5ff06d9a64dcebbde",
+      "predictions_sha256": "d1fafdd33b7c453d51c2c4ea49ed391f7220ba30f422ca03c1ccb347385ed2b2"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_a__M4__m4_10/result.json",
+      "result_sha256": "c0a200952e0fee501ab4c4d3795b66533496ade3ddb8036391b3ae896432b5bf",
+      "predictions_sha256": "4c07ec20e428205d5d2a269acce93f5ddbdad14b9d6aeed63fd41a780fc182de"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_b__M2__m2_01/result.json",
+      "result_sha256": "a9cbae2590be1a1562337d2046ed299f3f0be48d1d15ed3cc8b336db3761a875",
+      "predictions_sha256": "5ce0684e324c39f2b67e6f24e45615645a456465d06e995ac330028adc17eed3"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_b__M2__m2_02/result.json",
+      "result_sha256": "f3cef3a5d30e23ccc003f123bb9e66b1daf9ea77d725065fd22aed28fb14622f",
+      "predictions_sha256": "341964334e38c3a6f4c15fdc69391daaf845912bb9c08bed0217bd1935941011"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_b__M2__m2_03/result.json",
+      "result_sha256": "a2bd9349acd2dd1953105435b048e05c0610b9cd331e23385c8042ef232c1537",
+      "predictions_sha256": "046f929bfe99244e46f1cc06345a3363545895ba174e298c875964e995c76d00"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_b__M2__m2_04/result.json",
+      "result_sha256": "8ad256ed1370b866b98ceada0aa0a3f3a1296d5decf264bbcce1ef5c1d1ebd7b",
+      "predictions_sha256": "6b811334ae5f7c0fa789c7bb572fe20a610a58a30c877bcfa22b331ecf865d7f"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_b__M2__m2_05/result.json",
+      "result_sha256": "f3786b6022fe035b6c1964a05befd39ca496dc3893d89cc30f223d0ff1509a06",
+      "predictions_sha256": "659096bf707d1cbf242e10c7b63f15b06886b4f4bf4eac72e33aa9674ef53381"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_b__M2__m2_06/result.json",
+      "result_sha256": "598a2ad1831f98808d13ef1f271004af5c0da07e220b89428e90c4dd6c86edc5",
+      "predictions_sha256": "f01b2155a4c63fed40ab9f94993e92882a810ad8d1fa858013aa44593ceda19e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_b__M2__m2_07/result.json",
+      "result_sha256": "0fe9ff08a61328e79aa5e8c428a25259cc0c3759a03f3282f84abae980966f7c",
+      "predictions_sha256": "59658057fda3545c904cfb850f3d2898315218bd4be25a90be89d3376fee9862"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_b__M2__m2_08/result.json",
+      "result_sha256": "845c45ece1e5467a6d50f3d0775121919742f8857c752183e8167d31ea5d70d9",
+      "predictions_sha256": "b568b47f0e2121c422b0b9d92fb8892cd29d72980ba81658e69a723f592a5916"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_b__M4__m4_01/result.json",
+      "result_sha256": "aac3f87f4070b99154e35b1a5944d2dd83c0c751bad06e21e76407de366ae4f8",
+      "predictions_sha256": "856c81158988681afaab3e5e711cb5c4ca06ca07434d16ea42977e5cd7347651"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_b__M4__m4_02/result.json",
+      "result_sha256": "fed503ff80e699a22c4d805a9f506a14e97a85bf86c3cfaa689d3390174eaa3f",
+      "predictions_sha256": "cd400e1845c2dfe7a9eedc2f85f112aa4ed9737299fb66f8bf250ab1d69a4243"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_b__M4__m4_03/result.json",
+      "result_sha256": "dec7b55d1d0506f6dde844157513a2ec8adc2622bf132bd037eb8fc137c1c89a",
+      "predictions_sha256": "895032f504273f99c987598c818211c6386f66de6c2ac30b7ca2ba2b9c0050e0"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_b__M4__m4_04/result.json",
+      "result_sha256": "ad8dca65180b8bec9fb53c26f6ff3b502f7bc71c9a09a252b9bcc8d2094fe7bb",
+      "predictions_sha256": "920479331f30a724b025ed421652f19c8d1589e99edc5929ca5d3e7f81a76edb"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_b__M4__m4_05/result.json",
+      "result_sha256": "9780bba983dac64cd6b4e2a2601f80746fa5dbd2c1ec51c1517f4b0790d46f62",
+      "predictions_sha256": "f558fe2d6ed3b69f61a94c0c355bbc81c77e7957c32019efc2ccb2f5bb3e1842"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_b__M4__m4_06/result.json",
+      "result_sha256": "77e38021353cbcac025456adde0df3b2ba32ee0774e614f2d75eb6c70ec3efc1",
+      "predictions_sha256": "0f6d8b2a5e102a664a2de2e5187a8c7e73043088f30666367666f6521a5b53f9"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_b__M4__m4_07/result.json",
+      "result_sha256": "9f07957071511c26bcf31b1594934cffab597bb4ba32cd6479a94fd598ddb58b",
+      "predictions_sha256": "c2b7a057f2f97bf3a8e5d7b5fadd0a2b639e0bfcb083399e5335dfe7ec73afbd"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_b__M4__m4_08/result.json",
+      "result_sha256": "2f46a3b3bd6ee3db9e0a2a3da57e7211ca31f4727067619e0ca055585953e66b",
+      "predictions_sha256": "c8cbd0545c59ce1b0e148cbbe410ff821ce974c3181a280b0c6150130d772678"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_b__M4__m4_09/result.json",
+      "result_sha256": "00d3170a7c2b011f92af0b06caafd248f30f8f6fb830cb88e0ed7e98644372c8",
+      "predictions_sha256": "77edb1ab4a8b34ec302d30234445d6e352d2517ebe155556af0f065864e64c36"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_b__M4__m4_10/result.json",
+      "result_sha256": "325d53d75c7f92f7c14c2280531e0ba765280b829f0f56121fa14e1846b517e1",
+      "predictions_sha256": "b4fdf16ab95bf5341236f4940bfb5bb3083db373aa9ad400a669d785c006f4b3"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M2__m2_01/result.json",
+      "result_sha256": "c88a04e310729b0496c05aa1577c3eb0cef3a41541ef42f1250090d4bb3b6c11",
+      "predictions_sha256": "bb653416696f617ce6442d47e80e410598f9f4c0253c6a333dace55836db24cc"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M2__m2_02/result.json",
+      "result_sha256": "595847674b0bfe30dce4b19ae715ca303b3f4b921a1f553f2b7e13e5f899be7d",
+      "predictions_sha256": "0477c13ff0b432ce01e52670ea2e9b57a5d7ec433efee962edac328d9603c3a3"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M2__m2_03/result.json",
+      "result_sha256": "eaff516c1d7b27b114c81837faaa364f9dcc3f32e8cffc6a3f8e6b4e6ded06a4",
+      "predictions_sha256": "70d07debc6ace708e2df0505c5e6cadfc248dfc5e4a63db6b3d373c9bc026de3"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M2__m2_04/result.json",
+      "result_sha256": "0d3f688d00cb364d8383cae9bd474b8977d62a8cee50baaa9798c8c5920ccc7c",
+      "predictions_sha256": "90ba3b4104757c2b8231378f0146270513551424302a4007033db2a4eb3ba204"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M2__m2_05/result.json",
+      "result_sha256": "80826ef498eb61b6e587dabb68519a62133beeafd385ffae437e733472ed1c7f",
+      "predictions_sha256": "681679fa75b9fb6dd2331c5a9af784ab4d415c5ae4b4a3f470a77e6f82ed16e0"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M2__m2_06/result.json",
+      "result_sha256": "9d18e6fd0970bedc9539ae8b39a3ad0157d70edb94cc811ad3121e32effcbe53",
+      "predictions_sha256": "72d65e68eab32032397e60c69e49dd367e010bf98f6491a25662b81f2ed3fa8a"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M2__m2_07/result.json",
+      "result_sha256": "eaab5eb0ef1f532c4f6522f02dfa337ab11e411ee446ddf22d0a95a1066e0b81",
+      "predictions_sha256": "6163cfbe3167ad3de770e78e0049076e978fde94b3b7239b59a725f94ab850b3"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M2__m2_08/result.json",
+      "result_sha256": "ae14f78f7d4788d1d00a263d8311ac9882af242c0b26e692e3d54dba1b3f0a3f",
+      "predictions_sha256": "717ed5e6f22a0b4420bf515efab3246d1954170e1e5409ee83fbabb6da64fe1e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M2__m2_09/result.json",
+      "result_sha256": "3d1c6aa88e29115253a22d67b11bf6a5a659ce4d452f4928fc1fd9699034abb5",
+      "predictions_sha256": "2fc99c7c58bc85b2a5af97ae6ee0a6e220e0c6b946037048fe2bc6f352490394"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M2__m2_10/result.json",
+      "result_sha256": "88014dffdc4f93098cdc0cffa470f380ca96f7f905dedb407de6ed9a10fe077d",
+      "predictions_sha256": "b7bb60c468bba473081d746ae506a4921aebb116d9fbaa91aa7116233bef5e3d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M4__m4_01/result.json",
+      "result_sha256": "4eb1c6969fbf90b77b38c8b9e73d3fb9e8df0e739000a534f0163b3266ffb63f",
+      "predictions_sha256": "304d3024347e2b9bbb500b4c69447b408e2739bdb4482ba5aa466f53caac6ffc"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M4__m4_02/result.json",
+      "result_sha256": "0a386e0ff5d84fafd18ea89990bcdcb070c7e3cdad9e3d3c9eb2c5a1edbe56c1",
+      "predictions_sha256": "b141a881952fa44bd40c154fee9e90d81aa832f054d11137e550f114ed2e5c91"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M4__m4_03/result.json",
+      "result_sha256": "23ddc43d9ed7404a8f30c23735e7d5dc19ae80fb82f90f56c971794bd5826e51",
+      "predictions_sha256": "c4e4b19d95113758f0f81e9143554fa4ec825e23bdadeaad468508bb057617e5"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M4__m4_04/result.json",
+      "result_sha256": "e14f0d29d0b4f1778709a8e19aec159e6e9efc94733ac162e20031765a7d4062",
+      "predictions_sha256": "35d898379f09d9af8cb5f9f9040bd1c07f96594f76b5eefd597ac3447faf1a03"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M4__m4_05/result.json",
+      "result_sha256": "7fffa9328329c432ce57b63acfed0604e1f2016ab6c7803be6b57de084134629",
+      "predictions_sha256": "712bbc8486d69c22b2918ccd852d32bee1f7ed39f0ccd4b4989edfda24f4245c"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M4__m4_06/result.json",
+      "result_sha256": "0abce17661e7726710e8a127fc639faa8e14f12cf42913d8684e65f66351624a",
+      "predictions_sha256": "36c6f203243a6ee5443ef26b4994469fda430b74316596a1e20361fc305dbe9e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M4__m4_07/result.json",
+      "result_sha256": "d4ebf6aafd04c1eee6d9547f63b2f091759cbc6ef294685cef7d401809f191b9",
+      "predictions_sha256": "42681a6acf0710cae9275cd1648f500783981a226234b495046872191778c5ef"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M4__m4_08/result.json",
+      "result_sha256": "0c3a2c6e7552229e73a2be8c4cd1573b58de251cca43d66ed5b23c8b25b14971",
+      "predictions_sha256": "9316669fd9cdea38447f58060604320c2a5e3b923a73be81a78f296c678b942e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M4__m4_09/result.json",
+      "result_sha256": "6e9b85c7a82f7a460d0cae126e1c2ca9a153be61a6d1972ad62a1d12895d6334",
+      "predictions_sha256": "4c316abf3f5a34f686cb60e865183b07385e6b241e2be7b77b7bf43a5000fe0b"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_F_c__M4__m4_10/result.json",
+      "result_sha256": "d1c50233ca8d98a6f9ddf2e50ec53a205da4644057e65519e0a074b718a01cfb",
+      "predictions_sha256": "46f6adfcbcfabaa5d939b4040a1fd04cb1167daceec58a6d9a0797a1ef827c0d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M2__m2_01/result.json",
+      "result_sha256": "3a6011b109b8aa71423b7a62f4f012734cfa2f06e3e335b348e0f0d78cb065a0",
+      "predictions_sha256": "cc473313319ad876649497a9b56b26d37fc75d18d8dc36e4edcfcfe81ea76dbf"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M2__m2_02/result.json",
+      "result_sha256": "451e4b8d71d4e222f7fe6b7fab06630b712b688dbcb52cbad0d06fe783fc89b3",
+      "predictions_sha256": "d4fbdffb49649aba7a12c813046b5f6b30e3875ce86a14eaac18522839b55359"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M2__m2_03/result.json",
+      "result_sha256": "7ac0d9734ec36ff6a28ac8da2225caf4087b4d455c0f89ff0c63d2c09a7bf0ff",
+      "predictions_sha256": "2980cfc0922f137ba8560ff9c5a847e57adcea1481e4799c22f418786e3597cb"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M2__m2_04/result.json",
+      "result_sha256": "e81df4b0480316f3d66022a4689f670097fa5f4632c09e0375b9e729986c13c7",
+      "predictions_sha256": "dfb7a1fc8668088bb7a121ec9ec9e2942431df5be2fe00530b9be65f717ea141"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M2__m2_05/result.json",
+      "result_sha256": "137b9f216a0d52f05a7820e52cac97f67bccaf719cb21dcbd1b80e314926404b",
+      "predictions_sha256": "a0d6589594d89c4a51b20cb58286b7a66aecfa1ba8e45bcfe2df0a2ea9721984"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M2__m2_06/result.json",
+      "result_sha256": "0956544f6e851b5d971435c7cd832547e9a47be4f428d7e8be1f7f3e70bcd6b9",
+      "predictions_sha256": "6912f932741f0ea5d200026597f92e45d9a469ee8eea5a42ad2c59e0ecba7126"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M2__m2_07/result.json",
+      "result_sha256": "e0ef747b832b8c1eae1caec1500b18719555f8a302bfa1b936a3bf0e74cf3bdc",
+      "predictions_sha256": "f362fcee8a37fa6fd5f2154309b4f9280cf98898f538730dc1d74da5eaba877f"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M2__m2_08/result.json",
+      "result_sha256": "c7567bb6814a4765b00cc86ec8bfe24ce2779fd233a8c298d20f1e104eb823dd",
+      "predictions_sha256": "389d6405202b9c0b98f3ed90edee3b5e8d6c5b53da0f39b4c7024a18591bce45"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M2__m2_09/result.json",
+      "result_sha256": "ebfa49225827a752f5077637842164b9b0c4b30417945daecf0dd1c19a02582f",
+      "predictions_sha256": "f54f0e348d27ddfbfb0ab385e48687ca317ce8cdda185e46ff67d62f0786207f"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M2__m2_10/result.json",
+      "result_sha256": "0c7edfc2151fc062cd8f237ba1ba36571c13e2cbcbf9bb9fdbc1423b633a9f96",
+      "predictions_sha256": "11f9bc745343759310d391cf5307f419dfa3a58238e0505225eef4756cd9c5de"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M4__m4_01/result.json",
+      "result_sha256": "72602c3dcacdf542d47770aa034351b1b1cf5484beedbd1b965ff46edb35bbcb",
+      "predictions_sha256": "adfceac9cb3a89577bd1684ece905032765dd9916128c62e844425bee4429867"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M4__m4_02/result.json",
+      "result_sha256": "4ac22140a60fc87600e82fd10a989df30bdfee6a1cd2b9d16088fcb93cd13a3c",
+      "predictions_sha256": "ff481c5a0db3ad73be755a1183af0796ec6aece606c211d261f87b70d9062cc5"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M4__m4_03/result.json",
+      "result_sha256": "78df9e5666e0db1eacd42052e716ea42b42641e63451b76aeb25f9619f0c132a",
+      "predictions_sha256": "7fd4f45061cbd96d73867016229e9343febf6089668ad73d358b3bf9052ec868"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M4__m4_04/result.json",
+      "result_sha256": "bbc4599a647916a49d7c61ce7c54a7ee2955837fdb309990e0cf17c4e5f90380",
+      "predictions_sha256": "0b1ac752be9259af90037c22f7b9497ff239733e15edf09740afa1f2ceb23a5a"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M4__m4_05/result.json",
+      "result_sha256": "1a39b2db31b61112e4fc0d30cb6c23f48d3a8b0abf817ab2982f360c36aeb1ff",
+      "predictions_sha256": "1f94daf30166f32e37a25f25c3844d439bcb5f40851cedec85b8dec61338846e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M4__m4_06/result.json",
+      "result_sha256": "2882320b6435d475d71345a47bc06ca6d9d2efae091dd73fcb187894705560c2",
+      "predictions_sha256": "3d21e79f07a3900776dcc77b49696d548120bc0abc86fea51c23fc01564c3769"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M4__m4_07/result.json",
+      "result_sha256": "f27540fbd99890b41e9109ce7bb448a19a06d4be78b65e5590251e8f7122819f",
+      "predictions_sha256": "7029cef34b10f88ed59cb1ba4128ad375953846b79906a40b5d1dad37ba4a7bf"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M4__m4_08/result.json",
+      "result_sha256": "70ee69e00ec8471310cee8c1a555fbf3a07c72053022f222068848772bdb73d9",
+      "predictions_sha256": "a41793fcf4adf60bb71c8d2cc70e545bf888c8d830af8e224df78063ae4f5f36"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M4__m4_09/result.json",
+      "result_sha256": "3ed0a77de01a7feb91ffb995617346621ba7bd5bd9110ba3286cf69219ea6809",
+      "predictions_sha256": "83d197e295825c5500c5585502d2eb92539659c7963a2c37f1b0b8f095416aed"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_a__M4__m4_10/result.json",
+      "result_sha256": "b9be36e61faa9b814f4794465ae21c38a82fd9d7ac17a8fb670a0ae84eea6174",
+      "predictions_sha256": "13d74039cb89a88d0aa2f28009146f6b80458c7517d76e86203c97991f8ff37a"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M2__m2_01/result.json",
+      "result_sha256": "095bce035b207ead769130365362a12830f95df1849e8a448ce9e105f6c000a7",
+      "predictions_sha256": "d3d263498c95ff3d30de8e1325f00163fb46c7dd5daad7c642c0edf3ede0c3d5"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M2__m2_02/result.json",
+      "result_sha256": "c5409c9c146895fe13b37fbf33195de093a7878dd7f8983d9a18b57f2a67aa42",
+      "predictions_sha256": "dd354b6ebcf526fc929b45b8231f0d2410e45bc0bbc7a766cf39640efdc33bd0"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M2__m2_03/result.json",
+      "result_sha256": "0cd5a42786193213975991d674943df0fa5bbf965985eecc2f3f991e8d1425d3",
+      "predictions_sha256": "ca803311f1ed04e3df623dd2bab22d89e987f4655a5d7315c99eaefefdc41706"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M2__m2_04/result.json",
+      "result_sha256": "d1de703de9ab187c95f3c8aec468ea9666a3d7ff0c36bea782dda965791987a6",
+      "predictions_sha256": "45b685e8bd91d90d4a73e6d04195ea36d5466e7bee3f223b2762b164a1bfa871"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M2__m2_05/result.json",
+      "result_sha256": "73ba960ce01c85af0f574a5b42ec3fdfb932d6891c3ec635216b14aa3c2c0a0a",
+      "predictions_sha256": "f5849fc7d2902b1a23cf827647d13631d16a99dbd286b6fff4aa89d6e6eab5e3"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M2__m2_06/result.json",
+      "result_sha256": "d9a68afe3056756ec75ed1be0ebdd40fb52d230f3a7a9a67d9df966124d986c0",
+      "predictions_sha256": "b15057faadc58d0109b17f5c9d4ad0c795fcbabb87116174396c851b2a587c73"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M2__m2_07/result.json",
+      "result_sha256": "085f0b52e6b8612e92e28a64b45b1328c51b6f960cbe26b6286860f7443e19f1",
+      "predictions_sha256": "c8fc126d62f87d572f4359bb8152ade4aa13ae8960ab29dfb37ad8cef775d03b"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M2__m2_08/result.json",
+      "result_sha256": "413518b88993020a04c4b3e957ca2c67d7d3d16aa22f5f0e6e6af275bb3cc04e",
+      "predictions_sha256": "50354b21fe783063582aa1e129d9395f626f544a591f3e4409df6856e83a0a05"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M2__m2_09/result.json",
+      "result_sha256": "8de728574e2d23ed23f87ee7ddc8781f8dee9012696d331254474fc14b6d95ac",
+      "predictions_sha256": "c475edcaadaa3f5aca7e2cde970633e923e34df804876628ff2dd75929d7746e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M2__m2_10/result.json",
+      "result_sha256": "6d0124e659ab1261fbd172e1a9a99bf950bf96a8ffed646e5529adf9a9f7812c",
+      "predictions_sha256": "67ef819fb2a38617bdc2f1537d422ccc46ab4a38c6d0bd3c4afdb21412252cc3"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M4__m4_01/result.json",
+      "result_sha256": "8a1b86a22c6b4f616821e890441e7993623e9fcce620c83a2b4cf5f8d8459390",
+      "predictions_sha256": "8f0d91b14ee08b5eb94e86e20c812c3f3df266ca87cc18cc4c33221deda5cfe3"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M4__m4_02/result.json",
+      "result_sha256": "4b54ec1b6367b891ea2cc198e99eeff6bbc80008ee9bf770805a1fa5893223d1",
+      "predictions_sha256": "bfb7d1fae1806a265d60d342e552eeb218b61ad76175dbe59b94ce978c1f27b7"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M4__m4_03/result.json",
+      "result_sha256": "fc1416a28cf2108aef77c32e3bb8e5fdd968826006bb403e0c8205f5fb008800",
+      "predictions_sha256": "4a891529484ad8064f34bca16c1d0030abecf37002f52db39a2a4000bab5240d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M4__m4_04/result.json",
+      "result_sha256": "36de113dd513d723a91cb0e38bd6cee82eaf3c73ded1117cb12fbdc610210241",
+      "predictions_sha256": "a4b7248efda72cac7effc24c7b9b76ba612cf67d1ab59175420b5c226373e3cd"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M4__m4_05/result.json",
+      "result_sha256": "a2a8f86450c8e4487983a8eca3c9e63167398d9e3923bfe64dc19b247ce1fa41",
+      "predictions_sha256": "e65880565720d9ef79229ac234c3ae9b48f3fca2ffaec3a36a64d49452dc3c8e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M4__m4_06/result.json",
+      "result_sha256": "4018f90b35aab02e4ab1c41b3cdcf2ec3a2e19d3c7dec60388bdb0238b65e641",
+      "predictions_sha256": "3cd2fd1e4e4fd08be5ac92de53202ab8adbab4d1c4f107d20e45691ab4d98b6c"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M4__m4_07/result.json",
+      "result_sha256": "a996247f0698eb69fdab34fd2917f9110bab58f77dc9c5ef420fec8db823ecb9",
+      "predictions_sha256": "02d1df8aeec14545d246dd4332d6e55e5122431b1e7d5431469a249031a13e92"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M4__m4_08/result.json",
+      "result_sha256": "81941a5c8feebd61179bfe3600422c88562de700b3a76a1b8bfa8dac49e6a0f7",
+      "predictions_sha256": "36fe29991bf30a41b9990ecb7ee9debcfac25a732efdeda7897b49a8931dc719"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M4__m4_09/result.json",
+      "result_sha256": "a930c48af8aef4f28b38caee831b73909ce10b07d71745eb4ccb63501f981a59",
+      "predictions_sha256": "76a23c80669f85e1bd86cb665e96e6335fd7418b6ffb5b928a7e9aa75733722a"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_b__M4__m4_10/result.json",
+      "result_sha256": "18f8c1a2bd4f8f52bad536558f4650b717fcdf4d816c0cef922a224484d60e36",
+      "predictions_sha256": "e3a6dfd24ad0340b13b8a95dc0b221b364d2ab1e9d005a589728fe9e4f08616a"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M2__m2_01/result.json",
+      "result_sha256": "037ccce2a421f22fec84c51603fc6db4d6e5c39070481638406891aaf85b5a96",
+      "predictions_sha256": "8f8fa5d5e6d14313667c6a9ed53ae7e1e9a527e47ecf1de1d94204ca8b914e9c"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M2__m2_02/result.json",
+      "result_sha256": "ecd858962aa882505d93ba864089baa71ef406c27f05fb7ac6d53a2525485f92",
+      "predictions_sha256": "59ad8fb6947df2bb004cc00fc612ef18df7bcfe18fcefbdc4638ae11dcb46ac6"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M2__m2_03/result.json",
+      "result_sha256": "ec7e96c1fd5fc8dfe425624c42e235fda3f18ca91893410533cd5f3eecc20fb8",
+      "predictions_sha256": "f15066a89ef26f3627fd19ee6d6e637bb3c153c60430debbb6f2e346b8b70d05"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M2__m2_04/result.json",
+      "result_sha256": "abce0b615ca33ed27ac79ed181f727a54fe69023d967cf1db38be9da3b0dbae2",
+      "predictions_sha256": "8efe9f347004027ac674296c275eb05e9d4407b28796056730583187084e9df7"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M2__m2_05/result.json",
+      "result_sha256": "df95ca40a222caca30486ff11e0c8cb173da5e952708ea778539dd67313e3b80",
+      "predictions_sha256": "17a66c812a3cddfd57971059fe6557846be75656c2cef968ba83ab9f47380c28"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M2__m2_06/result.json",
+      "result_sha256": "6f48a3c833ffdb397c2a7818136c91fe4d7c483494e6281b714244e6ba393788",
+      "predictions_sha256": "d552f277a3a723638cc944deb1edd54ffd89e44d6388fabe8408a5688ced22e3"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M2__m2_07/result.json",
+      "result_sha256": "d69ed9515ce3bd2fa3e783ba898f349833c5943b6317e339536cac8ec00d7ad3",
+      "predictions_sha256": "2752c83d2e733ec959b2ed130a693b3468628605a22fafc71d96f6eab31b7b36"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M2__m2_08/result.json",
+      "result_sha256": "4c3fc6c690c36eab01a9683c86b133e41025cf0e1eaed2b800a62da0cf1655bd",
+      "predictions_sha256": "3241317e4e8967aa253512cdec60d173095c290046924e50392ea3f7da51b822"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M2__m2_09/result.json",
+      "result_sha256": "71eeb7cc1482fade91c6c0176cd4c8a981131c4ba56fa0fe0b8b9e7fc584a333",
+      "predictions_sha256": "cb45bd79b941ac49a36e9c155b1bc2e54f874d5d845e7a8eb0ba6dcfa3560420"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M2__m2_10/result.json",
+      "result_sha256": "2a6edfded4415fa11029a108ae8c377f4a20dbe14bee1946256a6caf1d94eb02",
+      "predictions_sha256": "aa8fca0ebcb84893b635e43da29e7c0e74d4940dd023d37c0f4fa9325df2e2d6"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M4__m4_01/result.json",
+      "result_sha256": "4f51f034828332603e680101ed0ad5686e59b7a9dee317d522409ee16e21b986",
+      "predictions_sha256": "b589ad793900836943ce0fd9c359f305919d7523552265e7719b7e14a40f66a2"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M4__m4_02/result.json",
+      "result_sha256": "c34d89b6015e7606937d8af26b7b02f0c3dffe7690848607b496a158967ed56e",
+      "predictions_sha256": "36227375d4bf2aebcb5a667325720bf2ec329a18354a582b6aadca76782c5c6b"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M4__m4_03/result.json",
+      "result_sha256": "df006c34ac78db3b37b068fc43c9d5d6c7b16bc5ac8e27b44eb6397f6119f85f",
+      "predictions_sha256": "016d4b2897e1e9e63a048ae64e777a0e34ba16ed3764bc8ee6f23829ccd73679"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M4__m4_04/result.json",
+      "result_sha256": "661536acc81c73090a737f956dd08ae4d42fb7c34d3993bddbf9dc7d2afd77b0",
+      "predictions_sha256": "120ea2109b2025a0732d8d83bd8aa79318cae4c38a1fb4cbdd8f946d56444619"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M4__m4_05/result.json",
+      "result_sha256": "1be64521b63d1a7772ca2a58d322ad868606a4a32d4c29038875fe95e7ec0c94",
+      "predictions_sha256": "10f73e15f9c5ecb6a45b128cb87fb2bcd79304a3c73e67dd9a3d231854d3af44"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M4__m4_06/result.json",
+      "result_sha256": "e1541370bb392aaccc37b9fbfb095c73efd62348a6e4c0fef120dc93dd7e2275",
+      "predictions_sha256": "0adcf8171a74020b2d8b02a0d2940f1e4b238e305c78915de78008d291129615"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M4__m4_07/result.json",
+      "result_sha256": "d9fd345c500f5abdddd4db728b796fb683194b92502d52af15f728fc667e4ea3",
+      "predictions_sha256": "6117b320cd077dfc980c45fe0d6c9c59cf2841633e6b2b757960cf4c7163fa4b"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M4__m4_08/result.json",
+      "result_sha256": "243a4a55bf566b193f12159a3d67833ea26a956d4b1ef0c358c8938a6aaacd95",
+      "predictions_sha256": "ac9571c2aa913133f3b231aab9fe60aee57fba288f959af7f7f75d9c8d014c1b"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M4__m4_09/result.json",
+      "result_sha256": "c67890f82d8122537067c02918b7c1aa294a772c4dc2547ddb72a991ff3b0569",
+      "predictions_sha256": "97d0b6dcde76806d665f57f276f514da79185765f92ec0ca88db89208d41fad1"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F06/F06_R_c__M4__m4_10/result.json",
+      "result_sha256": "6e8b843b2988796b02e952b55f359a022cdf929f19a5798c9ca0f384e0a893b3",
+      "predictions_sha256": "017991953dbe3e6cb63f6800659ef7a2f8c2cc1f4049f375d41110290defc4fa"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M2__m2_01/result.json",
+      "result_sha256": "d8b9cdb164663978ab92ea750a741537cdebed0cf07b38b6dbabbd940d84fd7d",
+      "predictions_sha256": "d2b745d123bd79561ff38c80c761b1b5db860f8d573e3f98700626f3ba701e3b"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M2__m2_02/result.json",
+      "result_sha256": "958bcf48b4dec6e3d01e804b1e944be93913e6556b84f07c7b54235bf417a8a9",
+      "predictions_sha256": "9943d065ba29d3113432071b58a0f0731f8c8853c580f1fa4fdffc7e318c5595"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M2__m2_03/result.json",
+      "result_sha256": "d03e865f3ec8ca66a53bdecd7804740b963aa3a1004bf49b61cdbbc664e2591c",
+      "predictions_sha256": "41eed937042eb837032905d144f217171d841d9f04ba02908ccf53906ca70d6e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M2__m2_04/result.json",
+      "result_sha256": "e06973d6d6f2f4f3cbf68d76e05f21de7c2f15da97ac68db6de5f87cf75a9de2",
+      "predictions_sha256": "df3ebdc2b9cb9a3f62c5b450a1629116e44c085e0a7e6914ff717f7a5a715ab1"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M2__m2_05/result.json",
+      "result_sha256": "948416585fc3f6432564ce24cc4a5d12f926753025d783412718adc3cd015abe",
+      "predictions_sha256": "b0c422a150f110fa349e0e92a99b819455ea94d7acf99e1549d45e85d46eb693"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M2__m2_06/result.json",
+      "result_sha256": "abfa209633436d4cad31bd5f3439d271689ed4f6aeb00d359c4ce7a4ea0055eb",
+      "predictions_sha256": "fd356ec683ba510390e5a336cb6284bac559ff8bd7d643188e3c33751b6cd3d4"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M2__m2_07/result.json",
+      "result_sha256": "dfbd9d7133c678900c089c2e4d9f5a08910fe366c27e3399f357c49f872960c5",
+      "predictions_sha256": "67ea6b26adb16a936c3f7a21944ce78711c5c665171d481356d3c9973486693f"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M2__m2_08/result.json",
+      "result_sha256": "5070dbea8d6fc8c74ade95e36cbf62b2f871d4da6c45bb05818740e3a17c5cc0",
+      "predictions_sha256": "4ebcb4e3736b8db8d95cefcbb633717300de7304966bfb16d737db06a558be7e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M2__m2_09/result.json",
+      "result_sha256": "c5bc843cc50f99c4a9b47a404ee1e3408b77126e4250c69c36370fdb2e632159",
+      "predictions_sha256": "968e0d348e0fb2b6c658e4c73bac10f45e4eb1c43b8d4784f33a3a617151f49e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M2__m2_10/result.json",
+      "result_sha256": "5e1fc5fd3030fc6398b487c108f083280f9846e7d58a89ef6b5d427b1c2cbf62",
+      "predictions_sha256": "e4d362f395250076957f0f5aa9e307edeff26c94852ce4dea38c0ad6305037fd"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M4__m4_01/result.json",
+      "result_sha256": "dbda77ad118139a95c3b75dd59e3d5d30d497ac32f3e0afd65ab0d034b005f8f",
+      "predictions_sha256": "53ec1f11a54350d1979075f64772a3a591b0028f81e0581d70795032ffe189fc"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M4__m4_02/result.json",
+      "result_sha256": "e83a61f982a06b648c012ffd52e9fa3fee3673357e2f5b1622bb607c26bba4d3",
+      "predictions_sha256": "e4a7fcd8d43e60943c88515d8b38fe85fa80ab82ed0fb85c53e65345b27552c5"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M4__m4_03/result.json",
+      "result_sha256": "3e9acfb581e713f42923b1c6adcc5f6f1d31d5bdc010eb6825056a7b8d68baa7",
+      "predictions_sha256": "f0453bc7e23d98d4dcf9a0b55ec133809cb46b25b1f29d7d8181060b0dd9ad74"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M4__m4_04/result.json",
+      "result_sha256": "394e862b282ddc1e937e5e4d56d06bb07fb717473bd6b6ac1c1a046b35e05f58",
+      "predictions_sha256": "5514f8a37f251651edb37d173a8155340b3476d20010697197e75e656849318f"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M4__m4_05/result.json",
+      "result_sha256": "12e6d1be749d5ee8ef1a8c905f7becb72182325ed0d4f11b35b500dfae680bb6",
+      "predictions_sha256": "2ef777b71445b324d8b35e5a4a556c71bc614956e4ae869b67a59537bef82625"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M4__m4_06/result.json",
+      "result_sha256": "c8eca977e68bbd9f0c4e5bc3780f79973ea40187fdc3a4ab5f7aecf04767a10b",
+      "predictions_sha256": "2df352874ef088826f4c5d229929269efbdb080c429cc7e8d62413ad522d98f8"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M4__m4_07/result.json",
+      "result_sha256": "5818dba2651503c93fccb60014e3ea045a2eefdcd6a2f1c524a532c1b5f9bfab",
+      "predictions_sha256": "e5870c75290c47342595d80e5818a4894dd8f1eef74cac4da68b81f283d39cae"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M4__m4_08/result.json",
+      "result_sha256": "a47a4777f9439394e8ab212d00a69136baf66f421f14ff7bd889ef82ad0eb608",
+      "predictions_sha256": "b58cca5b5db8ee50294ba2286ea55996f716ee987a2ab3af4165d8d5c48be995"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M4__m4_09/result.json",
+      "result_sha256": "1a2c7e78c7e30528c18b011b60f27edfcc5f4efb6b03f0a6bd0a54581f6089a6",
+      "predictions_sha256": "ccd34fe3d370ef4d1fff8646596a3bc1ec11d9683220c71e9df43843f70ceb3c"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_a__M4__m4_10/result.json",
+      "result_sha256": "2e7e5194bf49173ae6b0011875b8784d5b747e46ef71ee07bf3f1cc9c428eca3",
+      "predictions_sha256": "ebfdff0fcd65de27d6ed25509383967ddc3e304c9bef90d72ca8ef7bbc284ee2"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M2__m2_01/result.json",
+      "result_sha256": "be04b779308993024fc791b8d6cfd087b1818c8eff95da73e3da0b8e49027c8d",
+      "predictions_sha256": "81cd8acfb09db07f4d7cc9d40288fec55b7567f549d173f9b76e1ebe9950d4b4"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M2__m2_02/result.json",
+      "result_sha256": "95840b4882e17a5da830a91397ad215a1b8586acc9dc876b29ebdab587ebb5f4",
+      "predictions_sha256": "1ca0f4f81f122241798190c118c6d7294442c0411dac2b1e1c9f80b3b483ace5"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M2__m2_03/result.json",
+      "result_sha256": "180b012b688ecc6c121a4a2eb0bbd9da5ae42a6de65b3cd8fc9852801d9baf43",
+      "predictions_sha256": "d115be840a559d85527175d77aca9ae37a4b2998fe0c31543fb91c767bbfa351"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M2__m2_04/result.json",
+      "result_sha256": "56a9b17b5ae115da7115c03d48ff1175739d2c2936b34b707d930f21a2210859",
+      "predictions_sha256": "d46705dc7aaab6248f1f624dde41cd9080ca499fdc160503eb42e0eb6ffda742"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M2__m2_05/result.json",
+      "result_sha256": "02b5bee7b60703c83989ede085bf3a7d68d1a6a627d7caca2567f1e4a866c9f0",
+      "predictions_sha256": "0d3c981d362e6d42dfc210933588e3952665965df0ce11c2c906a9a5f3e67227"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M2__m2_06/result.json",
+      "result_sha256": "809988b0ef831426d8c67542e19c4411c3f3e100218a76e777c5a4d5606b5970",
+      "predictions_sha256": "06711c67cd1b234da6d167f117ea1086bc0d64b4f778047e1118667191a0ec09"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M2__m2_07/result.json",
+      "result_sha256": "235aef13e9d92560079d2743297270347f956fca0f7af7b790de65bfa21e2ead",
+      "predictions_sha256": "ee68392fc58a265a29ce387581618afe0a1920fccaa4426eb066e00ec24956eb"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M2__m2_08/result.json",
+      "result_sha256": "a2b3195251dc4174e62d049d2c287ad8d68c47af658c11628cb04fab38141036",
+      "predictions_sha256": "961e20e9f8e79c94b67b1bef5f6050bcc1855b9c21678dd3761b64f46acec383"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M2__m2_09/result.json",
+      "result_sha256": "e2d7104880a4f517265126fe60788a62f95c03f8a0a14afa66f0fc6761c9530c",
+      "predictions_sha256": "df76899c8fcd4dbb851cf9329fc0380a3b74338830b852a0b5d19d54fded8e9f"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M2__m2_10/result.json",
+      "result_sha256": "0494b73f7b70f128862c2b628425d8c17df37602a92c4a80ac1d7e1f27a26312",
+      "predictions_sha256": "2c95ad97a4e2d2c9af521d3aac829c8640ac1c760530f4103c87561e53c60f61"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M4__m4_01/result.json",
+      "result_sha256": "a9363c9036f29f1fe00454aecf68663819e839b220dc8a87a62fd4d3900b0636",
+      "predictions_sha256": "06c2e8a30ceb283be6d05defaffeca88f1858a2dd533cb2dfe94b9a65ee8130d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M4__m4_02/result.json",
+      "result_sha256": "1bbff96eec8eec69e1623b8cb0eaaca54f72fac09518618259bf36e78a498bd7",
+      "predictions_sha256": "d08bb5f96b26f72106aef70010148cbf6171034918a3db4b034bc642dae49006"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M4__m4_03/result.json",
+      "result_sha256": "887f18668d12c9423e2622b76b80a30440e0fc84682474311033788c6ed421f1",
+      "predictions_sha256": "f003849f22dfcfa7766a544374cc6e636ebd0fbd867e2c2518718e87f884afb7"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M4__m4_04/result.json",
+      "result_sha256": "1a614c322c0f89128e3aad65399e096e3dfb8354e76c72f33c44bcce607dca4d",
+      "predictions_sha256": "0600d2e508a79d410f2085d9f34db0ac44f1a05edecbda9d835c23fd8b95d287"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M4__m4_05/result.json",
+      "result_sha256": "c53fce953648ca4b80285f32576ef7427b51cfb901f6acf67e01c01dff5b9ecd",
+      "predictions_sha256": "b986d58318f1a89f68b9c3208ab8d2d0037518eaeb1c37654c56cf2e97cc3a82"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M4__m4_06/result.json",
+      "result_sha256": "823fe1a5c2e5c33eae5e27d74d16aac9fdd7fb28dc2193c2aee50055dd4fb16f",
+      "predictions_sha256": "7561b323c5c9528677f03d47b5a503a5f8dd9fd31b850b68fa2181c62b4a6d08"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M4__m4_07/result.json",
+      "result_sha256": "e509f84ace0584b558a5d2d71e0d66899859aaac803a828b7484283b7d06ec37",
+      "predictions_sha256": "73a9e90a7d0d7dd2dec1f445e718a045833fb69447177d430ec0e440a1d63eda"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M4__m4_08/result.json",
+      "result_sha256": "c3bae0bafc1370c3488f32219ca487bc092eb6e2c0f42ff185ac993f693ab03c",
+      "predictions_sha256": "283e939c01435068c82d045bddffb144f45d274f9a877aa27d8bfcf3673063ed"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M4__m4_09/result.json",
+      "result_sha256": "391caae8fdad6f851552df436fe7b3f05f1e25e88327189bc5fd4c9c344c0036",
+      "predictions_sha256": "6dddb3194abd5d5af20a15f623f6e34e766492fc99e9c21ad508494045b7cd3d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_b__M4__m4_10/result.json",
+      "result_sha256": "e10b78933fb15f73c143566e9f664ae495c7bf0353634b9cc26fc0a3eea87e97",
+      "predictions_sha256": "19d113daee1ef07424ab4deed031c44ce8d1d1362855c2da10a79cf28b09936d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M2__m2_01/result.json",
+      "result_sha256": "ce966306e455fdbcb0195af73c65e8a6fe94dd946524deadeb189a1f353f26c2",
+      "predictions_sha256": "c5907d97d42282a628588e78afeb8dce9fb6c3195466f4c0f399b987314cb5da"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M2__m2_02/result.json",
+      "result_sha256": "8f9003dbb0a8252a4827a62207668bb7c5f7f9b0c57668129017f892984fc5f8",
+      "predictions_sha256": "c38c8b0c94416da46502c69b4bbbfd3cb99c429384a9da19d3bd892a4a12dbe5"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M2__m2_03/result.json",
+      "result_sha256": "90ad4ec6d98de98960b1f3c4799d2167dc8245b99af7db45eeb14d78428aff37",
+      "predictions_sha256": "656cea59e914ec43fb978bb6079e717f6ea9cdba17923cdd9db2af7559567b90"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M2__m2_04/result.json",
+      "result_sha256": "77dfea256291fbc9d4b09e6632a1f40a4b85b09e84ab9545a110535f40b096d3",
+      "predictions_sha256": "b70941478f26db23c7a010b52a0cab910c6a1a49aa3497aa7ca00d2edda63571"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M2__m2_05/result.json",
+      "result_sha256": "217023aab7028e7db08b8faeacf7a42b5bb90bf5d96faf9d3623ea31195da3b7",
+      "predictions_sha256": "0fb20f687d9b60d3e35603c94608f10305da3c215dc0bd3eeb8941f05d041e25"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M2__m2_06/result.json",
+      "result_sha256": "b0516d32a16ea4a6729579243d5d5f4c9e4064f7a17d2e85e2a42637f1d9b6d9",
+      "predictions_sha256": "7dd2920686cafcb680e73499011e33f675a2b60b31ad859f4a514db2c8434320"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M2__m2_07/result.json",
+      "result_sha256": "21664f1ad9c639dcebd56a99a3ee590f8dd234b6fe5320b8615ad57c306af583",
+      "predictions_sha256": "d88e335081ef49acd32bc373d1c8d340e9d6013b604e96686b19013961b91ead"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M2__m2_08/result.json",
+      "result_sha256": "189766616aa186ebf5255b41172c49436b2cf8e6b8704f9f86135e420d7a36c2",
+      "predictions_sha256": "f3ee56c7141c04ebf25fa196f316c5bd0e07579a8ba4e5cbd3a6d880ab2f3bb2"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M2__m2_09/result.json",
+      "result_sha256": "b510f6f38ee8c79006f8f728f21524a745a1c5c707629ce91a0a88367fabb884",
+      "predictions_sha256": "f107c21203dd5509223939272a0a306b49e6da7fac7a4ee8f8bbbe9fc8ae2230"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M2__m2_10/result.json",
+      "result_sha256": "2167367ee38852c1db7dafeec1d10ced7b11bb826786a0b7e82d1531648d58fd",
+      "predictions_sha256": "0e2735bfbf7ca8fa148d940e4088de6dab0252a4ce1385553886325920c6bd59"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M4__m4_01/result.json",
+      "result_sha256": "2f3b46b6e5285c589eabb569ccd1ff198ac57606ef23eabb789c431f53b69454",
+      "predictions_sha256": "1480e97ff803c395f6414c33df5288d8155e09b62ee271f9f96f88a24fcda840"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M4__m4_02/result.json",
+      "result_sha256": "2a1db6bcb1dd7eb5b4819577fbc13bed939ab2d4ee30e9ee0e9ecb2b4974fd30",
+      "predictions_sha256": "a503c33339ded1031298c554e52072dd0e1749e11679f5f8afc2ec68fe5c2fa4"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M4__m4_03/result.json",
+      "result_sha256": "57270b38adbb846b3a357ab264a8343586e8f501931616b0009e1a48f3afa0a7",
+      "predictions_sha256": "ba1cbf6a74c42cabd8a478a52e965f26e5ae0da577c39a343fb06d97ee054a95"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M4__m4_04/result.json",
+      "result_sha256": "3692e8379badc7afb53916064ee819626f46327967e8b6752fe029ba4833664e",
+      "predictions_sha256": "91be54845ec0a8eccfed90cd8860b011284ece72e703d150061f2c056dcf7caa"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M4__m4_05/result.json",
+      "result_sha256": "989e2e4d69aa3173a01de0e9454d849d319d155a97746813b7f5e4001c4bec3c",
+      "predictions_sha256": "d727a59c0d1bbc8df5ae2998fca98f3942a8ce2e8671a33e8580aeb851cb52f7"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M4__m4_06/result.json",
+      "result_sha256": "f21880049e221485d57562ae002132ffeb10975fd29b9538ccb725859c740ef3",
+      "predictions_sha256": "ae0654eb604757c2dafa5dbb841fe47e1f6cc633ca000e8d6c502e41d563deef"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M4__m4_07/result.json",
+      "result_sha256": "5f52608833943dcce2051c7f291534635c0841838e846ca7db7358be63cf4bf1",
+      "predictions_sha256": "0d5889d6b1b73a05dbc1a841bae9ab80319b6ea9c780b01eb29382419138c4b7"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M4__m4_08/result.json",
+      "result_sha256": "9139242ad85d144d40bb7110e5a646d24fedc8551e71cc751434424daa501eff",
+      "predictions_sha256": "4e94f44d338c07e7165ed554ff874d9a7a966c7b0ba41a862434ab028e93b79a"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M4__m4_09/result.json",
+      "result_sha256": "842d0a65b789805d8cfadb56bf246c6a11860e6fb0cca19343b793e3b546146f",
+      "predictions_sha256": "6790b7037f894b2a283bbc0737a4a2240846910474f056872a8ed43fcda02a50"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F09/F09_F_c__M4__m4_10/result.json",
+      "result_sha256": "6ae39e4b213336915ec7f63d29fbb34ddfb972bd4bf28cda92f9a4d9ec8e57cb",
+      "predictions_sha256": "e872fbd585437f3c6ff3d62706c4cad4634b3723ef199429ca17f03a4fbb6805"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M2__m2_01/result.json",
+      "result_sha256": "217c20ff9f1e5f69d628ed4a44cac71d811a5d8ddc13a525504be0efdf2c6d95",
+      "predictions_sha256": "3adc7606334d410b9ee2ed1b1eef68c3c008455b7914f7275185857633fbe41d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M2__m2_02/result.json",
+      "result_sha256": "b86fd3d136d60a26bcc4e902cc280a0d2e48e4b3d7a02238c9d814ef1a23b833",
+      "predictions_sha256": "5ac51a23d9f5f103c0c2b6a4e29be5578dd518d8330413ba12e2f79462ac7b7e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M2__m2_03/result.json",
+      "result_sha256": "95780e9b763241277e4b7a5b9e17cb29b774b6886b5d2a03637157219e7d89a7",
+      "predictions_sha256": "c1bbe401f5168d038de3377245f26662df72bb6745377ba871e6f2455bc4e81d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M2__m2_04/result.json",
+      "result_sha256": "584bf00c02e9fd940189f203df8b747cabac02a1feabe75b1ba58322ba82cd90",
+      "predictions_sha256": "f732b817b78a02bbb290fbe6dbcce82a98cc26189b5e6cb68b9eaec25dc1e288"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M2__m2_05/result.json",
+      "result_sha256": "ae64786daedc5b48f210aef62b5618fd5f0bec298de4737455e64def344950b1",
+      "predictions_sha256": "d8687d78f6d1def1f8cadabdc378d5943d9a87dfb8cace4c4c81610b8c816a0b"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M2__m2_06/result.json",
+      "result_sha256": "4db40367b24d5c5b1b69f6804494b125d68cd5cc0ab4d0b7d30c1ae8fda5e653",
+      "predictions_sha256": "a9a0a1f3e21f380f54aee0c9702f26f4bd1dee0c0708b2b442cb68ac8d1b237d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M2__m2_07/result.json",
+      "result_sha256": "af81b43497623eba842c7fe3f1e47bddb2acfd6ad1679d4efb4308f1358ec98e",
+      "predictions_sha256": "06186a4f6f1b256f22e109ba95276a452043fb5dd771a0ec1259a2ac539cd14f"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M2__m2_08/result.json",
+      "result_sha256": "e3010fe79fd6c46047bb90344d9fa62f11d2e9cee4d03b7ef1a5276c771e5ff9",
+      "predictions_sha256": "8e330567929c151e40ab1d4f31d15453add661617e655dfdbf9cc7229594e627"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M2__m2_09/result.json",
+      "result_sha256": "b2ca2da9b3dc5d38e6321fe7b723a1f6f39fd1236555e77a288c62d30c32246f",
+      "predictions_sha256": "f1c77a645ef73a4a27b938e4adf8a7674a625753b75a41f6338ee61769b21571"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M2__m2_10/result.json",
+      "result_sha256": "c2623ae624a1ba4fcc49aebc8e1f5eba18f1ddccb686aa25788411835e4b048b",
+      "predictions_sha256": "2e3c867a5924927576f9338dfd4f8f4985a56da8e5d0fcbcb5164de9c4a8e48d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M4__m4_01/result.json",
+      "result_sha256": "26b5b2828e0292d90b4e3f3d8d30353be30cb0a83059563a9619cd9087add637",
+      "predictions_sha256": "b48aceba55071c4acd25f546ab67ff370a5c6c4aaca860ed479efc63042bbbd1"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M4__m4_02/result.json",
+      "result_sha256": "c5333c331bf7a86cc634b7853aa7484e3c2f860e00da1212ab3e8726b7feac4a",
+      "predictions_sha256": "89be88876194daa784baad657ca707d04d019d7d40c7b66965bd6410306a026d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M4__m4_03/result.json",
+      "result_sha256": "51a3d9f0471235570dd79ee46b037ef1e37a0c096a81d1984a6dc67ba0fe6d9a",
+      "predictions_sha256": "37c86556f5fac645b0c0540f012091fbb377a25bea7b06c6449b049e3fe0802f"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M4__m4_04/result.json",
+      "result_sha256": "eb10a8a05f3e71fa7a66039693833eb112121015f2b216d4ac2d31f47416257d",
+      "predictions_sha256": "f0103b75b31a738315fe2b9373fd92718999168961a008cabb7e1ff8a434f502"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M4__m4_05/result.json",
+      "result_sha256": "0a7e4fb0b11f4d7e3a1683b93f6b9e2467f9b0e8d0f87d6f4114be04c791a2ff",
+      "predictions_sha256": "b4460cceb4b6d993614ff931ffa3f94a4469677520367ab66a2f5114d3b0f470"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M4__m4_06/result.json",
+      "result_sha256": "9be94ae3e56572c614cf4b6a2ed9a70589d89578e7a2ebb386a2c4b2c3aa1380",
+      "predictions_sha256": "aa6650a1d89968dc57501bfa1561dd15fd3dd6ed4def1cfab8ebbcc8ecedba75"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M4__m4_07/result.json",
+      "result_sha256": "c22a615a76c210307bcef4000bda2029747cd3dc02cb0b87485701da31e2811c",
+      "predictions_sha256": "1525d7a3a19cb7c7b5727440e48f49846881c1f9f5a4b079a1de864c41eddcbf"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M4__m4_08/result.json",
+      "result_sha256": "917f2c54d75c741b32bb6c8389ef2e498019cdaef7cbc61ebd146169f4a5abf3",
+      "predictions_sha256": "71845b1edf9a65958d1d0c11cfe053f57cd4569434a57190ee91cc02794f84af"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M4__m4_09/result.json",
+      "result_sha256": "186751806422c51a05b1c98180b19e6c255494817e8a7f471e2c8fbeb68b60a2",
+      "predictions_sha256": "eaeb2d71b33c9163530edd6dd82f8e383c4bc6ef38c5945d57860839ee89a694"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_a__M4__m4_10/result.json",
+      "result_sha256": "da9613569d5913c29515178af7c86dd732a0d636556ceed8ef837ebd323878ea",
+      "predictions_sha256": "74e393cbdb1ef7984500b748a51010fdece23247bb5206c1e8ee298233bbc062"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M2__m2_01/result.json",
+      "result_sha256": "47e5439e877b259babe996db1903653369c50e61a7d69858b9fe0e80ccb0892e",
+      "predictions_sha256": "12ab32ed472f6186837b3fbc9b7c349f7f00cd33c3b7d1f3fd39befaaab3c0f2"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M2__m2_02/result.json",
+      "result_sha256": "a606efe22a9e8f913f9705114fc94348824e37d4df66a182525a8c46fc128352",
+      "predictions_sha256": "d995d9427fa62e9f6a5ed5958a9ef2fe76894a15f02c57761f1bae216bb371f3"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M2__m2_03/result.json",
+      "result_sha256": "a22037c5cf88d2f00a9dcc00c627ca5d2d7b95dd190aaa09a81a47eea004df7f",
+      "predictions_sha256": "f1499e8da74da59e7f60a35db94ec2e56fc81d3af8c42bbc4c62b11ca9ad0490"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M2__m2_04/result.json",
+      "result_sha256": "8ecc7fd464dbc6466adef29aa0f089eb078c50b21456207eefa7d45841877dc1",
+      "predictions_sha256": "df4d51595e7a8540c4fcd4fc6b6aee3e104f60c5ebefe9598fa0e06c6ddd42bd"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M2__m2_05/result.json",
+      "result_sha256": "519fdd68f8591b2ec86b39876626a1d9167ac1b3507a078c1bfe70b9f7cf678b",
+      "predictions_sha256": "183c79cd169b5e3b357afd8bedf1335837a5798a389ab6b8a1fff46d71fad4f7"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M2__m2_06/result.json",
+      "result_sha256": "001693af676ef8531d15abfcdd35e4b258ad6829596e9063fbb05c948535e39c",
+      "predictions_sha256": "07d54924bb34808d74f93e7b19eca23ed99617af6e53373c62ec1f2206a59001"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M2__m2_07/result.json",
+      "result_sha256": "da6397c38f4a89f4b4a910ea5fca85a626f0d95148d3199da43ef22bcfe03a99",
+      "predictions_sha256": "5c3824263c9895e9355d25811a55758c75feca6788799f9e959a244688eddda5"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M2__m2_08/result.json",
+      "result_sha256": "46227d9b42132d436176e52fa4124049b69dbe988e6e46e07787e3a23167eaaa",
+      "predictions_sha256": "b5a9ea86900dae19d89479c8e788c45f1ef4d39de3faa8a00c0d24a044dd1ced"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M2__m2_09/result.json",
+      "result_sha256": "9da2448bf8059a95459395b33135efa2d825afdda1b45aed5caae12b23468f0e",
+      "predictions_sha256": "54bd354f0c989072215c7019faeba5e1addf8c83115e687e750ab1d19600c0e8"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M2__m2_10/result.json",
+      "result_sha256": "99ea16ed084aebd45c58a2d69e6e4ed55ef89f64ac8f1da808d82abc156325fb",
+      "predictions_sha256": "1b5725a28ed76affb7791bb063cf81f9495a9356d48296601262be8a7c11264a"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M4__m4_01/result.json",
+      "result_sha256": "a361fe1136af7a081dc422f81f0c7fec93b2866e24e8be917529c175a856c020",
+      "predictions_sha256": "3251c153a7fea3055198540f903fd592621088e1a743427d22cdc4e4409e65c2"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M4__m4_02/result.json",
+      "result_sha256": "5403bc3403ae990b88161232de1e769906b50bbd71f7050fc21a725d47648c86",
+      "predictions_sha256": "7bf0eb08c53e89ec83115b9c8b4a4add0348d8a230cfc3b5ea7651fb6ba2de28"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M4__m4_03/result.json",
+      "result_sha256": "d3e79ae1a2583fe059fc73bc8dd87d8ddac961c636602c50d9634ee5b0a9a0ef",
+      "predictions_sha256": "4761e83553362d19e380a50157710b582f396c755a79a18b16365a5af4eb37e7"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M4__m4_04/result.json",
+      "result_sha256": "2bdd9c4309103fcdc5f040a6e363bf1615c8cb1439b6a6ed91a0658e059ec686",
+      "predictions_sha256": "d1531ac9442ea66e4cf4aa306e1511ff9323ed4594e1881d361d0efae39cf6a3"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M4__m4_05/result.json",
+      "result_sha256": "81310fdefe78c07e4e8d6f11af56b04da2d91f5d4164d2b54f50526ea3d48940",
+      "predictions_sha256": "3567b44e446e1c6c28092088ea0ff16700f3ba6e82fa3265fdff4846d410976a"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M4__m4_06/result.json",
+      "result_sha256": "e055405d4460872ea18dafaf4be285e309b45ada227a2ca16d885ce5c0d2e762",
+      "predictions_sha256": "20b28914bfeea7e19c89451581781c2732e9026620642837189bf8d3a5128b4f"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M4__m4_07/result.json",
+      "result_sha256": "1af734b40d32088ecf36098cdfecfb640309e8f2a9c8cf3a3e5e67a96457dafb",
+      "predictions_sha256": "d3677361b7f1b182d2c4944ccfa4e5a6657161f2f1c69a28e3474290cd4bfc72"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M4__m4_08/result.json",
+      "result_sha256": "4fabc742d9c63ba9de6c5547b5bd8ee138566784961b60d82ccca4ebab2587a0",
+      "predictions_sha256": "a1a83c17e0b0406d98749974b4b63bb7006794fc50bf0598bba4da80cc8e8a60"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M4__m4_09/result.json",
+      "result_sha256": "b88d0db430054a695335e62e2b24a94d05d169cc41f8fde9a38d948901d6411a",
+      "predictions_sha256": "b2adbea0a6cd25fec4ebd8fccd2b4050e4227b3daf823081004eac10ebeb1fcf"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_b__M4__m4_10/result.json",
+      "result_sha256": "2d4a2110fc39dcc441e28eb18b87d4b96390c99679d4416351ca50fe40b8da14",
+      "predictions_sha256": "5c57e32cf2034a2b175714a7f36cd320354c772dcf1623c756d3ce428d4bafc2"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M2__m2_01/result.json",
+      "result_sha256": "243b378be59bb9026b5ffefab8cb6d19a5494b32b18355ed873d1dd4c7a375bb",
+      "predictions_sha256": "4ab18a9315b61f8dbf5998409f12ea5ced9cd2f0ec0d9858229575922e37f29d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M2__m2_02/result.json",
+      "result_sha256": "22ea2cc374e9a808770ab9a03b87ec1c34e4752028433e51d3de9f9446cd9dbf",
+      "predictions_sha256": "c91572662962a0537c6d50be5ecef40304210aed1bb87640b228159120a1bc4e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M2__m2_03/result.json",
+      "result_sha256": "be9f979c4b9877fdb10df771b47db6bab20d610cf799f23ca3eb1c9593ba53f7",
+      "predictions_sha256": "c3721c9b7acb8f19f14fdf88dffaed779bf38a72a88b0fe72815fa8ec0884860"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M2__m2_04/result.json",
+      "result_sha256": "3a068b0705b10b0c5d3bb70b3bceefefb4b0089fe722bf38b1f91ecd921399ef",
+      "predictions_sha256": "48a4184062df851c7645d7928ae8e7fd6e7e500b6d67562f11105ea9a0e43328"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M2__m2_05/result.json",
+      "result_sha256": "3c2684cf641d133864632ce7ab5cbc95ef08a23e73960e84ad25c4e65c396364",
+      "predictions_sha256": "0358861940d6e2795bf38a2e5d70fd4aafc881ad140f85bfc6167c10798644a2"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M2__m2_06/result.json",
+      "result_sha256": "d20b9126c19e4fc49acd498456cf2d3f0047f7ff7ef4b6003eddacfdb2df641e",
+      "predictions_sha256": "82899f05a23a2a1a9bd75361b06ca279cf017a73f736b4e588bcf9ea7cba5236"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M2__m2_07/result.json",
+      "result_sha256": "a321c6dcd0ba3b804cf07fffba1ed90875020ad33b6993696d16b6d7791300ad",
+      "predictions_sha256": "cfea4552f5c2c1ddbd41dcab3808c95f16d9d20b5a76e1173ee56e48aceb2e19"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M2__m2_08/result.json",
+      "result_sha256": "fe532f9ec88d33a4b7001c832f62f7dd0fe1066a3e44ff03e5e85cf0b737a398",
+      "predictions_sha256": "17ab39ffbb54f1fbb528652b77f9c11478803d8fd3e420038957cb8142f48936"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M2__m2_09/result.json",
+      "result_sha256": "272617abcc6cb096f4381faac29ff3a63fcd199dc3de31109edadfe1beed3c77",
+      "predictions_sha256": "29aecd393ab23bb0a15f9a7a8bdf76d8bc60f61b4e4728ee5342a2ec8e8af18d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M2__m2_10/result.json",
+      "result_sha256": "cd0f0f79527cb3c98c0a69041e61c19ae1ae3e4defdc542885159b2fed01f5c8",
+      "predictions_sha256": "387a7cd1adc15fc31d4e99a0ad9e178a414ed2ceacc2416312eb0d6e262e3d52"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M4__m4_01/result.json",
+      "result_sha256": "2b672c78268e98d4eacd4bd317a3e6868edcda86a01278bb81d0a854b1e268a1",
+      "predictions_sha256": "ee6fbd4fc1c04e19233307a3802d6a43eb92fe24c026731c724856350be857e6"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M4__m4_02/result.json",
+      "result_sha256": "1981843b5f5776b29c25f107e34f02c668227903b882035d194ea4645cb8b87a",
+      "predictions_sha256": "247dd72e344d70f4b722d30ae1de365f4bb0377a438189ebe7c513676f61533d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M4__m4_03/result.json",
+      "result_sha256": "f8867a34a3f040f514f3177d00fe1e2fb0e6d91382ea67703f9c5153c0840789",
+      "predictions_sha256": "a92e62ebb296fa9b3c97e92bdebd75473989ff2e5b061bdb63784b628941793a"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M4__m4_04/result.json",
+      "result_sha256": "6780017d1972a660b50b8e0eabe9caafbc4317441227a7dc3420ce793d4bcab1",
+      "predictions_sha256": "6bf65334196dd45673feca816843dfb4090b4edb91ab883eb2e87f507d930008"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M4__m4_05/result.json",
+      "result_sha256": "5f96459cd8d39814fc1ed161909827ddd064a6e3fab32e555bca0b5578fda32e",
+      "predictions_sha256": "ca0e5e663cdd414b77cfde23f354b74fc813d7490363aa752be36d34592e22d0"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M4__m4_06/result.json",
+      "result_sha256": "42984bd90fff0f83c51c26d8330e84c78781f23b6a9d795743f06649fe32744a",
+      "predictions_sha256": "5309ce00fa87e77183d4ccf0010deb8cb92a4bb0b277aa3c3dea6fffd180dd87"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M4__m4_07/result.json",
+      "result_sha256": "78c5530d1008de0da21e5289c8f79c3fd07f7d09eb83dc007e68b5f15e48dbc7",
+      "predictions_sha256": "8504a28691343d91596294cd9cbb2eceb3c90905ec4c0af03302a6542d05e051"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M4__m4_08/result.json",
+      "result_sha256": "442773d7df49fb8fb3579f358e26d4fb659faf2c24703af2c5f7be679cfebe69",
+      "predictions_sha256": "b591f7a87b656e2b41e9ed89cc2a9d9239ce245a11b9b4aef5c3cd4aa670c84c"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M4__m4_09/result.json",
+      "result_sha256": "729e2eb5f9c6afa841fd3123dd3beb08f26b68bb241667c0fe80b93fa8afd721",
+      "predictions_sha256": "5296f913ffa950059785210a3cd6328bb6216014b20ad15c20bb0501c1f86069"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F10/F10_F_c__M4__m4_10/result.json",
+      "result_sha256": "d9f4386e28c5478d9215a8b43b386214fc8490c135e4f66b5dacfe01ac33fb18",
+      "predictions_sha256": "ff94307543daa37ad56a28dec2b56dd7954cac93a31371b4c33678100213d9e7"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M2__m2_01/result.json",
+      "result_sha256": "b8d3c1baf05250986e0a1617c87b455587f40f332187f0488eb16b9e9b152ef5",
+      "predictions_sha256": "d208b1c2a1acb9804e10adf4209c0ae5793bc1a9ce85dc6313a73e299574fb5a"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M2__m2_02/result.json",
+      "result_sha256": "487ace5b057708d148a494cf398a88eb73d67733f4494187d7fee922fa65e523",
+      "predictions_sha256": "83cc9d4630804beb5aab6961371e727a2e8a5b155e8bd6815ccfabd27d0a5db9"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M2__m2_03/result.json",
+      "result_sha256": "695250a9905d8ab99c331ad01e1d17057fa0e1a8f331d65ecfd0e4c44c23f49e",
+      "predictions_sha256": "918327b6219cf99eb0755dc2ea487cd75b33577b12d6d801877d3fa04392ddb8"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M2__m2_04/result.json",
+      "result_sha256": "9319e0741f94b98c6f45e15992dfb6ee5b146c718c5dd0090f77f2fb483ffa47",
+      "predictions_sha256": "934b0148b088ef5703085b3b5e53949c2513b398e08ef029921dd6967dc26989"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M2__m2_05/result.json",
+      "result_sha256": "8ee2a654f81217e768f11b353db4fb64d90337e72b3f902ae6c131e6c0cbce37",
+      "predictions_sha256": "7f892a6fe5a09559011209de9fd79ac782c169e3e3800463e12ad07849cd83b3"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M2__m2_06/result.json",
+      "result_sha256": "f7bf85877da7863da42d8fc77bd4001643647a62d74e0b240688336928b9a7b9",
+      "predictions_sha256": "aafa66e2173e926a96760e3653cc7c05281379e205a03948328e55cc7e449318"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M2__m2_07/result.json",
+      "result_sha256": "0b996aaf522d598f9d3ab90013cac593915a5e13873235baca0bce513e7cf902",
+      "predictions_sha256": "0afd0b762297b6b408c4e606dfe5c576469218f19a60f8c60d62ea90c6914149"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M2__m2_08/result.json",
+      "result_sha256": "1f3d6616edd8cf0f23372fb97f1ac2c696b6de97314851a7af4758a01cf41b53",
+      "predictions_sha256": "dd2c7923b7514f76257c790f90fd6ee1fc4a63b083c780e56640e1402c961723"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M2__m2_09/result.json",
+      "result_sha256": "a1ae1ce15a5358b0bed7efdf02358a14e2200dc9ae148ee51a8361208c4a8bcf",
+      "predictions_sha256": "f1e31365ad4727b020bb7b4e6904d05527e6160bd989b274a2cc0e30e2f8d726"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M2__m2_10/result.json",
+      "result_sha256": "639ba408b524e00521f21b111161bb2e67179a713c8c9b41629d0ce0d4f7ed7e",
+      "predictions_sha256": "b67634831e59f1d656a6b4b47b46aa7060ea9fd413bc98b2ae0f0ff6a99f753e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M4__m4_01/result.json",
+      "result_sha256": "2c730e8a8d6e65cbb856a5e1e323d980ea8f0bcfc657e574283e5c6af0a71d51",
+      "predictions_sha256": "572bd01acee23ca2553d031fb08fa25c4170614de72cc599b6ec6c22ea514304"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M4__m4_02/result.json",
+      "result_sha256": "ad666a80e5d0b4000a45d870c12d5887d30e05184b7fd46da08e01c8ed1a20e9",
+      "predictions_sha256": "7262860a71039af845e88fcfcb3ba4d416bb3d447c35223a32e42121b30c54fe"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M4__m4_03/result.json",
+      "result_sha256": "45e40915bae931397aefcc7aa0c3ec32d15fd4c3a792814a85935ab6faa80a84",
+      "predictions_sha256": "b435645fb9372c3b9afaa3b75fe9e580e56cc48be6a82830fc255fecf1bb4024"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M4__m4_04/result.json",
+      "result_sha256": "0acdaf9a2a7de93164e9c4222bc9ad99659447a44b6872ca7419910ba076c4ad",
+      "predictions_sha256": "f2b47cb44eeb30e85a048448a04480e15d4265b0e7d0441b0c1134e55994b13f"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M4__m4_05/result.json",
+      "result_sha256": "5f03a6d8af8a22befafb9ff95ae914725dbe3d62777de80b9e731db71a442cf6",
+      "predictions_sha256": "e4285263da90bdd9ed0051a42e07c705210cba8c2ca287c739041936b98c9255"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M4__m4_06/result.json",
+      "result_sha256": "9fe7ce722bae5e529ba9593fa05a2c5461698672a9dbcd236a5e3fca0bc68dda",
+      "predictions_sha256": "86ac178ab23ee5c77cee7f95b1215ebc157bb33f698115d58dd3d03832bcbe7e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M4__m4_07/result.json",
+      "result_sha256": "28e1f56979c1bf99e7354c8b6f4a04d9fe33c2401e8f2ec64c4000ffe2d05b7b",
+      "predictions_sha256": "72dbb065c0df74622dc5deba147a0f1db7e9b976fd72c49ba4a37c217f005850"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M4__m4_08/result.json",
+      "result_sha256": "96cd54ff18f58c30911351829330a955e214d7445dd7d22a70f67fb89626a4da",
+      "predictions_sha256": "04052ef5c8f652a717e0c8b43b103541d6ccd051c8dfdc3b85cdcb0fa0ffb7b9"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M4__m4_09/result.json",
+      "result_sha256": "0b0a4250f5370bca7c5e46069ee6334a38963e58ecdfd4b63bd19b94064f2b45",
+      "predictions_sha256": "1b44f5d67db4445846e26f0c6c2234a0184f07df432948f56116bb5d72fd4567"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_a__M4__m4_10/result.json",
+      "result_sha256": "eaa7e3a9976f3ef93a5a7b3e64b99090bfb0ac683ebe433bc3089d7720eb6837",
+      "predictions_sha256": "98de5b5595c13613d5d3365128d0fdc658a79c9493ca9543018685ab7ed42581"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M2__m2_01/result.json",
+      "result_sha256": "afe04caa2893db3c80ab037ce943054a1a754dc987236c46794e3378318afacb",
+      "predictions_sha256": "7eb52737f6d11f272fa5fed8d7ca8a5ea6006521a5d9b671e282df3c648aa408"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M2__m2_02/result.json",
+      "result_sha256": "43bf7f9fc18c606a37719759f82e159d03f855819831886f05dd04f898a5acbf",
+      "predictions_sha256": "4c7801990746ebb11a1d76e8ad2a98569c2b6ffbfc7d649dc6e1130702ed9744"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M2__m2_03/result.json",
+      "result_sha256": "ce6fdb09a2d46d6d3deac2dd46dbc725e6021af944bd231f18c679dd80333b36",
+      "predictions_sha256": "e536ddb0de8d978faa2fa272dbce9cb205259b71ae4c499e04705f0a90ab597e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M2__m2_04/result.json",
+      "result_sha256": "c6c8af24df6cdf8526ead847fa5e1c0ce91a133f765bd25db4f92c878bc51a76",
+      "predictions_sha256": "3215ce7c3b2c28717f1f6b0485e690d320a6651dec3eb0de4ddb3c310ef569ee"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M2__m2_05/result.json",
+      "result_sha256": "4c897e257758ef296fc021ae7571fab7ffe9dabc97dc0f247ceca70e5a800cf9",
+      "predictions_sha256": "f8e8e10d5842c012748c822e8b3133e9350f30db208ac04ef27f42ac17f36a8c"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M2__m2_06/result.json",
+      "result_sha256": "273581bb8ffe01d54419e9b18280b46d1aaebec656372d7264ca431aeb16e35f",
+      "predictions_sha256": "58a3c61afafe2cd2a85403aadf0ba2e570e926db378446ec8af1f12bd75391f6"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M2__m2_07/result.json",
+      "result_sha256": "1e2d98cb7b38a4f5fdaf17456e6dba1379ab62e221ddcc02db63f940d1edf3a3",
+      "predictions_sha256": "6f3079d45d08688373650f7b80b851072f1b9301badb97b49aeb6ded82b82f8d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M2__m2_08/result.json",
+      "result_sha256": "16b79c83052a6b6ffa5b2df695c6a21eb83e1edbf112f339b1808698ab4ea701",
+      "predictions_sha256": "fdfe3b410d0c63fb3f3d575ffd48f46861ce41cce31f21f7207fb15de02de1ae"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M2__m2_09/result.json",
+      "result_sha256": "dbe4acb53d13d59876bc933b149814fdfdc38e88bc33c61c479eef46892095c9",
+      "predictions_sha256": "9b151b1fab9241a4f535ca32c1216c66bfb7f735532f00de603f4702e034f906"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M2__m2_10/result.json",
+      "result_sha256": "fbd01e5fd8ef02573adba159572617a2196b6c6c197d93e54450654ae7ea25fd",
+      "predictions_sha256": "783360a9580c2d9bc44932ff1c5c5cfa8cd742613598f9043196a92f326f768f"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M4__m4_01/result.json",
+      "result_sha256": "23bc112e553a5126d63cce0f4c2fa5c5612ea0d5dd4d00a1a1c7609434da6e3e",
+      "predictions_sha256": "439a6228147e1675c80413715dd949507ca4581303f7c8a87bb5c32dd10b4020"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M4__m4_02/result.json",
+      "result_sha256": "fc2cc9f25b8823ff0908bf8bb1420e57f0d6a13b0750a0d4bad7470b1314c4f5",
+      "predictions_sha256": "d01f339f8dddc4e937d297a02a2f7ce1aa621dfeafe9619c96595c843ad37346"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M4__m4_03/result.json",
+      "result_sha256": "79fa4df93a99a69ea4e12c27d92ec7010d18623dd723ef401186cccb13443132",
+      "predictions_sha256": "8b2fcab130e91450b4d6f0be9064b98abba99db5735cdd378ebd1416f05d91e6"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M4__m4_04/result.json",
+      "result_sha256": "120bcc429d440e9ce33cc95967f6501454269889388c3f3fe333fc945c023f73",
+      "predictions_sha256": "dfb17387fee20c44949f6a813281fe2a71863c2a5b1d14d02ea73725673ff639"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M4__m4_05/result.json",
+      "result_sha256": "b7384b0cd36d1331ef4ba3159b39ac92be6d3ba294cb7a480d9b99a4d9e2dfa2",
+      "predictions_sha256": "7e81b2bb7f9958a77147147a561eda687330d8f4dbdd65311b4e808dc0b6ec31"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M4__m4_06/result.json",
+      "result_sha256": "a5e019f90b9a7df1c793e90d8b3d926c2c316e930b0d53a36cf78a21f87121ed",
+      "predictions_sha256": "c8529f0b30c1a1a863ab628c77ff0ddc7ab8e087b9d606f8021fd969e09b55d0"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M4__m4_07/result.json",
+      "result_sha256": "bd45cfafa51a642f2438e19c38d2647ef2e8db1b19fdda24f88f4ef1347dfde2",
+      "predictions_sha256": "37583fb051f41fdd5ee19cfd61e497f94b1b7fd793bc44973970177cb91465f5"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M4__m4_08/result.json",
+      "result_sha256": "042a431be0aa91021391230de108eb9ab43ecb2ea09d298ae80e5eecb647b187",
+      "predictions_sha256": "f4e2bf5d4a144a8f1fbcc147ae66ea57e0006b62f01ebfae0fc9d40be9164125"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M4__m4_09/result.json",
+      "result_sha256": "371659cab6d71d2ae7ff5c5f5c0447ca67b36e9346ab4faa0a1bdc341fa98591",
+      "predictions_sha256": "1b6502331186783dce2c6e22c9e9e92b693c9e3f1e3d1d854fa6a5c5dba951a8"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_b__M4__m4_10/result.json",
+      "result_sha256": "0d62d88db4ed9a7586c6853f1109fdbff6c4751ce7f9aa2b9019ae8de775cecf",
+      "predictions_sha256": "e951aed7c5325fceb623b80ab4dc4a7aa4cfec863dee8f89c39f324420b163e0"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M2__m2_01/result.json",
+      "result_sha256": "d42665e27260da2613d9a84a5452f5449ac131661c181332afe9faecbccc13c7",
+      "predictions_sha256": "c68cc89a875e53bdec278cc6f5419506ae40cab40f46536d4fc2163f993f4617"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M2__m2_02/result.json",
+      "result_sha256": "35570c9aa0820ef0e4a9cf8033cbc0b8e31036c6fad1be4d29b033efbf790aba",
+      "predictions_sha256": "5798ca86d2f34bfab18cc71178bf951426cc4366d96a233b4aea8ae0bc52d77f"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M2__m2_03/result.json",
+      "result_sha256": "d877a341a492cb50cdc75eb58e1a5e68be9a70bb7dedb5c2f208895e64eac846",
+      "predictions_sha256": "e45d9d6a9d3c28ebec8941c888689212000d1137a558f040e113d65daa8b9eb2"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M2__m2_04/result.json",
+      "result_sha256": "750aab15c5335f511b1ec90f84d3caa4b696187d95b02032e6023362c3425983",
+      "predictions_sha256": "b8dc5395170d638695bc0c966114b92ef113300f99da5f5430f397db7554fef1"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M2__m2_05/result.json",
+      "result_sha256": "162773423a8358406d4b608c49dc4cbb44405b3e446681a4df4c41de93274f36",
+      "predictions_sha256": "7d93917796c789a1cf096f88fef801c4213035d28dbf1a9f4b20c0f9fd19a067"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M2__m2_06/result.json",
+      "result_sha256": "b453ed7635a06f6f1861b5d1ba3ac6f4c1a2c0f511a9daa78874dc45958999bf",
+      "predictions_sha256": "ff01962dd13e79bab324593ee0e30456e3f95a99e5eccf8c7733c80b33188552"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M2__m2_07/result.json",
+      "result_sha256": "878eea9f31dd63a9ebc4da046f938f950dd5b1edb82e98aa8d695bf001a3d063",
+      "predictions_sha256": "8c6135b1f062d51abe4420de58e0ce9085d6569cab0e9dbe3eed201db6aa5e71"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M2__m2_08/result.json",
+      "result_sha256": "382b6262287b9ce16c3cd81f57263767ded26cfeb39c8903e735ae2a8f49a7dc",
+      "predictions_sha256": "ed524e19d7b26de54c77d860f9ae31ffc5151bfa66d0e5642ee26516b483211d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M2__m2_09/result.json",
+      "result_sha256": "5a27432c9cfe0e6535bf4c2eade5c40f9deb7a9e855606c0038ed3237024825e",
+      "predictions_sha256": "4cb7e3404a7a59a2027fc74457a386936cb7a9b0af1d3a0fedb1a8bc0609f44d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M2__m2_10/result.json",
+      "result_sha256": "e1a16197a7ed2e78f904b12f4752e10f42adc101e6200cdbdf7985484a8fec40",
+      "predictions_sha256": "8e75e553453aa268e895a34c96f3bd0662160ab5ef1ca0b1b214c0d93de33535"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M4__m4_01/result.json",
+      "result_sha256": "50e4d3191dbe33b82463b6e10996cd3e0f392cc45c6028d13fd7b1e2694cf6c1",
+      "predictions_sha256": "68f4401e4a5e58194e9e4fdd975cbd9aaaeea53e2f8176d21bf2f86c8dc4687e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M4__m4_02/result.json",
+      "result_sha256": "6f7ace56085096aacd1a2ee5106ad772cd527c68b0eaafc316a3c6e1ede9d699",
+      "predictions_sha256": "1b17763c9c84bad7232e36f06a204c25d1be4ebb3890e83b6c39da8ebf9586ec"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M4__m4_03/result.json",
+      "result_sha256": "f0932b954eef29c2c12a2ef29c20429c258da136e8be3602fb00b2ff4877bad3",
+      "predictions_sha256": "6498452f19d773b7e7845cdac7da95c214ac332a572ac1724fad76e6ee04042e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M4__m4_04/result.json",
+      "result_sha256": "5ba0d118d79fd949ed3521e410011539d323d87c4633dec5a41878c4873ecb77",
+      "predictions_sha256": "0ebf6b24d79b4b45efc0de3739344d25098afae6f92a48da6a1e190bd2c74231"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M4__m4_05/result.json",
+      "result_sha256": "351196b6c5e8df28a62c8ba2557e1ecbbd87cb2bb800d64f59e6a53ca61974c6",
+      "predictions_sha256": "c21a613b37069e9d9f1138563075fe7bfe40da4a2121ce9c8450f89dc2d2c6a6"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M4__m4_06/result.json",
+      "result_sha256": "310d2b3259604a41e24aec4a87e78327900187e9415eb092db2f1436fdf17f08",
+      "predictions_sha256": "0423e462b1a81e65297ac198ee7377acc1ca1a00cfb0cc197a8319d6a5328f94"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M4__m4_07/result.json",
+      "result_sha256": "0ec4002be50b24f07bbb0b11f712babea5846916010dadcb6b3c4f52ad788186",
+      "predictions_sha256": "8746d6d5fdf308dcf2cc8a4328b819f35ab7a9b7f2494e3805f0aecf3e066919"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M4__m4_08/result.json",
+      "result_sha256": "e72308a97ce632ae245787947d0123e145c9ac93cf54ff1c42b3834c2597581c",
+      "predictions_sha256": "183da79b9a207eb5ce8cd6e08f493421e8ba558dad1bbd6e3b28693876136372"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M4__m4_09/result.json",
+      "result_sha256": "58e4ff3b5475bc3ac01380172a1c2a8b2b273d0330cae2c0068372989f908bc0",
+      "predictions_sha256": "0a7d688e17f7ff57a2d5a8b6ac660a43520354a85be40c3498561429c62d11c0"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F11/F11_F_c__M4__m4_10/result.json",
+      "result_sha256": "c8e4dafc7ba05bded2fb9ecedacdca1e8faae572ca63b4dd96945f422a1fedbd",
+      "predictions_sha256": "74e5e4070ac1d1d34678dc2b508b3d880c9151d34393c5bbfd936538552f29de"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M2__m2_01/result.json",
+      "result_sha256": "36ad634a024fe7fc1f20e3885eff5d115038fbfb37ed98138676ebaf6a732e7a",
+      "predictions_sha256": "feb3a31298691abf0615549061bc86d87d3e6a60fff616590f6023505078fced"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M2__m2_02/result.json",
+      "result_sha256": "10fa8228cf30f87004515d0c122561496c94a6e050a028eb190ac0b83018053d",
+      "predictions_sha256": "691be8e00aa6d8a74fcee174cbdb93599d6f916814462a6c91935489b88a2ff6"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M2__m2_03/result.json",
+      "result_sha256": "d262c660b242fbffd680f1e8228020dea67de6d437a597f829618cb07525f499",
+      "predictions_sha256": "57298e2d95bbd35eb5d15533ed6b3112855dc7d504693acc638e10a4004c3a33"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M2__m2_04/result.json",
+      "result_sha256": "159d80116a5bec96f7f93e4edc9ee86d69841640f2d93caf9bbec1b87ce581df",
+      "predictions_sha256": "63c3d729fb2c90ff6f30b3b6c74a5e3bd0c5f212994139e71e9de22b144ae18b"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M2__m2_05/result.json",
+      "result_sha256": "366c1a07ff2efab16733425927f1cd2e731170892805abc75e5c72a7d6a83ae3",
+      "predictions_sha256": "ea6be66f2f8271aba927297b3549c25b072c90bd28f42f72e2c67d7b423048a4"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M2__m2_06/result.json",
+      "result_sha256": "e3c61864975f60e46a77ee481bf68a797d0b2ee3fbba9855f1740274ac1254ef",
+      "predictions_sha256": "77de3afdb20eda81617ab5c182303ffe9918295a807c8e890da315a9bced92d2"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M2__m2_07/result.json",
+      "result_sha256": "a31fedb6b8b4b0b4b8f6e3475f309f199e48fc8eaf6f78d9b0d64f2ae8b24ba8",
+      "predictions_sha256": "dc985ccc34f708f30696625bcbfb16c49dcc411b9fa0a05194ad54c4bd67792d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M2__m2_08/result.json",
+      "result_sha256": "b16c243863d6be96252d841606436890b1a9c2cb08ab6939bbd7d1f77ba2f8a9",
+      "predictions_sha256": "ef0c08f7bbc9a00808517bf639b607890d5e12e994efe2ebf9f02457db79ba1f"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M2__m2_09/result.json",
+      "result_sha256": "55ef09ddd35b6aa8ed04021b2405545b93592dc7b7e2a77c2a73e214d6cd402e",
+      "predictions_sha256": "4b5041490f2d7be5a684158dd3ae7cd36d3af855f8fc3c12b016019f31e9ea6e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M2__m2_10/result.json",
+      "result_sha256": "bee8213da6e1716d82f09a8b97ce7a44a74b3bce41525320c283d59238cf2fa3",
+      "predictions_sha256": "44452cbf9dcfb343bcaede763a64218fec09c18ff1517a8100348fa83a32a833"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M4__m4_01/result.json",
+      "result_sha256": "128f23684f88c8a36e5a1fd2543d3691dead1d1ac0d227311802ec79da36b14c",
+      "predictions_sha256": "3ffc75d161e0788e80f74f5c52291893de09537c54f56d792edd47f26f0ce299"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M4__m4_02/result.json",
+      "result_sha256": "88df7ba378570b1dc77fa6099b972b2bf12a5fadd1a185ec911157c75bbf7e1e",
+      "predictions_sha256": "4c554e2c90b290b92d9b2b357ca09e72ecc834fb555b2f6d2f574f50d4593a57"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M4__m4_03/result.json",
+      "result_sha256": "74d0791c7fd2a4217f4df94410460583f70a4a3d3ab023ddeb0fb6b7fa7e295e",
+      "predictions_sha256": "26eeaeaa63e8f60de8b2a32d93610fc9a4cfb452ac1c69992a39026fb834ae96"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M4__m4_04/result.json",
+      "result_sha256": "2e1755db78814c65e34fe58d336ee90d3051577317d2a8820f8e7b5686a058a3",
+      "predictions_sha256": "38ae29ed9e539f58f2d626b9730b48196d48ba7428079b3959b66d5432b7c91c"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M4__m4_05/result.json",
+      "result_sha256": "6cc56df61b5c62e60a984e066a72d05d6fd675475bf4984f1bbdc133464f0181",
+      "predictions_sha256": "738e9d46081dd1e59b98fc153e040dcc8593569159b45f809541c8b298f70250"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M4__m4_06/result.json",
+      "result_sha256": "26f79ef6b52bf4434aa9927b1d768bd9f03b28e14e52c24d5bf2114060a980d7",
+      "predictions_sha256": "afd6735e7f25d7f645798659b6536c1e48f1d1379354d21cce8f3b75a5a11d15"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M4__m4_07/result.json",
+      "result_sha256": "ae65e4b805d8828955e6a7299614c3bd7212e211ad4396cfa92e9bca22ee0d11",
+      "predictions_sha256": "7d174c1dc6f5214089508c1a0bef2b8348c5168fa88c768822bd0a8478bc19e7"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M4__m4_08/result.json",
+      "result_sha256": "31f72175f0a45def9d36a240ae59437dbf4223faa7f29c6e3764762c34a8040c",
+      "predictions_sha256": "9d7e0f4235c6d6d8f2daa4300c72f45d33f953a002b662ffa155257a4bb3df87"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M4__m4_09/result.json",
+      "result_sha256": "e2b7395a5c8e7f79afe89985e4684ac2f85e5ff489888233bd17746e04697aaf",
+      "predictions_sha256": "7c7824b19009a1d07cb37c4716b29909bc658735401602d1a9d9f2efe0a1d82d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_a__M4__m4_10/result.json",
+      "result_sha256": "26b450e5290fef719edd3d6a3751ce2dd1765d602d76302245e972b189a3f3ed",
+      "predictions_sha256": "0eb0410ff19bdd8939790b544fab260482bf7ab509f2a15d033a6399af7a6ac1"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M2__m2_01/result.json",
+      "result_sha256": "2be2786686c066e1fb22028a638e39e7ce2edc222675d6cb034ea968b7f75668",
+      "predictions_sha256": "a251e6e988b0a681e2fd4b227a44d9b7407a9208c063e6cec37b1ee624a3cea6"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M2__m2_02/result.json",
+      "result_sha256": "a158ecf0139847be0923cc3befb8618d7bdd1d9f1dbebb3ee71d8eace3f9b4e7",
+      "predictions_sha256": "9908f1b655183240730a7ee1db08a5248496cb40ec531c2796586566bb001ee1"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M2__m2_03/result.json",
+      "result_sha256": "d8c74618fa986c3036f8f525d16de63a4dbbe9a4592711216f06d380bd541052",
+      "predictions_sha256": "cd60196e3c871b0570553d0a5c63b5591e97054cc83d25b7d249732aceac64dc"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M2__m2_04/result.json",
+      "result_sha256": "4d7550be89d5f765b667a030ad10e95053eb03933cf737078eae7e6725538275",
+      "predictions_sha256": "90719342490dfb738a5f1a405b91f20929ad79e57642e712f66f317c961435d7"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M2__m2_05/result.json",
+      "result_sha256": "3ede037f85b3c2d7910d315dbee1740cab9b187eb4be8c158f93f75221c3d190",
+      "predictions_sha256": "802534807e898703a36802ea1117e788933056c80fa498dde077e2c2b3e04b06"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M2__m2_06/result.json",
+      "result_sha256": "69a6a1872da0edd5692ba0377f1968fdcad02757e8e0dc29b36b90b72a13dadc",
+      "predictions_sha256": "2f0d7a78990981ef759ef09b81ba6539f28db9a9f7f1f115873938359ba49f6b"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M2__m2_07/result.json",
+      "result_sha256": "260bd65d72df2687f23cb18397caa80af38c084c5a98bd04a68f89f65e433845",
+      "predictions_sha256": "c4c200745fa5b54ac4f24420a2d8cfd9400edee547676c16246e307c35c12996"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M2__m2_08/result.json",
+      "result_sha256": "72276e99f020626a414f61c119ed8fff14473e657953e7fbdeaebb07ebd6399c",
+      "predictions_sha256": "8abe841b34a2870273ae6b4a30c0615067fac1429dfb9b497d1c83fed848b9b9"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M2__m2_09/result.json",
+      "result_sha256": "6ac1828db2727cce032f2c9bf09a92031e00055872a8123a7e558b9f0757e77d",
+      "predictions_sha256": "34cb46182ca65eece96dee40a5225f1f41f650fbb1c8744de84481038f3681af"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M2__m2_10/result.json",
+      "result_sha256": "f31b875e5ecee50d25a666ad7c99a637ff7040dcb91c18662dd0a1113d5da905",
+      "predictions_sha256": "efcc614c6fc8e555604817ec5bfae3304a91db3af5a441760bf30f13523df3b5"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M4__m4_01/result.json",
+      "result_sha256": "7020ce7c5e370583d2791dfc2302d1896acac570aa59569428298541315fc513",
+      "predictions_sha256": "a7631ff3b061d9452d47ee09ae6a5d14171df4afd6026771742d613bcf17a50e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M4__m4_02/result.json",
+      "result_sha256": "1713594bf0bcaa10de1dd4460d2fe5c1546a9a676b9e416f4b93d8906ce367ff",
+      "predictions_sha256": "7f297dd7fbfadb9b2eb56bcd748c66ad2d181383da61f4751f58b89aa33ab5b7"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M4__m4_03/result.json",
+      "result_sha256": "e10114320ae221491b1ef5f4a1a786e5e57cf2cab4d6efbd2fa7359c96c609d8",
+      "predictions_sha256": "4bceec0aa5a5b4528e091def478d3dcb5eea987569a0a7c60269ba9fa3afd15a"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M4__m4_04/result.json",
+      "result_sha256": "b25d01f8afb68a996ed42ae8f21e042788805ab3d2de65a575b0e2934baa54d1",
+      "predictions_sha256": "84eb72892954e3b8a7054f2993de353f2e9c8838b58a593aadebcd9ecad1a5c2"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M4__m4_05/result.json",
+      "result_sha256": "01ed2d2d84ad9e44a55de85010314c97b78a3e092e0284e8e778106c24834da8",
+      "predictions_sha256": "2b6e280cae0aa9f71d3da178e8bdb49166a7d80282f8a0739c098d0a63a1fc11"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M4__m4_06/result.json",
+      "result_sha256": "09bbd16442e9ffe4023d47e39f0ff4a2d5a71b3409f0036de5fdcd181515ec74",
+      "predictions_sha256": "b795b670a75204a30a53e81d7582360d5cae9f0a468cfc042dbf7855a8a2e016"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M4__m4_07/result.json",
+      "result_sha256": "00e90ef4cf4d27aa1c38ee85eae3756588c9e1022dedca2bba90a66e97e453a9",
+      "predictions_sha256": "ef7f85519c2733cd696384da646a9f1e596dff5c00290ddb025aff454aad4ec5"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M4__m4_08/result.json",
+      "result_sha256": "eca0be4b71f966345257e4f2a90970d7a53d0ceea0ddb88d4c690a8cf5975463",
+      "predictions_sha256": "5f6725e65707860234eaef265ea9632a1e2ba36f2f49f291f293329b101f91d7"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M4__m4_09/result.json",
+      "result_sha256": "83082d43c101e253dd8e68c337789c30a037be63230e767b967b39049f2d3810",
+      "predictions_sha256": "1953af6212b12ebfeb540a2eb6cfd69249f8b3960301428606fa3be4ee9918bb"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_b__M4__m4_10/result.json",
+      "result_sha256": "0f8a1aa60e853748cfa60337d1060b891a12f6f8568855e1d6631ddd1975150c",
+      "predictions_sha256": "d9259fc3074ec37c6da505b56202ee45be37be566d13d4c02fd901e5eff50ec6"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M2__m2_01/result.json",
+      "result_sha256": "16b81e05c511d936fc12aeac5ca49253d47116989b43ce9c780aba3cc9924b80",
+      "predictions_sha256": "6ca452e0d7dbc7d2e5d0420d3b3e8d5ed4d7463c44eb45f573a28e980c7af714"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M2__m2_02/result.json",
+      "result_sha256": "4b24e1910d3efb3cd8a470844dc3061f57c4a2bc61faeda4ae2e3c03de5303e2",
+      "predictions_sha256": "5daf011702ea4d69d1a38bdefcb6446a5321fc94a50989f8c96c19eaee4d48e6"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M2__m2_03/result.json",
+      "result_sha256": "df3103638a1ae8f47e2727713f494c6a59140e4c47026f2828731b297bef186f",
+      "predictions_sha256": "180b7bd6c6908ff2350d1dafcaf6163ede7102d6557cb644aa4b5a449e11e16a"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M2__m2_04/result.json",
+      "result_sha256": "ea6e874cce38526404c8f38f73ed68f232d0e63fee83f8069dd42817091513ae",
+      "predictions_sha256": "1e11f36cb45cfa0c2c30539f0c9e2fc88cfba1361f515eb01bb7342fa5b0d710"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M2__m2_05/result.json",
+      "result_sha256": "d9211fd5c441c846d39e9c22344d9a46bc5435c2b7b18e4d38535c15a2fb49de",
+      "predictions_sha256": "09c0ca51f4f5731c2eda9c276f93ee6361c3347a485c5a1995d5518aeb08d602"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M2__m2_06/result.json",
+      "result_sha256": "9e6fbf39e682355a81bff5b48618605cd06557784686ffecdb3b593475a855ce",
+      "predictions_sha256": "258791d2ea7fa96985a091f187db8c86554797a8401f51a555c6236dcfc563a9"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M2__m2_07/result.json",
+      "result_sha256": "f389ebe178c53a9f3c0f7446e75fcf0cf5d2b97cb1835346e5744a687f0a4760",
+      "predictions_sha256": "b15ffb87ed5e96398b0aa7e4dffd69affcba565cf0df9b375d757f70c1c29dc6"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M2__m2_08/result.json",
+      "result_sha256": "f128068acb4b2e23637987ca853044e4dd8f558fd84141772fbb547cf28d5af3",
+      "predictions_sha256": "adf59b76f97a8897ba21fc9b4e44341367ade1ad8359deb497dbb05a09ebd84f"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M2__m2_09/result.json",
+      "result_sha256": "11c2241e3b4b19eba613555b2e67e2ea811f084faea418e296b3b63a7675625f",
+      "predictions_sha256": "e528faf19f7b572095bc603bed7fa0b958ccb2016072199bfc4980f0f77c14eb"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M2__m2_10/result.json",
+      "result_sha256": "58a82c66f1ee30868163374ceafe2b7b38692138076572d0d3831b14d48dcc62",
+      "predictions_sha256": "e1392a88de2a36a684e2a9607e7f5235024cb899f5ff3133d0fd680460d144d2"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M4__m4_01/result.json",
+      "result_sha256": "b01a5d2417ce26915f37a256cd3e95646bfd73f97d252645be33a9cf04745b04",
+      "predictions_sha256": "0646da754b4135a32b3695f774ef6e94772f69a131e03704340e7c9f7a858521"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M4__m4_02/result.json",
+      "result_sha256": "491d3dae13a5314186c000833a6bdebbd98375843a01e03ecfc86109c127f7d4",
+      "predictions_sha256": "096f3fd95d9a32aeb4dbda6ac60f3a4e5676661a9e1f26b2055d94217d2a79be"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M4__m4_03/result.json",
+      "result_sha256": "32b63c670e396c32cac84ab02eb2d166aca949a9279fd5b08f790fa60addb5ad",
+      "predictions_sha256": "3652e776debe3b207798cfb4cea56f527cf3108322b439475c028b3686cd4448"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M4__m4_04/result.json",
+      "result_sha256": "7ed6cd9f48c70094885cd39dfd9222d3c417531e72ecfc5eec765058f2d00a36",
+      "predictions_sha256": "0758883d8bc2ea6a2379ed86f37e6a08bdf6ac881fb748e371ce651322c52a5d"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M4__m4_05/result.json",
+      "result_sha256": "9cbe6e4db96aa9f017e205e25f69a6eab31cb766c776e7833082576775ba268c",
+      "predictions_sha256": "aaaff6d8094d557c4f16c023f1776ba5c2680b744ea675ddecaf359670fd876e"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M4__m4_06/result.json",
+      "result_sha256": "3dc66e687e7eb1bc5626fc63067c128a8372fcd870807695d1ea9060ad16eaab",
+      "predictions_sha256": "79c87792c3886472dfbd7cf30cd1d93ad6e747913d54e4f6a82e0a516fc233de"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M4__m4_07/result.json",
+      "result_sha256": "1466ed4b932eeba9af9f65db9d0650c8d233eb2dea6bb4ce820f81d5d6bfc662",
+      "predictions_sha256": "63f910791992c069fa606d72d1c2924c5101288cf601462b7c9df8029c89aee4"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M4__m4_08/result.json",
+      "result_sha256": "38477af2ff8da96ae2948f9af88a1323c83ed89969c2ac9cfd309af84b8991cd",
+      "predictions_sha256": "59e008ac5ba90a617758dc73c13e079bd75572a3ea2da28fab3ad43ed375acfd"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M4__m4_09/result.json",
+      "result_sha256": "65789265f45fbcbff85259981dcab5629964e11c0df211831af7bc3cb1b157c2",
+      "predictions_sha256": "eb18754c67165d72331f13c071d1ec411545ad65cd9fcc2a9102e59dc7e9b92a"
+    },
+    {
+      "result_path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments/F12/F12_F_c__M4__m4_10/result.json",
+      "result_sha256": "a04ea1c9732bf42521962f41cb15512cc362da8b8a4bf04ddfad39c6737ed89c",
+      "predictions_sha256": "fe3ecc5b9d3be233e265f3a443e6fc5dc426b680dec71024eb1802dc5481cd35"
+    }
+  ]
+}

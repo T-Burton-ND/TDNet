@@ -333,3 +333,15 @@ Chronological record of wiki activity.
 - Recorded the measured 494-game interim audit, explicitly identifying its concentration in 2013 and its incomplete acquisition cutoff.
 - Saved numerical evidence for clean identity joins alongside 3,310 missing rushing plays and 3,118 row-level yardage disagreements; no source values or model inputs were changed.
 - Preserved the original audit and per-game evidence separately so the eventual final audit cannot erase this snapshot.
+
+## [2026-09-29] update | Completed nextgen model results table
+- by: Thomas J. Burton via codex
+- Verified prediction hashes for all 356 successful runs and retained the four F06 failures across the 360 previously submitted configurations.
+- Filed per-fingerprint and architecture medians, complete CSV metrics and source-hash evidence without retraining.
+- Preserved development-year and evaluation-cohort limitations; paired conclusions for newly completed cells remain pending.
+
+## [2026-09-29] update | Historical acquisition pass and final audit
+- by: Thomas J. Burton via codex
+- Recorded 10,637 successful approved game caches and 67 unresolved games; the acquisition pass and audit finished with 5,571 cumulative attempts.
+- Verified the audit and per-game report hashes, preserving measured missing rushing events, disputed yardage/team attribution and duplicate actor/stat rows.
+- Distinguished completed dispatch from complete source coverage and retained recovery work without imputing absent events.

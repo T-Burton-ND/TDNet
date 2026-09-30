@@ -13,7 +13,11 @@ This page records the execution contract for exploratory, market-free F06→F09�
 
 Empirical lessons now distinguish aggregate medians from matched configurations and verify common evaluation games. Observed F09 M4 gains, F06 compression tradeoffs, F10 A/M2 gains, and negative F11/F12 A comparisons are documented without attributing untested causes. See [empirical lessons and paired evidence](Nextgen-Empirical-Lessons-2026-09-28) for exact values, scope and limits. No new experiments were run.
 
-## Current snapshot — 2026-09-28
+## Current completion — 2026-09-29
+
+All previously submitted screening cells are terminal: 356 successes and four F06 failures. All successful prediction hashes were verified for the [completed model table](Nextgen-Completed-Model-Results-2026-09-29). New results have not yet received paired common-game analysis or new acceptance decisions. No additional experiment was launched for this report.
+
+## Historical snapshot — 2026-09-28
 
 Goal paused at user request. Verified existing outputs now include terminal F06 full/reduced and F09 full screening, F10 A M2, and F11/F12 A both architectures. F06 reduced A/B pass the numerical MAE tolerance but remain nonminimum first trials; C is the only accepted floor reduction. Existing F10/F11/F12 submissions remain active; no new experiment or acceptance was issued. See the [verified paused snapshot](Nextgen-Results-Snapshot-2026-09-28) for all metrics, evidence paths, source gaps and scheduler counts as of 12:52 UTC. This supersedes earlier live-status statements; the goal is paused and existing queued cells may still dispatch.
 
