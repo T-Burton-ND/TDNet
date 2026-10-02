@@ -7,7 +7,7 @@ tags: [fingerprints, proposal, untested, play-by-play]
 
 # Fingerprint F13 Proposal
 
-Proposed future research: context-adjusted play performance and outcome distributions, motivated by measured F09 gains; the approved historical acquisition is complete, while F13 feature implementation, experiments and lineage changes remain unexecuted. The user subsequently authorized source repairs during the archive review; those are documented separately from any F13 experiment.
+This page originally proposed context-adjusted play performance and outcome distributions after measured F09 gains. The later [F13–F17 A screen](Nextgen-F13-F17-A-Screen-2026-10-02) implemented a context-only F13 A candidate after a separate source correction and found worse median paired MAE in both design-informed development years for M2 and M4; opponent-strength adjustment, B/C designs, reduction and lineage acceptance remain untested.
 
 ## Evidence motivating the proposal
 
@@ -56,9 +56,9 @@ Before F13, separate a versioned taxonomy/order repair from new information. The
 
 ## Status
 
-Untested proposal only. No expected improvement size is asserted. No new model, data pull, scheduler action or F13 artifact was created by this proposal/review; earlier authorized acquisition is documented below. The scientific goal remains paused.
+The original proposal/review created no model or F13 artifact at its September 2026 cutoff. The later common-cohort A experiment is measured and negative; see the [screen results](Nextgen-F13-F17-A-Screen-2026-10-02). The broader opponent-strength and representation proposals here remain untested, and no F13 lineage was accepted.
 
-See also: [Measured lessons](Nextgen-Empirical-Lessons-2026-09-28) · [F09](Fingerprint-F09) · [Experiment contract](Next-Generation-Fingerprint-Experiment).
+See also: [Measured lessons](Nextgen-Empirical-Lessons-2026-09-28) · [F09](Fingerprint-F09) · [Experiment contract](Next-Generation-Fingerprint-Experiment) · [F13–F17 A screen](Nextgen-F13-F17-A-Screen-2026-10-02).
 
 ## Authorized archive acquisition — 2026-09-28
 

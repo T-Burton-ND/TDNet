@@ -7,11 +7,15 @@ tags: [fingerprints, roadmap, proposal, untested, F13, F14, F15, F16, F17]
 
 # Proposed F13–F17 Research Roadmap
 
-Five research generations are feasible from the saved archive, with taxonomy repair first and all predictive benefits untested.
+Five research directions were proposed from the saved archive. A later context-only F13–F16 A screen measured no robust market-free gain; the proposed opponent-style F17 remains untested.
+
+## Later measured A screen — 2026-10-02
+
+The [F13–F17 A screen](Nextgen-F13-F17-A-Screen-2026-10-02) trained M2/M4 on F13 context residuals, F14 possession transitions, F15 observed roles and F16 adjusted-state change after a separate corrected-F09 reference. On its common 2013–2025 F12 A game cohort, the market-free cumulative A lineage did not improve median MAE consistently in the design-informed 2024/2025 years. The user-requested fifth round was a **separate market fork named `F17_market`**; it does not replace this roadmap's untested opponent-style F17 idea. The archived market spread remained the more consistent two-year MAE benchmark. See that results page for exact configuration counts, paired metrics, source coverage and limits. B/C designs, reductions and opponent-style response remain untested.
 
 ## Scope and evidence
 
-The user requested plans, documentation and a Markdown-only public push. The user subsequently authorized necessary repairs/additions; the local classifier repair is complete and documented in the review. New experiments, data requests, canonical rebuilds, lineage changes and model acceptance were not performed. The [full archive review](Nextgen-Full-Archive-Review-2026-09-30) provides measured coverage, field checks, hashes and limitations. The scientific goal remains paused. Generation names below are proposed reservations, not completed or formally accepted fingerprints.
+For the September 30 planning pass, the user requested plans, documentation and a Markdown-only public push. The user subsequently authorized necessary repairs/additions; the local classifier repair is complete and documented in the review. At that planning cutoff, new experiments, data requests, canonical rebuilds, lineage changes and model acceptance were not performed. The [full archive review](Nextgen-Full-Archive-Review-2026-09-30) provides measured coverage, field checks, hashes and limitations. Generation names below were proposed reservations, not formally accepted fingerprints. The later A screen above supersedes only the earlier claim that all directions remained untested.
 
 The archive already contains the main raw material. In the authoritative 2010–2025 regular-season scope there are 2,351,115 plays, every one joining to a drive; 2013–2025 attribution has 10,639 successful approved game caches. Additional API spending is not a prerequisite for any direction below. However, the original saved F09 classifier omitted historical `Pass Completion` / `Pass Interception` labels, and actor coverage is incomplete and uneven. The source repair has not been propagated into preserved canonical/model artifacts. Source volume is not sufficient validation.
 
@@ -95,4 +99,4 @@ Rest/travel/environment conditioning is a possible substitute if F17 lacks suppo
 6. **Report tradeoffs, not just a winning median.** Include per-configuration paired MAE changes, median paired change, difference of medians and improvement counts, plus Brier, winner/upset recognition and ATS diagnostics. Market data remain evaluation-only. Configuration outcomes are correlated, not independent statistical replications. No acceptance based solely on one design-informed year or raw cross-cohort medians. Keep M2 and M4 separate; previous results do not establish a universal winner.
 7. **Stop when evidence fails.** Defer a family that lacks meaningful support, duplicates an existing formula, leaks future information, or fails the predeclared acceptance gate. Five proposed generations do not obligate five accepted generations. Plans may be implemented independently where feasible, but no parallel experiments were started for this review.
 
-See also: [Full archive review](Nextgen-Full-Archive-Review-2026-09-30) · [F13 proposal](Fingerprint-F13-Proposal) · [Empirical lessons](Nextgen-Empirical-Lessons-2026-09-28) · [Experiment contract](Next-Generation-Fingerprint-Experiment).
+See also: [Full archive review](Nextgen-Full-Archive-Review-2026-09-30) · [F13 proposal](Fingerprint-F13-Proposal) · [Empirical lessons](Nextgen-Empirical-Lessons-2026-09-28) · [Experiment contract](Next-Generation-Fingerprint-Experiment) · [Measured A screen](Nextgen-F13-F17-A-Screen-2026-10-02).
