@@ -1,0 +1,75 @@
+{
+  "status": "complete",
+  "plotted_points": 110,
+  "models": [
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M5",
+    "M10"
+  ],
+  "stages": [
+    "F09",
+    "F10",
+    "F11",
+    "F12_corrected",
+    "F13",
+    "F14",
+    "F15",
+    "F16",
+    "F17_market"
+  ],
+  "historical_folds_sha256": "878cbc7a15a5d3624c0fe877ad1cfc8d04d8312ddd1260f6969fc99a2c7e2d4d",
+  "archived_f06_sha256": "b1c34d67e809bf01e3c486ff7cd2cf87275915de578727c81f241d3f5bf7494b",
+  "nextgen_result_files": 288,
+  "nextgen_results_digest_sha256": "f3c7583c0328e7a8e76cbb4c59af7a8315ef569eb6270701265569bc4eebdfaa",
+  "nextgen_stage_points": 56,
+  "vegas_baselines": [
+    {
+      "setting": "historical 2015\u20132024 fold median",
+      "games": 724,
+      "actual_upsets": 187,
+      "mae": 12.284436303965979,
+      "upset_recall": 0.0,
+      "winner_accuracy": 0.7423756854726276,
+      "brier_score": 0.25762431452737244,
+      "brier_method": "0/1 probability assigned to Vegas spread favorite"
+    },
+    {
+      "setting": "nextgen 2025 broad",
+      "games": 757,
+      "actual_upsets": 195,
+      "mae": 11.858322324966975,
+      "upset_recall": 0.0,
+      "winner_accuracy": 0.7424042272126816,
+      "brier_score": 0.2575957727873184,
+      "brier_method": "0/1 probability assigned to the Vegas spread favorite"
+    },
+    {
+      "setting": "nextgen 2025 narrow",
+      "games": 553,
+      "actual_upsets": 149,
+      "mae": 11.647830018083182,
+      "upset_recall": 0.0,
+      "winner_accuracy": 0.7305605786618445,
+      "brier_score": 0.2694394213381555,
+      "brier_method": "0/1 probability assigned to the Vegas spread favorite"
+    }
+  ],
+  "output_sha256": {
+    "all_architectures_historical_folds.csv": "e6d2d720e33f40d663f1be496cd3a52adee9ca960a879b4302373ccba4ba3251",
+    "all_architectures_scatter_data.csv": "3ab0d4d40d7942357a06415243d11560d5d8c33deaa30ab0b60eea52634385f3",
+    "all_architectures_vegas_baseline_data.csv": "aa572f32ddfb3d482e374696d3e745ecdde3dc8e1f6ddc6e35879593da253d6b",
+    "all_architectures_vegas_historical_folds.csv": "e00810404a2078ae64dd441e9884046e11112ae83a6206aad9d8e5d94efe3849",
+    "all_fingerprints_f0_f17_brier_score_all_architectures.png": "84451af2f2ca4236c32ffde2fff62f822b841caa62fcb6f1f128eb7e7585faa6",
+    "all_fingerprints_f0_f17_brier_score_all_architectures.svg": "381451859e5aea340f9b3977a05f3db03bceba7de88ef7749f2d04492c52ae35",
+    "all_fingerprints_f0_f17_mae_all_architectures.png": "51caed17f443a762ebe9ae0d82e2e010d6997d19272702f29c5c7f560ebae743",
+    "all_fingerprints_f0_f17_mae_all_architectures.svg": "e604c58ff9ac41de3eba633c15d9cd37a11cf0c20a0560439938b12b3a5f9ccd",
+    "all_fingerprints_f0_f17_upset_recall_all_architectures.png": "6c0c1265997257d24732a5bd6b4c8093f6ebfc4ab8b36a2e5757a600147d8f2d",
+    "all_fingerprints_f0_f17_upset_recall_all_architectures.svg": "0a97384e2a9e3fe6d5c5146d080001f59e9f69719a1989735afb4946ee8f252a",
+    "all_fingerprints_f0_f17_winner_accuracy_all_architectures.png": "ed03a7ff803941f2b2d697e50578d8279dc2c10d07bf415e1e3013c18abfe409",
+    "all_fingerprints_f0_f17_winner_accuracy_all_architectures.svg": "5b6296ecb47251f76e5776d85edd1d5e6a2889e5b86c55e5defad93d6ca73850"
+  },
+  "output": "/users/tburton2/Repos/TDNet/docs/nextgen_fingerprints/figures"
+}

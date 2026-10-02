@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "experiment": "nextgen_rounds_scientific_models_v1",
+  "objective": "margin",
+  "models": {
+    "M1": {
+      "label": "ridge",
+      "base_config": "configs/models/linear/config_ridge.yaml",
+      "params": {
+        "config.margin_temperature": 6.058600414989275,
+        "config.params.alpha": 768.9479178682981,
+        "config.prediction_margin_cap": 28.697847747037414,
+        "config.training.standardize": false
+      },
+      "selection_cv_mae": 13.359146492289161
+    },
+    "M3": {
+      "label": "random_forest",
+      "base_config": "configs/models/tree/config_random_forest.yaml",
+      "params": {
+        "config.params.bootstrap": true,
+        "config.params.max_depth": null,
+        "config.params.max_features": 0.35,
+        "config.params.min_samples_leaf": 4,
+        "config.params.min_samples_split": 32,
+        "config.params.n_estimators": 853
+      },
+      "selection_cv_mae": 13.3932684061191
+    },
+    "M5": {
+      "label": "mlp",
+      "base_config": "configs/models/neural/config_mlp.yaml",
+      "params": {
+        "config.activation": "relu",
+        "config.batch_size": 64,
+        "config.dropout": 0.25,
+        "config.hidden_layers": [128],
+        "config.learning_rate": 0.003,
+        "config.loss": "huber",
+        "config.normalization": "batch_norm",
+        "config.quantile_transform": false,
+        "config.weight_decay": 0.00001
+      },
+      "selection_cv_mae": 13.488233201198318
+    },
+    "M10": {
+      "label": "knn_distance",
+      "base_config": "configs/models/knn/config_knn_distance.yaml",
+      "params": {
+        "config.margin_temperature": 21.71739369626606,
+        "config.params.metric": "manhattan",
+        "config.params.n_neighbors": 20,
+        "config.params.weights": "uniform"
+      },
+      "selection_cv_mae": 14.355291689505183
+    }
+  },
+  "selection_source": {
+    "method": "best margin-CV configuration by M1/M3/M5/M10 within F6, from ten rolling-origin folds",
+    "artifact": "/groups/bsavoie2/tburton2/TDNet/publication_artifacts/new_fingerprint_hps/experiments/publication_hps_new_fingerprints_scientific_v1/summary/tables/best_configuration_by_cell.parquet",
+    "sha256": "1a7280231b69e467674f6642c44117a6f7090c1b5d39af25a68a4e55799633d0",
+    "cv_scope": "F6 historical rolling-origin model selection; no 2024 or 2025 outcomes"
+  },
+  "stages": ["F09", "F10", "F11", "F12_corrected", "F13", "F14", "F15", "F16", "F17_market"],
+  "seeds": [1701, 2718, 3141],
+  "split": {
+    "training_years": [2013, 2023],
+    "calibration_cutoffs": [2019, 2021],
+    "evaluation_years": [2024, 2025]
+  },
+  "market_research_only_stage": "F17_market"
+}

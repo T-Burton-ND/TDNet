@@ -1,0 +1,4 @@
+setting,games,actual_upsets,mae,winner_accuracy,upset_accuracy
+historical 2015–2024 fold median,724,187,12.284436304,0.742375685473,0
+nextgen 2025 broad,757,195,11.858322325,0.742404227213,0
+nextgen 2025 narrow,553,149,11.6478300181,0.730560578662,0

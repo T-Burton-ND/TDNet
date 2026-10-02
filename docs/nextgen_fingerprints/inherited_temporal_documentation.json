@@ -1,0 +1,595 @@
+{
+  "version": 1,
+  "status": "source-reviewed temporal transformations; provider raw-statistic definitions remain separate documentation work",
+  "common": {
+    "implementation": "src/gridiron_ml/fingerprints/ladder.py",
+    "implementation_sha256": "835066c307a22dd0198019add4d27889e0ab6cd12ce097d015759abae65c05fb",
+    "additional_implementation": "src/gridiron_ml/experiments/nextgen_designs.py",
+    "additional_implementation_sha256": "eaba84cddf10a147ba9e8df8c20de41bfd540e90d995fbd1b7f0bb36b8a84be1",
+    "scope": "Canonical source state after the observed week, used for a later target game; team-season histories reset at season boundaries. No target-game observations enter these transforms.",
+    "reconstruction_equation_excel": "=IF(AND(ISNUMBER(n),ISNUMBER(m),n>n_prev),(n*m-IF(AND(n_prev>0,ISNUMBER(m_prev)),n_prev*m_prev,0))/(n-n_prev),NA())",
+    "reconstruction_inputs": "n is completed game count, m is the current cumulative source mean; n_prev is the greatest prior nonmissing count, m_prev the latest prior nonmissing mean. Append only finite reconstructed contributions x when n advances. When counts advance by more than one, x is that batch contribution average, not individually recovered games.",
+    "history_update": "After each source row, update n_prev=MAX(n_prev,n) when n is present and update m_prev=m when m is present, even if no contribution was appended. Missing count/mean or bye rows do not append a new observation.",
+    "garbage_time_handling": "No new temporal play filter; retain the inherited source statistic filtering. Provider-side historical filtering is not reconstructed by these transforms.",
+    "minimum_sample_rule": "One finite reconstructed contribution enables level/trend states. Population volatility is zero at one contribution; it is missing before any contribution. Missing current source mean makes the recent-minus-season difference missing.",
+    "source_inspiration": "TDNet-derived temporal transforms, implemented in the hash-bound source. Provider PPA, success and explosiveness terminology: https://github.com/sportsdataverse/cfbfastR/blob/main/R/cfbd_play.R (PPA per play; explosiveness is average PPA on successful plays)."
+  },
+  "features": {
+    "time_adj_ewm_hl3__defense_explosiveness": {
+      "equation_excel": "=IF(first_contribution,x,(1-POWER(2,-1/3))*x+POWER(2,-1/3)*ewm_previous)",
+      "source_column": "defense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Exponentially weighted level; the history weight halves after three new contributions, not after three calendar weeks.",
+      "film_intuition": "Recent games matter more while older evidence fades smoothly.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_ewm_hl3__defense_havoc_rate": {
+      "equation_excel": "=IF(first_contribution,x,(1-POWER(2,-1/3))*x+POWER(2,-1/3)*ewm_previous)",
+      "source_column": "defense_havoc_rate",
+      "units": "fraction (0-1 source rate); temporal differences and deviations use fraction units",
+      "positive_negative_meaning": "Exponentially weighted level; the history weight halves after three new contributions, not after three calendar weeks.",
+      "film_intuition": "Recent games matter more while older evidence fades smoothly.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_ewm_hl3__defense_ppa": {
+      "equation_excel": "=IF(first_contribution,x,(1-POWER(2,-1/3))*x+POWER(2,-1/3)*ewm_previous)",
+      "source_column": "defense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Exponentially weighted level; the history weight halves after three new contributions, not after three calendar weeks.",
+      "film_intuition": "Recent games matter more while older evidence fades smoothly.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_ewm_hl3__defense_success_rate": {
+      "equation_excel": "=IF(first_contribution,x,(1-POWER(2,-1/3))*x+POWER(2,-1/3)*ewm_previous)",
+      "source_column": "defense_success_rate",
+      "units": "fraction (0-1 source rate); temporal differences and deviations use fraction units",
+      "positive_negative_meaning": "Exponentially weighted level; the history weight halves after three new contributions, not after three calendar weeks.",
+      "film_intuition": "Recent games matter more while older evidence fades smoothly.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_ewm_hl3__offense_explosiveness": {
+      "equation_excel": "=IF(first_contribution,x,(1-POWER(2,-1/3))*x+POWER(2,-1/3)*ewm_previous)",
+      "source_column": "offense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Exponentially weighted level; the history weight halves after three new contributions, not after three calendar weeks.",
+      "film_intuition": "Recent games matter more while older evidence fades smoothly.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_ewm_hl3__offense_passing_plays_ppa": {
+      "equation_excel": "=IF(first_contribution,x,(1-POWER(2,-1/3))*x+POWER(2,-1/3)*ewm_previous)",
+      "source_column": "offense_passing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Exponentially weighted level; the history weight halves after three new contributions, not after three calendar weeks.",
+      "film_intuition": "Recent games matter more while older evidence fades smoothly.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_ewm_hl3__offense_ppa": {
+      "equation_excel": "=IF(first_contribution,x,(1-POWER(2,-1/3))*x+POWER(2,-1/3)*ewm_previous)",
+      "source_column": "offense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Exponentially weighted level; the history weight halves after three new contributions, not after three calendar weeks.",
+      "film_intuition": "Recent games matter more while older evidence fades smoothly.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_ewm_hl3__offense_rushing_plays_ppa": {
+      "equation_excel": "=IF(first_contribution,x,(1-POWER(2,-1/3))*x+POWER(2,-1/3)*ewm_previous)",
+      "source_column": "offense_rushing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Exponentially weighted level; the history weight halves after three new contributions, not after three calendar weeks.",
+      "film_intuition": "Recent games matter more while older evidence fades smoothly.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_ewm_hl3__offense_success_rate": {
+      "equation_excel": "=IF(first_contribution,x,(1-POWER(2,-1/3))*x+POWER(2,-1/3)*ewm_previous)",
+      "source_column": "offense_success_rate",
+      "units": "fraction (0-1 source rate); temporal differences and deviations use fraction units",
+      "positive_negative_meaning": "Exponentially weighted level; the history weight halves after three new contributions, not after three calendar weeks.",
+      "film_intuition": "Recent games matter more while older evidence fades smoothly.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_ewm_hl3__statGen_turnovers": {
+      "equation_excel": "=IF(first_contribution,x,(1-POWER(2,-1/3))*x+POWER(2,-1/3)*ewm_previous)",
+      "source_column": "statGen_turnovers",
+      "units": "turnovers per game",
+      "positive_negative_meaning": "Exponentially weighted level; the history weight halves after three new contributions, not after three calendar weeks.",
+      "film_intuition": "Recent games matter more while older evidence fades smoothly.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_ewm_hl3__statOff_yards_per_pass": {
+      "equation_excel": "=IF(first_contribution,x,(1-POWER(2,-1/3))*x+POWER(2,-1/3)*ewm_previous)",
+      "source_column": "statOff_yards_per_pass",
+      "units": "yards per pass attempt",
+      "positive_negative_meaning": "Exponentially weighted level; the history weight halves after three new contributions, not after three calendar weeks.",
+      "film_intuition": "Recent games matter more while older evidence fades smoothly.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_ewm_hl3__statOff_yards_per_rush_attempt": {
+      "equation_excel": "=IF(first_contribution,x,(1-POWER(2,-1/3))*x+POWER(2,-1/3)*ewm_previous)",
+      "source_column": "statOff_yards_per_rush_attempt",
+      "units": "yards per rush attempt",
+      "positive_negative_meaning": "Exponentially weighted level; the history weight halves after three new contributions, not after three calendar weeks.",
+      "film_intuition": "Recent games matter more while older evidence fades smoothly.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last1__defense_explosiveness": {
+      "equation_excel": "=INDEX(history,ROWS(history))",
+      "source_column": "defense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Latest finite reconstructed contribution. Sign has the same meaning as the underlying source measure.",
+      "film_intuition": "Most recent observed performance.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last1__defense_havoc_rate": {
+      "equation_excel": "=INDEX(history,ROWS(history))",
+      "source_column": "defense_havoc_rate",
+      "units": "fraction (0-1 source rate); temporal differences and deviations use fraction units",
+      "positive_negative_meaning": "Latest finite reconstructed contribution. Sign has the same meaning as the underlying source measure.",
+      "film_intuition": "Most recent observed performance.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last1__defense_ppa": {
+      "equation_excel": "=INDEX(history,ROWS(history))",
+      "source_column": "defense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Latest finite reconstructed contribution. Sign has the same meaning as the underlying source measure.",
+      "film_intuition": "Most recent observed performance.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last1__defense_success_rate": {
+      "equation_excel": "=INDEX(history,ROWS(history))",
+      "source_column": "defense_success_rate",
+      "units": "fraction (0-1 source rate); temporal differences and deviations use fraction units",
+      "positive_negative_meaning": "Latest finite reconstructed contribution. Sign has the same meaning as the underlying source measure.",
+      "film_intuition": "Most recent observed performance.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last1__offense_explosiveness": {
+      "equation_excel": "=INDEX(history,ROWS(history))",
+      "source_column": "offense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Latest finite reconstructed contribution. Sign has the same meaning as the underlying source measure.",
+      "film_intuition": "Most recent observed performance.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last1__offense_passing_plays_ppa": {
+      "equation_excel": "=INDEX(history,ROWS(history))",
+      "source_column": "offense_passing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Latest finite reconstructed contribution. Sign has the same meaning as the underlying source measure.",
+      "film_intuition": "Most recent observed performance.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last1__offense_ppa": {
+      "equation_excel": "=INDEX(history,ROWS(history))",
+      "source_column": "offense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Latest finite reconstructed contribution. Sign has the same meaning as the underlying source measure.",
+      "film_intuition": "Most recent observed performance.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last1__offense_rushing_plays_ppa": {
+      "equation_excel": "=INDEX(history,ROWS(history))",
+      "source_column": "offense_rushing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Latest finite reconstructed contribution. Sign has the same meaning as the underlying source measure.",
+      "film_intuition": "Most recent observed performance.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last1__offense_success_rate": {
+      "equation_excel": "=INDEX(history,ROWS(history))",
+      "source_column": "offense_success_rate",
+      "units": "fraction (0-1 source rate); temporal differences and deviations use fraction units",
+      "positive_negative_meaning": "Latest finite reconstructed contribution. Sign has the same meaning as the underlying source measure.",
+      "film_intuition": "Most recent observed performance.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last1__statGen_turnovers": {
+      "equation_excel": "=INDEX(history,ROWS(history))",
+      "source_column": "statGen_turnovers",
+      "units": "turnovers per game",
+      "positive_negative_meaning": "Latest finite reconstructed contribution. Sign has the same meaning as the underlying source measure.",
+      "film_intuition": "Most recent observed performance.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last1__statOff_yards_per_pass": {
+      "equation_excel": "=INDEX(history,ROWS(history))",
+      "source_column": "statOff_yards_per_pass",
+      "units": "yards per pass attempt",
+      "positive_negative_meaning": "Latest finite reconstructed contribution. Sign has the same meaning as the underlying source measure.",
+      "film_intuition": "Most recent observed performance.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last1__statOff_yards_per_rush_attempt": {
+      "equation_excel": "=INDEX(history,ROWS(history))",
+      "source_column": "statOff_yards_per_rush_attempt",
+      "units": "yards per rush attempt",
+      "positive_negative_meaning": "Latest finite reconstructed contribution. Sign has the same meaning as the underlying source measure.",
+      "film_intuition": "Most recent observed performance.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last3__defense_explosiveness": {
+      "equation_excel": "=AVERAGE(TAKE(history,-MIN(3,ROWS(history))))",
+      "source_column": "defense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Mean of up to three latest finite reconstructed contributions; sign follows the source measure.",
+      "film_intuition": "Recent form with less dependence on one game.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last3__defense_havoc_rate": {
+      "equation_excel": "=AVERAGE(TAKE(history,-MIN(3,ROWS(history))))",
+      "source_column": "defense_havoc_rate",
+      "units": "fraction (0-1 source rate); temporal differences and deviations use fraction units",
+      "positive_negative_meaning": "Mean of up to three latest finite reconstructed contributions; sign follows the source measure.",
+      "film_intuition": "Recent form with less dependence on one game.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last3__defense_ppa": {
+      "equation_excel": "=AVERAGE(TAKE(history,-MIN(3,ROWS(history))))",
+      "source_column": "defense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Mean of up to three latest finite reconstructed contributions; sign follows the source measure.",
+      "film_intuition": "Recent form with less dependence on one game.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last3__defense_success_rate": {
+      "equation_excel": "=AVERAGE(TAKE(history,-MIN(3,ROWS(history))))",
+      "source_column": "defense_success_rate",
+      "units": "fraction (0-1 source rate); temporal differences and deviations use fraction units",
+      "positive_negative_meaning": "Mean of up to three latest finite reconstructed contributions; sign follows the source measure.",
+      "film_intuition": "Recent form with less dependence on one game.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last3__offense_explosiveness": {
+      "equation_excel": "=AVERAGE(TAKE(history,-MIN(3,ROWS(history))))",
+      "source_column": "offense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Mean of up to three latest finite reconstructed contributions; sign follows the source measure.",
+      "film_intuition": "Recent form with less dependence on one game.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last3__offense_passing_plays_ppa": {
+      "equation_excel": "=AVERAGE(TAKE(history,-MIN(3,ROWS(history))))",
+      "source_column": "offense_passing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Mean of up to three latest finite reconstructed contributions; sign follows the source measure.",
+      "film_intuition": "Recent form with less dependence on one game.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last3__offense_ppa": {
+      "equation_excel": "=AVERAGE(TAKE(history,-MIN(3,ROWS(history))))",
+      "source_column": "offense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Mean of up to three latest finite reconstructed contributions; sign follows the source measure.",
+      "film_intuition": "Recent form with less dependence on one game.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last3__offense_rushing_plays_ppa": {
+      "equation_excel": "=AVERAGE(TAKE(history,-MIN(3,ROWS(history))))",
+      "source_column": "offense_rushing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Mean of up to three latest finite reconstructed contributions; sign follows the source measure.",
+      "film_intuition": "Recent form with less dependence on one game.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last3__offense_success_rate": {
+      "equation_excel": "=AVERAGE(TAKE(history,-MIN(3,ROWS(history))))",
+      "source_column": "offense_success_rate",
+      "units": "fraction (0-1 source rate); temporal differences and deviations use fraction units",
+      "positive_negative_meaning": "Mean of up to three latest finite reconstructed contributions; sign follows the source measure.",
+      "film_intuition": "Recent form with less dependence on one game.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last3__statGen_turnovers": {
+      "equation_excel": "=AVERAGE(TAKE(history,-MIN(3,ROWS(history))))",
+      "source_column": "statGen_turnovers",
+      "units": "turnovers per game",
+      "positive_negative_meaning": "Mean of up to three latest finite reconstructed contributions; sign follows the source measure.",
+      "film_intuition": "Recent form with less dependence on one game.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last3__statOff_yards_per_pass": {
+      "equation_excel": "=AVERAGE(TAKE(history,-MIN(3,ROWS(history))))",
+      "source_column": "statOff_yards_per_pass",
+      "units": "yards per pass attempt",
+      "positive_negative_meaning": "Mean of up to three latest finite reconstructed contributions; sign follows the source measure.",
+      "film_intuition": "Recent form with less dependence on one game.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_last3__statOff_yards_per_rush_attempt": {
+      "equation_excel": "=AVERAGE(TAKE(history,-MIN(3,ROWS(history))))",
+      "source_column": "statOff_yards_per_rush_attempt",
+      "units": "yards per rush attempt",
+      "positive_negative_meaning": "Mean of up to three latest finite reconstructed contributions; sign follows the source measure.",
+      "film_intuition": "Recent form with less dependence on one game.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_consensus__defense_explosiveness": {
+      "equation_excel": "=IF(COUNT([time_adj_last1__defense_explosiveness],[time_adj_last3__defense_explosiveness],[time_adj_ewm_hl3__defense_explosiveness])=3,AVERAGE([time_adj_last1__defense_explosiveness],[time_adj_last3__defense_explosiveness],[time_adj_ewm_hl3__defense_explosiveness]),NA())",
+      "source_column": "defense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Equal-weight latest-game, last-three and half-life-three levels. All three inputs must exist; no outcome-fitted weights.",
+      "film_intuition": "Balances immediate form against a smoothed recent level.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_consensus__defense_havoc_rate": {
+      "equation_excel": "=IF(COUNT([time_adj_last1__defense_havoc_rate],[time_adj_last3__defense_havoc_rate],[time_adj_ewm_hl3__defense_havoc_rate])=3,AVERAGE([time_adj_last1__defense_havoc_rate],[time_adj_last3__defense_havoc_rate],[time_adj_ewm_hl3__defense_havoc_rate]),NA())",
+      "source_column": "defense_havoc_rate",
+      "units": "fraction (0-1 source rate); temporal differences and deviations use fraction units",
+      "positive_negative_meaning": "Equal-weight latest-game, last-three and half-life-three levels. All three inputs must exist; no outcome-fitted weights.",
+      "film_intuition": "Balances immediate form against a smoothed recent level.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_consensus__defense_ppa": {
+      "equation_excel": "=IF(COUNT([time_adj_last1__defense_ppa],[time_adj_last3__defense_ppa],[time_adj_ewm_hl3__defense_ppa])=3,AVERAGE([time_adj_last1__defense_ppa],[time_adj_last3__defense_ppa],[time_adj_ewm_hl3__defense_ppa]),NA())",
+      "source_column": "defense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Equal-weight latest-game, last-three and half-life-three levels. All three inputs must exist; no outcome-fitted weights.",
+      "film_intuition": "Balances immediate form against a smoothed recent level.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_consensus__defense_success_rate": {
+      "equation_excel": "=IF(COUNT([time_adj_last1__defense_success_rate],[time_adj_last3__defense_success_rate],[time_adj_ewm_hl3__defense_success_rate])=3,AVERAGE([time_adj_last1__defense_success_rate],[time_adj_last3__defense_success_rate],[time_adj_ewm_hl3__defense_success_rate]),NA())",
+      "source_column": "defense_success_rate",
+      "units": "fraction (0-1 source rate); temporal differences and deviations use fraction units",
+      "positive_negative_meaning": "Equal-weight latest-game, last-three and half-life-three levels. All three inputs must exist; no outcome-fitted weights.",
+      "film_intuition": "Balances immediate form against a smoothed recent level.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_consensus__offense_explosiveness": {
+      "equation_excel": "=IF(COUNT([time_adj_last1__offense_explosiveness],[time_adj_last3__offense_explosiveness],[time_adj_ewm_hl3__offense_explosiveness])=3,AVERAGE([time_adj_last1__offense_explosiveness],[time_adj_last3__offense_explosiveness],[time_adj_ewm_hl3__offense_explosiveness]),NA())",
+      "source_column": "offense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Equal-weight latest-game, last-three and half-life-three levels. All three inputs must exist; no outcome-fitted weights.",
+      "film_intuition": "Balances immediate form against a smoothed recent level.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_consensus__offense_passing_plays_ppa": {
+      "equation_excel": "=IF(COUNT([time_adj_last1__offense_passing_plays_ppa],[time_adj_last3__offense_passing_plays_ppa],[time_adj_ewm_hl3__offense_passing_plays_ppa])=3,AVERAGE([time_adj_last1__offense_passing_plays_ppa],[time_adj_last3__offense_passing_plays_ppa],[time_adj_ewm_hl3__offense_passing_plays_ppa]),NA())",
+      "source_column": "offense_passing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Equal-weight latest-game, last-three and half-life-three levels. All three inputs must exist; no outcome-fitted weights.",
+      "film_intuition": "Balances immediate form against a smoothed recent level.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_consensus__offense_ppa": {
+      "equation_excel": "=IF(COUNT([time_adj_last1__offense_ppa],[time_adj_last3__offense_ppa],[time_adj_ewm_hl3__offense_ppa])=3,AVERAGE([time_adj_last1__offense_ppa],[time_adj_last3__offense_ppa],[time_adj_ewm_hl3__offense_ppa]),NA())",
+      "source_column": "offense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Equal-weight latest-game, last-three and half-life-three levels. All three inputs must exist; no outcome-fitted weights.",
+      "film_intuition": "Balances immediate form against a smoothed recent level.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_consensus__offense_rushing_plays_ppa": {
+      "equation_excel": "=IF(COUNT([time_adj_last1__offense_rushing_plays_ppa],[time_adj_last3__offense_rushing_plays_ppa],[time_adj_ewm_hl3__offense_rushing_plays_ppa])=3,AVERAGE([time_adj_last1__offense_rushing_plays_ppa],[time_adj_last3__offense_rushing_plays_ppa],[time_adj_ewm_hl3__offense_rushing_plays_ppa]),NA())",
+      "source_column": "offense_rushing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Equal-weight latest-game, last-three and half-life-three levels. All three inputs must exist; no outcome-fitted weights.",
+      "film_intuition": "Balances immediate form against a smoothed recent level.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_consensus__offense_success_rate": {
+      "equation_excel": "=IF(COUNT([time_adj_last1__offense_success_rate],[time_adj_last3__offense_success_rate],[time_adj_ewm_hl3__offense_success_rate])=3,AVERAGE([time_adj_last1__offense_success_rate],[time_adj_last3__offense_success_rate],[time_adj_ewm_hl3__offense_success_rate]),NA())",
+      "source_column": "offense_success_rate",
+      "units": "fraction (0-1 source rate); temporal differences and deviations use fraction units",
+      "positive_negative_meaning": "Equal-weight latest-game, last-three and half-life-three levels. All three inputs must exist; no outcome-fitted weights.",
+      "film_intuition": "Balances immediate form against a smoothed recent level.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_consensus__statGen_turnovers": {
+      "equation_excel": "=IF(COUNT([time_adj_last1__statGen_turnovers],[time_adj_last3__statGen_turnovers],[time_adj_ewm_hl3__statGen_turnovers])=3,AVERAGE([time_adj_last1__statGen_turnovers],[time_adj_last3__statGen_turnovers],[time_adj_ewm_hl3__statGen_turnovers]),NA())",
+      "source_column": "statGen_turnovers",
+      "units": "turnovers per game",
+      "positive_negative_meaning": "Equal-weight latest-game, last-three and half-life-three levels. All three inputs must exist; no outcome-fitted weights.",
+      "film_intuition": "Balances immediate form against a smoothed recent level.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_consensus__statOff_yards_per_pass": {
+      "equation_excel": "=IF(COUNT([time_adj_last1__statOff_yards_per_pass],[time_adj_last3__statOff_yards_per_pass],[time_adj_ewm_hl3__statOff_yards_per_pass])=3,AVERAGE([time_adj_last1__statOff_yards_per_pass],[time_adj_last3__statOff_yards_per_pass],[time_adj_ewm_hl3__statOff_yards_per_pass]),NA())",
+      "source_column": "statOff_yards_per_pass",
+      "units": "yards per pass attempt",
+      "positive_negative_meaning": "Equal-weight latest-game, last-three and half-life-three levels. All three inputs must exist; no outcome-fitted weights.",
+      "film_intuition": "Balances immediate form against a smoothed recent level.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_consensus__statOff_yards_per_rush_attempt": {
+      "equation_excel": "=IF(COUNT([time_adj_last1__statOff_yards_per_rush_attempt],[time_adj_last3__statOff_yards_per_rush_attempt],[time_adj_ewm_hl3__statOff_yards_per_rush_attempt])=3,AVERAGE([time_adj_last1__statOff_yards_per_rush_attempt],[time_adj_last3__statOff_yards_per_rush_attempt],[time_adj_ewm_hl3__statOff_yards_per_rush_attempt]),NA())",
+      "source_column": "statOff_yards_per_rush_attempt",
+      "units": "yards per rush attempt",
+      "positive_negative_meaning": "Equal-weight latest-game, last-three and half-life-three levels. All three inputs must exist; no outcome-fitted weights.",
+      "film_intuition": "Balances immediate form against a smoothed recent level.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_minus_season__defense_explosiveness": {
+      "equation_excel": "=IF(ISNUMBER(current_source_mean),AVERAGE(TAKE(history,-MIN(3,ROWS(history))))-current_source_mean,NA())",
+      "source_column": "defense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Positive means the recent-three level exceeds the source season mean; negative means it falls below. For allowed-production measures, a rise can mean worsening defense.",
+      "film_intuition": "Contrasts current form with the season baseline.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_minus_season__defense_havoc_rate": {
+      "equation_excel": "=IF(ISNUMBER(current_source_mean),AVERAGE(TAKE(history,-MIN(3,ROWS(history))))-current_source_mean,NA())",
+      "source_column": "defense_havoc_rate",
+      "units": "fraction (0-1 source rate); temporal differences and deviations use fraction units",
+      "positive_negative_meaning": "Positive means the recent-three level exceeds the source season mean; negative means it falls below. For allowed-production measures, a rise can mean worsening defense.",
+      "film_intuition": "Contrasts current form with the season baseline.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_minus_season__defense_ppa": {
+      "equation_excel": "=IF(ISNUMBER(current_source_mean),AVERAGE(TAKE(history,-MIN(3,ROWS(history))))-current_source_mean,NA())",
+      "source_column": "defense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive means the recent-three level exceeds the source season mean; negative means it falls below. For allowed-production measures, a rise can mean worsening defense.",
+      "film_intuition": "Contrasts current form with the season baseline.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_minus_season__defense_success_rate": {
+      "equation_excel": "=IF(ISNUMBER(current_source_mean),AVERAGE(TAKE(history,-MIN(3,ROWS(history))))-current_source_mean,NA())",
+      "source_column": "defense_success_rate",
+      "units": "fraction (0-1 source rate); temporal differences and deviations use fraction units",
+      "positive_negative_meaning": "Positive means the recent-three level exceeds the source season mean; negative means it falls below. For allowed-production measures, a rise can mean worsening defense.",
+      "film_intuition": "Contrasts current form with the season baseline.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_minus_season__offense_explosiveness": {
+      "equation_excel": "=IF(ISNUMBER(current_source_mean),AVERAGE(TAKE(history,-MIN(3,ROWS(history))))-current_source_mean,NA())",
+      "source_column": "offense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Positive means the recent-three level exceeds the source season mean; negative means it falls below. For allowed-production measures, a rise can mean worsening defense.",
+      "film_intuition": "Contrasts current form with the season baseline.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_minus_season__offense_passing_plays_ppa": {
+      "equation_excel": "=IF(ISNUMBER(current_source_mean),AVERAGE(TAKE(history,-MIN(3,ROWS(history))))-current_source_mean,NA())",
+      "source_column": "offense_passing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive means the recent-three level exceeds the source season mean; negative means it falls below. For allowed-production measures, a rise can mean worsening defense.",
+      "film_intuition": "Contrasts current form with the season baseline.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_minus_season__offense_ppa": {
+      "equation_excel": "=IF(ISNUMBER(current_source_mean),AVERAGE(TAKE(history,-MIN(3,ROWS(history))))-current_source_mean,NA())",
+      "source_column": "offense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive means the recent-three level exceeds the source season mean; negative means it falls below. For allowed-production measures, a rise can mean worsening defense.",
+      "film_intuition": "Contrasts current form with the season baseline.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_minus_season__offense_rushing_plays_ppa": {
+      "equation_excel": "=IF(ISNUMBER(current_source_mean),AVERAGE(TAKE(history,-MIN(3,ROWS(history))))-current_source_mean,NA())",
+      "source_column": "offense_rushing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive means the recent-three level exceeds the source season mean; negative means it falls below. For allowed-production measures, a rise can mean worsening defense.",
+      "film_intuition": "Contrasts current form with the season baseline.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_minus_season__offense_success_rate": {
+      "equation_excel": "=IF(ISNUMBER(current_source_mean),AVERAGE(TAKE(history,-MIN(3,ROWS(history))))-current_source_mean,NA())",
+      "source_column": "offense_success_rate",
+      "units": "fraction (0-1 source rate); temporal differences and deviations use fraction units",
+      "positive_negative_meaning": "Positive means the recent-three level exceeds the source season mean; negative means it falls below. For allowed-production measures, a rise can mean worsening defense.",
+      "film_intuition": "Contrasts current form with the season baseline.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_minus_season__statGen_turnovers": {
+      "equation_excel": "=IF(ISNUMBER(current_source_mean),AVERAGE(TAKE(history,-MIN(3,ROWS(history))))-current_source_mean,NA())",
+      "source_column": "statGen_turnovers",
+      "units": "turnovers per game",
+      "positive_negative_meaning": "Positive means the recent-three level exceeds the source season mean; negative means it falls below. For allowed-production measures, a rise can mean worsening defense.",
+      "film_intuition": "Contrasts current form with the season baseline.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_minus_season__statOff_yards_per_pass": {
+      "equation_excel": "=IF(ISNUMBER(current_source_mean),AVERAGE(TAKE(history,-MIN(3,ROWS(history))))-current_source_mean,NA())",
+      "source_column": "statOff_yards_per_pass",
+      "units": "yards per pass attempt",
+      "positive_negative_meaning": "Positive means the recent-three level exceeds the source season mean; negative means it falls below. For allowed-production measures, a rise can mean worsening defense.",
+      "film_intuition": "Contrasts current form with the season baseline.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_recent_minus_season__statOff_yards_per_rush_attempt": {
+      "equation_excel": "=IF(ISNUMBER(current_source_mean),AVERAGE(TAKE(history,-MIN(3,ROWS(history))))-current_source_mean,NA())",
+      "source_column": "statOff_yards_per_rush_attempt",
+      "units": "yards per rush attempt",
+      "positive_negative_meaning": "Positive means the recent-three level exceeds the source season mean; negative means it falls below. For allowed-production measures, a rise can mean worsening defense.",
+      "film_intuition": "Contrasts current form with the season baseline.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_volatility5__defense_explosiveness": {
+      "equation_excel": "=IF(ROWS(history)>=2,STDEV.P(TAKE(history,-MIN(5,ROWS(history)))),0)",
+      "source_column": "defense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Nonnegative population standard deviation. Higher means greater recent variation; it does not imply better performance.",
+      "film_intuition": "Distinguishes consistent play from fluctuating performances.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_volatility5__defense_havoc_rate": {
+      "equation_excel": "=IF(ROWS(history)>=2,STDEV.P(TAKE(history,-MIN(5,ROWS(history)))),0)",
+      "source_column": "defense_havoc_rate",
+      "units": "fraction (0-1 source rate); temporal differences and deviations use fraction units",
+      "positive_negative_meaning": "Nonnegative population standard deviation. Higher means greater recent variation; it does not imply better performance.",
+      "film_intuition": "Distinguishes consistent play from fluctuating performances.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_volatility5__defense_ppa": {
+      "equation_excel": "=IF(ROWS(history)>=2,STDEV.P(TAKE(history,-MIN(5,ROWS(history)))),0)",
+      "source_column": "defense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Nonnegative population standard deviation. Higher means greater recent variation; it does not imply better performance.",
+      "film_intuition": "Distinguishes consistent play from fluctuating performances.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_volatility5__defense_success_rate": {
+      "equation_excel": "=IF(ROWS(history)>=2,STDEV.P(TAKE(history,-MIN(5,ROWS(history)))),0)",
+      "source_column": "defense_success_rate",
+      "units": "fraction (0-1 source rate); temporal differences and deviations use fraction units",
+      "positive_negative_meaning": "Nonnegative population standard deviation. Higher means greater recent variation; it does not imply better performance.",
+      "film_intuition": "Distinguishes consistent play from fluctuating performances.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_volatility5__offense_explosiveness": {
+      "equation_excel": "=IF(ROWS(history)>=2,STDEV.P(TAKE(history,-MIN(5,ROWS(history)))),0)",
+      "source_column": "offense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Nonnegative population standard deviation. Higher means greater recent variation; it does not imply better performance.",
+      "film_intuition": "Distinguishes consistent play from fluctuating performances.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_volatility5__offense_passing_plays_ppa": {
+      "equation_excel": "=IF(ROWS(history)>=2,STDEV.P(TAKE(history,-MIN(5,ROWS(history)))),0)",
+      "source_column": "offense_passing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Nonnegative population standard deviation. Higher means greater recent variation; it does not imply better performance.",
+      "film_intuition": "Distinguishes consistent play from fluctuating performances.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_volatility5__offense_ppa": {
+      "equation_excel": "=IF(ROWS(history)>=2,STDEV.P(TAKE(history,-MIN(5,ROWS(history)))),0)",
+      "source_column": "offense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Nonnegative population standard deviation. Higher means greater recent variation; it does not imply better performance.",
+      "film_intuition": "Distinguishes consistent play from fluctuating performances.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_volatility5__offense_rushing_plays_ppa": {
+      "equation_excel": "=IF(ROWS(history)>=2,STDEV.P(TAKE(history,-MIN(5,ROWS(history)))),0)",
+      "source_column": "offense_rushing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Nonnegative population standard deviation. Higher means greater recent variation; it does not imply better performance.",
+      "film_intuition": "Distinguishes consistent play from fluctuating performances.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_volatility5__offense_success_rate": {
+      "equation_excel": "=IF(ROWS(history)>=2,STDEV.P(TAKE(history,-MIN(5,ROWS(history)))),0)",
+      "source_column": "offense_success_rate",
+      "units": "fraction (0-1 source rate); temporal differences and deviations use fraction units",
+      "positive_negative_meaning": "Nonnegative population standard deviation. Higher means greater recent variation; it does not imply better performance.",
+      "film_intuition": "Distinguishes consistent play from fluctuating performances.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_volatility5__statGen_turnovers": {
+      "equation_excel": "=IF(ROWS(history)>=2,STDEV.P(TAKE(history,-MIN(5,ROWS(history)))),0)",
+      "source_column": "statGen_turnovers",
+      "units": "turnovers per game",
+      "positive_negative_meaning": "Nonnegative population standard deviation. Higher means greater recent variation; it does not imply better performance.",
+      "film_intuition": "Distinguishes consistent play from fluctuating performances.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_volatility5__statOff_yards_per_pass": {
+      "equation_excel": "=IF(ROWS(history)>=2,STDEV.P(TAKE(history,-MIN(5,ROWS(history)))),0)",
+      "source_column": "statOff_yards_per_pass",
+      "units": "yards per pass attempt",
+      "positive_negative_meaning": "Nonnegative population standard deviation. Higher means greater recent variation; it does not imply better performance.",
+      "film_intuition": "Distinguishes consistent play from fluctuating performances.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    },
+    "time_adj_volatility5__statOff_yards_per_rush_attempt": {
+      "equation_excel": "=IF(ROWS(history)>=2,STDEV.P(TAKE(history,-MIN(5,ROWS(history)))),0)",
+      "source_column": "statOff_yards_per_rush_attempt",
+      "units": "yards per rush attempt",
+      "positive_negative_meaning": "Nonnegative population standard deviation. Higher means greater recent variation; it does not imply better performance.",
+      "film_intuition": "Distinguishes consistent play from fluctuating performances.",
+      "named_ranges": "history contains finite reconstructed contributions in source order; formulas apply only after a nonempty history. Consensus inputs refer to the corresponding time_adj_* columns for this source_column."
+    }
+  }
+}

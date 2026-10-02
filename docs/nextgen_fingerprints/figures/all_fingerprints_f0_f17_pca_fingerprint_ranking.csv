@@ -1,0 +1,20 @@
+rank,stage,generation,setting,median_pc1_score_sd,models_in_generation
+1,F7,7,historical rolling folds,1.230734,6
+2,F8,8,historical rolling folds,0.778754,6
+3,F17_market,17,nextgen 2025 common-cohort A,0.561569,6
+4,F06,6,nextgen 2025 broad A,0.472730,2
+5,F09,9,nextgen 2025 common-cohort A,0.421910,6
+6,F10,10,nextgen 2025 common-cohort A,0.388346,6
+7,F12_corrected,12,nextgen 2025 common-cohort A,0.382228,6
+8,F13,13,nextgen 2025 common-cohort A,0.375371,6
+9,F11,11,nextgen 2025 common-cohort A,0.345099,6
+10,F15,15,nextgen 2025 common-cohort A,0.330049,6
+11,F14,14,nextgen 2025 common-cohort A,0.319261,6
+12,F16,16,nextgen 2025 common-cohort A,0.304771,6
+13,F5,5,historical rolling folds,0.272648,6
+14,F6,6,historical rolling folds,0.164972,6
+15,F4,4,historical rolling folds,0.162177,6
+16,F3,3,historical rolling folds,-0.078270,6
+17,F1,1,historical rolling folds,-0.174196,6
+18,F2,2,historical rolling folds,-0.277138,6
+19,F0,0,historical rolling folds,-2.501755,6

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -j y
+#$ -q long
+#$ -pe smp 1
+#$ -l h_rt=12:00:00
+#$ -l h_vmem=32G
+set -euo pipefail
+cd /users/tburton2/Repos/TDNet
+export PYTHONPATH="$PWD/src"
+export MPLCONFIGDIR="${TMPDIR:-/tmp}/tdnet-rounds-mpl"
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
+exec /users/tburton2/.conda/envs/gridiron/bin/python scripts/nextgen_rounds_prepare.py

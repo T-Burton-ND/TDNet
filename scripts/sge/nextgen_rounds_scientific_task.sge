@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -j y
+#$ -q long
+#$ -pe smp 1
+#$ -l h_rt=48:00:00
+#$ -l h_vmem=16G
+set -euo pipefail
+: "${REPO_ROOT:?}"
+: "${ROUND_JOB_MANIFEST:?}"
+: "${SGE_TASK_ID:?}"
+export PYTHONPATH="${REPO_ROOT}/src"
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
+export PYTORCH_ENABLE_MPS_FALLBACK=1
+cd "${REPO_ROOT}"
+exec /users/tburton2/.conda/envs/gridiron/bin/python \
+  scripts/nextgen_rounds_scientific_array.py run \
+  --manifest "${ROUND_JOB_MANIFEST}" --task-id "${SGE_TASK_ID}"

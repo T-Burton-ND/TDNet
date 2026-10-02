@@ -9,6 +9,10 @@ tags: [fingerprints, next-generation, experiment-contract]
 
 This page records the execution contract for exploratory, market-free F06→F09→F10→F11→F12 next-game fingerprints.
 
+## Later F13–F17 A research fork — 2026-10-02
+
+The [measured F13–F17 A screen](Nextgen-F13-F17-A-Screen-2026-10-02) used a separate corrected-F09 reference and a common 2013–2025 F12 A game cohort. Its F13–F16 market-free A candidates did not establish a consistent 2024/2025 development-year improvement, so no new market-free lineage was accepted. The user-requested `F17_market` fork trained with archived lines solely as retrospective research; those records have no quote timestamps and do not enter this page's market-free/prospective predictor contract. The original roadmap's opponent-style F17 and B/C/reduction paths remain untested. The results page contains the paired M2/M4 metrics, source gates and local artifact location.
+
 ## Measured lessons — 2026-09-28
 
 Empirical lessons now distinguish aggregate medians from matched configurations and verify common evaluation games. Observed F09 M4 gains, F06 compression tradeoffs, F10 A/M2 gains, and negative F11/F12 A comparisons are documented without attributing untested causes. See [empirical lessons and paired evidence](Nextgen-Empirical-Lessons-2026-09-28) for exact values, scope and limits. No new experiments were run.
@@ -49,7 +53,7 @@ The common `nextgen_artifacts.py` boundary makes every future F09–F12 builder 
 
 Produce later diagnostics for at most 1,000 advanced features **total across generations**, prioritized by consensus architecture-normalized SHAP; duplicate formulas receive one plot unless materially different. Retain PNG, compact Markdown, and a lightweight index, with no duplicate per-feature observation tables. Default x is the pre-target-game feature; later y targets include **next-game margin**, win, points for/against, and time of possession where meaningful. Same-game association is descriptive only. The Q4-minus-Q1 rushing offensive/defensive pair is mandatory. For garbage time, Q1/Q2/Q3 leads exceed 28/24/21; Q4 is garbage only when *every* qualifying play's absolute lead stays >16. No win-probability rule or free-text parsing.
 
-The SGE/UGE run caps all simultaneous experiment jobs at 50 and proceeds when at least three of ten setpoints succeed. The original one-generation-at-a-time scheduling restriction is superseded by the user-authorized parallel policies below. Retry only below three, for at most three attempts, then record incomplete status. Keep one compact ultra-wide result Parquet with run and fingerprint×architecture summary rows, including explicit sortable design-informed 2024/2025 MAE, RMSE, Brier, winner/ATS/chalk/upset columns, recommendation fields, and acquisition provenance. Do not retain screening checkpoints or routine logs. F13–F15 are future design-only and have no assigned families; PCA is deferred.
+The SGE/UGE run caps all simultaneous experiment jobs at 50 and proceeds when at least three of ten setpoints succeed. The original one-generation-at-a-time scheduling restriction is superseded by the user-authorized parallel policies below. Retry only below three, for at most three attempts, then record incomplete status. Keep one compact ultra-wide result Parquet with run and fingerprint×architecture summary rows, including explicit sortable design-informed 2024/2025 MAE, RMSE, Brier, winner/ATS/chalk/upset columns, recommendation fields, and acquisition provenance. Do not retain screening checkpoints or routine logs. Under the original F06–F12 contract, F13–F15 were future design-only placeholders without assigned families; the later separate A screen above assigns and tests candidates without accepting them into this lineage. PCA is deferred.
 
 ## Durable sources
 
@@ -73,7 +77,7 @@ The first Stage B invocation consumed 50 outbound attempts including quota and t
 
 **Status:** execution underway. Fresh schedules exist; F06–F12 screening, SHAP, reductions, diagnostics, and recommendations remain incomplete. See `docs/nextgen_fingerprints/execution_status.md` for the completion audit and artifact locations.
 
-See also: [Fingerprint Ladder](Fingerprint-Ladder) · [F06](Fingerprint-F06) · [F09](Fingerprint-F09) · [F10](Fingerprint-F10) · [F11](Fingerprint-F11) · [F12](Fingerprint-F12) · [Temporal Data Semantics](Temporal-Data-Semantics)
+See also: [Fingerprint Ladder](Fingerprint-Ladder) · [F06](Fingerprint-F06) · [F09](Fingerprint-F09) · [F10](Fingerprint-F10) · [F11](Fingerprint-F11) · [F12](Fingerprint-F12) · [Temporal Data Semantics](Temporal-Data-Semantics) · [F13–F17 A screen](Nextgen-F13-F17-A-Screen-2026-10-02)
 
 ## Frozen average-team references — 2026-09-27
 

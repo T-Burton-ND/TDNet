@@ -1,0 +1,899 @@
+{
+  "version": 1,
+  "status": "source-reviewed v1.4 transformations; provider raw-statistic definitions remain separate",
+  "common": {
+    "implementation": "src/gridiron_ml/experiments/opponent_adjusted.py",
+    "implementation_sha256": "b97ed4dbd63c22bbde1d3c13fe0342db06f5daa0957dea13a60aa23f3eee459d",
+    "additional_implementation": "src/gridiron_ml/experiments/nextgen_designs.py",
+    "additional_implementation_sha256": "eaba84cddf10a147ba9e8df8c20de41bfd540e90d995fbd1b7f0bb36b8a84be1",
+    "scope": "v1.4 Elo context only. For each source season/week, history contains all supplied earlier seasons and earlier weeks of that season. Elo and reference moments exclude the entire current source week. Current source-game contributions are then rolled into the state used for a later prediction target.",
+    "elo_equations_excel": "Initialize unseen ratings R=0. For each paired completed history game: E=1/(1+POWER(10,-((R_home-R_away)+55)/400)); A=IF(home_margin>0,1,IF(home_margin=0,0.5,0)); M=MIN(2.5,MAX(0.75,LN(ABS(home_margin)+1))); delta=20*M*(A-E); R_home_new=R_home+delta; R_away_new=R_away-delta. Source math.isclose(home_margin,0) is exact for integer score margins.",
+    "elo_inputs": "Paired prior home/away team-game records in supplied chronological order, realized prior home margin (missing coerced to zero), no offseason shrinkage in this implementation. Unmatched teams have rating zero.",
+    "rating_scale": "s_R=STDEV.S(known_team_ratings), replaced by 1 when unavailable/nonfinite or math.isclose(s_R,0). Opponent context is R_opponent/s_R, not a separately recentered z-score.",
+    "statistic_scale": "mu=AVERAGE(nonmissing history statistic), sigma=STDEV.S(nonmissing history statistic); sigma becomes 1 when missing or exactly zero. With no finite history the statistic baseline remains missing, so the ordinary statistic contribution is missing.",
+    "roll_order": "Sort by season, team, week, game ID; roll within team-season; keep the last row for each fingerprint key. Game count includes rows with missing adjusted statistics.",
+    "ewm_missingness": "Equivalent to pandas ewm(alpha=0.45,adjust=False,min_periods=1,ignore_na=False). Before the first finite x, output is missing. Initialize e=x and w=1 on the first finite x. At each later row set w=0.55*w; if x is finite set e=(w*e+0.45*x)/(w+0.45), then w=1. If x is missing, carry e and the decayed w. Without missing rows this reduces to e=0.55*e_previous+0.45*x.",
+    "garbage_time_handling": "No new play-level garbage-time filter; uses supplied canonical game statistics and completed score margins.",
+    "source_inspiration": "TDNet-derived v1.4 Elo-context transformation and transparent temporal consensus; these residuals are not a separately calibrated provider rating."
+  },
+  "features": {
+    "opp_adj_v1_4_defense_explosiveness_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_defense_explosiveness_mean_to_date],[opp_adj_v1_4_defense_explosiveness_last3],[opp_adj_v1_4_defense_explosiveness_ewm])=3,AVERAGE([opp_adj_v1_4_defense_explosiveness_mean_to_date],[opp_adj_v1_4_defense_explosiveness_last3],[opp_adj_v1_4_defense_explosiveness_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_explosiveness_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_explosiveness_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_explosiveness_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_havoc_rate_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_defense_havoc_rate_mean_to_date],[opp_adj_v1_4_defense_havoc_rate_last3],[opp_adj_v1_4_defense_havoc_rate_ewm])=3,AVERAGE([opp_adj_v1_4_defense_havoc_rate_mean_to_date],[opp_adj_v1_4_defense_havoc_rate_last3],[opp_adj_v1_4_defense_havoc_rate_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_havoc_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_havoc_rate_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_havoc_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_havoc_rate_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_havoc_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_havoc_rate_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_havoc_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_power_success_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_defense_power_success_mean_to_date],[opp_adj_v1_4_defense_power_success_last3],[opp_adj_v1_4_defense_power_success_ewm])=3,AVERAGE([opp_adj_v1_4_defense_power_success_mean_to_date],[opp_adj_v1_4_defense_power_success_last3],[opp_adj_v1_4_defense_power_success_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_power_success",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_power_success_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_power_success",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_power_success_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_power_success",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_power_success_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_power_success",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_ppa_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_defense_ppa_mean_to_date],[opp_adj_v1_4_defense_ppa_last3],[opp_adj_v1_4_defense_ppa_ewm])=3,AVERAGE([opp_adj_v1_4_defense_ppa_mean_to_date],[opp_adj_v1_4_defense_ppa_last3],[opp_adj_v1_4_defense_ppa_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_ppa_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_ppa_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_ppa_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_stuff_rate_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_defense_stuff_rate_mean_to_date],[opp_adj_v1_4_defense_stuff_rate_last3],[opp_adj_v1_4_defense_stuff_rate_ewm])=3,AVERAGE([opp_adj_v1_4_defense_stuff_rate_mean_to_date],[opp_adj_v1_4_defense_stuff_rate_last3],[opp_adj_v1_4_defense_stuff_rate_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_stuff_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_stuff_rate_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_stuff_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_stuff_rate_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_stuff_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_stuff_rate_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_stuff_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_success_rate_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_defense_success_rate_mean_to_date],[opp_adj_v1_4_defense_success_rate_last3],[opp_adj_v1_4_defense_success_rate_ewm])=3,AVERAGE([opp_adj_v1_4_defense_success_rate_mean_to_date],[opp_adj_v1_4_defense_success_rate_last3],[opp_adj_v1_4_defense_success_rate_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_success_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_success_rate_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_success_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_success_rate_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_success_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_defense_success_rate_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "defense_success_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_elo_opponent_rating_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_elo_opponent_rating_mean_to_date],[opp_adj_v1_4_elo_opponent_rating_last3],[opp_adj_v1_4_elo_opponent_rating_ewm])=3,AVERAGE([opp_adj_v1_4_elo_opponent_rating_mean_to_date],[opp_adj_v1_4_elo_opponent_rating_last3],[opp_adj_v1_4_elo_opponent_rating_ewm]),NA())",
+      "contribution_equation_excel": "=R_opponent",
+      "source_statistic": "elo_opponent_rating",
+      "units": "Elo rating points",
+      "positive_negative_meaning": "Positive/negative reflects the zero-initialized Elo scale; for rating edge, positive means team exceeds opponent.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_elo_opponent_rating_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=R_opponent",
+      "source_statistic": "elo_opponent_rating",
+      "units": "Elo rating points",
+      "positive_negative_meaning": "Positive/negative reflects the zero-initialized Elo scale; for rating edge, positive means team exceeds opponent.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_elo_opponent_rating_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=R_opponent",
+      "source_statistic": "elo_opponent_rating",
+      "units": "Elo rating points",
+      "positive_negative_meaning": "Positive/negative reflects the zero-initialized Elo scale; for rating edge, positive means team exceeds opponent.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_elo_opponent_rating_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=R_opponent",
+      "source_statistic": "elo_opponent_rating",
+      "units": "Elo rating points",
+      "positive_negative_meaning": "Positive/negative reflects the zero-initialized Elo scale; for rating edge, positive means team exceeds opponent.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_elo_rating_edge_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_elo_rating_edge_mean_to_date],[opp_adj_v1_4_elo_rating_edge_last3],[opp_adj_v1_4_elo_rating_edge_ewm])=3,AVERAGE([opp_adj_v1_4_elo_rating_edge_mean_to_date],[opp_adj_v1_4_elo_rating_edge_last3],[opp_adj_v1_4_elo_rating_edge_ewm]),NA())",
+      "contribution_equation_excel": "=R_team-R_opponent",
+      "source_statistic": "elo_rating_edge",
+      "units": "Elo rating points",
+      "positive_negative_meaning": "Positive/negative reflects the zero-initialized Elo scale; for rating edge, positive means team exceeds opponent.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_elo_rating_edge_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=R_team-R_opponent",
+      "source_statistic": "elo_rating_edge",
+      "units": "Elo rating points",
+      "positive_negative_meaning": "Positive/negative reflects the zero-initialized Elo scale; for rating edge, positive means team exceeds opponent.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_elo_rating_edge_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=R_team-R_opponent",
+      "source_statistic": "elo_rating_edge",
+      "units": "Elo rating points",
+      "positive_negative_meaning": "Positive/negative reflects the zero-initialized Elo scale; for rating edge, positive means team exceeds opponent.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_elo_rating_edge_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=R_team-R_opponent",
+      "source_statistic": "elo_rating_edge",
+      "units": "Elo rating points",
+      "positive_negative_meaning": "Positive/negative reflects the zero-initialized Elo scale; for rating edge, positive means team exceeds opponent.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_elo_team_rating_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_elo_team_rating_mean_to_date],[opp_adj_v1_4_elo_team_rating_last3],[opp_adj_v1_4_elo_team_rating_ewm])=3,AVERAGE([opp_adj_v1_4_elo_team_rating_mean_to_date],[opp_adj_v1_4_elo_team_rating_last3],[opp_adj_v1_4_elo_team_rating_ewm]),NA())",
+      "contribution_equation_excel": "=R_team",
+      "source_statistic": "elo_team_rating",
+      "units": "Elo rating points",
+      "positive_negative_meaning": "Positive/negative reflects the zero-initialized Elo scale; for rating edge, positive means team exceeds opponent.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_elo_team_rating_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=R_team",
+      "source_statistic": "elo_team_rating",
+      "units": "Elo rating points",
+      "positive_negative_meaning": "Positive/negative reflects the zero-initialized Elo scale; for rating edge, positive means team exceeds opponent.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_elo_team_rating_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=R_team",
+      "source_statistic": "elo_team_rating",
+      "units": "Elo rating points",
+      "positive_negative_meaning": "Positive/negative reflects the zero-initialized Elo scale; for rating edge, positive means team exceeds opponent.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_elo_team_rating_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=R_team",
+      "source_statistic": "elo_team_rating",
+      "units": "Elo rating points",
+      "positive_negative_meaning": "Positive/negative reflects the zero-initialized Elo scale; for rating edge, positive means team exceeds opponent.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_games_played": {
+      "equation_excel": "=ROWS(team_season_rows_through_current)",
+      "units": "games",
+      "positive_negative_meaning": "Nonnegative history support count; a larger value is not inherently better performance.",
+      "film_intuition": "Distinguishes a small early-season sample from broader schedule evidence.",
+      "minimum_sample_rule": "Starts at one on the first contribution row, including rows with missing performance values."
+    },
+    "opp_adj_v1_4_offense_explosiveness_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_offense_explosiveness_mean_to_date],[opp_adj_v1_4_offense_explosiveness_last3],[opp_adj_v1_4_offense_explosiveness_ewm])=3,AVERAGE([opp_adj_v1_4_offense_explosiveness_mean_to_date],[opp_adj_v1_4_offense_explosiveness_last3],[opp_adj_v1_4_offense_explosiveness_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_explosiveness_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_explosiveness_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_explosiveness_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_explosiveness",
+      "units": "predicted points added per successful play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_passing_plays_ppa_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_offense_passing_plays_ppa_mean_to_date],[opp_adj_v1_4_offense_passing_plays_ppa_last3],[opp_adj_v1_4_offense_passing_plays_ppa_ewm])=3,AVERAGE([opp_adj_v1_4_offense_passing_plays_ppa_mean_to_date],[opp_adj_v1_4_offense_passing_plays_ppa_last3],[opp_adj_v1_4_offense_passing_plays_ppa_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_passing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_passing_plays_ppa_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_passing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_passing_plays_ppa_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_passing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_passing_plays_ppa_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_passing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_passing_plays_success_rate_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_offense_passing_plays_success_rate_mean_to_date],[opp_adj_v1_4_offense_passing_plays_success_rate_last3],[opp_adj_v1_4_offense_passing_plays_success_rate_ewm])=3,AVERAGE([opp_adj_v1_4_offense_passing_plays_success_rate_mean_to_date],[opp_adj_v1_4_offense_passing_plays_success_rate_last3],[opp_adj_v1_4_offense_passing_plays_success_rate_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_passing_plays_success_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_passing_plays_success_rate_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_passing_plays_success_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_passing_plays_success_rate_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_passing_plays_success_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_passing_plays_success_rate_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_passing_plays_success_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_power_success_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_offense_power_success_mean_to_date],[opp_adj_v1_4_offense_power_success_last3],[opp_adj_v1_4_offense_power_success_ewm])=3,AVERAGE([opp_adj_v1_4_offense_power_success_mean_to_date],[opp_adj_v1_4_offense_power_success_last3],[opp_adj_v1_4_offense_power_success_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_power_success",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_power_success_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_power_success",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_power_success_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_power_success",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_power_success_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_power_success",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_ppa_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_offense_ppa_mean_to_date],[opp_adj_v1_4_offense_ppa_last3],[opp_adj_v1_4_offense_ppa_ewm])=3,AVERAGE([opp_adj_v1_4_offense_ppa_mean_to_date],[opp_adj_v1_4_offense_ppa_last3],[opp_adj_v1_4_offense_ppa_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_ppa_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_ppa_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_ppa_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_rushing_plays_ppa_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_offense_rushing_plays_ppa_mean_to_date],[opp_adj_v1_4_offense_rushing_plays_ppa_last3],[opp_adj_v1_4_offense_rushing_plays_ppa_ewm])=3,AVERAGE([opp_adj_v1_4_offense_rushing_plays_ppa_mean_to_date],[opp_adj_v1_4_offense_rushing_plays_ppa_last3],[opp_adj_v1_4_offense_rushing_plays_ppa_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_rushing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_rushing_plays_ppa_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_rushing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_rushing_plays_ppa_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_rushing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_rushing_plays_ppa_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_rushing_plays_ppa",
+      "units": "predicted points added per qualifying play",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_rushing_plays_success_rate_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_offense_rushing_plays_success_rate_mean_to_date],[opp_adj_v1_4_offense_rushing_plays_success_rate_last3],[opp_adj_v1_4_offense_rushing_plays_success_rate_ewm])=3,AVERAGE([opp_adj_v1_4_offense_rushing_plays_success_rate_mean_to_date],[opp_adj_v1_4_offense_rushing_plays_success_rate_last3],[opp_adj_v1_4_offense_rushing_plays_success_rate_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_rushing_plays_success_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_rushing_plays_success_rate_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_rushing_plays_success_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_rushing_plays_success_rate_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_rushing_plays_success_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_rushing_plays_success_rate_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_rushing_plays_success_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_stuff_rate_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_offense_stuff_rate_mean_to_date],[opp_adj_v1_4_offense_stuff_rate_last3],[opp_adj_v1_4_offense_stuff_rate_ewm])=3,AVERAGE([opp_adj_v1_4_offense_stuff_rate_mean_to_date],[opp_adj_v1_4_offense_stuff_rate_last3],[opp_adj_v1_4_offense_stuff_rate_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_stuff_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_stuff_rate_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_stuff_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_stuff_rate_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_stuff_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_stuff_rate_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_stuff_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_success_rate_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_offense_success_rate_mean_to_date],[opp_adj_v1_4_offense_success_rate_last3],[opp_adj_v1_4_offense_success_rate_ewm])=3,AVERAGE([opp_adj_v1_4_offense_success_rate_mean_to_date],[opp_adj_v1_4_offense_success_rate_last3],[opp_adj_v1_4_offense_success_rate_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_success_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_success_rate_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_success_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_success_rate_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_success_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_offense_success_rate_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "offense_success_rate",
+      "units": "fraction units (adjusted residual is not bounded to 0-1)",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_statgen_turnovers_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_statgen_turnovers_mean_to_date],[opp_adj_v1_4_statgen_turnovers_last3],[opp_adj_v1_4_statgen_turnovers_ewm])=3,AVERAGE([opp_adj_v1_4_statgen_turnovers_mean_to_date],[opp_adj_v1_4_statgen_turnovers_last3],[opp_adj_v1_4_statgen_turnovers_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "statgen_turnovers",
+      "units": "turnovers per game",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_statgen_turnovers_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "statgen_turnovers",
+      "units": "turnovers per game",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_statgen_turnovers_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "statgen_turnovers",
+      "units": "turnovers per game",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_statgen_turnovers_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "statgen_turnovers",
+      "units": "turnovers per game",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_statoff_yards_per_pass_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_statoff_yards_per_pass_mean_to_date],[opp_adj_v1_4_statoff_yards_per_pass_last3],[opp_adj_v1_4_statoff_yards_per_pass_ewm])=3,AVERAGE([opp_adj_v1_4_statoff_yards_per_pass_mean_to_date],[opp_adj_v1_4_statoff_yards_per_pass_last3],[opp_adj_v1_4_statoff_yards_per_pass_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "statoff_yards_per_pass",
+      "units": "yards per pass attempt",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_statoff_yards_per_pass_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "statoff_yards_per_pass",
+      "units": "yards per pass attempt",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_statoff_yards_per_pass_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "statoff_yards_per_pass",
+      "units": "yards per pass attempt",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_statoff_yards_per_pass_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "statoff_yards_per_pass",
+      "units": "yards per pass attempt",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_statoff_yards_per_rush_attempt_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_statoff_yards_per_rush_attempt_mean_to_date],[opp_adj_v1_4_statoff_yards_per_rush_attempt_last3],[opp_adj_v1_4_statoff_yards_per_rush_attempt_ewm])=3,AVERAGE([opp_adj_v1_4_statoff_yards_per_rush_attempt_mean_to_date],[opp_adj_v1_4_statoff_yards_per_rush_attempt_last3],[opp_adj_v1_4_statoff_yards_per_rush_attempt_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "statoff_yards_per_rush_attempt",
+      "units": "yards per rush attempt",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_statoff_yards_per_rush_attempt_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "statoff_yards_per_rush_attempt",
+      "units": "yards per rush attempt",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_statoff_yards_per_rush_attempt_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "statoff_yards_per_rush_attempt",
+      "units": "yards per rush attempt",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_statoff_yards_per_rush_attempt_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "statoff_yards_per_rush_attempt",
+      "units": "yards per rush attempt",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_target_points_against_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_target_points_against_mean_to_date],[opp_adj_v1_4_target_points_against_last3],[opp_adj_v1_4_target_points_against_ewm])=3,AVERAGE([opp_adj_v1_4_target_points_against_mean_to_date],[opp_adj_v1_4_target_points_against_last3],[opp_adj_v1_4_target_points_against_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "target_points_against",
+      "units": "score points per game",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_target_points_against_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "target_points_against",
+      "units": "score points per game",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_target_points_against_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "target_points_against",
+      "units": "score points per game",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_target_points_against_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "target_points_against",
+      "units": "score points per game",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_target_points_for_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_target_points_for_mean_to_date],[opp_adj_v1_4_target_points_for_last3],[opp_adj_v1_4_target_points_for_ewm])=3,AVERAGE([opp_adj_v1_4_target_points_for_mean_to_date],[opp_adj_v1_4_target_points_for_last3],[opp_adj_v1_4_target_points_for_ewm]),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "target_points_for",
+      "units": "score points per game",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_target_points_for_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "target_points_for",
+      "units": "score points per game",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_target_points_for_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "target_points_for",
+      "units": "score points per game",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_target_points_for_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_statistic-mu+0.10*(R_opponent/s_R)*sigma",
+      "source_statistic": "target_points_for",
+      "units": "score points per game",
+      "positive_negative_meaning": "Positive/negative means above/below the historical statistic baseline after the signed Elo-context term. No offensive/defensive desirability sign reversal is applied by this computation.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_target_team_margin_consensus": {
+      "equation_excel": "=IF(COUNT([opp_adj_v1_4_target_team_margin_mean_to_date],[opp_adj_v1_4_target_team_margin_last3],[opp_adj_v1_4_target_team_margin_ewm])=3,AVERAGE([opp_adj_v1_4_target_team_margin_mean_to_date],[opp_adj_v1_4_target_team_margin_last3],[opp_adj_v1_4_target_team_margin_ewm]),NA())",
+      "contribution_equation_excel": "=observed_margin-(7*(R_team-R_opponent)/s_R+2.5*home_indicator)",
+      "source_statistic": "target_team_margin",
+      "units": "score points",
+      "positive_negative_meaning": "Positive residual means observed prior-game margin exceeded the Elo/home expectation; negative means it fell below.",
+      "film_intuition": "Equal-weight established, recent-three and exponentially weighted adjusted levels; every component must be present.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_target_team_margin_ewm": {
+      "equation_excel": "=IF(first_finite,x,IF(ISNUMBER(x),(0.55*w_previous*e_previous+0.45*x)/(0.55*w_previous+0.45),e_previous))",
+      "contribution_equation_excel": "=observed_margin-(7*(R_team-R_opponent)/s_R+2.5*home_indicator)",
+      "source_statistic": "target_team_margin",
+      "units": "score points",
+      "positive_negative_meaning": "Positive residual means observed prior-game margin exceeded the Elo/home expectation; negative means it fell below.",
+      "film_intuition": "Recent adjusted performance with exponentially fading history; carry the explicit weight state across missing rows.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_target_team_margin_last3": {
+      "equation_excel": "=IF(COUNT(last_up_to_3_rows)>0,AVERAGE(last_up_to_3_rows),NA())",
+      "contribution_equation_excel": "=observed_margin-(7*(R_team-R_opponent)/s_R+2.5*home_indicator)",
+      "source_statistic": "target_team_margin",
+      "units": "score points",
+      "positive_negative_meaning": "Positive residual means observed prior-game margin exceeded the Elo/home expectation; negative means it fell below.",
+      "film_intuition": "Recent schedule-adjusted performance. The window is the latest three rows, not the latest three nonmissing values.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_target_team_margin_mean_to_date": {
+      "equation_excel": "=IF(COUNT(contributions_through_current)>0,AVERAGE(contributions_through_current),NA())",
+      "contribution_equation_excel": "=observed_margin-(7*(R_team-R_opponent)/s_R+2.5*home_indicator)",
+      "source_statistic": "target_team_margin",
+      "units": "score points",
+      "positive_negative_meaning": "Positive residual means observed prior-game margin exceeded the Elo/home expectation; negative means it fell below.",
+      "film_intuition": "Established season-to-date level after schedule context.",
+      "minimum_sample_rule": "At least one finite value in the chosen window; C consensus requires all three finite component states. EWM initialization and missing-row weights follow the shared recurrence."
+    },
+    "opp_adj_v1_4_unique_opponents": {
+      "equation_excel": "=COUNTA(UNIQUE(team_season_opponent_ids_through_current))",
+      "units": "opponents",
+      "positive_negative_meaning": "Nonnegative history support count; a larger value is not inherently better performance.",
+      "film_intuition": "Distinguishes a small early-season sample from broader schedule evidence.",
+      "minimum_sample_rule": "Starts at one on the first contribution row, including rows with missing performance values."
+    }
+  }
+}

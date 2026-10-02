@@ -48,8 +48,9 @@ Catalog of all wiki pages, organized by category.
 - [Fingerprint F12](Fingerprint-F12) — Full A terminal; B/C screening and line/defensive-unit coverage gaps remain
 - [Historical Archive Completion](Nextgen-Historical-Archive-Completion) — best-effort recovery, 10,639 game caches, 65 provider-empty gaps and source-quality audits
 - [Full Archive Review](Nextgen-Full-Archive-Review-2026-09-30) — exhaustive cache integrity, field coverage, taxonomy repair and limits
-- [F13–F17 Roadmap](Nextgen-F13-F17-Roadmap) — five untested research generations grounded in the completed archive
-- [F13 Proposal](Fingerprint-F13-Proposal) — untested context-adjusted play profiles, existing archive inventory and acquisition rationale
+- [F13–F17 Roadmap](Nextgen-F13-F17-Roadmap) — archive-grounded research directions, with the later A screen and untested opponent-style proposal distinguished
+- [F13 Proposal](Fingerprint-F13-Proposal) — context-adjusted play rationale; context-only A has a negative measured screen, richer designs remain untested
+- [F13–F17 A Screen](Nextgen-F13-F17-A-Screen-2026-10-02) — corrected-reference M2/M4 tests, negative market-free A results, a retrospective market fork and the F0–F17 scatter synthesis
 - [Temporal Data Semantics](Temporal-Data-Semantics) — row meanings, targets, cutoffs, and market boundary
 - [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) — scope, matrix, inference, and freeze rules
 - [Confirmatory Protocol Source](Source-Confirmatory-Protocol) — Markdown interpretation and version-2 YAML source
@@ -58,6 +59,7 @@ Catalog of all wiki pages, organized by category.
 ## Models and publication
 - [Model and Poll Surfaces](Model-and-Poll-Surfaces) — scientific panel versus weekly roster
 - [Weekly Publication Workflow](Weekly-Publication-Workflow) — Monday, Tuesday, and Sunday operations
+- [2026 Week 4 and 5 Publication](Weekly-Publication-2026-W04-W05) — verified scoring, forecast, ratings comparison, and public release boundary
 - [Weekly Operations Source](Source-Weekly-Operations) — runbook and notebook sources
 
 ## Wiki conventions

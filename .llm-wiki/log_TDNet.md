@@ -334,6 +334,29 @@ Chronological record of wiki activity.
 - Saved numerical evidence for clean identity joins alongside 3,310 missing rushing plays and 3,118 row-level yardage disagreements; no source values or model inputs were changed.
 - Preserved the original audit and per-game evidence separately so the eventual final audit cannot erase this snapshot.
 
+## [2026-09-29] update | Week 4 postgame and Week 5 pregame release
+- by: Thomas J. Burton via codex
+- Filed measured Week 4 scoring of 58 frozen games and Week 5 publication of 56 modeled games with 1,848 public model predictions.
+- Recorded the eight-system, 138-team standardized ratings comparison and the local bundle verification hash.
+- Identified commit `06e81c1` as the curated main-branch release and documented that the full private support bundle stayed local.
+
+## [2026-09-29] update | Clarify local package retention and code follow-up
+- by: Thomas J. Burton via codex
+- Corrected the full-package location to local branch `codex/weekly-publication-2026-w05` plus ignored local cache files.
+- Recorded the separately pushed publication code fix at `02b1487`; all 17 focused bundle and social-render tests passed.
+
+## [2026-09-29] update | Metric ranks added to Week 5 graphic
+- by: Thomas J. Burton via codex
+- Recorded per-column competition ranks across all 138 FBS teams, including the trimmed composite average.
+- Verified all 225 displayed ranks against the complete ratings table and confirmed that the original scores did not change.
+- Identified `ed967d3` as the main-branch graphic and table revision.
+
+## [2026-09-29] update | Week 5 rank disagreement chart
+- by: Thomas J. Burton via codex
+- Filed the eight-system rank-spread chart for the 2026 Week 5 composite Top 25, with seven visual callouts at gaps of at least 15 places.
+- Recorded SRS's 9.2-place mean absolute gap on those 25 teams and Oklahoma's #24 composite versus #58 SRS example.
+- Clarified that rank disagreement with the composite is descriptive and does not measure predictive accuracy; chart and method are in `2ae56b1`.
+
 ## [2026-09-29] update | Completed nextgen model results table
 - by: Thomas J. Burton via codex
 - Verified prediction hashes for all 356 successful runs and retained the four F06 failures across the 360 previously submitted configurations.
@@ -360,3 +383,64 @@ Chronological record of wiki activity.
 - Identified historical pass-label omissions and ambiguous sequence positions; recorded the authorized local repair, validation and requirement to preserve original model results until a separate corrected-reference comparison.
 - Filed five untested directions: context residuals, possession sequences, observed player roles, adjusted-state change and opponent-style response, with temporal, support and common-cohort gates.
 - Published Markdown documentation only; raw archive, private review outputs and source changes stay out of this public wiki push. No API calls or model experiments were started.
+
+## [2026-10-02] update | F13–F17 A fingerprint screen
+
+- by: Thomas J. Burton via codex
+- Filed 140 primary M2/M4 runs, 100 ablations and 60 market-residual runs, all successful, on the same 7,358-game 2013–2025 F12 A cohort; 2024/2025 remain design-informed development years.
+- Measured the corrected-F09 reference separately and retained negative or mixed F13–F16 market-free results; no new lineage was accepted.
+- Recorded that the separate `F17_market` fork improved on F16 but did not consistently beat the archived spread, and that missing quote timestamps block a prospective market claim.
+- Linked the local source/report evidence and code commit `255d2f1` in the new results page; no API calls or 2026 outcomes were used.
+
+## [2026-10-02] update | All-generation fingerprint scatter
+
+- by: Thomas J. Burton via codex
+- Filed the repo's single F0–F17 M2/M4 scatter figure, SVG, plotted-point CSV and source script at commit `cd4a591`.
+- Kept the historical 2015–2024 rolling-fold medians separate from the 2025 nextgen development cohorts of 757 and 553 games.
+- Recorded the common-cohort F12–F16 A MAE shelf and the M4 market fork's lower 2025 MAE with weaker upset recall, without a prospective or mathematical-asymptote claim.
+
+## [2026-10-02] update | Vegas baselines for all-generation scatter
+- by: Thomas J. Burton via codex
+- Added same-game-ID Vegas consensus-spread baselines to every MAE, winner-accuracy and upset-recall panel, keeping historical rolling folds and the two 2025 nextgen cohorts distinct.
+- Saved setting-level baseline scores and annual historical fold scores with the figure, and documented that Vegas favorite-only picks have zero upset recall.
+- Updated the F0–F17 synthesis with the benchmark values and clarified that cross-cohort differences remain descriptive rather than paired gains.
+
+## [2026-10-02] update | Clarify Vegas lines in scatter
+- by: Thomas J. Burton via codex
+- Removed the standalone square at F06 after it was mistaken for a fingerprint score; the Vegas baselines remain as dashed lines.
+- Revised the figure caption and synthesis note to name the historical, 757-game broad and 553-game narrow benchmark settings directly.
+
+## [2026-10-02] update | Broader scientific-model fingerprint extension
+
+- by: Thomas J. Burton via codex
+- Submitted CPU array 1496435 with 168 tasks across F09–F17, including matched-cohort M2/M4 coverage for F09–F11 and M1/M3/M5/M10 across every stage.
+- Froze the F6 rolling-origin-selected best configurations for M1/M3/M5/M10, three seeds, shared 2013–2025 cohort and existing M2/M4 setpoints.
+- Recorded the run as in progress; the CPU smoke test passed and no array performance results are claimed pending harvest.
+
+## [2026-10-02] update | Full-architecture fingerprint metric harvest
+
+- by: Thomas J. Burton via codex
+- Harvested and validated the completed F09–F17 metric outputs for six model IDs; 168 submitted tasks succeeded, with existing M2/M4 F12-corrected–F17 results reused.
+- Combined historical F0–F8 folds, the separate F06 A comparison and the common-cohort F09–F17 runs into a 110-point dataset.
+- Added repo-style MAE, upset-recall, winner-accuracy and Brier scatter figures with same-cohort Vegas baselines and natural zero/percentage axis bounds; documented the hard-favorite Brier baseline limitation.
+
+## [2026-10-02] update | Focus fingerprint metric axis ranges
+
+- by: Thomas J. Burton via codex
+- Rescaled the full-architecture F0–F17 plots around observed values with consistent per-metric ranges across model panels: 11–18 MAE points, 0–45% upset recall, 55–80% winner accuracy and 0.15–0.29 Brier.
+- Kept all three exact-cohort Vegas baselines, including the labeled 0% upset-recall line.
+- Refreshed the PNG/SVG outputs, harvest receipt and figure documentation.
+
+## [2026-10-02] update | PCA rankings for full fingerprint landscape
+
+- by: Thomas J. Burton via codex
+- Added standardized three-metric PC1 ranks for each model, each fingerprint stage, and all 110 exact model–fingerprint result summaries.
+- Recorded the favorable PC1 direction and 91.1% variance explained, with same-cohort model ranks and explicit cross-cohort limits.
+- Linked the ranking CSVs and rotating 3D figure from the existing F0–F17 synthesis page.
+
+## [2026-10-02] update | Generation-colored 3D rotation
+
+- by: Thomas J. Burton via codex
+- Added a second 96-frame rotation with fingerprint generation mapped from red at F0 to blue at F17 and model identity encoded by marker shape.
+- Removed the PCA direction arrow from the original rotating GIF while retaining it on the still figure.
+- Updated figure documentation and the F0–F17 synthesis links to describe both GIF encodings.

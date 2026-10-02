@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -j y
+#$ -q long
+#$ -pe smp 1
+#$ -l h_rt=24:00:00
+#$ -l h_vmem=32G
+set -euo pipefail
+: "${TDNET_ROUNDS_STAGE:?}"
+: "${SGE_TASK_ID:?}"
+cd /users/tburton2/Repos/TDNet
+export PYTHONPATH="$PWD/src"
+export MPLCONFIGDIR="${TMPDIR:-/tmp}/tdnet-rounds-mpl"
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
+if (( SGE_TASK_ID >= 1 && SGE_TASK_ID <= 10 )); then
+  architecture=M2
+  setpoint=$(printf 'm2_%02d' "$SGE_TASK_ID")
+elif (( SGE_TASK_ID >= 11 && SGE_TASK_ID <= 20 )); then
+  architecture=M4
+  setpoint=$(printf 'm4_%02d' "$((SGE_TASK_ID - 10))")
+else
+  echo "Invalid setpoint task index: $SGE_TASK_ID" >&2
+  exit 2
+fi
+exec /users/tburton2/.conda/envs/gridiron/bin/python scripts/nextgen_rounds_train.py \
+  --stage "$TDNET_ROUNDS_STAGE" --model "$architecture" --setpoint "$setpoint"

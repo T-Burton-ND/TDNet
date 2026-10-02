@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "status": "source transformations documented; returning-production denominators and historical publication timestamps are not independently reconstructed",
+  "common": {
+    "implementation": "src/gridiron_ml/fingerprints/builders/v0.py",
+    "implementation_sha256": "04cc6396a89ca22e801eb7248965b4bde5022c3392ea31ea08efe4b98cca215d",
+    "additional_implementation": "src/gridiron_ml/pipeline/pre_processing/parquet_loader.py",
+    "additional_implementation_sha256": "d958e897fe92c74bab0cc4e93c5cd0e87f2613399dd3bcaef1231e1ff819ba40",
+    "supporting_implementations": [
+      {
+        "path": "src/gridiron_ml/pipeline/raw_weekly_builder.py",
+        "sha256": "cb1beabf6d9bd0667aa1c45b3f2790092c1b2e04e43206a439c4185d746427ca"
+      },
+      {
+        "path": "src/gridiron_ml/pipeline/canonicalization.py",
+        "sha256": "86a7cbea7b64aae530ae7273f399160034e740362d10bda60cdfc6bb5e24a24b"
+      },
+      {
+        "path": "src/gridiron_ml/pipeline/fetch/cfbd_fetch_v2.py",
+        "sha256": "5d4d7fc5926b88de90bd40a2bb709fddf6b371d6ed4f038782bde0eb03ab227f"
+      }
+    ],
+    "scope": "Inherited season-level provider priors, numerically coerced and forward-filled within each team-season. The experiment verifies constant roster/coach state within team-season. Historical publication time is reconstructed rather than independently archived.",
+    "equation_excel": "=IF(ISNUMBER(current_season_source),current_season_source,previous_nonmissing_same_team_season_source)",
+    "missingness": "If no prior or current finite same-team-season source exists, remain missing. Duplicate canonical fingerprint-key records are averaged before forward filling. Experiment frozen inputs remain authoritative.",
+    "minimum_sample_rule": "One source team-season value, or at least one matched prior coach-season for the coach aggregate.",
+    "garbage_time_handling": "No new play-level filtering. These are provider season/career summaries; do not interpret them as locally reconstructed regular-season-only player production.",
+    "availability_rule": "Retained source semantics and the hash-bound source_semantics_audit.json govern this authorized inherited baseline; static invariance is not proof of archived preseason publication."
+  },
+  "features": {
+    "roster_return_percent_p_p_a": {
+      "equation_excel": "=IF(ISNUMBER(current_season_source),current_season_source,previous_nonmissing_same_team_season_source)",
+      "raw_equation_excel": "=[return_team_percent_p_p_a]",
+      "endpoint": "/player/returning",
+      "source_column": "return_team_percent_p_p_a",
+      "units": "provider PPA share (dimensionless signed ratio scale; retained as returned, no division by 100)",
+      "positive_negative_meaning": "Signed provider returning-production share. This is not a probability and observed values may be below zero or above one; do not clamp to [0,1]. The raw API denominator has not been independently reconstructed.",
+      "film_intuition": "Returning all production as reported by the provider; production mix and denominator behavior matter, not just headcount."
+    },
+    "roster_return_percent_passing_p_p_a": {
+      "equation_excel": "=IF(ISNUMBER(current_season_source),current_season_source,previous_nonmissing_same_team_season_source)",
+      "raw_equation_excel": "=[return_team_percent_passing_p_p_a]",
+      "endpoint": "/player/returning",
+      "source_column": "return_team_percent_passing_p_p_a",
+      "units": "provider PPA share (dimensionless signed ratio scale; retained as returned, no division by 100)",
+      "positive_negative_meaning": "Signed provider returning-production share. This is not a probability and observed values may be below zero or above one; do not clamp to [0,1]. The raw API denominator has not been independently reconstructed.",
+      "film_intuition": "Returning passing production as reported by the provider; production mix and denominator behavior matter, not just headcount."
+    },
+    "roster_return_percent_receiving_p_p_a": {
+      "equation_excel": "=IF(ISNUMBER(current_season_source),current_season_source,previous_nonmissing_same_team_season_source)",
+      "raw_equation_excel": "=[return_team_percent_receiving_p_p_a]",
+      "endpoint": "/player/returning",
+      "source_column": "return_team_percent_receiving_p_p_a",
+      "units": "provider PPA share (dimensionless signed ratio scale; retained as returned, no division by 100)",
+      "positive_negative_meaning": "Signed provider returning-production share. This is not a probability and observed values may be below zero or above one; do not clamp to [0,1]. The raw API denominator has not been independently reconstructed.",
+      "film_intuition": "Returning receiving production as reported by the provider; production mix and denominator behavior matter, not just headcount."
+    },
+    "roster_return_percent_rushing_p_p_a": {
+      "equation_excel": "=IF(ISNUMBER(current_season_source),current_season_source,previous_nonmissing_same_team_season_source)",
+      "raw_equation_excel": "=[return_team_percent_rushing_p_p_a]",
+      "endpoint": "/player/returning",
+      "source_column": "return_team_percent_rushing_p_p_a",
+      "units": "provider PPA share (dimensionless signed ratio scale; retained as returned, no division by 100)",
+      "positive_negative_meaning": "Signed provider returning-production share. This is not a probability and observed values may be below zero or above one; do not clamp to [0,1]. The raw API denominator has not been independently reconstructed.",
+      "film_intuition": "Returning rushing production as reported by the provider; production mix and denominator behavior matter, not just headcount."
+    },
+    "roster_return_rushing_usage": {
+      "equation_excel": "=IF(ISNUMBER(current_season_source),current_season_source,previous_nonmissing_same_team_season_source)",
+      "raw_equation_excel": "=[return_team_rushing_usage]",
+      "endpoint": "/player/returning",
+      "source_column": "return_team_rushing_usage",
+      "units": "dimensionless provider rushing-usage share",
+      "positive_negative_meaning": "Larger means more provider-reported returning rushing involvement. Observed values in this artifact span zero to one; that observation is not an imposed clipping rule.",
+      "film_intuition": "Continuity of rushing involvement, distinct from the efficiency or scoring value of that involvement."
+    },
+    "roster_return_total_rushing_p_p_a": {
+      "equation_excel": "=IF(ISNUMBER(current_season_source),current_season_source,previous_nonmissing_same_team_season_source)",
+      "raw_equation_excel": "=[return_team_total_rushing_p_p_a]",
+      "endpoint": "/player/returning",
+      "source_column": "return_team_total_rushing_p_p_a",
+      "units": "cumulative predicted points added",
+      "positive_negative_meaning": "Signed provider returning rushing production; negative indicates net negative reported scoring value. It is a total, not points per rush.",
+      "film_intuition": "Amount of prior rushing production returning, combining involvement and value."
+    },
+    "roster_talent": {
+      "equation_excel": "=IF(ISNUMBER(current_season_source),current_season_source,previous_nonmissing_same_team_season_source)",
+      "raw_equation_excel": "=[talent]",
+      "endpoint": "/talent",
+      "source_column": "talent",
+      "units": "provider team talent composite rating points",
+      "positive_negative_meaning": "Larger provider composite indicates more rated talent. Zero is retained as supplied and is not proof of an absence of football ability.",
+      "film_intuition": "Roster recruiting profile rather than observed on-field production; the provider composite is not refit locally."
+    },
+    "coach_career_seasons": {
+      "equation_excel": "=IF(ISNUMBER(current_season_source),current_season_source,previous_nonmissing_same_team_season_source)",
+      "raw_equation_excel": "=IF(COUNT(matching_prior_hist_year)>0,COUNTA(UNIQUE(matching_prior_hist_year)),NA())",
+      "endpoint": "/coaches",
+      "source_column": "hist_year grouped by coach_full_name",
+      "prior_filter": "matching_prior_hist_year contains numeric history years strictly below target_season for the matched coach; raw_weekly_builder explicitly requests cutoff_mode=lt. One distinct year counts once, regardless of duplicate historical records. Empty aggregate produces no career row and joins as missing.",
+      "units": "distinct prior recorded seasons",
+      "positive_negative_meaning": "Nonnegative historical experience count; higher means more recorded prior seasons, not necessarily better coaching.",
+      "film_intuition": "Experience proxy for the source-selected coach; this does not establish current-season staff continuity or coaching changes."
+    }
+  }
+}

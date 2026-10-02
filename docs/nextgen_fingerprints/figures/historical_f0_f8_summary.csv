@@ -1,0 +1,19 @@
+fingerprint,model,mae,winner_accuracy,upset_accuracy,folds,test_years,source
+F0,M2,15.3281305284,0.632321850052,0.385242474916,10,2015–2024,historical scientific F0–F8 margin-objective replay
+F0,M4,15.5094555791,0.624455804443,0.37859947644,10,2015–2024,historical scientific F0–F8 margin-objective replay
+F1,M2,13.6958889831,0.710293707594,0.265191469846,10,2015–2024,historical scientific F0–F8 margin-objective replay
+F1,M4,13.9163516997,0.705020449936,0.247219655751,10,2015–2024,historical scientific F0–F8 margin-objective replay
+F2,M2,13.8867239737,0.705162473795,0.282081046855,10,2015–2024,historical scientific F0–F8 margin-objective replay
+F2,M4,13.8646523049,0.703140910452,0.26575528408,10,2015–2024,historical scientific F0–F8 margin-objective replay
+F3,M2,13.9932508414,0.703372489579,0.261786915413,10,2015–2024,historical scientific F0–F8 margin-objective replay
+F3,M4,13.4254251912,0.716644186828,0.215823152996,10,2015–2024,historical scientific F0–F8 margin-objective replay
+F4,M2,13.8809819272,0.712713675214,0.272023302074,10,2015–2024,historical scientific F0–F8 margin-objective replay
+F4,M4,13.4975536927,0.720903119869,0.209080975385,10,2015–2024,historical scientific F0–F8 margin-objective replay
+F5,M2,13.3793976754,0.730993431856,0.219256180733,10,2015–2024,historical scientific F0–F8 margin-objective replay
+F5,M4,13.3994156385,0.730730551166,0.216639433551,10,2015–2024,historical scientific F0–F8 margin-objective replay
+F6,M2,13.3416047685,0.717032252068,0.194523276077,10,2015–2024,historical scientific F0–F8 margin-objective replay
+F6,M4,13.3345565121,0.729425287356,0.204018338727,10,2015–2024,historical scientific F0–F8 margin-objective replay
+F7,M2,12.4681466634,0.74165442885,0.0025641025641,10,2015–2024,historical scientific F0–F8 margin-objective replay
+F7,M4,12.4200330295,0.748989218329,0.0633779264214,10,2015–2024,historical scientific F0–F8 margin-objective replay
+F8,M2,13.0243651826,0.738325123153,0.171418617614,10,2015–2024,historical scientific F0–F8 margin-objective replay
+F8,M4,12.6804950031,0.739392446634,0.144149783747,10,2015–2024,historical scientific F0–F8 margin-objective replay

@@ -1,0 +1,11 @@
+setting,games,actual_upsets,mae,winner_accuracy,upset_recall,brier_score,brier_method,test_year
+historical 2015,720,153,12.5364583333,0.7875,0,0.2125,0/1 probability assigned to the Vegas spread favorite,2015
+historical 2016,718,190,13.1089832869,0.735376044568,0,0.264623955432,0/1 probability assigned to the Vegas spread favorite,2016
+historical 2017,728,178,12.1057692308,0.755494505495,0,0.244505494505,0/1 probability assigned to the Vegas spread favorite,2017
+historical 2018,725,184,12.3513793103,0.746206896552,0,0.253793103448,0/1 probability assigned to the Vegas spread favorite,2018
+historical 2019,734,185,12.1284059946,0.74795640327,0,0.25204359673,0/1 probability assigned to the Vegas spread favorite,2019
+historical 2020,420,103,12.95,0.754761904762,0,0.245238095238,0/1 probability assigned to the Vegas spread favorite,2020
+historical 2021,723,196,12.5387275242,0.728907330567,0,0.271092669433,0/1 probability assigned to the Vegas spread favorite,2021
+historical 2022,719,194,11.9836578581,0.728789986092,0,0.271210013908,0/1 probability assigned to the Vegas spread favorite,2022
+historical 2023,742,191,12.0013477089,0.738544474394,0,0.261455525606,0/1 probability assigned to the Vegas spread favorite,2023
+historical 2024,746,215,12.2174932976,0.711796246649,0,0.288203753351,0/1 probability assigned to the Vegas spread favorite,2024

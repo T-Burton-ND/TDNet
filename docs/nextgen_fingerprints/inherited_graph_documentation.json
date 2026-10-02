@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "status": "source-reviewed supplemental documentation; does not replace frozen training manifests",
+  "common": {
+    "implementation": "src/gridiron_ml/fingerprints/ladder.py",
+    "implementation_sha256": "835066c307a22dd0198019add4d27889e0ab6cd12ce097d015759abae65c05fb",
+    "scope": "Canonical F06 schedule graph; same-season completed games through the source-state week, before the future target. One observation per game ID. Teams are the source season team universe; out-of-universe opponents contribute team counts and wins/losses but not matrix off-diagonals or PageRank edges.",
+    "inputs": "Prior game IDs, team/opponent IDs, source week, realized prior-game team margin; scheduled next opponent only for the edge feature.",
+    "garbage_time_handling": "No play filtering; uses completed game margin, capped at 35 only in the PageRank edge weight.",
+    "colley_definition": "Named ranges: games_i counts incident completed games; meetings_ij counts games between known teams. C_ii=2+games_i; C_ij=-meetings_ij for i<>j. b_i=1+(wins_i-losses_i)/2. r=MMULT(MINVERSE(C),b). Ties add counts but no win/loss term.",
+    "pagerank_definition": "A_loser,winner += 1+MIN(ABS(margin),35)/14. If ABS(margin)<=7, A_winner,loser += 0.25. Ties add no edges. Row-normalize A; replace zero rows with 1/N. Initialize p0_i=1/N; exactly 50 updates pk=(1-0.85)/N+0.85*MMULT(TRANSPOSE(P),p_previous). z_i=(p50_i-AVERAGE(p50))/IF(STDEV.P(p50)>0,STDEV.P(p50),1).",
+    "minimum_sample_rule": "Empty graph gives Colley 0.5 and PageRank z=0; opponent subsets without known entries return 0.5. Counts start at zero. No additional support threshold."
+  },
+  "features": {
+    "graph_colley_rating": {
+      "equation_excel": "=INDEX(MMULT(MINVERSE(C),b),team_index)",
+      "units": "dimensionless rating",
+      "positive_negative_meaning": "Higher means stronger schedule-adjusted win/loss evidence; 0.5 is the empty-history prior.",
+      "film_intuition": "Winning against connected opponents raises evidence of team strength."
+    },
+    "graph_pagerank_z": {
+      "equation_excel": "=(INDEX(p50,team_index)-AVERAGE(p50))/IF(STDEV.P(p50)>0,STDEV.P(p50),1)",
+      "units": "population standard deviations",
+      "positive_negative_meaning": "Positive/negative means above/below the season graph mean PageRank after 50 updates.",
+      "film_intuition": "Credit travels through wins; close losses return a smaller edge of credit."
+    },
+    "graph_schedule_strength": {
+      "equation_excel": "=IF(COUNT(known_opponent_ratings)>0,AVERAGE(known_opponent_ratings),0.5)",
+      "units": "dimensionless rating",
+      "positive_negative_meaning": "Higher means stronger known opponents faced; repeat opponents are counted per meeting.",
+      "film_intuition": "Distinguishes a demanding schedule from weak opposition."
+    },
+    "graph_win_quality": {
+      "equation_excel": "=IF(COUNT(beaten_known_opponent_ratings)>0,AVERAGE(beaten_known_opponent_ratings),0.5)",
+      "units": "dimensionless rating",
+      "positive_negative_meaning": "Higher means stronger known opponents beaten; empty subset is 0.5, not evidence of average-quality wins.",
+      "film_intuition": "Measures the quality of opponents behind the wins."
+    },
+    "graph_loss_quality": {
+      "equation_excel": "=IF(COUNT(lost_to_known_opponent_ratings)>0,AVERAGE(lost_to_known_opponent_ratings),0.5)",
+      "units": "dimensionless rating",
+      "positive_negative_meaning": "Higher means losses came against stronger known opponents; empty subset is 0.5. It is not a count of losses.",
+      "film_intuition": "Adds context to losses against strong opposition."
+    },
+    "graph_games_played": {
+      "equation_excel": "=COUNT(incident_completed_game_ids)",
+      "units": "games",
+      "positive_negative_meaning": "Nonnegative count; higher means more graph evidence, not necessarily better performance.",
+      "film_intuition": "Separates an established record from a small sample."
+    },
+    "graph_unique_opponents": {
+      "equation_excel": "=COUNTA(UNIQUE(incident_opponent_ids))",
+      "units": "opponents",
+      "positive_negative_meaning": "Nonnegative count including out-of-universe opponents; higher means broader schedule exposure.",
+      "film_intuition": "Distinguishes repeated matchups from diverse opposition."
+    },
+    "graph_colley_edge_next": {
+      "equation_excel": "=team_colley-IF(next_opponent_known,next_opponent_colley,0.5)",
+      "units": "dimensionless rating difference",
+      "positive_negative_meaning": "Positive means the team exceeds its scheduled next opponent in prior-state Colley rating; negative means the reverse.",
+      "film_intuition": "A schedule-strength comparison specific to the upcoming matchup."
+    }
+  }
+}

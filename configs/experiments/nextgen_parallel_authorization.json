@@ -1,0 +1,8 @@
+{
+  "independent_full_training_authorized": true,
+  "user_instruction": "feel free to run later gens in parrallel if it is feasible/accelerates it. Also different levels of data",
+  "supersedes": "one-generation-at-a-time training barrier for independent full fingerprints",
+  "maximum_simultaneously_running_experiment_jobs": 50,
+  "progressive_reductions_require_accepted_parent": true,
+  "reduction_acceptance_requires_terminal_reference_screening": true
+}

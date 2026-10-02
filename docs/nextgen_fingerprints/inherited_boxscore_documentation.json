@@ -1,0 +1,316 @@
+{
+  "version": 1,
+  "status": "source-reviewed canonical transformations; ambiguous provider event ownership remains explicitly flagged",
+  "common": {
+    "implementation": "src/gridiron_ml/fingerprints/builders/v0.py",
+    "implementation_sha256": "04cc6396a89ca22e801eb7248965b4bde5022c3392ea31ea08efe4b98cca215d",
+    "additional_implementation": "src/gridiron_ml/pipeline/pre_processing/cleaners.py",
+    "additional_implementation_sha256": "93d2f7bdbb5860cf849c2a3956659f726dd60d40dcef9784a08644a28c009b70",
+    "supporting_implementations": [
+      {
+        "path": "src/gridiron_ml/pipeline/canonicalization.py",
+        "sha256": "86a7cbea7b64aae530ae7273f399160034e740362d10bda60cdfc6bb5e24a24b"
+      }
+    ],
+    "scope": "Inherited canonical state after a completed source week, predicting a later game. Filter to regular-season source rows, coerce numerics, collapse duplicate fingerprint keys (season/team/week) using means for performance fields and first values for other fields, then sort and aggregate within team-season. The frozen experiment availability checks remain authoritative.",
+    "aggregation_equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+    "aggregation_note": "Equal weight per nonmissing canonical source row, not a pooled event numerator/denominator. Duplicate-key collapse precedes this average. Bye/scheduled missing rows do not supply a new finite observation; completed counts have separate logic.",
+    "minimum_sample_rule": "One finite canonical source value; absent observations remain missing until observed, except explicitly recorded upstream zero-fill rules.",
+    "garbage_time_handling": "No additional play filtering in these cleaners or cumulative state transforms. Game totals and supplied box-score values retain their source inclusion rules.",
+    "missingness_note": "After numeric coercion, missing values are filled with zero only for these present provider columns: stat_interceptionTDs, stat_passesIntercepted, stat_puntReturns, stat_puntReturnTDs, stat_kickReturnTDs, stat_kickReturns, stat_totalFumbles. Other absent or nonnumeric values remain missing. This is upstream behavior, separate from model missing-value handling.",
+    "supporting_evidence": [
+      {
+        "path": "/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/results/inherited_interception_ownership_audit.json",
+        "sha256": "6d4c425b4fa090976ffcde8034f82484287cee5a3e844d42ea899677d1e88cb6"
+      }
+    ]
+  },
+  "features": {
+    "games_played": {
+      "equation_excel": "=SUM(completed_flags_through_current)",
+      "raw_equation_excel": "=IF(ISNUMBER(completed_target),1,0)",
+      "source_column": "games_played",
+      "units": "completed canonical rows",
+      "positive_negative_meaning": "Nonnegative source-support count. completed_target prefers target_team_margin, then target_points_for; if neither column exists the implementation counts all rows.",
+      "film_intuition": "Amount of completed evidence behind the cumulative state."
+    },
+    "statDef_defensive_tds": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=[stat_defensiveTDs]",
+      "source_column": "stat_defensiveTDs",
+      "units": "touchdowns per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Prior scoring production in the named play category."
+    },
+    "statDef_interception_tds": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=IF(ISNUMBER([stat_interceptionTDs]),[stat_interceptionTDs],0)",
+      "source_column": "stat_interceptionTDs",
+      "units": "touchdowns per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Prior scoring production in the named play category."
+    },
+    "statDef_interceptions": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=[stat_interceptions]",
+      "source_column": "stat_interceptions",
+      "units": "interceptions per game",
+      "positive_negative_meaning": "Nonnegative count of interceptions thrown; larger is more offensive turnovers, not more defensive takeaways. Zero means none recorded in the source average.",
+      "film_intuition": "Ball security and risky passing outcomes.",
+      "semantic_review": "Across 27,403 finite paired 2010-2025 regular-season historical team-game rows, this field equals the opponent passes_intercepted field in 27,337 rows. Of 18,731 rows that distinguish it from the same-team passes_intercepted field, 18,682 agree with the opponent value. The 66 total disagreements remain source-data discrepancies; this is strong empirical ownership evidence, not a repaired provider dataset.",
+      "direction": "lower_is_better",
+      "interpretation": "Prior average of interceptions thrown by the represented team, inferred from paired source-game ownership; the statDef canonical prefix is misleading."
+    },
+    "statDef_passes_deflected": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=[stat_passesDeflected]",
+      "source_column": "stat_passesDeflected",
+      "units": "events per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Describes prior game activity on the named measure."
+    },
+    "statDef_passes_intercepted": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=IF(ISNUMBER([stat_passesIntercepted]),[stat_passesIntercepted],0)",
+      "source_column": "stat_passesIntercepted",
+      "units": "events per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Describes prior game activity on the named measure."
+    },
+    "statDef_qb_hurries": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=[stat_qbHurries]",
+      "source_column": "stat_qbHurries",
+      "units": "events per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Describes prior game activity on the named measure."
+    },
+    "statDef_sacks": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=[stat_sacks]",
+      "source_column": "stat_sacks",
+      "units": "events per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Describes prior game activity on the named measure."
+    },
+    "statDef_tackles": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=[stat_tackles]",
+      "source_column": "stat_tackles",
+      "units": "events per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Describes prior game activity on the named measure."
+    },
+    "statDef_tackles_for_loss": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=[stat_tacklesForLoss]",
+      "source_column": "stat_tacklesForLoss",
+      "units": "events per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Describes prior game activity on the named measure."
+    },
+    "statGen_fumbles_lost": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=[stat_fumblesLost]",
+      "source_column": "stat_fumblesLost",
+      "units": "events per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Describes prior game activity on the named measure."
+    },
+    "statGen_fumbles_recovered": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=[stat_fumblesRecovered]",
+      "source_column": "stat_fumblesRecovered",
+      "units": "events per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Describes prior game activity on the named measure."
+    },
+    "statGen_penalties": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=[stat_penalties]",
+      "source_column": "stat_penalties",
+      "units": "events per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Describes prior game activity on the named measure."
+    },
+    "statGen_possession_time": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=IF(ISNUMBER(SEARCH(\":\",raw_text)),VALUE(TEXTBEFORE(raw_text,\":\"))+VALUE(TEXTAFTER(raw_text,\":\"))/60,NA())",
+      "source_column": "stat_possessionTime",
+      "units": "minutes per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Prior possession duration; pace and drive success both influence it."
+    },
+    "statGen_total_fumbles": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=IF(ISNUMBER([stat_totalFumbles]),[stat_totalFumbles],0)",
+      "source_column": "stat_totalFumbles",
+      "units": "events per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Describes prior game activity on the named measure."
+    },
+    "statGen_turnovers": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=[stat_turnovers]",
+      "source_column": "stat_turnovers",
+      "units": "events per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Describes prior game activity on the named measure."
+    },
+    "statOff_completion_rate": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=IF([stat_passAttempts]<>0,[stat_completions]/[stat_passAttempts],NA())",
+      "source_column": "stat_completion_rate",
+      "units": "fraction (0-1)",
+      "positive_negative_meaning": "Higher means a larger per-game share of completed passes or converted downs; negative values are not meaningful.",
+      "film_intuition": "Consistency of converting the named opportunities; each source-game rate has equal weight."
+    },
+    "statOff_first_downs": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=[stat_firstDowns]",
+      "source_column": "stat_firstDowns",
+      "units": "events per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Describes prior game activity on the named measure."
+    },
+    "statOff_fourth_down_rate": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=IF([stat_fourthDown_attempts]<>0,[stat_fourthDown_success]/[stat_fourthDown_attempts],NA())",
+      "source_column": "stat_4Down_Rate",
+      "units": "fraction (0-1)",
+      "positive_negative_meaning": "Higher means a larger per-game share of completed passes or converted downs; negative values are not meaningful.",
+      "film_intuition": "Consistency of converting the named opportunities; each source-game rate has equal weight."
+    },
+    "statOff_pass_attempts": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=[stat_passAttempts]",
+      "source_column": "stat_passAttempts",
+      "units": "attempts per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Describes prior game activity on the named measure."
+    },
+    "statOff_passing_tds": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=[stat_passingTDs]",
+      "source_column": "stat_passingTDs",
+      "units": "touchdowns per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Prior scoring production in the named play category."
+    },
+    "statOff_rushing_attempts": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=[stat_rushingAttempts]",
+      "source_column": "stat_rushingAttempts",
+      "units": "attempts per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Describes prior game activity on the named measure."
+    },
+    "statOff_rushing_tds": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=[stat_rushingTDs]",
+      "source_column": "stat_rushingTDs",
+      "units": "touchdowns per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Prior scoring production in the named play category."
+    },
+    "statOff_third_down_rate": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=IF([stat_thirdDown_attempts]<>0,[stat_thirdDown_success]/[stat_thirdDown_attempts],NA())",
+      "source_column": "stat_3Down_Rate",
+      "units": "fraction (0-1)",
+      "positive_negative_meaning": "Higher means a larger per-game share of completed passes or converted downs; negative values are not meaningful.",
+      "film_intuition": "Consistency of converting the named opportunities; each source-game rate has equal weight."
+    },
+    "statOff_yards_per_pass": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=[stat_yardsPerPass]",
+      "source_column": "stat_yardsPerPass",
+      "units": "yards per pass attempt",
+      "positive_negative_meaning": "Positive means net positive provider-reported passing yardage per attempt; negative means negative yardage.",
+      "film_intuition": "Passing production per attempt rather than total passing volume."
+    },
+    "statOff_yards_per_rush_attempt": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=[stat_yardsPerRushAttempt]",
+      "source_column": "stat_yardsPerRushAttempt",
+      "units": "yards per rush attempt",
+      "positive_negative_meaning": "Positive means net positive rushing yardage per attempt; negative means negative yardage.",
+      "film_intuition": "Ground production per attempt rather than total rushing volume."
+    },
+    "statSpe_kick_return_tds": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=IF(ISNUMBER([stat_kickReturnTDs]),[stat_kickReturnTDs],0)",
+      "source_column": "stat_kickReturnTDs",
+      "units": "touchdowns per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Prior scoring production in the named play category."
+    },
+    "statSpe_kick_returns": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=IF(ISNUMBER([stat_kickReturns]),[stat_kickReturns],0)",
+      "source_column": "stat_kickReturns",
+      "units": "events per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Describes prior game activity on the named measure."
+    },
+    "statSpe_kicking_points": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=[stat_kickingPoints]",
+      "source_column": "stat_kickingPoints",
+      "units": "score points per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Scoring contributed by kicking."
+    },
+    "statSpe_punt_return_tds": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=IF(ISNUMBER([stat_puntReturnTDs]),[stat_puntReturnTDs],0)",
+      "source_column": "stat_puntReturnTDs",
+      "units": "touchdowns per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Prior scoring production in the named play category."
+    },
+    "statSpe_punt_returns": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=IF(ISNUMBER([stat_puntReturns]),[stat_puntReturns],0)",
+      "source_column": "stat_puntReturns",
+      "units": "events per game",
+      "positive_negative_meaning": "Nonnegative prior-state count average. A larger count indicates more recorded events, not automatically better performance.",
+      "film_intuition": "Describes prior game activity on the named measure."
+    },
+    "target_points_against_avg": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=IF(is_home,away_score,home_score)",
+      "source_column": "target_points_against",
+      "units": "score points per game",
+      "positive_negative_meaning": "Higher means more points conceded in prior games; negative is not meaningful.",
+      "film_intuition": "Prior scoring prevention, used only for a later target game.",
+      "target_derived_semantics": "Derived from prior-game scores, not from the future prediction label. Frozen manifest flags alone should not be interpreted as denying this prior-outcome dependency."
+    },
+    "target_points_for_avg": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=IF(is_home,home_score,away_score)",
+      "source_column": "target_points_for",
+      "units": "score points per game",
+      "positive_negative_meaning": "Higher means more points scored in prior games; negative is not meaningful.",
+      "film_intuition": "Prior scoring output, used only for a later target game.",
+      "target_derived_semantics": "Derived from prior-game scores, not from the future prediction label. Frozen manifest flags alone should not be interpreted as denying this prior-outcome dependency."
+    },
+    "travel_distance_diff": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=LN(1+team_distance_km)-LN(1+opponent_distance_km)",
+      "source_column": "travel_diff",
+      "units": "dimensionless log-distance difference (distances evaluated in kilometers)",
+      "positive_negative_meaning": "Positive means the team travels farther than its opponent to the source-game venue; negative means less travel.",
+      "film_intuition": "Historical relative travel burden, averaged over source rows; not an upcoming-trip mileage field.",
+      "distance_equation_excel": "=2*6371.0088*ASIN(SQRT(SIN(RADIANS(venue_lat-team_lat)/2)^2+COS(RADIANS(team_lat))*COS(RADIANS(venue_lat))*SIN(RADIANS(venue_lon-team_lon)/2)^2)); repeat with opponent coordinates for opponent_distance_km."
+    },
+    "travel_tz_diff": {
+      "equation_excel": "=IF(COUNT(source_rows_through_current)>0,AVERAGE(source_rows_through_current),NA())",
+      "raw_equation_excel": "=MAX(-6,MIN(6,ABS(team_utc_offset-venue_utc_offset)-ABS(opponent_utc_offset-venue_utc_offset)))",
+      "source_column": "tz_diff",
+      "units": "hours of relative UTC-offset mismatch",
+      "positive_negative_meaning": "Positive means greater time-zone displacement for the team than the opponent; negative means less.",
+      "film_intuition": "Historical relative time-zone burden, averaged over source rows."
+    }
+  }
+}

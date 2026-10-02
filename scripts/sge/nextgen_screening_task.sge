@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -j y
+#$ -q long
+#$ -pe smp 1
+#$ -l h_rt=48:00:00
+#$ -l h_vmem=12G
+set -euo pipefail
+: "${REPO_ROOT:?}"
+: "${NEXTGEN_JOB_MANIFEST:?}"
+: "${SGE_TASK_ID:?}"
+export PYTHONPATH="${REPO_ROOT}/src"
+export MPLCONFIGDIR="${TMPDIR:-/tmp}/tdnet-nextgen-mpl"
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
+cd "${REPO_ROOT}"
+exec /users/tburton2/.conda/envs/gridiron/bin/python scripts/nextgen_screening_array.py run \
+  --manifest "${NEXTGEN_JOB_MANIFEST}" --task-id "${SGE_TASK_ID}"

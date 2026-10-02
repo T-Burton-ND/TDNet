@@ -1,0 +1,9 @@
+{
+  "independent_reduced_training_authorized": true,
+  "user_instruction": "feel free to run later gens in parrallel if it is feasible/accelerates it. Also different levels of data",
+  "scope": "Independent R/LR trials may screen after their complete full-reference evidence; PR additionally requires the accepted previous same-design reduced parent. This removes only unrelated generation waits.",
+  "maximum_simultaneously_running_experiment_jobs": 50,
+  "full_reference_terminal_screening_required": true,
+  "progressive_accepted_parent_required": true,
+  "measured_reduction_acceptance_required": true
+}
