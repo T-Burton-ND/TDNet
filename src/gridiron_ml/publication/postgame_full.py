@@ -634,8 +634,8 @@ def _plot_team_margin_parity(
         float(np.ceil(max(data["actual_home_margin"].abs().max(), data["pred_home_margin"].abs().max()) / 10.0) * 10.0),
     )
     apply_tdnet_theme()
-    fig, axis = plt.subplots(figsize=(13.5, 12.5), facecolor="#F7F4ED")
-    axis.set_facecolor("#FFFFFF")
+    fig, axis = plt.subplots(figsize=(13.5, 12.5), facecolor=TDNET_COLORS["parchment"])
+    axis.set_facecolor(TDNET_COLORS["parchment_panel"])
     week_colors = (
         TDNET_COLORS["edge_pink"],
         TDNET_COLORS["ion_blue"],

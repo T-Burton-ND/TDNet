@@ -20,6 +20,7 @@ from gridiron_ml.td_run.matchups import MatchupBuilder
 from gridiron_ml.td_run.poll_viz import resolve_team_logo_path, load_team_logo_image
 
 from .bundles import sha256_file
+from .figure_theme import TDNET_COLORS, apply_tdnet_theme
 from .preseason_states import build_preseason_state_frame
 from .polls import load_ap_top25
 from .poll_recaps import plot_tdnet_vs_ap_poll
@@ -72,6 +73,7 @@ def build_weekly_blog_package(
     The canonical long and consensus tables are written before figures; the
     notebook only calls this function and displays its returned artifacts.
     """
+    apply_tdnet_theme()
     root = Path(project_root).resolve()
     output = Path(output_root)
     tables = output / "tables"
@@ -556,7 +558,7 @@ def plot_top25_matchups(games, path, *, logo_dir, title, dpi=200, model_set_sha2
     games = pd.DataFrame(games)
     rows = max(1, len(games))
     fig, axes = plt.subplots(rows, 1, figsize=(12.5, 2.15 * rows + 1.0), squeeze=False)
-    fig.patch.set_facecolor("#F6F3EC")
+    fig.patch.set_facecolor(TDNET_COLORS["parchment"])
     for axis in axes[:, 0]:
         axis.set_xlim(0, 1)
         axis.set_ylim(0, 1)
@@ -564,7 +566,7 @@ def plot_top25_matchups(games, path, *, logo_dir, title, dpi=200, model_set_sha2
     if games.empty:
         axes[0, 0].text(0.5, 0.5, "No Top 25 games in this schedule snapshot", ha="center", va="center")
     for axis, (_, game) in zip(axes[:, 0], games.iterrows()):
-        axis.add_patch(plt.Rectangle((0.01, 0.05), 0.98, 0.9, color="white", ec="#D8D2C4", lw=1.0))
+        axis.add_patch(plt.Rectangle((0.01, 0.05), 0.98, 0.9, color=TDNET_COLORS["parchment_panel"], ec=TDNET_COLORS["parchment_header"], lw=1.0))
         _draw_logo(axis, game["away_team"], logo_dir, 0.10, 0.5)
         _draw_logo(axis, game["home_team"], logo_dir, 0.90, 0.5)
         axis.text(0.19, 0.60, format_team_with_ap_rank(game, "away"), ha="left", va="center", fontsize=15, weight="bold")
@@ -581,7 +583,7 @@ def plot_top25_matchups(games, path, *, logo_dir, title, dpi=200, model_set_sha2
     fig.suptitle(title, fontsize=21, weight="bold", y=0.995)
     stamp = _model_hash_stamp(model_set_sha256, checkpoint_count, generated_at_utc)
     if stamp:
-        fig.text(0.5, 0.014, stamp, ha="center", va="bottom", fontsize=10.5, weight="bold", color="#28323C", family="monospace", bbox={"facecolor": "#FFFFFF", "edgecolor": "#AAB5C1", "boxstyle": "round,pad=0.35"})
+        fig.text(0.5, 0.014, stamp, ha="center", va="bottom", fontsize=10.5, weight="bold", color=TDNET_COLORS["midnight_gridiron"], family="monospace", bbox={"facecolor": TDNET_COLORS["parchment_header"], "edgecolor": TDNET_COLORS["slate"], "boxstyle": "round,pad=0.35"})
     fig.tight_layout(rect=[0, 0.052 if stamp else 0, 1, 0.98])
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -630,11 +632,11 @@ def plot_all_games_table(games, path, *, title, dpi=180, model_set_sha256=None, 
             cell.set_facecolor("#22324A")
             cell.set_text_props(color="white", weight="bold")
         elif row % 2 == 0:
-            cell.set_facecolor("#F2F5F8")
+            cell.set_facecolor(TDNET_COLORS["parchment_panel"])
     axis.set_title(title, fontsize=21, weight="bold", pad=22)
     stamp = _model_hash_stamp(model_set_sha256, checkpoint_count, generated_at_utc)
     if stamp:
-        fig.text(0.5, 0.014, stamp, ha="center", va="bottom", fontsize=10.5, weight="bold", color="#28323C", family="monospace", bbox={"facecolor": "#FFFFFF", "edgecolor": "#AAB5C1", "boxstyle": "round,pad=0.35"})
+        fig.text(0.5, 0.014, stamp, ha="center", va="bottom", fontsize=10.5, weight="bold", color=TDNET_COLORS["midnight_gridiron"], family="monospace", bbox={"facecolor": TDNET_COLORS["parchment_header"], "edgecolor": TDNET_COLORS["slate"], "boxstyle": "round,pad=0.35"})
     path = Path(path)
     fig.savefig(path, dpi=dpi, bbox_inches="tight")
     plt.close(fig)

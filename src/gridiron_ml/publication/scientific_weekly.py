@@ -300,7 +300,7 @@ def plot_scientific_predictions(
     )
     height = max(5.0, 0.52 * len(table) + 2.4)
     fig, axis = plt.subplots(figsize=(18, height))
-    fig.patch.set_facecolor("#F7F4ED")
+    fig.patch.set_facecolor(TDNET_COLORS["parchment"])
     axis.axis("off")
     plotted = axis.table(
         cellText=table.values,
@@ -480,7 +480,7 @@ def plot_scientific_power_top25(
         }
     )
     fig, axis = plt.subplots(figsize=(14.5, 12.0))
-    fig.patch.set_facecolor("#F7F4ED")
+    fig.patch.set_facecolor(TDNET_COLORS["parchment"])
     axis.axis("off")
     plotted = axis.table(
         cellText=table.values,
@@ -567,7 +567,7 @@ def plot_scientific_all_team_power_ranking(
         ["poll_points_rank", "keys_team"], kind="stable"
     ).reset_index(drop=True)
 
-    paper = "#F1E7D2"
+    paper = TDNET_COLORS["parchment"]
     ink = "#282017"
     faded_ink = "#675845"
     rule = "#8B775D"
@@ -772,7 +772,7 @@ def plot_power_rank_vs_projected_margin(
         raise ValueError(f"Power table contains duplicate {rank_column} values.")
 
     apply_tdnet_theme()
-    paper = "#F1E7D2"
+    paper = TDNET_COLORS["parchment"]
     ink = "#282017"
     faded_ink = "#675845"
     rule = "#8B775D"

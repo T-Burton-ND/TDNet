@@ -162,11 +162,11 @@ def plot_model_calibration_overlay(
         figsize=(22, 14),
         height_ratios=(4.2, 1.15),
         sharex=True,
-        facecolor="#F7F4ED",
+        facecolor=TDNET_COLORS["parchment"],
     )
     fig.subplots_adjust(left=0.07, right=0.75, top=0.90, bottom=0.08, hspace=0.08)
     for axis in (curve_axis, density_axis):
-        axis.set_facecolor("#FFFFFF")
+        axis.set_facecolor(TDNET_COLORS["parchment_panel"])
         axis.spines[["top", "right"]].set_visible(False)
     models = sorted(calibration["model_name"].unique())
     color_map = plt.get_cmap("turbo")

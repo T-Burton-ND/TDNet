@@ -768,9 +768,9 @@ def _plot_confidence_threshold_sweep(
 ) -> Path:
     apply_tdnet_theme()
     fig, (profit_axis, roi_axis) = plt.subplots(2, 1, figsize=(15, 11), sharex=True)
-    fig.patch.set_facecolor("#F7F4ED")
+    fig.patch.set_facecolor(TDNET_COLORS["parchment"])
     for axis in (profit_axis, roi_axis):
-        axis.set_facecolor("#FFFFFF")
+        axis.set_facecolor(TDNET_COLORS["parchment_panel"])
         axis.spines[["top", "right"]].set_visible(False)
     for strategy, frame in sweep.groupby("strategy", sort=False):
         color = SERIES_COLORS[strategy]
@@ -825,8 +825,8 @@ def _plot_consensus_bankroll(
 ) -> Path:
     """Render all three cumulative net-profit tracks in one figure."""
     apply_tdnet_theme()
-    fig, axis = plt.subplots(figsize=(16, 9), facecolor="#F7F4ED")
-    axis.set_facecolor("#FFFFFF")
+    fig, axis = plt.subplots(figsize=(16, 9), facecolor=TDNET_COLORS["parchment"])
+    axis.set_facecolor(TDNET_COLORS["parchment_panel"])
     ordered_names = [name for name, _, _ in CONSENSUS_SOURCES]
     line_styles = ("-", "--", "-.")
     markers = ("o", "s", "D")

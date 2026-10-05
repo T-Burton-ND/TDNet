@@ -230,7 +230,7 @@ def _plot_consensus_results(
         }
     )
     fig, axis = plt.subplots(figsize=(16, max(4.0, len(table) * 0.36 + 2.25)))
-    fig.patch.set_facecolor("#F7F4ED")
+    fig.patch.set_facecolor(TDNET_COLORS["parchment"])
     axis.axis("off")
     plotted = axis.table(
         cellText=table.values,

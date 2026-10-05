@@ -2,25 +2,43 @@
 
 from __future__ import annotations
 
+import json
 import os
+import json
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
+_PALETTE_PATH = Path(__file__).resolve().parents[3] / "gridiron.palette.json"
+with _PALETTE_PATH.open(encoding="utf-8") as _palette_file:
+    GRIDIRON_PALETTE = json.load(_palette_file)
+
+_PALETTE_COLORS = GRIDIRON_PALETTE["colors"]
 TDNET_COLORS = {
-    "midnight_gridiron": "#11214F",
-    "edge_pink": "#FF5FA2",
-    "ion_blue": "#1EA7FF",
-    "electric_emerald": "#00C853",
-    "gridiron_violet": "#6A37C8",
-    "soft_mint": "#4ED8BD",
-    "signal_orange": "#E69F00",
-    "deep_teal": "#007C83",
-    "slate": "#687386",
-    "medium_gray": "#9AA1AA",
-    "polar_mist": "#E6E9ED",
-    "white": "#FFFFFF",
+    # Stable snake_case names used across existing figure builders.
+    "midnight_gridiron": _PALETTE_COLORS["midnightGridiron"],
+    "edge_pink": _PALETTE_COLORS["edgePink"],
+    "ion_blue": _PALETTE_COLORS["ionBlue"],
+    "electric_emerald": _PALETTE_COLORS["electricEmerald"],
+    "gridiron_violet": _PALETTE_COLORS["gridironViolet"],
+    "soft_mint": _PALETTE_COLORS["softMint"],
+    "signal_orange": _PALETTE_COLORS["brass"],
+    "deep_teal": _PALETTE_COLORS["projectorGreen"],
+    "slate": _PALETTE_COLORS["steelGrey"],
+    "medium_gray": _PALETTE_COLORS["darkMuted"],
+    "polar_mist": _PALETTE_COLORS["polarMist"],
+    "white": _PALETTE_COLORS["parchment"],
+    "parchment": _PALETTE_COLORS["parchment"],
+    "parchment_panel": _PALETTE_COLORS["parchmentPanel"],
+    "parchment_header": _PALETTE_COLORS["parchmentHeader"],
+    "figure_axis": _PALETTE_COLORS[GRIDIRON_PALETTE["roles"]["figureAxis"]],
+    "figure_grid": _PALETTE_COLORS[GRIDIRON_PALETTE["roles"]["figureGrid"]],
+    "figure_primary": _PALETTE_COLORS[GRIDIRON_PALETTE["roles"]["figurePrimarySeries"]],
+    "figure_secondary": _PALETTE_COLORS[GRIDIRON_PALETTE["roles"]["figureSecondarySeries"]],
+    "figure_tertiary": _PALETTE_COLORS[GRIDIRON_PALETTE["roles"]["figureTertiarySeries"]],
+    "figure_analytical": _PALETTE_COLORS[GRIDIRON_PALETTE["roles"]["figureAnalyticalSeries"]],
+    "figure_highlight": _PALETTE_COLORS[GRIDIRON_PALETTE["roles"]["figureHighlight"]],
 }
 
 
@@ -50,13 +68,14 @@ def apply_tdnet_theme() -> None:
     font_family = _register_publication_fonts()
     plt.rcParams.update(
         {
-            "axes.facecolor": TDNET_COLORS["white"],
-            "figure.facecolor": TDNET_COLORS["white"],
-            "axes.edgecolor": TDNET_COLORS["slate"],
+            "axes.facecolor": TDNET_COLORS["parchment_panel"],
+            "figure.facecolor": TDNET_COLORS["parchment"],
+            "savefig.facecolor": TDNET_COLORS["parchment"],
+            "axes.edgecolor": TDNET_COLORS["figure_axis"],
             "axes.labelcolor": TDNET_COLORS["midnight_gridiron"],
             "axes.titlecolor": TDNET_COLORS["midnight_gridiron"],
-            "xtick.color": TDNET_COLORS["slate"],
-            "ytick.color": TDNET_COLORS["slate"],
+            "xtick.color": TDNET_COLORS["figure_axis"],
+            "ytick.color": TDNET_COLORS["figure_axis"],
             "font.family": font_family,
             "font.monospace": ["Aptos Mono", "DejaVu Sans Mono"],
             "font.size": 11,
@@ -66,7 +85,7 @@ def apply_tdnet_theme() -> None:
             "ytick.labelsize": 10.5,
             "legend.fontsize": 11,
             "axes.grid": True,
-            "grid.color": TDNET_COLORS["polar_mist"],
+            "grid.color": TDNET_COLORS["figure_grid"],
             "grid.linewidth": 0.8,
             "grid.alpha": 0.9,
         }

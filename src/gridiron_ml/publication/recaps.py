@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from .figure_theme import TDNET_COLORS, apply_tdnet_theme
 from .team_labels import format_team_with_ap_rank
 
 
@@ -407,8 +408,7 @@ def plot_sunday_recap_table(
         })
     table = pd.DataFrame(rows)
     fig_height = max(4.0, 0.36 * len(table) + 2.25)
-    fig, axis = plt.subplots(figsize=(16, fig_height))
-    fig.patch.set_facecolor("#F7F4ED")
+    fig, axis = plt.subplots(figsize=(16, fig_height), facecolor=TDNET_COLORS["parchment"])
     axis.axis("off")
     ats_rate = metrics["ats_accuracy_excluding_pushes"]
     weekly_subtitle = (
@@ -450,7 +450,7 @@ def plot_sunday_recap_table(
             cell.set_facecolor("#22324A")
             cell.set_text_props(color="white", weight="bold")
         else:
-            cell.set_facecolor("#FFFFFF" if row % 2 else "#EEF2F5")
+            cell.set_facecolor(TDNET_COLORS["parchment_panel"] if row % 2 else TDNET_COLORS["parchment_header"])
             if column in (su_col, ats_col):
                 value = table.iloc[row - 1, column]
                 color = {"✓": "#DCEFE1", "✗": "#F6DDDA", "P": "#FFF0C7", "—": "#E8E8E8"}[value]
@@ -659,6 +659,7 @@ def plot_all_model_cumulative_performance(
     title: str,
     dpi: int = 180,
 ) -> Path:
+    apply_tdnet_theme()
     """Plot cumulative SU, ATS, and margin MAE tracks for all models."""
     fig, axes = plt.subplots(3, 1, figsize=(13.5, 11), sharex=True)
     specs = [
@@ -751,6 +752,7 @@ def plot_all_model_cumulative_performance(
 
 
 def plot_model_cumulative_track(metrics: pd.DataFrame, path: str | Path, *, season: int, model_label: str, dpi: int = 180) -> Path:
+    apply_tdnet_theme()
     fig, axes = plt.subplots(3, 1, figsize=(10.5, 9), sharex=True)
     specs = [
         ("cumulative_su_accuracy", "Cumulative straight-up accuracy", 0.5),
@@ -903,6 +905,7 @@ def build_model_running_leaderboard(long: pd.DataFrame, output: Path, *, season:
 
 
 def plot_objective_weekly_comparison(comparison: pd.DataFrame, path: str | Path, *, season: int, dpi: int = 180) -> Path:
+    apply_tdnet_theme()
     """Plot weekly and season-to-date SU, ATS, and margin performance."""
     comparison = add_cumulative_weekly_metrics(comparison)
     colors = {"winner": "#274C77", "margin": "#A44A3F", "balanced": "#5B7F45"}
