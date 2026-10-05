@@ -1,4 +1,4 @@
-"""Refresh high-resolution local logo assets for one TDNet Top 10 poll."""
+"""Refresh high-resolution local logos for a poll, slate, or explicit team list."""
 
 from __future__ import annotations
 
@@ -23,6 +23,11 @@ def main() -> None:
     source = parser.add_mutually_exclusive_group(required=True)
     source.add_argument("--poll", type=Path, help="TDNet Top 25 source.")
     source.add_argument("--games", type=Path, help="Weekly consensus games source.")
+    source.add_argument(
+        "--teams-file",
+        type=Path,
+        help="UTF-8 text file with one exact CFBD school name per line.",
+    )
     parser.add_argument("--tdnet-poll", type=Path,
                         help="Optional TDNet poll used to rank teams in --games.")
     parser.add_argument("--logo-manifest", type=Path,
@@ -31,7 +36,9 @@ def main() -> None:
     parser.add_argument("--minimum-px", type=int, default=500)
     args = parser.parse_args()
 
-    if args.poll:
+    if args.teams_file:
+        selected_teams = _read_team_list(args.teams_file)
+    elif args.poll:
         poll = _read(args.poll)
         selected_teams = [team.team for team in prepare_top10(poll)]
     else:
@@ -78,6 +85,19 @@ def main() -> None:
 
 def _read(path: Path) -> pd.DataFrame:
     return pd.read_parquet(path) if path.suffix == ".parquet" else pd.read_csv(path)
+
+
+def _read_team_list(path: Path) -> list[str]:
+    teams = [
+        line.strip()
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    ]
+    if not teams:
+        raise ValueError("--teams-file contains no team names.")
+    if len(teams) != len(set(teams)):
+        raise ValueError("--teams-file contains duplicate team names.")
+    return teams
 
 
 if __name__ == "__main__":
