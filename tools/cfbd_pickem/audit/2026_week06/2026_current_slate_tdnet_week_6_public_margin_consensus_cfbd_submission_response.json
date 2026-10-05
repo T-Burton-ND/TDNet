@@ -1,0 +1,13 @@
+{
+  "submitted_at_utc": "2026-10-05T19:39:23.361256+00:00",
+  "endpoint": "https://predictionsapi.collegefootballdata.com/api/picks",
+  "payload_sha256": "47a936f47ee33393d69b471d4478ee19e8bf054d89cd45f8fa4f3230c2626e4a",
+  "post_http_status": 200,
+  "post_response": null,
+  "readback_http_status": 200,
+  "readback_verified": true,
+  "readback_mismatches": {},
+  "submission_id": null,
+  "api_key_fingerprint": "61d2b56d86db478b",
+  "entry_name": "TDNet Week 6 public margin consensus"
+}

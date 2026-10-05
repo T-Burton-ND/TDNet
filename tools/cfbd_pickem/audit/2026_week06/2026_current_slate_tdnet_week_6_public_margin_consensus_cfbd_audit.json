@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "status": "prepared_not_submitted",
+  "status": "submitted",
   "created_at_utc": "2026-10-05T19:34:24.905743+00:00",
   "entry_name": "TDNet Week 6 public margin consensus",
   "source": {
@@ -717,5 +717,19 @@
       "sha256": "4af5cb619fdc5533bc4d1ee9d66c370ef40b3a75127f3b4b0757fb674778b647"
     }
   },
-  "submission": null
+  "submission": {
+    "submitted_at_utc": "2026-10-05T19:39:23.361256+00:00",
+    "endpoint": "https://predictionsapi.collegefootballdata.com/api/picks",
+    "payload_sha256": "47a936f47ee33393d69b471d4478ee19e8bf054d89cd45f8fa4f3230c2626e4a",
+    "post_http_status": 200,
+    "post_response": null,
+    "readback_http_status": 200,
+    "readback_verified": true,
+    "readback_mismatches": {},
+    "submission_id": null,
+    "api_key_fingerprint": "61d2b56d86db478b",
+    "entry_name": "TDNet Week 6 public margin consensus",
+    "response_record_path": "/users/tburton2/Repos/TDNet/tools/cfbd_pickem/audit/2026_week06/2026_current_slate_tdnet_week_6_public_margin_consensus_cfbd_submission_response.json",
+    "response_record_sha256": "4ecbfddf94d4e0ab2f311d4fcf3b511901e93f2492fe31cae0e24a90f74c81e6"
+  }
 }
