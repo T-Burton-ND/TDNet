@@ -9,7 +9,7 @@ explicitly declared as optional in the weekly configuration.
 
 from __future__ import annotations
 
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from hashlib import sha256
 import json
 from pathlib import Path
@@ -151,9 +151,19 @@ def write_snapshot_completeness(report: Mapping[str, Any], path: str | Path) -> 
 
 
 def validate_deadline_utc(deadline_utc: str, *, local_date: str | date) -> dict[str, str]:
-    """Validate an owner-selected Thursday cutoff no later than 23:59 New York time."""
+    """Validate a Monday–Thursday cutoff no later than Thursday 23:59 New York time.
+
+    Thursday remains the normal weekly cutoff. Earlier weekdays are permitted
+    for slates with earlier kickoffs; the publication runner separately checks
+    that the selected cutoff precedes the first target-slate kickoff.
+    """
     day = date.fromisoformat(local_date) if isinstance(local_date, str) else local_date
-    latest = thursday_deadline_utc(day)
+    if day.weekday() > 3:
+        raise ValueError(
+            f"Prospective publication deadline must be no later than Thursday; got {day.isoformat()}"
+        )
+    thursday = day + timedelta(days=3 - day.weekday())
+    latest = thursday_deadline_utc(thursday)
     text = str(deadline_utc).strip()
     parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
     if parsed.tzinfo is None:
@@ -162,8 +172,8 @@ def validate_deadline_utc(deadline_utc: str, *, local_date: str | date) -> dict[
     parsed_local = parsed_utc.astimezone(DEADLINE_ZONE)
     if parsed_local.date() != day or parsed_utc > latest:
         raise ValueError(
-            f"deadline-utc {deadline_utc!r} must fall on the declared Thursday in "
-            f"{DEADLINE_ZONE_NAME} and be no later than "
+            f"deadline-utc {deadline_utc!r} must fall on the declared Monday–Thursday "
+            f"date in {DEADLINE_ZONE_NAME} and be no later than Thursday's "
             f"{latest.isoformat().replace('+00:00', 'Z')}"
         )
     return {
@@ -171,3 +181,26 @@ def validate_deadline_utc(deadline_utc: str, *, local_date: str | date) -> dict[
         "deadline_timezone": DEADLINE_ZONE_NAME,
         "deadline_utc": parsed_utc.isoformat().replace("+00:00", "Z"),
     }
+
+
+def validate_deadline_precedes_kickoff(
+    deadline_utc: str | datetime, earliest_kickoff_utc: str | datetime
+) -> None:
+    """Fail when the declared weekly cutoff reaches or passes the first kickoff."""
+    def parse_utc(value: str | datetime, label: str) -> datetime:
+        parsed = (
+            value
+            if isinstance(value, datetime)
+            else datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+        )
+        if parsed.tzinfo is None:
+            raise ValueError(f"{label} must include an explicit UTC offset or Z suffix")
+        return parsed.astimezone(timezone.utc)
+
+    deadline = parse_utc(deadline_utc, "deadline")
+    kickoff = parse_utc(earliest_kickoff_utc, "earliest kickoff")
+    if deadline >= kickoff:
+        raise ValueError(
+            "Prediction deadline must precede the first target-slate kickoff: "
+            f"deadline={deadline.isoformat()}, earliest_kickoff={kickoff.isoformat()}"
+        )

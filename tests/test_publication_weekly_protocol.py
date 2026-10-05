@@ -5,6 +5,7 @@ import pandas as pd
 from gridiron_ml.publication.weekly_protocol import (
     build_snapshot_completeness,
     inspect_endpoint,
+    validate_deadline_precedes_kickoff,
     validate_deadline_utc,
 )
 
@@ -46,10 +47,26 @@ def test_deadline_allows_owner_selected_pre_kickoff_thursday_cutoff():
     assert record["deadline_utc"] == "2026-09-10T15:59:00Z"
 
 
+def test_deadline_allows_early_week_cutoff_for_slates_with_early_kickoffs():
+    record = validate_deadline_utc("2026-10-06T23:00:00Z", local_date="2026-10-06")
+    assert record["deadline_local"] == "2026-10-06T19:00:00-04:00"
+    validate_deadline_precedes_kickoff(
+        record["deadline_utc"], "2026-10-07T00:00:00Z"
+    )
+    try:
+        validate_deadline_precedes_kickoff(
+            record["deadline_utc"], "2026-10-06T23:00:00Z"
+        )
+    except ValueError as exc:
+        assert "must precede" in str(exc)
+    else:
+        raise AssertionError("A cutoff at kickoff should be rejected")
+
+
 def test_deadline_rejects_cutoff_after_declared_thursday():
     try:
         validate_deadline_utc("2026-09-11T04:00:00Z", local_date="2026-09-10")
     except ValueError as exc:
-        assert "no later than" in str(exc)
+        assert "no later than Thursday" in str(exc)
     else:
         raise AssertionError("Friday-local deadline should be rejected")

@@ -30,7 +30,10 @@ from gridiron_ml.publication.output_layout import (
     require_week_directory,
 )
 from gridiron_ml.publication.scientific_weekly import build_scientific_weekly_outputs
-from gridiron_ml.publication.weekly_protocol import validate_deadline_utc
+from gridiron_ml.publication.weekly_protocol import (
+    validate_deadline_precedes_kickoff,
+    validate_deadline_utc,
+)
 
 
 def main():
@@ -167,6 +170,24 @@ def main():
         raise ValueError(
             "Schedule snapshot does not match the preseason freeze manifest."
         )
+    schedule_games = pd.read_parquet(schedule)
+    target_games = schedule_games.loc[
+        (pd.to_numeric(schedule_games["season"], errors="coerce") == args.season)
+        & (pd.to_numeric(schedule_games["week"], errors="coerce") == args.week)
+    ]
+    if "season_type" in target_games:
+        target_games = target_games.loc[
+            target_games["season_type"].astype(str).str.lower().eq("regular")
+        ]
+    if {"home_classification", "away_classification"}.issubset(target_games.columns):
+        fbs_home = target_games["home_classification"].astype(str).str.lower().eq("fbs")
+        fbs_away = target_games["away_classification"].astype(str).str.lower().eq("fbs")
+        target_games = target_games.loc[fbs_home | fbs_away]
+    kickoffs = pd.to_datetime(target_games["start_date"], utc=True, errors="coerce").dropna()
+    if kickoffs.empty:
+        raise ValueError("The target slate has no confirmed kickoff timestamps.")
+    earliest_kickoff = kickoffs.min()
+    validate_deadline_precedes_kickoff(deadline["deadline_utc"], earliest_kickoff.to_pydatetime())
     if args.season == 2026:
         feature_hash = sha256_file(
             args.project_root / "configs/features/feature_registry.yaml"
