@@ -444,3 +444,10 @@ Chronological record of wiki activity.
 - Added a second 96-frame rotation with fingerprint generation mapped from red at F0 to blue at F17 and model identity encoded by marker shape.
 - Removed the PCA direction arrow from the original rotating GIF while retaining it on the still figure.
 - Updated figure documentation and the F0–F17 synthesis links to describe both GIF encodings.
+
+## [2026-10-05] update | Week 5 results and Week 6 release
+
+- by: Thomas J. Burton via codex
+- Refreshed and certified the 2026 F0–F6 weekly fingerprint ladder; scored all 56 frozen Week 5 games and froze 1,914 Week 6 predictions across 58 games and 33 models before the first kickoff.
+- Submitted the complete 57-game authenticated Week 6 CFBD slate and verified all picks by API readback; the active contest excluded Marshall–Coastal Carolina from the local 58-game schedule.
+- Committed the supplied Gridiron parchment palette and refreshed all 138 FBS team-logo files to at least 500×500; the 73 undersized files were replaced.

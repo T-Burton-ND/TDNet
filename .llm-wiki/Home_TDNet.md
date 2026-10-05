@@ -37,6 +37,7 @@ TDNet is a research-oriented Python package for time-dependent college-football 
 ### Operations
 
 - [Weekly Publication Workflow](Weekly-Publication-Workflow) — refresh, freeze, and score sequence
+- [2026 Week 5 Postgame and Week 6 Pregame](Weekly-Publication-2026-W05-W06) — latest refreshed forecasts, grading, and contest submission
 
 ### Source summaries
 

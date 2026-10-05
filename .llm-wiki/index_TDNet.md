@@ -60,6 +60,7 @@ Catalog of all wiki pages, organized by category.
 - [Model and Poll Surfaces](Model-and-Poll-Surfaces) — scientific panel versus weekly roster
 - [Weekly Publication Workflow](Weekly-Publication-Workflow) — Monday, Tuesday, and Sunday operations
 - [2026 Week 4 and 5 Publication](Weekly-Publication-2026-W04-W05) — verified scoring, forecast, ratings comparison, and public release boundary
+- [2026 Week 5 Postgame and Week 6 Pregame](Weekly-Publication-2026-W05-W06) — refreshed fingerprints, 56-game scoring, 58-game forecast, and verified contest submission
 - [Weekly Operations Source](Source-Weekly-Operations) — runbook and notebook sources
 
 ## Wiki conventions

@@ -14,7 +14,7 @@ The Monday runner refreshes the local CFBD cache, team-game table, v0 fingerprin
 
 ## Tuesday: freeze and prepare
 
-The Tuesday workflow requires Monday approval and a certified snapshot. It prepares one immutable prediction bundle for the week, including locked-roster predictions, Top-25 poll artifacts, comparison material, and draft-only social assets. The workflow does not send an X post. Prediction bytes remain fixed after the protocol-version-2 deadline; the canonical deadline is Thursday 23:59 America/New_York with UTC also recorded. See [Confirmatory Protocol 2026](Confirmatory-Protocol-2026), [README Source](Source-README), and [Weekly Operations Source](Source-Weekly-Operations).
+The Tuesday workflow requires Monday approval and a certified snapshot. It prepares one immutable prediction bundle for the week, including locked-roster predictions, Top-25 poll artifacts, comparison material, and draft-only social assets. The workflow does not send an X post. Thursday 23:59 America/New_York remains the default deadline, but an owner-selected earlier weekday cutoff is supported when the slate has an early kickoff. The recorded cutoff must strictly precede the earliest scheduled FBS-involving kickoff; the bundle records both Eastern and UTC time. Prediction bytes remain fixed after the recorded deadline. The October 2026 Week 6 run used Tuesday 19:00 Eastern because the first game started at 20:00. See [2026 Week 5 Postgame and Week 6 Pregame](Weekly-Publication-2026-W05-W06), [Confirmatory Protocol 2026](Confirmatory-Protocol-2026), [README Source](Source-README), and [Weekly Operations Source](Source-Weekly-Operations).
 
 ## Sunday: score without refetching
 
