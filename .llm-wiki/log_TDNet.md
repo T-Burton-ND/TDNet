@@ -451,3 +451,11 @@ Chronological record of wiki activity.
 - Refreshed and certified the 2026 F0–F6 weekly fingerprint ladder; scored all 56 frozen Week 5 games and froze 1,914 Week 6 predictions across 58 games and 33 models before the first kickoff.
 - Submitted the complete 57-game authenticated Week 6 CFBD slate and verified all picks by API readback; the active contest excluded Marshall–Coastal Carolina from the local 58-game schedule.
 - Committed the supplied Gridiron parchment palette and refreshed all 138 FBS team-logo files to at least 500×500; the 73 undersized files were replaced.
+
+## [2026-10-05] update | Week 5 cumulative figures and Week 6 social drafts
+
+- by: Thomas J. Burton via codex
+- Reconstructed and certified all 58 Week 4 result rows from the immutable prediction bundle and cached CFBD games, restoring the missing per-game scoring layer without rerunning models.
+- Rebuilt the Week 5 postgame figure suite through Weeks 0–5: 267 games for each of 33 operational models, separate 42-model F0–F6 and 54-model full F0–F8 cohorts, and 57 PNG figures.
+- Prepared Week 6 X, Instagram, and Facebook drafts with corrected signed-mean social graphics and explicit Florida State–Louisville split-signal wording; external posts remain unsent.
+- Reconfirmed the Week 6 contest submission record: 57 picks, HTTP 200 post and readback, zero mismatches.

@@ -1,0 +1,35 @@
+{
+  "files": {
+    "consensus_results_csv": {
+      "path": "scientific_consensus_game_results.csv",
+      "sha256": "ed7ee0ecd63f0d5f80d35ea7d17195937cf584b58d9edb025f6d6ccbfc804d9e",
+      "size_bytes": 6992
+    },
+    "consensus_results_png": {
+      "path": "scientific_consensus_game_results.png",
+      "sha256": "0515003f0834270962d54b844ede6109c315eda24008f59f26d441e7b9fd1db3",
+      "size_bytes": 1467992
+    },
+    "model_game_results_csv": {
+      "path": "scientific_model_game_results.csv",
+      "sha256": "2bcde23c2b52c13e48f46bdcfee7bdd3ad435f71e74d6c2308b85afaa6228dcf",
+      "size_bytes": 1688457
+    },
+    "model_scorecard_csv": {
+      "path": "scientific_model_scorecard.csv",
+      "sha256": "0cddbadbdddc8f004334f46aed72a7aab468832e6151e85774389403177ebd81",
+      "size_bytes": 2988
+    }
+  },
+  "frozen_pregame_predictions": "publication/2026/week_04/pre_game/scientific/scientific_all_game_predictions.csv",
+  "frozen_pregame_predictions_sha256": "60ffc4cb4cc8c346a48fe15eed5da6a66cf1615d8108c9dbdb49b5edf525f5cc",
+  "game_count": 58,
+  "generated_at_eastern": "2026-10-05T15:57:24.881297-04:00",
+  "predictions_recalculated": false,
+  "results_sha256": "4c7563c0c14bd6c5b16793c34f29ad51fe697261eb2f42e72615e8db59bad918",
+  "results_source": "data/publication/2026/weekly_operations/week_04/postgame_results.csv",
+  "schema": "tdnet-scientific-postgame-evaluation-v1",
+  "scientific_model_count": 42,
+  "season": 2026,
+  "week": 4
+}

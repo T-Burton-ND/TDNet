@@ -1,7 +1,17 @@
-# Week 5 postgame results
+# TDNet 2026 Week 5 postgame package
 
-This package scores the frozen Week 5 predictions against the completed CFBD results. The results check passed for all 56 games with no missing game IDs, duplicate IDs, or missing final scores. The 33-model operational scorecard and the 42-model scientific F0–F6 scorecard are included; a separate F0–F8 scientific cohort is retained under `scientific/full_f0_f8/`.
+This Week 5 retrospective contains the full Week 3-style postgame figure suite. Reader-facing figures live in `figures/`, source tables in `tables/`, and the paper-oriented scientific rosters in `scientific/`. It covers completed Weeks 0–5, including 267 scored game predictions for the 33-model operational roster and matching cumulative scientific cohorts. Week 4 was reconstructed only from its immutable frozen bundle and completed cached results; the completeness record is in `data/publication/2026/weekly_operations/week_04/postgame_results_completeness.json`.
 
-The published Week 5 prediction CSV was restored byte-for-byte from the local archived release (SHA-256 `dd2ad005dbb9d9353088a0b1e4df5716ab4bb34115fffc305ff927e594863543`). The restored scoring bundle verified with 1,848 prediction rows. The completed results file used for scoring has SHA-256 `7935b9af5294f09db93d33521825f45b1a2e1a413d31e9e37fd46c4b88da45cb`.
+The comparison reference is **AP Top 25 (Post-Week 5)** and is labeled that way in every retained comparison. Poll points and consensus power ratings remain independent.
 
-The best F0–F6 scientific margin MAE was 13.116 points (`scientific_F2_M2`); the best straight-up accuracy was 78.6% (`scientific_F6_M3`). These are single-week descriptive results over 56 games.
+The consensus bankroll figures compare flat $10 ATS and moneyline bets for the margin-wide, F0–F6 scientific, and full F0–F8 scientific consensuses. ATS uses an explicit -110 assumption because CFBD does not publish spread-side prices; moneyline returns use the best available CFBD quote.
+
+Separate confidence-scaled figures use model support for ATS confidence and picked-team win probability for moneyline confidence, scaling linearly from $0 at 49.9% to $25 at 100%.
+
+Season-to-date confidence threshold sweeps show flat-$10 profit and ROI at each minimum confidence cutoff. These are descriptive in-sample diagnostics, not forward-validated betting rules.
+
+Separate cumulative model-calibration overlays reproduce the historical diagnostic: binned predicted home-win probability versus observed home-win rate, one line per individual frozen model, with probability density below.
+
+Weekly and cumulative margin parity plots label all four TDNet home/away pick and realized home/away winner quadrants.
+
+The season-to-date scorecards rank every operational model and both scientific cohorts. The cumulative charts include the evaluation-only Vegas baselines. Week 6 matchup predictions and draft social copy are separately stored in `publication/2026/week_06/pre_game`.

@@ -3,20 +3,9 @@
   "post_text": "post.txt",
   "alt_text": "alt_text.md",
   "media": [
-    {
-      "role": "all_model_predictions",
-      "path": "/users/tburton2/Repos/TDNet/publication/2026/week_06/pre_game/figures/all_games_predictions.png",
-      "exists": true
-    },
-    {
-      "role": "top25_games",
-      "path": "/users/tburton2/Repos/TDNet/publication/2026/week_06/pre_game/figures/top25_week_matchups.png",
-      "exists": true
-    },
-    {
-      "role": "tdnet_poll",
-      "path": "/users/tburton2/Repos/TDNet/publication/2026/week_06/pre_game/figures/tdnet_top25.png",
-      "exists": true
-    }
-  ]
+    {"role": "all_model_predictions_signed_mean_direction", "path": "../social_posts/assets/week_06_all_games_predictions.png", "exists": true},
+    {"role": "featured_predictions_signed_mean_direction", "path": "../social_posts/assets/week_06_predictions_16x9.png", "exists": true},
+    {"role": "top25_games", "path": "../figures/top25_week_matchups.png", "exists": true}
+  ],
+  "note": "Florida State at Louisville is a near-zero split signal. The derivative social graphic follows the signed-mean margin direction; post copy explains the 61% Florida State vote majority. Frozen prediction files are not changed."
 }

@@ -1,0 +1,23 @@
+{
+  "status": "draft_only_requires_explicit_approval",
+  "season": 2026,
+  "week": 6,
+  "source_bundle": "../frozen_bundle/public/prediction_manifest.json",
+  "games": 58,
+  "models": 33,
+  "posts": [
+    {"platform": "X", "copy": "x_post.txt", "thread": "x_thread.md", "assets": ["assets/week_06_all_games_predictions.png", "assets/week_06_predictions_16x9.png", "../figures/top25_week_matchups.png"]},
+    {"platform": "Instagram", "copy": "instagram_caption.txt", "assets": ["assets/week_06_predictions_4x5.png", "assets/week_06_all_games_predictions.png", "../figures/week_06_tdnet_top10_social_4x5.png"]},
+    {"platform": "Facebook", "copy": "facebook_post.txt", "assets": ["assets/week_06_all_games_predictions.png", "assets/week_06_predictions_16x9.png", "../figures/top25_week_matchups.png"]}
+  ],
+  "edge_case": {
+    "game_id": "401858254",
+    "matchup": "Florida State at Louisville",
+    "model_vote_favorite": "Florida State",
+    "model_vote_share": 0.6060606060606061,
+    "mean_signed_home_margin": 0.209127545808444,
+    "margin_favorite": "Louisville",
+    "handling": "Describe as a split signal and near toss-up; the derivative graphic follows the signed-mean margin direction while copy reports the majority-vote direction. Frozen source outputs remain unchanged."
+  },
+  "external_publication": "not_sent"
+}

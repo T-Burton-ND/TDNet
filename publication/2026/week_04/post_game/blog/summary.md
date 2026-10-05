@@ -1,5 +1,3 @@
-# TDNet Sunday retrospective — 2026-09-29
+# Week 4 postgame scoring reconstruction
 
-This draft was generated from an immutable prediction bundle after certified source checks. It is reviewable output, not an automatic publication.
-
-Scored games: 58.
+This retrospective scoring layer was restored for the season-to-date Week 5 figures. It covers all 58 games from the frozen Week 4 bundle, using cached completed results. The frozen predictions are unchanged and the scoring introduced no model reruns.

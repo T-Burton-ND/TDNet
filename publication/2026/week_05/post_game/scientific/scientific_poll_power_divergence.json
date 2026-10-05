@@ -1,0 +1,15 @@
+{
+  "note": "Poll points and consensus margin versus average are intentionally independent summaries.",
+  "ordering_identical": false,
+  "poll_points_only": [
+    "Clemson",
+    "James Madison",
+    "Texas A&M"
+  ],
+  "power_rating_only": [
+    "Penn State",
+    "Texas Tech",
+    "UCLA"
+  ],
+  "top25_membership_difference_count": 6
+}

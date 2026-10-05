@@ -1,0 +1,16 @@
+{
+  "certification": "postgame_results_certified",
+  "completed_week": 4,
+  "duplicate_game_ids": 0,
+  "method": "All frozen Week 4 game IDs matched exactly one completed result row; no prediction model was rerun.",
+  "missing_game_ids": [],
+  "missing_scores": 0,
+  "normalized_results_sha256": "4c7563c0c14bd6c5b16793c34f29ad51fe697261eb2f42e72615e8db59bad918",
+  "prediction_bundle_public_parquet_sha256": "42d1349520f9774c42f87be3eed134c2051dee9777ec5c0d3baaf3c8779f48d5",
+  "prediction_game_count": 58,
+  "result_row_count": 58,
+  "season": 2026,
+  "source_description": "Cached CFBD 2026 games table, matched by the immutable Week 4 prediction game IDs.",
+  "source_sha256": "799ec9389a7e98d9a827c3987c8ff1f807a98282b5a3f68b54094ee4cfd26491",
+  "status": "pass"
+}

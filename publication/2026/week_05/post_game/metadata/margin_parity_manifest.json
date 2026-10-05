@@ -1,0 +1,21 @@
+{
+  "completed_week": 5,
+  "cumulative": {
+    "axis_limit": 60.0,
+    "correlation": 0.6060712547551476,
+    "games": 267,
+    "mae": 13.956521284882637,
+    "rmse": 17.831414613795104
+  },
+  "quadrant_labels": "TDNet home/away pick crossed with actual home/away winner",
+  "schema": "tdnet-home-margin-parity-v2",
+  "season": 2026,
+  "view": "one home-team view per game",
+  "weekly": {
+    "axis_limit": 60.0,
+    "correlation": 0.6224423441435987,
+    "games": 56,
+    "mae": 13.672769659359941,
+    "rmse": 18.201005476156027
+  }
+}

@@ -593,6 +593,7 @@ def plot_top25_matchups(games, path, *, logo_dir, title, dpi=200, model_set_sha2
 
 
 def plot_all_games_table(games, path, *, title, dpi=180, model_set_sha256=None, checkpoint_count=None, generated_at_utc=None):
+    apply_tdnet_theme()
     table = games.copy()
     if table.empty:
         table = pd.DataFrame({"Matchup": ["No scheduled games"]})
@@ -614,6 +615,7 @@ def plot_all_games_table(games, path, *, title, dpi=180, model_set_sha256=None, 
         )
     fig_height = max(4.2, 0.4 * len(table) + 2.1)
     fig, axis = plt.subplots(figsize=(17.5, fig_height))
+    fig.patch.set_facecolor(TDNET_COLORS["parchment"])
     axis.axis("off")
     plot_table = axis.table(
         cellText=table.values,
@@ -627,12 +629,16 @@ def plot_all_games_table(games, path, *, title, dpi=180, model_set_sha256=None, 
     plot_table.set_fontsize(11.5)
     plot_table.scale(1, 1.55)
     for (row, _), cell in plot_table.get_celld().items():
-        cell.set_edgecolor("#D9D9D9")
+        cell.set_edgecolor(TDNET_COLORS["parchment_header"])
         if row == 0:
-            cell.set_facecolor("#22324A")
-            cell.set_text_props(color="white", weight="bold")
-        elif row % 2 == 0:
-            cell.set_facecolor(TDNET_COLORS["parchment_panel"])
+            cell.set_facecolor(TDNET_COLORS["midnight_gridiron"])
+            cell.set_text_props(color=TDNET_COLORS["parchment"], weight="bold")
+        else:
+            cell.set_facecolor(
+                TDNET_COLORS["parchment_panel"]
+                if row % 2
+                else TDNET_COLORS["parchment"]
+            )
     axis.set_title(title, fontsize=21, weight="bold", pad=22)
     stamp = _model_hash_stamp(model_set_sha256, checkpoint_count, generated_at_utc)
     if stamp:

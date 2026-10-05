@@ -1,0 +1,496 @@
+{
+  "created_at_eastern": "2026-10-05T16:01:31.412266-04:00",
+  "external_send": "disabled",
+  "files": {
+    "README.md": {
+      "sha256": "ca1162dd7ba920657dc54df30e5a8c3c1edba336c967667c55c817f64267de7f",
+      "size_bytes": 2055
+    },
+    "blog/alt_text.md": {
+      "sha256": "95355ec93d9111d91212d9c06196c91b4a81044f28fc2bbda21096df2aaeafe9",
+      "size_bytes": 73
+    },
+    "blog/post.txt": {
+      "sha256": "226f43bb72703f03639694bfb5744cc10c19f869fcb188673a338425b07729e6",
+      "size_bytes": 65
+    },
+    "blog/summary.md": {
+      "sha256": "b758ab2d4488f65fb31fdb9c97d2fac75a9c47c1fb24352131de0add8034d06d",
+      "size_bytes": 211
+    },
+    "figures/calibration_by_model_group/ensembles_and_other_calibration.png": {
+      "sha256": "7db05779394db5e9fefc5f841dc75d0786b2cc4323b460cd2ef37fadad368d00",
+      "size_bytes": 443815
+    },
+    "figures/calibration_by_model_group/linear_calibration.png": {
+      "sha256": "a3aa78dc56972b34dc7866a39828c02a90ca19069ff5421336978cc572072024",
+      "size_bytes": 637394
+    },
+    "figures/calibration_by_model_group/neighbors_and_kernels_calibration.png": {
+      "sha256": "90eef58e47e5f813de827123a70a8467f4942a28450503bd011d8fa02e79cc80",
+      "size_bytes": 555536
+    },
+    "figures/calibration_by_model_group/trees_and_temporal_calibration.png": {
+      "sha256": "d8a366f5713b2ea47f73f9e8148fa68abe6799c8a9555d2321799989f49edfd9",
+      "size_bytes": 583816
+    },
+    "figures/consensus_ats_bankroll.png": {
+      "sha256": "3d2a5b6b517e5ce0c75a2ab38390984c1ac821be35c34609265e641550030eb0",
+      "size_bytes": 346200
+    },
+    "figures/consensus_ats_confidence_threshold_sweep.png": {
+      "sha256": "b820d0b5868d29ccbe688bc7bceb99baa3c27df8fd6f9bf2c1fe60e251105a54",
+      "size_bytes": 366416
+    },
+    "figures/consensus_confidence_scaled_ats_bankroll.png": {
+      "sha256": "6153e75f62f1a6a6bce214c547085d0fa5d0c1eb2413d7562f6819c6158c3176",
+      "size_bytes": 354324
+    },
+    "figures/consensus_confidence_scaled_moneyline_bankroll.png": {
+      "sha256": "5e62199eaa1ca239173179b092117c12014d89e41d800f3dad332bfefcc2c7c6",
+      "size_bytes": 380648
+    },
+    "figures/consensus_moneyline_bankroll.png": {
+      "sha256": "e7137d8f5e555b5168e82cac8eb193e7888b2f310bf2c369aa459a398b14fe59",
+      "size_bytes": 358040
+    },
+    "figures/consensus_moneyline_confidence_threshold_sweep.png": {
+      "sha256": "b5c5463987c843c25b64d68a4c894b026b3f4853a0ba426b9ae51daf29a59644",
+      "size_bytes": 439112
+    },
+    "figures/cumulative_margin_wide_performance.png": {
+      "sha256": "a61908a8b418da28b4eda09f22a5320362b12873c432d7c2f67d1fd11241844e",
+      "size_bytes": 1353130
+    },
+    "figures/cumulative_team_margin_parity.png": {
+      "sha256": "a9a87add23191a3f01d704eae5cf0a9294123c32a8e2f1ccabcc964f4dd914a6",
+      "size_bytes": 342537
+    },
+    "figures/margin_wide_all_team_power_rankings.png": {
+      "sha256": "059b584fbe933f54921948d782594a053ae889911d2250423c10a31859d93628",
+      "size_bytes": 931980
+    },
+    "figures/margin_wide_cumulative_model_calibration.png": {
+      "sha256": "eb82027356071b599609e56b0fcdf3a4e56aac4ca4bda900b32fe1b313235a63",
+      "size_bytes": 1190729
+    },
+    "figures/margin_wide_model_scorecard.png": {
+      "sha256": "4a65fb081f0001ffe3d5869059ff1793c8be50995b5d3fe7204f49018103d73b",
+      "size_bytes": 798038
+    },
+    "figures/margin_wide_prediction_scorecard.png": {
+      "sha256": "d6ab1610ae52854619eb9bc14f63ed03dac649cce3655fe48478879f7a481d72",
+      "size_bytes": 1309296
+    },
+    "figures/margin_wide_rank_vs_projected_margin.png": {
+      "sha256": "21e2cf50d4be82c40b51ce591089106ee87c44dfb30feca05ad0233e9fe8d9ac",
+      "size_bytes": 540774
+    },
+    "figures/model_consensus_disagreement.png": {
+      "sha256": "8aac79a175e41d93aeb6ede9fc304b4d6d8397b191165f794fd0d5c0cff9a63d",
+      "size_bytes": 425844
+    },
+    "figures/sunday_performance.png": {
+      "sha256": "28f6e863c0260b0058615eaec311c487bf7e99a4441da5e8bdf2eb377c3dd2e6",
+      "size_bytes": 164352
+    },
+    "figures/tdnet_model_ballots.png": {
+      "sha256": "3024390c5a153f14a96c11722ab033fa7591d79fa624bad30a83c8c62d45b6ef",
+      "size_bytes": 1156255
+    },
+    "figures/tdnet_top10_social_16x9.png": {
+      "sha256": "8b576ba031bbd122b96525546e447a63937769798cd1b36a9afb6eda3166bdc8",
+      "size_bytes": 185186
+    },
+    "figures/tdnet_top10_social_4x5.png": {
+      "sha256": "8e1385a7cbcb7fe95ba4c61c93928ceb9bb26749fbc546fa5c54d36ef031930c",
+      "size_bytes": 192142
+    },
+    "figures/tdnet_top25.png": {
+      "sha256": "b26923b2cfebc1bd86a7fd546c3dc65075b3bc6edcfbf068519e9a39873cc849",
+      "size_bytes": 448186
+    },
+    "figures/tdnet_vs_ap_top25.png": {
+      "sha256": "5a7401e6aaf85c5e04acaab69247fee548c3be808bebd02967f6c019cd1638aa",
+      "size_bytes": 157092
+    },
+    "figures/team_margin_parity.png": {
+      "sha256": "7f341f4ee4e503156dc67318d324f6a826731d4730f6d2c9bcba9ba3c9cfb206",
+      "size_bytes": 227783
+    },
+    "figures/top25_consensus_spread.png": {
+      "sha256": "ae1837eee932ee402194b2c769e3e26349ef20924be90d061d9c771a2c2e6c4d",
+      "size_bytes": 279960
+    },
+    "full_postgame_manifest.json": {
+      "sha256": "230e68009fd71ddd1c7411acf5caa2721442ff5549f030a1284505c7f24b6c55",
+      "size_bytes": 34788
+    },
+    "metadata/consensus_betting_methodology.json": {
+      "sha256": "63cb1688127092d6f0bab70ab3334d483497bc65bbfe2df7c21d1ab04296d61a",
+      "size_bytes": 1915
+    },
+    "metadata/cumulative_model_calibration.json": {
+      "sha256": "d789a68cfaf7e10cb41427e9f8624e3e102b0d2418b3e58f267a286de39d3bd0",
+      "size_bytes": 3796
+    },
+    "metadata/margin_parity_manifest.json": {
+      "sha256": "a49fc975a80e21c52df474ca17b43820b42dbdcb4cd04c07ae3c2be6e9f3d804",
+      "size_bytes": 537
+    },
+    "metadata/poll_power_divergence.json": {
+      "sha256": "0a628b9160a9ee2c6661b0aa0c588cf23e1d6181d4ce802f7aa6e60f055aee65",
+      "size_bytes": 275
+    },
+    "scientific/README.md": {
+      "sha256": "3e559f6792d6e3180cc001782e7f57916f336d6b4927868d570c949f0dbee1fd",
+      "size_bytes": 941
+    },
+    "scientific/calibration_by_fingerprint/f0_calibration.png": {
+      "sha256": "8db54140ad240eac642d0ec4ce6c983a135c6fd3ce21e2056dae679017953e26",
+      "size_bytes": 455310
+    },
+    "scientific/calibration_by_fingerprint/f1_calibration.png": {
+      "sha256": "1f1f60bac3625d3c3cedcaea3226a275dcae6be0e4d4234e01564997d88b80dc",
+      "size_bytes": 477089
+    },
+    "scientific/calibration_by_fingerprint/f2_calibration.png": {
+      "sha256": "04c63687282a37a2c404f18e44b4eb7bdc2588fd90ce0111afd8a0d049222dd6",
+      "size_bytes": 481107
+    },
+    "scientific/calibration_by_fingerprint/f3_calibration.png": {
+      "sha256": "688fcf562c9c290db4376330673041f653edcfff32e3ae9fad726b25625f73b2",
+      "size_bytes": 498685
+    },
+    "scientific/calibration_by_fingerprint/f4_calibration.png": {
+      "sha256": "b9abda2a7cc98a4c5340d0b256627de67f7ec303e8eaefa6ec2c950ee2d198aa",
+      "size_bytes": 512177
+    },
+    "scientific/calibration_by_fingerprint/f5_calibration.png": {
+      "sha256": "21ce9a0adf0809ef98823814fd0c52595e5eaec5aabb2ebb1bda43669be8c961",
+      "size_bytes": 498971
+    },
+    "scientific/calibration_by_fingerprint/f6_calibration.png": {
+      "sha256": "3c6fee4cfd461d68f602969be0fc90947efd3cfb5b3a79740842cafe56a4894e",
+      "size_bytes": 499972
+    },
+    "scientific/full_f0_f8/README.md": {
+      "sha256": "29d68cead54a17367a6240c29b76a71fc8240fa1758db498f465f4bc60bfd0db",
+      "size_bytes": 458
+    },
+    "scientific/full_f0_f8/calibration_by_fingerprint/f0_calibration.png": {
+      "sha256": "cd5b9d4d77bd78f0e7583315db99892508a1da10a694d00e21c06e744343e579",
+      "size_bytes": 461700
+    },
+    "scientific/full_f0_f8/calibration_by_fingerprint/f1_calibration.png": {
+      "sha256": "f4d9d099c022b2e2222445a33098cedd2949155f484a31ce5a692dbd48ae0a7f",
+      "size_bytes": 483616
+    },
+    "scientific/full_f0_f8/calibration_by_fingerprint/f2_calibration.png": {
+      "sha256": "b3a42ecff85410b965a3e687ea17af177d26f8a931791a5767e824883a0be030",
+      "size_bytes": 486963
+    },
+    "scientific/full_f0_f8/calibration_by_fingerprint/f3_calibration.png": {
+      "sha256": "4cf8290f4f4f68cff9a4430170126a124832c8f6a2e3157bd5c2ca7294ff0a79",
+      "size_bytes": 505482
+    },
+    "scientific/full_f0_f8/calibration_by_fingerprint/f4_calibration.png": {
+      "sha256": "3327580c0e63c521ed30f48fbe8d62529fc37a28867e397ea337ef9aa4810b23",
+      "size_bytes": 518665
+    },
+    "scientific/full_f0_f8/calibration_by_fingerprint/f5_calibration.png": {
+      "sha256": "c90d0d20caaad7aecf95537fa5a86161bc18cd4265d1d2c8f6914eacd2987464",
+      "size_bytes": 505276
+    },
+    "scientific/full_f0_f8/calibration_by_fingerprint/f6_calibration.png": {
+      "sha256": "3eab2eef0b1ecce8046d8406eb0556e03c72a0a61c2e56a604ad193d414588a5",
+      "size_bytes": 506268
+    },
+    "scientific/full_f0_f8/calibration_by_fingerprint/f8_calibration.png": {
+      "sha256": "fb5e1b8e97513660dc2e01e13cc1b0a5c75717d1a786cdb4fc2f044933faf031",
+      "size_bytes": 520154
+    },
+    "scientific/full_f0_f8/scientific_consensus_game_results.csv": {
+      "sha256": "a7423edea887f2f39e9129b75c8d8d2ad42a42f000b1e133552fe54f3dfb74f5",
+      "size_bytes": 6977
+    },
+    "scientific/full_f0_f8/scientific_consensus_game_results.png": {
+      "sha256": "38567408db3956c199f8927e830120d315db3f0fdb79b2e34b5370bb41e1d92f",
+      "size_bytes": 1443791
+    },
+    "scientific/full_f0_f8/scientific_cumulative_all_models_performance.png": {
+      "sha256": "23059b9eb15da37c8557b301bad5dc8a44063dfc72d4193fe6478f148ee3c0f0",
+      "size_bytes": 1147806
+    },
+    "scientific/full_f0_f8/scientific_cumulative_model_calibration.csv": {
+      "sha256": "8d81895a46d1bca2104e49a967562905bb7982582ceb3a00741a21e698156636",
+      "size_bytes": 32341
+    },
+    "scientific/full_f0_f8/scientific_cumulative_model_calibration.png": {
+      "sha256": "b32dbe128bf3d4cc11ff9b6f00ff7eeaf502190d10b4c431d24a1fe3adcb7193",
+      "size_bytes": 1602845
+    },
+    "scientific/full_f0_f8/scientific_cumulative_model_scorecard.csv": {
+      "sha256": "7c56953373862d0da447837e312b0fb4817398cf24691e3dc890659d4f5f3c7e",
+      "size_bytes": 7287
+    },
+    "scientific/full_f0_f8/scientific_cumulative_model_scorecard.png": {
+      "sha256": "7c63ebdc0a00d3c880dbd674a77377210728370090c91ab378800d804cbf063f",
+      "size_bytes": 1017568
+    },
+    "scientific/full_f0_f8/scientific_model_game_results.csv": {
+      "sha256": "b854879118d2af40cd591e62326324210556260b138547e61182b82421039ea1",
+      "size_bytes": 2172037
+    },
+    "scientific/full_f0_f8/scientific_model_scorecard.csv": {
+      "sha256": "8d9246735fdf265ed98cbb7b23e0bcd6ef25d7d5483d51540856bd3f82c40892",
+      "size_bytes": 3718
+    },
+    "scientific/full_f0_f8/scientific_rolling_cumulative_performance.csv": {
+      "sha256": "6f70372d32f977cca823f5ebb21bce070ac4488ceed047613b465ad0da13a0cb",
+      "size_bytes": 92806
+    },
+    "scientific/full_f0_f8/scientific_rolling_cumulative_roster_performance.png": {
+      "sha256": "3e593e8b8c6042c4b055d3eeb49227764ab3f90d110564b7afa0cf2d44dfce19",
+      "size_bytes": 513921
+    },
+    "scientific/scientific_all_team_power_rankings.png": {
+      "sha256": "9c9c409b35b1db608f9698f3559bfac9c47ba22840ff0d68f332e1f694a46568",
+      "size_bytes": 925494
+    },
+    "scientific/scientific_consensus_game_results.csv": {
+      "sha256": "56600b15862db40a18b6d8be52a7936a3c0a51725ba8fef7c7ae7c7af2200de5",
+      "size_bytes": 6926
+    },
+    "scientific/scientific_consensus_game_results.png": {
+      "sha256": "0a2078d18ad1dba701a70539e3df53fdf4e6c12bb13034b90f05f191bb5b4312",
+      "size_bytes": 1453348
+    },
+    "scientific/scientific_consensus_power_rankings.csv": {
+      "sha256": "195bdc9d0745086b02ba06e1fa848af8ed0d3bbe1b536f6e36621840e89d6e56",
+      "size_bytes": 12074
+    },
+    "scientific/scientific_cumulative_all_models_performance.png": {
+      "sha256": "78918b6bcc9d80a4835765a0d28443753fe9a12517510d56b00dd8c01578cb7f",
+      "size_bytes": 1053898
+    },
+    "scientific/scientific_cumulative_model_calibration.csv": {
+      "sha256": "505761fafbd7b42aa2db0740401e2a3a58c7f9c964d8f3e9af0fac5fdf7639f1",
+      "size_bytes": 28355
+    },
+    "scientific/scientific_cumulative_model_calibration.png": {
+      "sha256": "4dcc541cf500dce0c6c7610ec1ab5ee59de8e011ed6e60db2308bbfd2fa41a98",
+      "size_bytes": 1444936
+    },
+    "scientific/scientific_cumulative_model_scorecard.csv": {
+      "sha256": "424b1c33f9b8a774c3b1f0931ebbc64fa9d647a5817dd1bd77251c60dcec2f33",
+      "size_bytes": 6422
+    },
+    "scientific/scientific_cumulative_model_scorecard.png": {
+      "sha256": "95deeefb375fd10e5ea80211682540d3c506928cd651b73edd13c1cb480f6846",
+      "size_bytes": 901126
+    },
+    "scientific/scientific_full_ballots.csv": {
+      "sha256": "594e246a7e4108fe3067265436695dbeb60ec50852db80058ff920e7ff8832db",
+      "size_bytes": 1664669
+    },
+    "scientific/scientific_model_consensus_disagreement.csv": {
+      "sha256": "7963f0b26865c1fe4be8f8e4d5be7a43cfbd92ade91d3ad4571a20d09a53b983",
+      "size_bytes": 2915
+    },
+    "scientific/scientific_model_game_results.csv": {
+      "sha256": "2763897652d9b994ddbb9f613fe351eebc384226cbfbf1e459d5a0fd27090563",
+      "size_bytes": 1706960
+    },
+    "scientific/scientific_model_scorecard.csv": {
+      "sha256": "5b4e05eff6ed234b9012157ddb124158f338b590717ad14840ec111dd7683a51",
+      "size_bytes": 2903
+    },
+    "scientific/scientific_model_scorecard.png": {
+      "sha256": "ed9c34479260e40372350546e55d12fe7332faef53d16a5dffb322029214f5b4",
+      "size_bytes": 886071
+    },
+    "scientific/scientific_model_scorecard_enriched.csv": {
+      "sha256": "570019c4d0b0abd32a864284fb8e4f51412471c39f66ac0ae4fac11252106f05",
+      "size_bytes": 5498
+    },
+    "scientific/scientific_per_model_top25.csv": {
+      "sha256": "a59061d20c672d589a3ff8b66ddb455437135bedbfdccece2356ee89d896ee20",
+      "size_bytes": 10166
+    },
+    "scientific/scientific_per_model_top25_long.csv": {
+      "sha256": "a54e28624db30689f6bfe480da168fe437e15fecb8a6f58601d03b6a1b5ed285",
+      "size_bytes": 82405
+    },
+    "scientific/scientific_poll_power_divergence.json": {
+      "sha256": "2a308a323986a1307cd0fd8dfa05ef39119710fbc4b9a224ec444328ff568413",
+      "size_bytes": 336
+    },
+    "scientific/scientific_receiving_votes.txt": {
+      "sha256": "bb07ed4279d5f4453e89668461119b3ea2747c264cc90cf7145a4ab4fac31003",
+      "size_bytes": 710
+    },
+    "scientific/scientific_research_ballot_social_16x9.png": {
+      "sha256": "29a4697fcdef51626254467d71a393ca1e8ed7bd917be7bca4fb073c3fa9dc06",
+      "size_bytes": 172242
+    },
+    "scientific/scientific_research_ballot_social_4x5.png": {
+      "sha256": "04e883d9026dc7857b42e260ca544507ac7465295c98db5d31a472087d9a46f3",
+      "size_bytes": 180526
+    },
+    "scientific/scientific_rolling_cumulative_performance.csv": {
+      "sha256": "77a10882468ca8bcd2f02b3449bd8833fb558bd07496709e90db9145b0657dd1",
+      "size_bytes": 72970
+    },
+    "scientific/scientific_rolling_cumulative_roster_performance.png": {
+      "sha256": "88f326e868f596bb09d1e72685cb0229d6570796259d7403c6d0b7b1b4bd84e6",
+      "size_bytes": 516254
+    },
+    "scientific/scientific_tdnet_receiving_votes.csv": {
+      "sha256": "901bbeb704f4608129ec2bb6c63f72fb079f7bbfd88675a049254869d8664339",
+      "size_bytes": 999
+    },
+    "scientific/scientific_tdnet_top25.csv": {
+      "sha256": "95e666222ea55556111c3e987ba3223653a722a1f0fdda5e21dcc2f234d18540",
+      "size_bytes": 3998
+    },
+    "scientific/scientific_tdnet_top25.png": {
+      "sha256": "983913bc218bc3e6098ca90077c245fbfaab84914d392e5fb7e8e52856949c1b",
+      "size_bytes": 516622
+    },
+    "scientific/scientific_top25_ballots.png": {
+      "sha256": "ce55607144a427292cfc823c8785d4b22a3063ded966bb7c67ce0fc345964331",
+      "size_bytes": 1498958
+    },
+    "scoring/scorecard.csv": {
+      "sha256": "c5f9647078ffe21e6188addd56377d019dcfea41a47f4de129533f297eb5edf9",
+      "size_bytes": 2431
+    },
+    "scoring/scored_predictions.parquet": {
+      "sha256": "850f21cca104331f868c7d725b69786e948d8b46c6ccb99160e12cfd9d57b497",
+      "size_bytes": 238816
+    },
+    "tables/baseline_comparison.csv": {
+      "sha256": "ef3d737194c9480babd6f70ec80aaddab06d2afa657774d193cbf7ab6d512281",
+      "size_bytes": 1411
+    },
+    "tables/consensus_ats_bankroll_bets.csv": {
+      "sha256": "1ae7f878b27fc81b7d6e602b566a24cfe1940e99d4e28a616909eaa5b8edada3",
+      "size_bytes": 199368
+    },
+    "tables/consensus_ats_bankroll_weekly.csv": {
+      "sha256": "cec06c17ebb8994c6b05f6eca7370e912b1aab541237858e291ce8366ab22158",
+      "size_bytes": 3201
+    },
+    "tables/consensus_ats_confidence_threshold_sweep.csv": {
+      "sha256": "04e5d5ba2dc20725e17c95d9d27948d114e0bcf2c805afff04d43612669b6541",
+      "size_bytes": 14298
+    },
+    "tables/consensus_ats_profitable_confidence_thresholds.csv": {
+      "sha256": "b7ef945f4d492deb3eacd1d8c360b2785a13f22809d7ef746f2bb6231b2c4af1",
+      "size_bytes": 635
+    },
+    "tables/consensus_confidence_scaled_ats_bankroll_bets.csv": {
+      "sha256": "1df0a029b3e8aa4affe4450a63b2bb8aa92e90b804063058f2b770bd503d4ca1",
+      "size_bytes": 288841
+    },
+    "tables/consensus_confidence_scaled_ats_bankroll_weekly.csv": {
+      "sha256": "8d7129e34e2d6b37ce5983af8053fb8c7e0514966485975cf42d25295378c97d",
+      "size_bytes": 3640
+    },
+    "tables/consensus_confidence_scaled_moneyline_bankroll_bets.csv": {
+      "sha256": "042ae9f21b6a1c117186d43dd13d8b00b334b8678049820f5c9a71edf467d5b7",
+      "size_bytes": 300868
+    },
+    "tables/consensus_confidence_scaled_moneyline_bankroll_weekly.csv": {
+      "sha256": "10f5433ae9de0435c9ddfe5ab1bd6a499a5608c2ea4f2c45bfb7e7547c3bb467",
+      "size_bytes": 3657
+    },
+    "tables/consensus_moneyline_bankroll_bets.csv": {
+      "sha256": "2c9f296192a6eed0fedba5769c0c974ee3a3850901182bcc39f2948396996824",
+      "size_bytes": 210684
+    },
+    "tables/consensus_moneyline_bankroll_weekly.csv": {
+      "sha256": "ee4fa8a0ff9c6ffc00f82e7eb7fac1b203b0c25626087a986c2b8b26e34af8a9",
+      "size_bytes": 3213
+    },
+    "tables/consensus_moneyline_confidence_threshold_sweep.csv": {
+      "sha256": "a985ce40f1965e46d356224933f750182be355fefccf77a00a669fa2ba0ad6f5",
+      "size_bytes": 11888
+    },
+    "tables/consensus_moneyline_profitable_confidence_thresholds.csv": {
+      "sha256": "976eb232c8e8f222d4f2def7bd92c812baf21e114e7ed0a6de9ee9d9e4274599",
+      "size_bytes": 703
+    },
+    "tables/cumulative_margin_wide_performance.csv": {
+      "sha256": "f8720ab43ec4cd073c1a4faf929ef8c816e2e697b9c08496e4bccdb964837460",
+      "size_bytes": 24556
+    },
+    "tables/cumulative_metrics.csv": {
+      "sha256": "58013d22bd924c85154c1eac4dd6b782854ddc5f39e8214373f56f8c24fa222b",
+      "size_bytes": 3788
+    },
+    "tables/margin_wide_consensus_power_rankings.csv": {
+      "sha256": "e9f9e06adc24b5ed107210484d8265b21b0d469846e465ec59d18cecf61f0dff",
+      "size_bytes": 12040
+    },
+    "tables/margin_wide_cumulative_model_calibration.csv": {
+      "sha256": "604f4ab247901047dc4878b6c567ca0016a771768a883873e1ee199ea5d7205c",
+      "size_bytes": 27660
+    },
+    "tables/margin_wide_model_game_results.csv": {
+      "sha256": "23cc07d3c887a0d6cd99e3181c3a4cf10b79b01037a1ce80e4f151b9517a4aed",
+      "size_bytes": 2265836
+    },
+    "tables/margin_wide_model_scorecard.csv": {
+      "sha256": "adb51a943519bcf088084b586a089ec2548432fd937b9fce56341b102fc1e18e",
+      "size_bytes": 4605
+    },
+    "tables/margin_wide_prediction_vs_actual.csv": {
+      "sha256": "647d41470c18d1b3c083d312cf4c05c4028370aea0e0216fa3b02f7a6041822d",
+      "size_bytes": 14976
+    },
+    "tables/model_consensus_disagreement.csv": {
+      "sha256": "6457382acf6d9bd63c928ddfff88b8adcef3582928e3fba22d4662b2d26c470c",
+      "size_bytes": 2746
+    },
+    "tables/per_model_top25.csv": {
+      "sha256": "b0c14e26b71fffd5a352e89ea9dd7dc0e45779d120e17fc7183e147693b94d1c",
+      "size_bytes": 7934
+    },
+    "tables/per_model_top25_long.csv": {
+      "sha256": "e72580a6a9e5b2b13c03cfcea9d1d6787217690319a642a5a063a9b6dcc2fe5f",
+      "size_bytes": 64293
+    },
+    "tables/receiving_votes.txt": {
+      "sha256": "5ec0b39622854c4fc65e7f416f287b46e32672961cbf4f46b6797f8cc49a6c00",
+      "size_bytes": 451
+    },
+    "tables/scorecard.csv": {
+      "sha256": "c5f9647078ffe21e6188addd56377d019dcfea41a47f4de129533f297eb5edf9",
+      "size_bytes": 2431
+    },
+    "tables/tdnet_model_ballots.csv": {
+      "sha256": "ea8ba7b277a70eac76c3e8cabf7786f7c970e4505655770bc79636d6a0b0b331",
+      "size_bytes": 928041
+    },
+    "tables/tdnet_receiving_votes.csv": {
+      "sha256": "c084e79a37574bcaec74a8ea48013ef1f5f228a5b7a10f2fb236583f59409e70",
+      "size_bytes": 666
+    },
+    "tables/tdnet_top25.csv": {
+      "sha256": "14c4652b32fed1620d63157a282f9f0ee2d2d776c33ae88768429fcd322ce87f",
+      "size_bytes": 2774
+    },
+    "tables/weekly_metrics.csv": {
+      "sha256": "58013d22bd924c85154c1eac4dd6b782854ddc5f39e8214373f56f8c24fa222b",
+      "size_bytes": 3788
+    }
+  },
+  "full_postgame_manifest": {
+    "path": "full_postgame_manifest.json",
+    "sha256": "230e68009fd71ddd1c7411acf5caa2721442ff5549f030a1284505c7f24b6c55"
+  },
+  "status": "full_sunday_review_bundle_ready",
+  "week_1_game_predictions_generated": false
+}
