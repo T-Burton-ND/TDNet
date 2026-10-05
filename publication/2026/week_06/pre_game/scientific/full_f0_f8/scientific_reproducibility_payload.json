@@ -1,0 +1,104 @@
+{
+  "artifacts": {
+    "README.md": {
+      "sha256": "c7181ca007bdf9653e5507a97966d2195abe5e5edbc25a0ac312ad60aad8d21a",
+      "size_bytes": 1011
+    },
+    "manifest.json": {
+      "sha256": "21d5012e3354baec9284e535c7446ef054cdb9f872221026b203025399527649",
+      "size_bytes": 1621
+    },
+    "scientific_all_game_predictions.csv": {
+      "sha256": "3203be69cea74a877fe1656bc09363815fc08c1846a126972178e8cd35a09e2a",
+      "size_bytes": 2012215
+    },
+    "scientific_all_game_predictions.png": {
+      "sha256": "9b51c1d31e4cdba88a92356fe3d513118726443682d4138ba3502ddb0557541e",
+      "size_bytes": 1460291
+    },
+    "scientific_all_team_power_rankings.png": {
+      "sha256": "b2002ce9d5ee3e0ef6cd8bf107505686631923c6be8598ea2e2b208089574b78",
+      "size_bytes": 946476
+    },
+    "scientific_consensus_power_rankings.csv": {
+      "sha256": "c43ec030dbecae8fe6020604549a6fb9704718ee2d108e16abbc6fc7b02bad1b",
+      "size_bytes": 12047
+    },
+    "scientific_full_ballots.csv": {
+      "sha256": "1e4058bb58f88584bb66526c7920b78cba899ac6dccfb33c7edff1c55f0bf726",
+      "size_bytes": 536635
+    },
+    "scientific_research_ballot_social_16x9.png": {
+      "sha256": "175cf16a0d11fc4125149d2d429fef76d4b04a4426eb19bb990bcfaa2bdd9280",
+      "size_bytes": 170637
+    },
+    "scientific_research_ballot_social_1x1.png": {
+      "sha256": "c60b374626ac7ecf86b4dd01110fe5815667f836dd6a70d4b501568ca63474da",
+      "size_bytes": 118385
+    },
+    "scientific_research_ballot_social_4x5.png": {
+      "sha256": "eb4f70d2152eefcbf7db6dc96a4e383c6ec7a40a467dfa074bef170f4939ad74",
+      "size_bytes": 177627
+    },
+    "scientific_top25.png": {
+      "sha256": "704065f1225eea87dae70781f84e495f0b5927742cd47cd31e79fd2dc6c44ce8",
+      "size_bytes": 451446
+    },
+    "scientific_top25_ballots.png": {
+      "sha256": "110b204acbb9a8dd654ac11598bba5f9a79225ad52496b0f43785393e7044097",
+      "size_bytes": 1749808
+    }
+  },
+  "code_commit": "5f899ee663283f41d7e3cf99460b966dc7f510bd",
+  "code_worktree_dirty_at_generation": true,
+  "dirty_paths_at_generation": [
+    "?? publication/2026/week_06/"
+  ],
+  "earliest_game_kickoff_utc": "2026-10-07T00:00:00+00:00",
+  "full_ballot_rows": 6624,
+  "generated_at_eastern": "2026-10-05T15:29:25.740224-04:00",
+  "generated_at_utc": "2026-10-05T19:29:25.740224+00:00",
+  "generated_before_earliest_kickoff": true,
+  "generator_sources": {
+    "src/gridiron_ml/publication/scientific_weekly.py": "2821785f34c9b173ad8ff425eae333f7bba41a5fb8e159c3725a8eb44ea1d0e5",
+    "src/gridiron_ml/publication/weekly.py": "52f8b5558ae1457e0e81a2901d683bcfd6ee91f34028662fd20e1eefbc39f3a4",
+    "src/gridiron_ml/td_run/evaluator.py": "868557b68fde8e7cdac01a48c569d38bde5d6fb850e35dcfdd2b8f5e7851a47f"
+  },
+  "immutable": true,
+  "market_bearing_models_included": true,
+  "model_release": "week_06",
+  "phase": "pre_game",
+  "poll_excluded_fingerprint_tiers": [
+    "F7"
+  ],
+  "post_game_destination": "sibling post_game/scientific directory only",
+  "post_game_overwrite_prohibited": true,
+  "schema": "tdnet-scientific-weekly-reproducibility-v1",
+  "scientific_ballot_model_count": 48,
+  "scientific_cohort": "full_f0_f8",
+  "scientific_prediction_model_count": 54,
+  "scientific_roster_label": "Scientific roster (full F0\u2013F8)",
+  "scientific_roster_size": 48,
+  "season": 2026,
+  "source_inputs": {
+    "market_lines_snapshot": {
+      "path": null,
+      "sha256": null
+    },
+    "reference_poll": {
+      "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/rankings/2026.parquet",
+      "sha256": "ff64a894af956ee5be0ee325f64894550bfa309d8c7587d32f3589b4087e9493"
+    },
+    "schedule_snapshot": {
+      "path": "/users/tburton2/Repos/TDNet/data/raw/cfbd/v2/games/2026.parquet",
+      "sha256": "799ec9389a7e98d9a827c3987c8ff1f807a98282b5a3f68b54094ee4cfd26491"
+    },
+    "scientific_inventory": {
+      "path": "/users/tburton2/Repos/TDNet/data/publication/2026/weekly_operations/week_06/scientific_runtime_inventory.csv",
+      "sha256": "b4a97836862459c8551560f77f793dd1020041a4768781def2898449398da2fa"
+    }
+  },
+  "teams_per_model_ballot": 138,
+  "training_cutoff_season": 2025,
+  "week": 6
+}
