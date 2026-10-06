@@ -1,0 +1,20 @@
+{
+  "method": "PC1 on standardized MAE, straight-up accuracy, and Brier; oriented toward lower MAE/Brier and higher accuracy",
+  "scored_pairs": 102,
+  "explained_variance_ratio_pc1": 0.9424171734832681,
+  "pc1_loadings": {
+    "margin_mae": -0.5723425032227282,
+    "su_accuracy": 0.5751738290860892,
+    "brier_score": -0.5844648195906993
+  },
+  "training_scope": "2026 season-to-date only; available F0\u2013F16 forecasts only",
+  "missing_fingerprint_scores": [
+    "F17-market"
+  ],
+  "rotation_gifs": [
+    "scientific_2026_margin_mae_3d_rotation.gif",
+    "scientific_2026_su_accuracy_3d_rotation.gif",
+    "scientific_2026_brier_score_3d_rotation.gif",
+    "scientific_2026_ats_accuracy_3d_rotation.gif"
+  ]
+}

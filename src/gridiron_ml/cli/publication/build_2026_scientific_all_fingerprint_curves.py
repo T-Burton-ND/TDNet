@@ -211,7 +211,14 @@ def _season_upset_recall(
     )
 
 
-def _plot(trajectory: pd.DataFrame, output: Path, *, season: int, through_week: int) -> None:
+def _plot(
+    trajectory: pd.DataFrame,
+    output: Path,
+    *,
+    season: int,
+    through_week: int,
+    reconstructed_games: int = 0,
+) -> None:
     apply_tdnet_theme()
     fig, axes = plt.subplots(1, 3, figsize=(19, 8), constrained_layout=False)
     fig.subplots_adjust(left=0.055, right=0.985, top=0.82, bottom=0.30, wspace=0.22)
@@ -235,6 +242,7 @@ def _plot(trajectory: pd.DataFrame, output: Path, *, season: int, through_week: 
     models[["parsed_stage", "model_id"]] = pd.DataFrame(
         models["details"].tolist(), index=models.index
     )
+    max_scored_generation = max(_stage_number(stage) for stage in models.parsed_stage.unique())
 
     consensus = cumulative.loc[cumulative["series_type"].eq("consensus")]
     vegas = cumulative.loc[cumulative["series_type"].eq("vegas")]
@@ -253,7 +261,7 @@ def _plot(trajectory: pd.DataFrame, output: Path, *, season: int, through_week: 
                 zorder=2,
             )
         for frame, color, linestyle, label, marker in (
-            (consensus, TDNET_COLORS["edge_pink"], "-", "F0–F8 scientific consensus", "o"),
+            (consensus, TDNET_COLORS["edge_pink"], "-", f"F0–F{max_scored_generation} scientific consensus", "o"),
             (vegas, TDNET_COLORS["figure_highlight"], "--", "Vegas closing-line baseline", "s"),
         ):
             frame = frame.sort_values("through_week")
@@ -295,7 +303,9 @@ def _plot(trajectory: pd.DataFrame, output: Path, *, season: int, through_week: 
     fig.text(
         0.5,
         0.905,
-        f"Games completed through Week {through_week}  ·  54 of 108 model × fingerprint cells scored for 2026",
+        f"Games completed through Week {through_week}  ·  "
+        f"{models.loc[models.through_week.eq(through_week), ['parsed_stage', 'model_id']].drop_duplicates().shape[0]} "
+        "of 108 model × fingerprint cells scored for 2026",
         ha="center",
         fontsize=12,
         color=TDNET_COLORS["figure_axis"],
@@ -308,7 +318,7 @@ def _plot(trajectory: pd.DataFrame, output: Path, *, season: int, through_week: 
     ]
     comparator_handles = [
         Line2D([0], [0], color=TDNET_COLORS["edge_pink"], lw=2.7, marker="o",
-               label="F0–F8 scientific consensus"),
+               label=f"F0–F{max(_stage_number(s) for s in models.parsed_stage.unique())} scientific consensus"),
         Line2D([0], [0], color=TDNET_COLORS["figure_highlight"], lw=2.7,
                linestyle="--", marker="s", label="Vegas closing-line baseline"),
     ]
@@ -335,12 +345,19 @@ def _plot(trajectory: pd.DataFrame, output: Path, *, season: int, through_week: 
         aspect=45,
     )
     colorbar.set_ticks([0, 4, 8, 12, 17])
-    colorbar.set_ticklabels(["F0", "F4", "F8", "F12 corrected", "F17-market"])
+    colorbar.set_ticklabels(["F0", "F4", "F8", "F12", "F17-market"])
     colorbar.set_label("Fingerprint generation (red → blue)", labelpad=7)
     fig.text(
         0.5,
         0.018,
-        "Curves use frozen 2026 pregame predictions. Only F0–F8 have scored 2026 predictions; F9–F17-market are left unplotted, not backfilled from 2024–25.",
+        (
+            f"{reconstructed_games} Week 1 games reconstructed on Oct 6 from Week 0 inputs; "
+            "Vegas closing lines were refreshed on Oct 6. "
+            if reconstructed_games
+            else "Curves use the archived 2026 pregame predictions. "
+        )
+        + f"F0–F{max(_stage_number(s) for s in models.parsed_stage.unique())} have 2026 predictions; "
+          "F17-market remains unscored because quote timestamps are unavailable; no retrospective scores are substituted.",
         ha="center",
         fontsize=9.5,
         color=TDNET_COLORS["figure_axis"],
@@ -350,7 +367,10 @@ def _plot(trajectory: pd.DataFrame, output: Path, *, season: int, through_week: 
     plt.close(fig)
 
 
-def build(*, source: Path, output_dir: Path, season: int, through_week: int) -> None:
+def build(
+    *, source: Path, output_dir: Path, season: int, through_week: int,
+    reconstructed_games: int = 0,
+) -> None:
     trajectory = pd.read_csv(source)
     expected = {"scope", "through_week", "series_type", "model_name", "model_family", "fingerprint", *[m for m, _, _ in METRIC_SPECS]}
     missing_columns = expected.difference(trajectory.columns)
@@ -374,7 +394,10 @@ def build(*, source: Path, output_dir: Path, season: int, through_week: int) -> 
     figure_path = output_dir / "scientific_2026_full_f0_f17_market_cumulative_performance.png"
     trajectory.to_csv(trajectory_path, index=False)
     scorecard.to_csv(scorecard_path, index=False)
-    _plot(trajectory, figure_path, season=season, through_week=through_week)
+    _plot(
+        trajectory, figure_path, season=season, through_week=through_week,
+        reconstructed_games=reconstructed_games,
+    )
 
     model_cells = scorecard.loc[scorecard["series_type"].eq("model")]
     coverage = {
@@ -397,9 +420,10 @@ def build(*, source: Path, output_dir: Path, season: int, through_week: int) -> 
         "# 2026 scientific fingerprint performance\n\n"
         f"This season-to-date view scores immutable 2026 predictions through Week {through_week}. "
         "It is not the retrospective 2024–25 development evaluation.\n\n"
-        f"The source contains 54 scored model × fingerprint cells for F0–F8. The requested full roster is 108 cells (F0–F17-market × six architectures). "
-        "F9–F17-market have no 2026 pregame predictions in the current publication archive, so their scorecard values are blank and no retrospective values are substituted.\n\n"
-        "The figure shows cumulative Brier score, straight-up accuracy, and ATS accuracy by completed week. Line color maps fingerprint generation from red (earlier) to blue (later); line style maps architecture. Thick pink and brass lines show the available F0–F8 scientific consensus and the Vegas closing-line baseline.\n\n"
+        f"The source contains {int(model_cells['coverage_status'].eq('scored_2026').sum())} scored model × fingerprint cells across "
+        f"{len(coverage['scored_fingerprints'])} generations out of 108 possible cells (F0–F17-market × six architectures). "
+        "F17-market is left blank because the archived feature quotes lack verifiable pregame timestamps; no retrospective values are substituted.\n\n"
+        f"The figure shows cumulative Brier score, straight-up accuracy, and ATS accuracy by completed week. Line color maps fingerprint generation from red (earlier) to blue (later); line style maps architecture. Thick pink is the equal-weight F0–F{max((_stage_number(s) for s in coverage['scored_fingerprints']), default=0)} scientific consensus, and brass is the Vegas closing-line baseline.\n\n"
         "`scientific_2026_current_season_scorecard.csv` has one row per model/fingerprint pair plus consensus and Vegas. `scientific_2026_cumulative_trajectory.csv` has the week-by-week cumulative series used to draw the curves. Margin MAE, upset recall, and underlying counts are included in the scorecard.\n"
     )
     (output_dir / "README.md").write_text(readme, encoding="utf-8")
@@ -411,8 +435,12 @@ def main() -> None:
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--season", type=int, default=2026)
     parser.add_argument("--through-week", type=int, required=True)
+    parser.add_argument("--reconstructed-games", type=int, default=0)
     args = parser.parse_args()
-    build(source=args.source, output_dir=args.output_dir, season=args.season, through_week=args.through_week)
+    build(
+        source=args.source, output_dir=args.output_dir, season=args.season,
+        through_week=args.through_week, reconstructed_games=args.reconstructed_games,
+    )
 
 
 if __name__ == "__main__":

@@ -68,6 +68,8 @@ publication/2026/week_*/**/tables/**
 !publication/2026/week_*/post_game/scientific/*.md
 !publication/2026/week_*/post_game/scientific/*.png
 !publication/2026/week_*/post_game/scientific/*.txt
+# Retain the current-season scientific ranking tables alongside their GIFs.
+!publication/2026/week_*/post_game/scientific/current_season_f0_f17_market/figures/scientific_2026_pca_*_ranking.csv
 # A compact, source-only ladder table accompanies the public introductory
 # figure; it contains canonical labels, not CFBD or derived result rows.
 !publication/2026/intro/fingerprint_ladder.csv

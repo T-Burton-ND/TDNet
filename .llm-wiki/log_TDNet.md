@@ -494,3 +494,33 @@ Chronological record of wiki activity.
 - Added unified model curves across F0–F17, with Vegas references and the available F09–F17 six-model consensus.
 - Combined historical held-out folds, the separate F06 broad screen, and pooled F09–F17 development predictions on one axis while visibly marking cohort boundaries.
 - Documented the cross-cohort figures as descriptive rather than paired evidence.
+
+## [2026-10-06] update | Separate 2026 scientific fingerprint performance
+
+- by: Thomas J. Burton via codex
+- Added a parchment three-panel cumulative view and CSV scorecard for completed 2026 games through Week 5, with the Vegas baseline on each panel.
+- Confirmed 54 current-season model × fingerprint cells (F0–F8) across 267 games; F9–F17-market remain unscored because the 2026 publication archive has no corresponding pregame forecasts.
+- Kept retrospective 2024–25 development predictions out of the 2026 curves and left missing cells blank.
+
+## [2026-10-06] update | Rebuild 2026 scientific what-if curves
+
+- by: Thomas J. Burton via codex
+- Reconstructed four missing Week 1 forecasts from Week 0 inputs and refreshed the isolated F0–F8 2026 scorecard from 267 to 271 completed games.
+- Verified that all 54 existing model/fingerprint scores reproduce before appending the four forecasts; F9–F17-market remain unscored because no 2026 predictions are available.
+- Added the 2026 cumulative curves, four 3D metric rotations, and PCA rankings restricted to the observed 54 pairs; documented refreshed-line timestamp limits and the separately stored CFBD player/PBP acquisition.
+
+## [2026-10-06] update | Extend 2026 scientific what-if through F9
+
+- by: Thomas J. Burton via codex
+- Built leak-checked corrected-A F09 target states from the 2026 plays/drives acquisition, requiring a 48-hour reporting lag and excluding each target game.
+- Fit the six F09 model architectures through 2025 and scored all 271 completed 2026 games; calibration uses held-out 2024–25 predictions from models fitted through 2023. M3 uses seed 1701; M1/M5/M10 use three seeds and M2/M4 average ten setpoints.
+- F09 measured 13.313–15.951 points MAE, 69.0%–77.9% winner accuracy, 0.1580–0.1932 Brier, 45.3%–51.3% ATS accuracy, and 23.1%–28.8% upset recall on that cohort.
+- Expanded the 2026 scorecard and four 3D rotations to 60 scored model × fingerprint pairs (F0–F9); F10–F17-market remain blank pending point-in-time feature inputs.
+
+## [2026-10-06] update | Extend 2026 scientific what-if through F16
+
+- by: Thomas J. Burton via codex
+- Built cutoff-checked F13–F16 target states for 271 completed 2026 games; source availability lagged kickoff by 48 hours and target games were excluded.
+- Fit all six scientific architectures for each of F13–F16 through 2025 with historical 2024–25 calibration; scored 102 model × fingerprint pairs total across F0–F16.
+- Refreshed the season-to-date cumulative figure, 110-row scorecard, four 72-frame rotations and PCA rankings; F17-market stays blank without verifiable quote timestamps.
+- Recorded the 271-game F0–F16 consensus (13.336 MAE, 76.4% straight-up, 0.1673 Brier, 49.8% ATS) and Vegas reference (11.575 MAE, 80.8% straight-up, 0.1414 Brier, 50.0% ATS reference).
