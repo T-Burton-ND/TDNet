@@ -9,11 +9,11 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 from matplotlib.animation import FuncAnimation, PillowWriter
 from matplotlib.colors import LinearSegmentedColormap, Normalize
 from matplotlib.lines import Line2D
-import numpy as np
-import pandas as pd
 
 from gridiron_ml.publication.figure_theme import TDNET_COLORS, apply_tdnet_theme
 
@@ -66,7 +66,9 @@ def _pca_ranking(scorecard: pd.DataFrame, output: Path) -> dict:
     all_frame = scorecard.loc[scorecard.series_type.eq("model")].copy()
     all_frame["model_id"] = all_frame.model_family.map(FAMILY_TO_MODEL)
     all_frame["generation"] = all_frame.fingerprint.map(lambda stage: 17 if stage == "F17-market" else int(str(stage)[1:]))
-    frame = all_frame.loc[all_frame.coverage_status.eq("scored_2026")].copy()
+    frame = all_frame.loc[all_frame.coverage_status.isin(
+        ["scored_2026", "scored_2026_reconstructed_pregame_inputs"]
+    )].copy()
     values = frame[metrics].to_numpy(float)
     means = values.mean(axis=0)
     scales = values.std(axis=0, ddof=1)
@@ -112,15 +114,15 @@ def _pca_ranking(scorecard: pd.DataFrame, output: Path) -> dict:
     all_fingerprints["generation"] = all_fingerprints.fingerprint.map(lambda s: 17 if s == "F17-market" else int(s[1:]))
     fingerprint_rank = all_fingerprints.merge(fingerprint_rank, on=["fingerprint", "generation"], how="left", validate="one_to_one")
     fingerprint_rank["coverage_status"] = np.where(
-        fingerprint_rank.fingerprint.eq("F17-market"), "scored_2026_unverified_quote_time",
+        fingerprint_rank.fingerprint.eq("F17-market"), "scored_2026_pregame_snapshot_partial_market",
         np.where(fingerprint_rank.fingerprint.isin(["F7", "F8"]),
-                 "scored_2026_partial_unverified_market_inputs",
+                 "scored_2026_reconstructed_pregame_inputs",
                  np.where(fingerprint_rank.scored_models.notna(), "scored_2026", "no_2026_predictions")),
     )
-    fingerprint_rank["unverified_quote_time_models"] = np.where(
+    fingerprint_rank["partial_pregame_market_models"] = np.where(
         fingerprint_rank.fingerprint.eq("F17-market"), len(MODELS), 0
     )
-    fingerprint_rank["partial_market_timing_models"] = np.where(
+    fingerprint_rank["reconstructed_pregame_models"] = np.where(
         fingerprint_rank.fingerprint.isin(["F7", "F8"]), len(MODELS), 0
     )
     fingerprint_rank["scored_models"] = fingerprint_rank.scored_models.fillna(0).astype(int)
@@ -128,11 +130,11 @@ def _pca_ranking(scorecard: pd.DataFrame, output: Path) -> dict:
     fingerprint_rank.to_csv(output / "scientific_2026_pca_fingerprint_ranking.csv", index=False, float_format="%.6f")
     return {
         "method": "PC1 on standardized MAE, straight-up accuracy, and Brier; oriented toward lower MAE/Brier and higher accuracy",
-        "scored_pairs": int(len(frame)),
+        "scored_pairs": len(frame),
         "explained_variance_ratio_pc1": float(eigenvalues[0] / eigenvalues.sum()),
         "pc1_loadings": dict(zip(metrics, pc1.tolist())),
         "training_scope": "2026 season-to-date only; available F0–F16 forecasts only",
-        "market_timing_caveat_fingerprints_excluded_from_pca": ["F7", "F8", "F17-market"],
+        "partial_market_input_fingerprints_excluded_from_pca": ["F17-market"],
     }
 
 
@@ -182,7 +184,7 @@ def _gif(frame: pd.DataFrame, *, metric: str, title: str, axis_label: str,
                  fontweight="bold", color=colors["midnight_gridiron"])
     scored_cells = int(frame[["fingerprint", "model_id"]].drop_duplicates().shape[0])
     fig.text(.5, .915,
-             f"{scored_cells} cutoff-checked pairs · F7/F8 partial-market and F17-market excluded · no Vegas series",
+             f"{scored_cells} pregame-input-checked pairs · F17-market excluded · no Vegas series",
              ha="center", fontsize=10, color=colors["slate"])
     scalar = plt.cm.ScalarMappable(norm=norm, cmap=generation_cmap)
     scalar.set_array([])
@@ -197,7 +199,7 @@ def _gif(frame: pd.DataFrame, *, metric: str, title: str, axis_label: str,
                ncol=3, frameon=False, fontsize=9)
     direction = "Higher is better" if better_high else "Lower is better"
     fig.text(.5, .025,
-             f"{direction}. Rotations and PCA use F0–F6 and F9–F16; market-timing caveats appear in companion surfaces.",
+             f"{direction}. Rotations and PCA use F0–F16; F17-market appears in companion surfaces using archived pregame snapshots where available, with partial target market inputs.",
              ha="center", fontsize=9, color=colors["slate"])
     animation = FuncAnimation(
         fig, lambda k: ax.view_init(elev=24, azim=-58 + 360 * k / 72),
@@ -215,9 +217,11 @@ def main() -> None:
     frame["model_id"] = frame.model_family.map(FAMILY_TO_MODEL)
     frame["generation"] = frame.fingerprint.map(lambda s: 17 if s == "F17-market" else int(str(s)[1:]))
     frame["model_y"] = frame.model_id.map({model: idx for idx, model in enumerate(MODELS)})
-    frame = frame.loc[frame.coverage_status.eq("scored_2026")].copy()
-    if len(frame) != 90 or frame[["fingerprint", "model_id"]].duplicated().any():
-        raise ValueError("Expected 90 distinct cutoff-checked 2026 score rows (F0–F6, F9–F16).")
+    frame = frame.loc[frame.coverage_status.isin(
+        ["scored_2026", "scored_2026_reconstructed_pregame_inputs"]
+    )].copy()
+    if len(frame) != 102 or frame[["fingerprint", "model_id"]].duplicated().any():
+        raise ValueError("Expected 102 distinct pregame-input-checked 2026 score rows (F0–F16).")
     colors = _palette()
     for metric, title, axis_label, high in METRICS:
         _gif(
@@ -228,10 +232,10 @@ def main() -> None:
     pca = _pca_ranking(scorecard, FIGURES)
     pca["rotation_gifs"] = [f"scientific_2026_{metric}_3d_rotation.gif" for metric, *_ in METRICS]
     (FIGURES / "scientific_2026_pca_ranking_manifest.json").write_text(json.dumps(pca, indent=2) + "\n")
-    (FIGURES / "README.md").write_text(
+    (FIGURES / "point_rotations_README.md").write_text(
         "# 2026 scientific 3D views\n\n"
-        "The point-based rotations use 90 cutoff-checked pairs (F0–F6 and F9–F16). F7/F8 each include four of 271 Week 1 line inputs from an October 6 refresh; F17-market quote times are unknown. Those 18 caveat cells remain in the pair table and companion surfaces, but are excluded from rotations and PCA. Vegas is omitted.\n\n"
-        "PCA rankings use standardized margin MAE, straight-up accuracy, and Brier across the 90 cutoff-checked pairs, oriented so higher scores favor lower MAE/Brier and higher accuracy. Market-timing caveat rows remain in the pair table without PCA scores. Model and fingerprint rankings are medians of the verified pair score.\n"
+        "The point-based rotations and PCA use 102 pairs with pregame inputs (F0–F16). The 12 F7/F8 Week 1 forecasts were reconstructed from an archived September 2 fingerprint snapshot that predates the four kickoffs. F17-market uses archived pregame target summaries where available, but eight Aug. 29 openers have no pregame market snapshot and quote-level fields are missing; those six rows remain visible in companion surfaces and pair rankings without PCA scores. Vegas is omitted.\n\n"
+        "PCA rankings use standardized margin MAE, straight-up accuracy, and Brier across the 102 pregame-input-checked pairs, oriented so higher scores favor lower MAE/Brier and higher accuracy. Model and fingerprint rankings are medians of the verified pair score.\n"
     )
     print(json.dumps({"gifs": pca["rotation_gifs"], "pca_pairs": pca["scored_pairs"],
                       "pc1_explained_variance_ratio": pca["explained_variance_ratio_pc1"]}, indent=2))

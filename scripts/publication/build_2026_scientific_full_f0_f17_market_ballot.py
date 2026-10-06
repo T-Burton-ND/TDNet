@@ -38,7 +38,7 @@ def _load_forecasts() -> pd.DataFrame:
         week_frames.append(frame[["game_id", "week", "home_team", "away_team", "neutral_site", "model_name", "model_family", "fingerprint", "pred_home_margin"]])
     old = pd.concat(week_frames, ignore_index=True)
 
-    backfill_path = ROOT / "data/what_if_2026_fingerprints/f0_f8_week1_backfill/run_all54/tables/all_game_model_predictions.parquet"
+    backfill_path = ROOT / "data/what_if_2026_fingerprints/f0_f8_week1_backfill/run_leak_checked/tables/all_game_model_predictions.parquet"
     backfill = pd.read_parquet(backfill_path)
     backfill = backfill[["game_id", "week", "home_team", "away_team", "neutral_site", "model_name", "model_family", "fingerprint", "pred_home_margin"]]
 
@@ -60,6 +60,23 @@ def _load_forecasts() -> pd.DataFrame:
     forecasts = forecasts.dropna(subset=["game_id", "home_team", "away_team", "pred_home_margin"])
     forecasts["model_id"] = forecasts.model_name.str.rsplit("_", n=1).str[-1]
     forecasts = forecasts.loc[forecasts.fingerprint.isin(STAGES) & forecasts.model_id.isin(MODEL_IDS)].copy()
+    game_ids = set(forecasts.game_id.astype(int))
+    schedule = pd.read_parquet(
+        ROOT / "data/raw/cfbd/v2/games/2026.parquet",
+        columns=["id", "week", "neutral_site", "season_type", "home_classification", "away_classification"],
+    )
+    schedule = schedule.loc[
+        schedule.id.astype(int).isin(game_ids)
+        & schedule.season_type.astype(str).str.lower().eq("regular")
+        & schedule.home_classification.astype(str).str.lower().eq("fbs")
+        & schedule.away_classification.astype(str).str.lower().eq("fbs")
+    ].drop_duplicates("id")
+    if set(schedule.id.astype(int)) != game_ids or schedule.id.duplicated().any():
+        raise ValueError("Forecasts do not map one-to-one to the completed FBS schedule")
+    week_by_game = schedule.set_index("id").week
+    neutral_by_game = schedule.set_index("id").neutral_site.fillna(False).astype(bool)
+    forecasts["week"] = forecasts.game_id.map(week_by_game).astype(int)
+    forecasts["neutral_site"] = forecasts.game_id.map(neutral_by_game).fillna(False).astype(bool)
     if forecasts.duplicated(["game_id", "fingerprint", "model_id"]).any():
         dupes = forecasts.loc[forecasts.duplicated(["game_id", "fingerprint", "model_id"], keep=False), ["game_id", "fingerprint", "model_id"]]
         raise ValueError(f"Duplicate model/game predictions: {dupes.head().to_dict('records')}")
@@ -111,9 +128,9 @@ def _model_ballots(forecasts: pd.DataFrame) -> pd.DataFrame:
                 "estimated_home_site_effect": float(solution[-1]),
                 "fit_rmse": float(np.sqrt(np.mean((matrix @ solution - y) ** 2))),
                 "coverage_status": (
-                    "partial_market_timing_week1_backfill" if stage in {"F7", "F8"}
-                    else "unverified_market_quote_times" if stage == "F17-market"
-                    else "market_only_research_ballot" if stage == "F7"
+                    "partial_pregame_market_reconstruction" if stage == "F7"
+                    else "reconstructed_pregame_inputs" if stage == "F8"
+                    else "partial_pregame_market_archive" if stage == "F17-market"
                     else "cutoff_checked_nonmarket_inputs"
                 ),
             })
@@ -162,12 +179,14 @@ def main() -> None:
         "models_per_fingerprint": MODEL_IDS,
         "model_fingerprint_cells": 108,
         "forecast_games_per_cell": 271,
-        "forecast_games": "Week 0 through Week 5, including four reconstructed Week 1 games",
+        "forecast_games": "2026 schedule Weeks 1–5, including four reconstructed Week 1 games",
+        "week1_reconstruction_receipt": "data/what_if_2026_fingerprints/f0_f8_week1_backfill/run_leak_checked/receipt.json",
+        "f17_market_receipt": "data/what_if_2026_fingerprints/f17_market_predictions/receipt.json",
         "ballot_method": "For each model/fingerprint, least-squares team fixed effects fit to that model's 2026 pregame predicted margins through Week 5. Home-site effect is estimated separately; team ratings are centered to mean zero and ranked as margins versus the average FBS team.",
         "outcomes_used_as_fit_targets": False,
         "market_caveats": {
-            "F7_F8": "Four Week 1 forecast rows per cell use line inputs from an October 6 refreshed snapshot; quote times are unavailable. Remaining games use archived weekly lines.",
-            "F17-market": "Target-game line quote timestamps are unavailable for all 271 games; exploratory only.",
+            "F7_F8": "The four reconstructed Week 1 forecasts per cell use the archived September 2 pregame fingerprint snapshot, captured before kickoff. Provider quote timestamps are unavailable.",
+            "F17-market": "Archived market summaries captured before kickoff cover 263 games; eight Aug. 29 openers lack archived pregame market inputs. Provider quote timestamps and quote-level market fields are unavailable; missing target features remain missing for fitted imputation.",
             "F7": "Market-only generation has no direct team-vs-average matchup representation; its ballot is derived from its predicted game margins as a separate research view.",
         },
         "published_week6_predictions_modified": False,
@@ -178,7 +197,7 @@ def main() -> None:
         "# 2026 Week 6 scientific full-roster what-if ballot\n\n"
         "This is an independent research ballot, separate from published and frozen Week 6 predictions. It covers all 18 fingerprint generations (F0–F17-market), all six scientific architectures (M1, M2, M3, M4, M5, M10), and 138 FBS teams. `scientific_top25_ballot.csv` is the consensus Top 25; `scientific_full_ballots.csv` contains all 108 model ballots; `scientific_all_fbs_power_rankings.png` shows the full 138-team power ranking, ordered by the same mean-rating rank as the Top 25.\n\n"
         "Each model's 2026 pregame margin forecasts for the 271 games through Week 5 are fit to team fixed effects plus a home-site effect. The centered team effects are the model's estimated margin versus an average FBS team. Actual game outcomes are not fit targets. This creates comparable full-team ballots even where an architecture has no direct team-vs-average feature transform.\n\n"
-        "Market timing caveats: F7/F8 each include four Week 1 forecasts using line inputs from an October 6 refreshed snapshot with unavailable quote times. F17-market uses market inputs with unavailable quote times for all target games. F7 is market-only, so its ballot is derived from game forecasts rather than a direct team-vs-average evaluation. Treat the equal-weight consensus as a research view, not a clean poll replacement.\n"
+        "Market timing caveats: the four reconstructed F7/F8 Week 1 forecasts use the archived September 2 pregame fingerprint snapshot. F17-market target market summaries use archived pregame snapshots for 263 games; eight Aug. 29 openers have no archived pregame market data. Provider quote timestamps and raw quote-level fields were not retained, and missing market features remain missing for fitted imputation. F7 is market-only, so its ballot is derived from game forecasts rather than a direct team-vs-average evaluation. Treat the equal-weight consensus as a research view, not a clean poll replacement.\n"
     )
     print(json.dumps({"output": str(OUTPUT), "ballot_rows": len(ballots),
                       "teams": int(ballots.keys_team.nunique()), "models": int(ballots.ballot_model.nunique()),

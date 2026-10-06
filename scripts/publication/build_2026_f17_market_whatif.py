@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""Build the separate 2026 F17-market what-if with its quote-time caveat.
-
-Market fields are taken only from the cached CFBD line records. The endpoint
-does not expose quote timestamps, so this branch is explicitly exploratory and
-cannot support a strict point-in-time claim.
-"""
+"""Build the separate 2026 F17-market what-if from archived pregame snapshots."""
 from __future__ import annotations
 
 import json
@@ -19,11 +14,14 @@ sys.path[:0] = [str(ROOT / "src"), str(ROOT / "scripts"), str(ROOT / "scripts/pu
 
 from build_2026_f09_whatif import DATA, ROUND_DATA
 from build_2026_f13_f16_whatif import extended_target_matrix, target_state
-from nextgen_rounds_train import load_stage_matrix
 from nextgen_rounds_scientific_train import make_model
-from gridiron_ml.experiments.nextgen_rounds_market import MARKET_COLUMNS, summarize_quotes
+from nextgen_rounds_train import load_stage_matrix
+from pregame_market_snapshot_2026 import build_pregame_market_state
+
+from gridiron_ml.experiments.nextgen_rounds_market import MARKET_COLUMNS
 from gridiron_ml.experiments.nextgen_screening_reduced_parallel import (
-    build_estimator, residual_probability,
+    build_estimator,
+    residual_probability,
 )
 from gridiron_ml.pipeline.fetch.nextgen_acquisition import sha256_file
 
@@ -34,34 +32,11 @@ FEATURE_DIR = DATA / "f17_market_features"
 
 
 def current_market_state(target_meta: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
-    lines = pd.read_parquet(ROOT / "data/raw/cfbd/v2/lines/2026.parquet")
-    lines = lines.loc[lines.id.isin(set(target_meta.target_game_id.astype(int)))].copy()
-    if lines.id.duplicated().any() or len(lines) != target_meta.target_game_id.nunique():
-        raise ValueError("CFBD lines do not cover exactly the 2026 FBS-vs-FBS target cohort")
-    rows = []
-    quote_counts = []
-    for row in lines.itertuples(index=False):
-        quotes = row.lines if isinstance(row.lines, (list, tuple, np.ndarray)) else []
-        state = summarize_quotes(quotes)
-        rows.append({"target_game_id": int(row.id), **state})
-        quote_counts.append(len(quotes))
-    result = pd.DataFrame(rows).sort_values("target_game_id").reset_index(drop=True)
+    result, report = build_pregame_market_state(target_meta)
     if set(MARKET_COLUMNS) - set(result):
         raise ValueError("Current market feature schema differs from the historical F17 contract")
     if len(result) != len(target_meta) or result.target_game_id.duplicated().any():
-        raise ValueError("F17 current-season target market matrix is incomplete")
-    report = {
-        "scope": "2026_completed_FBS_FBS_games_only",
-        "target_games": int(len(result)),
-        "market_rows_with_one_or_more_quotes": int(np.count_nonzero(np.asarray(quote_counts) > 0)),
-        "quote_records": int(sum(quote_counts)),
-        "quote_timestamp_available": False,
-        "quote_time_verified_pre_kickoff": False,
-        "market_inputs_are_target_game_lines": True,
-        "target_scores_read_by_feature_builder": False,
-        "market_feature_count": len(MARKET_COLUMNS),
-        "market_line_cache_sha256": sha256_file(ROOT / "data/raw/cfbd/v2/lines/2026.parquet"),
-    }
+        raise ValueError("F17 archived pregame market matrix is incomplete")
     return result, report
 
 
@@ -72,7 +47,7 @@ def main() -> None:
     if not state_path.exists():
         raise FileNotFoundError("Build F13–F16 current-season states first")
     combined_state = target_state(pd.read_parquet(state_path))
-    x16, target_meta, spreads = extended_target_matrix(
+    x16, target_meta, _ = extended_target_matrix(
         combined_state, load_stage_matrix(ROUND_DATA, "F16")[3]
     )
     xhist, meta, _, evidence = load_stage_matrix(ROUND_DATA, "F17_market")
@@ -83,6 +58,7 @@ def main() -> None:
         raise ValueError("F17 market columns differ from the frozen market contract")
     market, market_report = current_market_state(target_meta)
     market = target_meta[["target_game_id"]].merge(market, on="target_game_id", validate="one_to_one")
+    spreads = market.market_home_spread.to_numpy(float)
     market.to_parquet(FEATURE_DIR / "f17_market_target_state_2026.parquet", index=False, compression="zstd")
     x_target = np.column_stack([x16, market[list(MARKET_COLUMNS)].to_numpy(float)])
     if x_target.shape[1] != xhist.shape[1]:
@@ -94,7 +70,13 @@ def main() -> None:
     cfg = json.loads((ROOT / "configs/experiments/nextgen_rounds_scientific_models_v1.json").read_text())
     points = json.loads((ROOT / "configs/experiments/nextgen_screening_setpoints_v1.json").read_text())
     path = PRED_DIR / "predictions.parquet"
-    records = pd.read_parquet(path).to_dict("records") if path.exists() else []
+    old_receipt_path = PRED_DIR / "receipt.json"
+    prior_market = None
+    if old_receipt_path.exists():
+        prior_market = json.loads(old_receipt_path.read_text()).get("market_source")
+    # A changed target-market snapshot invalidates every saved F17 prediction.
+    records = (pd.read_parquet(path).to_dict("records")
+               if path.exists() and prior_market == market_report else [])
     completed = {str(row["model_name"]).rsplit("_", 1)[-1] for row in records}
     for architecture in MODEL_IDS:
         if architecture in completed:
@@ -130,18 +112,24 @@ def main() -> None:
                 "pred_home_margin": float(prediction[index]),
                 "pred_home_win_probability": float(probability[index]),
                 "market_spread_close": float(spreads[index]) if np.isfinite(spreads[index]) else np.nan,
-                "market_win_probability": np.nan,
-                "quote_time_status": "unverified_exploratory_what_if",
+                "market_win_probability": float(market.market_home_implied_no_vig.iloc[index])
+                if np.isfinite(market.market_home_implied_no_vig.iloc[index]) else np.nan,
+                "quote_time_status": "pregame_snapshot_quote_time_unavailable",
+                "market_snapshot_captured_pre_kickoff": bool(market.market_snapshot_captured_pre_kickoff.iloc[index]),
+                "market_snapshot_timestamp_utc": str(market.snapshot_timestamp_utc.iloc[index])
+                if pd.notna(market.snapshot_timestamp_utc.iloc[index]) else None,
             })
         pd.DataFrame(records).to_parquet(path, index=False, compression="zstd")
         completed.add(architecture)
     receipt = {
-        "status": "success_exploratory_quote_time_unverified" if len(completed) == len(MODEL_IDS) else "partial",
+        "status": "success_pregame_snapshot_quote_time_unavailable" if len(completed) == len(MODEL_IDS) else "partial",
         "generation": "F17-market", "models": sorted(completed),
         "games": int(target_meta.target_game_id.nunique()), "features": int(x_target.shape[1]),
         "training_through_season": 2025, "calibration_years": [2024, 2025],
         "market_features_used": True, "market_research_only": True,
-        "quote_timestamp_available": False, "quote_time_verified_pre_kickoff": False,
+        "quote_timestamp_available": False,
+        "all_available_target_market_snapshots_pre_kickoff": True,
+        "target_games_without_market_snapshot": market_report["games_without_pregame_market_snapshot"],
         "M3_replicates": 1, "other_seed_replicates": 3, "M2_M4_setpoints": 10,
         "market_source": market_report,
         "prediction_sha256": sha256_file(path),

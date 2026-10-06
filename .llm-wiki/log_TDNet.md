@@ -537,3 +537,18 @@ Chronological record of wiki activity.
 - Reclassified the 2026 season grid as 90 cutoff-checked, 12 partial-market-timing (F7/F8), and six quote-time-unverified (F17-market) cells; updated cumulative, surface, and PCA artifacts and documentation.
 - Built an independent Week 6 research ballot from 271 pregame forecast margins per model/fingerprint, fitting team and home-site effects without using target scores as fit targets.
 - Verified 108 complete ballots over 138 teams and recorded the consensus Top 5; retained the F7/F8 and F17-market timing caveats.
+
+## [2026-10-06] update | Add full FBS scientific ballot figure
+
+- by: Thomas J. Burton via codex
+- Added a parchment-style full-team power-ranking figure for all 138 FBS teams from the Week 6 F0–F17-market independent research ballots.
+- Ranked teams by the same equal-weight mean forecast-derived power rating used in the consensus Top 25; exact ranks and values remain available in the CSV.
+- Committed the builder and publication artifact to main as `c6ad244`, and documented the figure path and interpretation on the Week 6 wiki page.
+
+## [2026-10-06] update | Rebuild 2026 F17 market views from pregame snapshots
+
+- by: Thomas J. Burton via codex
+- Reconstructed the four missing Week 1 forecasts from archived F0–F6 predictions and cutoff-checked F7/F8 checkpoints; aligned all 271 game forecasts to canonical schedule weeks.
+- Refit F17-market for the same 271-game cohort using archived market snapshots captured before kickoff for 263 games; eight Aug. 29 openers have no pregame market snapshot, and unavailable quote-level fields remain missing.
+- Recomputed all 108 model × fingerprint score rows and the pregame-snapshot Vegas reference. The 271-game F0–F17-market consensus measured 13.237 MAE, 76.75% winner accuracy, 0.16577 Brier, 48.83% ATS accuracy, and 22.0% upset recall.
+- Regenerated four 108-cell surface PNG/GIF pairs, kept PCA limited to 102 F0–F16 pairs, and rebuilt the 108-ballot Week 6 research ranking from the leak-checked forecast sources.

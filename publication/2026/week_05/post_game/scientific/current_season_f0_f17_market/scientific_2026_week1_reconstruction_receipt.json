@@ -1,0 +1,50 @@
+{
+  "f0_f6_original_forecasts_reused": true,
+  "f7_f8_market_features_included": true,
+  "feature_snapshot_timestamp_utc": "2026-09-02T17:13:55.197874+00:00",
+  "forecast_rows": 216,
+  "forecast_sources": {
+    "F0-F6": "archived original Week 1 forecasts created 2026-08-18 before target kickoffs",
+    "F7-F8": "frozen through-2025 checkpoints run on the 2026-09-02 Week 0 fingerprint snapshot"
+  },
+  "games": 4,
+  "inputs": {
+    "fingerprints_path": "data/publication/2026/weekly_operations/week_01/fingerprint_ladder_v3/canonical_fingerprint.parquet",
+    "fingerprints_sha256": "b8f559c85ea3bd0f7c2f7fce734dbaaddcbff676fe9f4f66536f1deaa9edef16",
+    "inventory_path": "data/publication/2026/weekly_operations/week_01/scientific_runtime_inventory.csv",
+    "inventory_sha256": "fe09a5795763188e8db0f64dbbfd108c1995ec05e1e3b64d9c235a727db5afb5",
+    "original_manifest_path": "data/publication/2026/legacy_preseason_layout/scientific_market_free/week_01_predictions/metadata/report_manifest.json",
+    "original_manifest_sha256": "2737a91b66c909ceab4f5dc79cbe4ca7e02c84905c631b794732d14ba54c5da6",
+    "original_predictions_path": "data/publication/2026/legacy_preseason_layout/scientific_market_free/week_01_predictions/tables/all_game_model_predictions.csv",
+    "original_predictions_sha256": "372b9863aca551fb70b2978898d063190ee930967ffdf9a23f4f08483f6cdc1c"
+  },
+  "latest_feature_snapshot_timestamp_utc": "2026-09-02T17:13:55.197874+00:00",
+  "market_quote_timestamp_available": false,
+  "market_snapshot_capture_precedes_every_target_kickoff": true,
+  "models": 54,
+  "output_path": "data/what_if_2026_fingerprints/f0_f8_week1_backfill/run_leak_checked/tables/all_game_model_predictions.parquet",
+  "output_sha256": "eab778e1a13ca54af55f299c54b3a2d504dd278f099b166e0765b747e66f5772",
+  "postgame_refreshed_market_cache_used": false,
+  "prediction_counts_by_fingerprint": {
+    "F0": 24,
+    "F1": 24,
+    "F2": 24,
+    "F3": 24,
+    "F4": 24,
+    "F5": 24,
+    "F6": 24,
+    "F7": 24,
+    "F8": 24
+  },
+  "season": 2026,
+  "status": "success_leak_checked_week1_reconstruction",
+  "target_games_kickoff_utc": {
+    "401856776": "2026-09-04 00:00:00+00:00",
+    "401858204": "2026-09-03 23:00:00+00:00",
+    "401858423": "2026-09-03 22:00:00+00:00",
+    "401858424": "2026-09-04 01:00:00+00:00"
+  },
+  "target_score_columns_used_in_feature_build": false,
+  "target_score_labels_present_in_feature_rows": false,
+  "week": 1
+}

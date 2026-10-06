@@ -33,12 +33,14 @@
   ],
   "model_fingerprint_cells": 108,
   "forecast_games_per_cell": 271,
-  "forecast_games": "Week 0 through Week 5, including four reconstructed Week 1 games",
+  "forecast_games": "2026 schedule Weeks 1\u20135, including four reconstructed Week 1 games",
+  "week1_reconstruction_receipt": "data/what_if_2026_fingerprints/f0_f8_week1_backfill/run_leak_checked/receipt.json",
+  "f17_market_receipt": "data/what_if_2026_fingerprints/f17_market_predictions/receipt.json",
   "ballot_method": "For each model/fingerprint, least-squares team fixed effects fit to that model's 2026 pregame predicted margins through Week 5. Home-site effect is estimated separately; team ratings are centered to mean zero and ranked as margins versus the average FBS team.",
   "outcomes_used_as_fit_targets": false,
   "market_caveats": {
-    "F7_F8": "Four Week 1 forecast rows per cell use line inputs from an October 6 refreshed snapshot; quote times are unavailable. Remaining games use archived weekly lines.",
-    "F17-market": "Target-game line quote timestamps are unavailable for all 271 games; exploratory only.",
+    "F7_F8": "The four reconstructed Week 1 forecasts per cell use the archived September 2 pregame fingerprint snapshot, captured before kickoff. Provider quote timestamps are unavailable.",
+    "F17-market": "Archived market summaries captured before kickoff cover 263 games; eight Aug. 29 openers lack archived pregame market inputs. Provider quote timestamps and quote-level market fields are unavailable; missing target features remain missing for fitted imputation.",
     "F7": "Market-only generation has no direct team-vs-average matchup representation; its ballot is derived from its predicted game margins as a separate research view."
   },
   "published_week6_predictions_modified": false,

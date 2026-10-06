@@ -1,7 +1,11 @@
 # 2026 scientific 3D views
 
-Four mesh surfaces use fingerprint generation and model architecture as the x/y axes, with ATS accuracy, straight-up winner accuracy, margin MAE, or Brier on z. Each static PNG has a companion slow 72-frame GIF. Mesh vertices correspond to measured model × fingerprint cells; the surface joins adjacent cells only for viewing. Vegas is omitted.
+## Full metric surfaces
 
-The full grid contains 90 cutoff-checked cells (F0–F6 and F9–F16), 12 partial-market-timing cells (F7/F8, each with four of 271 Week 1 line inputs from an October 6 refresh), and six F17-market cells whose target-game quote times are unavailable. Orange outlined squares mark F7/F8; crosses mark F17-market. The adjacent point rotations and PCA rankings use only the 90 cutoff-checked cells. Pair and fingerprint CSVs retain the excluded cells with their status.
+Four surfaces show all 108 model × fingerprint cells, with fingerprint generation and scientific architecture on the x/y axes and ATS accuracy, straight-up accuracy, margin MAE, or Brier score on z. Each PNG has a 72-frame rotating GIF. Meshes join adjacent measured cells; they do not add interpolated scores. Vegas is omitted from these 3D views.
 
-The 3D rotations color individual model/fingerprint points by generation. PCA ranks model, fingerprint, and exact pairs using standardized MAE, winner accuracy, and Brier for the 90 cutoff-checked cells. Four GIFs are available for the surfaces and four for the point rotations. See `scientific_2026_3d_surface_manifest.json` and `scientific_2026_pca_ranking_manifest.json` for counts and frame metadata.
+F0–F16 include 102 pregame-input-checked cells, including 12 reconstructed F7/F8 cells. F17-market uses archived target market summaries captured before kickoff for 263 games; eight Aug. 29 openers lack an archived pregame market snapshot. Provider quote timestamps and seven quote-level features were not retained, so those inputs remain missing for fitted imputation. F17-market is shown as a partial-input what-if.
+
+## Point rotations and PCA
+
+The point-based rotations and PCA use the 102 F0–F16 pairs. F17-market remains visible in the companion surfaces and pair table, but is excluded from PCA because its target-market input block is partial. The PCA uses standardized MAE, straight-up accuracy, and Brier, oriented toward lower MAE/Brier and higher accuracy. Vegas is omitted.

@@ -1,0 +1,93 @@
+{
+  "all_available_snapshots_pre_kickoff": true,
+  "feature_nonmissing_counts": {
+    "market_away_moneyline": 0,
+    "market_home_implied_no_vig": 259,
+    "market_home_moneyline": 0,
+    "market_home_spread": 263,
+    "market_open_spread": 259,
+    "market_open_total": 0,
+    "market_quote_count": 0,
+    "market_spread_move": 259,
+    "market_spread_quote_sd": 0,
+    "market_total": 258,
+    "market_total_move": 0,
+    "market_total_quote_sd": 0
+  },
+  "full_cohort_market_snapshot_complete": false,
+  "games_with_pregame_market_snapshot": 263,
+  "games_without_pregame_market_snapshot": 8,
+  "games_without_pregame_market_snapshot_ids": [
+    401856766,
+    401864494,
+    401858202,
+    401864577,
+    401866408,
+    401864570,
+    401858201,
+    401862693
+  ],
+  "market_features": [
+    "market_home_spread",
+    "market_total",
+    "market_open_spread",
+    "market_open_total",
+    "market_spread_move",
+    "market_total_move",
+    "market_home_moneyline",
+    "market_away_moneyline",
+    "market_home_implied_no_vig",
+    "market_spread_quote_sd",
+    "market_total_quote_sd",
+    "market_quote_count"
+  ],
+  "market_quote_timestamps_available": false,
+  "missing_market_data_is_left_missing": true,
+  "quote_level_features_unavailable": [
+    "market_open_total",
+    "market_total_move",
+    "market_home_moneyline",
+    "market_away_moneyline",
+    "market_spread_quote_sd",
+    "market_total_quote_sd",
+    "market_quote_count"
+  ],
+  "snapshot_timestamp_max_utc": "2026-09-29T14:53:21.700972+00:00",
+  "snapshot_timestamp_min_utc": "2026-09-02T17:13:55.197874+00:00",
+  "source_type": "archived_pregame_market_summaries",
+  "sources": {
+    "data/publication/2026/weekly_operations/week_01/fingerprint_ladder_v3/canonical_fingerprint.parquet": {
+      "sha256": "b8f559c85ea3bd0f7c2f7fce734dbaaddcbff676fe9f4f66536f1deaa9edef16",
+      "week": 1
+    },
+    "data/publication/2026/weekly_operations/week_02/fingerprint_ladder_v3/canonical_fingerprint.parquet": {
+      "sha256": "b976729e518f7f374c56c8ff7661d7c7b871c5cf6f7d7c29a8139a35115dec91",
+      "week": 2
+    },
+    "data/publication/2026/weekly_operations/week_03/fingerprint_ladder_v3/canonical_fingerprint.parquet": {
+      "sha256": "400e84198e02831222a7ee2217999139c48a65c30b1162ccf5f8041adf659f8b",
+      "week": 3
+    },
+    "data/publication/2026/weekly_operations/week_04/fingerprint_ladder_v3/canonical_fingerprint.parquet": {
+      "sha256": "8b1179814cb9c90f765141550a8e9efb9b97317c514a521945df7cfc12af5788",
+      "week": 4
+    },
+    "data/publication/2026/weekly_operations/week_05/scientific/full_f0_f8/scientific_all_game_predictions.csv": {
+      "capture_timestamp_utc": "2026-09-29T14:53:21.700972+00:00",
+      "games": 56,
+      "manifest": "data/publication/2026/weekly_operations/week_05/scientific/full_f0_f8/manifest.json",
+      "manifest_sha256": "6bf65db32c8c0bb44ee6b868498cea6e6b9a46d2967fdda973ed6a3ca07a285d",
+      "sha256": "88183a03c3e7ca9bc39dc8e3279ddd0cc16659e2b8ce7d806b6a49ff304f3224"
+    },
+    "publication/2026/week_01/pre_game/scientific/scientific_all_game_predictions.csv": {
+      "capture_timestamp_utc": "2026-09-02T17:55:32.103273+00:00",
+      "games": 4,
+      "manifest": "publication/2026/week_01/pre_game/frozen_bundle/public/prediction_manifest.json",
+      "manifest_sha256": "adf76fda51bd651e6577e3402455009ae5f07c4036a0985d3fe83920a655c8e0",
+      "sha256": "8cf86276f074267f42df07c01ce5971817678cc315643688cc5a7ae7cafbaf9c"
+    }
+  },
+  "target_games": 271,
+  "target_kickoff_max_utc": "2026-10-04T03:59:00+00:00",
+  "target_kickoff_min_utc": "2026-08-29T16:00:00+00:00"
+}

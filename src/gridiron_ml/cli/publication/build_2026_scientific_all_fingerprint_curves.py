@@ -92,9 +92,9 @@ def _full_scorecard(latest: pd.DataFrame, *, season: int, through_week: int) -> 
     values.loc[
         values.fingerprint.isin(["F7", "F8"]) & values.series_type.eq("model"),
         "coverage_status",
-    ] = "scored_2026_partial_unverified_market_inputs"
+    ] = "scored_2026_reconstructed_pregame_inputs"
     values.loc[values.fingerprint.eq("F17-market") & values.series_type.eq("model"),
-               "coverage_status"] = "scored_2026_unverified_quote_time"
+               "coverage_status"] = "scored_2026_pregame_snapshot_partial_market"
     present = {
         (str(row.fingerprint), FAMILY_TO_MODEL_ID.get(str(row.model_family), ""))
         for row in values.loc[values["series_type"].eq("model")].itertuples()
@@ -311,7 +311,7 @@ def _plot(
         0.5,
         0.905,
         f"Games completed through Week {through_week}  ·  "
-        "90 cutoff-checked · 12 partial-market-timing · 6 quote-time-unverified model × fingerprint cells",
+        "102 F0–F16 pregame-input-checked · 12 reconstructed F7/F8 · 6 F17-market partial-snapshot cells",
         ha="center",
         fontsize=12,
         color=TDNET_COLORS["figure_axis"],
@@ -357,12 +357,12 @@ def _plot(
         0.5,
         0.018,
         (
-            f"{reconstructed_games} Week 1 games reconstructed on Oct 6 from Week 0 inputs; "
-            "Vegas closing lines were refreshed on Oct 6. "
+            f"{reconstructed_games} missing Week 1 games reconstructed without target outcomes; "
+            "F0–F6 reuse archived pregame forecasts and F7/F8 use the Sep 2 pregame fingerprint snapshot. "
             if reconstructed_games
             else "Curves use the archived 2026 pregame predictions. "
         )
-        + "F0–F6 and F9–F16 use cutoff-checked non-market features. F7/F8 each include four Week 1 forecasts using line values from an Oct 6 refresh with unavailable quote times; F17-market quote times are unavailable throughout. No 2024–25 outcomes are substituted.",
+        + "F0–F16 use pregame inputs; the 12 F7/F8 Week 1 rows are reconstructed from the Sep 2 snapshot captured before kickoff. F17-market uses archived snapshots captured before kickoff where available; eight Aug 29 openers have no archived pregame market snapshot, and unsupported quote-level fields remain missing. No refreshed line cache or 2024–25 outcomes are substituted.",
         ha="center",
         fontsize=9.5,
         color=TDNET_COLORS["figure_axis"],
@@ -408,9 +408,10 @@ def build(
     coverage = {
         "season": season,
         "through_week": through_week,
-        "scored_model_fingerprint_cells": int(model_cells["coverage_status"].eq("scored_2026").sum()),
+        "scored_model_fingerprint_cells": int(model_cells.coverage_status.str.startswith("scored_2026").sum()),
         "expected_model_fingerprint_cells": len(STAGES) * len(ARCHITECTURES),
-        "scored_fingerprints": sorted(model_cells.loc[model_cells["coverage_status"].eq("scored_2026"), "fingerprint"].unique().tolist(), key=_stage_number),
+        "pregame_snapshot_partial_market_cells": int(model_cells.coverage_status.eq("scored_2026_pregame_snapshot_partial_market").sum()),
+        "scored_fingerprints": sorted(model_cells.loc[model_cells.coverage_status.str.startswith("scored_2026"), "fingerprint"].unique().tolist(), key=_stage_number),
         "not_scored_fingerprints": sorted(model_cells.loc[model_cells["coverage_status"].eq("no_2026_predictions"), "fingerprint"].unique().tolist(), key=_stage_number),
         "source_trajectory": str(source),
         "figure": figure_path.name,
@@ -425,9 +426,9 @@ def build(
         "# 2026 scientific fingerprint performance\n\n"
         f"This season-to-date view scores immutable 2026 predictions through Week {through_week}. "
         "It is not the retrospective 2024–25 development evaluation.\n\n"
-        f"The source contains {int(model_cells['coverage_status'].eq('scored_2026').sum())} scored model × fingerprint cells across "
+        f"The source contains {int(model_cells['coverage_status'].str.startswith('scored_2026').sum())} scored model × fingerprint cells across "
         f"{len(coverage['scored_fingerprints'])} generations out of 108 possible cells (F0–F17-market × six architectures). "
-        "F17-market is left blank because the archived feature quotes lack verifiable pregame timestamps; no retrospective values are substituted.\n\n"
+        "F17-market uses archived target market summaries captured before kickoff when available. Eight Aug. 29 openers lack a pregame market snapshot, and unsupported quote-level fields remain missing for fitted imputation; no refreshed postgame line cache is substituted. Provider quote timestamps were not retained.\n\n"
         f"The figure shows cumulative Brier score, straight-up accuracy, and ATS accuracy by completed week. Line color maps fingerprint generation from red (earlier) to blue (later); line style maps architecture. Thick pink is the equal-weight F0–F{max((_stage_number(s) for s in coverage['scored_fingerprints']), default=0)} scientific consensus, and brass is the Vegas closing-line baseline.\n\n"
         "`scientific_2026_current_season_scorecard.csv` has one row per model/fingerprint pair plus consensus and Vegas. `scientific_2026_cumulative_trajectory.csv` has the week-by-week cumulative series used to draw the curves. Margin MAE, upset recall, and underlying counts are included in the scorecard.\n"
     )

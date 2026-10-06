@@ -4,9 +4,12 @@
   "completed_fbs_fbs_games": 271,
   "frozen_published_game_predictions": 267,
   "week_1_games_reconstructed": 4,
-  "scored_model_fingerprint_cells": 90,
-  "partial_market_timing_model_fingerprint_cells": 12,
-  "unverified_quote_time_model_fingerprint_cells": 6,
+  "scored_model_fingerprint_cells": 108,
+  "reconstructed_pregame_model_fingerprint_cells": 12,
+  "partial_pregame_market_model_fingerprint_cells": 6,
+  "unverified_quote_time_model_fingerprint_cells": 0,
+  "pregame_market_games_with_snapshot": 263,
+  "pregame_market_games_without_snapshot": 8,
   "expected_model_fingerprint_cells": 108,
   "scored_fingerprints": [
     "F0",
@@ -25,7 +28,8 @@
     "F13",
     "F14",
     "F15",
-    "F16"
+    "F16",
+    "F17-market"
   ],
   "cutoff_checked_fingerprints": [
     "F0",
@@ -35,6 +39,8 @@
     "F4",
     "F5",
     "F6",
+    "F7",
+    "F8",
     "F9",
     "F10",
     "F11",
@@ -42,19 +48,26 @@
     "F13",
     "F14",
     "F15",
-    "F16"
+    "F16",
+    "F17-market"
   ],
-  "partial_market_timing_fingerprints": [
+  "reconstructed_pregame_fingerprints": [
     "F7",
     "F8"
   ],
-  "exploratory_unverified_fingerprints": [
+  "partial_pregame_market_fingerprints": [
     "F17-market"
   ],
+  "exploratory_unverified_fingerprints": [],
   "not_scored_fingerprints": [],
   "backfill_feature_cutoff": "Week 0 rows for Week 1 targets; no 2026 game outcomes in forecast features",
-  "market_line_provenance": "F7/F8 Week 1 backfill used CFBD 2026 line cache refreshed 2026-10-06; timestamp per quote unavailable; other F7/F8 weeks have archived pregame values; F17 target quote times are unavailable",
-  "new_predictions": "data/what_if_2026_fingerprints/f0_f8_week1_backfill/run_all54/tables/all_game_model_predictions.parquet",
+  "market_line_provenance": "Where archived, target market summaries were captured before kickoff and are used consistently for model features, ATS scoring, and Vegas probability reference. Eight Aug. 29 openers have no archived pregame market snapshot and remain missing; provider quote timestamps and raw provider-level detail were not retained. Unavailable quote-level F17 features remain missing for fitted imputation. No refreshed postgame line cache is used.",
+  "new_predictions": "data/what_if_2026_fingerprints/f0_f8_week1_backfill/run_leak_checked/tables/all_game_model_predictions.parquet",
+  "week1_backfill_receipt": "data/what_if_2026_fingerprints/f0_f8_week1_backfill/run_leak_checked/receipt.json",
+  "week1_reconstruction_predictions": "scientific_2026_week1_missing_forecasts.csv",
+  "week1_reconstruction_receipt": "scientific_2026_week1_reconstruction_receipt.json",
+  "pregame_market_snapshots": "scientific_2026_pregame_market_snapshots.csv",
+  "pregame_market_snapshot_receipt_file": "scientific_2026_pregame_market_snapshot_receipt.json",
   "F9_predictions": "data/what_if_2026_fingerprints/f09_predictions/predictions.parquet",
   "F10_predictions": "data/what_if_2026_fingerprints/f10_predictions/predictions.parquet",
   "F11_predictions": "data/what_if_2026_fingerprints/f11_predictions/predictions.parquet",
@@ -70,8 +83,101 @@
   "F11_training": "2013-2025, prior-staff history uses the previous-season assignment only; residual calibration from held-out 2024-2025 predictions through 2023",
   "F12_training": "2013-2025, corrected F09 + F10 + F11 + F12 A; player sources require a 48-hour reporting lag",
   "F13_F16_training": "2013-2025, same scientific architectures and historical 2024-2025 calibration; current play/actor states use a 48-hour reporting lag; market inputs excluded",
-  "F17_market_training": "2013-2025 with historical 2024-2025 calibration; current game lines feed market features but quote timestamps are unavailable, so this is exploratory only",
-  "F17_market_status": "exploratory market-assisted what-if; target game lines are inputs, but quote timestamps cannot verify they precede kickoff",
+  "F17_market_training": "2013-2025 with historical 2024-2025 calibration; 2026 target market summaries come from archived snapshots captured before kickoff; unavailable raw quote fields remain missing",
+  "F17_market_status": "market-assisted what-if; 263 target market snapshots are captured pregame, eight opening-slate games lack archived pregame markets, and provider quote times and quote-level summaries are not archived",
+  "pregame_market_snapshot_coverage": {
+    "source_type": "archived_pregame_market_summaries",
+    "target_games": 271,
+    "all_available_snapshots_pre_kickoff": true,
+    "full_cohort_market_snapshot_complete": false,
+    "games_with_pregame_market_snapshot": 263,
+    "games_without_pregame_market_snapshot": 8,
+    "games_without_pregame_market_snapshot_ids": [
+      401856766,
+      401864494,
+      401858202,
+      401864577,
+      401866408,
+      401864570,
+      401858201,
+      401862693
+    ],
+    "market_quote_timestamps_available": false,
+    "market_features": [
+      "market_home_spread",
+      "market_total",
+      "market_open_spread",
+      "market_open_total",
+      "market_spread_move",
+      "market_total_move",
+      "market_home_moneyline",
+      "market_away_moneyline",
+      "market_home_implied_no_vig",
+      "market_spread_quote_sd",
+      "market_total_quote_sd",
+      "market_quote_count"
+    ],
+    "feature_nonmissing_counts": {
+      "market_home_spread": 263,
+      "market_total": 258,
+      "market_open_spread": 259,
+      "market_open_total": 0,
+      "market_spread_move": 259,
+      "market_total_move": 0,
+      "market_home_moneyline": 0,
+      "market_away_moneyline": 0,
+      "market_home_implied_no_vig": 259,
+      "market_spread_quote_sd": 0,
+      "market_total_quote_sd": 0,
+      "market_quote_count": 0
+    },
+    "quote_level_features_unavailable": [
+      "market_open_total",
+      "market_total_move",
+      "market_home_moneyline",
+      "market_away_moneyline",
+      "market_spread_quote_sd",
+      "market_total_quote_sd",
+      "market_quote_count"
+    ],
+    "missing_market_data_is_left_missing": true,
+    "sources": {
+      "data/publication/2026/weekly_operations/week_01/fingerprint_ladder_v3/canonical_fingerprint.parquet": {
+        "sha256": "b8f559c85ea3bd0f7c2f7fce734dbaaddcbff676fe9f4f66536f1deaa9edef16",
+        "week": 1
+      },
+      "data/publication/2026/weekly_operations/week_02/fingerprint_ladder_v3/canonical_fingerprint.parquet": {
+        "sha256": "b976729e518f7f374c56c8ff7661d7c7b871c5cf6f7d7c29a8139a35115dec91",
+        "week": 2
+      },
+      "data/publication/2026/weekly_operations/week_03/fingerprint_ladder_v3/canonical_fingerprint.parquet": {
+        "sha256": "400e84198e02831222a7ee2217999139c48a65c30b1162ccf5f8041adf659f8b",
+        "week": 3
+      },
+      "data/publication/2026/weekly_operations/week_04/fingerprint_ladder_v3/canonical_fingerprint.parquet": {
+        "sha256": "8b1179814cb9c90f765141550a8e9efb9b97317c514a521945df7cfc12af5788",
+        "week": 4
+      },
+      "publication/2026/week_01/pre_game/scientific/scientific_all_game_predictions.csv": {
+        "sha256": "8cf86276f074267f42df07c01ce5971817678cc315643688cc5a7ae7cafbaf9c",
+        "manifest": "publication/2026/week_01/pre_game/frozen_bundle/public/prediction_manifest.json",
+        "manifest_sha256": "adf76fda51bd651e6577e3402455009ae5f07c4036a0985d3fe83920a655c8e0",
+        "capture_timestamp_utc": "2026-09-02T17:55:32.103273+00:00",
+        "games": 4
+      },
+      "data/publication/2026/weekly_operations/week_05/scientific/full_f0_f8/scientific_all_game_predictions.csv": {
+        "sha256": "88183a03c3e7ca9bc39dc8e3279ddd0cc16659e2b8ce7d806b6a49ff304f3224",
+        "manifest": "data/publication/2026/weekly_operations/week_05/scientific/full_f0_f8/manifest.json",
+        "manifest_sha256": "6bf65db32c8c0bb44ee6b868498cea6e6b9a46d2967fdda973ed6a3ca07a285d",
+        "capture_timestamp_utc": "2026-09-29T14:53:21.700972+00:00",
+        "games": 56
+      }
+    },
+    "snapshot_timestamp_min_utc": "2026-09-02T17:13:55.197874+00:00",
+    "snapshot_timestamp_max_utc": "2026-09-29T14:53:21.700972+00:00",
+    "target_kickoff_min_utc": "2026-08-29T16:00:00+00:00",
+    "target_kickoff_max_utc": "2026-10-04T03:59:00+00:00"
+  },
   "combined_scored_rows": "data/what_if_2026_fingerprints/2026_f0_f17_market_scored_model_games.parquet",
   "trajectory": "scientific_2026_cumulative_trajectory.csv",
   "scorecard": "scientific_2026_current_season_scorecard.csv",
