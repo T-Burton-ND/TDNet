@@ -4,7 +4,8 @@
   "completed_fbs_fbs_games": 271,
   "frozen_published_game_predictions": 267,
   "week_1_games_reconstructed": 4,
-  "scored_model_fingerprint_cells": 102,
+  "scored_model_fingerprint_cells": 90,
+  "partial_market_timing_model_fingerprint_cells": 12,
   "unverified_quote_time_model_fingerprint_cells": 6,
   "expected_model_fingerprint_cells": 108,
   "scored_fingerprints": [
@@ -26,12 +27,33 @@
     "F15",
     "F16"
   ],
+  "cutoff_checked_fingerprints": [
+    "F0",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F9",
+    "F10",
+    "F11",
+    "F12",
+    "F13",
+    "F14",
+    "F15",
+    "F16"
+  ],
+  "partial_market_timing_fingerprints": [
+    "F7",
+    "F8"
+  ],
   "exploratory_unverified_fingerprints": [
     "F17-market"
   ],
   "not_scored_fingerprints": [],
   "backfill_feature_cutoff": "Week 0 rows for Week 1 targets; no 2026 game outcomes in forecast features",
-  "market_line_provenance": "CFBD 2026 line cache refreshed 2026-10-06; timestamp per quote unavailable",
+  "market_line_provenance": "F7/F8 Week 1 backfill used CFBD 2026 line cache refreshed 2026-10-06; timestamp per quote unavailable; other F7/F8 weeks have archived pregame values; F17 target quote times are unavailable",
   "new_predictions": "data/what_if_2026_fingerprints/f0_f8_week1_backfill/run_all54/tables/all_game_model_predictions.parquet",
   "F9_predictions": "data/what_if_2026_fingerprints/f09_predictions/predictions.parquet",
   "F10_predictions": "data/what_if_2026_fingerprints/f10_predictions/predictions.parquet",

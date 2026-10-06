@@ -89,6 +89,10 @@ def _full_scorecard(latest: pd.DataFrame, *, season: int, through_week: int) -> 
     values = latest.loc[latest["series_type"].isin(["model", "consensus", "vegas"])].copy()
     values["season"] = season
     values["coverage_status"] = "scored_2026"
+    values.loc[
+        values.fingerprint.isin(["F7", "F8"]) & values.series_type.eq("model"),
+        "coverage_status",
+    ] = "scored_2026_partial_unverified_market_inputs"
     values.loc[values.fingerprint.eq("F17-market") & values.series_type.eq("model"),
                "coverage_status"] = "scored_2026_unverified_quote_time"
     present = {
@@ -307,8 +311,7 @@ def _plot(
         0.5,
         0.905,
         f"Games completed through Week {through_week}  ·  "
-        f"{models.loc[models.through_week.eq(through_week), ['parsed_stage', 'model_id']].drop_duplicates().shape[0]} "
-        "model × fingerprint rows shown; F17-market quote timing is unverified",
+        "90 cutoff-checked · 12 partial-market-timing · 6 quote-time-unverified model × fingerprint cells",
         ha="center",
         fontsize=12,
         color=TDNET_COLORS["figure_axis"],
@@ -359,8 +362,7 @@ def _plot(
             if reconstructed_games
             else "Curves use the archived 2026 pregame predictions. "
         )
-        + f"F0–F{max_scored_generation} targets use cutoff-checked non-market features; "
-          "F17-market uses target-game market lines with unverified quote timestamps and is exploratory only. No 2024–25 outcomes are substituted.",
+        + "F0–F6 and F9–F16 use cutoff-checked non-market features. F7/F8 each include four Week 1 forecasts using line values from an Oct 6 refresh with unavailable quote times; F17-market quote times are unavailable throughout. No 2024–25 outcomes are substituted.",
         ha="center",
         fontsize=9.5,
         color=TDNET_COLORS["figure_axis"],

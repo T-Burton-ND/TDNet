@@ -113,10 +113,15 @@ def _pca_ranking(scorecard: pd.DataFrame, output: Path) -> dict:
     fingerprint_rank = all_fingerprints.merge(fingerprint_rank, on=["fingerprint", "generation"], how="left", validate="one_to_one")
     fingerprint_rank["coverage_status"] = np.where(
         fingerprint_rank.fingerprint.eq("F17-market"), "scored_2026_unverified_quote_time",
-        np.where(fingerprint_rank.scored_models.notna(), "scored_2026", "no_2026_predictions"),
+        np.where(fingerprint_rank.fingerprint.isin(["F7", "F8"]),
+                 "scored_2026_partial_unverified_market_inputs",
+                 np.where(fingerprint_rank.scored_models.notna(), "scored_2026", "no_2026_predictions")),
     )
     fingerprint_rank["unverified_quote_time_models"] = np.where(
         fingerprint_rank.fingerprint.eq("F17-market"), len(MODELS), 0
+    )
+    fingerprint_rank["partial_market_timing_models"] = np.where(
+        fingerprint_rank.fingerprint.isin(["F7", "F8"]), len(MODELS), 0
     )
     fingerprint_rank["scored_models"] = fingerprint_rank.scored_models.fillna(0).astype(int)
     fingerprint_rank["rank"] = fingerprint_rank["rank"].astype("Int64")
@@ -127,7 +132,7 @@ def _pca_ranking(scorecard: pd.DataFrame, output: Path) -> dict:
         "explained_variance_ratio_pc1": float(eigenvalues[0] / eigenvalues.sum()),
         "pc1_loadings": dict(zip(metrics, pc1.tolist())),
         "training_scope": "2026 season-to-date only; available F0–F16 forecasts only",
-        "quote_time_unverified_fingerprints_excluded_from_pca": ["F17-market"],
+        "market_timing_caveat_fingerprints_excluded_from_pca": ["F7", "F8", "F17-market"],
     }
 
 
@@ -177,7 +182,7 @@ def _gif(frame: pd.DataFrame, *, metric: str, title: str, axis_label: str,
                  fontweight="bold", color=colors["midnight_gridiron"])
     scored_cells = int(frame[["fingerprint", "model_id"]].drop_duplicates().shape[0])
     fig.text(.5, .915,
-             f"{scored_cells} cutoff-verified pairs · F17-market omitted (quote time unverified) · no Vegas series",
+             f"{scored_cells} cutoff-checked pairs · F7/F8 partial-market and F17-market excluded · no Vegas series",
              ha="center", fontsize=10, color=colors["slate"])
     scalar = plt.cm.ScalarMappable(norm=norm, cmap=generation_cmap)
     scalar.set_array([])
@@ -192,7 +197,7 @@ def _gif(frame: pd.DataFrame, *, metric: str, title: str, axis_label: str,
                ncol=3, frameon=False, fontsize=9)
     direction = "Higher is better" if better_high else "Lower is better"
     fig.text(.5, .025,
-             f"{direction}. Point rotations and PCA use only cutoff-verified F0–F16 cells; F17-market is shown in companion surfaces.",
+             f"{direction}. Rotations and PCA use F0–F6 and F9–F16; market-timing caveats appear in companion surfaces.",
              ha="center", fontsize=9, color=colors["slate"])
     animation = FuncAnimation(
         fig, lambda k: ax.view_init(elev=24, azim=-58 + 360 * k / 72),
@@ -211,8 +216,8 @@ def main() -> None:
     frame["generation"] = frame.fingerprint.map(lambda s: 17 if s == "F17-market" else int(str(s)[1:]))
     frame["model_y"] = frame.model_id.map({model: idx for idx, model in enumerate(MODELS)})
     frame = frame.loc[frame.coverage_status.eq("scored_2026")].copy()
-    if len(frame) != 102 or frame[["fingerprint", "model_id"]].duplicated().any():
-        raise ValueError("Expected 102 distinct 2026 F0–F16 model/fingerprint score rows.")
+    if len(frame) != 90 or frame[["fingerprint", "model_id"]].duplicated().any():
+        raise ValueError("Expected 90 distinct cutoff-checked 2026 score rows (F0–F6, F9–F16).")
     colors = _palette()
     for metric, title, axis_label, high in METRICS:
         _gif(
@@ -225,8 +230,8 @@ def main() -> None:
     (FIGURES / "scientific_2026_pca_ranking_manifest.json").write_text(json.dumps(pca, indent=2) + "\n")
     (FIGURES / "README.md").write_text(
         "# 2026 scientific 3D views\n\n"
-        "The point-based rotation charts place fingerprint generation, architecture, and one performance metric on the axes. Color encodes generation from red (early) to blue (late). They show the 102 cutoff-verified pairs; the six F17-market what-if cells appear only in the companion surface plots because their quote times cannot be verified. Vegas is omitted.\n\n"
-        "PCA rankings use standardized margin MAE, straight-up accuracy, and Brier across the 102 cutoff-verified pairs, oriented so higher scores favor lower MAE/Brier and higher accuracy. F17-market values are included in the pair table with quote-time status but have no PCA score. Model and fingerprint rankings are medians of the verified pair score and should not be compared directly with the all-generation retrospective PCA.\n"
+        "The point-based rotations use 90 cutoff-checked pairs (F0–F6 and F9–F16). F7/F8 each include four of 271 Week 1 line inputs from an October 6 refresh; F17-market quote times are unknown. Those 18 caveat cells remain in the pair table and companion surfaces, but are excluded from rotations and PCA. Vegas is omitted.\n\n"
+        "PCA rankings use standardized margin MAE, straight-up accuracy, and Brier across the 90 cutoff-checked pairs, oriented so higher scores favor lower MAE/Brier and higher accuracy. Market-timing caveat rows remain in the pair table without PCA scores. Model and fingerprint rankings are medians of the verified pair score.\n"
     )
     print(json.dumps({"gifs": pca["rotation_gifs"], "pca_pairs": pca["scored_pairs"],
                       "pc1_explained_variance_ratio": pca["explained_variance_ratio_pc1"]}, indent=2))

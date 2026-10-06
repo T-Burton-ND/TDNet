@@ -37,4 +37,4 @@ All-model consensus is equal-weight across valid eligible margin members for a w
 
 ## See also
 
-[TDNet Overview](TDNet-Overview) · [Fingerprint Ladder](Fingerprint-Ladder) · [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) · [Weekly Publication Workflow](Weekly-Publication-Workflow) · [Package Architecture](Package-Architecture) · [README Source](Source-README) · [TDNet Master Plan Source](Source-TDNet-Master-Plan) · [Fingerprint and Model Decision History](Fingerprint-and-Model-Decision-History) · [Wide Margin Decisions Source](Source-Wide-Margin-Decisions)
+[TDNet Overview](TDNet-Overview) · [Fingerprint Ladder](Fingerprint-Ladder) · [Confirmatory Protocol 2026](Confirmatory-Protocol-2026) · [Weekly Publication Workflow](Weekly-Publication-Workflow) · [2026 Week 5 Postgame and Week 6 Pregame](Weekly-Publication-2026-W05-W06) · [Package Architecture](Package-Architecture) · [README Source](Source-README) · [TDNet Master Plan Source](Source-TDNet-Master-Plan) · [Fingerprint and Model Decision History](Fingerprint-and-Model-Decision-History) · [Wide Margin Decisions Source](Source-Wide-Margin-Decisions)

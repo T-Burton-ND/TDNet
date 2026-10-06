@@ -1,14 +1,16 @@
 {
   "method": "PC1 on standardized MAE, straight-up accuracy, and Brier; oriented toward lower MAE/Brier and higher accuracy",
-  "scored_pairs": 102,
-  "explained_variance_ratio_pc1": 0.9424171734832681,
+  "scored_pairs": 90,
+  "explained_variance_ratio_pc1": 0.9378511920702615,
   "pc1_loadings": {
-    "margin_mae": -0.5723425032227282,
-    "su_accuracy": 0.5751738290860892,
-    "brier_score": -0.5844648195906993
+    "margin_mae": -0.570083362804616,
+    "su_accuracy": 0.5733744501465436,
+    "brier_score": -0.5884273101858287
   },
   "training_scope": "2026 season-to-date only; available F0\u2013F16 forecasts only",
-  "quote_time_unverified_fingerprints_excluded_from_pca": [
+  "market_timing_caveat_fingerprints_excluded_from_pca": [
+    "F7",
+    "F8",
     "F17-market"
   ],
   "rotation_gifs": [

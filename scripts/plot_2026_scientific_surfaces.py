@@ -42,7 +42,8 @@ def score_grid(scorecard: pd.DataFrame, metric: str) -> tuple[np.ndarray, pd.Dat
     frame = scorecard.loc[scorecard.series_type.eq("model")].copy()
     frame["model_id"] = frame.model_family.map(FAMILY_TO_MODEL)
     frame = frame.loc[frame.coverage_status.isin(
-        ["scored_2026", "scored_2026_unverified_quote_time"]
+        ["scored_2026", "scored_2026_partial_unverified_market_inputs",
+         "scored_2026_unverified_quote_time"]
     )].copy()
     expected = pd.MultiIndex.from_product([STAGES, MODELS], names=["fingerprint", "model_id"])
     actual = frame.set_index(["fingerprint", "model_id"])
@@ -94,6 +95,12 @@ def render_surface(metric: str, title: str, zlabel: str, higher_is_better: bool,
     ax.scatter(X, Y, Z, c=Z, cmap=cmap, norm=norm, s=13,
                edgecolors=colors["midnight_gridiron"], linewidths=0.32,
                depthshade=False, zorder=5)
+    # F7/F8 include four Week 1 lines from a postgame refreshed snapshot.
+    partial = np.array([7, 8])
+    ax.scatter(np.repeat(partial, len(MODELS)), np.tile(y, len(partial)),
+               Z[:, partial].T.reshape(-1), marker="s", s=44,
+               facecolors="none", edgecolors=colors["signal_orange"],
+               linewidths=1.7, depthshade=False, zorder=8)
     # The final column is exploratory because its target-game quote times are unknown.
     ax.scatter(np.full(len(MODELS), 17.0), y, Z[:, 17], marker="x", s=76,
                color=colors["midnight_gridiron"], linewidths=1.8,
@@ -117,7 +124,7 @@ def render_surface(metric: str, title: str, zlabel: str, higher_is_better: bool,
     fig.suptitle(f"2026 scientific roster · {title}", y=.96, fontsize=18,
                  fontweight="bold", color=colors["midnight_gridiron"])
     fig.text(.5, .915,
-             "108 model × fingerprint cells · F17-market shown as quote-time-unverified what-if",
+             "90 cutoff-checked · 12 partial-market-timing · 6 quote-time-unverified cells",
              ha="center", fontsize=10.5, color=colors["slate"])
     scalar = plt.cm.ScalarMappable(norm=norm, cmap=cmap)
     scalar.set_array([])
@@ -125,9 +132,12 @@ def render_surface(metric: str, title: str, zlabel: str, higher_is_better: bool,
     cbar.set_label(zlabel, color=colors["midnight_gridiron"])
     uncertainty = Line2D([0], [0], color=colors["midnight_gridiron"], marker="x",
                          linestyle="--", label="F17-market · quote time unverified")
-    fig.legend(handles=[uncertainty], loc="lower center", bbox_to_anchor=(.5, .07),
+    partial_marker = Line2D([0], [0], color=colors["signal_orange"], marker="s",
+                            markerfacecolor="none", linestyle="",
+                            label="F7/F8 · 4/271 Week 1 lines from Oct 6 refresh")
+    fig.legend(handles=[partial_marker, uncertainty], loc="lower center", bbox_to_anchor=(.5, .07),
                frameon=False, fontsize=10)
-    fig.text(.5, .025, f"{direction} · F0–F16 use cutoff-checked non-market states; F17-market is exploratory.",
+    fig.text(.5, .025, f"{direction} · F0–F6/F9–F16 cutoff-checked; F7/F8 and F17-market have market-time caveats.",
              ha="center", fontsize=9, color=colors["slate"])
 
     output_png.parent.mkdir(parents=True, exist_ok=True)
@@ -140,7 +150,8 @@ def render_surface(metric: str, title: str, zlabel: str, higher_is_better: bool,
                    savefig_kwargs={"facecolor": fig.get_facecolor()})
     plt.close(fig)
     return {"metric": metric, "png": output_png.name, "gif": output_gif.name,
-            "cells": int(Z.size), "verified_cells": 102, "unverified_quote_time_cells": 6,
+            "cells": int(Z.size), "cutoff_checked_cells": 90,
+            "partial_market_timing_cells": 12, "unverified_quote_time_cells": 6,
             "z_min": zmin, "z_max": zmax, "rotation_frames": 72, "rotation_fps": 6}
 
 
@@ -159,7 +170,8 @@ def main() -> None:
         "scope": "2026 current-season what-if through Week 5",
         "target_games": 271,
         "grid": {"fingerprints": STAGES, "models": MODELS},
-        "cutoff_verified_cells": 102,
+        "cutoff_verified_cells": 90,
+        "partial_market_timing_cells": 12,
         "exploratory_quote_time_unverified_cells": 6,
         "f17_market_quote_timestamp_available": False,
         "surface_points": "one measured scorecard value per model × fingerprint cell; no interpolation beyond adjacent grid cells",
@@ -170,7 +182,7 @@ def main() -> None:
     (FIGURES / "README.md").write_text(
         "# 2026 scientific 3D views\n\n"
         "Four true mesh surfaces use fingerprint generation and model architecture as the x/y axes, with ATS accuracy, straight-up accuracy, margin MAE, or Brier on z. Each static PNG has a companion slow 72-frame GIF. Mesh vertices correspond to measured model × fingerprint cells; the surface only joins adjacent cells for viewing.\n\n"
-        "The grid includes 102 cutoff-checked F0–F16 cells and six F17-market exploratory cells (the axis label F17M). F17 uses target-game line inputs whose quote timestamps cannot be verified; its vertices are marked with crosses and are kept out of the cutoff-verified PCA rankings. Vegas is omitted from the surfaces.\n"
+        "The grid includes 90 cutoff-checked cells (F0–F6 and F9–F16), 12 partially unverified cells (F7/F8 each include four of 271 Week 1 line inputs from an October 6 refresh), and six F17-market exploratory cells. Orange outlined squares mark F7/F8; crosses mark F17-market, whose target-game quote times are unavailable. Vegas is omitted from the surfaces.\n"
     )
     print(json.dumps({"surfaces": outputs, "manifest": str(FIGURES / "scientific_2026_3d_surface_manifest.json")}, indent=2))
 

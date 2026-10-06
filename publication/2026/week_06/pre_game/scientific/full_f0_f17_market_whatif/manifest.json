@@ -1,0 +1,52 @@
+{
+  "scope": "Independent 2026 Week 6 research ballot; not an official published prediction",
+  "season": 2026,
+  "reader_week": 6,
+  "team_count": 138,
+  "fingerprints": [
+    "F0",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7",
+    "F8",
+    "F9",
+    "F10",
+    "F11",
+    "F12",
+    "F13",
+    "F14",
+    "F15",
+    "F16",
+    "F17-market"
+  ],
+  "models_per_fingerprint": [
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M5",
+    "M10"
+  ],
+  "model_fingerprint_cells": 108,
+  "forecast_games_per_cell": 271,
+  "forecast_games": "Week 0 through Week 5, including four reconstructed Week 1 games",
+  "ballot_method": "For each model/fingerprint, least-squares team fixed effects fit to that model's 2026 pregame predicted margins through Week 5. Home-site effect is estimated separately; team ratings are centered to mean zero and ranked as margins versus the average FBS team.",
+  "outcomes_used_as_fit_targets": false,
+  "market_caveats": {
+    "F7_F8": "Four Week 1 forecast rows per cell use line inputs from an October 6 refreshed snapshot; quote times are unavailable. Remaining games use archived weekly lines.",
+    "F17-market": "Target-game line quote timestamps are unavailable for all 271 games; exploratory only.",
+    "F7": "Market-only generation has no direct team-vs-average matchup representation; its ballot is derived from its predicted game margins as a separate research view."
+  },
+  "published_week6_predictions_modified": false,
+  "files": [
+    "scientific_full_ballots.csv",
+    "scientific_consensus_power_rankings.csv",
+    "scientific_top25_ballot.csv",
+    "scientific_top25_ballots.png",
+    "scientific_top25.png"
+  ]
+}

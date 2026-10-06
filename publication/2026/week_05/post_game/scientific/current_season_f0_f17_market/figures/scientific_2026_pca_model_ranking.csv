@@ -1,7 +1,7 @@
 rank,model_id,median_pc1_favorable_sd,scored_fingerprints,model_name
-1,M1,1.059668,17,M1 · Linear
-2,M4,0.807210,17,M4 · Boosted
-3,M2,0.676293,17,M2 · Spline
-4,M3,0.519394,17,M3 · Tree
-5,M10,-0.390158,17,M10 · KNN
-6,M5,-0.762090,17,M5 · Neural
+1,M1,1.235320,15,M1 · Linear
+2,M4,0.860755,15,M4 · Boosted
+3,M2,0.797535,15,M2 · Spline
+4,M3,0.705843,15,M3 · Tree
+5,M10,-0.647303,15,M10 · KNN
+6,M5,-0.706644,15,M5 · Neural

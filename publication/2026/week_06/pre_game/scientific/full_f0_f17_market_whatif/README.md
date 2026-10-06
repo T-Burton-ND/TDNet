@@ -1,0 +1,7 @@
+# 2026 Week 6 scientific full-roster what-if ballot
+
+This is an independent research ballot, separate from published and frozen Week 6 predictions. It covers all 18 fingerprint generations (F0–F17-market), all six scientific architectures (M1, M2, M3, M4, M5, M10), and 138 FBS teams. `scientific_top25_ballot.csv` is the consensus Top 25; `scientific_full_ballots.csv` contains all 108 model ballots.
+
+Each model's 2026 pregame margin forecasts for the 271 games through Week 5 are fit to team fixed effects plus a home-site effect. The centered team effects are the model's estimated margin versus an average FBS team. Actual game outcomes are not fit targets. This creates comparable full-team ballots even where an architecture has no direct team-vs-average feature transform.
+
+Market timing caveats: F7/F8 each include four Week 1 forecasts using line inputs from an October 6 refreshed snapshot with unavailable quote times. F17-market uses market inputs with unavailable quote times for all target games. F7 is market-only, so its ballot is derived from game forecasts rather than a direct team-vs-average evaluation. Treat the equal-weight consensus as a research view, not a clean poll replacement.

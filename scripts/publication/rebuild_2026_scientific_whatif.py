@@ -294,12 +294,16 @@ def main() -> None:
     coverage = {
         "season": 2026, "through_week": 5, "completed_fbs_fbs_games": 271,
         "frozen_published_game_predictions": 267, "week_1_games_reconstructed": 4,
-        "scored_model_fingerprint_cells": 102, "unverified_quote_time_model_fingerprint_cells": 6,
+        "scored_model_fingerprint_cells": 90,
+        "partial_market_timing_model_fingerprint_cells": 12,
+        "unverified_quote_time_model_fingerprint_cells": 6,
         "expected_model_fingerprint_cells": 108,
         "scored_fingerprints": [f"F{i}" for i in range(17)],
+        "cutoff_checked_fingerprints": [*(f"F{i}" for i in range(7)), *(f"F{i}" for i in range(9, 17))],
+        "partial_market_timing_fingerprints": ["F7", "F8"],
         "exploratory_unverified_fingerprints": ["F17-market"], "not_scored_fingerprints": [],
         "backfill_feature_cutoff": "Week 0 rows for Week 1 targets; no 2026 game outcomes in forecast features",
-        "market_line_provenance": "CFBD 2026 line cache refreshed 2026-10-06; timestamp per quote unavailable",
+        "market_line_provenance": "F7/F8 Week 1 backfill used CFBD 2026 line cache refreshed 2026-10-06; timestamp per quote unavailable; other F7/F8 weeks have archived pregame values; F17 target quote times are unavailable",
         "new_predictions": str(BACKFILL.relative_to(ROOT)),
         "F9_predictions": "data/what_if_2026_fingerprints/f09_predictions/predictions.parquet",
         "F10_predictions": "data/what_if_2026_fingerprints/f10_predictions/predictions.parquet",
@@ -329,8 +333,8 @@ def main() -> None:
         "Season-to-date retrospective what-if for F0–F17-market, through Week 5 (271 completed FBS-vs-FBS games). "
         "The original published results covered 267 games. Four missing Week 1 games are reconstructed using the pre-season/Week 0 feature rows and the frozen through-2025 F0–F8 checkpoints, then scored against final results. "
         "This is isolated from the frozen weekly publication bundles. Current CFBD closing lines were refreshed on Oct 6; quote timestamps are not available, so the four-game Vegas comparison is not a frozen publication baseline.\n\n"
-        "The PNG shows cumulative Brier score, straight-up accuracy, and ATS accuracy. Fingerprint generation maps red to blue; line style maps architecture. Thick pink is the equal-weight F0–F17-market what-if consensus and dashed brass is the Vegas baseline. The adjacent CSV contains model/fingerprint metrics including margin MAE and upset recall.\n\n"
-        "F9 corrected-A uses prior-game play/drive statistics with a strict 48-hour availability lag. F10-A adds observed usage, recruiting, experience, and team continuity. F11 adds prior-season staff history without using a 2026 coach assignment. F12 corrected-A adds lagged special-teams execution and player-game PPA. F13 adds context residuals, F14 sequence transitions, F15 actor-role concentration, and F16 short-versus-long trends. F9–F16 features exclude their target-game outcomes. F17-market is scored as a separate market-assisted what-if; its target-game line inputs have no verifiable quote timestamps and are not cutoff-certified. Models train through 2025 and use held-out 2024–25 residual calibration. No 2024–25 retrospective scores are inserted. Additional CFBD player/PBP/line sources are preserved under `data/what_if_2026_fingerprints/`.\n"
+        "The PNG shows cumulative Brier score, straight-up accuracy, and ATS accuracy. Fingerprint generation maps red to blue; line style maps architecture. Thick pink is the equal-weight F0–F17-market what-if consensus and dashed brass is the Vegas baseline. The adjacent CSV contains model/fingerprint metrics including margin MAE and upset recall. Coverage is 90 cutoff-checked cells (F0–F6, F9–F16), 12 partial-market-timing cells (F7/F8), and six F17-market cells with unverified quote timestamps.\n\n"
+        "F9 corrected-A uses prior-game play/drive statistics with a strict 48-hour availability lag. F10-A adds observed usage, recruiting, experience, and team continuity. F11 adds prior-season staff history without using a 2026 coach assignment. F12 corrected-A adds lagged special-teams execution and player-game PPA. F13 adds context residuals, F14 sequence transitions, F15 actor-role concentration, and F16 short-versus-long trends. F9–F16 features exclude their target-game outcomes. The four reconstructed Week 1 F7/F8 forecasts use line values from an October 6 refresh; quote times are unavailable, so those 12 model cells are partially unverified. F17-market is a separate market-assisted what-if with unverified target-line times. Models train through 2025 and use held-out 2024–25 residual calibration. No 2024–25 retrospective scores are inserted. Additional CFBD player/PBP/line sources are preserved under `data/what_if_2026_fingerprints/`.\n"
     )
     print(json.dumps({"scorecard_rows": len(scorecard), "trajectory_rows": len(trajectory),
                       "games": scored.game_id.nunique(), "models": scored.model_name.nunique(),

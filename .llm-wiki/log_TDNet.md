@@ -531,3 +531,9 @@ Chronological record of wiki activity.
 - Trained and scored all six scientific architectures on exploratory F17-market inputs for the same 271 completed 2026 games; cached target-game quote timestamps are unavailable, so the six rows are explicitly unverified and excluded from the cutoff-verified PCA.
 - Expanded the season scorecard to 108 model × fingerprint rows: 102 verified F0–F16 rows and six quote-time-unverified F17-market rows; recorded the 13.256 MAE full-grid consensus and the 11.575 MAE Vegas evaluation baseline.
 - Added four metric surfaces with 72-frame rotations across all 108 cells, and updated the cumulative figure, CSV, coverage manifest, and strict-only point/PCA artifacts.
+
+## [2026-10-06] update | Audit full-fingerprint coverage and build Week 6 ballot
+
+- Reclassified the 2026 season grid as 90 cutoff-checked, 12 partial-market-timing (F7/F8), and six quote-time-unverified (F17-market) cells; updated cumulative, surface, and PCA artifacts and documentation.
+- Built an independent Week 6 research ballot from 271 pregame forecast margins per model/fingerprint, fitting team and home-site effects without using target scores as fit targets.
+- Verified 108 complete ballots over 138 teams and recorded the consensus Top 5; retained the F7/F8 and F17-market timing caveats.
