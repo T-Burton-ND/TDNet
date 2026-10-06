@@ -20,6 +20,12 @@ The Tuesday workflow requires Monday approval and a certified snapshot. It prepa
 
 After outcome/statistic completeness is confirmed, the Sunday workflow scores the immutable bundle from the cached results. It is network-free and does not make another CFBD request. It creates retrospective metrics, comparison tables, figures, and draft-only blog/social assets without changing pregame bytes or the Top-25 snapshot.
 
+## Standing figure scope
+
+The owner expects complete pregame and postgame figure packages for both the operational roster and the scientific roster. Keep the market-free F0–F6 scientific cohort and the full F0–F8 cohort as separately labeled outputs; do not collapse them into one scientific roster. For pregame, cover every game in the frozen weekly slate for each applicable roster and generate its prediction, ballot/ranking, and publication figures. For postgame, score every completed game from the frozen predictions, then refresh the per-game results and season-to-date figures through the latest fully scored week. Include the MAE, winner accuracy, upset recall, and Brier views where the underlying outputs support them, and show the matching Vegas baseline on comparative figures. Use the repository palette with warm parchment figure backgrounds.
+
+Commit and push the generated figures together with their manifests and documentation. Keep pregame predictions frozen after the recorded cutoff. A week’s postgame package is complete only after the games have finished and final outcomes have been checked; pending games must not be represented with invented results. External social publishing remains draft-only unless separately approved. See [2026 Week 5 Postgame and Week 6 Pregame](Weekly-Publication-2026-W05-W06) for the October 2026 package example.
+
 ## Notebooks and storage
 
 The recurring notebooks named in the weekly notebook guide are:

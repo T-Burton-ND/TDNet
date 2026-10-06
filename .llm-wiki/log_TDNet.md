@@ -459,3 +459,24 @@ Chronological record of wiki activity.
 - Rebuilt the Week 5 postgame figure suite through Weeks 0–5: 267 games for each of 33 operational models, separate 42-model F0–F6 and 54-model full F0–F8 cohorts, and 57 PNG figures.
 - Prepared Week 6 X, Instagram, and Facebook drafts with corrected signed-mean social graphics and explicit Florida State–Louisville split-signal wording; external posts remain unsent.
 - Reconfirmed the Week 6 contest submission record: 57 picks, HTTP 200 post and readback, zero mismatches.
+
+## [2026-10-05] update | Record complete weekly figure expectations
+
+- by: Thomas J. Burton via codex
+- Recorded the standing expectation to produce full pregame figures for every scheduled game and cumulative postgame figures for every completed game across operational and separate scientific cohorts.
+- Specified the supported metrics, comparative Vegas baselines, repository palette, warm parchment backgrounds, and commit/push expectation.
+- Clarified that pending games wait for verified final outcomes and that social publication remains draft-only unless separately approved.
+
+## [2026-10-05] update | Publish all-generation scientific archive
+
+- by: Thomas J. Burton via codex
+- Added the F0–F17 scientific publication archive with model-stage scorecards, three heat maps, prediction exports and provenance receipts.
+- Added cumulative curves for the F0–F8 full roster and F09–F17 model means plus equal-weight six-model consensus, keeping their evaluation cohorts separate.
+- Recorded that retained F0–F8 results lack game-level predictions, so weekly curves and game-level consensus are unavailable for those historical stages.
+
+## [2026-10-05] update | Complete cumulative scientific metric curves
+
+- by: Thomas J. Burton via codex
+- Extended cumulative model and consensus plots through MAE, upset recall, winner accuracy, Brier and ATS accuracy across the available fingerprint stages.
+- Validated derived upset-recall and Brier scores against every saved F09–F17 run result before export.
+- Kept F0–F8 historical season curves separate because their retained scorecards do not contain game-level predictions for weekly or consensus reconstruction.
