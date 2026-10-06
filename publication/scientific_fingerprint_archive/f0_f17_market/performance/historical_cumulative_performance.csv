@@ -1,0 +1,541 @@
+stage,model,model_label,cohort,through_season,period_type,n_games,margin_mae,winner_accuracy,upset_recall,brier_score,ats_games,ats_accuracy,upset_aggregation
+F0,M1,Linear,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,17.051337,0.56944444,0.35947712,0.24523201,702,0.46011396,unweighted mean of held-out-season recall values
+F0,M1,Linear,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,17.027139,0.57649513,0.39402428,0.24418468,1401,0.48536759,unweighted mean of held-out-season recall values
+F0,M1,Linear,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,16.392804,0.61449677,0.39751431,0.23207184,2108,0.48766603,unweighted mean of held-out-season recall values
+F0,M1,Linear,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,16.083647,0.62504324,0.39460312,0.22687119,2813,0.49448987,unweighted mean of held-out-season recall values
+F0,M1,Linear,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,15.927873,0.63089655,0.39285641,0.22359407,3534,0.49462366,unweighted mean of held-out-season recall values
+F0,M1,Linear,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,15.913295,0.63139679,0.38563277,0.22417586,3946,0.495185,unweighted mean of held-out-season recall values
+F0,M1,Linear,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,15.882427,0.62856544,0.38374937,0.22467398,4660,0.49141631,unweighted mean of held-out-season recall values
+F0,M1,Linear,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,15.718885,0.63094587,0.38449865,0.22492379,5367,0.49487609,unweighted mean of held-out-season recall values
+F0,M1,Linear,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,15.58732,0.63108043,0.38075273,0.22487078,6096,0.49639108,unweighted mean of held-out-season recall values
+F0,M1,Linear,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,15.540059,0.62910394,0.3746219,0.22550792,6827,0.49699722,unweighted mean of held-out-season recall values
+F0,M10,KNN,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,17.190694,0.56944444,0.35947712,0.24497502,702,0.47150997,unweighted mean of held-out-season recall values
+F0,M10,KNN,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,17.467385,0.55841446,0.4151883,0.24417183,1401,0.50749465,unweighted mean of held-out-season recall values
+F0,M10,KNN,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,17.196868,0.58818098,0.409751,0.23629413,2108,0.50521822,unweighted mean of held-out-season recall values
+F0,M10,KNN,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,17.101228,0.59287444,0.39698716,0.23365297,2813,0.50551013,unweighted mean of held-out-season recall values
+F0,M10,KNN,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,17.061872,0.60441379,0.40672017,0.23031954,3534,0.50169779,unweighted mean of held-out-season recall values
+F0,M10,KNN,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,17.122962,0.60321384,0.40365839,0.23173694,3946,0.50253421,unweighted mean of held-out-season recall values
+F0,M10,KNN,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,17.22055,0.60151007,0.40430194,0.23261209,4661,0.50010727,unweighted mean of held-out-season recall values
+F0,M10,KNN,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,17.123176,0.60379078,0.41273856,0.23253372,5368,0.50447094,unweighted mean of held-out-season recall values
+F0,M10,KNN,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,17.137559,0.59720661,0.41050874,0.23350045,6097,0.50090208,unweighted mean of held-out-season recall values
+F0,M10,KNN,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,17.133446,0.59569892,0.40880972,0.23392519,6828,0.50307557,unweighted mean of held-out-season recall values
+F0,M2,Spline,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,17.101552,0.56944444,0.35947712,0.2456413,702,0.45726496,unweighted mean of held-out-season recall values
+F0,M2,Spline,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,17.051718,0.57649513,0.39402428,0.24434504,1401,0.48465382,unweighted mean of held-out-season recall values
+F0,M2,Spline,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,16.411998,0.61819021,0.39564165,0.23133615,2108,0.49051233,unweighted mean of held-out-season recall values
+F0,M2,Spline,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,16.117833,0.62746455,0.39319863,0.22644954,2813,0.49626733,unweighted mean of held-out-season recall values
+F0,M2,Spline,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,15.975981,0.63475862,0.39173282,0.2230678,3534,0.49575552,unweighted mean of held-out-season recall values
+F0,M2,Spline,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,15.950306,0.63782447,0.39116893,0.22338009,3946,0.49619868,unweighted mean of held-out-season recall values
+F0,M2,Spline,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,15.918282,0.6329698,0.38776579,0.22407171,4661,0.49302725,unweighted mean of held-out-season recall values
+F0,M2,Spline,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,15.736657,0.63459085,0.38737199,0.22416975,5368,0.49534277,unweighted mean of held-out-season recall values
+F0,M2,Spline,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,15.591213,0.63252528,0.38330681,0.22405149,6097,0.49614565,unweighted mean of held-out-season recall values
+F0,M2,Spline,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,15.528417,0.63111111,0.37692057,0.22446552,6828,0.49663152,unweighted mean of held-out-season recall values
+F0,M3,Random forest,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,17.116312,0.56944444,0.35947712,0.24563097,702,0.45584046,unweighted mean of held-out-season recall values
+F0,M3,Random forest,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,17.05554,0.57649513,0.39402428,0.2442928,1401,0.48608137,unweighted mean of held-out-season recall values
+F0,M3,Random forest,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,16.842685,0.59741459,0.38815102,0.23732484,2108,0.48244782,unweighted mean of held-out-season recall values
+F0,M3,Random forest,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,16.826587,0.60498098,0.39437413,0.23610229,2813,0.48809101,unweighted mean of held-out-season recall values
+F0,M3,Random forest,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,16.801483,0.61489655,0.4057167,0.23346759,3534,0.48613469,unweighted mean of held-out-season recall values
+F0,M3,Random forest,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,16.880486,0.60964153,0.39958592,0.23582032,3945,0.48466413,unweighted mean of held-out-season recall values
+F0,M3,Random forest,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,16.958893,0.60591443,0.39862467,0.23790912,4659,0.48336553,unweighted mean of held-out-season recall values
+F0,M3,Random forest,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,16.825384,0.60543102,0.40264274,0.23728258,5365,0.49058714,unweighted mean of held-out-season recall values
+F0,M3,Random forest,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,16.857351,0.59897255,0.40037121,0.23942395,6094,0.49015425,unweighted mean of held-out-season recall values
+F0,M3,Random forest,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,16.84255,0.59713262,0.4038526,0.2405552,6825,0.49435897,unweighted mean of held-out-season recall values
+F0,M4,Boosted trees,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,17.083739,0.56944444,0.35947712,0.24553591,702,0.45726496,unweighted mean of held-out-season recall values
+F0,M4,Boosted trees,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,17.049426,0.57649513,0.39402428,0.24436098,1401,0.48679515,unweighted mean of held-out-season recall values
+F0,M4,Boosted trees,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,16.417181,0.61819021,0.40875027,0.23207964,2108,0.48671727,unweighted mean of held-out-season recall values
+F0,M4,Boosted trees,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,16.161127,0.62089242,0.4003127,0.2279422,2813,0.49235691,unweighted mean of held-out-season recall values
+F0,M4,Boosted trees,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,16.052118,0.62841379,0.4017719,0.22474296,3534,0.49490662,unweighted mean of held-out-season recall values
+F0,M4,Boosted trees,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,16.06258,0.6289246,0.39306234,0.22593015,3946,0.49467816,unweighted mean of held-out-season recall values
+F0,M4,Boosted trees,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,16.021941,0.62646812,0.3915753,0.22660472,4661,0.49066724,unweighted mean of held-out-season recall values
+F0,M4,Boosted trees,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,15.818083,0.62730089,0.38942326,0.22635518,5368,0.4931073,unweighted mean of held-out-season recall values
+F0,M4,Boosted trees,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,15.685616,0.62642479,0.38862056,0.22615901,6097,0.49647368,unweighted mean of held-out-season recall values
+F0,M4,Boosted trees,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,15.621291,0.62494624,0.38216591,0.22632905,6828,0.49838899,unweighted mean of held-out-season recall values
+F0,M5,Neural net,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,17.237714,0.56944444,0.35947712,0.24755889,702,0.46011396,unweighted mean of held-out-season recall values
+F0,M5,Neural net,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,17.212888,0.57649513,0.39402428,0.2474409,1401,0.48965025,unweighted mean of held-out-season recall values
+F0,M5,Neural net,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,16.579421,0.61311173,0.39376899,0.23449861,2108,0.49193548,unweighted mean of held-out-season recall values
+F0,M5,Neural net,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,16.283917,0.62400553,0.39043544,0.22952097,2813,0.49591184,unweighted mean of held-out-season recall values
+F0,M5,Neural net,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,16.147285,0.63172414,0.38408748,0.22583902,3534,0.49632145,unweighted mean of held-out-season recall values
+F0,M5,Neural net,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,16.091242,0.63386897,0.3831797,0.22604246,3946,0.49746579,unweighted mean of held-out-season recall values
+F0,M5,Neural net,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,16.056943,0.62919463,0.37873129,0.22664587,4661,0.49388543,unweighted mean of held-out-season recall values
+F0,M5,Neural net,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,15.870086,0.62894113,0.3769027,0.22698519,5368,0.50074516,unweighted mean of held-out-season recall values
+F0,M5,Neural net,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,15.762707,0.62754856,0.37574597,0.22738044,6097,0.4989339,unweighted mean of held-out-season recall values
+F0,M5,Neural net,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,15.675243,0.62580645,0.36918989,0.22719862,6828,0.50058582,unweighted mean of held-out-season recall values
+F1,M1,Linear,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,14.763532,0.70833333,0.2875817,0.19927975,702,0.48575499,unweighted mean of held-out-season recall values
+F1,M1,Linear,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,15.097119,0.70166898,0.28664799,0.20474791,1400,0.50428571,unweighted mean of held-out-season recall values
+F1,M1,Linear,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,14.454442,0.71698984,0.28285896,0.19582288,2107,0.50735643,unweighted mean of held-out-season recall values
+F1,M1,Linear,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,14.303605,0.71566932,0.28551379,0.19369928,2812,0.50213371,unweighted mean of held-out-season recall values
+F1,M1,Linear,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,14.179423,0.71944828,0.28384581,0.19181348,3533,0.49957543,unweighted mean of held-out-season recall values
+F1,M1,Linear,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,14.183517,0.71990111,0.27537313,0.19188392,3945,0.50240811,unweighted mean of held-out-season recall values
+F1,M1,Linear,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,14.237053,0.71266779,0.27101953,0.19334338,4659,0.49624383,unweighted mean of held-out-season recall values
+F1,M1,Linear,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,14.114272,0.71149991,0.27111645,0.1942579,5366,0.49720462,unweighted mean of held-out-season recall values
+F1,M1,Linear,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,14.021263,0.71167122,0.26949734,0.19402315,6095,0.49696473,unweighted mean of held-out-season recall values
+F1,M1,Linear,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.972674,0.70781362,0.2652328,0.19513935,6826,0.49838851,unweighted mean of held-out-season recall values
+F1,M10,KNN,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,15.260602,0.68333333,0.37908497,0.20785347,702,0.5014245,unweighted mean of held-out-season recall values
+F1,M10,KNN,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,15.610559,0.67246175,0.36150016,0.21114449,1401,0.50820842,unweighted mean of held-out-season recall values
+F1,M10,KNN,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,15.066584,0.68651893,0.32714243,0.20304895,2108,0.49905123,unweighted mean of held-out-season recall values
+F1,M10,KNN,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,15.014981,0.68938084,0.32551986,0.20216605,2813,0.50159972,unweighted mean of held-out-season recall values
+F1,M10,KNN,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,15.010143,0.68827586,0.31585067,0.20119479,3534,0.49745331,unweighted mean of held-out-season recall values
+F1,M10,KNN,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,14.974988,0.69097651,0.32146132,0.20139315,3946,0.50050684,unweighted mean of held-out-season recall values
+F1,M10,KNN,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,14.965036,0.68561242,0.31708346,0.20293631,4661,0.49860545,unweighted mean of held-out-season recall values
+F1,M10,KNN,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,14.840882,0.68361582,0.3191147,0.20370599,5368,0.50298063,unweighted mean of held-out-season recall values
+F1,M10,KNN,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,14.710005,0.6830952,0.32205193,0.20326471,6097,0.50483845,unweighted mean of held-out-season recall values
+F1,M10,KNN,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,14.674825,0.68143369,0.32410599,0.20441987,6828,0.50410076,unweighted mean of held-out-season recall values
+F1,M2,Spline,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,14.761251,0.71111111,0.29411765,0.19798426,702,0.48005698,unweighted mean of held-out-season recall values
+F1,M2,Spline,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,15.072057,0.70445063,0.28727046,0.20279511,1400,0.50785714,unweighted mean of held-out-season recall values
+F1,M2,Spline,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,14.463352,0.71745152,0.28327394,0.19425548,2107,0.51495017,unweighted mean of held-out-season recall values
+F1,M2,Spline,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,14.28312,0.71566932,0.28174893,0.19233506,2812,0.5113798,unweighted mean of held-out-season recall values
+F1,M2,Spline,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,14.15434,0.72137931,0.28735567,0.19032465,3533,0.50863289,unweighted mean of held-out-season recall values
+F1,M2,Spline,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,14.155809,0.72163164,0.27991613,0.19036595,3945,0.50874525,unweighted mean of held-out-season recall values
+F1,M2,Spline,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,14.192619,0.71581376,0.27637126,0.1919495,4659,0.50268298,unweighted mean of held-out-season recall values
+F1,M2,Spline,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,14.061815,0.71423364,0.27195306,0.19291836,5366,0.50279538,unweighted mean of held-out-season recall values
+F1,M2,Spline,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.983811,0.71375823,0.26907753,0.19286938,6095,0.50090238,unweighted mean of held-out-season recall values
+F1,M2,Spline,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.92506,0.71039427,0.26531793,0.19379524,6826,0.50366247,unweighted mean of held-out-season recall values
+F1,M3,Random forest,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,14.816252,0.7,0.25490196,0.20155976,702,0.48148148,unweighted mean of held-out-season recall values
+F1,M3,Random forest,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,15.189434,0.68428373,0.25443511,0.20495316,1401,0.50820842,unweighted mean of held-out-season recall values
+F1,M3,Random forest,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,14.63239,0.70544783,0.25763839,0.19629054,2107,0.50355956,unweighted mean of held-out-season recall values
+F1,M3,Random forest,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,14.475176,0.7087513,0.26659835,0.19441499,2812,0.50035562,unweighted mean of held-out-season recall values
+F1,M3,Random forest,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,14.37505,0.71227586,0.26436564,0.19296984,3533,0.49759411,unweighted mean of held-out-season recall values
+F1,M3,Random forest,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,14.376229,0.71223733,0.25590341,0.19342265,3945,0.49860583,unweighted mean of held-out-season recall values
+F1,M3,Random forest,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,14.415426,0.70658557,0.25068688,0.19498979,4659,0.49388281,unweighted mean of held-out-season recall values
+F1,M3,Random forest,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,14.252406,0.70603244,0.24819718,0.19538398,5366,0.49422288,unweighted mean of held-out-season recall values
+F1,M3,Random forest,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,14.143069,0.70557072,0.24854292,0.19504828,6095,0.49548811,unweighted mean of held-out-season recall values
+F1,M3,Random forest,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,14.09086,0.70207885,0.24498493,0.19568812,6826,0.49780252,unweighted mean of held-out-season recall values
+F1,M4,Boosted trees,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,14.78063,0.69305556,0.24836601,0.20256621,702,0.49430199,unweighted mean of held-out-season recall values
+F1,M4,Boosted trees,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,15.090847,0.68150209,0.25645814,0.20557574,1401,0.5117773,unweighted mean of held-out-season recall values
+F1,M4,Boosted trees,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,14.560702,0.70221607,0.24775112,0.19620503,2108,0.51755218,unweighted mean of held-out-season recall values
+F1,M4,Boosted trees,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,14.385557,0.70805949,0.2591829,0.19372943,2813,0.5115535,unweighted mean of held-out-season recall values
+F1,M4,Boosted trees,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,14.301496,0.71144828,0.26278111,0.19248158,3534,0.50424448,unweighted mean of held-out-season recall values
+F1,M4,Boosted trees,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,14.270767,0.7144623,0.26752794,0.19264829,3946,0.50734921,unweighted mean of held-out-season recall values
+F1,M4,Boosted trees,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,14.314113,0.70889262,0.26283736,0.1943324,4661,0.50010727,unweighted mean of held-out-season recall values
+F1,M4,Boosted trees,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,14.13899,0.70858393,0.2601109,0.19482904,5368,0.5033532,unweighted mean of held-out-season recall values
+F1,M4,Boosted trees,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,14.039105,0.70797881,0.25855116,0.19469031,6097,0.50254223,unweighted mean of held-out-season recall values
+F1,M4,Boosted trees,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.985259,0.70551971,0.25630716,0.19537862,6828,0.50439367,unweighted mean of held-out-season recall values
+F1,M5,Neural net,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,18.044502,0.73055556,0.33333333,0.19317884,700,0.56142857,unweighted mean of held-out-season recall values
+F1,M5,Neural net,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,18.969761,0.66689847,0.38095238,0.22445801,1397,0.52612742,unweighted mean of held-out-season recall values
+F1,M5,Neural net,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,17.02641,0.69298246,0.33636526,0.20875033,2104,0.52376426,unweighted mean of held-out-season recall values
+F1,M5,Neural net,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,16.238263,0.69872017,0.31749133,0.20355556,2809,0.51548594,unweighted mean of held-out-season recall values
+F1,M5,Neural net,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,15.727198,0.70427586,0.30616698,0.19955028,3530,0.51161473,unweighted mean of held-out-season recall values
+F1,M5,Neural net,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,15.586917,0.7065513,0.29721035,0.19889117,3942,0.51090817,unweighted mean of held-out-season recall values
+F1,M5,Neural net,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,15.451505,0.70218121,0.29192374,0.19959536,4655,0.50161117,unweighted mean of held-out-season recall values
+F1,M5,Neural net,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,15.169604,0.70238746,0.28748455,0.19959091,5362,0.50428944,unweighted mean of held-out-season recall values
+F1,M5,Neural net,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,14.955524,0.70316263,0.2846285,0.1987573,6091,0.50369397,unweighted mean of held-out-season recall values
+F1,M5,Neural net,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,14.797967,0.70150538,0.28209158,0.19912608,6822,0.50498388,unweighted mean of held-out-season recall values
+F2,M1,Linear,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,14.725014,0.70833333,0.28104575,0.19807298,702,0.50712251,unweighted mean of held-out-season recall values
+F2,M1,Linear,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,15.672669,0.67176634,0.30189854,0.210755,1400,0.50642857,unweighted mean of held-out-season recall values
+F2,M1,Linear,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,15.323512,0.6823638,0.30613461,0.20415913,2107,0.51447556,unweighted mean of held-out-season recall values
+F2,M1,Linear,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,14.962268,0.69180214,0.31112269,0.20020639,2812,0.50746799,unweighted mean of held-out-season recall values
+F2,M1,Linear,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,14.800929,0.69793103,0.31302859,0.19745948,3533,0.50325502,unweighted mean of held-out-season recall values
+F2,M1,Linear,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,14.75952,0.69938195,0.30940085,0.19731811,3945,0.50316857,unweighted mean of held-out-season recall values
+F2,M1,Linear,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,14.690946,0.69714765,0.30383046,0.19796471,4659,0.49924877,unweighted mean of held-out-season recall values
+F2,M1,Linear,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,14.505219,0.69710224,0.29854396,0.19821677,5366,0.50298174,unweighted mean of held-out-season recall values
+F2,M1,Linear,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,14.353931,0.69882806,0.29911296,0.19742493,6095,0.50451189,unweighted mean of held-out-season recall values
+F2,M1,Linear,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,14.285031,0.6953405,0.29188685,0.19850051,6826,0.50659244,unweighted mean of held-out-season recall values
+F2,M10,KNN,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,15.710135,0.64305556,0.37254902,0.21500229,702,0.50712251,unweighted mean of held-out-season recall values
+F2,M10,KNN,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,16.181169,0.62100139,0.36352319,0.22486114,1401,0.51748751,unweighted mean of held-out-season recall values
+F2,M10,KNN,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,16.126311,0.63250231,0.36781696,0.22360203,2108,0.51565465,unweighted mean of held-out-season recall values
+F2,M10,KNN,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,15.829065,0.64337599,0.36281924,0.21898221,2813,0.51475293,unweighted mean of held-out-season recall values
+F2,M10,KNN,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,15.619894,0.656,0.35873365,0.21398566,3534,0.50962083,unweighted mean of held-out-season recall values
+F2,M10,KNN,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,15.532589,0.65933251,0.36043338,0.21244525,3946,0.51115053,unweighted mean of held-out-season recall values
+F2,M10,KNN,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,15.503911,0.65687919,0.35559013,0.21302563,4661,0.5071873,unweighted mean of held-out-season recall values
+F2,M10,KNN,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,15.338481,0.65882996,0.35280803,0.2127525,5368,0.50540238,unweighted mean of held-out-season recall values
+F2,M10,KNN,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,15.224209,0.6602986,0.34792942,0.21206359,6097,0.50451041,unweighted mean of held-out-season recall values
+F2,M10,KNN,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,15.140285,0.66007168,0.34554388,0.21225113,6828,0.50776216,unweighted mean of held-out-season recall values
+F2,M2,Spline,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,15.453767,0.70277778,0.33986928,0.20274723,700,0.51142857,unweighted mean of held-out-season recall values
+F2,M2,Spline,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,15.422566,0.69819193,0.32072829,0.20397841,1398,0.52288984,unweighted mean of held-out-season recall values
+F2,M2,Spline,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,14.867391,0.71052632,0.3037065,0.19587828,2104,0.5223384,unweighted mean of held-out-season recall values
+F2,M2,Spline,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,14.633422,0.71151851,0.30250814,0.19436128,2809,0.51940192,unweighted mean of held-out-season recall values
+F2,M2,Spline,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,14.472571,0.7142069,0.29852825,0.19200192,3530,0.51274788,unweighted mean of held-out-season recall values
+F2,M2,Spline,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,14.444054,0.71545117,0.29569911,0.19183472,3942,0.51319127,unweighted mean of held-out-season recall values
+F2,M2,Spline,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,14.447651,0.7074245,0.28917066,0.193849,4655,0.50805585,unweighted mean of held-out-season recall values
+F2,M2,Spline,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,14.30457,0.70384545,0.28443459,0.19468456,5362,0.51063036,unweighted mean of held-out-season recall values
+F2,M2,Spline,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,14.173671,0.7042864,0.28424436,0.19430844,6091,0.51026104,unweighted mean of held-out-season recall values
+F2,M2,Spline,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,14.109447,0.70064516,0.27757918,0.19516841,6822,0.51245969,unweighted mean of held-out-season recall values
+F2,M3,Random forest,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,14.662692,0.71805556,0.26143791,0.19767354,701,0.49072753,unweighted mean of held-out-season recall values
+F2,M3,Random forest,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,14.876534,0.70653686,0.27093059,0.20106293,1399,0.50178699,unweighted mean of held-out-season recall values
+F2,M3,Random forest,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,14.41347,0.72022161,0.27987133,0.1947325,2105,0.50546318,unweighted mean of held-out-season recall values
+F2,M3,Random forest,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,14.294659,0.72258734,0.28734915,0.19356681,2810,0.5,unweighted mean of held-out-season recall values
+F2,M3,Random forest,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,14.25918,0.72524138,0.28422715,0.19245832,3531,0.49476069,unweighted mean of held-out-season recall values
+F2,M3,Random forest,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,14.218229,0.72558714,0.27892715,0.19259545,3943,0.49556176,unweighted mean of held-out-season recall values
+F2,M3,Random forest,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,14.22932,0.72063758,0.27260811,0.19376011,4658,0.48969515,unweighted mean of held-out-season recall values
+F2,M3,Random forest,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,14.073582,0.71824312,0.26545518,0.19420515,5365,0.49375582,unweighted mean of held-out-season recall values
+F2,M3,Random forest,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.982428,0.71777171,0.2662103,0.19420924,6094,0.49245159,unweighted mean of held-out-season recall values
+F2,M3,Random forest,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.929421,0.71412186,0.26458927,0.19500532,6825,0.49684982,unweighted mean of held-out-season recall values
+F2,M4,Boosted trees,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,14.937486,0.70277778,0.35294118,0.20321426,700,0.48571429,unweighted mean of held-out-season recall values
+F2,M4,Boosted trees,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,15.162614,0.69471488,0.31668223,0.20587393,1398,0.49213162,unweighted mean of held-out-season recall values
+F2,M4,Boosted trees,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,14.574786,0.71698984,0.29351849,0.1964669,2105,0.51021378,unweighted mean of held-out-season recall values
+F2,M4,Boosted trees,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,14.419637,0.71739882,0.29486713,0.1943885,2810,0.50391459,unweighted mean of held-out-season recall values
+F2,M4,Boosted trees,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,14.288742,0.72055172,0.2935024,0.19210627,3531,0.50099122,unweighted mean of held-out-season recall values
+F2,M4,Boosted trees,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,14.264412,0.7223733,0.28665653,0.19210945,3943,0.50342379,unweighted mean of held-out-season recall values
+F2,M4,Boosted trees,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,14.252648,0.71665268,0.27486012,0.19335811,4658,0.49677973,unweighted mean of held-out-season recall values
+F2,M4,Boosted trees,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,14.10311,0.71441589,0.26870773,0.19385027,5365,0.49934762,unweighted mean of held-out-season recall values
+F2,M4,Boosted trees,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.994832,0.71311607,0.26910146,0.19369071,6094,0.49950771,unweighted mean of held-out-season recall values
+F2,M4,Boosted trees,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.95046,0.7102509,0.26811724,0.19444088,6825,0.50285714,unweighted mean of held-out-season recall values
+F2,M5,Neural net,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,14.974426,0.69166667,0.2745098,0.20434148,702,0.48717949,unweighted mean of held-out-season recall values
+F2,M5,Neural net,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,15.086842,0.69054242,0.27217554,0.20602062,1400,0.51285714,unweighted mean of held-out-season recall values
+F2,M5,Neural net,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,14.861792,0.69944598,0.27695598,0.2037903,2107,0.51305173,unweighted mean of held-out-season recall values
+F2,M5,Neural net,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,14.630412,0.70321688,0.29059742,0.20018826,2812,0.50853485,unweighted mean of held-out-season recall values
+F2,M5,Neural net,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,14.529138,0.71062069,0.2933475,0.19813028,3533,0.50551939,unweighted mean of held-out-season recall values
+F2,M5,Neural net,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,14.466986,0.71223733,0.29623618,0.19720543,3945,0.50671736,unweighted mean of held-out-season recall values
+F2,M5,Neural net,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,14.459688,0.70805369,0.2859867,0.19817178,4658,0.50085874,unweighted mean of held-out-season recall values
+F2,M5,Neural net,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,14.290453,0.70694369,0.28485375,0.19810734,5365,0.50438024,unweighted mean of held-out-season recall values
+F2,M5,Neural net,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,14.174019,0.70717611,0.28927081,0.19786596,6094,0.50229734,unweighted mean of held-out-season recall values
+F2,M5,Neural net,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,14.085314,0.70480287,0.28626966,0.1984028,6824,0.50674091,unweighted mean of held-out-season recall values
+F3,M1,Linear,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,14.029194,0.72777778,0.25490196,0.18371759,700,0.51714286,unweighted mean of held-out-season recall values
+F3,M1,Linear,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,16.601661,0.6620306,0.35760971,0.21860853,1398,0.51287554,unweighted mean of held-out-season recall values
+F3,M1,Linear,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,16.2629,0.67128347,0.36200198,0.213003,2105,0.51781473,unweighted mean of held-out-season recall values
+F3,M1,Linear,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,15.615751,0.68384642,0.33536018,0.20572567,2808,0.51602564,unweighted mean of held-out-season recall values
+F3,M1,Linear,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,15.209295,0.69241379,0.32589684,0.20073383,3528,0.51388889,unweighted mean of held-out-season recall values
+F3,M1,Linear,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,15.118588,0.69221261,0.30879753,0.20034007,3939,0.51180503,unweighted mean of held-out-season recall values
+F3,M1,Linear,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,14.936992,0.6908557,0.29092266,0.19956491,4652,0.50988822,unweighted mean of held-out-season recall values
+F3,M1,Linear,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,14.687303,0.69291052,0.28532656,0.19921424,5358,0.51194476,unweighted mean of held-out-season recall values
+F3,M1,Linear,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,14.460223,0.69722267,0.28561896,0.19740138,6087,0.51388204,unweighted mean of held-out-season recall values
+F3,M1,Linear,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,14.351301,0.69519713,0.27927928,0.19770054,6818,0.51202699,unweighted mean of held-out-season recall values
+F3,M10,KNN,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,14.44983,0.70277778,0.32026144,0.19340993,702,0.51282051,unweighted mean of held-out-season recall values
+F3,M10,KNN,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,15.711536,0.6349096,0.37706194,0.21853026,1401,0.52034261,unweighted mean of held-out-season recall values
+F3,M10,KNN,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,15.827952,0.63157895,0.41055065,0.2202165,2108,0.51755218,unweighted mean of held-out-season recall values
+F3,M10,KNN,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,15.527217,0.64026288,0.39215212,0.2160283,2813,0.51475293,unweighted mean of held-out-season recall values
+F3,M10,KNN,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,15.408195,0.65158621,0.38546083,0.21237003,3534,0.50962083,unweighted mean of held-out-season recall values
+F3,M10,KNN,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,15.334357,0.65537701,0.38108791,0.21170385,3946,0.50456158,unweighted mean of held-out-season recall values
+F3,M10,KNN,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,15.264903,0.65604027,0.3674631,0.21097347,4661,0.49924909,unweighted mean of held-out-season recall values
+F3,M10,KNN,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,15.118806,0.65737197,0.35806868,0.21091611,5368,0.49776453,unweighted mean of held-out-season recall values
+F3,M10,KNN,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,14.985449,0.6602986,0.35609595,0.21012013,6097,0.49794981,unweighted mean of held-out-season recall values
+F3,M10,KNN,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,14.905101,0.65978495,0.34919006,0.21062196,6828,0.50043937,unweighted mean of held-out-season recall values
+F3,M2,Spline,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,14.70087,0.71111111,0.26143791,0.189497,700,0.52142857,unweighted mean of held-out-season recall values
+F3,M2,Spline,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,15.265623,0.6891516,0.28944911,0.20077346,1398,0.51573677,unweighted mean of held-out-season recall values
+F3,M2,Spline,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,15.00574,0.69390582,0.29034435,0.19792676,2105,0.52114014,unweighted mean of held-out-season recall values
+F3,M2,Spline,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,14.727794,0.69629886,0.28161696,0.19495148,2808,0.51887464,unweighted mean of held-out-season recall values
+F3,M2,Spline,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,14.505636,0.70151724,0.28072835,0.19214912,3528,0.5127551,unweighted mean of held-out-season recall values
+F3,M2,Spline,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,14.485387,0.70210136,0.27762961,0.19255805,3939,0.51332826,unweighted mean of held-out-season recall values
+F3,M2,Spline,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,14.425294,0.69840604,0.27003821,0.19344686,4652,0.50924334,unweighted mean of held-out-season recall values
+F3,M2,Spline,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,14.284527,0.69655549,0.26448856,0.19431437,5358,0.50895857,unweighted mean of held-out-season recall values
+F3,M2,Spline,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,14.137257,0.69834644,0.26535109,0.19324917,6087,0.50944636,unweighted mean of held-out-season recall values
+F3,M2,Spline,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,14.05847,0.69734767,0.26057524,0.19376812,6818,0.5099736,unweighted mean of held-out-season recall values
+F3,M3,Random forest,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.964955,0.74444444,0.23529412,0.18628119,700,0.53,unweighted mean of held-out-season recall values
+F3,M3,Random forest,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,14.250521,0.72392211,0.23140367,0.19268318,1398,0.53004292,unweighted mean of held-out-season recall values
+F3,M3,Random forest,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.949472,0.73084026,0.22917548,0.18854293,2104,0.51996198,unweighted mean of held-out-season recall values
+F3,M3,Random forest,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.860744,0.73123487,0.2384577,0.18741668,2809,0.51228195,unweighted mean of held-out-season recall values
+F3,M3,Random forest,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.837852,0.73158621,0.24076616,0.18652328,3530,0.50453258,unweighted mean of held-out-season recall values
+F3,M3,Random forest,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.840407,0.73053152,0.23947342,0.18730702,3942,0.50101471,unweighted mean of held-out-season recall values
+F3,M3,Random forest,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.832343,0.72755872,0.23587517,0.18801839,4656,0.49506014,unweighted mean of held-out-season recall values
+F3,M3,Random forest,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.703521,0.72443958,0.23010873,0.18878567,5363,0.49449935,unweighted mean of held-out-season recall values
+F3,M3,Random forest,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.598786,0.7254776,0.23304603,0.18854017,6092,0.49540381,unweighted mean of held-out-season recall values
+F3,M3,Random forest,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.551447,0.72286738,0.23288958,0.18945246,6823,0.49934047,unweighted mean of held-out-season recall values
+F3,M4,Boosted trees,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,14.009029,0.73472222,0.25490196,0.18522317,700,0.52571429,unweighted mean of held-out-season recall values
+F3,M4,Boosted trees,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,14.199733,0.72253129,0.23856209,0.19008561,1398,0.53004292,unweighted mean of held-out-season recall values
+F3,M4,Boosted trees,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.858641,0.72114497,0.21709383,0.18621658,2105,0.52684086,unweighted mean of held-out-season recall values
+F3,M4,Boosted trees,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.705823,0.72742996,0.23483124,0.18469237,2810,0.52135231,unweighted mean of held-out-season recall values
+F3,M4,Boosted trees,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.684717,0.72910345,0.23569108,0.18375965,3530,0.51133144,unweighted mean of held-out-season recall values
+F3,M4,Boosted trees,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.71654,0.72830655,0.23524418,0.18499632,3941,0.51053032,unweighted mean of held-out-season recall values
+F3,M4,Boosted trees,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.724535,0.72483221,0.22787694,0.18594785,4655,0.50504834,unweighted mean of held-out-season recall values
+F3,M4,Boosted trees,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.614379,0.72352834,0.22311027,0.18695936,5362,0.50317046,unweighted mean of held-out-season recall values
+F3,M4,Boosted trees,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.522783,0.72226682,0.22158958,0.18700829,6091,0.5041865,unweighted mean of held-out-season recall values
+F3,M4,Boosted trees,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.491952,0.71899642,0.21933803,0.18811785,6821,0.50828324,unweighted mean of held-out-season recall values
+F3,M5,Neural net,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.832335,0.73611111,0.22875817,0.18658103,702,0.4957265,unweighted mean of held-out-season recall values
+F3,M5,Neural net,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,14.300075,0.69958275,0.20697168,0.1963242,1400,0.50714286,unweighted mean of held-out-season recall values
+F3,M5,Neural net,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,14.098919,0.70590951,0.20726951,0.19184197,2107,0.50118652,unweighted mean of held-out-season recall values
+F3,M5,Neural net,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.995157,0.70494639,0.21115865,0.19048496,2812,0.50177809,unweighted mean of held-out-season recall values
+F3,M5,Neural net,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.925874,0.71337931,0.22653562,0.18904722,3533,0.50325502,unweighted mean of held-out-season recall values
+F3,M5,Neural net,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.942037,0.71594561,0.23732337,0.18937538,3944,0.50329615,unweighted mean of held-out-season recall values
+F3,M5,Neural net,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.921959,0.71308725,0.23257455,0.19021875,4657,0.49838952,unweighted mean of held-out-season recall values
+F3,M5,Neural net,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.778495,0.71149991,0.22914376,0.19102054,5363,0.50307664,unweighted mean of held-out-season recall values
+F3,M5,Neural net,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.662217,0.71247391,0.23567869,0.19061894,6092,0.50459619,unweighted mean of held-out-season recall values
+F3,M5,Neural net,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.633492,0.70996416,0.23294415,0.19145845,6823,0.50666862,unweighted mean of held-out-season recall values
+F4,M1,Linear,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.943175,0.725,0.25490196,0.18175305,701,0.5235378,unweighted mean of held-out-season recall values
+F4,M1,Linear,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,16.583891,0.65646732,0.35760971,0.21745319,1399,0.51107934,unweighted mean of held-out-season recall values
+F4,M1,Linear,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,16.180877,0.67220683,0.3657473,0.2111716,2106,0.51994302,unweighted mean of held-out-season recall values
+F4,M1,Linear,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,15.537302,0.68523002,0.33681047,0.20403679,2809,0.51833393,unweighted mean of held-out-season recall values
+F4,M1,Linear,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,15.121766,0.69627586,0.32814403,0.1986337,3529,0.51629357,unweighted mean of held-out-season recall values
+F4,M1,Linear,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,15.02093,0.69690977,0.31228831,0.19807644,3940,0.51497462,unweighted mean of held-out-season recall values
+F4,M1,Linear,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,14.8266,0.69588926,0.29828794,0.19745007,4653,0.5149366,unweighted mean of held-out-season recall values
+F4,M1,Linear,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,14.578064,0.69837798,0.29369425,0.19707376,5359,0.51632767,unweighted mean of held-out-season recall values
+F4,M1,Linear,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,14.349748,0.70107561,0.28840304,0.19507995,6088,0.51905388,unweighted mean of held-out-season recall values
+F4,M1,Linear,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,14.235641,0.70035842,0.28363681,0.19518236,6817,0.51899663,unweighted mean of held-out-season recall values
+F4,M10,KNN,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,14.333607,0.72222222,0.32026144,0.18894783,702,0.50569801,unweighted mean of held-out-season recall values
+F4,M10,KNN,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,15.660402,0.64394993,0.36912543,0.21733667,1401,0.51605996,unweighted mean of held-out-season recall values
+F4,M10,KNN,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,15.794083,0.64127424,0.41462294,0.21903413,2108,0.51328273,unweighted mean of held-out-season recall values
+F4,M10,KNN,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,15.515329,0.65098582,0.39248895,0.21449527,2813,0.51119801,unweighted mean of held-out-season recall values
+F4,M10,KNN,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,15.347869,0.66151724,0.38355638,0.209994,3534,0.50679117,unweighted mean of held-out-season recall values
+F4,M10,KNN,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,15.254117,0.66650185,0.38273711,0.20893837,3946,0.50582869,unweighted mean of held-out-season recall values
+F4,M10,KNN,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,15.155193,0.66904362,0.37324988,0.20825655,4661,0.5043982,unweighted mean of held-out-season recall values
+F4,M10,KNN,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,14.975768,0.6701294,0.36569621,0.20810227,5368,0.50391207,unweighted mean of held-out-season recall values
+F4,M10,KNN,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,14.797099,0.6733023,0.36462118,0.20671119,6097,0.50844678,unweighted mean of held-out-season recall values
+F4,M10,KNN,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,14.729066,0.67125448,0.35593684,0.20784714,6828,0.50776216,unweighted mean of held-out-season recall values
+F4,M2,Spline,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,14.663271,0.71388889,0.26143791,0.18753665,700,0.51857143,unweighted mean of held-out-season recall values
+F4,M2,Spline,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,15.06735,0.69749652,0.29474012,0.19657744,1398,0.5193133,unweighted mean of held-out-season recall values
+F4,M2,Spline,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,14.71932,0.70221607,0.29387169,0.19318115,2105,0.52541568,unweighted mean of held-out-season recall values
+F4,M2,Spline,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,14.471245,0.70563819,0.29105594,0.19102092,2808,0.5267094,unweighted mean of held-out-season recall values
+F4,M2,Spline,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,14.279275,0.712,0.28936649,0.18813548,3528,0.51955782,unweighted mean of held-out-season recall values
+F4,M2,Spline,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,14.27312,0.71372064,0.29130056,0.18867508,3939,0.51789794,unweighted mean of held-out-season recall values
+F4,M2,Spline,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,14.245634,0.70826342,0.28394275,0.19059359,4652,0.51397248,unweighted mean of held-out-season recall values
+F4,M2,Spline,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,14.107231,0.70585019,0.27921914,0.19134069,5358,0.51455767,unweighted mean of held-out-season recall values
+F4,M2,Spline,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.966614,0.70765773,0.276118,0.19020695,6087,0.5153606,unweighted mean of held-out-season recall values
+F4,M2,Spline,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.896933,0.70523297,0.27026546,0.19079157,6818,0.51437372,unweighted mean of held-out-season recall values
+F4,M3,Random forest,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.728221,0.74861111,0.23529412,0.183362,700,0.53285714,unweighted mean of held-out-season recall values
+F4,M3,Random forest,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,14.021612,0.72531293,0.22611267,0.19009531,1398,0.53075823,unweighted mean of held-out-season recall values
+F4,M3,Random forest,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.74747,0.7345337,0.22564815,0.18610659,2104,0.52804183,unweighted mean of held-out-season recall values
+F4,M3,Random forest,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.690349,0.73123487,0.22494263,0.18561094,2809,0.51975792,unweighted mean of held-out-season recall values
+F4,M3,Random forest,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.686228,0.73324138,0.23212802,0.18461745,3530,0.51161473,unweighted mean of held-out-season recall values
+F4,M3,Random forest,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.683678,0.73250927,0.23551121,0.18534602,3941,0.51129155,unweighted mean of held-out-season recall values
+F4,M3,Random forest,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.67873,0.73028523,0.23175014,0.18625321,4655,0.50612245,unweighted mean of held-out-season recall values
+F4,M3,Random forest,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.55613,0.72644432,0.22778137,0.1873346,5362,0.50578142,unweighted mean of held-out-season recall values
+F4,M3,Random forest,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.44956,0.72740408,0.2298138,0.18700095,6091,0.50615662,unweighted mean of held-out-season recall values
+F4,M3,Random forest,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.407415,0.72501792,0.23044354,0.18785028,6822,0.50938141,unweighted mean of held-out-season recall values
+F4,M4,Boosted trees,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.937409,0.74166667,0.22875817,0.18181302,700,0.51,unweighted mean of held-out-season recall values
+F4,M4,Boosted trees,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,14.262487,0.72044506,0.22019919,0.18990478,1398,0.51716738,unweighted mean of held-out-season recall values
+F4,M4,Boosted trees,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.769093,0.73037858,0.21796051,0.18464832,2105,0.52874109,unweighted mean of held-out-season recall values
+F4,M4,Boosted trees,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.670774,0.72846766,0.21510082,0.18363254,2810,0.52384342,unweighted mean of held-out-season recall values
+F4,M4,Boosted trees,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.660102,0.73131034,0.22751544,0.18257235,3530,0.51473088,unweighted mean of held-out-season recall values
+F4,M4,Boosted trees,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.693029,0.73003708,0.22195866,0.18384335,3941,0.51332149,unweighted mean of held-out-season recall values
+F4,M4,Boosted trees,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.685649,0.72525168,0.2113873,0.18466631,4654,0.50988397,unweighted mean of held-out-season recall values
+F4,M4,Boosted trees,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.558132,0.72261709,0.20868184,0.18566219,5361,0.51184481,unweighted mean of held-out-season recall values
+F4,M4,Boosted trees,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.438714,0.72355113,0.21109124,0.18529003,6090,0.51527094,unweighted mean of held-out-season recall values
+F4,M4,Boosted trees,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.423247,0.71928315,0.21035249,0.18659474,6820,0.5159824,unweighted mean of held-out-season recall values
+F4,M5,Neural net,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.7757,0.72916667,0.20261438,0.18126583,700,0.50857143,unweighted mean of held-out-season recall values
+F4,M5,Neural net,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,14.316894,0.69958275,0.18331777,0.19228331,1399,0.51250893,unweighted mean of held-out-season recall values
+F4,M5,Neural net,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.980171,0.71144968,0.22146278,0.18948671,2106,0.52089269,unweighted mean of held-out-season recall values
+F4,M5,Neural net,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.824114,0.71463162,0.224521,0.18727652,2810,0.51814947,unweighted mean of held-out-season recall values
+F4,M5,Neural net,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.742512,0.72082759,0.23396463,0.18575968,3530,0.51501416,unweighted mean of held-out-season recall values
+F4,M5,Neural net,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.773854,0.72064277,0.23865984,0.18621389,3941,0.51306775,unweighted mean of held-out-season recall values
+F4,M5,Neural net,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.749354,0.71581376,0.23007578,0.18744577,4653,0.50848915,unweighted mean of held-out-season recall values
+F4,M5,Neural net,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.622583,0.71441589,0.22695734,0.18829708,5360,0.50895522,unweighted mean of held-out-season recall values
+F4,M5,Neural net,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.505104,0.71616632,0.23315347,0.18770978,6089,0.51420595,unweighted mean of held-out-season recall values
+F4,M5,Neural net,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.474006,0.71412186,0.23437516,0.18854202,6820,0.51656891,unweighted mean of held-out-season recall values
+F5,M1,Linear,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.633976,0.73472222,0.21568627,0.18289195,702,0.53561254,unweighted mean of held-out-season recall values
+F5,M1,Linear,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,13.851433,0.72183588,0.20043573,0.19440156,1401,0.53890079,unweighted mean of held-out-season recall values
+F5,M1,Linear,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.565506,0.72853186,0.20103955,0.18863779,2108,0.53652751,unweighted mean of held-out-season recall values
+F5,M1,Linear,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.563147,0.72604635,0.19969271,0.18930613,2813,0.52470672,unweighted mean of held-out-season recall values
+F5,M1,Linear,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.471749,0.72993103,0.20975416,0.18588783,3534,0.52065648,unweighted mean of held-out-season recall values
+F5,M1,Linear,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.53827,0.72830655,0.21201197,0.18708344,3946,0.51697922,unweighted mean of held-out-season recall values
+F5,M1,Linear,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.511641,0.72147651,0.20504816,0.18893858,4661,0.51727097,unweighted mean of held-out-season recall values
+F5,M1,Linear,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.430091,0.71842537,0.20634021,0.19068631,5368,0.51527571,unweighted mean of held-out-season recall values
+F5,M1,Linear,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.349056,0.71777171,0.20784633,0.18958931,6097,0.51713958,unweighted mean of held-out-season recall values
+F5,M1,Linear,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.334512,0.7162724,0.21298763,0.19102927,6828,0.51596368,unweighted mean of held-out-season recall values
+F5,M10,KNN,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,14.446667,0.70694444,0.32026144,0.18836702,702,0.51566952,unweighted mean of held-out-season recall values
+F5,M10,KNN,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,14.780702,0.68984701,0.31092437,0.19886933,1400,0.52142857,unweighted mean of held-out-season recall values
+F5,M10,KNN,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,14.471953,0.69990766,0.29529789,0.19300238,2107,0.51874703,unweighted mean of held-out-season recall values
+F5,M10,KNN,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,14.453667,0.70079557,0.29756038,0.19393435,2812,0.51386913,unweighted mean of held-out-season recall values
+F5,M10,KNN,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,14.499669,0.70344828,0.29783091,0.19312595,3533,0.5080668,unweighted mean of held-out-season recall values
+F5,M10,KNN,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,14.458016,0.70605686,0.30320861,0.19323082,3945,0.51001267,unweighted mean of held-out-season recall values
+F5,M10,KNN,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,14.458678,0.70176174,0.29852283,0.19505738,4660,0.50665236,unweighted mean of held-out-season recall values
+F5,M10,KNN,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,14.340181,0.69874248,0.30031004,0.19670699,5365,0.50754893,unweighted mean of held-out-season recall values
+F5,M10,KNN,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,14.275297,0.6981859,0.30417321,0.19696344,6092,0.51034143,unweighted mean of held-out-season recall values
+F5,M10,KNN,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,14.243663,0.69405018,0.3010707,0.19864028,6823,0.51091895,unweighted mean of held-out-season recall values
+F5,M2,Spline,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.783796,0.74305556,0.21568627,0.19292471,700,0.51714286,unweighted mean of held-out-season recall values
+F5,M2,Spline,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,13.998084,0.71974965,0.20837224,0.19829008,1398,0.5286123,unweighted mean of held-out-season recall values
+F5,M2,Spline,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.71774,0.72483841,0.20258524,0.19582846,2105,0.53159145,unweighted mean of held-out-season recall values
+F5,M2,Spline,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.608405,0.72639225,0.20764545,0.19512379,2810,0.52633452,unweighted mean of held-out-season recall values
+F5,M2,Spline,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.581805,0.73158621,0.22372506,0.19454957,3530,0.51728045,unweighted mean of held-out-season recall values
+F5,M2,Spline,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.615536,0.7315204,0.22689062,0.19526387,3941,0.51662015,unweighted mean of held-out-season recall values
+F5,M2,Spline,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.605218,0.72546141,0.21780129,0.19617776,4653,0.51171287,unweighted mean of held-out-season recall values
+F5,M2,Spline,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.505278,0.72170585,0.2149351,0.19712074,5359,0.51147602,unweighted mean of held-out-season recall values
+F5,M2,Spline,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.399877,0.72323005,0.2201401,0.19675891,6088,0.51445466,unweighted mean of held-out-season recall values
+F5,M2,Spline,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.377027,0.72071685,0.2217372,0.19757896,6818,0.51466706,unweighted mean of held-out-season recall values
+F5,M3,Random forest,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.62187,0.73611111,0.20261438,0.1812293,700,0.54142857,unweighted mean of held-out-season recall values
+F5,M3,Random forest,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,14.030085,0.72044506,0.20183629,0.1890284,1398,0.527897,unweighted mean of held-out-season recall values
+F5,M3,Random forest,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.736971,0.73037858,0.20197326,0.18511227,2105,0.52541568,unweighted mean of held-out-season recall values
+F5,M3,Random forest,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.68596,0.73088897,0.20718646,0.18446287,2810,0.51672598,unweighted mean of held-out-season recall values
+F5,M3,Random forest,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.655441,0.73213793,0.220097,0.18320754,3531,0.51231946,unweighted mean of held-out-season recall values
+F5,M3,Random forest,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.659699,0.73176761,0.22224912,0.18410742,3943,0.51255389,unweighted mean of held-out-season recall values
+F5,M3,Random forest,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.653321,0.72860738,0.21528058,0.18509326,4657,0.50805239,unweighted mean of held-out-season recall values
+F5,M3,Random forest,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.529655,0.72443958,0.21080641,0.1862513,5364,0.50633855,unweighted mean of held-out-season recall values
+F5,M3,Random forest,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.417754,0.72531707,0.21181628,0.1858657,6093,0.50730346,unweighted mean of held-out-season recall values
+F5,M3,Random forest,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.393785,0.72272401,0.21285688,0.1868014,6824,0.50908558,unweighted mean of held-out-season recall values
+F5,M4,Boosted trees,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.529737,0.74305556,0.21568627,0.17827138,701,0.5278174,unweighted mean of held-out-season recall values
+F5,M4,Boosted trees,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,13.855155,0.72183588,0.20043573,0.18692384,1399,0.53466762,unweighted mean of held-out-season recall values
+F5,M4,Boosted trees,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.581769,0.7299169,0.19729423,0.18272411,2106,0.5337132,unweighted mean of held-out-season recall values
+F5,M4,Boosted trees,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.543031,0.72985126,0.2036772,0.18205084,2811,0.52899324,unweighted mean of held-out-season recall values
+F5,M4,Boosted trees,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.508306,0.73296552,0.2118548,0.18099315,3532,0.51670442,unweighted mean of held-out-season recall values
+F5,M4,Boosted trees,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.523594,0.73300371,0.2137625,0.18214091,3943,0.51610449,unweighted mean of held-out-season recall values
+F5,M4,Boosted trees,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.525102,0.72839765,0.20654861,0.18325273,4657,0.51191754,unweighted mean of held-out-season recall values
+F5,M4,Boosted trees,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.404968,0.72680882,0.20573003,0.18419624,5364,0.51043997,unweighted mean of held-out-season recall values
+F5,M4,Boosted trees,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.290951,0.72740408,0.20730395,0.18382806,6093,0.51436074,unweighted mean of held-out-season recall values
+F5,M4,Boosted trees,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.272932,0.72487455,0.20833282,0.18492917,6823,0.51502272,unweighted mean of held-out-season recall values
+F5,M5,Neural net,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.716329,0.74444444,0.22222222,0.17984057,700,0.52285714,unweighted mean of held-out-season recall values
+F5,M5,Neural net,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,14.200532,0.71070932,0.1984127,0.19101548,1399,0.52466047,unweighted mean of held-out-season recall values
+F5,M5,Neural net,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.755927,0.72899354,0.22216277,0.18500149,2106,0.5365622,unweighted mean of held-out-season recall values
+F5,M5,Neural net,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.65069,0.72950536,0.22776338,0.18370451,2810,0.52989324,unweighted mean of held-out-season recall values
+F5,M5,Neural net,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.617175,0.7302069,0.23112375,0.18315756,3530,0.52181303,unweighted mean of held-out-season recall values
+F5,M5,Neural net,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.64498,0.72805933,0.23629245,0.18398001,3941,0.52093377,unweighted mean of held-out-season recall values
+F5,M5,Neural net,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.646166,0.72168624,0.22804659,0.18561902,4653,0.51278745,unweighted mean of held-out-season recall values
+F5,M5,Neural net,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.523531,0.71915436,0.22389974,0.18642957,5360,0.51436567,unweighted mean of held-out-season recall values
+F5,M5,Neural net,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.413776,0.7201798,0.22985387,0.18590694,6089,0.52028248,unweighted mean of held-out-season recall values
+F5,M5,Neural net,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.392817,0.71727599,0.23094256,0.18679781,6819,0.5200176,unweighted mean of held-out-season recall values
+F6,M1,Linear,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.623746,0.73333333,0.20261438,0.18195703,702,0.52849003,unweighted mean of held-out-season recall values
+F6,M1,Linear,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,13.840845,0.72183588,0.19389978,0.19335497,1401,0.53604568,unweighted mean of held-out-season recall values
+F6,M1,Linear,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.555512,0.7322253,0.20604555,0.18823337,2108,0.53273245,unweighted mean of held-out-season recall values
+F6,M1,Linear,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.553973,0.72846766,0.2048059,0.18926624,2813,0.52150729,unweighted mean of held-out-season recall values
+F6,M1,Linear,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.461888,0.73186207,0.20623602,0.18594524,3534,0.51952462,unweighted mean of held-out-season recall values
+F6,M1,Linear,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.519944,0.7302843,0.2106983,0.18697191,3946,0.51368474,unweighted mean of held-out-season recall values
+F6,M1,Linear,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.49839,0.72504195,0.20465103,0.18891488,4661,0.51255095,unweighted mean of held-out-season recall values
+F6,M1,Linear,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.411942,0.72097685,0.20214657,0.1905711,5368,0.51210879,unweighted mean of held-out-season recall values
+F6,M1,Linear,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.324835,0.72066142,0.20470038,0.18934612,6097,0.51582746,unweighted mean of held-out-season recall values
+F6,M1,Linear,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.315527,0.71770609,0.20737849,0.19088488,6828,0.51332748,unweighted mean of held-out-season recall values
+F6,M10,KNN,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,14.349653,0.69861111,0.26143791,0.18463537,702,0.51566952,unweighted mean of held-out-season recall values
+F6,M10,KNN,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,14.730911,0.68984701,0.27093059,0.19764088,1399,0.51393853,unweighted mean of held-out-season recall values
+F6,M10,KNN,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,14.409234,0.70544783,0.27425336,0.19177691,2105,0.51876485,unweighted mean of held-out-season recall values
+F6,M10,KNN,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,14.395278,0.70529229,0.28313567,0.19236661,2809,0.51228195,unweighted mean of held-out-season recall values
+F6,M10,KNN,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,14.420428,0.70758621,0.28194332,0.19155537,3529,0.50127515,unweighted mean of held-out-season recall values
+F6,M10,KNN,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,14.381471,0.70877627,0.2867327,0.19188052,3941,0.50139558,unweighted mean of held-out-season recall values
+F6,M10,KNN,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,14.361624,0.70658557,0.28440062,0.1934824,4654,0.49892566,unweighted mean of held-out-season recall values
+F6,M10,KNN,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,14.24944,0.7051212,0.29051721,0.19534272,5359,0.50177272,unweighted mean of held-out-season recall values
+F6,M10,KNN,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,14.182682,0.70364424,0.2925598,0.19577146,6087,0.50435354,unweighted mean of held-out-season recall values
+F6,M10,KNN,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,14.145079,0.69949821,0.28830382,0.19714753,6818,0.50689352,unweighted mean of held-out-season recall values
+F6,M2,Spline,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.604604,0.74861111,0.18300654,0.19057885,700,0.53714286,unweighted mean of held-out-season recall values
+F6,M2,Spline,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,13.898899,0.72600834,0.18409586,0.19635141,1398,0.53576538,unweighted mean of held-out-season recall values
+F6,M2,Spline,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.665938,0.72899354,0.18827364,0.19433158,2105,0.53301663,unweighted mean of held-out-season recall values
+F6,M2,Spline,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.571798,0.72431685,0.18468349,0.19371793,2809,0.52723389,unweighted mean of held-out-season recall values
+F6,M2,Spline,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.535526,0.72827586,0.19231201,0.19310331,3529,0.52054406,unweighted mean of held-out-season recall values
+F6,M2,Spline,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.560473,0.72830655,0.19262247,0.19381432,3940,0.5180203,unweighted mean of held-out-season recall values
+F6,M2,Spline,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.54554,0.72378356,0.18842859,0.19482045,4652,0.51655202,unweighted mean of held-out-season recall values
+F6,M2,Spline,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.441785,0.72079461,0.18923399,0.19589091,5359,0.51483486,unweighted mean of held-out-season recall values
+F6,M2,Spline,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.33938,0.72114304,0.19380427,0.19552476,6088,0.51691853,unweighted mean of held-out-season recall values
+F6,M2,Spline,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.330584,0.71870968,0.1961831,0.19647356,6818,0.51554708,unweighted mean of held-out-season recall values
+F6,M3,Random forest,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.52295,0.74166667,0.18954248,0.18022646,700,0.53,unweighted mean of held-out-season recall values
+F6,M3,Random forest,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,13.922031,0.72461752,0.19794585,0.18815116,1398,0.53004292,unweighted mean of held-out-season recall values
+F6,M3,Random forest,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.660005,0.7299169,0.18627101,0.18451884,2105,0.5263658,unweighted mean of held-out-season recall values
+F6,M3,Random forest,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.616146,0.72639225,0.1886163,0.18403937,2810,0.51886121,unweighted mean of held-out-season recall values
+F6,M3,Random forest,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.581402,0.72993103,0.19654522,0.18304317,3530,0.50849858,unweighted mean of held-out-season recall values
+F6,M3,Random forest,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.577517,0.73077874,0.19776826,0.18386502,3941,0.51053032,unweighted mean of held-out-season recall values
+F6,M3,Random forest,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.560312,0.72713926,0.19429699,0.18477358,4655,0.50741139,unweighted mean of held-out-season recall values
+F6,M3,Random forest,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.43869,0.72316384,0.19180474,0.18604106,5362,0.5076464,unweighted mean of held-out-season recall values
+F6,M3,Random forest,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.329197,0.72499599,0.19434418,0.1857186,6091,0.50861927,unweighted mean of held-out-season recall values
+F6,M3,Random forest,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.294883,0.72272401,0.19713198,0.18660304,6821,0.51048233,unweighted mean of held-out-season recall values
+F6,M4,Boosted trees,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.451488,0.75277778,0.22222222,0.17613734,700,0.52285714,unweighted mean of held-out-season recall values
+F6,M4,Boosted trees,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,13.934428,0.72183588,0.19312169,0.18703201,1398,0.52718169,unweighted mean of held-out-season recall values
+F6,M4,Boosted trees,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.578351,0.72945522,0.18680023,0.18239282,2105,0.52446556,unweighted mean of held-out-season recall values
+F6,M4,Boosted trees,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.526178,0.72846766,0.194448,0.18170042,2809,0.51797793,unweighted mean of held-out-season recall values
+F6,M4,Boosted trees,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.480139,0.73241379,0.2055584,0.18052656,3530,0.50793201,unweighted mean of held-out-season recall values
+F6,M4,Boosted trees,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.502015,0.73250927,0.20689737,0.18158112,3940,0.50761421,unweighted mean of held-out-season recall values
+F6,M4,Boosted trees,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.514331,0.72734899,0.19847763,0.18291043,4654,0.50644607,unweighted mean of held-out-season recall values
+F6,M4,Boosted trees,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.398277,0.72407509,0.19674485,0.18412728,5361,0.50643537,unweighted mean of held-out-season recall values
+F6,M4,Boosted trees,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.276838,0.72563814,0.19873539,0.18359075,6090,0.51100164,unweighted mean of held-out-season recall values
+F6,M4,Boosted trees,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.249026,0.7237276,0.19830629,0.18459096,6820,0.51231672,unweighted mean of held-out-season recall values
+F6,M5,Neural net,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.74389,0.72916667,0.22222222,0.18769715,701,0.4850214,unweighted mean of held-out-season recall values
+F6,M5,Neural net,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,14.279974,0.69958275,0.21957672,0.19527125,1400,0.50071429,unweighted mean of held-out-season recall values
+F6,M5,Neural net,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.865334,0.7156048,0.21754553,0.1899648,2107,0.51447556,unweighted mean of held-out-season recall values
+F6,M5,Neural net,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.751533,0.72085783,0.23245262,0.18837772,2812,0.51066856,unweighted mean of held-out-season recall values
+F6,M5,Neural net,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.70147,0.72496552,0.23378819,0.18689359,3532,0.50396376,unweighted mean of held-out-season recall values
+F6,M5,Neural net,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.706246,0.72262052,0.23527656,0.18760202,3943,0.50469186,unweighted mean of held-out-season recall values
+F6,M5,Neural net,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.675853,0.71854027,0.22790469,0.18825467,4656,0.50515464,unweighted mean of held-out-season recall values
+F6,M5,Neural net,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.517757,0.71642063,0.22505763,0.18873803,5363,0.51053515,unweighted mean of held-out-season recall values
+F6,M5,Neural net,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.423692,0.71696902,0.22855617,0.18799489,6092,0.51263953,unweighted mean of held-out-season recall values
+F6,M5,Neural net,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.396973,0.71326165,0.22792278,0.18896883,6822,0.51260627,unweighted mean of held-out-season recall values
+F7,M1,Linear,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,12.608554,0.78611111,0.026143791,0.15566479,702,0.54558405,unweighted mean of held-out-season recall values
+F7,M1,Linear,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,12.881989,0.76147427,0.013071895,0.16859904,1401,0.51463241,unweighted mean of held-out-season recall values
+F7,M1,Linear,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,12.644859,0.75946445,0.014332574,0.16582118,2108,0.50996205,unweighted mean of held-out-season recall values
+F7,M1,Linear,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,12.578359,0.75579384,0.010749431,0.16527855,2813,0.50444365,unweighted mean of held-out-season recall values
+F7,M1,Linear,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,12.481509,0.7542069,0.0085995447,0.16453954,3534,0.50877193,unweighted mean of held-out-season recall values
+F7,M1,Linear,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,12.532081,0.75426452,0.0071662872,0.16532442,3946,0.50532184,unweighted mean of held-out-season recall values
+F7,M1,Linear,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,12.533309,0.75041946,0.0061425319,0.16660562,4661,0.50761639,unweighted mean of held-out-season recall values
+F7,M1,Linear,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,12.467988,0.7475852,0.0053747154,0.16902657,5368,0.50279434,unweighted mean of held-out-season recall values
+F7,M1,Linear,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,12.417207,0.74715043,0.005940992,0.16892658,6097,0.50467443,unweighted mean of held-out-season recall values
+F7,M1,Linear,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,12.400735,0.74322581,0.0053468928,0.17018336,6828,0.50424722,unweighted mean of held-out-season recall values
+F7,M10,KNN,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,12.785167,0.76527778,0.10457516,0.16146216,702,0.50997151,unweighted mean of held-out-season recall values
+F7,M10,KNN,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,13.04363,0.74687065,0.13429816,0.17357659,1401,0.51605996,unweighted mean of held-out-season recall values
+F7,M10,KNN,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,12.795115,0.74699908,0.12136732,0.17082115,2106,0.52136752,unweighted mean of held-out-season recall values
+F7,M10,KNN,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,12.852798,0.7405742,0.11548201,0.17182409,2811,0.51334045,unweighted mean of held-out-season recall values
+F7,M10,KNN,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,12.765655,0.74068966,0.10977691,0.17030927,3532,0.50509626,unweighted mean of held-out-season recall values
+F7,M10,KNN,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,12.820188,0.73992583,0.099571374,0.17079174,3942,0.49797057,unweighted mean of held-out-season recall values
+F7,M10,KNN,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,12.796097,0.73909396,0.1028396,0.17151105,4655,0.49989259,unweighted mean of held-out-season recall values
+F7,M10,KNN,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,12.7623,0.73646802,0.10408722,0.17435975,5362,0.49757553,unweighted mean of held-out-season recall values
+F7,M10,KNN,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,12.674781,0.73703644,0.10648358,0.17348969,6090,0.50295567,unweighted mean of held-out-season recall values
+F7,M10,KNN,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,12.637316,0.73476703,0.10648337,0.17450677,6817,0.50330057,unweighted mean of held-out-season recall values
+F7,M2,Spline,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,12.504353,0.78888889,0.032679739,0.15535736,700,0.55,unweighted mean of held-out-season recall values
+F7,M2,Spline,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,12.882774,0.7635605,0.018985372,0.16801829,1395,0.51756272,unweighted mean of held-out-season recall values
+F7,M2,Spline,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,12.666099,0.76084949,0.02202021,0.16557736,2101,0.51213708,unweighted mean of held-out-season recall values
+F7,M2,Spline,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,12.633124,0.75613974,0.016515158,0.16546134,2803,0.50588655,unweighted mean of held-out-season recall values
+F7,M2,Spline,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,12.556277,0.75448276,0.013212126,0.16474071,3523,0.50723815,unweighted mean of held-out-season recall values
+F7,M2,Spline,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,12.599183,0.75451174,0.011010105,0.16555197,3934,0.50381291,unweighted mean of held-out-season recall values
+F7,M2,Spline,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,12.602379,0.75062919,0.0094372331,0.16678164,4645,0.50678149,unweighted mean of held-out-season recall values
+F7,M2,Spline,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,12.545118,0.7479497,0.0088986046,0.16912434,5351,0.50177537,unweighted mean of held-out-season recall values
+F7,M2,Spline,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,12.485654,0.74715043,0.0090733379,0.16909004,6080,0.50427632,unweighted mean of held-out-season recall values
+F7,M2,Spline,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,12.479909,0.74322581,0.0081660041,0.17037212,6811,0.50212891,unweighted mean of held-out-season recall values
+F7,M3,Random forest,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,12.694489,0.76388889,0.098039216,0.16652943,700,0.54,unweighted mean of held-out-season recall values
+F7,M3,Random forest,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,13.048004,0.74200278,0.088702148,0.17576434,1395,0.52114695,unweighted mean of held-out-season recall values
+F7,M3,Random forest,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,12.800875,0.74192059,0.062880083,0.17263517,2102,0.51950523,unweighted mean of held-out-season recall values
+F7,M3,Random forest,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,12.740582,0.74368731,0.064823106,0.17229097,2807,0.52404703,unweighted mean of held-out-season recall values
+F7,M3,Random forest,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,12.665148,0.74565517,0.06272805,0.17145702,3527,0.51772044,unweighted mean of held-out-season recall values
+F7,M3,Random forest,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,12.710451,0.74561187,0.061982113,0.17210717,3937,0.51562103,unweighted mean of held-out-season recall values
+F7,M3,Random forest,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,12.716538,0.74307886,0.069891374,0.17313492,4652,0.51676698,unweighted mean of held-out-season recall values
+F7,M3,Random forest,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,12.661908,0.74065974,0.072693414,0.17522693,5359,0.51315544,unweighted mean of held-out-season recall values
+F7,M3,Random forest,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,12.592551,0.74121047,0.078577973,0.17522698,6088,0.5162615,unweighted mean of held-out-season recall values
+F7,M3,Random forest,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,12.567336,0.73935484,0.085072028,0.17619271,6819,0.51869776,unweighted mean of held-out-season recall values
+F7,M4,Boosted trees,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,12.687478,0.78333333,0.065359477,0.16729239,700,0.51,unweighted mean of held-out-season recall values
+F7,M4,Boosted trees,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,13.020945,0.75521558,0.061780268,0.17683516,1395,0.50179211,unweighted mean of held-out-season recall values
+F7,M4,Boosted trees,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,12.756261,0.75484765,0.044932163,0.173643,2102,0.51665081,unweighted mean of held-out-season recall values
+F7,M4,Boosted trees,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,12.688934,0.75406434,0.044568688,0.17332801,2807,0.5204845,unweighted mean of held-out-season recall values
+F7,M4,Boosted trees,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,12.615698,0.75475862,0.048698429,0.17248606,3528,0.5175737,unweighted mean of held-out-season recall values
+F7,M4,Boosted trees,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,12.663154,0.75426452,0.055145131,0.17313941,3940,0.51319797,unweighted mean of held-out-season recall values
+F7,M4,Boosted trees,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,12.66676,0.74937081,0.062573377,0.17413103,4655,0.50912997,unweighted mean of held-out-season recall values
+F7,M4,Boosted trees,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,12.599497,0.74521597,0.062444013,0.17606129,5362,0.50671391,unweighted mean of held-out-season recall values
+F7,M4,Boosted trees,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,12.527773,0.74554503,0.059577924,0.17613614,6091,0.50944016,unweighted mean of held-out-season recall values
+F7,M4,Boosted trees,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,12.509003,0.74136201,0.061490502,0.17710463,6822,0.51289944,unweighted mean of held-out-season recall values
+F7,M5,Neural net,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,12.658416,0.77083333,0.15686275,0.16664334,700,0.51857143,unweighted mean of held-out-season recall values
+F7,M5,Neural net,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,12.980308,0.75382476,0.14456894,0.17528087,1399,0.51179414,unweighted mean of held-out-season recall values
+F7,M5,Neural net,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,12.79288,0.75253924,0.12446918,0.17362828,2105,0.51353919,unweighted mean of held-out-season recall values
+F7,M5,Neural net,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,12.728365,0.74991352,0.10150406,0.17325977,2810,0.51708185,unweighted mean of held-out-season recall values
+F7,M5,Neural net,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,12.634064,0.75006897,0.085551073,0.17231427,3530,0.51303116,unweighted mean of held-out-season recall values
+F7,M5,Neural net,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,12.676103,0.75055624,0.074528807,0.1729742,3940,0.51040609,unweighted mean of held-out-season recall values
+F7,M5,Neural net,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,12.678849,0.74643456,0.064610698,0.17403973,4655,0.50998926,unweighted mean of held-out-season recall values
+F7,M5,Neural net,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,12.609814,0.74466922,0.059098463,0.17600518,5361,0.50830069,unweighted mean of held-out-season recall values
+F7,M5,Neural net,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,12.544616,0.74393964,0.053695434,0.17624703,6090,0.51067323,unweighted mean of held-out-season recall values
+F7,M5,Neural net,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,12.53054,0.74007168,0.04971478,0.17726413,6821,0.51092215,unweighted mean of held-out-season recall values
+F8,M1,Linear,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.356371,0.74444444,0.17647059,0.17736213,702,0.53418803,unweighted mean of held-out-season recall values
+F8,M1,Linear,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,13.58319,0.73296245,0.18082789,0.18925797,1401,0.53890079,unweighted mean of held-out-season recall values
+F8,M1,Linear,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.286489,0.74007387,0.17860436,0.18390151,2108,0.53889943,unweighted mean of held-out-season recall values
+F8,M1,Linear,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.247939,0.73711519,0.17335544,0.18447587,2813,0.52683967,unweighted mean of held-out-season recall values
+F8,M1,Linear,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.141535,0.73986207,0.17020609,0.18142994,3534,0.52546689,unweighted mean of held-out-season recall values
+F8,M1,Linear,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.178197,0.7394314,0.16611026,0.18157824,3946,0.51951343,unweighted mean of held-out-season recall values
+F8,M1,Linear,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.134506,0.73510906,0.1584152,0.18263425,4661,0.51855825,unweighted mean of held-out-season recall values
+F8,M1,Linear,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.035877,0.73300529,0.15527997,0.18409836,5368,0.51844262,unweighted mean of held-out-season recall values
+F8,M1,Linear,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,12.935458,0.73398619,0.15606038,0.18252652,6097,0.52123995,unweighted mean of held-out-season recall values
+F8,M1,Linear,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,12.903738,0.73075269,0.1548062,0.18338546,6828,0.51874634,unweighted mean of held-out-season recall values
+F8,M10,KNN,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.792986,0.72916667,0.20261438,0.17322157,702,0.48860399,unweighted mean of held-out-season recall values
+F8,M10,KNN,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,14.102851,0.71279555,0.22564581,0.1859655,1400,0.49928571,unweighted mean of held-out-season recall values
+F8,M10,KNN,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.829894,0.71929825,0.22533691,0.18166129,2107,0.49786426,unweighted mean of held-out-season recall values
+F8,M10,KNN,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.786199,0.72293324,0.23014399,0.18203746,2811,0.49839915,unweighted mean of held-out-season recall values
+F8,M10,KNN,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.762441,0.72496552,0.22107171,0.18084544,3526,0.49319342,unweighted mean of held-out-season recall values
+F8,M10,KNN,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.732454,0.72731768,0.21982513,0.18082343,3938,0.49415947,unweighted mean of held-out-season recall values
+F8,M10,KNN,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.701898,0.7260906,0.21320288,0.18210513,4650,0.4888172,unweighted mean of held-out-season recall values
+F8,M10,KNN,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.580454,0.72261709,0.21475765,0.18336947,5355,0.49262372,unweighted mean of held-out-season recall values
+F8,M10,KNN,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.468081,0.72419329,0.21300156,0.18286799,6082,0.49473857,unweighted mean of held-out-season recall values
+F8,M10,KNN,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.417642,0.72100358,0.21021993,0.18438436,6813,0.4972846,unweighted mean of held-out-season recall values
+F8,M2,Spline,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.410459,0.75555556,0.18300654,0.17886642,700,0.52142857,unweighted mean of held-out-season recall values
+F8,M2,Spline,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,13.812151,0.73087622,0.18938687,0.18732485,1398,0.53004292,unweighted mean of held-out-season recall values
+F8,M2,Spline,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.506209,0.73730379,0.18805566,0.18551859,2105,0.53301663,unweighted mean of held-out-season recall values
+F8,M2,Spline,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.420061,0.73642338,0.1872374,0.18537602,2808,0.52314815,unweighted mean of held-out-season recall values
+F8,M2,Spline,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.320694,0.73848276,0.18348557,0.18456558,3528,0.51502268,unweighted mean of held-out-season recall values
+F8,M2,Spline,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.315328,0.73893696,0.17555836,0.1852088,3939,0.51485149,unweighted mean of held-out-season recall values
+F8,M2,Spline,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.28562,0.73489933,0.17088676,0.18644317,4651,0.514298,unweighted mean of held-out-season recall values
+F8,M2,Spline,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.17882,0.73300529,0.17132079,0.1877972,5357,0.51521374,unweighted mean of held-out-season recall values
+F8,M2,Spline,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.058433,0.73494943,0.17031889,0.18732663,6086,0.51955307,unweighted mean of held-out-season recall values
+F8,M2,Spline,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.037914,0.73132616,0.16763885,0.18832339,6817,0.51562271,unweighted mean of held-out-season recall values
+F8,M3,Random forest,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.140783,0.76111111,0.17647059,0.1735258,700,0.54,unweighted mean of held-out-season recall values
+F8,M3,Random forest,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,13.457815,0.73574409,0.17024588,0.18152793,1398,0.527897,unweighted mean of held-out-season recall values
+F8,M3,Random forest,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.151589,0.73868883,0.15656841,0.1775404,2104,0.52471483,unweighted mean of held-out-season recall values
+F8,M3,Random forest,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.087155,0.73849879,0.14595892,0.17694699,2808,0.51317664,unweighted mean of held-out-season recall values
+F8,M3,Random forest,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,12.977168,0.73986207,0.145028,0.17540616,3528,0.50680272,unweighted mean of held-out-season recall values
+F8,M3,Random forest,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.007896,0.73893696,0.14027415,0.17595053,3940,0.50456853,unweighted mean of held-out-season recall values
+F8,M3,Random forest,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,12.978688,0.73741611,0.1355411,0.17650157,4654,0.50386764,unweighted mean of held-out-season recall values
+F8,M3,Random forest,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,12.885104,0.73519227,0.13013693,0.17819615,5361,0.50419698,unweighted mean of held-out-season recall values
+F8,M3,Random forest,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,12.787054,0.73543105,0.12847541,0.17787751,6090,0.50558292,unweighted mean of held-out-season recall values
+F8,M3,Random forest,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,12.745903,0.73261649,0.13183157,0.17873644,6819,0.50755243,unweighted mean of held-out-season recall values
+F8,M4,Boosted trees,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.327324,0.75555556,0.16993464,0.17325028,700,0.52285714,unweighted mean of held-out-season recall values
+F8,M4,Boosted trees,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,13.575502,0.73226704,0.17226891,0.18189431,1398,0.53290415,unweighted mean of held-out-season recall values
+F8,M4,Boosted trees,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.208901,0.74192059,0.17851635,0.17721223,2105,0.53491686,unweighted mean of held-out-season recall values
+F8,M4,Boosted trees,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.118788,0.7416119,0.16377857,0.1764046,2809,0.5258099,unweighted mean of held-out-season recall values
+F8,M4,Boosted trees,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.002118,0.74344828,0.16145764,0.17493746,3530,0.51813031,unweighted mean of held-out-season recall values
+F8,M4,Boosted trees,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.017315,0.74289246,0.160438,0.17557425,3942,0.51572806,unweighted mean of held-out-season recall values
+F8,M4,Boosted trees,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,12.987152,0.73909396,0.155011,0.17635289,4656,0.51245704,unweighted mean of held-out-season recall values
+F8,M4,Boosted trees,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,12.893965,0.73756151,0.15230129,0.17765571,5362,0.50932488,unweighted mean of held-out-season recall values
+F8,M4,Boosted trees,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,12.7865,0.73928399,0.15050399,0.17719766,6091,0.51370875,unweighted mean of held-out-season recall values
+F8,M4,Boosted trees,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,12.747705,0.73548387,0.1479536,0.17812844,6821,0.51663979,unweighted mean of held-out-season recall values
+F8,M5,Neural net,historical rolling-origin test seasons,2015,cumulative_heldout_seasons,720,13.672702,0.75277778,0.21568627,0.17832879,700,0.52714286,unweighted mean of held-out-season recall values
+F8,M5,Neural net,historical rolling-origin test seasons,2016,cumulative_heldout_seasons,1438,14.04212,0.72392211,0.19249922,0.18740603,1399,0.52537527,unweighted mean of held-out-season recall values
+F8,M5,Neural net,historical rolling-origin test seasons,2017,cumulative_heldout_seasons,2166,13.590834,0.73591874,0.1976212,0.18176049,2106,0.53466287,unweighted mean of held-out-season recall values
+F8,M5,Neural net,historical rolling-origin test seasons,2018,cumulative_heldout_seasons,2891,13.464757,0.73469388,0.18897677,0.18053073,2808,0.52492877,unweighted mean of held-out-season recall values
+F8,M5,Neural net,historical rolling-origin test seasons,2019,cumulative_heldout_seasons,3625,13.362382,0.73848276,0.18705098,0.17924914,3528,0.52097506,unweighted mean of held-out-season recall values
+F8,M5,Neural net,historical rolling-origin test seasons,2020,cumulative_heldout_seasons,4045,13.360819,0.73893696,0.19471077,0.17988439,3939,0.51992892,unweighted mean of held-out-season recall values
+F8,M5,Neural net,historical rolling-origin test seasons,2021,cumulative_heldout_seasons,4768,13.322953,0.73510906,0.18657425,0.18066541,4651,0.51752311,unweighted mean of held-out-season recall values
+F8,M5,Neural net,historical rolling-origin test seasons,2022,cumulative_heldout_seasons,5487,13.189431,0.73227629,0.18376529,0.18172492,5358,0.52220978,unweighted mean of held-out-season recall values
+F8,M5,Neural net,historical rolling-origin test seasons,2023,cumulative_heldout_seasons,6229,13.074471,0.73527051,0.18836146,0.18136037,6087,0.52439625,unweighted mean of held-out-season recall values
+F8,M5,Neural net,historical rolling-origin test seasons,2024,cumulative_heldout_seasons,6975,13.043673,0.73146953,0.18943273,0.18227834,6818,0.52185392,unweighted mean of held-out-season recall values

@@ -72,6 +72,11 @@ publication/2026/week_*/**/tables/**
 # figure; it contains canonical labels, not CFBD or derived result rows.
 !publication/2026/intro/fingerprint_ladder.csv
 
+# Reproducible all-generation scientific fingerprint archive: publish its
+# reviewed scorecards, predictions, performance tables, and provenance.
+!publication/scientific_fingerprint_archive/f0_f17_market/**/*.csv
+!publication/scientific_fingerprint_archive/f0_f17_market/**/*.csv.gz
+
 # Model checkpoints: regenerate locally or store in an external artifact store.
 *.pkl
 *.joblib

@@ -1,0 +1,109 @@
+stage,model,model_label,season,n_games,margin_mae,winner_accuracy,upset_recall,brier_score,ats_games,ats_accuracy,replicates,cohort
+F09,M1,Linear,2024,626,13.120442,0.70766773,0.27472527,0.19136191,612,0.48856209,3,common 2024–2025 development cohort; median across frozen fits
+F09,M1,Linear,2025,553,12.314455,0.73598553,0.22818792,0.18441462,542,0.54243542,3,common 2024–2025 development cohort; median across frozen fits
+F09,M10,KNN,2024,626,14.499042,0.65335463,0.28021978,0.21233103,611,0.50736498,3,common 2024–2025 development cohort; median across frozen fits
+F09,M10,KNN,2025,553,13.746203,0.68896926,0.30201342,0.20790306,541,0.48983364,3,common 2024–2025 development cohort; median across frozen fits
+F09,M2,Spline,2024,626,13.612486,0.6813099,0.26098901,0.19983465,612,0.48447712,10,common 2024–2025 development cohort; median across frozen fits
+F09,M2,Spline,2025,553,12.762927,0.71157324,0.25503356,0.19392906,542,0.51291513,10,common 2024–2025 development cohort; median across frozen fits
+F09,M3,Random forest,2024,626,13.13725,0.70607029,0.24175824,0.19102133,612,0.48529412,3,common 2024–2025 development cohort; median across frozen fits
+F09,M3,Random forest,2025,553,12.336795,0.7124774,0.18791946,0.18624209,542,0.53321033,3,common 2024–2025 development cohort; median across frozen fits
+F09,M4,Boosted trees,2024,626,13.231959,0.6956869,0.23901099,0.19411062,612,0.49346405,10,common 2024–2025 development cohort; median across frozen fits
+F09,M4,Boosted trees,2025,553,12.490829,0.71157324,0.19798658,0.18766602,542,0.52583026,10,common 2024–2025 development cohort; median across frozen fits
+F09,M5,Neural net,2024,626,15.023909,0.64536741,0.34615385,0.2209798,611,0.4811784,3,common 2024–2025 development cohort; median across frozen fits
+F09,M5,Neural net,2025,553,14.14005,0.65822785,0.32885906,0.20861606,542,0.48339483,3,common 2024–2025 development cohort; median across frozen fits
+F10,M1,Linear,2024,626,13.182671,0.69808307,0.26923077,0.19142625,612,0.49509804,3,common 2024–2025 development cohort; median across frozen fits
+F10,M1,Linear,2025,553,12.168633,0.72513562,0.2147651,0.18354974,542,0.53505535,3,common 2024–2025 development cohort; median across frozen fits
+F10,M10,KNN,2024,626,13.960463,0.67412141,0.30769231,0.20549325,610,0.51803279,3,common 2024–2025 development cohort; median across frozen fits
+F10,M10,KNN,2025,553,13.323689,0.68535262,0.26845638,0.205892,538,0.50371747,3,common 2024–2025 development cohort; median across frozen fits
+F10,M2,Spline,2024,626,13.771711,0.6813099,0.27472527,0.20103621,612,0.49264706,10,common 2024–2025 development cohort; median across frozen fits
+F10,M2,Spline,2025,553,12.825362,0.69529837,0.27516779,0.19611533,542,0.52675277,10,common 2024–2025 development cohort; median across frozen fits
+F10,M3,Random forest,2024,626,13.024973,0.71405751,0.25274725,0.19032786,612,0.4869281,3,common 2024–2025 development cohort; median across frozen fits
+F10,M3,Random forest,2025,553,12.255148,0.71609403,0.19463087,0.18493835,542,0.53690037,3,common 2024–2025 development cohort; median across frozen fits
+F10,M4,Boosted trees,2024,626,13.234821,0.68210863,0.23901099,0.19404187,612,0.48366013,10,common 2024–2025 development cohort; median across frozen fits
+F10,M4,Boosted trees,2025,553,12.380682,0.72151899,0.2147651,0.18597608,542,0.51107011,10,common 2024–2025 development cohort; median across frozen fits
+F10,M5,Neural net,2024,626,14.947405,0.65335463,0.33516484,0.21198519,611,0.47790507,3,common 2024–2025 development cohort; median across frozen fits
+F10,M5,Neural net,2025,553,14.331392,0.64918626,0.2885906,0.21678156,542,0.49630996,3,common 2024–2025 development cohort; median across frozen fits
+F11,M1,Linear,2024,626,13.143871,0.69009585,0.25274725,0.1897303,612,0.49673203,3,common 2024–2025 development cohort; median across frozen fits
+F11,M1,Linear,2025,553,12.111996,0.71971067,0.20134228,0.18298928,542,0.54797048,3,common 2024–2025 development cohort; median across frozen fits
+F11,M10,KNN,2024,626,14.009185,0.66134185,0.27472527,0.20695928,612,0.52614379,3,common 2024–2025 development cohort; median across frozen fits
+F11,M10,KNN,2025,553,13.337613,0.6925859,0.2885906,0.2056481,542,0.51291513,3,common 2024–2025 development cohort; median across frozen fits
+F11,M2,Spline,2024,626,13.765938,0.68051118,0.26648352,0.20045583,612,0.49346405,10,common 2024–2025 development cohort; median across frozen fits
+F11,M2,Spline,2025,553,12.783493,0.69891501,0.27516779,0.19603916,542,0.52675277,10,common 2024–2025 development cohort; median across frozen fits
+F11,M3,Random forest,2024,626,13.03036,0.71246006,0.24725275,0.19022065,612,0.48366013,3,common 2024–2025 development cohort; median across frozen fits
+F11,M3,Random forest,2025,553,12.242896,0.71609403,0.18791946,0.18458914,542,0.53321033,3,common 2024–2025 development cohort; median across frozen fits
+F11,M4,Boosted trees,2024,626,13.212244,0.69169329,0.25,0.19374922,612,0.49019608,10,common 2024–2025 development cohort; median across frozen fits
+F11,M4,Boosted trees,2025,553,12.4661,0.71428571,0.20805369,0.1872478,542,0.51107011,10,common 2024–2025 development cohort; median across frozen fits
+F11,M5,Neural net,2024,626,15.13852,0.64696486,0.28021978,0.2194562,611,0.46481178,3,common 2024–2025 development cohort; median across frozen fits
+F11,M5,Neural net,2025,553,14.157816,0.6437613,0.26174497,0.21568457,542,0.50922509,3,common 2024–2025 development cohort; median across frozen fits
+F12_corrected,M1,Linear,2024,626,13.190648,0.68690096,0.25274725,0.18985385,612,0.49183007,3,common 2024–2025 development cohort; median across frozen fits
+F12_corrected,M1,Linear,2025,553,12.130079,0.72332731,0.20805369,0.18347429,542,0.54428044,3,common 2024–2025 development cohort; median across frozen fits
+F12_corrected,M10,KNN,2024,626,13.836901,0.66773163,0.2967033,0.20500404,611,0.52700491,3,common 2024–2025 development cohort; median across frozen fits
+F12_corrected,M10,KNN,2025,553,13.266998,0.68535262,0.30201342,0.20267411,541,0.49168207,3,common 2024–2025 development cohort; median across frozen fits
+F12_corrected,M2,Spline,2024,626,13.824637,0.67252396,0.25824176,0.20115335,612,0.49101307,10,common 2024–2025 development cohort; median across frozen fits
+F12_corrected,M2,Spline,2025,553,12.815521,0.69529837,0.25838926,0.19552773,542,0.5304428,10,common 2024–2025 development cohort; median across frozen fits
+F12_corrected,M3,Random forest,2024,626,13.042018,0.71086262,0.24725275,0.19007402,612,0.47875817,3,common 2024–2025 development cohort; median across frozen fits
+F12_corrected,M3,Random forest,2025,553,12.211693,0.72151899,0.19463087,0.18398777,542,0.53321033,3,common 2024–2025 development cohort; median across frozen fits
+F12_corrected,M4,Boosted trees,2024,626,13.207086,0.68690096,0.23626374,0.19348253,612,0.48284314,10,common 2024–2025 development cohort; median across frozen fits
+F12_corrected,M4,Boosted trees,2025,553,12.404032,0.72061483,0.2147651,0.18647263,542,0.51291513,10,common 2024–2025 development cohort; median across frozen fits
+F12_corrected,M5,Neural net,2024,626,15.121128,0.65015974,0.2967033,0.21988415,611,0.4624183,3,common 2024–2025 development cohort; median across frozen fits
+F12_corrected,M5,Neural net,2025,553,14.10008,0.65641953,0.31543624,0.21342605,542,0.48892989,3,common 2024–2025 development cohort; median across frozen fits
+F13,M1,Linear,2024,626,13.211927,0.69169329,0.25274725,0.18990611,612,0.49019608,3,common 2024–2025 development cohort; median across frozen fits
+F13,M1,Linear,2025,553,12.152905,0.71790235,0.20134228,0.18405792,542,0.54428044,3,common 2024–2025 development cohort; median across frozen fits
+F13,M10,KNN,2024,626,13.959744,0.65495208,0.26373626,0.20573126,609,0.51888342,3,common 2024–2025 development cohort; median across frozen fits
+F13,M10,KNN,2025,553,13.181284,0.69620253,0.31543624,0.20035971,538,0.49442379,3,common 2024–2025 development cohort; median across frozen fits
+F13,M2,Spline,2024,626,13.855285,0.68051118,0.25549451,0.2012963,612,0.49019608,10,common 2024–2025 development cohort; median across frozen fits
+F13,M2,Spline,2025,553,12.845378,0.69710669,0.26174497,0.19554113,542,0.52583026,10,common 2024–2025 development cohort; median across frozen fits
+F13,M3,Random forest,2024,626,13.036847,0.71246006,0.25274725,0.19020211,612,0.48366013,3,common 2024–2025 development cohort; median across frozen fits
+F13,M3,Random forest,2025,553,12.222629,0.71790235,0.18120805,0.18442302,542,0.52398524,3,common 2024–2025 development cohort; median across frozen fits
+F13,M4,Boosted trees,2024,626,13.249037,0.69169329,0.25,0.19514399,612,0.48284314,10,common 2024–2025 development cohort; median across frozen fits
+F13,M4,Boosted trees,2025,553,12.475396,0.72242315,0.2114094,0.18719636,542,0.50369004,10,common 2024–2025 development cohort; median across frozen fits
+F13,M5,Neural net,2024,626,15.04038,0.64536741,0.28571429,0.21566195,612,0.4624183,3,common 2024–2025 development cohort; median across frozen fits
+F13,M5,Neural net,2025,553,14.030076,0.65280289,0.28187919,0.21536035,542,0.51845018,3,common 2024–2025 development cohort; median across frozen fits
+F14,M1,Linear,2024,626,13.210384,0.69169329,0.25274725,0.18986673,612,0.49019608,3,common 2024–2025 development cohort; median across frozen fits
+F14,M1,Linear,2025,553,12.152876,0.71790235,0.20134228,0.18405438,542,0.54428044,3,common 2024–2025 development cohort; median across frozen fits
+F14,M10,KNN,2024,626,13.852316,0.66613419,0.26923077,0.20294098,608,0.52138158,3,common 2024–2025 development cohort; median across frozen fits
+F14,M10,KNN,2025,553,13.25217,0.69077758,0.31543624,0.20247202,541,0.48798521,3,common 2024–2025 development cohort; median across frozen fits
+F14,M2,Spline,2024,626,13.9549,0.67492013,0.25,0.20335936,612,0.4869281,10,common 2024–2025 development cohort; median across frozen fits
+F14,M2,Spline,2025,553,12.902356,0.69349005,0.27852349,0.19620105,542,0.52675277,10,common 2024–2025 development cohort; median across frozen fits
+F14,M3,Random forest,2024,626,13.048128,0.7172524,0.25824176,0.19010224,612,0.48202614,3,common 2024–2025 development cohort; median across frozen fits
+F14,M3,Random forest,2025,553,12.237107,0.71790235,0.18791946,0.184587,542,0.52398524,3,common 2024–2025 development cohort; median across frozen fits
+F14,M4,Boosted trees,2024,626,13.265904,0.69488818,0.25824176,0.19505559,612,0.48202614,10,common 2024–2025 development cohort; median across frozen fits
+F14,M4,Boosted trees,2025,553,12.424234,0.71699819,0.19798658,0.18690978,542,0.5101476,10,common 2024–2025 development cohort; median across frozen fits
+F14,M5,Neural net,2024,626,15.433071,0.64217252,0.2967033,0.22251646,611,0.46153846,3,common 2024–2025 development cohort; median across frozen fits
+F14,M5,Neural net,2025,553,14.135316,0.64737794,0.29530201,0.21723131,542,0.49630996,3,common 2024–2025 development cohort; median across frozen fits
+F15,M1,Linear,2024,626,13.210113,0.69169329,0.25274725,0.18992698,612,0.49019608,3,common 2024–2025 development cohort; median across frozen fits
+F15,M1,Linear,2025,553,12.153576,0.71790235,0.20134228,0.18403995,542,0.54428044,3,common 2024–2025 development cohort; median across frozen fits
+F15,M10,KNN,2024,626,13.884904,0.66134185,0.28571429,0.20288493,610,0.51639344,3,common 2024–2025 development cohort; median across frozen fits
+F15,M10,KNN,2025,553,13.200271,0.68535262,0.2885906,0.20345656,540,0.49074074,3,common 2024–2025 development cohort; median across frozen fits
+F15,M2,Spline,2024,626,14.012907,0.6701278,0.25,0.20356921,612,0.48284314,10,common 2024–2025 development cohort; median across frozen fits
+F15,M2,Spline,2025,553,12.941921,0.69891501,0.27516779,0.19687983,542,0.52214022,10,common 2024–2025 development cohort; median across frozen fits
+F15,M3,Random forest,2024,626,13.039757,0.70766773,0.24175824,0.1901218,612,0.49509804,3,common 2024–2025 development cohort; median across frozen fits
+F15,M3,Random forest,2025,553,12.247571,0.71428571,0.18120805,0.18496201,542,0.52583026,3,common 2024–2025 development cohort; median across frozen fits
+F15,M4,Boosted trees,2024,626,13.201687,0.6956869,0.24175824,0.19390808,612,0.48202614,10,common 2024–2025 development cohort; median across frozen fits
+F15,M4,Boosted trees,2025,553,12.439314,0.71609403,0.19798658,0.18661151,542,0.51199262,10,common 2024–2025 development cohort; median across frozen fits
+F15,M5,Neural net,2024,626,15.05185,0.65175719,0.30769231,0.22009318,611,0.45826514,3,common 2024–2025 development cohort; median across frozen fits
+F15,M5,Neural net,2025,553,14.00676,0.64556962,0.29530201,0.21595896,542,0.52398524,3,common 2024–2025 development cohort; median across frozen fits
+F16,M1,Linear,2024,626,13.209225,0.69329073,0.25824176,0.18974543,612,0.47712418,3,common 2024–2025 development cohort; median across frozen fits
+F16,M1,Linear,2025,553,12.164919,0.72151899,0.20134228,0.18439121,542,0.54243542,3,common 2024–2025 development cohort; median across frozen fits
+F16,M10,KNN,2024,626,13.827716,0.66932907,0.3021978,0.20281482,609,0.50082102,3,common 2024–2025 development cohort; median across frozen fits
+F16,M10,KNN,2025,553,13.23255,0.6925859,0.31543624,0.2020835,540,0.5037037,3,common 2024–2025 development cohort; median across frozen fits
+F16,M2,Spline,2024,626,14.033965,0.66932907,0.25824176,0.20380037,612,0.48611111,10,common 2024–2025 development cohort; median across frozen fits
+F16,M2,Spline,2025,553,12.951272,0.69349005,0.26845638,0.19720377,542,0.52583026,10,common 2024–2025 development cohort; median across frozen fits
+F16,M3,Random forest,2024,626,13.047192,0.70926518,0.25274725,0.19043446,612,0.49019608,3,common 2024–2025 development cohort; median across frozen fits
+F16,M3,Random forest,2025,553,12.250464,0.71428571,0.18791946,0.18476641,542,0.52214022,3,common 2024–2025 development cohort; median across frozen fits
+F16,M4,Boosted trees,2024,626,13.250394,0.69169329,0.25,0.19531867,612,0.47875817,10,common 2024–2025 development cohort; median across frozen fits
+F16,M4,Boosted trees,2025,553,12.456998,0.71971067,0.20805369,0.18709478,542,0.51476015,10,common 2024–2025 development cohort; median across frozen fits
+F16,M5,Neural net,2024,626,14.992579,0.65015974,0.30769231,0.21737543,611,0.45171849,3,common 2024–2025 development cohort; median across frozen fits
+F16,M5,Neural net,2025,553,13.944307,0.65280289,0.32214765,0.21281519,542,0.50738007,3,common 2024–2025 development cohort; median across frozen fits
+F17_market,M1,Linear,2024,626,12.541073,0.70127796,0.093406593,0.18147589,612,0.5375817,3,common 2024–2025 development cohort; median across frozen fits
+F17_market,M1,Linear,2025,553,11.890979,0.72513562,0.053691275,0.18283302,542,0.50922509,3,common 2024–2025 development cohort; median across frozen fits
+F17_market,M10,KNN,2024,626,13.698962,0.66773163,0.24725275,0.20143592,611,0.51554828,3,common 2024–2025 development cohort; median across frozen fits
+F17_market,M10,KNN,2025,553,12.915732,0.6925859,0.2885906,0.19536289,541,0.49907579,3,common 2024–2025 development cohort; median across frozen fits
+F17_market,M2,Spline,2024,626,13.33947,0.67412141,0.2032967,0.19610022,612,0.49673203,10,common 2024–2025 development cohort; median across frozen fits
+F17_market,M2,Spline,2025,553,12.668645,0.69439421,0.24161074,0.19542803,542,0.52121771,10,common 2024–2025 development cohort; median across frozen fits
+F17_market,M3,Random forest,2024,626,12.526627,0.7028754,0.11538462,0.18238735,612,0.50326797,3,common 2024–2025 development cohort; median across frozen fits
+F17_market,M3,Random forest,2025,553,11.704476,0.7323689,0.12080537,0.17961004,542,0.54059041,3,common 2024–2025 development cohort; median across frozen fits
+F17_market,M4,Boosted trees,2024,626,12.438774,0.70207668,0.14010989,0.18349007,612,0.52287582,10,common 2024–2025 development cohort; median across frozen fits
+F17_market,M4,Boosted trees,2025,553,11.788167,0.72061483,0.12751678,0.18242999,542,0.5304428,10,common 2024–2025 development cohort; median across frozen fits
+F17_market,M5,Neural net,2024,626,14.763135,0.64057508,0.26373626,0.21204269,612,0.47385621,3,common 2024–2025 development cohort; median across frozen fits
+F17_market,M5,Neural net,2025,553,13.618432,0.66003617,0.24161074,0.20771978,542,0.51476015,3,common 2024–2025 development cohort; median across frozen fits

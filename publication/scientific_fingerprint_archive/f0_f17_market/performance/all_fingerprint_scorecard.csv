@@ -1,0 +1,111 @@
+stage,model,model_label,fingerprint_family,evaluation_cohort,n_games_median_per_fold,replicates,margin_mae,winner_accuracy,upset_recall,brier_score,ats_accuracy
+F0,M1,Linear,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,15.23717,0.63389488,0.37915927,0.22702061,0.50102599
+F0,M10,KNN,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,17.144898,0.59241751,0.39619746,0.23749005,0.5035451
+F0,M2,Spline,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,15.328131,0.63232185,0.38524247,0.22544772,0.5013708
+F0,M3,Random forest,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,16.886546,0.58431385,0.40295031,0.24429093,0.48273527
+F0,M4,Boosted trees,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,15.509456,0.6244558,0.37859948,0.22622858,0.50702407
+F0,M5,Neural net,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,15.504306,0.62225538,0.36529736,0.2285169,0.50260055
+F06 broad,M2,Spline,F06 full-A broad development screen,2025 broad A cohort,757,8,13.080402,0.71730515,0.26666667,0.18753451,0.50877193
+F06 broad,M4,Boosted trees,F06 full-A broad development screen,2025 broad A cohort,757,10,12.861404,0.71466314,0.22051282,0.18503961,0.51349528
+F1,M1,Linear,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.771636,0.71002874,0.27353789,0.19588585,0.49936749
+F1,M10,KNN,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,14.766191,0.68128931,0.33796296,0.20547934,0.50532218
+F1,M2,Spline,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.695889,0.71029371,0.26519147,0.19524573,0.50212264
+F1,M3,Random forest,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.993084,0.70226036,0.25263858,0.19766445,0.4953991
+F1,M4,Boosted trees,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.916352,0.70502045,0.24721966,0.19610482,0.50820324
+F1,M5,Neural net,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.798938,0.71237847,0.26053682,0.19319065,0.50208425
+F10,M1,Linear,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,12.168633,0.72513562,,0.18354974,0.53505535
+F10,M10,KNN,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,13.323689,0.68535262,,0.205892,0.50371747
+F10,M2,Spline,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,10,12.825362,0.69529837,,0.19611533,0.52675277
+F10,M3,Random forest,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,12.255148,0.71609403,,0.18493835,0.53690037
+F10,M4,Boosted trees,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,10,12.380682,0.72151899,,0.18597608,0.51107011
+F10,M5,Neural net,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,14.331392,0.64918626,,0.21678156,0.49630996
+F11,M1,Linear,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,12.111996,0.71971067,,0.18298928,0.54797048
+F11,M10,KNN,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,13.337613,0.6925859,,0.2056481,0.51291513
+F11,M2,Spline,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,10,12.783493,0.69891501,,0.19603916,0.52675277
+F11,M3,Random forest,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,12.242896,0.71609403,,0.18458914,0.53321033
+F11,M4,Boosted trees,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,10,12.4661,0.71428571,,0.1872478,0.51107011
+F11,M5,Neural net,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,14.157816,0.6437613,,0.21568457,0.50922509
+F12 corrected,M1,Linear,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,12.130079,0.72332731,,0.18347429,0.54428044
+F12 corrected,M10,KNN,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,13.266998,0.68535262,,0.20267411,0.49168207
+F12 corrected,M2,Spline,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,10,12.815521,0.69529837,,0.19552773,0.5304428
+F12 corrected,M3,Random forest,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,12.211693,0.72151899,,0.18398777,0.53321033
+F12 corrected,M4,Boosted trees,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,10,12.404032,0.72061483,,0.18647263,0.51291513
+F12 corrected,M5,Neural net,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,14.10008,0.65641953,,0.21342605,0.48892989
+F13,M1,Linear,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,12.152905,0.71790235,,0.18405792,0.54428044
+F13,M10,KNN,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,13.181284,0.69620253,,0.20035971,0.49442379
+F13,M2,Spline,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,10,12.845378,0.69710669,,0.19554113,0.52583026
+F13,M3,Random forest,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,12.222629,0.71790235,,0.18442302,0.52398524
+F13,M4,Boosted trees,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,10,12.475396,0.72242315,,0.18719636,0.50369004
+F13,M5,Neural net,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,14.030076,0.65280289,,0.21536035,0.51845018
+F14,M1,Linear,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,12.152876,0.71790235,,0.18405438,0.54428044
+F14,M10,KNN,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,13.25217,0.69077758,,0.20247202,0.48798521
+F14,M2,Spline,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,10,12.902356,0.69349005,,0.19620105,0.52675277
+F14,M3,Random forest,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,12.237107,0.71790235,,0.184587,0.52398524
+F14,M4,Boosted trees,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,10,12.424234,0.71699819,,0.18690978,0.5101476
+F14,M5,Neural net,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,14.135316,0.64737794,,0.21723131,0.49630996
+F15,M1,Linear,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,12.153576,0.71790235,,0.18403995,0.54428044
+F15,M10,KNN,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,13.200271,0.68535262,,0.20345656,0.49074074
+F15,M2,Spline,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,10,12.941921,0.69891501,,0.19687983,0.52214022
+F15,M3,Random forest,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,12.247571,0.71428571,,0.18496201,0.52583026
+F15,M4,Boosted trees,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,10,12.439314,0.71609403,,0.18661151,0.51199262
+F15,M5,Neural net,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,14.00676,0.64556962,,0.21595896,0.52398524
+F16,M1,Linear,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,12.164919,0.72151899,,0.18439121,0.54243542
+F16,M10,KNN,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,13.23255,0.6925859,,0.2020835,0.5037037
+F16,M2,Spline,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,10,12.951272,0.69349005,,0.19720377,0.52583026
+F16,M3,Random forest,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,12.250464,0.71428571,,0.18476641,0.52214022
+F16,M4,Boosted trees,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,10,12.456998,0.71971067,,0.18709478,0.51476015
+F16,M5,Neural net,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,13.944307,0.65280289,,0.21281519,0.50738007
+F17 market,M1,Linear,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,11.890979,0.72513562,,0.18283302,0.50922509
+F17 market,M10,KNN,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,12.915732,0.6925859,,0.19536289,0.49907579
+F17 market,M2,Spline,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,10,12.668645,0.69439421,,0.19542803,0.52121771
+F17 market,M3,Random forest,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,11.704476,0.7323689,,0.17961004,0.54059041
+F17 market,M4,Boosted trees,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,10,11.788167,0.72061483,,0.18242999,0.5304428
+F17 market,M5,Neural net,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,13.618432,0.66003617,,0.20771978,0.51476015
+F2,M1,Linear,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,14.236377,0.70581502,0.29746353,0.19708546,0.50642658
+F2,M10,KNN,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,14.868525,0.66466799,0.3451087,0.21237914,0.50957257
+F2,M2,Spline,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.886724,0.70516247,0.28208105,0.19587628,0.51420943
+F2,M3,Random forest,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.902241,0.71617063,0.26658852,0.19569797,0.49657736
+F2,M4,Boosted trees,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.864652,0.70314091,0.26575528,0.19481236,0.4996266
+F2,M5,Neural net,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,14.034698,0.70423882,0.28171997,0.19853241,0.50423626
+F3,M1,Linear,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.801672,0.69850652,0.25516837,0.19605845,0.50963228
+F3,M10,KNN,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,14.662907,0.66620498,0.33863533,0.20642062,0.50284855
+F3,M2,Spline,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.993251,0.70337249,0.26178692,0.19419561,0.51256129
+F3,M3,Random forest,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.671673,0.72692118,0.2322456,0.18936154,0.49540311
+F3,M4,Boosted trees,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.425425,0.71664419,0.21582315,0.18932076,0.50831217
+F3,M5,Neural net,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.69337,0.71023778,0.21557971,0.18992845,0.50633245
+F4,M1,Linear,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.67697,0.70908924,0.25245098,0.19360623,0.51662251
+F4,M10,KNN,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,14.523343,0.68163209,0.33695652,0.20268846,0.50350826
+F4,M2,Spline,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.880982,0.71271368,0.2720233,0.19043454,0.51849251
+F4,M3,Random forest,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.585373,0.72378489,0.23000661,0.18793122,0.50871607
+F4,M4,Boosted trees,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.497554,0.72090312,0.20908098,0.18590424,0.5159589
+F4,M5,Neural net,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.389495,0.72159278,0.23953301,0.18704841,0.51098291
+F5,M1,Linear,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.287864,0.71361186,0.21553544,0.19435275,0.51251853
+F5,M10,KNN,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,14.248773,0.69875918,0.30296756,0.19778927,0.51457235
+F5,M2,Spline,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.379398,0.73099343,0.21925618,0.19768699,0.51369363
+F5,M3,Random forest,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.534398,0.73018868,0.21125483,0.1868115,0.51436497
+F5,M4,Boosted trees,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.399416,0.73073055,0.21663943,0.18528922,0.51772078
+F5,M5,Neural net,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.410726,0.71864331,0.24265298,0.18656036,0.52033268
+F6,M1,Linear,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.307801,0.71695402,0.20728545,0.19409256,0.51049148
+F6,M10,KNN,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,14.147913,0.6970107,0.28066108,0.19681437,0.51393232
+F6,M2,Spline,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.341605,0.71703225,0.19452328,0.19638402,0.50918507
+F6,M3,Random forest,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.454306,0.72697865,0.19976783,0.1865954,0.5174349
+F6,M4,Boosted trees,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.334557,0.72942529,0.20401834,0.1849897,0.51272984
+F6,M5,Neural net,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.457915,0.71170261,0.22222222,0.1898016,0.51163884
+F7,M1,Linear,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,12.321445,0.74438145,0,0.17014292,0.5006956
+F7,M10,KNN,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,12.599746,0.73388658,0.10552832,0.17488821,0.50808067
+F7,M2,Spline,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,12.468147,0.74165443,0.0025641026,0.17069519,0.49429796
+F7,M3,Random forest,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,12.464244,0.74349817,0.085836386,0.17647302,0.51967142
+F7,M4,Boosted trees,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,12.420033,0.74898922,0.063377926,0.17773406,0.50812067
+F7,M5,Neural net,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,12.479139,0.74030672,0.021125975,0.17835276,0.5103441
+F8,M1,Linear,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,12.806256,0.73199507,0.1576087,0.18452506,0.51889565
+F8,M10,KNN,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.502289,0.73065476,0.20810331,0.1818974,0.50121359
+F8,M2,Spline,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.024365,0.73832512,0.17141862,0.18785524,0.51731423
+F8,M3,Random forest,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,12.680994,0.73407457,0.12285917,0.17755283,0.51106212
+F8,M4,Boosted trees,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,12.680495,0.73939245,0.14414978,0.17735045,0.51071834
+F8,M5,Neural net,historical F0–F8; separate market F7/F8 retained,2015–2024 rolling-origin held-out seasons,724,10,13.023626,0.73694581,0.18921095,0.1818498,0.51727703
+F9,M1,Linear,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,12.314455,0.73598553,,0.18441462,0.54243542
+F9,M10,KNN,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,13.746203,0.68896926,,0.20790306,0.48983364
+F9,M2,Spline,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,10,12.762927,0.71157324,,0.19392906,0.51291513
+F9,M3,Random forest,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,12.336795,0.7124774,,0.18624209,0.53321033
+F9,M4,Boosted trees,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,10,12.490829,0.71157324,,0.18766602,0.52583026
+F9,M5,Neural net,candidate A; F17 market is retrospective,2025 common narrow development cohort,553,3,14.14005,0.65822785,,0.20861606,0.48339483
