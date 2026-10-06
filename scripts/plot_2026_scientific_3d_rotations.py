@@ -63,10 +63,10 @@ def _pair_matrix(scorecard: pd.DataFrame) -> pd.DataFrame:
 
 def _pca_ranking(scorecard: pd.DataFrame, output: Path) -> dict:
     metrics = ["margin_mae", "su_accuracy", "brier_score"]
-    frame = scorecard.loc[scorecard.series_type.eq("model")].copy()
-    frame["model_id"] = frame.model_family.map(FAMILY_TO_MODEL)
-    frame = frame.loc[frame.coverage_status.eq("scored_2026")].copy()
-    frame["generation"] = frame.fingerprint.map(lambda stage: 17 if stage == "F17-market" else int(str(stage)[1:]))
+    all_frame = scorecard.loc[scorecard.series_type.eq("model")].copy()
+    all_frame["model_id"] = all_frame.model_family.map(FAMILY_TO_MODEL)
+    all_frame["generation"] = all_frame.fingerprint.map(lambda stage: 17 if stage == "F17-market" else int(str(stage)[1:]))
+    frame = all_frame.loc[all_frame.coverage_status.eq("scored_2026")].copy()
     values = frame[metrics].to_numpy(float)
     means = values.mean(axis=0)
     scales = values.std(axis=0, ddof=1)
@@ -81,10 +81,12 @@ def _pca_ranking(scorecard: pd.DataFrame, output: Path) -> dict:
 
     pair = pd.MultiIndex.from_product([STAGES, MODELS], names=["fingerprint", "model_id"]).to_frame(index=False)
     pair = pair.merge(
-        frame[["fingerprint", "model_id", "model_name", "coverage_status", *metrics, "pc1_favorable_sd"]],
+        all_frame[["fingerprint", "model_id", "model_name", "coverage_status", *metrics]],
         on=["fingerprint", "model_id"], how="left", validate="one_to_one",
     )
     pair["coverage_status"] = pair.coverage_status.fillna("no_2026_predictions")
+    pair = pair.merge(frame[["fingerprint", "model_id", "pc1_favorable_sd"]],
+                      on=["fingerprint", "model_id"], how="left", validate="one_to_one")
     pair["generation"] = pair.fingerprint.map(lambda stage: 17 if stage == "F17-market" else int(stage[1:]))
     pair["model_name"] = pair.model_name.fillna(pair.apply(lambda row: f"scientific_{row.fingerprint}_{row.model_id}", axis=1))
     pair["rank_within_observed_pairs"] = pair.pc1_favorable_sd.rank(method="min", ascending=False).astype("Int64")
@@ -109,6 +111,14 @@ def _pca_ranking(scorecard: pd.DataFrame, output: Path) -> dict:
     all_fingerprints = pd.DataFrame({"fingerprint": STAGES})
     all_fingerprints["generation"] = all_fingerprints.fingerprint.map(lambda s: 17 if s == "F17-market" else int(s[1:]))
     fingerprint_rank = all_fingerprints.merge(fingerprint_rank, on=["fingerprint", "generation"], how="left", validate="one_to_one")
+    fingerprint_rank["coverage_status"] = np.where(
+        fingerprint_rank.fingerprint.eq("F17-market"), "scored_2026_unverified_quote_time",
+        np.where(fingerprint_rank.scored_models.notna(), "scored_2026", "no_2026_predictions"),
+    )
+    fingerprint_rank["unverified_quote_time_models"] = np.where(
+        fingerprint_rank.fingerprint.eq("F17-market"), len(MODELS), 0
+    )
+    fingerprint_rank["scored_models"] = fingerprint_rank.scored_models.fillna(0).astype(int)
     fingerprint_rank["rank"] = fingerprint_rank["rank"].astype("Int64")
     fingerprint_rank.to_csv(output / "scientific_2026_pca_fingerprint_ranking.csv", index=False, float_format="%.6f")
     return {
@@ -117,7 +127,7 @@ def _pca_ranking(scorecard: pd.DataFrame, output: Path) -> dict:
         "explained_variance_ratio_pc1": float(eigenvalues[0] / eigenvalues.sum()),
         "pc1_loadings": dict(zip(metrics, pc1.tolist())),
         "training_scope": "2026 season-to-date only; available F0–F16 forecasts only",
-        "missing_fingerprint_scores": [stage for stage in STAGES if stage not in set(frame.fingerprint)],
+        "quote_time_unverified_fingerprints_excluded_from_pca": ["F17-market"],
     }
 
 
@@ -155,7 +165,7 @@ def _gif(frame: pd.DataFrame, *, metric: str, title: str, axis_label: str,
     ax.set_ylim(-0.5, len(MODELS) - 0.5)
     ax.set_zlim(lo - pad, hi + pad)
     ax.set_xticks([0, 4, 8, 12, 17])
-    ax.set_xticklabels(["F0", "F4", "F8", "F12", "F17-market"])
+    ax.set_xticklabels(["F0", "F4", "F8", "F12", "F17M"])
     ax.set_yticks(range(len(MODELS)))
     ax.set_yticklabels([m for m in MODELS])
     ax.set_xlabel("Fingerprint generation", labelpad=12)
@@ -167,7 +177,7 @@ def _gif(frame: pd.DataFrame, *, metric: str, title: str, axis_label: str,
                  fontweight="bold", color=colors["midnight_gridiron"])
     scored_cells = int(frame[["fingerprint", "model_id"]].drop_duplicates().shape[0])
     fig.text(.5, .915,
-             f"{len(data)} observed model × fingerprint pairs · {scored_cells}/108 cells scored · no Vegas series",
+             f"{scored_cells} cutoff-verified pairs · F17-market omitted (quote time unverified) · no Vegas series",
              ha="center", fontsize=10, color=colors["slate"])
     scalar = plt.cm.ScalarMappable(norm=norm, cmap=generation_cmap)
     scalar.set_array([])
@@ -182,7 +192,7 @@ def _gif(frame: pd.DataFrame, *, metric: str, title: str, axis_label: str,
                ncol=3, frameon=False, fontsize=9)
     direction = "Higher is better" if better_high else "Lower is better"
     fig.text(.5, .025,
-             f"{direction}. F0–F16 are scored; F17-market is unscored because quote timestamps are unavailable.",
+             f"{direction}. Point rotations and PCA use only cutoff-verified F0–F16 cells; F17-market is shown in companion surfaces.",
              ha="center", fontsize=9, color=colors["slate"])
     animation = FuncAnimation(
         fig, lambda k: ax.view_init(elev=24, azim=-58 + 360 * k / 72),
@@ -215,8 +225,8 @@ def main() -> None:
     (FIGURES / "scientific_2026_pca_ranking_manifest.json").write_text(json.dumps(pca, indent=2) + "\n")
     (FIGURES / "README.md").write_text(
         "# 2026 scientific 3D views\n\n"
-        "The four rotating 3D charts place fingerprint generation, architecture, and one performance metric on the axes. Color encodes generation from red (early) to blue (late). The 2026 roster has 102 observed pairs across F0–F16, with all six architectures in each generation. F17-market remains blank because quote timestamps cannot be verified. Vegas is omitted from these plots.\n\n"
-        "PCA rankings use standardized margin MAE, straight-up accuracy, and Brier across the 102 observed pairs, oriented so higher scores favor lower MAE/Brier and higher accuracy. Model and fingerprint summaries are medians of the pair score. Rankings describe only this current-season cohort and should not be compared directly with the all-generation retrospective PCA.\n"
+        "The point-based rotation charts place fingerprint generation, architecture, and one performance metric on the axes. Color encodes generation from red (early) to blue (late). They show the 102 cutoff-verified pairs; the six F17-market what-if cells appear only in the companion surface plots because their quote times cannot be verified. Vegas is omitted.\n\n"
+        "PCA rankings use standardized margin MAE, straight-up accuracy, and Brier across the 102 cutoff-verified pairs, oriented so higher scores favor lower MAE/Brier and higher accuracy. F17-market values are included in the pair table with quote-time status but have no PCA score. Model and fingerprint rankings are medians of the verified pair score and should not be compared directly with the all-generation retrospective PCA.\n"
     )
     print(json.dumps({"gifs": pca["rotation_gifs"], "pca_pairs": pca["scored_pairs"],
                       "pc1_explained_variance_ratio": pca["explained_variance_ratio_pc1"]}, indent=2))

@@ -524,3 +524,10 @@ Chronological record of wiki activity.
 - Fit all six scientific architectures for each of F13–F16 through 2025 with historical 2024–25 calibration; scored 102 model × fingerprint pairs total across F0–F16.
 - Refreshed the season-to-date cumulative figure, 110-row scorecard, four 72-frame rotations and PCA rankings; F17-market stays blank without verifiable quote timestamps.
 - Recorded the 271-game F0–F16 consensus (13.336 MAE, 76.4% straight-up, 0.1673 Brier, 49.8% ATS) and Vegas reference (11.575 MAE, 80.8% straight-up, 0.1414 Brier, 50.0% ATS reference).
+
+## [2026-10-06] update | Extend 2026 scientific what-if through F17-market
+
+- by: Thomas J. Burton via codex
+- Trained and scored all six scientific architectures on exploratory F17-market inputs for the same 271 completed 2026 games; cached target-game quote timestamps are unavailable, so the six rows are explicitly unverified and excluded from the cutoff-verified PCA.
+- Expanded the season scorecard to 108 model × fingerprint rows: 102 verified F0–F16 rows and six quote-time-unverified F17-market rows; recorded the 13.256 MAE full-grid consensus and the 11.575 MAE Vegas evaluation baseline.
+- Added four metric surfaces with 72-frame rotations across all 108 cells, and updated the cumulative figure, CSV, coverage manifest, and strict-only point/PCA artifacts.

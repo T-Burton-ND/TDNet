@@ -101,9 +101,9 @@ F0,M3,scientific_F0_M3,scored_2026,16.307121,0.675277,0.214809,-1.886315,0,99
 F3,M5,scientific_F3_M5,scored_2026,17.291403,0.682657,0.213529,-2.086468,3,100
 F2,M10,scientific_F2_M10,scored_2026,16.505451,0.627306,0.214461,-2.375483,2,101
 F4,M5,scientific_F4_M5,scored_2026,17.692494,0.642066,0.227059,-2.828858,4,102
-F17-market,M1,scientific_F17-market_M1,no_2026_predictions,,,,,17,
-F17-market,M10,scientific_F17-market_M10,no_2026_predictions,,,,,17,
-F17-market,M2,scientific_F17-market_M2,no_2026_predictions,,,,,17,
-F17-market,M3,scientific_F17-market_M3,no_2026_predictions,,,,,17,
-F17-market,M4,scientific_F17-market_M4,no_2026_predictions,,,,,17,
-F17-market,M5,scientific_F17-market_M5,no_2026_predictions,,,,,17,
+F17-market,M1,scientific_F17-market_M1,scored_2026_unverified_quote_time,12.187890,0.785978,0.138700,,17,
+F17-market,M10,scientific_F17-market_M10,scored_2026_unverified_quote_time,13.683395,0.741697,0.174475,,17,
+F17-market,M2,scientific_F17-market_M2,scored_2026_unverified_quote_time,12.578245,0.793358,0.150451,,17,
+F17-market,M3,scientific_F17-market_M3,scored_2026_unverified_quote_time,12.047929,0.771218,0.139599,,17,
+F17-market,M4,scientific_F17-market_M4,scored_2026_unverified_quote_time,11.970552,0.804428,0.137994,,17,
+F17-market,M5,scientific_F17-market_M5,scored_2026_unverified_quote_time,14.282157,0.730627,0.179826,,17,

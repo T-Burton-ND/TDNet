@@ -34,7 +34,7 @@ LINESTYLES = {
     "M5": (0, (5, 1.5, 1, 1.5)),
     "M10": (0, (1, 1)),
 }
-MODEL_PATTERN = re.compile(r"scientific_(F\d+)_M(\d+)$")
+MODEL_PATTERN = re.compile(r"scientific_(F\d+(?:-market)?)_M(\d+)$")
 FAMILY_TO_MODEL_ID = {
     "linear": "M1",
     "spline": "M2",
@@ -89,6 +89,8 @@ def _full_scorecard(latest: pd.DataFrame, *, season: int, through_week: int) -> 
     values = latest.loc[latest["series_type"].isin(["model", "consensus", "vegas"])].copy()
     values["season"] = season
     values["coverage_status"] = "scored_2026"
+    values.loc[values.fingerprint.eq("F17-market") & values.series_type.eq("model"),
+               "coverage_status"] = "scored_2026_unverified_quote_time"
     present = {
         (str(row.fingerprint), FAMILY_TO_MODEL_ID.get(str(row.model_family), ""))
         for row in values.loc[values["series_type"].eq("model")].itertuples()
@@ -243,6 +245,7 @@ def _plot(
         models["details"].tolist(), index=models.index
     )
     max_scored_generation = max(_stage_number(stage) for stage in models.parsed_stage.unique())
+    max_scored_label = "F17-market" if max_scored_generation == 17 else f"F{max_scored_generation}"
 
     consensus = cumulative.loc[cumulative["series_type"].eq("consensus")]
     vegas = cumulative.loc[cumulative["series_type"].eq("vegas")]
@@ -305,7 +308,7 @@ def _plot(
         0.905,
         f"Games completed through Week {through_week}  ·  "
         f"{models.loc[models.through_week.eq(through_week), ['parsed_stage', 'model_id']].drop_duplicates().shape[0]} "
-        "of 108 model × fingerprint cells scored for 2026",
+        "model × fingerprint rows shown; F17-market quote timing is unverified",
         ha="center",
         fontsize=12,
         color=TDNET_COLORS["figure_axis"],
@@ -318,7 +321,7 @@ def _plot(
     ]
     comparator_handles = [
         Line2D([0], [0], color=TDNET_COLORS["edge_pink"], lw=2.7, marker="o",
-               label=f"F0–F{max(_stage_number(s) for s in models.parsed_stage.unique())} scientific consensus"),
+               label=f"Full F0–{max_scored_label} what-if consensus"),
         Line2D([0], [0], color=TDNET_COLORS["figure_highlight"], lw=2.7,
                linestyle="--", marker="s", label="Vegas closing-line baseline"),
     ]
@@ -356,8 +359,8 @@ def _plot(
             if reconstructed_games
             else "Curves use the archived 2026 pregame predictions. "
         )
-        + f"F0–F{max(_stage_number(s) for s in models.parsed_stage.unique())} have 2026 predictions; "
-          "F17-market remains unscored because quote timestamps are unavailable; no retrospective scores are substituted.",
+        + f"F0–F{max_scored_generation} targets use cutoff-checked non-market features; "
+          "F17-market uses target-game market lines with unverified quote timestamps and is exploratory only. No 2024–25 outcomes are substituted.",
         ha="center",
         fontsize=9.5,
         color=TDNET_COLORS["figure_axis"],

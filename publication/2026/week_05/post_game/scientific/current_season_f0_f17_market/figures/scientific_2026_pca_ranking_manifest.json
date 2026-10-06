@@ -8,7 +8,7 @@
     "brier_score": -0.5844648195906993
   },
   "training_scope": "2026 season-to-date only; available F0\u2013F16 forecasts only",
-  "missing_fingerprint_scores": [
+  "quote_time_unverified_fingerprints_excluded_from_pca": [
     "F17-market"
   ],
   "rotation_gifs": [

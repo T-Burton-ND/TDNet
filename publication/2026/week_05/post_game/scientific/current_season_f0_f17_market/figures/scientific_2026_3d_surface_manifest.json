@@ -1,0 +1,89 @@
+{
+  "scope": "2026 current-season what-if through Week 5",
+  "target_games": 271,
+  "grid": {
+    "fingerprints": [
+      "F0",
+      "F1",
+      "F2",
+      "F3",
+      "F4",
+      "F5",
+      "F6",
+      "F7",
+      "F8",
+      "F9",
+      "F10",
+      "F11",
+      "F12",
+      "F13",
+      "F14",
+      "F15",
+      "F16",
+      "F17-market"
+    ],
+    "models": [
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M10"
+    ]
+  },
+  "cutoff_verified_cells": 102,
+  "exploratory_quote_time_unverified_cells": 6,
+  "f17_market_quote_timestamp_available": false,
+  "surface_points": "one measured scorecard value per model \u00d7 fingerprint cell; no interpolation beyond adjacent grid cells",
+  "rotations": [
+    {
+      "metric": "ats_accuracy",
+      "png": "scientific_2026_ats_accuracy_3d_surface.png",
+      "gif": "scientific_2026_ats_accuracy_3d_surface_rotation.gif",
+      "cells": 108,
+      "verified_cells": 102,
+      "unverified_quote_time_cells": 6,
+      "z_min": 0.4226415094339623,
+      "z_max": 0.5622641509433962,
+      "rotation_frames": 72,
+      "rotation_fps": 6
+    },
+    {
+      "metric": "su_accuracy",
+      "png": "scientific_2026_su_accuracy_3d_surface.png",
+      "gif": "scientific_2026_su_accuracy_3d_surface_rotation.gif",
+      "cells": 108,
+      "verified_cells": 102,
+      "unverified_quote_time_cells": 6,
+      "z_min": 0.6273062730627307,
+      "z_max": 0.8081180811808119,
+      "rotation_frames": 72,
+      "rotation_fps": 6
+    },
+    {
+      "metric": "margin_mae",
+      "png": "scientific_2026_margin_mae_3d_surface.png",
+      "gif": "scientific_2026_margin_mae_3d_surface_rotation.gif",
+      "cells": 108,
+      "verified_cells": 102,
+      "unverified_quote_time_cells": 6,
+      "z_min": 11.588194896608666,
+      "z_max": 17.692493655364892,
+      "rotation_frames": 72,
+      "rotation_fps": 6
+    },
+    {
+      "metric": "brier_score",
+      "png": "scientific_2026_brier_score_3d_surface.png",
+      "gif": "scientific_2026_brier_score_3d_surface_rotation.gif",
+      "cells": 108,
+      "verified_cells": 102,
+      "unverified_quote_time_cells": 6,
+      "z_min": 0.1326923085023373,
+      "z_max": 0.2270586919866042,
+      "rotation_frames": 72,
+      "rotation_fps": 6
+    }
+  ],
+  "vegas_included": false
+}
