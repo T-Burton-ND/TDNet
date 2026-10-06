@@ -487,3 +487,10 @@ Chronological record of wiki activity.
 - Extended the F09–F17 full-roster and equal-weight consensus cumulative plots to include a separate 2024 cohort alongside 2025.
 - Added season-matched Vegas MAE, winner, upset-recall and Brier references for both development cohorts.
 - Preserved separate season panels so cumulative trajectories are not treated as paired cross-year evidence.
+
+## [2026-10-06] update | Add unified cumulative fingerprint curves
+
+- by: Thomas J. Burton via codex
+- Added unified model curves across F0–F17, with Vegas references and the available F09–F17 six-model consensus.
+- Combined historical held-out folds, the separate F06 broad screen, and pooled F09–F17 development predictions on one axis while visibly marking cohort boundaries.
+- Documented the cross-cohort figures as descriptive rather than paired evidence.

@@ -37,6 +37,9 @@ MODELS = ("M1", "M2", "M3", "M4", "M5", "M10")
 STAGES = ("F09", "F10", "F11", "F12_corrected", "F13", "F14", "F15", "F16", "F17_market")
 STAGE_ORDER = [f"F{i}" for i in range(9)] + ["F06 broad", "F9", "F10", "F11", "F12 corrected",
                                                 "F13", "F14", "F15", "F16", "F17 market"]
+UNIFIED_STAGES = [f"F{i}" for i in range(9)] + ["F06 broad"] + [
+    "F9", "F10", "F11", "F12 corrected", "F13", "F14", "F15", "F16", "F17 market"
+]
 MODEL_LABELS = {
     "M1": "Linear", "M2": "Spline", "M3": "Random forest",
     "M4": "Boosted trees", "M5": "Neural net", "M10": "KNN",
@@ -566,6 +569,172 @@ def render_cumulative_curves(historical_cumulative_df: pd.DataFrame,
     return paths
 
 
+def unified_cumulative_points(historical_cumulative_df: pd.DataFrame, scorecard: pd.DataFrame,
+                              model_games: pd.DataFrame, consensus_games: pd.DataFrame,
+                              vegas_baselines: pd.DataFrame) -> pd.DataFrame:
+    """Collect one cumulative score per model/fingerprint across the available cohorts."""
+    metric_cols = ["margin_mae", "upset_recall", "winner_accuracy", "brier_score", "ats_accuracy"]
+    rows: list[dict] = []
+
+    hist = historical_cumulative_df.loc[historical_cumulative_df.through_season.eq(2024)]
+    for item in hist.itertuples():
+        rows.append({"stage": item.stage, "model": item.model, "cohort": "historical 2015–2024",
+                     "n_games": int(item.n_games), **{metric: getattr(item, metric) for metric in metric_cols}})
+
+    broad = scorecard.loc[scorecard.stage.eq("F06 broad")]
+    for item in broad.itertuples():
+        rows.append({"stage": "F06 broad", "model": item.model, "cohort": "2025 broad cohort",
+                     "n_games": int(item.n_games_median_per_fold),
+                     **{metric: getattr(item, metric) for metric in metric_cols}})
+
+    for (stage, model), frame in model_games.groupby(["stage", "model"], sort=False):
+        metrics = summarize_predictions(frame)
+        rows.append({"stage": display_stage(stage), "model": model, "cohort": "pooled 2024–2025 development",
+                     "n_games": metrics["n_games"], **{metric: metrics[metric] for metric in metric_cols}})
+    for stage, frame in consensus_games.groupby("stage", sort=False):
+        metrics = summarize_predictions(frame)
+        rows.append({"stage": display_stage(stage), "model": "Scientific consensus",
+                     "cohort": "pooled 2024–2025 development", "n_games": metrics["n_games"],
+                     **{metric: metrics[metric] for metric in metric_cols}})
+
+    historical_vegas = pd.read_csv(FIGURE_DATA / "all_architectures_vegas_historical_folds.csv")
+    hist_n = historical_vegas.games.to_numpy(float)
+    hist_baseline = {
+        "margin_mae": float(np.average(historical_vegas.mae, weights=hist_n)),
+        "upset_recall": 0.0,
+        "winner_accuracy": float(np.average(historical_vegas.winner_accuracy, weights=hist_n)),
+        "brier_score": float(np.average(historical_vegas.brier_score, weights=hist_n)),
+        "ats_accuracy": 0.5,
+    }
+    for stage in [f"F{i}" for i in range(9)]:
+        rows.append({"stage": stage, "model": "Vegas", "cohort": "historical 2015–2024",
+                     "n_games": int(hist_n.sum()), **hist_baseline})
+
+    broad_vegas = vegas_baselines.loc[vegas_baselines.setting.eq("nextgen 2025 broad")].iloc[0]
+    broad_baseline = {
+        "margin_mae": float(broad_vegas.mae), "upset_recall": float(broad_vegas.upset_recall),
+        "winner_accuracy": float(broad_vegas.winner_accuracy),
+        "brier_score": float(broad_vegas.brier_score), "ats_accuracy": 0.5,
+    }
+    rows.append({"stage": "F06 broad", "model": "Vegas", "cohort": "2025 broad cohort",
+                 "n_games": int(broad_vegas.games), **broad_baseline})
+
+    late_games = model_games.drop_duplicates("target_game_id").copy()
+    late_games["predicted_margin"] = -late_games.home_spread
+    late_games["home_win_probability"] = (late_games.predicted_margin > 0).astype(float)
+    late_baseline = summarize_predictions(late_games)
+    late_baseline["ats_accuracy"] = 0.5
+    for stage in ["F9", "F10", "F11", "F12 corrected", "F13", "F14", "F15", "F16", "F17 market"]:
+        rows.append({"stage": stage, "model": "Vegas", "cohort": "pooled 2024–2025 development",
+                     "n_games": int(late_baseline["n_games"]),
+                     **{metric: late_baseline[metric] for metric in metric_cols}})
+    return pd.DataFrame(rows)
+
+
+def display_stage(value: str) -> str:
+    label = value.replace("_market", " market").replace("_corrected", " corrected")
+    if label.startswith("F0") and label[1:3].isdigit():
+        label = f"F{int(label[1:3])}" + label[3:]
+    return label
+
+
+def render_unified_curves(points: pd.DataFrame) -> list[Path]:
+    """Plot all available model/fingerprint cumulative summaries on one stage axis."""
+    colors = load_colors()
+    background, panel = colors["parchment"], colors["parchmentPanel"]
+    ink, axis = colors["midnightGridiron"], colors["slateLine"]
+    model_colors = {
+        "M1": colors["brass"], "M2": colors["ionBlue"], "M3": colors["electricEmerald"],
+        "M4": colors["gridironViolet"], "M5": colors["softMint"], "M10": colors["steelGrey"],
+    }
+    xmap = {stage: i for i, stage in enumerate(UNIFIED_STAGES)}
+    ordered_x = np.arange(len(UNIFIED_STAGES))
+    hist_stages = [f"F{i}" for i in range(9)]
+    late_stages = ["F9", "F10", "F11", "F12 corrected", "F13", "F14", "F15", "F16", "F17 market"]
+    metric_specs = [
+        ("margin_mae", "Cumulative margin MAE", "Points · lower is better", 1.0),
+        ("upset_recall", "Cumulative upset recall", "Percent · higher is better", 100.0),
+        ("winner_accuracy", "Cumulative winner accuracy", "Percent · higher is better", 100.0),
+        ("brier_score", "Cumulative Brier score", "Lower is better", 1.0),
+        ("ats_accuracy", "Cumulative ATS accuracy", "Percent · higher is better", 100.0),
+    ]
+    output_paths: list[Path] = []
+    for metric, title, ylabel, scale in metric_specs:
+        fig, ax = plt.subplots(figsize=(17, 9), facecolor=background)
+        ax.set_facecolor(panel)
+        ax.axvspan(-.5, 8.5, color=colors["parchmentHeader"], alpha=.38, zorder=0)
+        ax.axvspan(8.5, 9.5, color=colors["brass"], alpha=.10, zorder=0)
+        ax.axvspan(9.5, 18.5, color=colors["ionBlueLight"], alpha=.10, zorder=0)
+        ax.axvline(8.5, color=axis, lw=1.3, ls="--", alpha=.7)
+        ax.axvline(9.5, color=axis, lw=1.0, ls=":", alpha=.55)
+
+        for model in MODELS:
+            group = points.loc[points.model.eq(model)].set_index("stage")
+            color = model_colors[model]
+            old = [stage for stage in hist_stages if stage in group.index]
+            new = [stage for stage in late_stages if stage in group.index]
+            ax.plot([xmap[s] for s in old], [group.loc[s, metric] * scale for s in old],
+                    color=color, lw=2.2, marker="o", markersize=4.5, label=f"{model} · {MODEL_LABELS[model]}")
+            ax.plot([xmap[s] for s in new], [group.loc[s, metric] * scale for s in new],
+                    color=color, lw=2.2, marker="o", markersize=4.5)
+            if "F06 broad" in group.index:
+                ax.scatter(xmap["F06 broad"], group.loc["F06 broad", metric] * scale,
+                           color=color, marker="s", s=55, edgecolor=background, linewidth=.7, zorder=5)
+
+        consensus = points.loc[points.model.eq("Scientific consensus")].set_index("stage")
+        ax.plot([xmap[s] for s in late_stages], [consensus.loc[s, metric] * scale for s in late_stages],
+                color=colors["deepInk"], lw=3.0, ls="--", marker="D", markersize=4.5,
+                label="Six-model consensus")
+
+        vegas = points.loc[points.model.eq("Vegas")].set_index("stage")
+        vegas_hist_stages = [stage for stage in hist_stages if stage in vegas.index]
+        vegas_late_stages = [stage for stage in late_stages if stage in vegas.index]
+        ax.plot([xmap[s] for s in vegas_hist_stages],
+                [vegas.loc[s, metric] * scale for s in vegas_hist_stages],
+                color=ink, lw=2.0, ls=(0, (5, 2)), marker="x", markersize=5, label="Vegas reference")
+        ax.scatter(xmap["F06 broad"], vegas.loc["F06 broad", metric] * scale,
+                   color=ink, marker="x", s=60, linewidth=2.0, zorder=6)
+        ax.plot([xmap[s] for s in vegas_late_stages],
+                [vegas.loc[s, metric] * scale for s in vegas_late_stages],
+                color=ink, lw=2.0, ls=(0, (5, 2)), marker="x", markersize=5)
+
+        if metric in {"upset_recall"}:
+            ax.set_ylim(bottom=0)
+        else:
+            vals = points[metric].dropna().to_numpy(float) * scale
+            low, high = float(vals.min()), float(vals.max())
+            pad = max((high - low) * .10, .5 if metric != "brier_score" else .008)
+            ax.set_ylim(low - pad, high + pad)
+        ax.set_xlim(-.35, len(UNIFIED_STAGES) - .65)
+        ax.set_xticks(ordered_x, UNIFIED_STAGES, rotation=0, color=axis, fontsize=9)
+        ax.set_ylabel(ylabel, color=axis)
+        ax.grid(axis="y", color=colors["steelGrey"], alpha=.25, lw=.8)
+        ax.tick_params(colors=axis)
+        for spine in ax.spines.values():
+            spine.set_visible(False)
+        fig.suptitle(f"All fingerprints · {title}", x=.055, y=.98, ha="left",
+                     color=ink, fontsize=20, fontweight="bold")
+        fig.text(.056, .935,
+                 "One cumulative summary per model and fingerprint · deliberately combines non-equivalent cohorts",
+                 color=axis, fontsize=11, ha="left")
+        handles, labels = ax.get_legend_handles_labels()
+        # The six-model consensus and Vegas styles are intentionally distinct from model colors.
+        fig.text(.27, .177, "Historical folds · 2015–24", ha="center", color=axis, fontsize=9)
+        fig.text(.53, .177, "F06 broad", ha="center", color=axis, fontsize=8)
+        fig.text(.78, .177, "Development games · pooled 2024–25", ha="center", color=axis, fontsize=9)
+        fig.legend(handles, labels, ncol=4, loc="lower center", bbox_to_anchor=(.5, .082),
+                   frameon=False, fontsize=10)
+        fig.text(.055, .012,
+                 "F06 broad is an independent 2025 screen (M2/M4 only). F0–F8 use fold-level cumulative metrics; F09–F17 pool model-mean predictions over 2024 and 2025. Consensus is unavailable for F0–F8.",
+                 color=axis, fontsize=8.3, ha="left")
+        fig.subplots_adjust(left=.07, right=.99, top=.89, bottom=.25)
+        path = OUT / "figures" / f"unified_all_models_cumulative_{metric}.png"
+        fig.savefig(path, dpi=210, facecolor=background, bbox_inches="tight")
+        plt.close(fig)
+        output_paths.append(path)
+    return output_paths
+
+
 def render_heatmaps(scorecard: pd.DataFrame, vegas: pd.DataFrame) -> list[Path]:
     colors = load_colors()
     background = colors["parchment"]
@@ -700,9 +869,13 @@ def main() -> None:
     write_csv(vegas_curves, OUT / "performance/vegas_cumulative_performance_2024_2025.csv")
 
     vegas = pd.read_csv(FIGURE_DATA / "all_architectures_vegas_baseline_data.csv")
+    unified_points = unified_cumulative_points(historical_cumulative_df, scorecard,
+                                               model_games, consensus_games, vegas)
+    write_csv(unified_points, OUT / "performance/unified_cumulative_fingerprint_performance.csv")
     render_heatmaps(scorecard, vegas)
     render_cumulative_curves(historical_cumulative_df, model_cumulative,
                              consensus_cumulative, vegas_curves)
+    render_unified_curves(unified_points)
     artifact_files = sorted(p for p in OUT.rglob("*") if p.is_file() and p.name != "manifest.json")
     manifest = {
         "package": "scientific_fingerprint_archive",
