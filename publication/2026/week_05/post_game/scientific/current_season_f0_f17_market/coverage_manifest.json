@@ -1,0 +1,33 @@
+{
+  "season": 2026,
+  "through_week": 5,
+  "scored_model_fingerprint_cells": 54,
+  "expected_model_fingerprint_cells": 108,
+  "scored_fingerprints": [
+    "F0",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7",
+    "F8"
+  ],
+  "not_scored_fingerprints": [
+    "F9",
+    "F10",
+    "F11",
+    "F12",
+    "F13",
+    "F14",
+    "F15",
+    "F16",
+    "F17-market"
+  ],
+  "source_trajectory": "publication/2026/week_05/post_game/scientific/full_f0_f8/scientific_rolling_cumulative_performance.csv",
+  "figure": "scientific_2026_full_f0_f17_market_cumulative_performance.png",
+  "scorecard": "scientific_2026_current_season_scorecard.csv",
+  "trajectory": "scientific_2026_cumulative_trajectory.csv",
+  "market_fingerprint_label": "F17-market"
+}
