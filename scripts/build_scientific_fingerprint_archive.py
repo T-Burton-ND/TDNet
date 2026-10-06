@@ -367,28 +367,31 @@ def prediction_curves(predictions: pd.DataFrame) -> tuple[pd.DataFrame, ...]:
     return model_games, consensus_games, model_weekly, model_cumulative, consensus_weekly, consensus_cumulative
 
 
-def vegas_cumulative_2025(predictions: pd.DataFrame) -> pd.DataFrame:
-    games = predictions.loc[predictions.season.eq(2025)].drop_duplicates("target_game_id").copy()
-    games["vegas_predicted_margin"] = -games.home_spread
-    games["vegas_probability_home"] = (games.vegas_predicted_margin > 0).astype(float)
-    games["vegas_ats_correct"] = np.nan
-    games = games.sort_values(["week", "target_game_id"])
-    rows = []
-    prior: list[pd.DataFrame] = []
-    for week, part in games.groupby("week", sort=True):
-        prior.append(part)
-        total = pd.concat(prior, ignore_index=True)
-        actual = total.actual_margin.to_numpy(float)
-        pred = total.vegas_predicted_margin.to_numpy(float)
-        rows.append({
-            "week": int(week), "n_games": int(len(total)),
-            "margin_mae": float(np.abs(pred - actual).mean()),
-            "winner_accuracy": float(((pred > 0) == (actual > 0)).mean()),
-            "upset_recall": 0.0,
-            "brier_score": float(np.square(total.vegas_probability_home.to_numpy(float)
-                                             - (actual > 0).astype(float)).mean()),
-        })
-    return pd.DataFrame(rows)
+def vegas_cumulative(predictions: pd.DataFrame) -> pd.DataFrame:
+    outputs = []
+    for season in (2024, 2025):
+        games = predictions.loc[predictions.season.eq(season)].drop_duplicates("target_game_id").copy()
+        games["vegas_predicted_margin"] = -games.home_spread
+        games["vegas_probability_home"] = (games.vegas_predicted_margin > 0).astype(float)
+        games["vegas_ats_correct"] = np.nan
+        games = games.sort_values(["week", "target_game_id"])
+        rows = []
+        prior: list[pd.DataFrame] = []
+        for week, part in games.groupby("week", sort=True):
+            prior.append(part)
+            total = pd.concat(prior, ignore_index=True)
+            actual = total.actual_margin.to_numpy(float)
+            pred = total.vegas_predicted_margin.to_numpy(float)
+            rows.append({
+                "season": season, "week": int(week), "n_games": int(len(total)),
+                "margin_mae": float(np.abs(pred - actual).mean()),
+                "winner_accuracy": float(((pred > 0) == (actual > 0)).mean()),
+                "upset_recall": 0.0,
+                "brier_score": float(np.square(total.vegas_probability_home.to_numpy(float)
+                                                 - (actual > 0).astype(float)).mean()),
+            })
+        outputs.append(pd.DataFrame(rows))
+    return pd.concat(outputs, ignore_index=True)
 
 
 def render_cumulative_curves(historical_cumulative_df: pd.DataFrame,
@@ -482,81 +485,84 @@ def render_cumulative_curves(historical_cumulative_df: pd.DataFrame,
         paths.append(path)
 
     # Per-model F09–F17 weekly curves, plus a separately scored six-architecture consensus.
-    for metric, title, preference, scale in metrics:
-        ylabel = {"margin_mae": "MAE (points)", "brier_score": "Brier score",
-                  "upset_recall": "Upset recall (%)", "winner_accuracy": "Accuracy (%)",
-                  "ats_accuracy": "ATS accuracy (%)"}[metric]
-        fig, axes = plt.subplots(2, 3, figsize=(16, 9), sharex=True, sharey=True,
-                                 facecolor=background)
-        for ax, model in zip(axes.flat, MODELS):
+    for season in (2024, 2025):
+        vegas_season = vegas_curves.loc[vegas_curves.season.eq(season)]
+        game_count = int(vegas_season.n_games.max())
+        for metric, title, preference, scale in metrics:
+            ylabel = {"margin_mae": "MAE (points)", "brier_score": "Brier score",
+                      "upset_recall": "Upset recall (%)", "winner_accuracy": "Accuracy (%)",
+                      "ats_accuracy": "ATS accuracy (%)"}[metric]
+            fig, axes = plt.subplots(2, 3, figsize=(16, 9), sharex=True, sharey=True,
+                                     facecolor=background)
+            for ax, model in zip(axes.flat, MODELS):
+                ax.set_facecolor(panel)
+                view = model_curves.loc[(model_curves.model.eq(model)) & (model_curves.season.eq(season))]
+                for stage in nextgen_stages:
+                    line = view.loc[view.stage.eq(stage)].sort_values("week")
+                    if not line.empty:
+                        ax.plot(line.week, line[metric] * scale, color=gen_colors[stage], lw=1.7, label=stage)
+                if metric in {"margin_mae", "winner_accuracy", "brier_score"}:
+                    ax.plot(vegas_season.week, vegas_season[metric] * scale, color=ink, lw=2.0,
+                            ls="--", label="Vegas")
+                elif metric == "upset_recall":
+                    ax.axhline(0.0, color=ink, lw=1.5, ls="--", label="Vegas favorite · 0%")
+                else:
+                    ax.axhline(50.0, color=ink, lw=1.5, ls="--", label="50% break-even")
+                ax.set_title(f"{model} · {MODEL_LABELS[model]}", color=ink, loc="left", fontsize=11)
+                ax.grid(axis="y", color=colors["steelGrey"], alpha=.22, lw=.7)
+                ax.tick_params(colors=axis, labelsize=8)
+                for spine in ax.spines.values():
+                    spine.set_visible(False)
+            fig.suptitle(f"F09–F17 market · full scientific roster · {title}", color=ink,
+                         fontsize=18, fontweight="bold", x=.06, ha="left")
+            fig.text(.06, .94, f"{season} common {game_count}-game development cohort · each model prediction averages its saved fits before scoring",
+                     color=axis, fontsize=10)
+            fig.text(.06, .035, "F17 market is retrospective. Vegas references: spread MAE/winners, 0/1 favorite Brier, 0% upset recall; ATS uses 50% break-even.",
+                     color=axis, fontsize=8.5)
+            for ax in axes[-1, :]:
+                ax.set_xlabel("Week", color=axis)
+            axes[0, 0].set_ylabel(ylabel, color=axis)
+            axes[1, 0].set_ylabel(ylabel, color=axis)
+            handles, labels = axes[0, 0].get_legend_handles_labels()
+            fig.legend(handles, labels, ncol=10, loc="lower center", bbox_to_anchor=(.5, .075),
+                       frameon=False, fontsize=8.5)
+            fig.subplots_adjust(left=.07, right=.99, top=.88, bottom=.18, hspace=.26, wspace=.12)
+            path = outdir / f"nextgen_full_roster_cumulative_{metric}_{season}.png"
+            fig.savefig(path, dpi=200, facecolor=background, bbox_inches="tight")
+            plt.close(fig)
+            paths.append(path)
+
+            consensus = consensus_curves.loc[consensus_curves.season.eq(season)]
+            fig, ax = plt.subplots(figsize=(13, 7), facecolor=background)
             ax.set_facecolor(panel)
-            view = model_curves.loc[(model_curves.model.eq(model)) & (model_curves.season.eq(2025))]
             for stage in nextgen_stages:
-                line = view.loc[view.stage.eq(stage)].sort_values("week")
+                line = consensus.loc[consensus.stage.eq(stage)].sort_values("week")
                 if not line.empty:
-                    ax.plot(line.week, line[metric] * scale, color=gen_colors[stage], lw=1.7, label=stage)
+                    ax.plot(line.week, line[metric] * scale, color=gen_colors[stage], lw=2.1,
+                            label=stage, ls="--" if stage == "F17 market" else "-")
             if metric in {"margin_mae", "winner_accuracy", "brier_score"}:
-                ax.plot(vegas_curves.week, vegas_curves[metric] * scale, color=ink, lw=2.0,
-                        ls="--", label="Vegas")
+                ax.plot(vegas_season.week, vegas_season[metric] * scale, color=ink, lw=2.3,
+                        ls=(0, (5, 2)), label="Vegas")
             elif metric == "upset_recall":
-                ax.axhline(0.0, color=ink, lw=1.5, ls="--", label="Vegas favorite · 0%")
+                ax.axhline(0.0, color=ink, lw=2.0, ls=(0, (5, 2)), label="Vegas favorite · 0%")
             else:
-                ax.axhline(50.0, color=ink, lw=1.5, ls="--", label="50% break-even")
-            ax.set_title(f"{model} · {MODEL_LABELS[model]}", color=ink, loc="left", fontsize=11)
+                ax.axhline(50.0, color=ink, lw=2.0, ls=(0, (5, 2)), label="50% break-even")
+            ax.set_title(f"Six-model consensus · {title}", color=ink, loc="left", fontsize=17, fontweight="bold")
+            ax.set_xlabel("Week", color=axis)
+            ax.set_ylabel(ylabel, color=axis)
             ax.grid(axis="y", color=colors["steelGrey"], alpha=.22, lw=.7)
-            ax.tick_params(colors=axis, labelsize=8)
+            ax.tick_params(colors=axis)
             for spine in ax.spines.values():
                 spine.set_visible(False)
-        fig.suptitle(f"F09–F17 market · full scientific roster · {title}", color=ink,
-                     fontsize=18, fontweight="bold", x=.06, ha="left")
-        fig.text(.06, .94, "2025 common 553-game development cohort · each model prediction averages its saved fits before scoring",
-                 color=axis, fontsize=10)
-        fig.text(.06, .035, "F17 market is retrospective. Vegas references: spread MAE/winners, 0/1 favorite Brier, 0% upset recall; ATS uses 50% break-even.",
-                 color=axis, fontsize=8.5)
-        for ax in axes[-1, :]:
-            ax.set_xlabel("Week", color=axis)
-        axes[0, 0].set_ylabel(ylabel, color=axis)
-        axes[1, 0].set_ylabel(ylabel, color=axis)
-        handles, labels = axes[0, 0].get_legend_handles_labels()
-        fig.legend(handles, labels, ncol=10, loc="lower center", bbox_to_anchor=(.5, .075),
-                   frameon=False, fontsize=8.5)
-        fig.subplots_adjust(left=.07, right=.99, top=.88, bottom=.18, hspace=.26, wspace=.12)
-        path = outdir / f"nextgen_full_roster_cumulative_{metric}_2025.png"
-        fig.savefig(path, dpi=200, facecolor=background, bbox_inches="tight")
-        plt.close(fig)
-        paths.append(path)
-
-        consensus = consensus_curves.loc[consensus_curves.season.eq(2025)]
-        fig, ax = plt.subplots(figsize=(13, 7), facecolor=background)
-        ax.set_facecolor(panel)
-        for stage in nextgen_stages:
-            line = consensus.loc[consensus.stage.eq(stage)].sort_values("week")
-            if not line.empty:
-                ax.plot(line.week, line[metric] * scale, color=gen_colors[stage], lw=2.1,
-                        label=stage, ls="--" if stage == "F17 market" else "-")
-        if metric in {"margin_mae", "winner_accuracy", "brier_score"}:
-            ax.plot(vegas_curves.week, vegas_curves[metric] * scale, color=ink, lw=2.3,
-                    ls=(0, (5, 2)), label="Vegas")
-        elif metric == "upset_recall":
-            ax.axhline(0.0, color=ink, lw=2.0, ls=(0, (5, 2)), label="Vegas favorite · 0%")
-        else:
-            ax.axhline(50.0, color=ink, lw=2.0, ls=(0, (5, 2)), label="50% break-even")
-        ax.set_title(f"Six-model consensus · {title}", color=ink, loc="left", fontsize=17, fontweight="bold")
-        ax.set_xlabel("Week", color=axis)
-        ax.set_ylabel(ylabel, color=axis)
-        ax.grid(axis="y", color=colors["steelGrey"], alpha=.22, lw=.7)
-        ax.tick_params(colors=axis)
-        for spine in ax.spines.values():
-            spine.set_visible(False)
-        ax.legend(ncol=5, frameon=False, loc="best", fontsize=9)
-        fig.text(.02, .015,
-                 "Consensus averages each architecture across its saved fits, then weights the six architectures equally. F17 market is retrospective.",
-                 color=axis, fontsize=9)
-        fig.tight_layout(rect=(0, .04, 1, 1))
-        path = outdir / f"nextgen_consensus_cumulative_{metric}_2025.png"
-        fig.savefig(path, dpi=200, facecolor=background, bbox_inches="tight")
-        plt.close(fig)
-        paths.append(path)
+            ax.legend(ncol=5, frameon=False, loc="best", fontsize=9)
+            fig.text(.02, .015,
+                     "Consensus averages each architecture across its saved fits, then weights the six architectures equally. F17 market is retrospective.",
+                     color=axis, fontsize=9)
+            fig.tight_layout(rect=(0, .04, 1, 1))
+            path = outdir / f"nextgen_consensus_cumulative_{metric}_{season}.png"
+            fig.savefig(path, dpi=200, facecolor=background, bbox_inches="tight")
+            plt.close(fig)
+            paths.append(path)
     return paths
 
 
@@ -658,7 +664,7 @@ def main() -> None:
     predictions, weekly, cumulative, year_scorecard, run_receipts = load_nextgen()
     scorecard = make_scorecard(historical_folds, year_scorecard)
     model_games, consensus_games, model_weekly, model_cumulative, consensus_weekly, consensus_cumulative = prediction_curves(predictions)
-    vegas_curves = vegas_cumulative_2025(predictions)
+    vegas_curves = vegas_cumulative(predictions)
 
     write_csv(predictions.drop(columns=["home_spread"]).sort_values(
         ["stage", "model", "season", "week", "target_game_id", "replicate"]),
@@ -688,7 +694,10 @@ def main() -> None:
               OUT / "performance/nextgen_consensus_weekly_performance.csv")
     write_csv(consensus_cumulative.sort_values(["stage", "season", "week"]),
               OUT / "performance/nextgen_consensus_cumulative_performance.csv")
-    write_csv(vegas_curves, OUT / "performance/vegas_cumulative_performance_2025.csv")
+    legacy_vegas_file = OUT / "performance/vegas_cumulative_performance_2025.csv"
+    if legacy_vegas_file.exists():
+        legacy_vegas_file.unlink()
+    write_csv(vegas_curves, OUT / "performance/vegas_cumulative_performance_2024_2025.csv")
 
     vegas = pd.read_csv(FIGURE_DATA / "all_architectures_vegas_baseline_data.csv")
     render_heatmaps(scorecard, vegas)

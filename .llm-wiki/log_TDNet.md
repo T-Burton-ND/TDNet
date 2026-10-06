@@ -480,3 +480,10 @@ Chronological record of wiki activity.
 - Extended cumulative model and consensus plots through MAE, upset recall, winner accuracy, Brier and ATS accuracy across the available fingerprint stages.
 - Validated derived upset-recall and Brier scores against every saved F09–F17 run result before export.
 - Kept F0–F8 historical season curves separate because their retained scorecards do not contain game-level predictions for weekly or consensus reconstruction.
+
+## [2026-10-05] update | Add 2024 cumulative scientific curves
+
+- by: Thomas J. Burton via codex
+- Extended the F09–F17 full-roster and equal-weight consensus cumulative plots to include a separate 2024 cohort alongside 2025.
+- Added season-matched Vegas MAE, winner, upset-recall and Brier references for both development cohorts.
+- Preserved separate season panels so cumulative trajectories are not treated as paired cross-year evidence.
