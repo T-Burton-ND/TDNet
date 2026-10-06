@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
 from gridiron_ml.publication.scientific_weekly import (
+    plot_scientific_all_team_power_ranking,
     plot_scientific_power_top25,
     scientific_consensus_power_rankings,
     validate_scientific_ballots,
@@ -139,6 +140,19 @@ def main() -> None:
     plot_scientific_power_top25(rankings, OUTPUT / "scientific_top25.png", season=2026,
                                 week=6, logo_dir=logo_dir,
                                 display_label="Full F0–F17-market research ballot")
+    all_team_power = rankings.copy()
+    # Use the same average-rating rank shown in the Top 25 graphic rather than
+    # switching to Borda points for the full-team picture.
+    all_team_power["poll_points_rank"] = all_team_power["consensus_power_rank"]
+    plot_scientific_all_team_power_ranking(
+        all_team_power,
+        OUTPUT / "scientific_all_fbs_power_rankings.png",
+        season=2026,
+        week=6,
+        bulletin_label="INDEPENDENT FULL-ROSTER RESEARCH BALLOT",
+        title="ALL FBS TEAMS · F0–F17-MARKET CONSENSUS",
+        footer_label="RANKED BY MEAN POWER RATING ACROSS 108 MODEL × FINGERPRINT BALLOTS",
+    )
     manifest = {
         "scope": "Independent 2026 Week 6 research ballot; not an official published prediction",
         "season": 2026,
@@ -157,12 +171,12 @@ def main() -> None:
             "F7": "Market-only generation has no direct team-vs-average matchup representation; its ballot is derived from its predicted game margins as a separate research view.",
         },
         "published_week6_predictions_modified": False,
-        "files": ["scientific_full_ballots.csv", "scientific_consensus_power_rankings.csv", "scientific_top25_ballot.csv", "scientific_top25_ballots.png", "scientific_top25.png"],
+        "files": ["scientific_full_ballots.csv", "scientific_consensus_power_rankings.csv", "scientific_top25_ballot.csv", "scientific_top25_ballots.png", "scientific_top25.png", "scientific_all_fbs_power_rankings.png"],
     }
     (OUTPUT / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     (OUTPUT / "README.md").write_text(
         "# 2026 Week 6 scientific full-roster what-if ballot\n\n"
-        "This is an independent research ballot, separate from published and frozen Week 6 predictions. It covers all 18 fingerprint generations (F0–F17-market), all six scientific architectures (M1, M2, M3, M4, M5, M10), and 138 FBS teams. `scientific_top25_ballot.csv` is the consensus Top 25; `scientific_full_ballots.csv` contains all 108 model ballots.\n\n"
+        "This is an independent research ballot, separate from published and frozen Week 6 predictions. It covers all 18 fingerprint generations (F0–F17-market), all six scientific architectures (M1, M2, M3, M4, M5, M10), and 138 FBS teams. `scientific_top25_ballot.csv` is the consensus Top 25; `scientific_full_ballots.csv` contains all 108 model ballots; `scientific_all_fbs_power_rankings.png` shows the full 138-team power ranking, ordered by the same mean-rating rank as the Top 25.\n\n"
         "Each model's 2026 pregame margin forecasts for the 271 games through Week 5 are fit to team fixed effects plus a home-site effect. The centered team effects are the model's estimated margin versus an average FBS team. Actual game outcomes are not fit targets. This creates comparable full-team ballots even where an architecture has no direct team-vs-average feature transform.\n\n"
         "Market timing caveats: F7/F8 each include four Week 1 forecasts using line inputs from an October 6 refreshed snapshot with unavailable quote times. F17-market uses market inputs with unavailable quote times for all target games. F7 is market-only, so its ballot is derived from game forecasts rather than a direct team-vs-average evaluation. Treat the equal-weight consensus as a research view, not a clean poll replacement.\n"
     )
