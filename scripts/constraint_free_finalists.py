@@ -127,9 +127,26 @@ def collect(root: Path = ROOT) -> tuple[list[dict], dict]:
                 for path, row in rows:
                     if row["tier"] != tier or row["architecture"] != architecture:
                         raise ValueError(f"Advanced candidate identity mismatch: {path}")
+                    if row.get("genome_hash") != path.stem:
+                        raise ValueError(f"Advanced candidate genome/path mismatch: {path}")
+                if sorted(row["trial"] for _, row in rows) != list(
+                        range(1, manifest["candidate_budget_per_task"] + 1)):
+                    raise ValueError(f"Advanced candidate trial sequence is incomplete: {task_folder}")
                 if summary["candidates"] != len(rows) or summary["successful_candidates"] != sum(
                         row["status"] == "success" for _, row in rows):
                     raise ValueError(f"Advanced summary count mismatch: {task_folder}")
+                successful = [row for _, row in rows if row["status"] == "success"]
+                if not successful:
+                    raise ValueError(f"No successful advanced candidate: {task_folder}")
+                best = min(successful, key=lambda row: (row["mean_mae"], row["mean_brier"],
+                                                       row["worst_year_mae"]))
+                declared = next((row for row in successful
+                                 if row["genome_hash"] == summary["best_genome_hash"]), None)
+                if declared is None or (declared["mean_mae"], declared["mean_brier"],
+                                        declared["worst_year_mae"]) != (
+                                            best["mean_mae"], best["mean_brier"],
+                                            best["worst_year_mae"]):
+                    raise ValueError(f"Advanced summary winner differs from receipts: {task_folder}")
                 tier_rows.extend(rows)
                 finalists_pool.extend(_fold_candidate(row, track=track, path=path,
                                                       manifest=manifest_path)

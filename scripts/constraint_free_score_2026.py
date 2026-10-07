@@ -120,6 +120,9 @@ def score(predictions_dir: Path = PREDICTION_DIR, output: Path = DEFAULT_OUTPUT)
     freeze_path = Path(receipt["freeze_manifest"])
     if freeze_path != FREEZE or digest(freeze_path) != receipt["freeze_manifest_sha256"]:
         raise ValueError("Prospective freeze identity changed")
+    frozen = json.loads(freeze_path.read_text())
+    if digest(MARKET) != frozen["market_policy"]["market_source_sha256"]:
+        raise ValueError("Archived market source changed after forecast freeze")
     if not receipt.get("no_2026_outcomes_read"):
         raise ValueError("Prediction receipt did not quarantine 2026 outcomes")
     prediction_path = Path(receipt["predictions"])
