@@ -1,0 +1,5 @@
+# 2026 Week 6 F0–F19 scientific research ballot
+
+This independent ballot combines 20 fingerprints (F0–F16, F17-market, F18, F19) with the six scientific models M1, M2, M3, M4, M5, and M10: 120 complete ballots for 138 FBS teams. The 263 games with all 120 archived pregame forecasts are the common fitting cohort. Eight opening games without F19 market snapshots are excluded from every ballot so the schedule is identical.
+
+For each cell, least squares fits team effects plus a home-site effect to that cell's predicted game margins; ratings are centered against the average FBS team. Realized scores are not fitting targets. The consensus mean is descriptive and was not optimized against 2026 outcomes. Rankings use mean power rating; points rank is separately available in the table. This output is separate from the frozen published Week 6 bundle and prior 108-ballot research export. F18/F19 forecasts were frozen before their evaluation, but broader TDNet work had previously analyzed 2026 outcomes. Historical F19 quote-level timing is unverified.
