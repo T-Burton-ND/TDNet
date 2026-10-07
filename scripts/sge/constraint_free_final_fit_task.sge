@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+export OMP_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export VECLIB_MAXIMUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export MPLCONFIGDIR=/tmp/tdnet-mpl
+export PYTHONPATH="$REPO_ROOT/src:$REPO_ROOT/scripts"
+cd "$REPO_ROOT"
+/users/tburton2/.conda/envs/gridiron/bin/python scripts/constraint_free_fit_finalists.py run \
+  --manifest "$FIT_MANIFEST" --task-id "$SGE_TASK_ID"
