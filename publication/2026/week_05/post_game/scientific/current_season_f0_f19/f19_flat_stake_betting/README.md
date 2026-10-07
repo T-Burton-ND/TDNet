@@ -30,5 +30,5 @@ The Week 4 subset contains 56 bets per strategy. Cumulative curves show net prof
 - `bet_ledger.csv`: every target game × strategy × scenario, including skipped bets and their reasons, price source, side, outcome, stake, and cumulative results.
 - `summary.csv`: strategy totals with win/loss/push and ROI.
 - `weekly.csv`: weekly totals and cumulative bankroll from an initial $1,000.
-- `cumulative_net_profit.png`: ATS and broad quoted-moneyline paths.
+- `cumulative_net_profit.png`: ATS and broad quoted-moneyline profit paths (left axes) plus the grey dotted cumulative amount wagered per strategy (right axes). All seven strategies stake the same total within each panel.
 - `manifest.json`: source and output SHA-256 hashes.
