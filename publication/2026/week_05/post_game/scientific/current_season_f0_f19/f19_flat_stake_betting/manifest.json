@@ -1,0 +1,25 @@
+{
+  "schema": "tdnet-f19-flat-stake-study-v1",
+  "season": 2026,
+  "through_week": 5,
+  "stake_per_bet_usd": 10.0,
+  "ats_assumed_american_odds": -110.0,
+  "forecast_is_retrospective_counterfactual": true,
+  "moneyline_quote_timing": "Only Week 4 has a frozen pregame quote snapshot; Weeks 1\u20133 and 5 use a retrospective archive with unverified timing.",
+  "source_sha256": {
+    "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_model_game_results.parquet": "fc307e3a23cb8d24a9e7507f589691a7107e0eba364cce0cc7659809d51aaa4e",
+    "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_consensus_game_results.parquet": "44d25cb4639b4fe26f3793154c99eff3c458d8d715e37c38b02b6b5347023f1d",
+    "publication/2026/week_05/post_game/scientific/current_season_f0_f19/provenance/scientific_2026_pregame_market_snapshots.csv": "c3f049524d9cb9c5b150bbee03699dbe45b8778933646863ab8692d095b96bb6",
+    "data/raw/cfbd/v2/lines/2026.parquet": "7a3de9a763937f75ea8a3a8942c50f360d19bedf59cadc8c837e7bcfabd532ba",
+    "publication/2026/week_04/pre_game/metadata/cfbd_moneyline_snapshot.csv": "e89ed16316a96fdc06c30ef87145276630fad057771b68526609edc79ab4754a",
+    "publication/2026/week_05/post_game/scientific/current_season_f0_f19/manifest.json": "96bd797f61798921e765fd14cee983189d77e76b486ff389e7ed912e7a82074b",
+    "scripts/publication/build_2026_f19_flat_stake_study.py": "7cdc958a9a1c750565ffdca0b0770122ad4104f5da5509ab52eadfe601022d72"
+  },
+  "outputs_sha256": {
+    "bet_ledger.csv": "505b3f8d3d8495b623f56c12ce3e5b626f750362dd9a4fb952fd0758e376176f",
+    "summary.csv": "781c6973b357b15255ee11d35787f99f3ec86574cd4b2ed2a6923ab49e5669e1",
+    "weekly.csv": "3dcd41929d6c3ddd10abc9d8bf1bd5946100737346e7c06a517da1f225f55e67",
+    "cumulative_net_profit.png": "0e7e12e6b7f6587d2d835110d16a2d2d78dc0ef745ebd5ae6afb4fdb0249776c",
+    "README.md": "fef226656a3fbf381c35a99259fe6837823cdced69c31b5c2d78c2a8bcb110a1"
+  }
+}
