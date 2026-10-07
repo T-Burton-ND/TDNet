@@ -201,12 +201,29 @@ def select(root: Path = ROOT) -> dict:
     for track, tiers in accounting.items():
         if tiers["F18"]["candidates"] != tiers["F19"]["candidates"]:
             raise ValueError(f"Asymmetric {track} candidate budget")
+    interrupted = {}
+    for track, folder in (("initial_a_dispatch_failure", root.parent / "stage1"),
+                          ("initial_broad_resource_failure", root / "stage1")):
+        manifest = _read(folder / "manifest.json")
+        receipts = [_read(path) for path in sorted((folder / "results").glob("task_*.json"))]
+        if any(row.get("manifest_sha256") != digest(folder / "manifest.json") for row in receipts):
+            raise ValueError(f"Interrupted attempt has a stale receipt: {folder}")
+        interrupted[track] = {
+            "scheduled_tasks": len(manifest["tasks"]),
+            "receipts": len(receipts),
+            "successful_receipts": sum(row["status"] == "success" for row in receipts),
+            "failed_receipts": sum(row["status"] == "failed" for row in receipts),
+            "without_receipt": len(manifest["tasks"]) - len(receipts),
+            "model_fits_in_receipts": sum(int(row.get("model_fits", 0)) for row in receipts),
+            "excluded_from_finalist_selection": True,
+        }
     return {
         "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "selection_rule": "minimum equal-year mean MAE; then Brier; then worst-year MAE; then stable identity",
         "years": list(YEARS), "universe": "F16_A_plus_distinct_F12_BC",
         "winners": winners, "f19_direct_residual_development": residual_comparison,
         "accounting": accounting,
+        "interrupted_attempts": interrupted,
         "development_warning": "2022–2025 scores were used for selection and are not unbiased estimates",
         "historical_f19_market_warning": "historical quote-level timestamps unverified",
     }
