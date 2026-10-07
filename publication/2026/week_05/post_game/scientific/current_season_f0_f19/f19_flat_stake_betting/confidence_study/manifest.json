@@ -1,0 +1,29 @@
+{
+  "schema": "tdnet-f19-betting-confidence-study-v1",
+  "season": 2026,
+  "through_week": 5,
+  "stake_per_bet_usd": 10,
+  "ats_confidence": "empirical chosen-side cover probability from 2226 F19 2022-2025 historical OOF residuals",
+  "moneyline_confidence": "frozen picked-team win probability",
+  "cutoffs": "0% all-priced baseline; 50%-100% in 1 percentage point steps",
+  "min_bets_for_best_cutoff": 30,
+  "best_cutoff_is_in_sample": true,
+  "input_sha256": {
+    "/users/tburton2/Repos/TDNet/publication/2026/week_05/post_game/scientific/current_season_f0_f19/f19_flat_stake_betting/bet_ledger.csv": "505b3f8d3d8495b623f56c12ce3e5b626f750362dd9a4fb952fd0758e376176f",
+    "/users/tburton2/Repos/TDNet/publication/2026/week_05/post_game/scientific/current_season_f0_f19/f19_flat_stake_betting/manifest.json": "ff64c602950a9c609a5486e6ba6720d25fdbb8a8b91fa2565f051d89b547c376",
+    "/groups/bsavoie2/tburton2/TDNet/f18_f19_constraint_free_v1/broad_search/final_fit/freeze/freeze_manifest.json": "aa6096cc558120129aeb254d49ef450cb2b4bd1312a2c2c6ed7258af60779472",
+    "/groups/bsavoie2/tburton2/TDNet/f18_f19_constraint_free_v1/broad_search/final_fit/freeze/historical_oof_and_ensembles.parquet": "54484df95d221b5cfd5fb5658e17dc2b134f4e102776a888c81dd4c05422337b",
+    "/users/tburton2/Repos/TDNet/scripts/publication/build_2026_f19_confidence_study.py": "5cd3704b8c3e4846c83401bb44f2595c606e03a3c27ea10b2614002a9e6e05dd"
+  },
+  "outputs_sha256": {
+    "confidence_ledger.csv": "3b1796fa42464af59e52ee7db99fcf549a48d85cbd65bcd323ebaae86de007fc",
+    "historical_f19_oof_residuals.csv": "459ac40a29fc5dca136e4c6225007fe86c3353cd2e134e45d0010ce977ccc7bb",
+    "threshold_sweep.csv": "23478b2a62341aea89ce2480cbc38d83195abe1275be6cebb5d2c8009908e408",
+    "confidence_bins.csv": "ca2d8b713f1fa9ac9e70ed903920915202096d3780e5c10fbdc6c3d9b3e75fb3",
+    "correlations.csv": "a766056f045f352c2a2dc1e38cddb75f62138385a15cc994fab4331177415f7d",
+    "best_cutoffs_in_sample.csv": "26bfb426f4e112b72646f20c82a3352d5d147d88293825950883a0821da589ad",
+    "confidence_thresholds.png": "cde188114fce0b88cd2e8985537d16f9b1f2a5de57c3533f638c605f9f88e5c1",
+    "README.md": "61e1c18835fba9928f0341f7ca903310566ddb3f3b8b13e31bb754767eaa29ef",
+    "week_split_check.csv": "585ece445807d95b854ac5e2db24b5f21c5fb747b93a6403031fc34456ef2492"
+  }
+}

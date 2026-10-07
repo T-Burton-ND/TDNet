@@ -1,0 +1,22 @@
+market,scenario,strategy,confidence_cutoff,all_bets_baseline_net_usd,net_change_vs_all_bets_usd,bets,wins,losses,pushes,staked_usd,net_profit_usd,roi,mean_confidence,observed_win_rate_ex_pushes,frozen_price_bets,retrospective_price_bets,selection_warning
+ATS,all_eligible,F19 equal consensus,0.56,-59.09090908,37.27272726,48,24,24,0,480,-21.81818182,-0.04545454545,0.5709886942,0.5,0,0,selected_on_same_2026_outcomes_not_forward_validated
+ATS,all_eligible,M1,0.54,-135.4545454,182.7272727,129,69,58,2,1290,47.27272728,0.03664552502,0.5678103039,0.5433070866,0,0,selected_on_same_2026_outcomes_not_forward_validated
+ATS,all_eligible,M10,0.6,-230.9090909,172.7272727,65,31,34,0,650,-58.18181818,-0.08951048951,0.6436035662,0.4769230769,0,0,selected_on_same_2026_outcomes_not_forward_validated
+ATS,all_eligible,M2,0.55,-154.5454545,199.0909091,50,28,21,1,500,44.54545455,0.0890909091,0.5628122192,0.5714285714,0,0,selected_on_same_2026_outcomes_not_forward_validated
+ATS,all_eligible,M3,0.53,17.27272729,74.54545454,138,75,59,4,1380,91.81818183,0.06653491437,0.5593252341,0.5597014925,0,0,selected_on_same_2026_outcomes_not_forward_validated
+ATS,all_eligible,M4,0.57,-59.09090908,122.7272727,50,29,20,1,500,63.63636364,0.1272727273,0.5910242588,0.5918367347,0,0,selected_on_same_2026_outcomes_not_forward_validated
+ATS,all_eligible,M5,0.59,-307.2727273,217.2727273,94,44,49,1,940,-90,-0.09574468085,0.6363766703,0.4731182796,0,0,selected_on_same_2026_outcomes_not_forward_validated
+moneyline,frozen_pregame_subset,F19 equal consensus,0.54,40.77318887,32,51,44,7,0,510,72.77318887,0.1426925272,0.7365991317,0.862745098,51,0,selected_on_same_2026_outcomes_not_forward_validated
+moneyline,frozen_pregame_subset,M1,0.56,40.77318887,42,50,44,6,0,500,82.77318887,0.1655463777,0.7487103071,0.88,50,0,selected_on_same_2026_outcomes_not_forward_validated
+moneyline,frozen_pregame_subset,M10,0.51,119.3065222,10,55,48,7,0,550,129.3065222,0.2351027676,0.7137129884,0.8727272727,55,0,selected_on_same_2026_outcomes_not_forward_validated
+moneyline,frozen_pregame_subset,M2,0.57,40.77318887,24.59259259,50,43,7,0,500,65.36578146,0.1307315629,0.7492045533,0.86,50,0,selected_on_same_2026_outcomes_not_forward_validated
+moneyline,frozen_pregame_subset,M3,0.55,40.77318887,22.59259259,52,44,8,0,520,63.36578146,0.121857272,0.7367161778,0.8461538462,52,0,selected_on_same_2026_outcomes_not_forward_validated
+moneyline,frozen_pregame_subset,M4,0.55,40.77318887,2.592592593,54,44,10,0,540,43.36578146,0.08030700271,0.7346387443,0.8148148148,54,0,selected_on_same_2026_outcomes_not_forward_validated
+moneyline,frozen_pregame_subset,M5,0.65,-8.816664849,36.9526756,31,28,3,0,310,28.13601075,0.090761325,0.775719874,0.9032258065,31,0,selected_on_same_2026_outcomes_not_forward_validated
+moneyline,quoted_odds,F19 equal consensus,0.59,86.77053534,0.927369289,211,178,33,0,2110,87.69790463,0.04156298797,0.7938356487,0.8436018957,45,166,selected_on_same_2026_outcomes_not_forward_validated
+moneyline,quoted_odds,M1,0.51,89.77962625,23.82716049,246,199,47,0,2460,113.6067867,0.04618162063,0.7613946932,0.8089430894,55,191,selected_on_same_2026_outcomes_not_forward_validated
+moneyline,quoted_odds,M10,0.5,185.3571258,0,250,202,48,0,2500,185.3571258,0.07414285032,0.7447591493,0.808,56,194,selected_on_same_2026_outcomes_not_forward_validated
+moneyline,quoted_odds,M2,0.53,65.32150535,42.59259259,244,198,46,0,2440,107.9140979,0.04422708932,0.7659982635,0.8114754098,54,190,selected_on_same_2026_outcomes_not_forward_validated
+moneyline,quoted_odds,M3,0.65,71.27666891,23.66513686,178,158,20,0,1780,94.94180577,0.05333809313,0.8269380484,0.8876404494,38,140,selected_on_same_2026_outcomes_not_forward_validated
+moneyline,quoted_odds,M4,0.5,151.2705353,0,250,203,47,0,2500,151.2705353,0.06050821413,0.7618154214,0.812,56,194,selected_on_same_2026_outcomes_not_forward_validated
+moneyline,quoted_odds,M5,0.67,5.733695606,66.46583487,152,138,14,0,1520,72.19953047,0.0474996911,0.829689041,0.9078947368,29,123,selected_on_same_2026_outcomes_not_forward_validated

@@ -1,0 +1,22 @@
+market,scenario,strategy,bets,spearman_confidence_vs_net_profit_per_bet,spearman_confidence_vs_win,spearman_model_edge_vs_net_profit_per_bet
+ATS,all_eligible,F19 equal consensus,263,-0.06176041198,-0.06292922194,
+ATS,all_eligible,M1,263,0.06517656659,0.06554993177,
+ATS,all_eligible,M10,263,-0.04691845597,-0.04709682259,
+ATS,all_eligible,M2,263,0.03262251443,0.0337831903,
+ATS,all_eligible,M3,263,0.05853856053,0.06104191068,
+ATS,all_eligible,M4,263,0.06775827137,0.06821135244,
+ATS,all_eligible,M5,263,0.001841020943,0.003075292371,
+moneyline,quoted_odds,F19 equal consensus,250,-0.3650490017,0.3572210163,0.001189494132
+moneyline,quoted_odds,M1,250,-0.3518742739,0.3613779715,0.05311967452
+moneyline,quoted_odds,M10,250,-0.3924882442,0.3003689445,0.03629371729
+moneyline,quoted_odds,M2,250,-0.3360386329,0.3777653026,0.06174943305
+moneyline,quoted_odds,M3,250,-0.3242414814,0.3890439317,0.118445333
+moneyline,quoted_odds,M4,250,-0.4478009999,0.2917331992,0.01996486679
+moneyline,quoted_odds,M5,250,-0.2143262087,0.4101915274,-0.0829374
+moneyline,frozen_pregame_subset,F19 equal consensus,56,-0.4091158722,0.2905932629,0.07376711886
+moneyline,frozen_pregame_subset,M1,56,-0.353190103,0.3489899952,0.2768497126
+moneyline,frozen_pregame_subset,M10,56,-0.6418664183,0.0363093874,0.1371285561
+moneyline,frozen_pregame_subset,M2,56,-0.4136448302,0.2961548565,0.1750167783
+moneyline,frozen_pregame_subset,M3,56,-0.4144682771,0.2878124661,0.158410599
+moneyline,frozen_pregame_subset,M4,56,-0.4438035732,0.2572237016,0.02477202782
+moneyline,frozen_pregame_subset,M5,56,-0.1318372765,0.3904349029,-0.1107847271

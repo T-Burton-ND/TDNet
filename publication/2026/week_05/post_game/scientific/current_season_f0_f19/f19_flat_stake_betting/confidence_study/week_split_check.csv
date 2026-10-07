@@ -1,0 +1,15 @@
+market,scenario,strategy,selection_weeks,check_weeks,selected_cutoff,selection_bets,selection_net_usd,check_all_bets,check_all_net_usd,check_selected_bets,check_selected_net_usd,check_net_change_vs_all_usd,warning
+ATS,all_eligible,F19 equal consensus,1-3,4-5,0,149,10.00000001,114,-69.09090909,114,-69.09090909,0,threshold_split_only_forecasts_and_most_quotes_remain_retrospective
+ATS,all_eligible,M1,1-3,4-5,0.53,92,-11.81818181,114,-11.81818181,63,48.18181819,60,threshold_split_only_forecasts_and_most_quotes_remain_retrospective
+ATS,all_eligible,M10,1-3,4-5,0.54,102,30.90909091,114,-202.7272727,73,-156.3636364,46.36363636,threshold_split_only_forecasts_and_most_quotes_remain_retrospective
+ATS,all_eligible,M2,1-3,4-5,0.55,30,-41.81818182,114,26.36363637,20,86.36363637,60,threshold_split_only_forecasts_and_most_quotes_remain_retrospective
+ATS,all_eligible,M3,1-3,4-5,0.53,91,74.54545455,114,7.272727278,47,17.27272728,9.999999997,threshold_split_only_forecasts_and_most_quotes_remain_retrospective
+ATS,all_eligible,M4,1-3,4-5,0.51,128,48.18181819,114,-88.18181818,97,-51.81818181,36.36363636,threshold_split_only_forecasts_and_most_quotes_remain_retrospective
+ATS,all_eligible,M5,1-3,4-5,0.52,130,9.090909097,114,-298.1818182,94,-184.5454545,113.6363636,threshold_split_only_forecasts_and_most_quotes_remain_retrospective
+moneyline,quoted_odds,F19 equal consensus,1-3,4-5,0,138,69.03215031,112,17.73838502,112,17.73838502,0,threshold_split_only_forecasts_and_most_quotes_remain_retrospective
+moneyline,quoted_odds,M1,1-3,4-5,0.51,135,85.86840172,112,17.73838502,111,27.73838502,10,threshold_split_only_forecasts_and_most_quotes_remain_retrospective
+moneyline,quoted_odds,M10,1-3,4-5,0.57,120,75.5107233,112,139.538385,95,65.27867253,-74.25971249,threshold_split_only_forecasts_and_most_quotes_remain_retrospective
+moneyline,quoted_odds,M2,1-3,4-5,0.51,136,88.98312033,112,-3.661614976,111,6.338385023,10,threshold_split_only_forecasts_and_most_quotes_remain_retrospective
+moneyline,quoted_odds,M3,1-3,4-5,0.54,130,63.54669745,112,17.73838502,106,22.03442589,4.296040869,threshold_split_only_forecasts_and_most_quotes_remain_retrospective
+moneyline,quoted_odds,M4,1-3,4-5,0,138,87.03215031,112,64.23838502,112,64.23838502,0,threshold_split_only_forecasts_and_most_quotes_remain_retrospective
+moneyline,quoted_odds,M5,1-3,4-5,0,138,74.55193087,112,-68.81823526,112,-68.81823526,0,threshold_split_only_forecasts_and_most_quotes_remain_retrospective
