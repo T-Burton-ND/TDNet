@@ -1,0 +1,71 @@
+{
+  "scope": "Independent 2026 Week 6 full F0-F19 scientific research ballot",
+  "season": 2026,
+  "reader_week": 6,
+  "team_count": 138,
+  "fingerprints": [
+    "F0",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7",
+    "F8",
+    "F9",
+    "F10",
+    "F11",
+    "F12",
+    "F13",
+    "F14",
+    "F15",
+    "F16",
+    "F17-market",
+    "F18",
+    "F19"
+  ],
+  "models_per_fingerprint": [
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M5",
+    "M10"
+  ],
+  "model_fingerprint_cells": 120,
+  "forecast_games_per_cell": 263,
+  "outcomes_used_as_fit_targets": false,
+  "source": {
+    "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_model_game_results.parquet",
+    "sha256": "fc307e3a23cb8d24a9e7507f589691a7107e0eba364cce0cc7659809d51aaa4e"
+  },
+  "script_sha256": "bd25e4c3cde817e6b9106476e7ee80da162d45bbee1a8faad344ce43e75b8baa",
+  "files": {
+    "ballots": {
+      "path": "publication/2026/week_06/pre_game/scientific/full_f0_f19_whatif/scientific_full_ballots.csv",
+      "sha256": "2f2472fae3b4c77e00232ee80d84c6ec3dd4795c6b6bf396eaed4c3238772486"
+    },
+    "rankings": {
+      "path": "publication/2026/week_06/pre_game/scientific/full_f0_f19_whatif/scientific_consensus_power_rankings.csv",
+      "sha256": "5647a9b48b6c1d798f12eba6e3a4bd2b8be466f42f8dff1ecd7645e1c81ad254"
+    },
+    "top25": {
+      "path": "publication/2026/week_06/pre_game/scientific/full_f0_f19_whatif/scientific_top25_ballot.csv",
+      "sha256": "71ff96b41a809367b4891087b0c25410c2381b236c81b331499f77d4b3e0e963"
+    },
+    "ballot_figure": {
+      "path": "publication/2026/week_06/pre_game/scientific/full_f0_f19_whatif/scientific_top25_ballots.png",
+      "sha256": "eca9348b3c717677b8f19615dd2a36fe3b6af84334029e8e8f8ae23bab69db47"
+    },
+    "top25_figure": {
+      "path": "publication/2026/week_06/pre_game/scientific/full_f0_f19_whatif/scientific_top25.png",
+      "sha256": "af3f8d672975e53b4f83850a34f58177e8b6ea261d32b24258b99b64959a9e4e"
+    },
+    "all_team_figure": {
+      "path": "publication/2026/week_06/pre_game/scientific/full_f0_f19_whatif/scientific_all_fbs_power_rankings.png",
+      "sha256": "04ed268b5ff276e51bdffef96c22bf630cd4a8f408f656d0ea0de495ed1e35af"
+    }
+  },
+  "readme_sha256": "1559f3439b020585eef141c0d9e8392f2e261c09cf1f07470a420c93ceee5ac6"
+}

@@ -1,0 +1,104 @@
+{
+  "created_at_utc": "2026-10-07T12:46:36.201538+00:00",
+  "season": 2026,
+  "through_week": 5,
+  "fingerprints": [
+    "F0",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7",
+    "F8",
+    "F9",
+    "F10",
+    "F11",
+    "F12",
+    "F13",
+    "F14",
+    "F15",
+    "F16",
+    "F17-market",
+    "F18",
+    "F19"
+  ],
+  "scientific_models": [
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M5",
+    "M10"
+  ],
+  "model_cells": 120,
+  "games": 271,
+  "market_eligible_games": 263,
+  "f19_unavailable_games": 8,
+  "legacy_forecasts_sha256": "02b5a917d1f2259a7d179888d9b2aaf66c9702f92270002553e15b814f8f8241",
+  "frozen_prediction_receipt": "/groups/bsavoie2/tburton2/TDNet/f18_f19_constraint_free_v1/broad_search/final_fit/prospective/receipt.json",
+  "frozen_prediction_receipt_sha256": "bd958aa06e95bc4506d732889ac8b70a746432eacc76da931e96b33c276bac10",
+  "frozen_prediction_sha256": "aa119f8d3f04768dbde3d5fbbd08882c0cce7ceac9684c12b277893c941a17cb",
+  "frozen_score_receipt_sha256": "d7d644a09fd3b7f1129b296d15e6b4e88d37987ff9eac70e76d4cd38b8af9ab4",
+  "prior_trajectory_sha256": "bf5f6829770cade34858c6f9093585ce33cce9b37b6b14f53fcc638d8a72c5d7",
+  "script_sha256": "6ef2f6346b777503800dfe35067414e5e7c8dce0062c554e9fa7082c63572559",
+  "consensus_policies": {
+    "full_available_120": "equal mean of available individual model margins and probabilities; 120 votes on 263 games, 114 on eight F19-unavailable games",
+    "full_common_120": "same means, restricted to the 263 games with all 120 votes",
+    "legacy_f0_f17_market_108": "equal mean of the 108 archived model forecasts on all 271 games",
+    "fingerprint_F18_F19": "mean of six margins with historical-OOF frozen equal-consensus probability calibration"
+  },
+  "not_a_new_model_or_tuning_run": true,
+  "broader_project_2026_outcomes_previously_analyzed": true,
+  "outputs": {
+    "model_games_parquet": {
+      "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_model_game_results.parquet",
+      "sha256": "fc307e3a23cb8d24a9e7507f589691a7107e0eba364cce0cc7659809d51aaa4e"
+    },
+    "model_games_csv": {
+      "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_model_game_results.csv",
+      "sha256": "efdc38adc9827d7cf65f392e4089ae9ad3b08bf13de97f105b2caab35f0091d6"
+    },
+    "consensus_games_parquet": {
+      "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_consensus_game_results.parquet",
+      "sha256": "44d25cb4639b4fe26f3793154c99eff3c458d8d715e37c38b02b6b5347023f1d"
+    },
+    "consensus_games_csv": {
+      "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_consensus_game_results.csv",
+      "sha256": "c2094e1c50670b49288d1fcd4bf7bac9484b2506d2991893a12ca8de92017bdb"
+    },
+    "model_weekly": {
+      "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_model_weekly_performance.csv",
+      "sha256": "37d6e8f23012f56c2d10ee5236a32652ec0a9e37b015095619a8540ad4fc7ade"
+    },
+    "model_cumulative": {
+      "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_model_cumulative_performance.csv",
+      "sha256": "28d058343d186dae1892e656114162b32b019c62ab6c763a10e81f894a41cbc4"
+    },
+    "consensus_weekly": {
+      "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_consensus_weekly_performance.csv",
+      "sha256": "9d36be00d8c0c7369ec1c219db9b7a711858f717987f0c8da17dc7af885b1a95"
+    },
+    "consensus_cumulative": {
+      "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_consensus_cumulative_performance.csv",
+      "sha256": "41ff1a4aae79de628b13c0171764a1ab7ec14a7d494bff622f0e7725c2d07355"
+    },
+    "scorecard": {
+      "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_current_season_scorecard.csv",
+      "sha256": "1527ee19199d9d22942ba6092de5f9e928473b9f601c029bc6653d3e13725ab5"
+    },
+    "consensus_figure": {
+      "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_f0_f19_weekly_consensus.png",
+      "sha256": "6687de599627fa3e4e2712485b809080aa11ac8f7bf8a8f165adb02bc04cc88b"
+    },
+    "roster_figure": {
+      "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_f0_f19_roster_cumulative_mae.png",
+      "sha256": "505d2d924010c8a1e4aefe94f10518de55855093e02bd3463718842795aced3c"
+    }
+  },
+  "readme": {
+    "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/README.md",
+    "sha256": "a588e9b0419a86adba4e97e0260ec6dea6d8c8e005be9590321af8ce8771e11d"
+  }
+}
