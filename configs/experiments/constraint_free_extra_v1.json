@@ -1,0 +1,18 @@
+{
+  "experiment": "f18_f19_constraint_free_extra_reducers_v1",
+  "tiers": ["F18", "F19"],
+  "architectures": ["M1", "M2", "M3", "M4", "M5", "M10"],
+  "screen_years": [2025],
+  "confirm_years": [2022, 2023, 2024, 2025],
+  "promotion_per_cell": 2,
+  "seed": 1729,
+  "candidates": [
+    "pca975", "pca99", "pca_fixed64", "pca_fixed128",
+    "sparse_pca32", "fastica64", "nmf64", "pls32",
+    "kernel_nystroem64", "autoencoder32", "mi128",
+    "raw_missing_scaled", "quantile_pca90", "power_pca90",
+    "select128_scaled"
+  ],
+  "sge_task_concurrency_max": 10,
+  "selection_rule": "Screen 2025 rolling-origin MAE; promote two successful candidates per tier and architecture to full 2022-2025 rolling-origin evaluation. All preprocessing is training-fold fitted."
+}
