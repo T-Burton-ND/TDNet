@@ -1,0 +1,15 @@
+{
+  "experiment": "f18_f19_constraint_free_advanced_v1",
+  "tiers": ["F18", "F19"],
+  "architectures": ["M1", "M2", "M3", "M4", "M5", "M10"],
+  "development_years": [2022, 2023, 2024, 2025],
+  "seed": 1729,
+  "ga_population": 8,
+  "ga_generations": 3,
+  "ga_elites": 2,
+  "bo_initial_random": 6,
+  "bo_trials": 18,
+  "bo_acquisition_pool": 128,
+  "sge_task_concurrency_max": 10,
+  "selection_rule": "Mean rolling-origin margin MAE; Brier and worst-year MAE break ties. All candidates are evaluated on the same 2022-2025 folds."
+}
