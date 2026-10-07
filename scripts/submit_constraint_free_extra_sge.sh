@@ -11,10 +11,6 @@ if [[ ! -f "$SEARCH_MANIFEST" ]]; then
   echo "Missing manifest: $SEARCH_MANIFEST" >&2
   exit 2
 fi
-if qstat -u "$USER" | rg -q 'td_cf_'; then
-  echo "A constraint-free experiment array is already active" >&2
-  exit 2
-fi
 readarray -t DETAILS < <(/users/tburton2/.conda/envs/gridiron/bin/python - "$SEARCH_MANIFEST" <<'PY'
 import json,sys
 from pathlib import Path
@@ -28,6 +24,16 @@ PY
 TASK_COUNT="${DETAILS[0]}"
 STAGE="${DETAILS[1]}"
 OUT_DIR="$(dirname "$SEARCH_MANIFEST")"
+QSTAT="$(qstat -u "$USER")"
+if printf '%s\n' "$QSTAT" | awk -v name="td_cf_x${STAGE}" '$3 == name {found=1} END {exit !found}'; then
+  echo "An array for this reducer stage is already active" >&2
+  exit 2
+fi
+ACTIVE="$(printf '%s\n' "$QSTAT" | awk '$3 ~ /^td_cf_/ && $5 == "r" {n++} END {print n+0}')"
+if (( ACTIVE + TC > 10 )); then
+  echo "Requested TC would exceed 10 active constraint-free tasks: $ACTIVE + $TC" >&2
+  exit 2
+fi
 mkdir -p "$OUT_DIR/scheduler_logs"
 JOB_ID="$(qsub -terse -clear -cwd -j y -q long \
   -N "td_cf_x${STAGE}" -t "1-${TASK_COUNT}" -tc "$TC" \
