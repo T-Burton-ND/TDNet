@@ -18,7 +18,7 @@ import pandas as pd
 from constraint_free_score_2026 import DEFAULT_OUTPUT as SCORE, MARKET, PRIOR
 from constraint_free_search import digest, write_json
 
-SCORECARD = Path("publication/2026/week_05/post_game/scientific/current_season_f0_f17_market/scientific_2026_current_season_scorecard.csv")
+SCORECARD = Path("publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_current_season_scorecard.csv")
 OUTPUT = SCORE / "postfreeze_analysis"
 
 
@@ -94,8 +94,9 @@ def build(output: Path = OUTPUT) -> dict:
         forecasts[(tier, "equal")] = mean.rename(columns={"game_id": "target_game_id"}).merge(
             games, on="target_game_id", validate="one_to_one")
     scorecard = pd.read_csv(SCORECARD)
+    scorecard = scorecard.rename(columns={"series_id": "model_name"})
     prior_roster = scorecard.loc[scorecard.series_type.eq("model") &
-                                 scorecard.fingerprint.ne("F17-market")]
+                                 scorecard.fingerprint.isin([f"F{i}" for i in range(17)])]
     observed_prior = prior_roster.sort_values(["margin_mae", "fingerprint", "model_name"]).iloc[0]
     best_label = str(observed_prior.model_name)
     best_prior = old.loc[old.model_name.eq(best_label) &

@@ -362,11 +362,13 @@ def build(output: Path = OUTPUT) -> dict:
     table = _performance(model, consensus, games)
     legacy = table.loc[table.scope.eq("cumulative") & table.week.eq(5)
                        & table.series_id.eq("legacy_f0_f17_market_108")].iloc[0]
-    old_score = pd.read_csv(ROOT / "publication/2026/week_05/post_game/scientific/current_season_f0_f17_market/scientific_2026_cumulative_trajectory.csv")
-    expected = old_score.loc[old_score.series_type.eq("consensus") & old_score.through_week.eq(5)].iloc[0]
-    if not np.isclose(legacy.margin_mae, expected.margin_mae, atol=1e-9) or not np.isclose(
-            legacy.brier_score, expected.brier_score, atol=1e-9):
-        raise ValueError("Rebuilt F0–F17 consensus differs from the archived score")
+    # The earlier output directory can be retired; bind validation to its
+    # immutable source-data digest and recorded score instead of that directory.
+    if digest(PRIOR) != "02b5a917d1f2259a7d179888d9b2aaf66c9702f92270002553e15b814f8f8241":
+        raise ValueError("Archived F0–F17-market source data changed")
+    if not np.isclose(legacy.margin_mae, 13.237191613873375, atol=1e-8) or not np.isclose(
+            legacy.brier_score, 0.165770, atol=1e-6):
+        raise ValueError("Rebuilt F0–F17 consensus differs from its archived score")
     score_receipt = json.loads((FROZEN / "evaluation/score_receipt.json").read_text())
     frozen_metrics = pd.read_csv(FROZEN / "evaluation/metrics.csv")
     for tier in ("F18", "F19"):
@@ -431,8 +433,7 @@ def build(output: Path = OUTPUT) -> dict:
         "before this new scoring operation, but broader TDNet work had previously "
         "analyzed 2026 outcomes; this is an archived-pregame replay, not a fully "
         "blinded prospective study. Historical F19 quote-level timing remains "
-        "unverified. All files here are separate from published weekly bundles and "
-        "the earlier F0–F17 archive.\n")
+        "unverified. All files here are separate from published weekly bundles.\n")
     manifest = {
         "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "season": 2026, "through_week": 5,
@@ -444,7 +445,8 @@ def build(output: Path = OUTPUT) -> dict:
         "frozen_prediction_receipt_sha256": digest(FROZEN / "receipt.json"),
         "frozen_prediction_sha256": receipt["predictions_sha256"],
         "frozen_score_receipt_sha256": digest(FROZEN / "evaluation/score_receipt.json"),
-        "prior_trajectory_sha256": digest(ROOT / "publication/2026/week_05/post_game/scientific/current_season_f0_f17_market/scientific_2026_cumulative_trajectory.csv"),
+        "legacy_consensus_reference": {"margin_mae": 13.237191613873375,
+                                       "brier_rounded_6dp": 0.165770},
         "script_sha256": digest(Path(__file__)),
         "consensus_policies": {
             "full_available_120": "equal mean of available individual model margins and probabilities; 120 votes on 263 games, 114 on eight F19-unavailable games",
