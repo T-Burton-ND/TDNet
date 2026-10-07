@@ -11,7 +11,7 @@ import argparse
 import csv
 import hashlib
 import json
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -52,6 +52,12 @@ def source_class(group: str) -> str:
         return "engineered_requires_manifest_and_cutoff_audit"
     if group.startswith("group/fingerprints/"):
         return "engineered_requires_manifest_and_cutoff_audit"
+    if group == "group/canonical":
+        return "canonical_engineered_requires_cutoff_audit"
+    if group in {"group/scratch", "group/progressive_pools"}:
+        return "scratch_engineered_requires_cutoff_audit"
+    if group == "group/results":
+        return "experiment_result_quarantined"
     if group.startswith("group/"):
         return "inspect_source_role"
     if group.startswith("repo/what_if_2026/"):
@@ -60,6 +66,12 @@ def source_class(group: str) -> str:
         return "publication_or_private_quarantined_until_cutoff_audit"
     if group == "repo/nextgen_rounds_2026":
         return "historical_prepared_requires_feature_outcome_separation"
+    if group == "repo/raw/cfbd/v2":
+        return "raw_requires_target_asof_construction_or_quote_time"
+    if group == "repo/fingerprints":
+        return "prior_fingerprint_requires_feature_target_separation"
+    if group == "repo/derived":
+        return "derived_requires_cutoff_audit"
     if group == "repo/team_game_tables":
         return "raw_game_outcomes_require_prior_game_lagging"
     if group == "repo/experiments":
@@ -127,8 +139,9 @@ def manifest_records(root: Path) -> list[dict]:
 
 def run(output: Path, include_group: bool = True) -> dict:
     roots = [ROOT / "data"] + ([GROUP] if include_group else [])
-    files = sorted(path for root in roots for path in root.rglob("*")
-                   if path.is_file() and path.suffix.lower() in {".parquet", ".csv"})
+    all_files = sorted(path for root in roots for path in root.rglob("*") if path.is_file())
+    files = [path for path in all_files if path.suffix.lower() in {".parquet", ".csv"}]
+    non_tabular = [path for path in all_files if path.suffix.lower() not in {".parquet", ".csv"}]
     by_group = defaultdict(lambda: {"files": 0, "bytes": 0, "rows_parquet": 0,
                                   "fields": {}, "errors": []})
     file_rows = []
@@ -156,6 +169,9 @@ def run(output: Path, include_group: bool = True) -> dict:
         "scope": "Parquet schema/footer and CSV header only; no 2026 data rows or outcomes read",
         "roots": [str(root) for root in roots], "source_files_found": len(files),
         "source_files_inspected": len(file_rows),
+        "unparsed_files_found": len(non_tabular),
+        "unparsed_suffix_counts": dict(sorted(Counter(
+            path.suffix.lower() or "<none>" for path in non_tabular).items())),
         "source_groups": {
             group: {**{key: value for key, value in item.items() if key != "fields"},
                     "source_class": source_class(group),
@@ -173,9 +189,21 @@ def run(output: Path, include_group: bool = True) -> dict:
                                                       "bytes", "rows", "field_count", "schema_sha256"])
         writer.writeheader()
         writer.writerows(file_rows)
+    with (output / "unparsed_file_paths.csv").open("w", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["path", "group", "source_class", "suffix",
+                                                      "inspection_status"])
+        writer.writeheader()
+        for path in non_tabular:
+            root = next(root for root in roots if path.is_relative_to(root))
+            group = family(path, root)
+            writer.writerow({"path": str(path), "group": group,
+                             "source_class": source_class(group),
+                             "suffix": path.suffix.lower(),
+                             "inspection_status": "path_only_no_content_read"})
     return {"files": len(files), "inspected": len(file_rows), "groups": len(by_group),
             "manifests": len(manifests), "output": str(output),
-            "errors": sum(len(item["errors"]) for item in by_group.values())}
+            "errors": sum(len(item["errors"]) for item in by_group.values()),
+            "non_tabular_paths": len(non_tabular)}
 
 
 def main():
