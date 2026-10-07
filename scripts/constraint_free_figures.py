@@ -193,7 +193,7 @@ def _representation_search(output: Path) -> Path:
     for tier in ("F18", "F19"):
         for model in ROSTER:
             sources = {}
-            for stage in ("retry1/stage1", "stage2", "extra_reducers/stage2"):
+            for stage in ("retry1/stage1", "retry1/stage2", "extra_reducers/stage2"):
                 folder = root / stage / "results"
                 for path in folder.glob("task_*.json"):
                     row = json.loads(path.read_text())

@@ -67,7 +67,7 @@ def collect(root: Path = ROOT) -> tuple[list[dict], dict]:
     finalists_pool: list[dict] = []
     accounting: dict = {}
     for track, folder in (("broad_stage1", root / "retry1/stage1"),
-                          ("broad_stage2", root / "stage2"),
+                          ("broad_stage2", root / "retry1/stage2"),
                           ("extra_stage2", root / "extra_reducers/stage2")):
         manifest_path = folder / "manifest.json"
         rows, manifest = _checked_tasks(manifest_path, folder / "results")
