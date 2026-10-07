@@ -114,6 +114,20 @@ def _record(group: pd.DataFrame, column: str) -> str:
     return f"{wins}–{int(group.winner_correct.notna().sum()) - wins}"
 
 
+def _upset_call_metrics(group: pd.DataFrame) -> tuple[int, int, float]:
+    """Precision of underdog winner calls against the archived spread favorite."""
+    if group.market_home_spread.isna().any() or group.market_home_spread.eq(0).any():
+        raise ValueError("Upset calls require a nonzero archived market spread")
+    if group.home_win_probability.isna().any():
+        raise ValueError("Upset calls require a model winner probability")
+    called_underdog = group.home_win_probability.ge(.5).ne(group.market_home_spread.lt(0))
+    correct_calls = int((called_underdog & group.actual_upset).sum())
+    calls = int(called_underdog.sum())
+    if correct_calls != int(group.upset_recalled.fillna(False).sum()):
+        raise ValueError("Upset-call hits disagree with the scored upset recall")
+    return calls, correct_calls, correct_calls / calls if calls else np.nan
+
+
 def _scorecard(models: pd.DataFrame, consensus: pd.DataFrame) -> pd.DataFrame:
     eligible = set(models.loc[models.fingerprint.eq("F19") & models.forecast_status.eq("available"), "game_id"])
     if len(eligible) != 263:
@@ -126,6 +140,7 @@ def _scorecard(models: pd.DataFrame, consensus: pd.DataFrame) -> pd.DataFrame:
             raise ValueError(f"Incomplete common 263-game model cohort: {series}")
         available = group.loc[group.forecast_status.eq("available")]
         ats = valid.ats_result.value_counts()
+        upset_calls, upset_calls_correct, upset_call_precision = _upset_call_metrics(valid)
         rows.append({"row_type": "model", "series_id": series,
                      "fingerprint": str(group.fingerprint.iloc[0]),
                      "model_id": str(group.model_id.iloc[0]),
@@ -134,6 +149,9 @@ def _scorecard(models: pd.DataFrame, consensus: pd.DataFrame) -> pd.DataFrame:
                      "margin_mae_available": available.absolute_margin_error.mean(),
                      "su_record": _record(valid, "su"),
                      "winner_accuracy_common": valid.winner_correct.mean(),
+                     "upset_calls": upset_calls,
+                     "upset_calls_correct": upset_calls_correct,
+                     "upset_call_precision": upset_call_precision,
                      "brier_score_common": valid.brier_error.mean(),
                      "brier_games_common": valid.brier_error.notna().sum(),
                      "ats_record": _record(valid, "ats"),
@@ -151,12 +169,15 @@ def _scorecard(models: pd.DataFrame, consensus: pd.DataFrame) -> pd.DataFrame:
         if len(valid) != 263:
             raise ValueError(f"Incomplete consensus common cohort: {series}")
         ats = valid.ats_result.value_counts()
+        upset_calls, upset_calls_correct, upset_call_precision = _upset_call_metrics(valid)
         row = {"rank_common_263": np.nan, "row_type": "consensus", "series_id": label,
                "fingerprint": "F0–F19" if series.startswith("full") else series[-3:],
                "model_id": "Equal", "available_games": len(group), "common_games": 263,
                "margin_mae_common": valid.absolute_margin_error.mean(),
                "margin_mae_available": group.absolute_margin_error.mean(),
                "su_record": _record(valid, "su"), "winner_accuracy_common": valid.winner_correct.mean(),
+               "upset_calls": upset_calls, "upset_calls_correct": upset_calls_correct,
+               "upset_call_precision": upset_call_precision,
                "brier_score_common": valid.brier_error.mean(), "brier_games_common": valid.brier_error.notna().sum(),
                "ats_record": _record(valid, "ats"),
                "ats_accuracy_common": ats.get("win", 0) / max(1, ats.get("win", 0) + ats.get("loss", 0))}
@@ -175,6 +196,8 @@ def _scorecard(models: pd.DataFrame, consensus: pd.DataFrame) -> pd.DataFrame:
                   "margin_mae_available": (margin + spread).abs().mean(),
                   "su_record": f"{int((probability[prob].ge(.5) == truth[prob]).sum())}–{int(prob.sum() - (probability[prob].ge(.5) == truth[prob]).sum())}",
                   "winner_accuracy_common": (probability[prob].ge(.5) == truth[prob]).mean(),
+                  "upset_calls": np.nan, "upset_calls_correct": np.nan,
+                  "upset_call_precision": np.nan,
                   "brier_score_common": ((probability[prob] - truth[prob].astype(float)) ** 2).mean(),
                   "brier_games_common": int(prob.sum()), "ats_record": "No bet", "ats_accuracy_common": np.nan}
     table = pd.concat([pd.DataFrame([market_row]), table], ignore_index=True)
@@ -187,6 +210,12 @@ def _scorecard_figure(scorecard: pd.DataFrame, path: Path) -> None:
     def number(value: float, digits: int = 2) -> str:
         return "—" if pd.isna(value) else f"{value:.{digits}f}"
 
+    def upset_calls(row: pd.Series) -> str:
+        if row.row_type == "market":
+            return "—"
+        hits, calls = int(row.upset_calls_correct), int(row.upset_calls)
+        return f"{hits}/{calls} ({row.upset_call_precision:.1%})" if calls else "0/0 (—)"
+
     display = pd.DataFrame({
         "Rank": scorecard.rank_common_263.map(lambda value: "—" if pd.isna(value) else str(int(value))),
         "Model / comparator": scorecard.series_id,
@@ -196,6 +225,7 @@ def _scorecard_figure(scorecard: pd.DataFrame, path: Path) -> None:
         "MAE avail": scorecard.margin_mae_available.map(number),
         "SU 263": scorecard.su_record,
         "SU %": scorecard.winner_accuracy_common.map(lambda value: f"{value:.1%}"),
+        "Upset calls (hit%)": scorecard.apply(upset_calls, axis=1),
         "Brier 263": scorecard.brier_score_common.map(lambda value: number(value, 3)),
         "ATS 263": scorecard.ats_record,
         "ATS %": scorecard.ats_accuracy_common.map(lambda value: "—" if pd.isna(value) else f"{value:.1%}"),
@@ -205,7 +235,7 @@ def _scorecard_figure(scorecard: pd.DataFrame, path: Path) -> None:
     ax.set_position([.025, .028, .95, .91])
     table = ax.table(cellText=display.values, colLabels=display.columns,
                      cellLoc="left", colLoc="left", bbox=[0, .01, 1, .98],
-                     colWidths=[.043, .245, .074, .057, .07, .072, .075, .065, .077, .115, .07])
+                     colWidths=[.038, .23, .068, .05, .065, .065, .07, .055, .12, .07, .095, .064])
     table.auto_set_font_size(False)
     table.set_fontsize(9.6)
     for (row, _), cell in table.get_celld().items():
@@ -224,7 +254,8 @@ def _scorecard_figure(scorecard: pd.DataFrame, path: Path) -> None:
                  color=NAVY, fontsize=22, fontweight="bold", pad=22)
     fig.text(.5, .008,
              "All model ranks and 263 columns use the same 263 market-eligible games. Available MAE uses 271 games except F19 (263). "
-             "Market SU/Brier use 259 valid probabilities. ATS excludes pushes, zero spreads and exact predicted cover ties; market makes no ATS pick.",
+             "Upset calls = correct/total underdog winner picks versus the spread favorite; 0/0 has no hit rate. "
+             "Market SU/Brier use 259 valid probabilities. ATS excludes pushes, zero spreads and exact predicted cover ties.",
              ha="center", color="#525B68", fontsize=9)
     fig.savefig(path, dpi=180, bbox_inches="tight", facecolor=PAPER)
     plt.close(fig)
@@ -256,7 +287,11 @@ def main() -> None:
         "`scientific_2026_full_f0_f19_cumulative_model_scorecard.png` follows the "
         "published scientific scorecard table style for all 120 cells. Its model ranks, "
         "MAE 263, winner, Brier, and ATS columns use the same 263 market-eligible games. "
-        "MAE avail shows each model's available 271 or 263 games. The unrounded "
+        "The Upset calls column shows correct/total underdog winner picks against the "
+        "archived spread favorite and their hit percentage. The companion CSV has "
+        "separate `upset_calls`, `upset_calls_correct`, and `upset_call_precision` "
+        "fields; a zero-call precision is missing rather than zero. MAE avail shows "
+        "each model's available 271 or 263 games. The unrounded "
         "`scientific_2026_full_f0_f19_common_scorecard.csv` accompanies the figure. "
         "The published operational scorecard remains separate.\n\n"
         "The `provenance/` subdirectory retains seven hash-checked earlier-roster audit "

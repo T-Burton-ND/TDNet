@@ -5,8 +5,8 @@
   "model_cells": 120,
   "common_comparison_games": 263,
   "source_manifest_sha256": "96bd797f61798921e765fd14cee983189d77e76b486ff389e7ed912e7a82074b",
-  "script_sha256": "02af59438ddd7bb3534c1c65a7dba3e4ed66dc65809ac86903d588fe97a5740a",
-  "readme_sha256": "a54bfd67b251f01d2752ac6f933f4cbc929696c78d74adb95b9f17ab98a1dbe9",
+  "script_sha256": "d7a72937b2fb31744b678d539a284f3c86dd8883bc9dd047fcddc4398d840e90",
+  "readme_sha256": "b62ac5ea95417bf1307e2daf48f2826e84478f218263a94dc4585b6ce790e2c4",
   "outputs": {
     "full_roster_cumulative_figure": {
       "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_full_f0_f19_cumulative_performance.png",
@@ -14,11 +14,11 @@
     },
     "full_roster_common_scorecard": {
       "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_full_f0_f19_common_scorecard.csv",
-      "sha256": "15a3d1cae6bd78067aa675b924de7a6fb95eaeccab6b98e97281607778edbe52"
+      "sha256": "e35c2f1fad42b4ff8c525289442d493a4f15539af900a663cc9c6dbfab1bb1dc"
     },
     "full_roster_scorecard_figure": {
       "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_full_f0_f19_cumulative_model_scorecard.png",
-      "sha256": "18922f996bd1624833bc771f781d743399b90998c803557ae679a4a0b3de0f18"
+      "sha256": "90f4cff820c68a5b2b3ce70516f83894b04a8fd72c030ed6230d3bcbcb08979e"
     }
   }
 }
