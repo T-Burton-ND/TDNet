@@ -157,6 +157,22 @@ def collect(root: Path = ROOT) -> tuple[list[dict], dict]:
                 "failed": sum(row["status"] == "failed" for _, row in tier_rows),
                 "model_fits": sum(int(row.get("model_fits", 0)) for _, row in tier_rows),
             }
+    # The smaller A-path searches are retained as compute accounting and a
+    # source-universe control. They cannot compete with broad-matrix finalists.
+    for track, folder in (("a_path_stage1", root.parent / "retry1/stage1"),
+                          ("a_path_stage2", root.parent / "retry1/stage2")):
+        rows, manifest = _checked_tasks(folder / "manifest.json", folder / "results")
+        if tuple(manifest["folds"]) != YEARS:
+            raise ValueError(f"A-path control uses different folds: {folder}")
+        accounting[track] = {}
+        for tier in TIERS:
+            cohort = [row for _, row in rows if row["tier"] == tier]
+            accounting[track][tier] = {
+                "candidates": len(cohort),
+                "successful": sum(row["status"] == "success" for row in cohort),
+                "failed": sum(row["status"] == "failed" for row in cohort),
+                "model_fits": sum(int(row.get("model_fits", 0)) for row in cohort),
+            }
     return finalists_pool, accounting
 
 
