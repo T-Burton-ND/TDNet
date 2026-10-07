@@ -97,8 +97,9 @@ def fit_predict(model, backend: str, X_train, y_train, X_test):
     return np.asarray(model.predict_margin(pd.DataFrame(X_test, columns=columns)), dtype=float).reshape(-1)
 
 
-def evaluate_task(tier: str, architecture: str, kind: str, config: dict) -> dict:
-    X, meta, records, evidence = load_historical(tier)
+def evaluate_task(tier: str, architecture: str, kind: str, config: dict,
+                  loader=load_historical) -> dict:
+    X, meta, records, evidence = loader(tier)
     years = meta.season.to_numpy(int)
     y = meta.next_game_margin.to_numpy(float)
     if architecture not in ROSTER:
