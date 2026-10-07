@@ -1,0 +1,12 @@
+{
+  "scope": "Retained F0-F17-market source audit data after retiring its output directory",
+  "files_sha256": {
+    "legacy_coverage_manifest.json": "af9ab7142a06471ef2b48a22f39b9862423df40b21b8852a3bfe1a39b822240a",
+    "legacy_cumulative_trajectory.csv": "bf5f6829770cade34858c6f9093585ce33cce9b37b6b14f53fcc638d8a72c5d7",
+    "legacy_current_season_scorecard.csv": "f8bd2d76682bc1d32a14f3dfcfeae3da371e34d3d2cc8c9b5e8bd71d99286c5b",
+    "scientific_2026_pregame_market_snapshot_receipt.json": "7fa268e3fb2cca56e4cb13c7d4782f066fff9d43761684f842932f44fa536fcf",
+    "scientific_2026_pregame_market_snapshots.csv": "c3f049524d9cb9c5b150bbee03699dbe45b8778933646863ab8692d095b96bb6",
+    "scientific_2026_week1_missing_forecasts.csv": "8ea8a0dcea9f94941b56ecb47c91e9f83d1bc52bdb1eef9bf7248d4cef50266d",
+    "scientific_2026_week1_reconstruction_receipt.json": "9aded84f495026b4d86a2795725fff62e12f585ef3cf70a8f1a01a84d829c853"
+  }
+}

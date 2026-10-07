@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-10-07T12:46:36.201538+00:00",
+  "created_at_utc": "2026-10-07T13:02:04.402797+00:00",
   "season": 2026,
   "through_week": 5,
   "fingerprints": [
@@ -41,8 +41,11 @@
   "frozen_prediction_receipt_sha256": "bd958aa06e95bc4506d732889ac8b70a746432eacc76da931e96b33c276bac10",
   "frozen_prediction_sha256": "aa119f8d3f04768dbde3d5fbbd08882c0cce7ceac9684c12b277893c941a17cb",
   "frozen_score_receipt_sha256": "d7d644a09fd3b7f1129b296d15e6b4e88d37987ff9eac70e76d4cd38b8af9ab4",
-  "prior_trajectory_sha256": "bf5f6829770cade34858c6f9093585ce33cce9b37b6b14f53fcc638d8a72c5d7",
-  "script_sha256": "6ef2f6346b777503800dfe35067414e5e7c8dce0062c554e9fa7082c63572559",
+  "legacy_consensus_reference": {
+    "margin_mae": 13.237191613873375,
+    "brier_rounded_6dp": 0.16577
+  },
+  "script_sha256": "9268fd3921d2b17381454927a53797242ad5902721b47f531a9c469612f1f2c6",
   "consensus_policies": {
     "full_available_120": "equal mean of available individual model margins and probabilities; 120 votes on 263 games, 114 on eight F19-unavailable games",
     "full_common_120": "same means, restricted to the 263 games with all 120 votes",
@@ -99,6 +102,6 @@
   },
   "readme": {
     "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/README.md",
-    "sha256": "a588e9b0419a86adba4e97e0260ec6dea6d8c8e005be9590321af8ce8771e11d"
+    "sha256": "0b73f2ee0f9422e4f2b4b0bf4d50e92286c604f72aa78ad408d631ba1117558e"
   }
 }

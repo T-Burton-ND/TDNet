@@ -10,3 +10,5 @@ The performance files score the immutable 42-model pregame scientific prediction
 - No next-week matchup predictions are generated in this directory.
 
 The separate retrospective `current_season_f0_f19/` research export scores all 120 F0–F19 scientific model × fingerprint cells through Week 5 and contains per-game, weekly, cumulative, and consensus tables. Its eight unavailable F19 market-snapshot games are explicit; see its README for coverage and interpretation.
+
+The F0–F19 research export also contains `scientific_2026_full_f0_f19_cumulative_performance.png`, the three-panel Brier/winner/ATS curve figure, and `scientific_2026_full_f0_f19_cumulative_model_scorecard.png`, a 120-model table ranked on the common 263-game cohort. The table's companion CSV preserves unrounded values. These are research figures; the published 42-model scorecard above remains intact.

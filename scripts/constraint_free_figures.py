@@ -23,12 +23,10 @@ from constraint_free_search import digest, write_json
 from gridiron_ml.experiments.constraint_free import ROSTER
 
 REPO = Path(__file__).resolve().parents[1]
-PRIOR = REPO / "publication/2026/week_05/post_game/scientific/current_season_f0_f17_market/scientific_2026_current_season_scorecard.csv"
+PRIOR = REPO / "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_current_season_scorecard.csv"
 SEARCH = SCORE_DIR.parent.parent.parent
 FINALISTS = SEARCH / "finalists.json"
 DEFAULT_OUTPUT = SCORE_DIR.parent / "figures"
-FAMILY = {"linear": "M1", "spline": "M2", "tree": "M3",
-          "boosted": "M4", "neural": "M5", "knn": "M10"}
 LABELS = {"M1": "Linear", "M2": "Spline", "M3": "Random forest",
           "M4": "Boosted trees", "M5": "Neural net", "M10": "KNN"}
 COLORS = {"M1": "#B99748", "M2": "#477FAF", "M3": "#258F70",
@@ -50,14 +48,13 @@ def _style() -> None:
 
 def _full_ladder(metrics: pd.DataFrame) -> pd.DataFrame:
     prior = pd.read_csv(PRIOR)
-    prior = prior.loc[prior.series_type.eq("model")].copy()
-    prior["model_id"] = prior.model_family.map(FAMILY)
+    prior = prior.loc[prior.series_type.eq("model") &
+                      ~prior.fingerprint.isin(["F18", "F19"])].copy()
     prior["generation"] = prior.fingerprint.map(
         lambda value: 17 if value == "F17-market" else int(value.removeprefix("F")))
     if len(prior) != 108 or prior.duplicated(["generation", "model_id"]).any():
         raise ValueError("Prior F0–F17 scientific ladder is incomplete")
-    old = prior.rename(columns={"margin_mae": "mae", "brier_score": "brier",
-                                "su_accuracy": "winner_accuracy"})[
+    old = prior.rename(columns={"margin_mae": "mae", "brier_score": "brier"})[
         ["generation", "fingerprint", "model_id", "games", *METRICS]]
     new = metrics.loc[metrics.scope.eq("available") & metrics.tier.isin(["F18", "F19"])
                       & metrics.model_id.isin(ROSTER)].copy()

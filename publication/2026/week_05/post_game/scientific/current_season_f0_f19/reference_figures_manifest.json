@@ -1,0 +1,24 @@
+{
+  "scope": "Two F0-F19 reproductions of the requested 2026 scientific figure styles",
+  "season": 2026,
+  "through_week": 5,
+  "model_cells": 120,
+  "common_comparison_games": 263,
+  "source_manifest_sha256": "96bd797f61798921e765fd14cee983189d77e76b486ff389e7ed912e7a82074b",
+  "script_sha256": "02af59438ddd7bb3534c1c65a7dba3e4ed66dc65809ac86903d588fe97a5740a",
+  "readme_sha256": "a54bfd67b251f01d2752ac6f933f4cbc929696c78d74adb95b9f17ab98a1dbe9",
+  "outputs": {
+    "full_roster_cumulative_figure": {
+      "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_full_f0_f19_cumulative_performance.png",
+      "sha256": "d400704897caf4477177a9057aa1659471f3c25bc5da7e2c9bd5e6c8e607add8"
+    },
+    "full_roster_common_scorecard": {
+      "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_full_f0_f19_common_scorecard.csv",
+      "sha256": "15a3d1cae6bd78067aa675b924de7a6fb95eaeccab6b98e97281607778edbe52"
+    },
+    "full_roster_scorecard_figure": {
+      "path": "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_full_f0_f19_cumulative_model_scorecard.png",
+      "sha256": "18922f996bd1624833bc771f781d743399b90998c803557ae679a4a0b3de0f18"
+    }
+  }
+}
