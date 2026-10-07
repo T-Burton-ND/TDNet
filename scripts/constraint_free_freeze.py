@@ -213,6 +213,10 @@ def freeze(output: Path, fit_manifest: Path = FIT / "manifest.json") -> dict:
                 "model_bundle_sha256": result["artifacts"]["fitted_bundle.pkl"],
                 "preprocessing_state": str(folder / "preprocessing.pkl"),
                 "preprocessing_state_sha256": result["artifacts"]["preprocessing.pkl"],
+                "pca_loadings": (str(folder / "pca_loadings.npz")
+                                 if "pca_loadings.npz" in result["artifacts"] else None),
+                "pca_loadings_sha256": result["artifacts"].get("pca_loadings.npz"),
+                "pca_loading_blocks": result["pca_loading_blocks"],
                 "selected_source_features": result["selected_source_features"],
                 "representation_features": result["representation_features"],
                 "oof_path": str(folder / "oof.parquet"),

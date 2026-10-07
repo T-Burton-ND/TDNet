@@ -132,6 +132,32 @@ def _selected_sources(transformer, records) -> list[str]:
     return names
 
 
+def _pca_loadings(transformer) -> dict[str, np.ndarray]:
+    """Extract an inspectable copy of every fitted predictor PCA loading block."""
+    arrays = {}
+    if getattr(transformer, "pca_", None) is not None:
+        arrays["global_components"] = transformer.pca_.components_
+        arrays["global_explained_variance_ratio"] = transformer.pca_.explained_variance_ratio_
+        arrays["global_source_columns"] = transformer.columns_[transformer.kept_]
+    if hasattr(transformer, "named_steps") and "pca" in transformer.named_steps:
+        pca = transformer.named_steps["pca"]
+        arrays["global_components"] = pca.components_
+        arrays["global_explained_variance_ratio"] = pca.explained_variance_ratio_
+        coordinate_key = ("global_source_columns" if pca.n_features_in_ == transformer.n_features_in_
+                          else "global_pca_input_coordinates")
+        arrays[coordinate_key] = np.arange(pca.n_features_in_)
+    for family, indices, _, pca in getattr(transformer, "family_blocks_", []):
+        arrays[f"family_{family}_components"] = pca.components_
+        arrays[f"family_{family}_explained_variance_ratio"] = pca.explained_variance_ratio_
+        arrays[f"family_{family}_source_columns"] = transformer.columns_[transformer.kept_[indices]]
+    for family, columns, pipeline in getattr(transformer, "blocks_", []):
+        pca = pipeline.named_steps["pca"]
+        arrays[f"family_{family}_components"] = pca.components_
+        arrays[f"family_{family}_explained_variance_ratio"] = pca.explained_variance_ratio_
+        arrays[f"family_{family}_source_columns"] = columns
+    return arrays
+
+
 def plan(output: Path = DEFAULT_OUTPUT, selection: Path = SELECTION) -> dict:
     chosen = json.loads(selection.read_text())
     if len(chosen["winners"]) != 12 or tuple(chosen["years"]) != YEARS:
@@ -243,6 +269,10 @@ def run(manifest_path: Path, task_id: int) -> dict:
         preprocessing_path = cell / "preprocessing.pkl"
         with preprocessing_path.open("wb") as handle:
             cloudpickle.dump(transformer, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        pca_arrays = _pca_loadings(transformer)
+        pca_path = cell / "pca_loadings.npz"
+        if pca_arrays:
+            np.savez_compressed(pca_path, **pca_arrays)
         with model_path.open("rb") as handle:
             loaded = pickle.load(handle)
         replay = _predict(loaded["model"], loaded["backend"],
@@ -254,12 +284,14 @@ def run(manifest_path: Path, task_id: int) -> dict:
         result.update(status="success", artifacts={
             model_path.name: digest(model_path),
             preprocessing_path.name: digest(preprocessing_path),
-            oof_path.name: digest(oof_path)},
+            oof_path.name: digest(oof_path),
+            **({pca_path.name: digest(pca_path)} if pca_arrays else {})},
             model_fits=len(YEARS) + 1, oof_games=len(oof),
             oof_mae=float(np.abs(oof.actual_margin - oof.pred_margin).mean()),
             representation_features=int(fit.shape[1]),
             source_features=int(X.shape[1]),
             selected_source_features=_selected_sources(transformer, records),
+            pca_loading_blocks=sorted(pca_arrays),
             historical_market_quote_timing=("unverified" if winner["tier"] == "F19" else "none"))
     except Exception as exc:
         result.update(status="failed", error=f"{type(exc).__name__}: {exc}",
