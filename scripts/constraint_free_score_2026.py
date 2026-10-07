@@ -36,13 +36,14 @@ def _metrics(frame: pd.DataFrame, name: str, tier: str, scope: str) -> dict:
     home_win = actual > 0
     winner = prob >= 0.5
     spread = data.market_home_spread.to_numpy(float)
-    valid_market = np.isfinite(spread) & (spread != 0) & (actual != 0)
+    valid_line = np.isfinite(spread) & (spread != 0) & (actual != 0)
+    valid_market = valid_line & valid_prob
     favorite_home = -spread > 0
     upset = valid_market & (favorite_home != home_win)
     chalk = valid_market & ~upset
     cover = actual + spread
     predicted_cover = pred + spread
-    ats = valid_market & (cover != 0) & (predicted_cover != 0)
+    ats = valid_line & (cover != 0) & (predicted_cover != 0)
     return {
         "tier": tier, "model_id": name, "scope": scope,
         "games": len(data), "mae": float(np.abs(actual - pred).mean()),
