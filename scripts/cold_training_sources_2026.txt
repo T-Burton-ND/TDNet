@@ -1,0 +1,27 @@
+# Historical training and search artifacts. Keep weekly snapshots, frozen model
+# bundles, model inventories, checkpoints, and publication outputs in place.
+/users/tburton2/Repos/TDNet/data/experiments
+/groups/bsavoie2/tburton2/TDNet/2025_holdout_refits
+/groups/bsavoie2/tburton2/TDNet/2025_nested_search
+/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/raw_cache
+/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/canonical
+/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/feature_families
+/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/fingerprints
+/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/experiments
+/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/progressive_pools
+/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/scratch
+/groups/bsavoie2/tburton2/TDNet/publication_artifacts/experiments
+/groups/bsavoie2/tburton2/TDNet/publication_artifacts/new_fingerprint_hps
+/groups/bsavoie2/tburton2/TDNet/publication_artifacts/corrected_f6_wide_margin_hps
+/groups/bsavoie2/tburton2/TDNet/publication_artifacts/scientific_roster_heatmaps
+/groups/bsavoie2/tburton2/TDNet/publication_artifacts/f6_compression
+/groups/bsavoie2/tburton2/TDNet/publication_artifacts/scientific_roster_shap
+/groups/bsavoie2/tburton2/TDNet/publication_artifacts/scientific_calibration_oof
+/groups/bsavoie2/tburton2/TDNet/publication_artifacts/canonical_2025_margin_replay
+/groups/bsavoie2/tburton2/TDNet/publication_artifacts/recovery
+/groups/bsavoie2/tburton2/TDNet/f18_f19_constraint_free_v1/stage1
+/groups/bsavoie2/tburton2/TDNet/f18_f19_constraint_free_v1/retry1
+/groups/bsavoie2/tburton2/TDNet/f18_f19_constraint_free_v1/broad_search/stage1
+/groups/bsavoie2/tburton2/TDNet/f18_f19_constraint_free_v1/broad_search/retry1
+/groups/bsavoie2/tburton2/TDNet/f18_f19_constraint_free_v1/broad_search/advanced
+/groups/bsavoie2/tburton2/TDNet/f18_f19_constraint_free_v1/broad_search/extra_reducers

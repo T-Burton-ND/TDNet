@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+: "${TDNET_ARCHIVE_LIST:?}"
+: "${TDNET_ARCHIVE_ROOT:?}"
+: "${SGE_TASK_ID:?}"
+
+mapfile -t sources < <(sed '/^[[:space:]]*#/d; /^[[:space:]]*$/d' "$TDNET_ARCHIVE_LIST")
+source_path="${sources[SGE_TASK_ID-1]:?Invalid task index}"
+if [[ ! -d "$source_path" || -L "$source_path" ]]; then
+  echo "Source must be a real directory: $source_path" >&2
+  exit 2
+fi
+
+source_parent="$(dirname "$source_path")"
+source_name="$(basename "$source_path")"
+archive_name="$(printf '%02d-%s.tar.zst' "$SGE_TASK_ID" "$source_name")"
+mkdir -p "$TDNET_ARCHIVE_ROOT"
+archive="$TDNET_ARCHIVE_ROOT/$archive_name"
+receipt="$archive.receipt.json"
+partial="$archive.partial"
+
+if [[ -e "$archive" || -e "$receipt" ]]; then
+  if [[ -f "$archive" && -f "$receipt" ]] && python3 - "$archive" "$receipt" <<'PY'
+import hashlib, json, sys
+from pathlib import Path
+archive, receipt = map(Path, sys.argv[1:])
+expected = json.loads(receipt.read_text())['archive_sha256']
+digest = hashlib.sha256()
+with archive.open('rb') as stream:
+    for chunk in iter(lambda: stream.read(8 << 20), b''):
+        digest.update(chunk)
+raise SystemExit(0 if digest.hexdigest() == expected else 1)
+PY
+  then
+    echo "Already verified: $archive"
+    exit 0
+  fi
+  echo "Existing archive or receipt requires inspection: $archive" >&2
+  exit 2
+fi
+if [[ -e "$partial" ]]; then
+  echo "Stale partial archive requires inspection: $partial" >&2
+  exit 2
+fi
+
+echo "Archiving $source_path to $archive"
+tar -C "$source_parent" -cf - "$source_name" | zstd -T2 -3 -q -o "$partial"
+zstd -t -q "$partial"
+zstd -dc -q "$partial" | tar -C "$source_parent" -df -
+
+python3 - "$source_path" "$partial" "$receipt" <<'PY'
+import hashlib, json, sys
+from datetime import datetime, timezone
+from pathlib import Path
+source, archive, receipt = map(Path, sys.argv[1:])
+digest = hashlib.sha256()
+with archive.open('rb') as stream:
+    for chunk in iter(lambda: stream.read(8 << 20), b''):
+        digest.update(chunk)
+payload = {
+    'source': str(source),
+    'archive': str(archive.with_suffix('')),
+    'archive_sha256': digest.hexdigest(),
+    'archive_bytes': archive.stat().st_size,
+    'verified_with': 'zstd -t and GNU tar --diff against source',
+    'verified_at_utc': datetime.now(timezone.utc).isoformat(),
+    'source_retained': True,
+}
+receipt.write_text(json.dumps(payload, indent=2, sort_keys=True) + '\n')
+PY
+mv -- "$partial" "$archive"
+echo "Verified: $archive"

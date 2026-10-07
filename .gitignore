@@ -142,6 +142,7 @@ ideas.md
 planning/
 dev/
 .cleanup_quarantine/
+.archive_jobs/
 
 # Private blog working materials, interviews, style guides, and upcoming drafts.
 # Publication-ready tables/figures belong under publication/ instead.
