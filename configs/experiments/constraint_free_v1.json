@@ -1,0 +1,17 @@
+{
+  "experiment": "f18_f19_constraint_free_v1",
+  "tiers": ["F18", "F19"],
+  "architectures": ["M1", "M2", "M3", "M4", "M5", "M10"],
+  "development_years": [2022, 2023, 2024, 2025],
+  "seed": 1701,
+  "stage1_representations": ["raw", "pca90", "family_pca90", "select128"],
+  "stage2_representations": ["pca80", "pca95", "robust_pca90", "projection128"],
+  "m2_setpoint": "m2_03",
+  "m4_setpoint": "m4_03",
+  "m3_search_estimators": 200,
+  "m5_search_epochs": 35,
+  "m5_search_patience": 6,
+  "sge_task_concurrency_max": 10,
+  "market_policy": "Historical CFBD quote timestamps are absent. F19 uses only the five fields reconstructable from verified pregame 2026 snapshots; historical F19 remains timing-limited retrospective development.",
+  "selection_rule": "Minimum mean rolling-origin 2022-2025 margin MAE, with Brier then worst-year MAE as tie breakers. Freeze before 2026 scoring."
+}
