@@ -13,13 +13,13 @@
     "data/raw/cfbd/v2/lines/2026.parquet": "7a3de9a763937f75ea8a3a8942c50f360d19bedf59cadc8c837e7bcfabd532ba",
     "publication/2026/week_04/pre_game/metadata/cfbd_moneyline_snapshot.csv": "e89ed16316a96fdc06c30ef87145276630fad057771b68526609edc79ab4754a",
     "publication/2026/week_05/post_game/scientific/current_season_f0_f19/manifest.json": "96bd797f61798921e765fd14cee983189d77e76b486ff389e7ed912e7a82074b",
-    "scripts/publication/build_2026_f19_flat_stake_study.py": "7cdc958a9a1c750565ffdca0b0770122ad4104f5da5509ab52eadfe601022d72"
+    "scripts/publication/build_2026_f19_flat_stake_study.py": "adab81da5f86533cb1736bb4254aa2969a15ef388161a27c70d8798650c1e181"
   },
   "outputs_sha256": {
     "bet_ledger.csv": "505b3f8d3d8495b623f56c12ce3e5b626f750362dd9a4fb952fd0758e376176f",
     "summary.csv": "781c6973b357b15255ee11d35787f99f3ec86574cd4b2ed2a6923ab49e5669e1",
     "weekly.csv": "3dcd41929d6c3ddd10abc9d8bf1bd5946100737346e7c06a517da1f225f55e67",
-    "cumulative_net_profit.png": "0e7e12e6b7f6587d2d835110d16a2d2d78dc0ef745ebd5ae6afb4fdb0249776c",
-    "README.md": "fef226656a3fbf381c35a99259fe6837823cdced69c31b5c2d78c2a8bcb110a1"
+    "cumulative_net_profit.png": "79e8c01d8994845466ade5a731fc7db33e323a225de33c27a57dc5246d1d7796",
+    "README.md": "e0f5fa9ede9f8a55f5364e42d368cfab55542c75a1cb48b34ce159b24d8fd751"
   }
 }

@@ -216,8 +216,8 @@ def summarize(frame: pd.DataFrame, by_week: bool = False) -> pd.DataFrame:
 
 
 def plot_bankroll(frame: pd.DataFrame, path: Path) -> None:
-    fig, axes = plt.subplots(1, 2, figsize=(16, 7))
-    fig.subplots_adjust(left=0.07, right=0.985, top=0.87, bottom=0.19, wspace=0.15)
+    fig, axes = plt.subplots(1, 2, figsize=(17, 7))
+    fig.subplots_adjust(left=0.06, right=0.93, top=0.87, bottom=0.19, wspace=0.31)
     colors = plt.get_cmap("tab10").colors
     for axis, (market, scenario) in zip(axes, [("ATS", "all_eligible"), ("moneyline", "quoted_odds")]):
         subset = frame.loc[(frame.market == market) & (frame.scenario == scenario)]
@@ -229,7 +229,22 @@ def plot_bankroll(frame: pd.DataFrame, path: Path) -> None:
         axis.set(title=f"{market.upper()}: $10 per settled pick", xlabel="Bets placed",
                  ylabel="Cumulative net profit ($)")
         axis.grid(alpha=0.2)
-    axes[0].legend(loc="upper left", fontsize=8)
+        # Every strategy stakes the same $10 on the same number of eligible games.
+        # Use a separate scale so cumulative stakes do not compress profit curves.
+        stake_path = subset.loc[subset.strategy.eq(STRATEGIES[0]) & subset.bet_placed]
+        stake_axis = axis.twinx()
+        stake_line, = stake_axis.plot(
+            np.arange(len(stake_path) + 1), np.r_[0, stake_path.cumulative_staked_usd],
+            color="grey", linestyle=":", linewidth=2.2, alpha=0.8,
+            label="Total wagered",
+        )
+        stake_axis.set_ylim(0, float(stake_path.cumulative_staked_usd.iloc[-1]) * 1.08)
+        stake_axis.set_ylabel("Cumulative wagered ($)", color="dimgray")
+        stake_axis.tick_params(axis="y", colors="dimgray")
+        if axis is axes[0]:
+            handles, labels = axis.get_legend_handles_labels()
+            axis.legend(handles + [stake_line], labels + ["Total wagered"],
+                        loc="upper left", fontsize=8)
     fig.suptitle("F19 scientific replay, 2026 Weeks 1–5 | retrospective forecast", y=0.96)
     fig.text(0.5, 0.055, "ATS: assumed -110. Moneyline: frozen Week 4; other quoted odds have unverified timing. Fees and limits excluded.",
              ha="center", fontsize=8)
@@ -295,7 +310,9 @@ def main() -> None:
               "and their reasons, price source, side, outcome, stake, and cumulative results.",
               "- `summary.csv`: strategy totals with win/loss/push and ROI.",
               "- `weekly.csv`: weekly totals and cumulative bankroll from an initial $1,000.",
-              "- `cumulative_net_profit.png`: ATS and broad quoted-moneyline paths.",
+              "- `cumulative_net_profit.png`: ATS and broad quoted-moneyline profit paths "
+              "(left axes) plus the grey dotted cumulative amount wagered per strategy "
+              "(right axes). All seven strategies stake the same total within each panel.",
               "- `manifest.json`: source and output SHA-256 hashes.", ""]
     (OUTPUT / "README.md").write_text("\n".join(lines))
     source_paths = [MODEL, CONSENSUS, MARKET, RAW_ODDS, FROZEN_ODDS, SOURCE_MANIFEST, Path(__file__)]
