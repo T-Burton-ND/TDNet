@@ -11,6 +11,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation, PillowWriter
+from matplotlib.colors import LinearSegmentedColormap, Normalize
 from matplotlib.lines import Line2D
 import numpy as np
 import pandas as pd
@@ -286,12 +287,46 @@ def _metric_landscape(ladder: pd.DataFrame, output: Path) -> list[Path]:
     gif = output / "f0_f19_metric_landscape_rotation.gif"
     animation.save(gif, writer=PillowWriter(fps=8), dpi=80)
     plt.close(fig)
+    generation_cmap = LinearSegmentedColormap.from_list(
+        "generation_red_blue", ["#B64639", "#D6AA62", "#4B83B1"])
+    generation_norm = Normalize(vmin=0, vmax=19)
+    model_markers = {"M1": "o", "M2": "s", "M3": "^", "M4": "D",
+                     "M5": "P", "M10": "X"}
+    fig2 = plt.figure(figsize=(13, 9))
+    ax2 = fig2.add_subplot(111, projection="3d")
+    for model in ROSTER:
+        cell = ladder.loc[ladder.model_id.eq(model)]
+        ax2.scatter(cell.mae, cell.winner_accuracy, cell.brier,
+                    c=cell.generation, cmap=generation_cmap, norm=generation_norm,
+                    marker=model_markers[model], s=65, alpha=.9,
+                    edgecolors="#172634", linewidths=.4, depthshade=False)
+    colorbar = fig2.colorbar(plt.cm.ScalarMappable(cmap=generation_cmap,
+                                                   norm=generation_norm),
+                            ax=ax2, shrink=.55, pad=.1)
+    colorbar.set_label("Fingerprint generation · F0–F19")
+    ax2.set_xlabel("Margin MAE · lower")
+    ax2.set_ylabel("Winner accuracy · higher")
+    ax2.set_zlabel("Brier · lower")
+    ax2.set_title("F0–F19 metric landscape · generation color", pad=22)
+    handles = [Line2D([0], [0], color="#52606B", marker=model_markers[m],
+                      linestyle="", label=f"{m} · {LABELS[m]}") for m in ROSTER]
+    ax2.legend(handles=handles, bbox_to_anchor=(1.12, 1), frameon=False)
+    ax2.view_init(elev=22, azim=-58)
+    fig2.text(.5, .02, "Red → blue follows fingerprint generation; each marker is one measured architecture × fingerprint score.",
+              ha="center", fontsize=9, color="#52606B")
+    generation_png = output / "f0_f19_generation_colored_3d.png"
+    fig2.savefig(generation_png, dpi=220, bbox_inches="tight")
+    animation2 = FuncAnimation(fig2, lambda n: ax2.view_init(
+        elev=22, azim=-58 + 360 * n / 48), frames=48, interval=150, blit=False)
+    generation_gif = output / "f0_f19_generation_colored_rotation.gif"
+    animation2.save(generation_gif, writer=PillowWriter(fps=8), dpi=80)
+    plt.close(fig2)
     write_json(output / "metric_landscape_pca.json", {
         "metric_columns": ["mae", "winner_accuracy", "brier"],
         "standardized_component_1_favorable": direction.tolist(),
         "explained_variance_ratio": pca.explained_variance_ratio_.tolist(),
         "description": "descriptive PCA of measured metric coordinates; not a predictor representation"})
-    return [png, gif]
+    return [png, gif, generation_png, generation_gif]
 
 
 def build(score_dir: Path = SCORE_DIR, output: Path = DEFAULT_OUTPUT) -> dict:
