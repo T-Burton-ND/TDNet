@@ -24,9 +24,10 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT / "src"), str(ROOT / "scripts")]
 
 from constraint_free_search import (
-    DEFAULT_OUTPUT, SETPOINTS, digest, fit_predict, load_historical,
+    SETPOINTS, digest, fit_predict,
     make_architecture, write_json,
 )
+from constraint_free_broad_universe import load_broad_historical
 from gridiron_ml.experiments.constraint_free_advanced import (
     CORRELATIONS, FAMILIES, MODES, SELECT_COUNTS, VARIANCES,
     GenomeRepresentation, encode_genome, genome_hash, normalize_genome,
@@ -36,6 +37,8 @@ from gridiron_ml.experiments.nextgen_screening_reduced_parallel import build_est
 
 CONFIG = ROOT / "configs/experiments/constraint_free_advanced_v1.json"
 CORE = ROOT / "src/gridiron_ml/experiments/constraint_free_advanced.py"
+UNIVERSE = ROOT / "scripts/constraint_free_broad_universe.py"
+DEFAULT_OUTPUT = Path("/groups/bsavoie2/tburton2/TDNet/f18_f19_constraint_free_v1/broad_search/advanced")
 
 
 def adjusted_model(architecture: str, hp_index: int):
@@ -260,12 +263,14 @@ def plan(output: Path, track: str) -> dict:
     tasks = [{"tier": tier, "architecture": architecture}
              for tier in cfg["tiers"] for architecture in cfg["architectures"]]
     for tier in cfg["tiers"]:
-        load_historical(tier)
+        load_broad_historical(tier)
     manifest = {
         "track": track, "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "config_sha256": digest(CONFIG), "source_sha256": digest(Path(__file__)),
         "advanced_source_sha256": digest(CORE),
         "base_search_sha256": digest(ROOT / "scripts/constraint_free_search.py"),
+        "broad_universe_sha256": digest(UNIVERSE),
+        "universe": "F16_A_plus_distinct_F12_BC",
         "tasks": tasks, "development_years": cfg["development_years"],
         "candidate_budget_per_task": (cfg["ga_population"] * cfg["ga_generations"]
                                       if track == "ga" else cfg["bo_trials"]),
@@ -284,7 +289,8 @@ def run(manifest_path: Path, task_id: int) -> dict:
     manifest = json.loads(manifest_path.read_text())
     for path, expected in ((CONFIG, "config_sha256"), (Path(__file__), "source_sha256"),
                            (CORE, "advanced_source_sha256"),
-                           (ROOT / "scripts/constraint_free_search.py", "base_search_sha256")):
+                           (ROOT / "scripts/constraint_free_search.py", "base_search_sha256"),
+                           (UNIVERSE, "broad_universe_sha256")):
         if digest(path) != manifest[expected]:
             raise ValueError(f"Search binding changed after planning: {path}")
     task = manifest["tasks"][task_id - 1]
@@ -295,7 +301,7 @@ def run(manifest_path: Path, task_id: int) -> dict:
         if prior.get("status") == "success" and prior.get("manifest_sha256") == digest(manifest_path):
             return prior
         raise FileExistsError(f"Nonreusable task summary exists: {summary}")
-    X, meta, records, _ = load_historical(task["tier"])
+    X, meta, records, _ = load_broad_historical(task["tier"])
     cfg = json.loads(CONFIG.read_text())
     started = time.monotonic()
     search = run_ga if manifest["track"] == "ga" else run_bo
