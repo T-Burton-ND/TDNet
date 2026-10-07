@@ -83,6 +83,8 @@ def collect(root: Path = ROOT) -> tuple[list[dict], dict]:
                 "successful": sum(row["status"] == "success" for row in cohort),
                 "failed": sum(row["status"] == "failed" for row in cohort),
                 "model_fits": sum(int(row.get("model_fits", 0)) for row in cohort),
+                "approx_cpu_hours": sum(float(row.get("runtime_seconds", 0))
+                                        for row in cohort) / 3600,
             }
         finalists_pool.extend(_fold_candidate(row, track=track, path=path,
                                               manifest=manifest_path)
@@ -101,6 +103,8 @@ def collect(root: Path = ROOT) -> tuple[list[dict], dict]:
             "successful": sum(row["status"] == "success" for row in cohort),
             "failed": sum(row["status"] == "failed" for row in cohort),
             "model_fits": sum(int(row.get("model_fits", 0)) for row in cohort),
+            "approx_cpu_hours": sum(float(row.get("runtime_seconds", 0))
+                                    for row in cohort) / 3600,
         }
 
     for track in ("ga", "bo"):
@@ -156,6 +160,8 @@ def collect(root: Path = ROOT) -> tuple[list[dict], dict]:
                 "successful": sum(row["status"] == "success" for _, row in tier_rows),
                 "failed": sum(row["status"] == "failed" for _, row in tier_rows),
                 "model_fits": sum(int(row.get("model_fits", 0)) for _, row in tier_rows),
+                "approx_cpu_hours": sum(float(row.get("runtime_seconds", 0))
+                                        for _, row in tier_rows) / 3600,
             }
     # The smaller A-path searches are retained as compute accounting and a
     # source-universe control. They cannot compete with broad-matrix finalists.
@@ -172,6 +178,8 @@ def collect(root: Path = ROOT) -> tuple[list[dict], dict]:
                 "successful": sum(row["status"] == "success" for row in cohort),
                 "failed": sum(row["status"] == "failed" for row in cohort),
                 "model_fits": sum(int(row.get("model_fits", 0)) for row in cohort),
+                "approx_cpu_hours": sum(float(row.get("runtime_seconds", 0))
+                                        for row in cohort) / 3600,
             }
     return finalists_pool, accounting
 
@@ -201,6 +209,12 @@ def select(root: Path = ROOT) -> dict:
     for track, tiers in accounting.items():
         if tiers["F18"]["candidates"] != tiers["F19"]["candidates"]:
             raise ValueError(f"Asymmetric {track} candidate budget")
+    totals = {
+        tier: {key: sum(values[tier][key] for values in accounting.values())
+               for key in ("candidates", "successful", "failed", "model_fits",
+                           "approx_cpu_hours")}
+        for tier in TIERS
+    }
     interrupted = {}
     for track, folder in (("initial_a_dispatch_failure", root.parent / "stage1"),
                           ("initial_broad_resource_failure", root / "stage1")):
@@ -215,6 +229,8 @@ def select(root: Path = ROOT) -> dict:
             "failed_receipts": sum(row["status"] == "failed" for row in receipts),
             "without_receipt": len(manifest["tasks"]) - len(receipts),
             "model_fits_in_receipts": sum(int(row.get("model_fits", 0)) for row in receipts),
+            "approx_cpu_hours_in_receipts": sum(float(row.get("runtime_seconds", 0))
+                                                 for row in receipts) / 3600,
             "excluded_from_finalist_selection": True,
         }
     return {
@@ -223,6 +239,7 @@ def select(root: Path = ROOT) -> dict:
         "years": list(YEARS), "universe": "F16_A_plus_distinct_F12_BC",
         "winners": winners, "f19_direct_residual_development": residual_comparison,
         "accounting": accounting,
+        "total_completed_search_accounting_by_tier": totals,
         "interrupted_attempts": interrupted,
         "development_warning": "2022–2025 scores were used for selection and are not unbiased estimates",
         "historical_f19_market_warning": "historical quote-level timestamps unverified",
