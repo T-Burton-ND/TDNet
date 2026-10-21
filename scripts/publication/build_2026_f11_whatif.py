@@ -17,12 +17,12 @@ ARCHIVE=Path('/groups/bsavoie2/tburton2/TDNet/fingerprint_nextgen/canonical/coac
 OUT=DATA/'f11_predictions'
 FAMILY={'M1':'linear','M2':'spline','M3':'tree','M4':'boosted','M5':'neural','M10':'knn'}
 
-def f11_state():
+def f11_state(target_games: pd.DataFrame | None = None):
     h=pd.read_parquet(ARCHIVE)
     if h.duplicated(['season','team']).any() or h.season.max()!=2025:
         raise ValueError('Prior-staff archive is not a unique through-2025 source')
-    games=pd.read_parquet(ROOT/'data/raw/cfbd/v2/games/2026.parquet')
-    games=games.loc[games.season_type.astype(str).str.lower().eq('regular') & games.completed.fillna(False).astype(bool)
+    games=pd.read_parquet(ROOT/'data/raw/cfbd/v2/games/2026.parquet') if target_games is None else target_games.copy()
+    games=games.loc[games.season_type.astype(str).str.lower().eq('regular') & (games.completed.fillna(False).astype(bool) if target_games is None else True)
                     & games.home_classification.astype(str).str.lower().eq('fbs')
                     & games.away_classification.astype(str).str.lower().eq('fbs')].copy()
     games['kickoff']=pd.to_datetime(games.start_date,utc=True)
@@ -62,7 +62,8 @@ def f11_state():
         for team in (g.home_team,g.away_team):
             rows.append({**frozen[team],'target_game_id':int(g.id),'team':team,'target_start_utc':g.kickoff})
     state=pd.DataFrame(rows)
-    if state.duplicated(['target_game_id','team']).any() or state.target_game_id.nunique()!=271 or len(state)!=542:
+    expected_games=271 if target_games is None else len(games)
+    if state.duplicated(['target_game_id','team']).any() or state.target_game_id.nunique()!=expected_games or len(state)!=2*expected_games:
         raise ValueError('F11 target feature keys incomplete')
     available=state.staff_available_utc.notna()
     if not (pd.to_datetime(state.loc[available,'staff_available_utc'],utc=True)

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+export OMP_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export VECLIB_MAXIMUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export MPLCONFIGDIR="/tmp/tdnet-expanded-week08-${SGE_TASK_ID}"
+cd "$REPO_ROOT"
+stages=(F09 F10 F11 F12_corrected F13 F14 F15 F16 F17_market)
+models=(M1 M2 M3 M4 M5 M10)
+stage_index=$(( (SGE_TASK_ID - 1) / 6 ))
+model_index=$(( (SGE_TASK_ID - 1) % 6 ))
+/users/tburton2/.conda/envs/gridiron/bin/python \
+  scripts/publication/predict_2026_week08_f09_f17.py \
+  --stage "${stages[$stage_index]}" --model "${models[$model_index]}"

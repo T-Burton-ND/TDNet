@@ -49,7 +49,9 @@ def normalize_plays(frame: pd.DataFrame) -> pd.DataFrame:
     })
 
 
-def current_research_stats(schedule: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
+def current_research_stats(schedule: pd.DataFrame,
+                           target_games: pd.DataFrame | None = None,
+                           output: Path | None = None) -> tuple[pd.DataFrame, dict]:
     games = schedule.loc[
         schedule.season.eq(2026)
         & schedule.season_type.astype(str).str.lower().eq("regular")
@@ -119,7 +121,8 @@ def current_research_stats(schedule: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
     combined = pd.concat([historical, current], ignore_index=True, sort=False)
     if combined.duplicated(["game_id", "team"]).any():
         raise ValueError("Historical and 2026 source game/team rows overlap")
-    targets = games[["id", "season", "week", "start_date", "home_team", "away_team"]].copy()
+    targets = (games if target_games is None else target_games)[
+        ["id", "season", "week", "start_date", "home_team", "away_team"]].copy()
     targets = targets.rename(columns={"id": "target_game_id", "start_date": "target_start_utc"})
     targets["target_start_utc"] = pd.to_datetime(targets.target_start_utc, utc=True)
     team_targets = pd.concat([
@@ -129,18 +132,18 @@ def current_research_stats(schedule: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
     schedule_rows = schedule.loc[schedule.id.isin(set(combined.game_id.astype(int)))].copy()
     schedule_rows["start_date"] = pd.to_datetime(schedule_rows.start_date, utc=True)
     state = trailing_research_state(combined, schedule_rows, team_targets)
-    if state.target_game_id.nunique() != len(games) or len(state) != len(games) * 2:
+    if state.target_game_id.nunique() != len(targets) or len(state) != len(targets) * 2:
         raise ValueError("F13–F16 2026 target state is not complete")
     if not (pd.to_datetime(state.feature_available_utc, utc=True)
-            < state.target_game_id.map(games.set_index("id").start_date).pipe(pd.to_datetime, utc=True)).all():
+            < state.target_game_id.map(targets.set_index("target_game_id").target_start_utc).pipe(pd.to_datetime, utc=True)).all():
         raise ValueError("A F13–F16 source state is not pre-target")
     if state.latest_source_game_id.eq(state.target_game_id).any():
         raise ValueError("A target game contributed to its F13–F16 state")
-    state_path = RESEARCH / "f13_f16_target_state_2026.parquet"
-    RESEARCH.mkdir(parents=True, exist_ok=True)
+    state_path = (output or RESEARCH) / "f13_f16_target_state_2026.parquet"
+    state_path.parent.mkdir(parents=True, exist_ok=True)
     state.to_parquet(state_path, index=False, compression="zstd")
     receipt = {
-        "status": "features_ready", "target_games": int(len(games)),
+        "status": "features_ready", "target_games": int(len(targets)),
         "target_team_rows": len(state), "source_game_rows_2026": int(current.game_id.nunique()),
         "source_games_with_plays_stats": len(actor_game_ids),
         "reporting_lag_hours": 48, "target_game_excluded": True,
@@ -148,7 +151,7 @@ def current_research_stats(schedule: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
         "actor_audit": dict(actor_audit), "historical_stats_sha256": sha256_file(ROUND_DATA / "research_game_statistics.parquet"),
         "state_sha256": sha256_file(state_path),
     }
-    (RESEARCH / "features_receipt.json").write_text(json.dumps(receipt, indent=2, sort_keys=True, default=str) + "\n")
+    (output or RESEARCH).joinpath("features_receipt.json").write_text(json.dumps(receipt, indent=2, sort_keys=True, default=str) + "\n")
     print(json.dumps(receipt, indent=2, default=str), flush=True)
     return state
 

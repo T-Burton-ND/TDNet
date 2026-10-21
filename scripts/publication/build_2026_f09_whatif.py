@@ -93,16 +93,17 @@ def source_statistics(schedule: pd.DataFrame) -> pd.DataFrame:
     return stats
 
 
-def f09_state(stats: pd.DataFrame, schedule: pd.DataFrame) -> pd.DataFrame:
+def f09_state(stats: pd.DataFrame, schedule: pd.DataFrame,
+              target_games: pd.DataFrame | None = None) -> pd.DataFrame:
     source = stats.merge(schedule[["id", "season", "season_type", "completed", "kickoff", "home_team", "away_team"]],
                          left_on="game_id", right_on="id", how="inner", validate="many_to_one")
     source = source.loc[source.season_type.astype(str).str.lower().eq("regular") & source.completed.fillna(False)]
     source["available"] = source.kickoff + pd.Timedelta(hours=48)
     source_columns = [c for c in stats if c.endswith(("__sum", "__n"))]
     history = {team: rows.sort_values(["available", "game_id"]) for team, rows in source.groupby("team")}
-    targets = pd.read_parquet(GAMES_2026)
+    targets = pd.read_parquet(GAMES_2026) if target_games is None else target_games.copy()
     targets = targets.loc[targets.season_type.astype(str).str.lower().eq("regular")
-                          & targets.completed.fillna(False).astype(bool)
+                          & (targets.completed.fillna(False).astype(bool) if target_games is None else True)
                           & targets.home_classification.astype(str).str.lower().eq("fbs")
                           & targets.away_classification.astype(str).str.lower().eq("fbs")].copy()
     targets["kickoff"] = pd.to_datetime(targets.start_date, utc=True, errors="coerce")

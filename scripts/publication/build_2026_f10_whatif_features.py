@@ -152,14 +152,14 @@ def _continuity(history: pd.DataFrame, team: str, kickoff: pd.Timestamp) -> dict
     return result
 
 
-def build() -> tuple[pd.DataFrame, dict]:
+def build(target_games: pd.DataFrame | None = None) -> tuple[pd.DataFrame, dict]:
     schedule = read_schedule()
     history = player_history(schedule)
     appearances = _appearance_index(history)
     recruits = recruiting_source()
-    games = pd.read_parquet(TARGETS)
+    games = pd.read_parquet(TARGETS) if target_games is None else target_games.copy()
     games = games.loc[games.season_type.astype(str).str.lower().eq("regular")
-                      & games.completed.fillna(False).astype(bool)
+                      & (games.completed.fillna(False).astype(bool) if target_games is None else True)
                       & games.home_classification.astype(str).str.lower().eq("fbs")
                       & games.away_classification.astype(str).str.lower().eq("fbs")].copy()
     games["kickoff"] = pd.to_datetime(games.start_date, utc=True)
@@ -184,7 +184,8 @@ def build() -> tuple[pd.DataFrame, dict]:
                           target_start_utc=game.kickoff, source_game_count=len(observed_games))
             rows.append(values)
     state = pd.DataFrame(rows)
-    if state.duplicated(["target_game_id", "team"]).any() or len(state) != 542:
+    expected_rows = 542 if target_games is None else 2 * len(games)
+    if state.duplicated(["target_game_id", "team"]).any() or len(state) != expected_rows:
         raise ValueError(f"Unexpected F10 target state coverage: {len(state)} rows")
     if not (pd.to_datetime(state.latest_source_available_utc, utc=True)
             < pd.to_datetime(state.target_start_utc, utc=True)).all():

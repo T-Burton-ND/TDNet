@@ -1,0 +1,60 @@
+{
+  "brier_games": 259,
+  "cohort_weeks": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "mae_games": 263,
+  "market_free": true,
+  "models": 42,
+  "outputs": {
+    "brier_png": {
+      "path": "publication/2026/research/fingerprint_model_pareto/pareto_brier.png",
+      "sha256": "c2c62890fa2b756175fbf7aeb281b082b9f85596a26f6163170c7933bb0d6f27"
+    },
+    "brier_svg": {
+      "path": "publication/2026/research/fingerprint_model_pareto/pareto_brier.svg",
+      "sha256": "5067ae6404109c506335967ca01865359b0ce52bf95b083dac32e412058e1961"
+    },
+    "costs": {
+      "path": "publication/2026/research/fingerprint_model_pareto/model_costs.csv",
+      "sha256": "5a3efe2b1564a1db3d60635868fcd8dfcfddf4ddb22ffd1ca238ec31a1fdcee7"
+    },
+    "mae_png": {
+      "path": "publication/2026/research/fingerprint_model_pareto/pareto_mae.png",
+      "sha256": "77231b21a47677abaddf6983fa2d058a1ae1a806f7f78dd5784524a14716b6a2"
+    },
+    "mae_svg": {
+      "path": "publication/2026/research/fingerprint_model_pareto/pareto_mae.svg",
+      "sha256": "ef12537bb9a9dfb0d0bde05411b4a59ab05ca75315593440df50a2a7334bc6ca"
+    },
+    "paired_metrics": {
+      "path": "publication/2026/research/fingerprint_model_pareto/paired_model_frontier.csv",
+      "sha256": "58797ea9a5cb326db5fda17725d50477dedd054092a9770870e00a0054ac566c"
+    },
+    "readme": {
+      "path": "publication/2026/research/fingerprint_model_pareto/README.md",
+      "sha256": "af1267a1d5292189c31ad41b0232daac593ca4ef1a0e7e291491367324957261"
+    }
+  },
+  "pareto_cells": {
+    "brier": 13,
+    "mae": 19
+  },
+  "season": 2026,
+  "source_sha256": {
+    "docs/publication_2026/feature_manifests/F0.json": "d2de62ac6205d41f86242bd12dc96847a3dd19c431888a54e5b87e7fb25a5b3d",
+    "docs/publication_2026/feature_manifests/F1.json": "fc4f181c0ed93f5a5fb21c6304551709fb3b14b6ab52db9f6e6e9b77e6a46c69",
+    "docs/publication_2026/feature_manifests/F2.json": "08b10e16e94145d11255987e262ecec2156d6d825c1a58789f6ec0862d51e466",
+    "docs/publication_2026/feature_manifests/F3.json": "af6df852414c33e289859f7a6b2ef836afd5816de18df97307145d43726cfe47",
+    "docs/publication_2026/feature_manifests/F4.json": "239d9fbded6ca1e3386c365a39763fbcf3d8651e56167b0365e52130df58d3e2",
+    "docs/publication_2026/feature_manifests/F5.json": "f9873207b72472cf804a1c7ae15cfa7a1327c40249316c7c2a4fcb97e0385d69",
+    "docs/publication_2026/feature_manifests/F6.json": "a78efbdac0b3f4671cb1649c381428aa5e07fddccec91293fc40606fc93df82f",
+    "publication/2026/week_05/post_game/scientific/current_season_f0_f19/scientific_2026_model_game_results.parquet": "fc307e3a23cb8d24a9e7507f589691a7107e0eba364cce0cc7659809d51aaa4e"
+  },
+  "vegas_brier": 0.13304743129803898,
+  "vegas_mae": 11.5
+}

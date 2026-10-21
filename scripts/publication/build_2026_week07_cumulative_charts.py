@@ -162,6 +162,7 @@ def _performance(games: pd.DataFrame, expected_models: int) -> pd.DataFrame:
                     "series_type": series_type,
                     "model_name": model_name,
                     "games": len(group),
+                    "brier_games": int(group.brier_error.notna().sum()),
                     "margin_mae": group.margin_error.mean(),
                     "su_wins": int(group.winner_correct.sum()),
                     "su_accuracy": group.winner_correct.mean(),
@@ -171,6 +172,26 @@ def _performance(games: pd.DataFrame, expected_models: int) -> pd.DataFrame:
                 }
             )
     return pd.DataFrame(rows)
+
+
+def _vegas_history(roster: str) -> pd.DataFrame:
+    """Load the published comparator through Week 6, never extend into replay."""
+    base = PUB / "week_06/post_game/scientific"
+    if roster == "scientific_f0_f8":
+        base /= "full_f0_f8"
+    source = base / "scientific_rolling_cumulative_performance.csv"
+    data = pd.read_csv(source)
+    vegas = data.loc[data.scope.eq("cumulative") & data.series_type.eq("vegas")].copy()
+    if set(vegas.through_week) != set(range(7)):
+        raise ValueError("Expected published Vegas comparator through Week 6")
+    vegas["model_name"] = "Vegas baseline · through Week 6"
+    vegas["contains_retrospective_replay"] = False
+    vegas["week_07_provenance"] = "No historical market snapshot for Week 7 replay"
+    return vegas[
+        ["through_week", "series_type", "model_name", "games", "brier_games",
+         "margin_mae", "su_wins", "su_accuracy", "brier_score",
+         "contains_retrospective_replay", "week_07_provenance"]
+    ]
 
 
 def _plot_trajectory(data: pd.DataFrame, title: str, path: Path) -> None:
@@ -191,6 +212,9 @@ def _plot_trajectory(data: pd.DataFrame, title: str, path: Path) -> None:
         endpoint = consensus.loc[consensus.through_week.ge(6)]
         axis.plot(frozen.through_week, frozen[metric], color="#D62F76", lw=3, marker="o", label="Consensus · frozen")
         axis.plot(endpoint.through_week, endpoint[metric], color="#D62F76", lw=3, ls=":", marker="o", label="Week 7 replay endpoint")
+        vegas = data.loc[data.series_type.eq("vegas")].sort_values("through_week")
+        axis.plot(vegas.through_week, vegas[metric], color="#BD8B17", lw=2.5,
+                  ls="--", marker="s", label="Vegas · available Weeks 0–6")
         axis.axvspan(6.5, 7.35, color="#E1E1E1", alpha=0.6)
         axis.set_title(label, loc="left", weight="bold", fontsize=15)
         axis.set_xticks(range(8))
@@ -202,7 +226,7 @@ def _plot_trajectory(data: pd.DataFrame, title: str, path: Path) -> None:
         axis.spines[["top", "right"]].set_visible(False)
         axis.legend(frameon=False, fontsize=9)
     fig.suptitle(f"2026 {title} · cumulative performance", fontsize=22, weight="bold")
-    fig.text(0.5, 0.02, "Weeks 0–6: frozen pregame forecasts. Week 7: retrospective replay after games; dotted segment is not prospective evidence. No Week 7 market/ATS data.", ha="center", fontsize=10)
+    fig.text(0.5, 0.02, "Weeks 0–6: frozen model forecasts and published Vegas baseline. Week 7: retrospective replay after games; no historical market/ATS result. Vegas Brier has fewer eligible games.", ha="center", fontsize=10)
     fig.savefig(path, dpi=180, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
 
@@ -211,9 +235,10 @@ def _plot_scorecard(scorecard: pd.DataFrame, title: str, path: Path) -> None:
     shown = scorecard.reset_index(drop=True).copy()
     table = pd.DataFrame(
         {
-            "Rank": ["—" if x == "consensus" else str(i) for i, x in enumerate(shown.series_type, start=0)],
+            "Rank": ["—" if x != "model" else str(i - 1) for i, x in enumerate(shown.series_type, start=0)],
             "Model": shown.model_name.str.replace("scientific_", "", regex=False),
             "Games": shown.games.astype(str),
+            "Brier n": shown.brier_games.astype(str),
             "MAE": shown.margin_mae.map(lambda x: f"{x:.2f}"),
             "SU": shown.su_wins.astype(str) + "/" + shown.games.astype(str),
             "SU %": shown.su_accuracy.map(lambda x: f"{x:.1%}"),
@@ -222,7 +247,7 @@ def _plot_scorecard(scorecard: pd.DataFrame, title: str, path: Path) -> None:
     )
     fig, ax = plt.subplots(figsize=(16, max(10, len(table) * 0.38 + 2.5)), facecolor="#F7F4ED")
     ax.axis("off")
-    artist = ax.table(cellText=table.values, colLabels=table.columns, cellLoc="left", colLoc="left", bbox=[0, 0.035, 1, 0.91], colWidths=[0.06, 0.45, 0.07, 0.08, 0.11, 0.1, 0.1])
+    artist = ax.table(cellText=table.values, colLabels=table.columns, cellLoc="left", colLoc="left", bbox=[0, 0.035, 1, 0.91], colWidths=[0.055, 0.39, 0.07, 0.07, 0.08, 0.1, 0.1, 0.1])
     artist.auto_set_font_size(False)
     artist.set_fontsize(9)
     for (row, _), cell in artist.get_celld().items():
@@ -231,7 +256,7 @@ def _plot_scorecard(scorecard: pd.DataFrame, title: str, path: Path) -> None:
         if row == 0:
             cell.set_text_props(color="white", weight="bold")
     ax.set_title(f"2026 {title} · cumulative through Week 7", fontsize=19, weight="bold", pad=16)
-    fig.text(0.5, 0.008, "Weeks 0–6 frozen pregame; Week 7 retrospective replay after games. Rank by MAE. ATS omitted because Week 7 historical lines were not frozen.", ha="center", fontsize=9)
+    fig.text(0.5, 0.008, "Model rows include the Week 7 retrospective replay; Vegas row stops at Week 6 (325 games). Brier n shows valid probabilities. ATS is omitted.", ha="center", fontsize=9)
     fig.savefig(path, dpi=180, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
 
@@ -280,8 +305,12 @@ def main() -> None:
     for roster, (title, expected) in ROSTERS.items():
         games, sources = _load_margin() if roster == "margin_wide" else _load_scientific(None if roster == "scientific_f0_f6" else "full_f0_f8")
         performance = _performance(games, expected)
+        vegas = _vegas_history(roster)
+        performance = pd.concat([performance, vegas], ignore_index=True)
         scorecard = performance.loc[performance.through_week.eq(7)].copy()
+        scorecard = pd.concat([scorecard, vegas.loc[vegas.through_week.eq(6)]], ignore_index=True)
         scorecard["sort_key"] = scorecard.series_type.map({"consensus": 0, "model": 1})
+        scorecard.loc[scorecard.series_type.eq("vegas"), "sort_key"] = 0.5
         scorecard = scorecard.sort_values(["sort_key", "margin_mae", "model_name"]).drop(columns="sort_key")
         directory = OUTPUT / roster
         directory.mkdir(exist_ok=True)
@@ -297,6 +326,11 @@ def main() -> None:
         _plot_scorecard(scorecard, title, paths["scorecard_png"])
         artifacts[roster] = {key: str(path.relative_to(ROOT)) for key, path in paths.items()}
         all_sources.update({str(path.relative_to(ROOT)): _hash(path) for path in sources})
+        comparison_source = PUB / "week_06/post_game/scientific"
+        if roster == "scientific_f0_f8":
+            comparison_source /= "full_f0_f8"
+        comparison_source /= "scientific_rolling_cumulative_performance.csv"
+        all_sources[str(comparison_source.relative_to(ROOT))] = _hash(comparison_source)
     expanded = PUB / "week_05/post_game/scientific/current_season_f0_f19"
     expanded_output = OUTPUT / "scientific_f0_f19"
     expanded_output.mkdir(exist_ok=True)
@@ -333,9 +367,9 @@ def main() -> None:
     readme = [
         "# 2026 cumulative performance through Week 7",
         "",
-        "Margin (33), original scientific F0–F6 (42), and full scientific F0–F8 have current model and consensus CSVs and figures here. The full roster had 54 models through Week 6 and 49 replayable cells in Week 7; five F7 market-dependent models stop at Week 6. Weeks 0–6 are frozen pregame forecasts. Week 7 is a 59-game retrospective replay made after the games; the dotted endpoint is not a prospective result. No historical Week 7 market lines were frozen, so these new figures omit ATS and Vegas rather than inventing a comparison.",
+        "Margin (33), original scientific F0–F6 (42), and full scientific F0–F8 have current model and consensus CSVs and figures here. The full roster had 54 models through Week 6 and 49 replayable cells in Week 7; five F7 market-dependent models stop at Week 6. Weeks 0–6 are frozen pregame forecasts. Week 7 is a 59-game retrospective replay made after the games; the dotted endpoint is not a prospective result. Published Vegas MAE and Brier baselines appear through Week 6 only; their Week 7 point is missing because no historical Week 7 market snapshot was frozen. The Week 7 scorecards retain a separate 325-game Vegas row clearly labeled as stopping at Week 6. Vegas Brier uses fewer eligible games than the model rows. ATS is omitted from these new figures.",
         "",
-        "The expanded F0–F19 research cohort (120 model cells) has scored coverage through Week 5 only. `scientific_f0_f19/cumulative_available_performance.png` marks Weeks 6–7 as missing. Its detailed existing cumulative figures remain at `publication/2026/week_05/post_game/scientific/current_season_f0_f19/`. No Week 6 or 7 expanded matrices exist, so its performance cannot be extended responsibly.",
+        "The expanded F0–F19 research cohort (120 model cells) has scored coverage through Week 5 only. `scientific_f0_f19/cumulative_available_performance.png` marks Weeks 6–7 as missing. Its detailed existing cumulative figures remain at `publication/2026/week_05/post_game/scientific/current_season_f0_f19/`. No Week 6 or 7 expanded matrices exist, so its performance cannot be extended responsibly. A separate complete 53-game Week 8 pregame research forecast is at `publication/2026/week_08/pre_game/scientific/full_f0_f19/`; it has no outcome scores yet.",
         "",
         "`manifest.json` lists every figure, table, and input hash.",
     ]
