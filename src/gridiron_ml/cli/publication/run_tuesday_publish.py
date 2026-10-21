@@ -4,6 +4,8 @@ from gridiron_ml.cli._paths import project_root
 
 from argparse import ArgumentParser
 from pathlib import Path
+import hashlib
+import json
 import subprocess
 import sys
 
@@ -22,6 +24,14 @@ def main():
     parser.add_argument("--deadline-local-date", required=True, help="Thursday date in America/New_York.")
     parser.add_argument("--freeze-manifest", type=Path, default=root / "FREEZE_MANIFEST.json")
     parser.add_argument("--schedule-snapshot", type=Path)
+    parser.add_argument(
+        "--prebuilt-weekly-fingerprint", type=Path,
+        help="Use an audited immutable fingerprint state instead of rebuilding the current-week ladder.",
+    )
+    parser.add_argument(
+        "--fingerprint-proof", type=Path,
+        help="Required with a prebuilt fingerprint; must bind its SHA-256 and cutoff.",
+    )
     parser.add_argument("--ap-top25", type=Path)
     parser.add_argument("--tdnet-top25", type=Path, help="Optional owner/external TDNet poll override; otherwise the frozen roster poll is generated automatically.")
     parser.add_argument("--canonical-poll-objective", choices=["margin"], help="Objective poll to publish as canonical after review.")
@@ -45,16 +55,37 @@ def main():
     weekly_inventory = None
     scientific_inventory = None
     if args.season == 2026:
-        weekly_fingerprint = operations / "fingerprint_ladder_v3" / "canonical_fingerprint.parquet"
+        weekly_fingerprint = (
+            args.prebuilt_weekly_fingerprint
+            or operations / "fingerprint_ladder_v3" / "canonical_fingerprint.parquet"
+        )
         weekly_fingerprint_metadata = operations / "fingerprint_ladder_v3" / "metadata.json"
-        subprocess.run([
-            "python", "src/gridiron_ml/cli/publication/build_enriched_fingerprint_ladder.py",
-            "--source", str(
-                root / "data/experiments/opponent_adjusted_fingerprints/fingerprints/v1_4/canonical_fingerprint.parquet"
-            ),
-            "--output", str(weekly_fingerprint),
-            "--metadata", str(weekly_fingerprint_metadata),
-        ], cwd=root, check=True)
+        if args.prebuilt_weekly_fingerprint is not None:
+            if not weekly_fingerprint.is_file():
+                raise FileNotFoundError(weekly_fingerprint)
+            if args.fingerprint_proof is None:
+                raise ValueError("A prebuilt weekly fingerprint requires --fingerprint-proof")
+            proof = json.loads(args.fingerprint_proof.read_text())
+            content_hash = hashlib.sha256(weekly_fingerprint.read_bytes()).hexdigest()
+            games_path = root / f"data/raw/cfbd/v2/games/{args.season}.parquet"
+            games_hash = hashlib.sha256(games_path.read_bytes()).hexdigest()
+            if (proof.get("status") != "pass"
+                or proof.get("cutoff_fingerprint_sha256") != content_hash
+                or proof.get("games_sha256") != games_hash
+                or int(proof.get("target_week", -1)) != args.week
+                or pd.Timestamp(proof.get("cutoff_utc")) != pd.Timestamp(args.deadline_utc)
+                or pd.Timestamp(proof.get("latest_source_available_utc")) >= pd.Timestamp(args.deadline_utc)
+                or pd.Timestamp(proof.get("generated_at_utc")) > pd.Timestamp(args.deadline_utc)):
+                raise ValueError("Prebuilt fingerprint proof does not match the weekly cutoff")
+        else:
+            subprocess.run([
+                "python", "src/gridiron_ml/cli/publication/build_enriched_fingerprint_ladder.py",
+                "--source", str(
+                    root / "data/experiments/opponent_adjusted_fingerprints/fingerprints/v1_4/canonical_fingerprint.parquet"
+                ),
+                "--output", str(weekly_fingerprint),
+                "--metadata", str(weekly_fingerprint_metadata),
+            ], cwd=root, check=True)
         weekly_inventory = operations / "weekly_learned_model_inventory.csv"
         subprocess.run([
             "python", "src/gridiron_ml/cli/publication/build_weekly_learned_model_inventory.py",
@@ -93,6 +124,8 @@ def main():
         command.extend(["--schedule-snapshot", str(args.schedule_snapshot)])
     if args.ap_top25:
         command.extend(["--ap-top25", str(args.ap_top25), "--top25-label", "AP Top 25"])
+    if args.fingerprint_proof:
+        command.extend(["--cutoff-proof", str(args.fingerprint_proof)])
     subprocess.run(command, cwd=root, check=True)
     subprocess.run([
         "python", "src/gridiron_ml/cli/publication/build_x_post_package.py", "--weekly-output", str(output),

@@ -36,6 +36,29 @@ from gridiron_ml.publication.weekly_protocol import (
 )
 
 
+def _future_target_slate(schedule_games: pd.DataFrame, *, season: int, week: int,
+                         deadline_utc: str) -> tuple[pd.DataFrame, int]:
+    """Keep only games whose kickoff follows the recorded prediction cutoff."""
+    target = schedule_games.loc[
+        (pd.to_numeric(schedule_games["season"], errors="coerce") == season)
+        & (pd.to_numeric(schedule_games["week"], errors="coerce") == week)
+    ].copy()
+    if "season_type" in target:
+        target = target.loc[target["season_type"].astype(str).str.lower().eq("regular")]
+    if {"home_classification", "away_classification"}.issubset(target.columns):
+        fbs_home = target["home_classification"].astype(str).str.lower().eq("fbs")
+        fbs_away = target["away_classification"].astype(str).str.lower().eq("fbs")
+        target = target.loc[fbs_home | fbs_away]
+    kickoff = pd.to_datetime(target["start_date"], utc=True, errors="coerce")
+    if target.empty or kickoff.isna().any():
+        raise ValueError("The target slate is empty or has unconfirmed kickoff timestamps.")
+    future = kickoff.gt(pd.Timestamp(deadline_utc))
+    remaining = target.loc[future].copy()
+    if remaining.empty:
+        raise ValueError("No target games kick off after the prediction deadline.")
+    return remaining, int((~future).sum())
+
+
 def main():
     root = ROOT
     parser = ArgumentParser()
@@ -60,6 +83,7 @@ def main():
         help="Optional scientific F0-F8 inventory; emits paper-only market-free F0-F6 outputs.",
     )
     parser.add_argument("--schedule-snapshot", type=Path)
+    parser.add_argument("--cutoff-proof", type=Path, help="Audited input cutoff proof to freeze with a partial-week bundle.")
     parser.add_argument(
         "--market-lines-snapshot",
         type=Path,
@@ -171,21 +195,13 @@ def main():
             "Schedule snapshot does not match the preseason freeze manifest."
         )
     schedule_games = pd.read_parquet(schedule)
-    target_games = schedule_games.loc[
-        (pd.to_numeric(schedule_games["season"], errors="coerce") == args.season)
-        & (pd.to_numeric(schedule_games["week"], errors="coerce") == args.week)
-    ]
-    if "season_type" in target_games:
-        target_games = target_games.loc[
-            target_games["season_type"].astype(str).str.lower().eq("regular")
-        ]
-    if {"home_classification", "away_classification"}.issubset(target_games.columns):
-        fbs_home = target_games["home_classification"].astype(str).str.lower().eq("fbs")
-        fbs_away = target_games["away_classification"].astype(str).str.lower().eq("fbs")
-        target_games = target_games.loc[fbs_home | fbs_away]
-    kickoffs = pd.to_datetime(target_games["start_date"], utc=True, errors="coerce").dropna()
-    if kickoffs.empty:
-        raise ValueError("The target slate has no confirmed kickoff timestamps.")
+    target_games, started_game_count = _future_target_slate(
+        schedule_games, season=args.season, week=args.week,
+        deadline_utc=deadline["deadline_utc"],
+    )
+    if started_game_count and args.cutoff_proof is None:
+        raise ValueError("A remaining-games publication requires an audited cutoff proof.")
+    kickoffs = pd.to_datetime(target_games["start_date"], utc=True)
     earliest_kickoff = kickoffs.min()
     validate_deadline_precedes_kickoff(deadline["deadline_utc"], earliest_kickoff.to_pydatetime())
     if args.season == 2026:
@@ -208,6 +224,9 @@ def main():
             raise RuntimeError(
                 "2026 weekly publication requires a certified snapshot completeness report"
             )
+        captured = pd.to_datetime(snapshot_report.get("created_at_utc"), utc=True, errors="coerce")
+        if pd.isna(captured) or captured > pd.Timestamp(deadline["deadline_utc"]):
+            raise RuntimeError("The certified data snapshot was inspected after the prediction deadline.")
         data_hash = sha256_file(data_snapshot)
         environment_hash = sha256_file(
             args.project_root / "configs/environment.gridiron.linux-64.pip.lock.txt"
@@ -318,6 +337,8 @@ def main():
                 ),
                 prediction_deadline_utc=args.deadline_utc,
             )
+        if args.cutoff_proof is not None:
+            shutil.copy2(args.cutoff_proof, Path(temporary) / "metadata" / "cutoff_proof.json")
         support = {
             str(path.relative_to(temporary)).replace("/", "__"): path
             for path in Path(temporary).rglob("*")
@@ -340,6 +361,10 @@ def main():
                 "freeze_manifest_sha256": freeze_manifest_hash,
                 "week": args.week,
                 "season": args.season,
+                "slate_scope": "remaining_games" if started_game_count else "full_week",
+                "games_started_before_cutoff": started_game_count,
+                "games_remaining_at_cutoff": len(target_games),
+                "cutoff_proof_sha256": sha256_file(args.cutoff_proof) if args.cutoff_proof else None,
                 "roster_type": "wide_margin_corrected_f6",
                 "report_manifest": report["manifest"],
                 "tdnet_poll_source": (

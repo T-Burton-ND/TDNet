@@ -140,7 +140,8 @@ def git_state(
         return subprocess.run(
             ["git", *args], cwd=root, check=True, capture_output=True, text=True
         ).stdout.strip()
-    status_args = ["status", "--porcelain", "--untracked-files=all"]
+    # The project wiki is a separate repository with its own commit lifecycle.
+    status_args = ["status", "--porcelain", "--untracked-files=all", "--", ".", ":(exclude).llm-wiki/**"]
     if generated_root is not None:
         try:
             relative = Path(generated_root).resolve().relative_to(root.resolve())
@@ -148,7 +149,7 @@ def git_state(
             # A bundle written outside the repository cannot dirty its source.
             pass
         else:
-            status_args.extend(["--", ".", f":(exclude){relative.as_posix()}"])
+            status_args.append(f":(exclude){relative.as_posix()}")
     return {
         "git_commit": run("rev-parse", "HEAD"),
         "git_tree": run("rev-parse", "HEAD^{tree}"),

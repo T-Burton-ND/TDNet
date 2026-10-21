@@ -8,6 +8,22 @@ from gridiron_ml.publication.weekly_protocol import (
     validate_deadline_precedes_kickoff,
     validate_deadline_utc,
 )
+from gridiron_ml.cli.publication.run_weekly_publication_pipeline import _future_target_slate
+
+
+def test_partial_week_slate_excludes_games_already_started():
+    schedule = pd.DataFrame({
+        "id": [1, 2, 3], "season": [2026] * 3, "week": [8] * 3,
+        "season_type": ["regular"] * 3,
+        "home_classification": ["fbs"] * 3,
+        "away_classification": ["fbs"] * 3,
+        "start_date": ["2026-10-20T23:00:00Z", "2026-10-21T23:00:00Z", "2026-10-24T16:00:00Z"],
+    })
+    remaining, excluded = _future_target_slate(
+        schedule, season=2026, week=8, deadline_utc="2026-10-21T18:00:00Z"
+    )
+    assert remaining["id"].tolist() == [2, 3]
+    assert excluded == 1
 
 
 def test_endpoint_inspection_records_schema_hash_and_failure(tmp_path: Path):
