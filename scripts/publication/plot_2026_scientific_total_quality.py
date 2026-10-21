@@ -187,16 +187,26 @@ def figure(title: str, subtitle: str, size: tuple[float, float] = (16, 9.5)):
     return fig, ax
 
 
-def legend(ax, *, loc="upper left", anchor=(1.01, 1.0), neutral=False):
+def legend(ax, *, loc="upper left", anchor=(1.01, 1.0), neutral=False,
+           vegas_threshold=False):
     handles = [Line2D([0], [0], marker=MARKERS[m], linestyle="", color="none",
                       markerfacecolor="#54718F" if neutral else COLORS[m],
                       markeredgecolor="white", markersize=9,
                       label=f"{m} · {NAMES[m]}") for m in MODELS]
-    handles.append(Line2D([0], [0], marker="*", linestyle="", color="none",
-                          markerfacecolor=GOLD, markeredgecolor=INK,
-                          markersize=14, label="Vegas"))
+    if vegas_threshold:
+        handles.append(Line2D([0], [0], color=GOLD, lw=2.3,
+                              label="Vegas · 0% threshold"))
+    else:
+        handles.append(Line2D([0], [0], marker="*", linestyle="", color="none",
+                              markerfacecolor=GOLD, markeredgecolor=INK,
+                              markersize=14, label="Vegas"))
     ax.legend(handles=handles, loc=loc, bbox_to_anchor=anchor, frameon=False,
               labelspacing=.9, fontsize=9)
+
+
+def vegas_line(ax, *, horizontal=False):
+    draw = ax.axhline if horizontal else ax.axvline
+    draw(0, color=GOLD, lw=2.3, alpha=.92, zorder=2)
 
 
 def plot_points(ax, frame: pd.DataFrame, x: str, y: str, *, size=72, brier_color=False):
@@ -260,29 +270,22 @@ def accuracy_landscape(frame):
 
 
 def ranked_ladder(frame):
-    ordered = frame.sort_values("balanced_skill_percent", ascending=False).reset_index(drop=True)
-    fig, ax = figure("Balanced quality ladder", "One point per model, ordered by the mean of three relative skill percentages; higher is better.", (16, 22))
+    ordered = frame.loc[frame.kind.eq("model")].sort_values(
+        "balanced_skill_percent", ascending=False).reset_index(drop=True)
+    fig, ax = figure("Balanced quality ladder", "120 model cells ranked by mean relative skill; the gold line is the Vegas threshold.", (16, 22))
     for item, y in zip(fig.texts, (.989, .967, .948, .018)):
         item.set_y(y)
     fig.subplots_adjust(left=.12, right=.86, top=.927, bottom=.055)
     for pos, row in ordered.iterrows():
-        color = GOLD if row.kind == "market" else COLORS[row.model_id]
-        marker = "*" if row.kind == "market" else MARKERS[row.model_id]
-        ax.scatter(row.balanced_skill_percent, pos, marker=marker, color=color,
-                   s=165 if row.kind == "market" else 35,
-                   edgecolor=INK if row.kind == "market" else "white",
+        ax.scatter(row.balanced_skill_percent, pos, marker=MARKERS[row.model_id],
+                   color=COLORS[row.model_id], s=35, edgecolor="white",
                    linewidth=.75, zorder=3)
-    ax.axvline(0, color=GOLD, lw=1.5, alpha=.65, zorder=1)
+    vegas_line(ax)
     ax.set_ylim(len(ordered) + .5, -1.5)
     ax.set_yticks(range(0, len(ordered), 10))
     ax.set_yticklabels([str(i + 1) for i in range(0, len(ordered), 10)])
-    ax.set(xlabel="Balanced relative skill versus Vegas · % ↑", ylabel="Rank among 121 points")
-    idx = int(ordered.index[ordered.label.eq("Vegas")][0])
-    row = ordered.iloc[idx]
-    ax.annotate(f"Vegas  {row.balanced_skill_percent:+.2f}%",
-                (row.balanced_skill_percent, idx), xytext=(-75, -5),
-                textcoords="offset points", fontsize=10, weight="bold", color=INK)
-    legend(ax)
+    ax.set(xlabel="Balanced relative skill versus Vegas · % ↑", ylabel="Rank among 120 models")
+    legend(ax, vegas_threshold=True)
     return fig
 
 
@@ -298,15 +301,16 @@ def roster_matrix(frame):
         y = row.fingerprint_number
         ax.scatter(x, y, s=250, marker="o", c=[row.balanced_skill_percent],
                    cmap=cmap, norm=norm, edgecolor="white", linewidth=.8, zorder=3)
-    ax.scatter(6.45, 19, s=400, marker="*", color=GOLD, edgecolor=INK, zorder=7)
-    ax.set_xticks([*range(6), 6.45], [*MODELS, "Vegas"])
+    ax.set_xticks(range(6), MODELS)
     ax.set_yticks(range(20), ["F17-market" if i == 17 else f"F{i}" for i in range(20)])
-    ax.set_xlim(-.6, 7.0)
+    ax.set_xlim(-.6, 5.6)
     ax.set_ylim(19.8, -.8)
     ax.set(xlabel="Model architecture", ylabel="Fingerprint")
     ax.grid(alpha=.09)
-    fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap), ax=ax,
-                 fraction=.035, pad=.04, label="Balanced relative skill · %")
+    colorbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap), ax=ax,
+                            fraction=.035, pad=.04,
+                            label="Balanced relative skill · % (0 = Vegas)")
+    colorbar.ax.axhline(0, color=GOLD, lw=2.3, alpha=.92, clip_on=False)
     return fig
 
 
@@ -328,7 +332,7 @@ def _swarm_offsets(xs: np.ndarray, min_x: float = .65, step: float = .16) -> np.
 
 
 def architecture_swarm(frame):
-    fig, ax = figure("Which architecture holds up?", "Twenty fingerprints per row; horizontal position is exact, vertical offset separates nearby points.")
+    fig, ax = figure("Which architecture holds up?", "Twenty fingerprints per row; horizontal position is exact. Gold line = Vegas threshold.")
     for i, model_id in enumerate(MODELS):
         group = frame.loc[frame.model_id.eq(model_id)].sort_values("fingerprint_number").reset_index(drop=True)
         xs = group.balanced_skill_percent.to_numpy()
@@ -337,14 +341,11 @@ def architecture_swarm(frame):
             ax.scatter(row.balanced_skill_percent, i + offsets[j] * .45, marker=MARKERS[model_id],
                        color=COLORS[model_id], s=80, edgecolor="white",
                        linewidth=.8, zorder=4)
-    vegas = frame.loc[frame.kind.eq("market")].iloc[0]
-    ax.scatter(vegas.balanced_skill_percent, 6.25, marker="*", color=GOLD,
-               s=350, edgecolor=INK, zorder=7)
-    ax.axvline(0, color=GOLD, lw=1.4, alpha=.65)
-    ax.set_yticks([*range(6), 6.25], [f"{m} · {NAMES[m]}" for m in MODELS] + ["Vegas"])
-    ax.set_ylim(6.75, -.7)
+    vegas_line(ax)
+    ax.set_yticks(range(6), [f"{m} · {NAMES[m]}" for m in MODELS])
+    ax.set_ylim(5.7, -.7)
     ax.set(xlabel="Balanced relative skill versus Vegas · % ↑")
-    legend(ax)
+    legend(ax, vegas_threshold=True)
     return fig
 
 
@@ -366,7 +367,7 @@ def _violin(ax, values: np.ndarray, position: float, color: str, width: float = 
 
 
 def architecture_violin(frame):
-    fig, ax = figure("Architecture distributions", "Twenty fingerprints per family. Fill = smoothed density; bar = IQR; tick = median; open circle = mean.")
+    fig, ax = figure("Architecture distributions", "Twenty fingerprints per family. Bar = IQR; tick = median; open circle = mean; gold line = Vegas.")
     for i, model_id in enumerate(MODELS):
         group = frame.loc[frame.model_id.eq(model_id)].sort_values("fingerprint_number").reset_index(drop=True)
         xs = group.balanced_skill_percent.to_numpy()
@@ -376,17 +377,16 @@ def architecture_violin(frame):
             ax.scatter(row.balanced_skill_percent, i + offsets[j] * .30,
                        marker=MARKERS[model_id], color=COLORS[model_id],
                        s=42, edgecolor="white", linewidth=.8, zorder=7)
-    ax.scatter(0, 6.25, marker="*", color=GOLD, s=320, edgecolor=INK, zorder=7)
-    ax.axvline(0, color=GOLD, lw=1.4, alpha=.65)
-    ax.set_yticks([*range(6), 6.25], [f"{m} · {NAMES[m]}" for m in MODELS] + ["Vegas"])
-    ax.set_ylim(6.75, -.7)
+    vegas_line(ax)
+    ax.set_yticks(range(6), [f"{m} · {NAMES[m]}" for m in MODELS])
+    ax.set_ylim(5.7, -.7)
     ax.set(xlabel="Balanced relative skill versus Vegas · % ↑")
-    legend(ax)
+    legend(ax, vegas_threshold=True)
     return fig
 
 
 def fingerprint_swarm(frame):
-    fig, ax = figure("Fingerprint distributions", "Six architectures per fingerprint. Every colored point is a model; vertical offsets separate neighbors.", (16, 15))
+    fig, ax = figure("Fingerprint distributions", "Six architectures per fingerprint. Vertical offsets separate neighbors; gold line = Vegas threshold.", (16, 15))
     for number in range(20):
         group = frame.loc[frame.kind.eq("model") & frame.fingerprint_number.eq(number)].copy()
         group["model_order"] = group.model_id.map({model_id: i for i, model_id in enumerate(MODELS)})
@@ -397,18 +397,17 @@ def fingerprint_swarm(frame):
             ax.scatter(row.balanced_skill_percent, number + offsets[j] * .36,
                        marker=MARKERS[row.model_id], color=COLORS[row.model_id],
                        s=67, edgecolor="white", linewidth=.75, zorder=5)
-    ax.scatter(0, 20.2, marker="*", color=GOLD, s=350, edgecolor=INK, zorder=7)
-    ax.axvline(0, color=GOLD, lw=1.3, alpha=.65)
-    ax.set_yticks([*range(20), 20.2],
-                  ["F17-market" if i == 17 else f"F{i}" for i in range(20)] + ["Vegas"])
-    ax.set_ylim(20.7, -.7)
+    vegas_line(ax)
+    ax.set_yticks(range(20),
+                  ["F17-market" if i == 17 else f"F{i}" for i in range(20)])
+    ax.set_ylim(19.7, -.7)
     ax.set(xlabel="Balanced relative skill versus Vegas · % ↑", ylabel="Fingerprint")
-    legend(ax)
+    legend(ax, vegas_threshold=True)
     return fig
 
 
 def fingerprint_violin(frame):
-    fig, ax = figure("Fingerprint spread across architectures", "Six models per fingerprint. Smoothing is illustrative; bar = IQR; tick = median; open circle = mean.", (16, 15))
+    fig, ax = figure("Fingerprint spread across architectures", "Six models per row. Bar = IQR; tick = median; open circle = mean; gold line = Vegas.", (16, 15))
     models = frame.loc[frame.kind.eq("model")]
     for number in range(20):
         group = models.loc[models.fingerprint_number.eq(number)].copy()
@@ -421,18 +420,17 @@ def fingerprint_violin(frame):
             ax.scatter(row.balanced_skill_percent, number + offsets[j] * .30,
                        marker=MARKERS[row.model_id], color=COLORS[row.model_id],
                        s=48, edgecolor="white", linewidth=.65, zorder=7)
-    ax.scatter(0, 20.2, marker="*", color=GOLD, s=350, edgecolor=INK, zorder=7)
-    ax.axvline(0, color=GOLD, lw=1.3, alpha=.65)
-    ax.set_yticks([*range(20), 20.2],
-                  ["F17-market" if i == 17 else f"F{i}" for i in range(20)] + ["Vegas"])
-    ax.set_ylim(20.7, -.7)
+    vegas_line(ax)
+    ax.set_yticks(range(20),
+                  ["F17-market" if i == 17 else f"F{i}" for i in range(20)])
+    ax.set_ylim(19.7, -.7)
     ax.set(xlabel="Balanced relative skill versus Vegas · % ↑", ylabel="Fingerprint")
-    legend(ax)
+    legend(ax, vegas_threshold=True)
     return fig
 
 
 def fingerprint_progression(frame):
-    fig, ax = figure("Fingerprint progression", "Six architectures per fingerprint; horizontal offsets separate their points. Higher is better.")
+    fig, ax = figure("Fingerprint progression", "Six architectures per fingerprint; gold line is the zero-skill Vegas threshold.")
     fig.subplots_adjust(bottom=.20)
     for model_id in MODELS:
         group = frame.loc[frame.model_id.eq(model_id)]
@@ -440,15 +438,12 @@ def fingerprint_progression(frame):
         ax.scatter(group.fingerprint_number + offset, group.balanced_skill_percent,
                    marker=MARKERS[model_id], color=COLORS[model_id], s=75,
                    edgecolor="white", linewidth=.7, zorder=3)
-    vegas = frame.loc[frame.kind.eq("market")].iloc[0]
-    ax.scatter(20.3, vegas.balanced_skill_percent, marker="*", color=GOLD,
-               s=320, edgecolor=INK, zorder=7)
-    ax.annotate("Vegas", (20.3, 0), xytext=(-18, -30), textcoords="offset points", weight="bold", color=INK)
-    ax.set_xticks([*range(20), 20.3],
-                  [*["F17\nmarket" if i == 17 else f"F{i}" for i in range(20)], "Vegas"], rotation=45)
-    ax.set_xlim(-.6, 20.9)
+    vegas_line(ax, horizontal=True)
+    ax.set_xticks(range(20),
+                  ["F17\nmarket" if i == 17 else f"F{i}" for i in range(20)], rotation=45)
+    ax.set_xlim(-.6, 19.6)
     ax.set(xlabel="Fingerprint generation", ylabel="Balanced relative skill versus Vegas · % ↑")
-    legend(ax)
+    legend(ax, vegas_threshold=True)
     return fig
 
 
@@ -503,12 +498,12 @@ def main() -> None:
         "source_directory": source_label(),
         "render_date": RENDER_DATE,
         "market_note": MARKET_NOTE,
-        "cohort": {**COHORT, "model_points": 120, "vegas_points": 1},
+        "cohort": {**COHORT, "model_points": 120, "vegas_baselines": 1},
         "balanced_skill_percent": "mean(100*(vegas_mae-model_mae)/vegas_mae, 100*(vegas_brier-model_brier)/vegas_brier, 100*(model_su-vegas_su)/vegas_su)",
         "outputs": {path.name: sha256(path) for path in generated},
     }
     (OUTPUT / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
-    print(f"Wrote {len(PLOTS)} figures with {len(frame)} points each to {OUTPUT}")
+    print(f"Wrote {len(PLOTS)} figures from 120 model cells and one Vegas baseline to {OUTPUT}")
 
 
 if __name__ == "__main__":
