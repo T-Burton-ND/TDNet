@@ -1175,6 +1175,7 @@ z
      <use xlink:href="#m76d8c9aca9" x="289.709644" y="239.399165" style="fill: #008f93; fill-opacity: 0.84; stroke: #ffffff; stroke-opacity: 0.84; stroke-width: 0.6"/>
      <use xlink:href="#m76d8c9aca9" x="129.107484" y="174.730074" style="fill: #008f93; fill-opacity: 0.84; stroke: #ffffff; stroke-opacity: 0.84; stroke-width: 0.6"/>
      <use xlink:href="#m76d8c9aca9" x="325.945575" y="207.064619" style="fill: #008f93; fill-opacity: 0.84; stroke: #ffffff; stroke-opacity: 0.84; stroke-width: 0.6"/>
+     <use xlink:href="#m76d8c9aca9" x="109.484408" y="174.730074" style="fill: #008f93; fill-opacity: 0.84; stroke: #ffffff; stroke-opacity: 0.84; stroke-width: 0.6"/>
      <use xlink:href="#m76d8c9aca9" x="460.894843" y="320.235528" style="fill: #008f93; fill-opacity: 0.84; stroke: #ffffff; stroke-opacity: 0.84; stroke-width: 0.6"/>
      <use xlink:href="#m76d8c9aca9" x="414.154203" y="320.235528" style="fill: #008f93; fill-opacity: 0.84; stroke: #ffffff; stroke-opacity: 0.84; stroke-width: 0.6"/>
      <use xlink:href="#m76d8c9aca9" x="377.560393" y="271.73371" style="fill: #008f93; fill-opacity: 0.84; stroke: #ffffff; stroke-opacity: 0.84; stroke-width: 0.6"/>
@@ -1630,52 +1631,6 @@ z
     </g>
     <g id="line2d_29">
      <defs>
-      <path id="mf14ebfa5fd" d="M -0 7.071068
-L 7.071068 0
-L 0 -7.071068
-L -7.071068 -0
-z
-" style="stroke: #11214f; stroke-linejoin: miter"/>
-     </defs>
-     <g>
-      <use xlink:href="#mf14ebfa5fd" x="973.207375" y="236.636906" style="fill: #ff5fa2; stroke: #11214f; stroke-linejoin: miter"/>
-     </g>
-    </g>
-    <g id="text_20">
-     <!-- F19/M4 -->
-     <g style="fill: #0d0d0d" transform="translate(989.407375 239.786906) scale(0.09 -0.09)">
-      <defs>
-       <path id="DejaVuSans-46" d="M 628 4666
-L 3309 4666
-L 3309 4134
-L 1259 4134
-L 1259 2759
-L 3109 2759
-L 3109 2228
-L 1259 2228
-L 1259 0
-L 628 0
-L 628 4666
-z
-" transform="scale(0.015625)"/>
-       <path id="DejaVuSans-2f" d="M 1625 4666
-L 2156 4666
-L 531 -594
-L 0 -594
-L 1625 4666
-z
-" transform="scale(0.015625)"/>
-      </defs>
-      <use xlink:href="#DejaVuSans-46"/>
-      <use xlink:href="#DejaVuSans-31" x="57.519531"/>
-      <use xlink:href="#DejaVuSans-39" x="121.142578"/>
-      <use xlink:href="#DejaVuSans-2f" x="184.765625"/>
-      <use xlink:href="#DejaVuSans-4d" x="218.457031"/>
-      <use xlink:href="#DejaVuSans-34" x="304.736328"/>
-     </g>
-    </g>
-    <g id="line2d_30">
-     <defs>
       <path id="m080b1a0718" d="M 0 -7
 L -1.571598 -2.163119
 L -6.657396 -2.163119
@@ -1690,12 +1645,12 @@ z
 " style="stroke: #11214f; stroke-linejoin: bevel"/>
      </defs>
      <g>
-      <use xlink:href="#m080b1a0718" x="973.207375" y="253.447219" style="fill: #d4b56e; stroke: #11214f; stroke-linejoin: bevel"/>
+      <use xlink:href="#m080b1a0718" x="973.207375" y="236.636906" style="fill: #d4b56e; stroke: #11214f; stroke-linejoin: bevel"/>
      </g>
     </g>
-    <g id="text_21">
+    <g id="text_20">
      <!-- Vegas -->
-     <g style="fill: #0d0d0d" transform="translate(989.407375 256.597219) scale(0.09 -0.09)">
+     <g style="fill: #0d0d0d" transform="translate(989.407375 239.786906) scale(0.09 -0.09)">
       <defs>
        <path id="DejaVuSans-56" d="M 1831 0
 L 50 4666
@@ -1718,19 +1673,6 @@ z
    </g>
    <g id="PathCollection_7">
     <defs>
-     <path id="mbab098ad54" d="M -0 8.717798
-L 8.717798 0
-L 0 -8.717798
-L -8.717798 -0
-z
-" style="stroke: #11214f; stroke-width: 1.2"/>
-    </defs>
-    <g clip-path="url(#pf388267069)">
-     <use xlink:href="#mbab098ad54" x="109.484408" y="174.730074" style="fill: #ff5fa2; stroke: #11214f; stroke-width: 1.2"/>
-    </g>
-   </g>
-   <g id="PathCollection_8">
-    <defs>
      <path id="ma92287498c" d="M 0 -7.797435
 L -1.750633 -2.40954
 L -7.415802 -2.40954
@@ -1749,7 +1691,7 @@ z
     </g>
    </g>
   </g>
-  <g id="text_22">
+  <g id="text_21">
    <!-- TDNET  /  2026 SCIENTIFIC ROSTER -->
    <g style="fill: #5a606b" transform="translate(52.579375 14.798437) scale(0.1 -0.1)">
     <defs>
@@ -2052,7 +1994,7 @@ z
     <use xlink:href="#DejaVuSans-Bold-52" x="1884.667969"/>
    </g>
   </g>
-  <g id="text_23">
+  <g id="text_22">
    <!-- Can confidence identify the safer picks? -->
    <g style="fill: #11214f" transform="translate(52.579375 53.786437) scale(0.23 -0.23)">
     <defs>
@@ -2460,7 +2402,7 @@ z
     <use xlink:href="#DejaVuSans-Bold-3f" x="2202.050781"/>
    </g>
   </g>
-  <g id="text_24">
+  <g id="text_23">
    <!-- AURC averages error as coverage rises; top-quartile accuracy uses the 93 most-confident games. -->
    <g style="fill: #5a606b" transform="translate(52.579375 87.986437) scale(0.11 -0.11)">
     <defs>
@@ -2724,7 +2666,7 @@ z
     <use xlink:href="#DejaVuSans-2e" x="4855.84375"/>
    </g>
   </g>
-  <g id="text_25">
+  <g id="text_24">
    <!-- Paired through Week 7: 379 spread games; 372 moneyline games. Week 7 market quotes were retrieved after games; quote times unverified. -->
    <g style="fill: #5a606b" transform="translate(52.579375 633.818437) scale(0.09 -0.09)">
     <defs>

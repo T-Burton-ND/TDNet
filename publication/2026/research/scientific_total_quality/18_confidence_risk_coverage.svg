@@ -1410,7 +1410,7 @@ L 941.597549 401.787369
 L 944.123865 404.472152
 L 951.702813 402.195654
 L 951.702813 402.195654
-" clip-path="url(#ped53b10960)" style="fill: none; stroke: #ff5fa2; stroke-width: 2.2; stroke-linecap: round"/>
+" clip-path="url(#ped53b10960)" style="fill: none; stroke: #008f93; stroke-width: 2.2; stroke-linecap: round"/>
    </g>
    <g id="line2d_29">
     <path d="M 59.913339 122.186437
@@ -1800,7 +1800,7 @@ z
      <path d="M 69.902813 520.8505
 L 79.902813 520.8505
 L 89.902813 520.8505
-" style="fill: none; stroke: #ff5fa2; stroke-width: 2.2; stroke-linecap: round"/>
+" style="fill: none; stroke: #008f93; stroke-width: 2.2; stroke-linecap: round"/>
     </g>
     <g id="text_17">
      <!-- F19/M4 -->

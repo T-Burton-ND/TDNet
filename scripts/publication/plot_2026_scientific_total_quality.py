@@ -39,7 +39,6 @@ PAPER = PALETTE["parchment"]
 PANEL = "#FFFCF7"
 INK = PALETTE["midnightGridiron"]
 MUTED = PALETTE["steelGrey"]
-PINK = PALETTE["edgePink"]
 GOLD = PALETTE["brass"]
 COLORS = {
     "M1": PALETTE["projectorBlue"], "M2": PALETTE["projectorGreen"],
@@ -193,10 +192,9 @@ def legend(ax, *, loc="upper left", anchor=(1.01, 1.0), neutral=False):
                       markerfacecolor="#54718F" if neutral else COLORS[m],
                       markeredgecolor="white", markersize=9,
                       label=f"{m} · {NAMES[m]}") for m in MODELS]
-    handles += [Line2D([0], [0], marker="D", linestyle="", color="none",
-                       markerfacecolor=PINK, markeredgecolor=INK, markersize=10, label="F19/M4"),
-                Line2D([0], [0], marker="*", linestyle="", color="none",
-                       markerfacecolor=GOLD, markeredgecolor=INK, markersize=14, label="Vegas")]
+    handles.append(Line2D([0], [0], marker="*", linestyle="", color="none",
+                          markerfacecolor=GOLD, markeredgecolor=INK,
+                          markersize=14, label="Vegas"))
     ax.legend(handles=handles, loc=loc, bbox_to_anchor=anchor, frameon=False,
               labelspacing=.9, fontsize=9)
 
@@ -206,7 +204,7 @@ def plot_points(ax, frame: pd.DataFrame, x: str, y: str, *, size=72, brier_color
     brier_min = .155 if SOURCE == DEFAULT_SOURCE else min(.155, float(frame.brier.min()))
     brier_max = .24 if SOURCE == DEFAULT_SOURCE else max(.24, float(frame.brier.max()))
     for model_id in MODELS:
-        group = models.loc[models.model_id.eq(model_id) & models.label.ne("F19/M4")]
+        group = models.loc[models.model_id.eq(model_id)]
         if brier_color:
             ax.scatter(group[x], group[y], c=group.brier, cmap="Blues_r", vmin=brier_min,
                        vmax=brier_max, marker=MARKERS[model_id], s=size, alpha=.82,
@@ -214,36 +212,30 @@ def plot_points(ax, frame: pd.DataFrame, x: str, y: str, *, size=72, brier_color
         else:
             ax.scatter(group[x], group[y], color=COLORS[model_id], marker=MARKERS[model_id],
                        s=size, alpha=.84, edgecolors="white", linewidths=.6, zorder=3)
-    pink = frame.loc[frame.label.eq("F19/M4")].iloc[0]
     vegas = frame.loc[frame.kind.eq("market")].iloc[0]
-    ax.scatter([pink[x]], [pink[y]], color=PINK, marker="D", s=size * 2.0,
-               edgecolors=INK, linewidths=1.2, zorder=6)
     ax.scatter([vegas[x]], [vegas[y]], color=GOLD, marker="*", s=size * 3.2,
                edgecolors=INK, linewidths=1.1, zorder=7)
-    return pink, vegas
+    return vegas
 
 
-def annotate_special(ax, pink, vegas, x, y, pink_offset=(12, -23), vegas_offset=(12, 10)):
-    for row, label, offset, color in ((pink, "F19/M4", pink_offset, PINK),
-                                      (vegas, "Vegas", vegas_offset, GOLD)):
-        ax.annotate(label, (row[x], row[y]), xytext=offset, textcoords="offset points",
-                    color=INK, fontsize=10, weight="bold",
-                    bbox={"boxstyle": "round,pad=.25", "facecolor": PANEL,
-                          "edgecolor": color, "linewidth": 1.2})
+def annotate_market(ax, vegas, x, y, offset=(12, 10)):
+    ax.annotate("Vegas", (vegas[x], vegas[y]), xytext=offset,
+                textcoords="offset points", color=INK, fontsize=10,
+                weight="bold", bbox={"boxstyle": "round,pad=.25",
+                                     "facecolor": PANEL, "edgecolor": GOLD,
+                                     "linewidth": 1.2})
 
 
 def metric_landscape(frame):
     fig, ax = figure("Error landscape", "Each mark is one model. Left and down are better; size shows straight-up wins.")
     for model_id in MODELS:
-        group = frame.loc[frame.model_id.eq(model_id) & frame.label.ne("F19/M4")]
+        group = frame.loc[frame.model_id.eq(model_id)]
         ax.scatter(group.mae, group.brier, marker=MARKERS[model_id], color=COLORS[model_id],
                    s=42 + (group.su_correct - 230) * 1.6, alpha=.82,
                    edgecolors="white", linewidth=.6, zorder=3)
-    pink = frame.loc[frame.label.eq("F19/M4")].iloc[0]
     vegas = frame.loc[frame.kind.eq("market")].iloc[0]
-    ax.scatter(pink.mae, pink.brier, s=170, marker="D", color=PINK, edgecolor=INK, zorder=6)
     ax.scatter(vegas.mae, vegas.brier, s=300, marker="*", color=GOLD, edgecolor=INK, zorder=7)
-    annotate_special(ax, pink, vegas, "mae", "brier", (18, 13), (17, -25))
+    annotate_market(ax, vegas, "mae", "brier", (17, -25))
     ax.set(xlabel="Margin MAE · points ↓", ylabel="Brier score ↓")
     if SOURCE == DEFAULT_SOURCE:
         ax.set(xlim=(11.1, 17.1), ylim=(.151, .243))
@@ -253,8 +245,8 @@ def metric_landscape(frame):
 
 def accuracy_landscape(frame):
     fig, ax = figure("Winner versus margin quality", "Each mark is one model. Left and up are better; darker blue means lower Brier score.")
-    pink, vegas = plot_points(ax, frame, "mae", "su_accuracy", brier_color=True)
-    annotate_special(ax, pink, vegas, "mae", "su_accuracy", (18, 12), (18, -25))
+    vegas = plot_points(ax, frame, "mae", "su_accuracy", brier_color=True)
+    annotate_market(ax, vegas, "mae", "su_accuracy", (18, -25))
     ax.set(xlabel="Margin MAE · points ↓", ylabel="Straight-up accuracy ↑")
     if SOURCE == DEFAULT_SOURCE:
         ax.set(xlim=(11.1, 17.1), ylim=(.605, .795))
@@ -274,23 +266,22 @@ def ranked_ladder(frame):
         item.set_y(y)
     fig.subplots_adjust(left=.12, right=.86, top=.927, bottom=.055)
     for pos, row in ordered.iterrows():
-        color = GOLD if row.kind == "market" else PINK if row.label == "F19/M4" else COLORS[row.model_id]
+        color = GOLD if row.kind == "market" else COLORS[row.model_id]
         marker = "*" if row.kind == "market" else MARKERS[row.model_id]
         ax.scatter(row.balanced_skill_percent, pos, marker=marker, color=color,
-                   s=165 if row.kind == "market" else 95 if row.label == "F19/M4" else 35,
-                   edgecolor=INK if row.kind == "market" or row.label == "F19/M4" else "white",
+                   s=165 if row.kind == "market" else 35,
+                   edgecolor=INK if row.kind == "market" else "white",
                    linewidth=.75, zorder=3)
     ax.axvline(0, color=GOLD, lw=1.5, alpha=.65, zorder=1)
     ax.set_ylim(len(ordered) + .5, -1.5)
     ax.set_yticks(range(0, len(ordered), 10))
     ax.set_yticklabels([str(i + 1) for i in range(0, len(ordered), 10)])
     ax.set(xlabel="Balanced relative skill versus Vegas · % ↑", ylabel="Rank among 121 points")
-    for label in ("Vegas", "F19/M4"):
-        idx = int(ordered.index[ordered.label.eq(label)][0])
-        row = ordered.iloc[idx]
-        ax.annotate(f"{label}  {row.balanced_skill_percent:+.2f}%",
-                    (row.balanced_skill_percent, idx), xytext=(-75, -5), textcoords="offset points",
-                    fontsize=10, weight="bold", color=INK)
+    idx = int(ordered.index[ordered.label.eq("Vegas")][0])
+    row = ordered.iloc[idx]
+    ax.annotate(f"Vegas  {row.balanced_skill_percent:+.2f}%",
+                (row.balanced_skill_percent, idx), xytext=(-75, -5),
+                textcoords="offset points", fontsize=10, weight="bold", color=INK)
     legend(ax)
     return fig
 
@@ -305,11 +296,8 @@ def roster_matrix(frame):
     for _, row in models.iterrows():
         x = MODELS.index(row.model_id)
         y = row.fingerprint_number
-        if row.label == "F19/M4":
-            ax.scatter(x, y, s=260, marker="D", color=PINK, edgecolor=INK, linewidth=1, zorder=6)
-        else:
-            ax.scatter(x, y, s=250, marker="o", c=[row.balanced_skill_percent],
-                       cmap=cmap, norm=norm, edgecolor="white", linewidth=.8, zorder=3)
+        ax.scatter(x, y, s=250, marker="o", c=[row.balanced_skill_percent],
+                   cmap=cmap, norm=norm, edgecolor="white", linewidth=.8, zorder=3)
     ax.scatter(6.45, 19, s=400, marker="*", color=GOLD, edgecolor=INK, zorder=7)
     ax.set_xticks([*range(6), 6.45], [*MODELS, "Vegas"])
     ax.set_yticks(range(20), ["F17-market" if i == 17 else f"F{i}" for i in range(20)])
@@ -346,10 +334,9 @@ def architecture_swarm(frame):
         xs = group.balanced_skill_percent.to_numpy()
         offsets = _swarm_offsets(xs)
         for j, row in group.iterrows():
-            color = PINK if row.label == "F19/M4" else COLORS[model_id]
             ax.scatter(row.balanced_skill_percent, i + offsets[j] * .45, marker=MARKERS[model_id],
-                       color=color, s=155 if row.label == "F19/M4" else 80,
-                       edgecolor=INK if row.label == "F19/M4" else "white", linewidth=.8, zorder=4)
+                       color=COLORS[model_id], s=80, edgecolor="white",
+                       linewidth=.8, zorder=4)
     vegas = frame.loc[frame.kind.eq("market")].iloc[0]
     ax.scatter(vegas.balanced_skill_percent, 6.25, marker="*", color=GOLD,
                s=350, edgecolor=INK, zorder=7)
@@ -386,11 +373,9 @@ def architecture_violin(frame):
         _violin(ax, xs, i, COLORS[model_id])
         offsets = _swarm_offsets(xs)
         for j, row in group.iterrows():
-            special = row.label == "F19/M4"
             ax.scatter(row.balanced_skill_percent, i + offsets[j] * .30,
-                       marker=MARKERS[model_id], color=PINK if special else COLORS[model_id],
-                       s=145 if special else 42, edgecolor=INK if special else "white",
-                       linewidth=.8, zorder=7)
+                       marker=MARKERS[model_id], color=COLORS[model_id],
+                       s=42, edgecolor="white", linewidth=.8, zorder=7)
     ax.scatter(0, 6.25, marker="*", color=GOLD, s=320, edgecolor=INK, zorder=7)
     ax.axvline(0, color=GOLD, lw=1.4, alpha=.65)
     ax.set_yticks([*range(6), 6.25], [f"{m} · {NAMES[m]}" for m in MODELS] + ["Vegas"])
@@ -409,11 +394,9 @@ def fingerprint_swarm(frame):
         xs = group.balanced_skill_percent.to_numpy()
         offsets = _swarm_offsets(xs)
         for j, row in group.iterrows():
-            special = row.label == "F19/M4"
             ax.scatter(row.balanced_skill_percent, number + offsets[j] * .36,
-                       marker=MARKERS[row.model_id], color=PINK if special else COLORS[row.model_id],
-                       s=150 if special else 67, edgecolor=INK if special else "white",
-                       linewidth=.75, zorder=5)
+                       marker=MARKERS[row.model_id], color=COLORS[row.model_id],
+                       s=67, edgecolor="white", linewidth=.75, zorder=5)
     ax.scatter(0, 20.2, marker="*", color=GOLD, s=350, edgecolor=INK, zorder=7)
     ax.axvline(0, color=GOLD, lw=1.3, alpha=.65)
     ax.set_yticks([*range(20), 20.2],
@@ -435,11 +418,9 @@ def fingerprint_violin(frame):
         _violin(ax, xs, number, PALETTE["projectorBlue"], width=.65)
         offsets = _swarm_offsets(xs)
         for j, row in group.iterrows():
-            special = row.label == "F19/M4"
             ax.scatter(row.balanced_skill_percent, number + offsets[j] * .30,
-                       marker=MARKERS[row.model_id], color=PINK if special else COLORS[row.model_id],
-                       s=150 if special else 48, edgecolor=INK if special else "white",
-                       linewidth=.65, zorder=7)
+                       marker=MARKERS[row.model_id], color=COLORS[row.model_id],
+                       s=48, edgecolor="white", linewidth=.65, zorder=7)
     ax.scatter(0, 20.2, marker="*", color=GOLD, s=350, edgecolor=INK, zorder=7)
     ax.axvline(0, color=GOLD, lw=1.3, alpha=.65)
     ax.set_yticks([*range(20), 20.2],
@@ -454,20 +435,14 @@ def fingerprint_progression(frame):
     fig, ax = figure("Fingerprint progression", "Six architectures per fingerprint; horizontal offsets separate their points. Higher is better.")
     fig.subplots_adjust(bottom=.20)
     for model_id in MODELS:
-        group = frame.loc[frame.model_id.eq(model_id) & frame.label.ne("F19/M4")]
+        group = frame.loc[frame.model_id.eq(model_id)]
         offset = (MODELS.index(model_id) - 2.5) * .11
         ax.scatter(group.fingerprint_number + offset, group.balanced_skill_percent,
                    marker=MARKERS[model_id], color=COLORS[model_id], s=75,
                    edgecolor="white", linewidth=.7, zorder=3)
-    pink = frame.loc[frame.label.eq("F19/M4")].iloc[0]
     vegas = frame.loc[frame.kind.eq("market")].iloc[0]
-    pink_x = 19 + (MODELS.index("M4") - 2.5) * .11
-    ax.scatter(pink_x, pink.balanced_skill_percent, marker="D", color=PINK,
-               s=175, edgecolor=INK, zorder=6)
     ax.scatter(20.3, vegas.balanced_skill_percent, marker="*", color=GOLD,
                s=320, edgecolor=INK, zorder=7)
-    ax.annotate("F19/M4", (pink_x, pink.balanced_skill_percent), xytext=(-65, 16),
-                textcoords="offset points", weight="bold", color=INK)
     ax.annotate("Vegas", (20.3, 0), xytext=(-18, -30), textcoords="offset points", weight="bold", color=INK)
     ax.set_xticks([*range(20), 20.3],
                   [*["F17\nmarket" if i == 17 else f"F{i}" for i in range(20)], "Vegas"], rotation=45)

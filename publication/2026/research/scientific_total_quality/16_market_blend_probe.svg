@@ -1115,6 +1115,7 @@ z
      <use xlink:href="#m76d8c9aca9" x="364.500517" y="278.936682" style="fill: #008f93; fill-opacity: 0.84; stroke: #ffffff; stroke-opacity: 0.84; stroke-width: 0.6"/>
      <use xlink:href="#m76d8c9aca9" x="157.364459" y="163.539964" style="fill: #008f93; fill-opacity: 0.84; stroke: #ffffff; stroke-opacity: 0.84; stroke-width: 0.6"/>
      <use xlink:href="#m76d8c9aca9" x="390.409771" y="292.047826" style="fill: #008f93; fill-opacity: 0.84; stroke: #ffffff; stroke-opacity: 0.84; stroke-width: 0.6"/>
+     <use xlink:href="#m76d8c9aca9" x="127.651353" y="159.710466" style="fill: #008f93; fill-opacity: 0.84; stroke: #ffffff; stroke-opacity: 0.84; stroke-width: 0.6"/>
      <use xlink:href="#m76d8c9aca9" x="565.016073" y="415.63912" style="fill: #008f93; fill-opacity: 0.84; stroke: #ffffff; stroke-opacity: 0.84; stroke-width: 0.6"/>
      <use xlink:href="#m76d8c9aca9" x="519.76948" y="395.480482" style="fill: #008f93; fill-opacity: 0.84; stroke: #ffffff; stroke-opacity: 0.84; stroke-width: 0.6"/>
      <use xlink:href="#m76d8c9aca9" x="476.800962" y="349.287744" style="fill: #008f93; fill-opacity: 0.84; stroke: #ffffff; stroke-opacity: 0.84; stroke-width: 0.6"/>
@@ -1568,75 +1569,6 @@ z
     </g>
     <g id="line2d_37">
      <defs>
-      <path id="mf14ebfa5fd" d="M -0 7.071068
-L 7.071068 0
-L 0 -7.071068
-L -7.071068 -0
-z
-" style="stroke: #11214f; stroke-linejoin: miter"/>
-     </defs>
-     <g>
-      <use xlink:href="#mf14ebfa5fd" x="987.949562" y="236.636906" style="fill: #ff5fa2; stroke: #11214f; stroke-linejoin: miter"/>
-     </g>
-    </g>
-    <g id="text_23">
-     <!-- F19/M4 -->
-     <g style="fill: #0d0d0d" transform="translate(1004.149563 239.786906) scale(0.09 -0.09)">
-      <defs>
-       <path id="DejaVuSans-46" d="M 628 4666
-L 3309 4666
-L 3309 4134
-L 1259 4134
-L 1259 2759
-L 3109 2759
-L 3109 2228
-L 1259 2228
-L 1259 0
-L 628 0
-L 628 4666
-z
-" transform="scale(0.015625)"/>
-       <path id="DejaVuSans-39" d="M 703 97
-L 703 672
-Q 941 559 1184 500
-Q 1428 441 1663 441
-Q 2288 441 2617 861
-Q 2947 1281 2994 2138
-Q 2813 1869 2534 1725
-Q 2256 1581 1919 1581
-Q 1219 1581 811 2004
-Q 403 2428 403 3163
-Q 403 3881 828 4315
-Q 1253 4750 1959 4750
-Q 2769 4750 3195 4129
-Q 3622 3509 3622 2328
-Q 3622 1225 3098 567
-Q 2575 -91 1691 -91
-Q 1453 -91 1209 -44
-Q 966 3 703 97
-z
-M 1959 2075
-Q 2384 2075 2632 2365
-Q 2881 2656 2881 3163
-Q 2881 3666 2632 3958
-Q 2384 4250 1959 4250
-Q 1534 4250 1286 3958
-Q 1038 3666 1038 3163
-Q 1038 2656 1286 2365
-Q 1534 2075 1959 2075
-z
-" transform="scale(0.015625)"/>
-      </defs>
-      <use xlink:href="#DejaVuSans-46"/>
-      <use xlink:href="#DejaVuSans-31" x="57.519531"/>
-      <use xlink:href="#DejaVuSans-39" x="121.142578"/>
-      <use xlink:href="#DejaVuSans-2f" x="184.765625"/>
-      <use xlink:href="#DejaVuSans-4d" x="218.457031"/>
-      <use xlink:href="#DejaVuSans-34" x="304.736328"/>
-     </g>
-    </g>
-    <g id="line2d_38">
-     <defs>
       <path id="m080b1a0718" d="M 0 -7
 L -1.571598 -2.163119
 L -6.657396 -2.163119
@@ -1651,12 +1583,12 @@ z
 " style="stroke: #11214f; stroke-linejoin: bevel"/>
      </defs>
      <g>
-      <use xlink:href="#m080b1a0718" x="987.949562" y="253.447219" style="fill: #d4b56e; stroke: #11214f; stroke-linejoin: bevel"/>
+      <use xlink:href="#m080b1a0718" x="987.949562" y="236.636906" style="fill: #d4b56e; stroke: #11214f; stroke-linejoin: bevel"/>
      </g>
     </g>
-    <g id="text_24">
+    <g id="text_23">
      <!-- Vegas -->
-     <g style="fill: #0d0d0d" transform="translate(1004.149563 256.597219) scale(0.09 -0.09)">
+     <g style="fill: #0d0d0d" transform="translate(1004.149563 239.786906) scale(0.09 -0.09)">
       <use xlink:href="#DejaVuSans-56"/>
       <use xlink:href="#DejaVuSans-65" x="60.658203"/>
       <use xlink:href="#DejaVuSans-67" x="122.181641"/>
@@ -1666,19 +1598,6 @@ z
     </g>
    </g>
    <g id="PathCollection_7">
-    <defs>
-     <path id="mbab098ad54" d="M -0 8.717798
-L 8.717798 0
-L 0 -8.717798
-L -8.717798 -0
-z
-" style="stroke: #11214f; stroke-width: 1.2"/>
-    </defs>
-    <g clip-path="url(#p79a962579c)">
-     <use xlink:href="#mbab098ad54" x="127.651353" y="159.710466" style="fill: #ff5fa2; stroke: #11214f; stroke-width: 1.2"/>
-    </g>
-   </g>
-   <g id="PathCollection_8">
     <defs>
      <path id="ma92287498c" d="M 0 -7.797435
 L -1.750633 -2.40954
@@ -1698,7 +1617,7 @@ z
     </g>
    </g>
   </g>
-  <g id="text_25">
+  <g id="text_24">
    <!-- TDNET  /  2026 SCIENTIFIC ROSTER -->
    <g style="fill: #5a606b" transform="translate(67.321563 14.798437) scale(0.1 -0.1)">
     <defs>
@@ -2001,7 +1920,7 @@ z
     <use xlink:href="#DejaVuSans-Bold-52" x="1884.667969"/>
    </g>
   </g>
-  <g id="text_26">
+  <g id="text_25">
    <!-- Does blending add anything to Vegas? -->
    <g style="fill: #11214f" transform="translate(67.321563 53.786437) scale(0.23 -0.23)">
     <defs>
@@ -2383,7 +2302,7 @@ z
     <use xlink:href="#DejaVuSans-Bold-3f" x="2111.980469"/>
    </g>
   </g>
-  <g id="text_27">
+  <g id="text_26">
    <!-- A prespecified 50/50 probability blend; positive vertical gain improves Vegas Brier. No weight tuning. -->
    <g style="fill: #5a606b" transform="translate(67.321563 87.986437) scale(0.11 -0.11)">
     <defs>
@@ -2647,7 +2566,7 @@ z
     <use xlink:href="#DejaVuSans-2e" x="5026.472656"/>
    </g>
   </g>
-  <g id="text_28">
+  <g id="text_27">
    <!-- Paired through Week 7: 379 spread games; 372 moneyline games. Week 7 market quotes were retrieved after games; quote times unverified. -->
    <g style="fill: #5a606b" transform="translate(67.321563 633.818437) scale(0.09 -0.09)">
     <defs>
@@ -2713,6 +2632,36 @@ L 1409 3309
 L 1409 2516
 L 750 2516
 L 750 3309
+z
+" transform="scale(0.015625)"/>
+     <path id="DejaVuSans-39" d="M 703 97
+L 703 672
+Q 941 559 1184 500
+Q 1428 441 1663 441
+Q 2288 441 2617 861
+Q 2947 1281 2994 2138
+Q 2813 1869 2534 1725
+Q 2256 1581 1919 1581
+Q 1219 1581 811 2004
+Q 403 2428 403 3163
+Q 403 3881 828 4315
+Q 1253 4750 1959 4750
+Q 2769 4750 3195 4129
+Q 3622 3509 3622 2328
+Q 3622 1225 3098 567
+Q 2575 -91 1691 -91
+Q 1453 -91 1209 -44
+Q 966 3 703 97
+z
+M 1959 2075
+Q 2384 2075 2632 2365
+Q 2881 2656 2881 3163
+Q 2881 3666 2632 3958
+Q 2384 4250 1959 4250
+Q 1534 4250 1286 3958
+Q 1038 3666 1038 3163
+Q 1038 2656 1286 2365
+Q 1534 2075 1959 2075
 z
 " transform="scale(0.015625)"/>
      <path id="DejaVuSans-71" d="M 947 1747

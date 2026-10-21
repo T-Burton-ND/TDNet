@@ -286,7 +286,7 @@ def _save(fig, stem: str) -> None:
 def plot_reliability(selected: dict[str, pd.DataFrame]) -> pd.DataFrame:
     fig, ax = style.figure("Probability reliability", f"Ten equal-count bins per forecaster, {style.COHORT['moneyline_games']} shared games. Dots show observed home-win frequency.")
     ax.plot([0, 1], [0, 1], color=style.MUTED, lw=1.2, alpha=.6)
-    colors = {"Vegas": style.GOLD, "F19/M4": style.PINK,
+    colors = {"Vegas": style.GOLD, "F19/M4": style.COLORS["M4"],
               "F19/M1": style.COLORS["M1"], "120-model consensus": style.MUTED}
     rows = []
     for label, frame in selected.items():
@@ -301,7 +301,8 @@ def plot_reliability(selected: dict[str, pd.DataFrame]) -> pd.DataFrame:
             y.append(observed)
             rows.append({"label": label, "bin": index, "games": len(group),
                          "mean_forecast_probability": mean_p, "observed_home_win_rate": observed})
-        ax.plot(x, y, marker="o", ms=7, lw=2, color=colors[label], label=label)
+        marker = style.MARKERS["M4"] if label == "F19/M4" else "o"
+        ax.plot(x, y, marker=marker, ms=7, lw=2, color=colors[label], label=label)
     ax.set(xlim=(0, 1), ylim=(0, 1), xlabel="Mean forecast home-win probability",
            ylabel="Observed home-win frequency")
     ax.legend(loc="lower right", frameon=False)
@@ -311,7 +312,7 @@ def plot_reliability(selected: dict[str, pd.DataFrame]) -> pd.DataFrame:
 
 def plot_risk_coverage(selected: dict[str, pd.DataFrame]) -> pd.DataFrame:
     fig, ax = style.figure("When confidence chooses the games", "Coverage is the fraction of most-confident picks retained. Higher accuracy is better.")
-    colors = {"Vegas": style.GOLD, "F19/M4": style.PINK,
+    colors = {"Vegas": style.GOLD, "F19/M4": style.COLORS["M4"],
               "F19/M1": style.COLORS["M1"], "120-model consensus": style.MUTED}
     rows = []
     lowest_plotted_accuracy = 1.0
