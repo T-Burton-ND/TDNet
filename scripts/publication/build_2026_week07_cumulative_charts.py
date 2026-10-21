@@ -1,7 +1,7 @@
-"""Publish cumulative 2026 charts with an honest Week 7 replay boundary.
+"""Publish cumulative 2026 charts with retrospective replay boundaries.
 
-Weeks 0–6 are scored frozen pregame forecasts. Week 7 is a retrospective
-replay, so its endpoint is dashed and has no market or ATS comparison.
+The original rosters have frozen Weeks 0–6 and a Week 7 replay. The expanded
+F0–F19 roster has separate retrospective Week 6–7 diagnostics.
 """
 
 from __future__ import annotations
@@ -261,43 +261,6 @@ def _plot_scorecard(scorecard: pd.DataFrame, title: str, path: Path) -> None:
     plt.close(fig)
 
 
-def _plot_expanded_status(source: Path, target: Path) -> None:
-    """Show observed F0–F19 history and the two unsupported completed weeks."""
-    models = pd.read_csv(source / "scientific_2026_model_cumulative_performance.csv")
-    consensus = pd.read_csv(source / "scientific_2026_consensus_cumulative_performance.csv")
-    specs = (
-        ("margin_mae", "Margin MAE", False),
-        ("winner_accuracy", "Straight-up accuracy", True),
-        ("brier_score", "Brier score", False),
-    )
-    fig, axes = plt.subplots(1, 3, figsize=(20, 7), facecolor="#F7F4ED")
-    for axis, (metric, label, percent) in zip(axes, specs):
-        for _, group in models.groupby("series_id"):
-            axis.plot(group.week, group[metric], color="#647D98", alpha=0.2, lw=1)
-        for series_id, color, style, display in (
-            ("full_common_120", "#D62F76", "-", "F0–F19 common consensus"),
-            ("full_available_120", "#9F5AB0", "--", "F0–F19 available consensus"),
-            ("archived_pregame_market", "#BD8B17", "--", "Archived market"),
-        ):
-            group = consensus.loc[consensus.series_id.eq(series_id)].sort_values("week")
-            axis.plot(group.week, group[metric], color=color, ls=style, marker="o", lw=2.5, label=display)
-        axis.axvspan(5.5, 7.35, color="#DADADA", alpha=0.7)
-        axis.text(6.5, 0.5, "No F0–F19\nforecasts", ha="center", va="center", transform=axis.get_xaxis_transform(), fontsize=10, color="#5A6066")
-        axis.set_title(label, loc="left", weight="bold", fontsize=15)
-        axis.set_xticks(range(1, 8))
-        axis.set_xlim(0.8, 7.35)
-        axis.set_xlabel("Completed week")
-        if percent:
-            axis.yaxis.set_major_formatter(PercentFormatter(1))
-        axis.grid(alpha=0.2)
-        axis.spines[["top", "right"]].set_visible(False)
-        axis.legend(frameon=False, fontsize=8)
-    fig.suptitle("2026 expanded scientific F0–F19 · available cumulative performance", fontsize=21, weight="bold")
-    fig.text(0.5, 0.02, "The 120 research model cells cover Weeks 1–5. Weeks 6–7 have no expanded feature matrices or forecasts; shaded area has no performance values.", ha="center", fontsize=10)
-    fig.savefig(target, dpi=180, bbox_inches="tight", facecolor=fig.get_facecolor())
-    plt.close(fig)
-
-
 def main() -> None:
     OUTPUT.mkdir(parents=True, exist_ok=True)
     all_sources: dict[str, str] = {}
@@ -331,27 +294,25 @@ def main() -> None:
             comparison_source /= "full_f0_f8"
         comparison_source /= "scientific_rolling_cumulative_performance.csv"
         all_sources[str(comparison_source.relative_to(ROOT))] = _hash(comparison_source)
-    expanded = PUB / "week_05/post_game/scientific/current_season_f0_f19"
     expanded_output = OUTPUT / "scientific_f0_f19"
-    expanded_output.mkdir(exist_ok=True)
-    expanded_status = expanded_output / "cumulative_available_performance.png"
-    _plot_expanded_status(expanded, expanded_status)
-    for name in ("scientific_2026_model_cumulative_performance.csv", "scientific_2026_consensus_cumulative_performance.csv"):
-        source = expanded / name
-        all_sources[str(source.relative_to(ROOT))] = _hash(source)
+    expanded_manifest = REPLAY / "scientific/full_f0_f19/backfill_manifest.json"
+    if not expanded_manifest.exists():
+        raise FileNotFoundError("Build the Week 6–7 F0–F19 retrospective backfill first")
+    all_sources[str(expanded_manifest.relative_to(ROOT))] = _hash(expanded_manifest)
     artifacts["scientific_f0_f19"] = {
-        "coverage_figure_png": str(expanded_status.relative_to(ROOT)),
-        "performance_png": str((expanded / "scientific_2026_full_f0_f19_cumulative_performance.png").relative_to(ROOT)),
-        "scorecard_png": str((expanded / "scientific_2026_full_f0_f19_cumulative_model_scorecard.png").relative_to(ROOT)),
-        "scorecard_csv": str((expanded / "scientific_2026_full_f0_f19_common_scorecard.csv").relative_to(ROOT)),
-        "latest_scored_week": "5",
-        "status": "No Week 6 or 7 expanded feature matrix; cannot extend performance without fabricating forecasts.",
+        "coverage_figure_png": str((expanded_output / "cumulative_available_performance.png").relative_to(ROOT)),
+        "performance_png": str((expanded_output / "cumulative_performance.png").relative_to(ROOT)),
+        "scorecard_png": str((expanded_output / "cumulative_model_scorecard.png").relative_to(ROOT)),
+        "scorecard_csv": str((expanded_output / "cumulative_model_scorecard.csv").relative_to(ROOT)),
+        "latest_scored_week": "7",
+        "status": "Weeks 6–7 are retrospective, not issued pregame F0–F19 forecasts; Week 7 F7/F17/F19 market inputs were retrieved after games.",
     }
     manifest = {
         "season": 2026,
         "latest_completed_week": 7,
         "frozen_forecast_weeks": list(range(7)),
         "retrospective_replay_week": 7,
+        "expanded_retrospective_backfill_weeks": [6, 7],
         "replay_games": 59,
         "ats_through_week": 6,
         "artifacts": artifacts,
@@ -369,7 +330,7 @@ def main() -> None:
         "",
         "Margin (33), original scientific F0–F6 (42), and full scientific F0–F8 have current model and consensus CSVs and figures here. The full roster had 54 models through Week 6 and 49 replayable cells in Week 7; five F7 market-dependent models stop at Week 6. Weeks 0–6 are frozen pregame forecasts. Week 7 is a 59-game retrospective replay made after the games; the dotted endpoint is not a prospective result. Published Vegas MAE and Brier baselines appear through Week 6 only; their Week 7 point is missing because no historical Week 7 market snapshot was frozen. The Week 7 scorecards retain a separate 325-game Vegas row clearly labeled as stopping at Week 6. Vegas Brier uses fewer eligible games than the model rows. ATS is omitted from these new figures.",
         "",
-        "The expanded F0–F19 research cohort (120 model cells) has scored coverage through Week 5 only. `scientific_f0_f19/cumulative_available_performance.png` marks Weeks 6–7 as missing. Its detailed existing cumulative figures remain at `publication/2026/week_05/post_game/scientific/current_season_f0_f19/`. No Week 6 or 7 expanded matrices exist, so its performance cannot be extended responsibly. A separate complete 53-game Week 8 pregame research forecast is at `publication/2026/week_08/pre_game/scientific/full_f0_f19/`; it has no outcome scores yet.",
+        "The expanded F0–F19 research cohort (120 model cells) now has a common-cohort scorecard through Week 7 in `scientific_f0_f19/`. Weeks 6–7 were reconstructed after the games from score-free states and are marked as retrospective. Week 7 F7, F17-market, and F19 used market lines retrieved after the games; Week 7 F8 had missing market fields imputed. One Week 6 F17/F19 game needed an ex-post market fallback. The archived Vegas comparator stops at Week 6. This backfill is exploratory and cannot be counted as prospective forecast performance. A separate complete 53-game Week 8 pregame research forecast is at `publication/2026/week_08/pre_game/scientific/full_f0_f19/`; it has no outcome scores yet.",
         "",
         "`manifest.json` lists every figure, table, and input hash.",
     ]

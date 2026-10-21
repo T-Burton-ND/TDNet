@@ -5,3 +5,5 @@ These 59 FBS versus FBS games were inferred on October 21 after completion. A sc
 Weeks 0–6 in the cumulative table use their actual frozen pregame predictions. The Week 7 endpoint includes this retrospective replay and is marked accordingly.
 
 Original F0–F6 and full F0–F8 scientific replay predictions, ballots, and figures are under `source_predictions/`; their separately scored outputs are under `scientific/`. The copied structural proof records the source lag and the retrospective limitations.
+
+The later full F0–F19 research backfill is under `scientific/full_f0_f19/`, with cumulative charts and scorecards under `cumulative/scientific_f0_f19/`. It adds 58 Week 6 and 59 Week 7 games for all 120 model cells. These outputs were reconstructed after the games. Unlike the original market-free Week 7 replay, F7, F17-market, and F19 in this separate research backfill use Week 7 market lines retrieved after the games; one Week 6 F17/F19 game also uses an after-game line fallback. The charts label both weeks retrospective, and the archived Vegas baseline stops at Week 6.
