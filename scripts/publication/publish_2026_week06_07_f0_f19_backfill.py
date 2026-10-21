@@ -132,13 +132,34 @@ def metrics(models: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFr
     common_ids = set(models.loc[models.week.le(5), "game_id"])
     market = historical.loc[historical.game_id.isin(common_ids)].drop_duplicates("game_id")
     market = market[["week", "game_id", "actual_home_margin", "market_home_spread", "market_home_probability"]].copy()
+    market["market_provenance"] = "published_weeks_1_5"
+    market["market_quote_count"] = np.nan
     frozen = pd.read_parquet(PUB / "week_06/pre_game/frozen_bundle/public/predictions.parquet",
                              columns=["game_id", "market_spread_close", "market_win_probability"]).drop_duplicates("game_id")
     week6 = consensus.loc[consensus.week.eq(6), ["game_id", "actual_home_margin"]].merge(frozen, on="game_id", validate="one_to_one")
     week6["week"] = 6
     week6 = week6.rename(columns={"market_spread_close": "market_home_spread",
                                   "market_win_probability": "market_home_probability"})
-    market = pd.concat([market, week6[market.columns]], ignore_index=True)
+    week6["market_provenance"] = "frozen_week06_pregame"
+    week6["market_quote_count"] = np.nan
+    week7_source = OUT / "f17_f19_market_snapshot.parquet"
+    week7_lines = pd.read_parquet(week7_source)
+    week7_lines = week7_lines.loc[week7_lines.market_provenance.eq(
+        "ex_post_oct21_cache_unverified_quote_time")].rename(columns={
+            "target_game_id": "game_id",
+            "market_home_implied_no_vig": "market_home_probability",
+        })
+    week7 = consensus.loc[consensus.week.eq(7),
+                          ["week", "game_id", "actual_home_margin"]].merge(
+        week7_lines[["game_id", "market_home_spread", "market_home_probability",
+                     "market_provenance", "market_quote_count"]],
+        on="game_id", validate="one_to_one")
+    if (len(week7) != 59 or week7.game_id.nunique() != 59
+            or week7[["market_home_spread", "market_home_probability"]].isna().any().any()
+            or not week7.market_home_probability.between(0, 1).all()
+            or not week7.market_quote_count.ge(1).all()):
+        raise ValueError("Week 7 CFBD spread and moneyline coverage is incomplete")
+    market = pd.concat([market, week6[market.columns], week7[market.columns]], ignore_index=True)
     market["margin_error"] = (-market.market_home_spread - market.actual_home_margin).abs()
     market["winner_correct"] = (-market.market_home_spread).gt(0).eq(market.actual_home_margin.gt(0)).astype("boolean")
     market.loc[market.market_home_spread.isna(), "winner_correct"] = pd.NA
@@ -150,13 +171,13 @@ def metrics(models: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFr
             rows.append({"through_week": week, "series_type": "model", **aggregate(frame, name)})
         rows.append({"through_week": week, "series_type": "consensus",
                      **aggregate(consensus.loc[consensus.week.le(week)], "F0–F19 equal consensus")})
-        if week <= 6:
-            valid = market.loc[market.week.le(week) & market.market_home_spread.notna()].copy()
-            brier = market.loc[market.week.le(week), "brier_error"]
-            row = aggregate(valid, "Vegas · frozen through Week 6")
-            row["brier_games"] = int(brier.notna().sum())
-            row["brier_score"] = float(brier.mean())
-            rows.append({"through_week": week, "series_type": "vegas", **row})
+        valid = market.loc[market.week.le(week) & market.market_home_spread.notna()].copy()
+        brier = market.loc[market.week.le(week), "brier_error"]
+        label = "Vegas · CFBD close through Week 7" if week == 7 else "Vegas · frozen through Week 6"
+        row = aggregate(valid, label)
+        row["brier_games"] = int(brier.notna().sum())
+        row["brier_score"] = float(brier.mean())
+        rows.append({"through_week": week, "series_type": "vegas", **row})
     performance = pd.DataFrame(rows)
     performance["contains_retrospective_backfill"] = performance.through_week.ge(6) & ~performance.series_type.eq("vegas")
     performance["contains_ex_post_market_cells"] = performance.through_week.eq(7) & (
@@ -182,7 +203,7 @@ def trajectory(performance: pd.DataFrame, path: Path) -> None:
                   label="F0–F19 consensus")
         vegas = performance.loc[performance.series_type.eq("vegas")].sort_values("through_week")
         axis.plot(vegas.through_week, vegas[column], color="#AE7F1C", lw=2.6, ls="--", marker="s",
-                  label="Vegas · archived through Week 6")
+                  label="Vegas · CFBD close through Week 7")
         axis.set_title(title, fontsize=14, loc="left", weight="bold", color="#15294C")
         axis.set_xticks(range(1, 8))
         axis.set_xlim(.8, 7.3)
@@ -205,12 +226,13 @@ def trajectory(performance: pd.DataFrame, path: Path) -> None:
                                ("M4", "Boosted"), ("M5", "Neural"), ("M10", "KNN"))]
     styles.extend([Line2D([0], [0], color="#D62F76", lw=3, marker="o", label="120-model consensus"),
                    Line2D([0], [0], color="#AE7F1C", lw=2.5, ls="--", marker="s",
-                          label="Archived Vegas")])
+                          label="Vegas · CFBD close")])
     fig.legend(handles=styles, loc="lower center", bbox_to_anchor=(.5, .04),
                ncol=4, frameon=False, fontsize=9)
     fig.text(.5, .007,
-             "263 common Weeks 1–5 games + 58 Week 6 + 59 Week 7. Weeks 6–7 model results were reconstructed after games; "
-             "Week 7 F7/F17/F19 use ex-post market lines. Vegas stops at Week 6.",
+             "263 common Weeks 1–5 games + 58 Week 6 + 59 Week 7. Weeks 6–7 models were reconstructed after games; "
+             "Week 7 F7/F17/F19 used after-game market lines.\n"
+             "Week 7 Vegas uses CFBD closing-line fields retrieved Oct 21; quote times unverified.",
              ha="center", fontsize=9)
     fig.savefig(path, dpi=180, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
@@ -260,7 +282,7 @@ def scorecard(table: pd.DataFrame, path: Path) -> None:
         if row == 0:
             cell.set_text_props(color="white", weight="bold")
     ax.set_title("2026 Scientific F0–F19 roster · cumulative through Week 7", fontsize=19, weight="bold", pad=16)
-    fig.text(.5, .008, "W7 columns cover 59 retrospective games; ATS and upset calls use after-game market lines with unverified quote times. ATS percent excludes pushes. Cumulative model/consensus: 380 common games; Vegas stops at Week 6.",
+    fig.text(.5, .008, "W7 columns cover 59 retrospective games. ATS, upset calls, and Vegas use CFBD lines retrieved after games; quote times unverified. ATS percent excludes pushes. Model/consensus: 380 common games.",
              ha="center", fontsize=9)
     fig.savefig(path, dpi=180, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
@@ -296,8 +318,7 @@ def main() -> None:
     consensus.to_csv(paths["cumulative_consensus_games"], index=False)
     vegas.to_csv(paths["vegas_games"], index=False)
     performance.to_csv(paths["cumulative_csv"], index=False)
-    score = pd.concat([performance.loc[performance.through_week.eq(7)],
-                       performance.loc[performance.through_week.eq(6) & performance.series_type.eq("vegas")]])
+    score = performance.loc[performance.through_week.eq(7)].copy()
     week7 = models.loc[models.week.eq(7)].groupby("model_name").agg(
         week07_games=("game_id", "nunique"),
         week07_margin_mae=("margin_error", "mean"),
@@ -342,8 +363,15 @@ def main() -> None:
         week07_upset_calls_correct=("upset_call_correct", "sum"),
     ).reset_index()
     week7 = week7.merge(market_results, on="model_name", validate="one_to_one")
+    week7_market = vegas.loc[vegas.week.eq(7)]
+    week7 = pd.concat([week7, pd.DataFrame([{
+        "model_name": "Vegas · CFBD close through Week 7",
+        "week07_games": int(week7_market.market_home_spread.notna().sum()),
+        "week07_margin_mae": float(week7_market.margin_error.mean()),
+        "week07_su_wins": int(week7_market.winner_correct.sum()),
+    }])], ignore_index=True)
     score = score.merge(week7, on="model_name", how="left", validate="many_to_one")
-    if score.loc[score.series_type.ne("vegas"), "week07_games"].ne(59).any():
+    if score.week07_games.ne(59).any():
         raise ValueError("A cumulative scorecard row is missing Week 7 results")
     score.to_csv(paths["scorecard_csv"], index=False)
     trajectory(performance, paths["performance_png"])
@@ -356,6 +384,8 @@ def main() -> None:
     manifest = {
         "scope": "2026_F0_F19_common_120_retrospective_week06_week07", "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "model_cells": 120, "common_historical_games_weeks_1_5": 263, "week06_games": 58, "week07_games": 59,
+        "week07_vegas_source": "CFBD /lines spread and moneyline fields from October 21 after-game cache",
+        "week07_vegas_quote_timing_verified": False,
         "model_games_per_cell": 380, "week06_07_issued_before_kickoff": False,
         "week07_market_quote_timing_verified": False,
         "week07_ex_post_market_cell_fingerprints": ["F7", "F17-market", "F19"],
@@ -380,7 +410,10 @@ def main() -> None:
         "Provider field-level historical availability and later corrections are not ruled out. "
         "Thus Weeks 6–7 are exploratory retrospective diagnostics, never timely or leakage-free forecasts. "
         "The cumulative chart uses the 263-game common F0–F19 Weeks 1–5 cohort, then adds these 117 games. "
-        "The Vegas line uses archived market summaries only and stops at Week 6; its game count can be smaller.\n"
+        "The Vegas line includes 59 Week 7 CFBD closing-line fields from the October 21 after-game cache. "
+        "Both spreads and moneylines cover all 59 games, but provider quote timestamps are unverified; "
+        "the Week 7 baseline is descriptive rather than a frozen pregame snapshot. "
+        "Its historical game count can be smaller than the models' common cohort.\n"
         "The cumulative table additionally shows each cell's Week 7 MAE, straight-up record, ATS record, and "
         "correct/total upset calls. Week 7 ATS and upset calls use October 21 after-game lines with unverified "
         "quote times; they are descriptive retrospective grades, not pregame betting results. "
