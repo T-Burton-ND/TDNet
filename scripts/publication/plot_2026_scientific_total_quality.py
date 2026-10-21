@@ -228,6 +228,50 @@ def vegas_line(ax, *, horizontal=False):
     draw(0, color=GOLD, lw=2.3, alpha=.92, zorder=2)
 
 
+def publicationize(fig, stem: str) -> None:
+    """Turn a saved gallery figure into a caption-ready version in place."""
+    for item in list(fig.texts):
+        item.remove()
+    main = fig.axes[0]
+    tall = fig.get_size_inches()[1] >= 12
+    has_colorbar = len(fig.axes) > 1
+    inside_legend = stem.startswith(("02_", "17_", "18_"))
+    left = .14 if stem.startswith(("04_", "08_")) else .13
+    bottom = .075 if tall else .13
+    if stem.startswith("06_"):
+        bottom = .20
+    right = .81 if has_colorbar else (.94 if inside_legend else .76)
+    main.set_position([left, bottom, right - left, .96 - bottom])
+    if has_colorbar:
+        fig.axes[1].set_position([.84, bottom, .025, .96 - bottom])
+    for ax in fig.axes:
+        ax.tick_params(axis="both", labelsize=14, length=6, width=1.2)
+        ax.xaxis.label.set_size(17)
+        ax.yaxis.label.set_size(17)
+        current_legend = ax.get_legend()
+        if current_legend is not None:
+            for label in current_legend.get_texts():
+                label.set_fontsize(14)
+            for handle in current_legend.legend_handles:
+                if isinstance(handle, Line2D):
+                    handle.set_markersize(max(handle.get_markersize(), 11))
+                    handle.set_linewidth(max(handle.get_linewidth(), 2.3))
+    if stem.startswith("06_"):
+        main.set_xticklabels(["F17-market" if i == 17 else f"F{i}" for i in range(20)],
+                             rotation=70, ha="right")
+        main.tick_params(axis="x", labelsize=12)
+
+
+def save_pair(fig, name: str, *, dpi: int = 200) -> None:
+    for extension in ("png", "svg"):
+        path = OUTPUT / f"{name}.{extension}"
+        options = {"metadata": {"Date": RENDER_DATE}} if extension == "svg" else {}
+        fig.savefig(path, dpi=dpi, facecolor=PAPER, **options)
+        if extension == "svg":
+            # Matplotlib emits trailing spaces inside path-data lines.
+            path.write_text("\n".join(line.rstrip() for line in path.read_text().splitlines()) + "\n")
+
+
 def plot_points(ax, frame: pd.DataFrame, x: str, y: str, *, size=72, brier_color=False):
     models = frame.loc[frame.kind.eq("model")]
     brier_min = .155 if SOURCE == DEFAULT_SOURCE else min(.155, float(frame.brier.min()))
@@ -503,18 +547,19 @@ def main() -> None:
         ).reset_index()
         distribution["iqr"] = distribution.q3 - distribution.q1
         distribution.to_csv(OUTPUT / f"{name}.csv", index=False)
-    for name, plotter in {**PLOTS, **PUBLICATION_PLOTS}.items():
+    for name, plotter in PLOTS.items():
         fig = plotter(frame)
-        for extension in ("png", "svg"):
-            path = OUTPUT / f"{name}.{extension}"
-            options = {"metadata": {"Date": RENDER_DATE}} if extension == "svg" else {}
-            fig.savefig(path, dpi=300 if name in PUBLICATION_PLOTS else 200,
-                        facecolor=PAPER, **options)
-            if extension == "svg":
-                # Matplotlib emits trailing spaces inside path-data lines.
-                path.write_text("\n".join(line.rstrip() for line in path.read_text().splitlines()) + "\n")
+        save_pair(fig, name)
+        if name + "_publication" not in PUBLICATION_PLOTS:
+            publicationize(fig, name)
+            save_pair(fig, name + "_publication", dpi=300)
         plt.close(fig)
-    generated = [OUTPUT / f"{name}.{extension}" for name in (*PLOTS, *PUBLICATION_PLOTS)
+    for name, plotter in PUBLICATION_PLOTS.items():
+        fig = plotter(frame)
+        save_pair(fig, name, dpi=300)
+        plt.close(fig)
+    figure_names = [*PLOTS, *(name + "_publication" for name in PLOTS)]
+    generated = [OUTPUT / f"{name}.{extension}" for name in figure_names
                  for extension in ("png", "svg")]
     generated += [OUTPUT / f"{name}.csv" for name in
                   ("paired_quality", "architecture_distribution", "fingerprint_distribution")]
@@ -530,7 +575,7 @@ def main() -> None:
         "outputs": {path.name: sha256(path) for path in generated},
     }
     (OUTPUT / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
-    print(f"Wrote {len(PLOTS)} gallery figures and {len(PUBLICATION_PLOTS)} publication variants from 120 model cells and one Vegas baseline to {OUTPUT}")
+    print(f"Wrote {len(PLOTS)} gallery figures and matching publication variants from 120 model cells and one Vegas baseline to {OUTPUT}")
 
 
 if __name__ == "__main__":

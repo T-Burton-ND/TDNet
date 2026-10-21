@@ -12,6 +12,8 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.colors import TwoSlopeNorm
+from matplotlib.lines import Line2D
 import numpy as np
 import pandas as pd
 
@@ -274,13 +276,34 @@ def _scatter(frame: pd.DataFrame, title: str, subtitle: str, x: str, y: str,
 
 
 def _save(fig, stem: str) -> None:
-    for extension in ("png", "svg"):
-        path = OUTPUT / f"{stem}.{extension}"
-        options = {"metadata": {"Date": style.RENDER_DATE}} if extension == "svg" else {}
-        fig.savefig(path, dpi=200, facecolor=style.PAPER, **options)
-        if extension == "svg":
-            path.write_text("\n".join(line.rstrip() for line in path.read_text().splitlines()) + "\n")
+    style.save_pair(fig, stem)
+    style.publicationize(fig, stem)
+    style.save_pair(fig, stem + "_publication", dpi=300)
     plt.close(fig)
+
+
+def _architecture_legend(ax, baseline: str, *, distribution=False) -> None:
+    handles = [Line2D([0], [0], marker=style.MARKERS[model_id], linestyle="",
+                      markerfacecolor=style.COLORS[model_id], markeredgecolor="white",
+                      markersize=9, color="none", label=f"{model_id} · {style.NAMES[model_id]}")
+               for model_id in style.MODELS]
+    handles.append(Line2D([0], [0], color=style.GOLD, lw=2.3, label=baseline))
+    if distribution:
+        handles.extend([
+            Line2D([0], [0], color=style.INK, lw=4.3, label="Interquartile range"),
+            Line2D([0], [0], marker="|", linestyle="", color=style.INK,
+                   markersize=14, markeredgewidth=2.4, label="Median"),
+        ])
+    ax.legend(handles=handles, loc="upper left", bbox_to_anchor=(1.01, 1),
+              frameon=False, fontsize=9, labelspacing=.9)
+
+
+def _model_scatter(ax, frame: pd.DataFrame, x: str, y: str) -> None:
+    for model_id in style.MODELS:
+        group = frame.loc[frame.model_id.eq(model_id)]
+        ax.scatter(group[x], group[y], marker=style.MARKERS[model_id],
+                   color=style.COLORS[model_id], s=76, alpha=.85,
+                   edgecolor="white", linewidth=.7, zorder=4)
 
 
 def plot_reliability(selected: dict[str, pd.DataFrame]) -> pd.DataFrame:
@@ -340,6 +363,165 @@ def plot_risk_coverage(selected: dict[str, pd.DataFrame]) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def plot_weekly_brier_distribution(game: pd.DataFrame) -> pd.DataFrame:
+    weekly = game.assign(brier_gain=game.market_brier - game.model_brier).groupby(
+        ["label", "week"], as_index=False
+    ).agg(brier_gain=("brier_gain", "mean"), games=("game_id", "size"))
+    weekly["model_id"] = weekly.label.str.rsplit("/", n=1).str[-1]
+    weeks = sorted(weekly.week.unique())
+    if len(weekly) != 120 * len(weeks):
+        raise ValueError("Weekly Brier distribution needs every model in each week")
+    fig, ax = style.figure("Weekwise probability skill", "Each row shows all 120 related cells on the same moneyline games; thick bar is the interquartile range.", (16, 10))
+    for position, week in enumerate(weeks):
+        group = weekly.loc[weekly.week.eq(week)].sort_values("label").reset_index(drop=True)
+        offsets = (((np.arange(len(group)) * 37) % len(group)) / (len(group) - 1) - .5) * .42
+        for model_id in style.MODELS:
+            mask = group.model_id.eq(model_id).to_numpy()
+            ax.scatter(group.loc[mask, "brier_gain"], position + offsets[mask],
+                       marker=style.MARKERS[model_id], color=style.COLORS[model_id],
+                       s=38, alpha=.65, edgecolor="white", linewidth=.45, zorder=4)
+        q1, median, q3 = group.brier_gain.quantile([.25, .5, .75])
+        ax.plot([q1, q3], [position, position], color=style.INK, lw=4.3,
+                solid_capstyle="round", zorder=6)
+        ax.scatter([median], [position], marker="|", color=style.PANEL,
+                   s=260, linewidth=2.4, zorder=7)
+    style.vegas_line(ax)
+    game_counts = game.groupby("week").game_id.nunique()
+    ax.set_yticks(range(len(weeks)), [f"Week {week} · {game_counts.loc[week]} games" for week in weeks])
+    ax.set_ylim(len(weeks) - .45, -.55)
+    ax.set(xlabel="Mean Brier advantage versus Vegas ↑", ylabel="Moneyline-covered week")
+    _architecture_legend(ax, "Vegas · zero advantage", distribution=True)
+    _save(fig, "19_weekly_brier_distribution")
+    return weekly
+
+
+def plot_probability_duel(game: pd.DataFrame) -> pd.DataFrame:
+    scored = game.assign(
+        gain=game.market_brier - game.model_brier,
+        lower=(game.model_brier < game.market_brier - 1e-12).astype(float),
+        tie=np.isclose(game.model_brier, game.market_brier, atol=1e-12, rtol=0).astype(float),
+    )
+    duel = scored.groupby("label", as_index=False).agg(
+        games=("game_id", "size"), mean_brier_gain=("gain", "mean"),
+        lower_games=("lower", "sum"), tie_games=("tie", "sum"),
+    )
+    duel["gamewise_brier_win_share"] = (duel.lower_games + .5 * duel.tie_games) / duel.games
+    duel["model_id"] = duel.label.str.rsplit("/", n=1).str[-1]
+    if len(duel) != 120 or duel.games.nunique() != 1:
+        raise ValueError("Probability duel needs 120 paired model rows")
+    fig, ax = style.figure("Probability loss: frequency versus magnitude", "A model can win more games yet lose on mean Brier if a few misses are large.")
+    _model_scatter(ax, duel, "gamewise_brier_win_share", "mean_brier_gain")
+    ax.axvline(.5, color=style.GOLD, lw=2.3, alpha=.92, zorder=2)
+    style.vegas_line(ax, horizontal=True)
+    ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda value, _: f"{value:.0%}"))
+    ax.set(xlabel="Share of games with lower Brier loss than Vegas ↑",
+           ylabel="Mean Brier advantage versus Vegas ↑")
+    _architecture_legend(ax, "Vegas parity lines")
+    _save(fig, "20_probability_gamewise_duel")
+    return duel
+
+
+def plot_brier_tail_risk(game: pd.DataFrame) -> pd.DataFrame:
+    rows = []
+    for label, group in game.groupby("label"):
+        losses = group.model_brier.to_numpy(dtype=float)
+        tail = max(1, int(np.ceil(len(losses) * .1)))
+        rows.append({"label": label, "model_id": label.rsplit("/", 1)[-1],
+                     "games": len(losses), "mean_brier": float(losses.mean()),
+                     "worst_decile_mean_brier": float(np.sort(losses)[-tail:].mean()),
+                     "tail_games": tail})
+    tail = pd.DataFrame(rows)
+    market = game.drop_duplicates("game_id")
+    market_losses = market.market_brier.to_numpy(dtype=float)
+    market_tail_count = max(1, int(np.ceil(len(market_losses) * .1)))
+    market_mean = float(market_losses.mean())
+    market_tail = float(np.sort(market_losses)[-market_tail_count:].mean())
+    if len(tail) != 120 or tail.games.nunique() != 1:
+        raise ValueError("Brier tail-risk map needs 120 paired model rows")
+    tail = pd.concat([tail, pd.DataFrame([{"label": "Vegas", "model_id": "Vegas",
+        "games": len(market_losses), "mean_brier": market_mean,
+        "worst_decile_mean_brier": market_tail, "tail_games": market_tail_count}])],
+        ignore_index=True)
+    fig, ax = style.figure("Average probability error versus worst misses", "Each tail is that forecaster's own worst 10% of games; lower on both axes is better.")
+    _model_scatter(ax, tail.loc[tail.model_id.ne("Vegas")], "mean_brier", "worst_decile_mean_brier")
+    ax.axvline(market_mean, color=style.GOLD, lw=2.3, alpha=.92, zorder=2)
+    ax.axhline(market_tail, color=style.GOLD, lw=2.3, alpha=.92, zorder=2)
+    ax.set(xlabel="Mean Brier loss ↓", ylabel="Worst-decile mean Brier loss ↓")
+    _architecture_legend(ax, "Vegas thresholds")
+    _save(fig, "21_brier_tail_risk")
+    return tail
+
+
+def plot_market_probability_bins(game: pd.DataFrame) -> pd.DataFrame:
+    scored = game.assign(
+        bin_index=np.minimum((game.market_probability.to_numpy() * 10).astype(int), 9),
+        brier_gain=game.market_brier - game.model_brier,
+        model_id=game.label.str.rsplit("/", n=1).str[-1],
+    )
+    counts = scored.drop_duplicates("game_id").groupby("bin_index").size().reindex(range(10), fill_value=0)
+    grouped = scored.groupby(["model_id", "bin_index"], as_index=False).agg(
+        mean_brier_gain=("brier_gain", "mean"), model_game_rows=("game_id", "size")
+    )
+    grid = grouped.pivot(index="model_id", columns="bin_index", values="mean_brier_gain")
+    grid = grid.reindex(index=style.MODELS, columns=range(10)) * 1000
+    if grid.isna().all().all():
+        raise ValueError("Market-bin heatmap needs at least one populated bin")
+    record = grouped.assign(games=grouped.bin_index.map(counts),
+                            lower_probability=grouped.bin_index / 10,
+                            upper_probability=(grouped.bin_index + 1) / 10)
+    values = grid.to_numpy(dtype=float)
+    limit = max(.5, float(np.nanmax(np.abs(values))))
+    fig, ax = style.figure("Brier advantage by market probability", "Cells average 20 related fingerprint models per architecture; columns are fixed Vegas home-win probability bins.", (16, 9.5))
+    image = ax.imshow(values, aspect="auto", cmap="RdBu",
+                      norm=TwoSlopeNorm(vmin=-limit, vcenter=0, vmax=limit))
+    ax.set_yticks(range(len(style.MODELS)), [f"{model_id} · {style.NAMES[model_id]}" for model_id in style.MODELS])
+    ax.set_xticks(range(10), [f"{i*10}–{(i+1)*10}%\n(n={counts.loc[i]})" for i in range(10)])
+    ax.set(xlabel="Vegas home-win probability bin", ylabel="Model architecture")
+    ax.grid(False)
+    for row in range(len(style.MODELS)):
+        for col in range(10):
+            if np.isfinite(values[row, col]):
+                ax.text(col, row, f"{values[row, col]:+.1f}", ha="center", va="center",
+                        color="white" if abs(values[row, col]) > .52 * limit else style.INK,
+                        fontsize=10, weight="bold")
+    colorbar = fig.colorbar(image, ax=ax, fraction=.035, pad=.025,
+                            label="Brier advantage versus Vegas · ×1000 ↑")
+    colorbar.ax.axhline(0, color=style.GOLD, lw=2.3, alpha=.92, clip_on=False)
+    fig.subplots_adjust(left=.15, right=.83, bottom=.19)
+    _save(fig, "22_market_probability_bins")
+    return record
+
+
+def plot_weekly_margin_stability() -> tuple[pd.DataFrame, pd.DataFrame]:
+    spread, _, market_spread, _ = load()
+    market_error = market_spread.set_index("game_id").margin_error
+    scored = spread.assign(
+        label=spread.fingerprint + "/" + spread.model_id,
+        margin_advantage=spread.game_id.map(market_error) -
+        (spread.pred_home_margin - spread.actual_home_margin).abs(),
+    )
+    weekly = scored.groupby(["label", "model_id", "week"], as_index=False).agg(
+        mean_margin_advantage=("margin_advantage", "mean"),
+        games=("game_id", "size"),
+    )
+    stability = scored.groupby(["label", "model_id"], as_index=False).agg(
+        mean_margin_advantage=("margin_advantage", "mean"), games=("game_id", "size"),
+    )
+    variation = weekly.groupby("label").mean_margin_advantage.agg(
+        weekly_sd="std", weeks="count").reset_index()
+    stability = stability.merge(variation, on="label", validate="one_to_one")
+    if len(stability) != 120 or stability.weeks.min() < 2:
+        raise ValueError("Margin stability needs 120 models with at least two scored weeks")
+    fig, ax = style.figure("Mean margin edge versus weekly variation", "Each point is one cell; weekly SD is descriptive across schedule blocks, not a confidence interval.")
+    _model_scatter(ax, stability, "mean_margin_advantage", "weekly_sd")
+    style.vegas_line(ax)
+    ax.set(xlabel="Mean MAE advantage versus Vegas · points ↑",
+           ylabel="SD of weekly MAE advantage · points ↓")
+    _architecture_legend(ax, "Vegas · zero mean advantage")
+    _save(fig, "23_margin_weekly_stability")
+    return weekly, stability
+
+
 def main() -> None:
     style.configure(style.argument_parser().parse_args())
     global SOURCE, OUTPUT, MODEL_SOURCE, MARKET_SOURCE, CONSENSUS_SOURCE
@@ -382,6 +564,13 @@ def main() -> None:
         _scatter(summary, *args)
     plot_reliability(selected).to_csv(OUTPUT / "probability_reliability_bins.csv", index=False)
     plot_risk_coverage(selected).to_csv(OUTPUT / "confidence_coverage_checkpoints.csv", index=False)
+    plot_weekly_brier_distribution(game).to_csv(OUTPUT / "weekly_brier_gain.csv", index=False)
+    plot_probability_duel(game).to_csv(OUTPUT / "probability_gamewise_duel.csv", index=False)
+    plot_brier_tail_risk(game).to_csv(OUTPUT / "brier_tail_risk.csv", index=False)
+    plot_market_probability_bins(game).to_csv(OUTPUT / "market_probability_bin_brier_gain.csv", index=False)
+    weekly_margin, margin_stability = plot_weekly_margin_stability()
+    weekly_margin.to_csv(OUTPUT / "weekly_margin_advantage.csv", index=False)
+    margin_stability.to_csv(OUTPUT / "margin_weekly_stability.csv", index=False)
     manifest = {
         "source": {path.name: style.sha256(path) for path in (MODEL_SOURCE, MARKET_SOURCE, CONSENSUS_SOURCE)},
         "source_directory": style.source_label(),
@@ -395,12 +584,15 @@ def main() -> None:
                    "risk_coverage": "mean cumulative 0/1 error over all confidence-ranked coverages; game ID breaks confidence ties",
                    "blend": "arithmetic mean of model and Vegas home-win probabilities, fixed at 50/50"},
         "outputs": {path.name: style.sha256(path) for path in sorted(OUTPUT.iterdir())
-                    if path.name.startswith(tuple(f"{i:02d}_" for i in range(10, 19)))
+                    if path.name.startswith(tuple(f"{i:02d}_" for i in range(10, 24)))
                     or path.name in ("diagnostic_quality.csv", "diagnostic_model_game_loss.parquet",
-                                     "probability_reliability_bins.csv", "confidence_coverage_checkpoints.csv")},
+                                     "probability_reliability_bins.csv", "confidence_coverage_checkpoints.csv",
+                                     "weekly_brier_gain.csv", "probability_gamewise_duel.csv",
+                                     "brier_tail_risk.csv", "market_probability_bin_brier_gain.csv",
+                                     "weekly_margin_advantage.csv", "margin_weekly_stability.csv")},
     }
     (OUTPUT / "diagnostics_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
-    print(f"Wrote 9 diagnostic figures and {len(summary)} score rows to {OUTPUT}")
+    print(f"Wrote 14 diagnostic figures with publication variants and {len(summary)} score rows to {OUTPUT}")
 
 
 if __name__ == "__main__":

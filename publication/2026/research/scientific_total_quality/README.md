@@ -1,6 +1,6 @@
 # 2026 scientific roster: quality gallery
 
-All 18 core figures and two publication violin variants are together in this directory. Figures 01–16 show the same 120 F0–F19 scientific cells (M1–M5 and M10), with Vegas as a point on the two-metric scatterplots and as the zero-skill threshold on the roster summaries. Figures 17–18 show selected forecasters as curves. F17 is the `F17-market` research fingerprint in the source roster. Every scientific cell uses its architecture's standard marker and color, including F19/M4 as the M4 teal diamond; Vegas is gold (`brass`). The other model colors, typography, grid, and background follow [`gridiron.palette.json`](../../../../gridiron.palette.json) and [`gridiron_light.mplstyle`](../../../../docs/style/color_palettes/gridiron_light.mplstyle).
+All 23 core figures and 23 matching publication versions are together in this directory. Figures 01–16 show the same 120 F0–F19 scientific cells (M1–M5 and M10), with Vegas as a point on the original two-metric scatterplots and as the zero-skill threshold on the roster summaries. Figures 17–18 show selected forecasters as curves. Figures 19–23 add paired weekly, gamewise, tail, market-bin, and stability analyses. F17 is the `F17-market` research fingerprint in the source roster. Every scientific cell uses its architecture's standard marker and color, including F19/M4 as the M4 teal diamond; Vegas is gold (`brass`). The other model colors, typography, grid, and background follow [`gridiron.palette.json`](../../../../gridiron.palette.json) and [`gridiron_light.mplstyle`](../../../../docs/style/color_palettes/gridiron_light.mplstyle).
 
 ## Rebuild the saved Week 7 gallery
 
@@ -11,7 +11,7 @@ MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/plot_2026_scientific_tot
 MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/analyze_2026_scientific_quality_diagnostics.py
 ```
 
-The default input is `publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19/`; the default output is this directory. Run the roster script first and the diagnostic script second. The first writes Figures 01–09, two publication violin variants, and the paired/distribution tables; the second writes Figures 10–18 and the diagnostic tables. Core figures are saved as 200-dpi PNGs and SVGs; the publication variants have 300-dpi PNGs and SVGs. SVG metadata has the fixed `2026-10-21` render date, and both scripts fix the Matplotlib SVG hash salt so a rerun in the same environment is deterministic. The two manifests hash their own source files and generated outputs; they do not hash the README or each other.
+The default input is `publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19/`; the default output is this directory. Run the roster script first and the diagnostic script second. The first writes Figures 01–09 and their publication versions plus paired/distribution tables; the second writes Figures 10–23 and their publication versions plus diagnostic tables. Core figures are saved as 200-dpi PNGs and SVGs; publication versions have 300-dpi PNGs and SVGs. SVG metadata has the fixed `2026-10-21` render date, and both scripts fix the Matplotlib SVG hash salt so a rerun in the same environment is deterministic. The two manifests hash their own source files and generated outputs; they do not hash the README or each other.
 
 ## Rebuild after the 2026 season
 
@@ -41,7 +41,7 @@ MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/analyze_2026_scientific_
   --market-note 'Market source and quote timing: describe the frozen final-season snapshot here.'
 ```
 
-`week_FINAL` and the date are placeholders, not existing paths or a scheduled run. The scripts read the largest `week` in the new market file for the figure footers, count the spread and moneyline cohorts separately, and compute the confidence and regime counts from those games. Inspect the new `manifest.json` and `diagnostics_manifest.json` for the source hashes, cohort counts, and output hashes. Confirm that there are 20 PNGs and 20 SVGs (18 core figures plus two publication variants), 121 rows in each model/market summary, 20 architecture observations per model family, and six architecture observations per fingerprint. Keep the original Week 7 manifests for historical comparison; source changes should produce new hashes.
+`week_FINAL` and the date are placeholders, not existing paths or a scheduled run. The scripts read the largest `week` in the new market file for the figure footers, count the spread and moneyline cohorts separately, and compute the confidence and regime counts from those games. Figure 23 additionally needs at least two scored weeks to define a weekly standard deviation. Inspect the new `manifest.json` and `diagnostics_manifest.json` for the source hashes, cohort counts, and output hashes. Confirm that there are 46 PNGs and 46 SVGs (23 core figures plus one publication version each), 121 rows in each model/market summary, 20 architecture observations per model family, and six architecture observations per fingerprint. Keep the original Week 7 manifests for historical comparison; source changes should produce new hashes.
 
 From the repository root, this check verifies every recorded source and output hash and the expected figure/summary counts; replace the argument with the chosen output directory:
 
@@ -60,11 +60,11 @@ for name in ('manifest.json', 'diagnostics_manifest.json'):
     for filename, digest in record['outputs'].items():
         artifact = out / filename
         assert hashlib.sha256(artifact.read_bytes()).hexdigest() == digest, artifact
-assert len(list(out.glob('[0-9][0-9]_*.png'))) == 20
-assert len(list(out.glob('[0-9][0-9]_*.svg'))) == 20
+assert len(list(out.glob('[0-9][0-9]_*.png'))) == 46
+assert len(list(out.glob('[0-9][0-9]_*.svg'))) == 46
 assert len(pd.read_csv(out / 'paired_quality.csv')) == 121
 assert len(pd.read_csv(out / 'diagnostic_quality.csv')) == 121
-print('Gallery source files, 18 core figure pairs, two publication pairs, score tables, and hashes verified')
+print('Gallery source files, 23 core figure pairs, 23 publication pairs, score tables, and hashes verified')
 PY
 ```
 
@@ -86,16 +86,13 @@ For a poster or paper, audit the new `market_provenance` and archived quote time
 
 The [paired score data](paired_quality.csv), [architecture summary](architecture_distribution.csv), and [fingerprint summary](fingerprint_distribution.csv) contain the exact values. Rebuild these nine figures with [`plot_2026_scientific_total_quality.py`](../../../../scripts/publication/plot_2026_scientific_total_quality.py). The [manifest](manifest.json) records the input and output hashes.
 
-### Publication violin exports
+### Publication exports
 
-| Export | Print layout |
-| --- | --- |
-| [Architecture violin PNG](07_architecture_violin_publication.png) · [SVG](07_architecture_violin_publication.svg) | 15 × 8.5 inches, 300-dpi PNG; 20 model points per architecture. |
-| [Fingerprint violin PNG](09_fingerprint_violin_publication.png) · [SVG](09_fingerprint_violin_publication.svg) | 15 × 15 inches, 300-dpi PNG; six model points per fingerprint. |
+Every Figure 01–23 has a `_publication.png` and `_publication.svg` counterpart in this directory. For example, [Figure 01 print PNG](01_error_landscape_publication.png) and [SVG](01_error_landscape_publication.svg) match the full [error landscape](01_error_landscape.png). The same filename rule applies to all rows in both tables below. Publication versions omit the internal title, subtext, and footer; enlarge the axis labels, ticks, and legends; and retain the plotted values and benchmark references. They are 300-dpi PNGs and vector SVGs.
 
-These use the same paired scores, model colors, point shapes, violin smoothing, quartiles, means, and gold Vegas threshold as Figures 07 and 09. They omit the internal title, subtext, and footer; enlarge the axis labels, tick text, and legend; and add legend keys for the interquartile bar, median tick, and mean circle. The script generates them with the normal gallery command and records their hashes in `manifest.json`. Give a paper or poster caption the cohort and market-timing limitation stated in **Provenance limits** below, since the clean image omits that footer.
+The two violins have dedicated layouts: [architecture PNG](07_architecture_violin_publication.png) · [SVG](07_architecture_violin_publication.svg) at 15 × 8.5 inches, and [fingerprint PNG](09_fingerprint_violin_publication.png) · [SVG](09_fingerprint_violin_publication.svg) at 15 × 15 inches. They add legend keys for the interquartile bar, median tick, and mean circle while keeping every model point and the Vegas threshold. The gallery commands above generate every publication file and both manifests record its hash. Give a paper or poster caption the cohort and market-timing limitation stated in **Provenance limits** below, since the clean images omit the footer.
 
-## Game-level diagnostic views
+## Game-level diagnostic and extension views
 
 These analyze distinct aspects of quality, not another mix of MAE, Brier, and straight-up accuracy.
 
@@ -110,8 +107,13 @@ These analyze distinct aspects of quality, not another mix of MAE, Brier, and st
 | [16 Market blend probe](16_market_blend_probe.png) | Does a fixed blend of model and Vegas improve Vegas? | Model log-loss gap × 50/50 blended Brier gain. |
 | [17 Reliability profiles](17_probability_reliability.png) | Where do probability forecasts deviate from observed frequency? | Ten equal-count bins for Vegas, F19/M4, F19/M1, and the 120-model consensus. |
 | [18 Confidence–coverage curves](18_confidence_risk_coverage.png) | What accuracy remains as lower-confidence games are added? | Same four selected forecasters, ranked by their own probability confidence. |
+| [19 Weekly Brier distribution](19_weekly_brier_distribution.png) | Does the roster's probability gap vary by week? | Each of 120 related model cells as an exact point, with the weekly interquartile range and Vegas zero line. |
+| [20 Gamewise probability duel](20_probability_gamewise_duel.png) | Do models beat Vegas on many games but lose on a few large errors? | Share of paired games with lower Brier × mean Brier advantage; gold parity lines. |
+| [21 Brier tail risk](21_brier_tail_risk.png) | Does average Brier hide a different worst-decile pattern? | Mean Brier × mean of each forecaster's own 10% largest Brier losses; gold Vegas thresholds. |
+| [22 Market-probability bins](22_market_probability_bins.png) | Where do architecture families lose or gain across Vegas probability bands? | Six architecture rows × ten fixed market-probability bins; cell is mean Brier advantage across 20 fingerprint cells and the games in that bin. |
+| [23 Weekly margin stability](23_margin_weekly_stability.png) | Is a model's mean margin edge steady across weeks? | Paired mean MAE advantage × standard deviation of weekly advantages for all 120 models; Vegas zero line. |
 
-SVG versions have the same base names. The [diagnostic score data](diagnostic_quality.csv) contains all 121 forecasters, and the [model-game loss ledger](diagnostic_model_game_loss.parquet) preserves every paired probability-game loss. [Reliability-bin values](probability_reliability_bins.csv), [coverage checkpoints](confidence_coverage_checkpoints.csv), and [diagnostic hashes](diagnostics_manifest.json) support reproduction. Rebuild with [`analyze_2026_scientific_quality_diagnostics.py`](../../../../scripts/publication/analyze_2026_scientific_quality_diagnostics.py).
+SVG and publication versions follow the same base names. The [diagnostic score data](diagnostic_quality.csv) contains all 121 forecasters, and the [model-game loss ledger](diagnostic_model_game_loss.parquet) preserves every paired probability-game loss. [Reliability-bin values](probability_reliability_bins.csv), [coverage checkpoints](confidence_coverage_checkpoints.csv), the six extension ledgers listed below, and [diagnostic hashes](diagnostics_manifest.json) support reproduction. Rebuild with [`analyze_2026_scientific_quality_diagnostics.py`](../../../../scripts/publication/analyze_2026_scientific_quality_diagnostics.py).
 
 ## Metric and comparison method
 
@@ -154,6 +156,20 @@ Let `y = 1` if the home team won and `0` otherwise; `p` is its forecast home-win
 | Market-confidence regimes (15) | Using **Vegas** home-win probability, define near-tossups as `0.40 ≤ p ≤ 0.60` and strong favorites as `p ≤ 0.25` or `p ≥ 0.75`. For each regime, plot `mean(Vegas Brier loss − model Brier loss)`; positive favors the model. |
 | Untuned blend probe (16) | For each game set blend probability to `(model p + Vegas p)/2`. Plot `mean(Vegas Brier loss − blend Brier loss)` versus `mean(model log loss − Vegas log loss)`. The weight is fixed at 50/50 before evaluation. |
 
+### Extension definitions used by Figures 19–23
+
+All losses are paired by game ID with the Vegas value on the same covered games. Positive *advantage* means lower loss than Vegas. The Week 7 plots are descriptive scans of 120 related cells, not independent replications or confidence intervals.
+
+| Figure and ledger | Exact construction and limit |
+| --- | --- |
+| [19](weekly_brier_gain.csv) | For each cell and week, `mean(Vegas Brier loss − model Brier loss)` over that week's shared moneyline games. Plot all 120 points per week with deterministic vertical jitter and the 25th–75th percentile plus median across cells. The Week 1–7 moneyline game counts are 39, 49, 57, 58, 56, 54, and 59; the quartile bar describes the roster, not uncertainty about a mean. |
+| [20](probability_gamewise_duel.csv) | Horizontal share is `(count(model Brier < Vegas Brier) + 0.5 × count(ties within 10⁻¹²)) / N` on the same 372 games; vertical value is their mean Vegas-minus-model Brier loss. Gold lines mark 50% share and zero mean advantage. |
+| [21](brier_tail_risk.csv) | Horizontal value is mean Brier; vertical value is the mean of each forecaster's own largest `ceil(0.10N)` game losses (38 games for this 372-game cohort). The worst-decile games can differ between forecasters, so vertical positions are **not** a paired tail-game comparison. Gold lines are Vegas's values. |
+| [22](market_probability_bin_brier_gain.csv) | Assign each of the 372 shared moneyline games to `[0,.1), [.1,.2), …, [.9,1]` using Vegas home-win probability. Each cell averages `Vegas Brier − model Brier` over every game × 20 fingerprint cells for one architecture, then multiplies by 1000 for annotation. The column's `n` is its **unique game count**, not the 20-times-larger model-game row count. Empty bins remain blank. Family means are descriptive because their models share games and training data. |
+| [23 weekly values](weekly_margin_advantage.csv) · [summary](margin_weekly_stability.csv) | For each model and shared spread game, advantage is `Vegas absolute margin error − model absolute margin error`. Horizontal position is the mean over all 379 games. Vertical position is the sample standard deviation (`ddof=1`) of seven **unweighted weekly means**; weeks contain 43, 49, 57, 58, 56, 57, and 59 spread games. This spread measures schedule-block variation, not a confidence interval or model robustness under distribution shift. |
+
+On this paired through-Week-7 cohort, the highest gamewise Brier win share is 48.66% (F5/M1), and the smallest mean Brier deficit is 0.000287 (F19/M1); no cell wins either Figure 20 threshold. All 60 architecture × market-bin mean Brier differences in Figure 22 are negative. In Figure 21, 46 models have a lower **own** worst-decile Brier mean than Vegas, even though all 120 have higher overall Brier. These observations do not identify a profitable betting strategy or a prospective model improvement.
+
 Figure 17 and Figure 18 draw curves only for Vegas, F19/M4, F19/M1, and the saved 120-model consensus. Figures 10–16 contain **all 120 individual cells plus Vegas**. `diagnostic_quality.csv` has one row per individual cell plus Vegas; `diagnostic_model_game_loss.parquet` has one row per model per shared moneyline game and includes the market, model, and blend losses and the regime label. Figure 11's binned calibration error and Figure 12's top-confidence accuracy compare different model-selected game sets, so read them with the reliability and risk–coverage curves rather than as paired win counts.
 
 ## Design research
@@ -161,6 +177,8 @@ Figure 17 and Figure 18 draw curves only for Vegas, F19/M4, F19/M1, and the save
 [Cleveland and McGill's graphical-perception experiments](https://www.tandfonline.com/doi/abs/10.1080/01621459.1984.10478080) motivate using positions on common axes for the main comparisons. Their [scatterplot methods paper](https://www.tandfonline.com/doi/abs/10.1080/01621459.1984.10477098) discusses adding category codes and point sizes to a scatterplot, motivating the two metric landscapes. [Matplotlib's scatter example](https://matplotlib.org/stable/gallery/lines_bars_and_markers/scatter_demo2.html) documents the color and size encodings used here. The matrix preserves one unambiguous position per model when scatter points overlap; the ladder and swarm preserve a common quality axis for comparing 120 model points with a zero-skill Vegas line.
 
 The diagnostic suite follows [Gneiting and Raftery's proper-scoring framework](https://sites.stat.washington.edu/people/raftery/Research/PDF/Gneiting2007jasa.pdf) for log loss and the distinction between calibration and sharpness. [Guo et al.](https://proceedings.mlr.press/v70/guo17a.html) show why accuracy alone does not establish calibrated probabilities; [Arrieta-Ibarra et al.](https://www.jmlr.org/papers/v23/22-0658.html) explain the binning problem in reliability metrics. [Selective-prediction research](https://proceedings.mlr.press/v267/zhou25y.html) motivates risk–coverage analysis. A [sports-betting model-selection study](https://arxiv.org/abs/2303.06021) motivates examining calibration alongside accuracy, while the present retrospective and timing-limited data do not support a betting-profit claim. We did not compute continuous ranked probability score or interval coverage because the saved margin forecasts are point predictions, not full predictive distributions.
+
+The five extension designs were selected after another literature and chart-method check. [Diebold and Mariano's original forecast-comparison paper](https://www.nber.org/system/files/working_papers/t0169/t0169.pdf) motivates inspecting **paired loss differences**, although Figures 19–23 do not run their significance test. [Allen and colleagues' raincloud-plot paper](https://pmc.ncbi.nlm.nih.gov/articles/6480976/) supports showing exact points alongside distribution summaries in Figure 19; its 120 points here are related models, not independent samples. [Matplotlib's annotated-heatmap example](https://matplotlib.org/stable/gallery/images_contours_and_fields/image_annotated_heatmap.html) informed the fixed row/column layout and numeric cells in Figure 22. The [graphical-perception experiment above](https://www.tandfonline.com/doi/abs/10.1080/01621459.1984.10478080) supports the common-axis threshold lines in Figures 20, 21, and 23. Figure 22 is a descriptive market stratification, and the small tail bins should not be read as stable conditional effects.
 
 ## Provenance limits
 
