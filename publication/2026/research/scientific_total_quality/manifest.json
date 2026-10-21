@@ -3,9 +3,13 @@
     "common_120_model_game_results.parquet": "4e8ac74ef896b88543fda3ffb639bfdc2f3bfa4d73cf0beb54ca7930ae5939c7",
     "common_cohort_vegas_games.csv": "61aeb1b99af84622d633117d44ec76061b5a7b606d7ee0d0ff4751663816616c"
   },
+  "source_directory": "publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19",
+  "render_date": "2026-10-21",
+  "market_note": "Week 7 market quotes were retrieved after games; quote times unverified.",
   "cohort": {
     "spread_games": 379,
     "moneyline_games": 372,
+    "max_week": 7,
     "model_points": 120,
     "vegas_points": 1
   },

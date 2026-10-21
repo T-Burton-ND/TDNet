@@ -2,6 +2,74 @@
 
 All 18 figures are together in this directory. Figures 01–16 contain the same 120 F0–F19 scientific cells (M1–M5 and M10) and one Vegas point; Figures 17–18 show selected forecasters as curves. F17 is the `F17-market` research fingerprint in the source roster. F19/M4 is pink (`edgePink`); Vegas is gold (`brass`). The other model colors, typography, grid, and background follow [`gridiron.palette.json`](../../../../gridiron.palette.json) and [`gridiron_light.mplstyle`](../../../../docs/style/color_palettes/gridiron_light.mplstyle).
 
+## Rebuild the saved Week 7 gallery
+
+Run from the repository root with Python and the `numpy`, `pandas`, `pyarrow`, and `matplotlib` packages. The repository's [`pyproject.toml`](../../../../pyproject.toml) declares the project dependencies. The saved images were produced with Python 3.9.25, NumPy 1.23.5, pandas 2.3.3, PyArrow 21.0.0, and Matplotlib 3.9.4; those versions and the installed DejaVu Sans font matter if byte-for-byte image reproduction is required. The source hashes and generated-file hashes are in [manifest.json](manifest.json) and [diagnostics_manifest.json](diagnostics_manifest.json).
+
+```bash
+MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/plot_2026_scientific_total_quality.py
+MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/analyze_2026_scientific_quality_diagnostics.py
+```
+
+The default input is `publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19/`; the default output is this directory. Run the roster script first and the diagnostic script second. The first writes Figures 01–09 and the paired/distribution tables; the second writes Figures 10–18 and the diagnostic tables. Each figure is saved as a 200-dpi PNG and an SVG. SVG metadata has the fixed `2026-10-21` render date, and both scripts fix the Matplotlib SVG hash salt so a rerun in the same environment is deterministic. The two manifests hash their own source files and generated outputs; they do not hash the README or each other.
+
+## Rebuild after the 2026 season
+
+First freeze a **new, fully scored common-cohort export** in its own directory, with the three filenames and columns below. Include only completed games with final margins; preserve the archived forecast and market values for each game. Use the same game IDs and home-team orientation in all three files. This gallery does not fetch odds, generate forecasts, or build the source cohort itself. The Week 7 export was assembled by [`publish_2026_week06_07_f0_f19_backfill.py`](../../../../scripts/publication/publish_2026_week06_07_f0_f19_backfill.py), which is specific to that catch-up window; it is a reference for the source schema, not a final-season export command.
+
+| Input file | Required content |
+| --- | --- |
+| `common_120_model_game_results.parquet` | One row per `game_id` × `fingerprint` × `model_id` for **every** one of the 120 cells on **every** common-cohort game. Required columns: `game_id`, `week`, `fingerprint`, `model_id`, `pred_home_margin`, `pred_home_win_probability`, `actual_home_margin`, `margin_error`, `winner_correct`, `brier_error`. The fingerprint keys are F0–F16, `F17-market`, F18, F19; model keys are M1–M5 and M10. |
+| `common_cohort_vegas_games.csv` | One row per common-cohort game. Required columns: `game_id`, `week`, `actual_home_margin`, `market_home_spread`, `market_home_probability`, `margin_error`, `winner_correct`, `brier_error`, `market_provenance`. A missing spread excludes that game from margin and winner comparisons; a missing probability excludes it from probability comparisons. A home spread is negative when the home team is favored, so Vegas's predicted home margin is `−market_home_spread`. |
+| `common_120_consensus_game_results.csv` | One row per common-cohort game with `game_id`, `week`, `actual_home_margin`, and `pred_home_win_probability`. The consensus is used only for Figures 17–18; the other figures use individual models and Vegas. |
+
+`margin_error`, `winner_correct`, and `brier_error` are the frozen grading fields in the source. The roster script uses the model and Vegas `margin_error`/`winner_correct`/`brier_error` columns; the diagnostic script recomputes probability and tail measures from the raw predictions and final margin, and checks the archived Vegas margin error and Brier against those values. Before exporting, verify that `pred_home_win_probability` and `market_home_probability` are home-win probabilities on `[0,1]`, and that the market values reflect the intended archived quote cutoff. The scripts reject missing model cells, duplicate IDs, mismatched final margins, and incomplete paired cohorts. A final-season export must retain the same **120-cell roster**; a roster change needs a separate analysis definition.
+
+Choose a new output directory to keep the Week 7 snapshot intact. Replace the example paths, date, and market note with the actual frozen snapshot details; pass the **same four arguments to both scripts**:
+
+```bash
+MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/plot_2026_scientific_total_quality.py \
+  --source-dir publication/2026/week_FINAL/post_game/cumulative/scientific_f0_f19 \
+  --output-dir publication/2026/research/scientific_total_quality_final \
+  --render-date 2027-01-15 \
+  --market-note 'Market source and quote timing: describe the frozen final-season snapshot here.'
+
+MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/analyze_2026_scientific_quality_diagnostics.py \
+  --source-dir publication/2026/week_FINAL/post_game/cumulative/scientific_f0_f19 \
+  --output-dir publication/2026/research/scientific_total_quality_final \
+  --render-date 2027-01-15 \
+  --market-note 'Market source and quote timing: describe the frozen final-season snapshot here.'
+```
+
+`week_FINAL` and the date are placeholders, not existing paths or a scheduled run. The scripts read the largest `week` in the new market file for the figure footers, count the spread and moneyline cohorts separately, and compute the confidence and regime counts from those games. Inspect the new `manifest.json` and `diagnostics_manifest.json` for the source hashes, cohort counts, and output hashes. Confirm that there are 18 PNGs, 18 SVGs, 121 rows in each model/market summary, 20 architecture observations per model family, and six architecture observations per fingerprint. Keep the original Week 7 manifests for historical comparison; source changes should produce new hashes.
+
+From the repository root, this check verifies every recorded source and output hash and the expected figure/summary counts; replace the argument with the chosen output directory:
+
+```bash
+python3 - publication/2026/research/scientific_total_quality_final <<'PY'
+import hashlib, json, sys
+from pathlib import Path
+import pandas as pd
+
+out = Path(sys.argv[1])
+for name in ('manifest.json', 'diagnostics_manifest.json'):
+    record = json.loads((out / name).read_text())
+    for filename, digest in record['source'].items():
+        source = Path(record['source_directory']) / filename
+        assert hashlib.sha256(source.read_bytes()).hexdigest() == digest, source
+    for filename, digest in record['outputs'].items():
+        artifact = out / filename
+        assert hashlib.sha256(artifact.read_bytes()).hexdigest() == digest, artifact
+assert len(list(out.glob('[0-9][0-9]_*.png'))) == 18
+assert len(list(out.glob('[0-9][0-9]_*.svg'))) == 18
+assert len(pd.read_csv(out / 'paired_quality.csv')) == 121
+assert len(pd.read_csv(out / 'diagnostic_quality.csv')) == 121
+print('Gallery source files, 18 figure pairs, score tables, and hashes verified')
+PY
+```
+
+For a poster or paper, audit the new `market_provenance` and archived quote timestamps before interpreting a Vegas comparison as prospective. The final-season plots remain descriptive if forecasts or market lines were filled after the games. Do not combine the original Week 7 retrospective figures with a later prospective cohort without labeling the timing difference.
+
 ## Roster and distribution views
 
 | Figure | Main question | Encoding |
@@ -51,6 +119,8 @@ Balanced relative skill = (MAE skill + Brier skill + SU skill) / 3
 
 Zero is Vegas. Higher is better. This index is a visualization convenience, not a significance test or a betting utility. Equal relative weighting is a design choice; Brier and straight-up accuracy both reflect winner prediction, so the index should not replace the two raw-metric landscapes. Neither the small F19/M4 MAE edge nor its two extra correct winners establishes superiority over Vegas.
 
+The roster script reads the frozen `margin_error`, `winner_correct`, and `brier_error` grading columns on the shared market-covered games. For each forecast, MAE is the mean absolute home-margin error, straight-up accuracy is the fraction of `winner_correct` rows, and Brier is the mean squared home-win probability error. Fingerprint and architecture groups are **descriptive collections of different model cells**: each architecture has 20 fingerprint scores, and each fingerprint has six architecture scores. The violin bar spans the 25th to 75th percentiles (pandas linear interpolation), its white tick is the median, its open circle is the arithmetic mean, and the translucent shape is Matplotlib's default kernel-density smoothing. The swarm retains the exact horizontal skill value for every model and applies deterministic vertical packing only when nearby points would overlap. Vegas is the zero-skill reference, shown as a gold star; F19/M4 is a pink diamond. The matrix uses one fixed position per roster cell; the ladder sorts all 121 points by balanced relative skill. For later cohorts, the two metric landscapes use automatic axis limits so improved or worsened scores remain visible.
+
 The architecture distributions support a more precise observation than a simple-versus-complex rule. M1 linear has the strongest **median** balanced skill across the 20 fingerprints (−8.35% versus Vegas), but a wide **9.59-percentage-point IQR**. M3 tree has the narrowest IQR (4.32 points); M2 spline and M4 boosted are close (4.86 and 5.01). M4 has the best single point, F19/M4 at −0.18%. M5 neural has the weakest family median (−23.19%). Fingerprint violins each contain only six architecture scores, so their smooth shape should not be read as a measured population density; use the points and quartile marks.
 
 ## What the additional diagnostics find
@@ -60,6 +130,22 @@ All comparisons below are descriptive through Week 7. On the **372 shared moneyl
 On the **80 market-probability near-tossups** (home-win probability 40–60%), four of 120 models have lower Brier than Vegas. On the **183 strong-favorite games** (market probability ≤25% or ≥75%), none does. A fixed, untuned 50/50 blend of model and Vegas probabilities improves Vegas Brier for only two cells: F19/M1 by **0.000396** and F19/M2 by **0.000023** on the 372 shared games. These small observed differences across 120 inspected cells do not establish incremental information or prospective profit. The one model with higher top-quartile confidence accuracy than Vegas selects a *different* set of 93 games; that difference is not a paired head-to-head win.
 
 Calibration error in Figure 11 is an **equal-count ten-bin estimate**, with 37–38 games in each bin. Ten cells have a lower numerical binned error than Vegas, but that statistic is sensitive to bin choices and sampling noise; read it with the reliability curves, log loss, and sharpness. Probability log loss clips only exact endpoints to [0.000001, 0.999999] to keep the score finite. Selective prediction orders games by `max(p, 1−p)` and breaks equal-confidence ties by game ID. The Vegas point in Figure 14 is the neutral 50% gamewise comparison of Vegas with itself; other points use exact paired game errors.
+
+### Diagnostic definitions used by Figures 10–18
+
+Let `y = 1` if the home team won and `0` otherwise; `p` is its forecast home-win probability. Every model is paired with Vegas on identical game IDs for each market-covered measure.
+
+| Measure | Exact construction |
+| --- | --- |
+| Log loss and ROC AUC (10) | Mean `−y·log(p) − (1−y)·log(1−p)`, clipping `p` to `[10⁻⁶, 1−10⁻⁶]`; ROC AUC is the rank statistic across winning versus losing home teams, with tied probability ranks averaged. |
+| Calibration and decisiveness (11, 17) | Sort by `p`, then `game_id` for ties; split into ten nearly equal-count contiguous bins. Calibration error is `Σ (bin size/N) × |mean(p in bin) − mean(y in bin)|`. The horizontal Figure 11 measure is that estimate; the vertical measure is `mean(|p−0.5|)`. Figure 17 plots each bin's `mean(p)` against `mean(y)`. |
+| Selective prediction (12, 18) | Rank games by `max(p,1−p)`, breaking ties by `game_id`; call home when `p ≥ 0.5`. At each retained count `k`, risk is the fraction of mistakes in the first `k` games. Area under the risk–coverage curve (AURC) is the arithmetic mean of these risks over `k = 1…N`; lower is better. Figure 12 also shows accuracy among the first `ceil(0.25N)` games. Figure 18 plots `1−risk` for coverage from 5% to 100%, with table checkpoints at 25%, 50%, and 100%. |
+| Margin tails (13) | Compute `|predicted home margin − actual home margin|`; plot the median against the mean of the largest `ceil(0.10N)` errors. The summary CSV also records the 90th percentile and mean signed home-margin error. |
+| Paired gamewise comparison (14) | For each spread-covered game, score a model 1 if its absolute margin error is smaller than Vegas's, 0.5 for a tie within `10⁻¹⁰`, and 0 otherwise; average these scores. Vertical position is `mean(Vegas absolute error − model absolute error)` in points. Vegas's self-comparison is placed at (0.5, 0). |
+| Market-confidence regimes (15) | Using **Vegas** home-win probability, define near-tossups as `0.40 ≤ p ≤ 0.60` and strong favorites as `p ≤ 0.25` or `p ≥ 0.75`. For each regime, plot `mean(Vegas Brier loss − model Brier loss)`; positive favors the model. |
+| Untuned blend probe (16) | For each game set blend probability to `(model p + Vegas p)/2`. Plot `mean(Vegas Brier loss − blend Brier loss)` versus `mean(model log loss − Vegas log loss)`. The weight is fixed at 50/50 before evaluation. |
+
+Figure 17 and Figure 18 draw curves only for Vegas, F19/M4, F19/M1, and the saved 120-model consensus. Figures 10–16 contain **all 120 individual cells plus Vegas**. `diagnostic_quality.csv` has one row per individual cell plus Vegas; `diagnostic_model_game_loss.parquet` has one row per model per shared moneyline game and includes the market, model, and blend losses and the regime label. Figure 11's binned calibration error and Figure 12's top-confidence accuracy compare different model-selected game sets, so read them with the reliability and risk–coverage curves rather than as paired win counts.
 
 ## Design research
 
