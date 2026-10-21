@@ -15,6 +15,7 @@ REPLAY = ROOT / "publication/2026/week_07/post_game/retrospective_replay"
 SCORED = REPLAY / "cumulative/scientific_f0_f19/common_120_consensus_game_results.csv"
 GAMES = REPLAY / "week07_replay_consensus_games.csv"
 OUTPUT = REPLAY / "scientific/full_f0_f19"
+MARKET = OUTPUT / "f17_f19_market_snapshot.parquet"
 
 
 def main() -> None:
@@ -30,6 +31,13 @@ def main() -> None:
         raise ValueError("Notre Dame at BYU is missing")
     if not (card.actual_home_margin == card.home_points - card.away_points).all():
         raise ValueError("Stored outcomes and game results disagree")
+    lines = pd.read_parquet(MARKET)[
+        ["target_game_id", "market_home_spread", "market_provenance"]
+    ].rename(columns={"target_game_id": "game_id"})
+    lines = lines.loc[lines.market_provenance.eq("ex_post_oct21_cache_unverified_quote_time")]
+    card = card.merge(lines, on="game_id", validate="one_to_one")
+    if len(card) != 59 or card.market_home_spread.isna().any():
+        raise ValueError("The 59 Week 7 retrospective market spreads are incomplete")
 
     card["predicted_winner"] = card.home_team.where(card.pred_home_margin.ge(0), card.away_team)
     card["predicted_winner_probability"] = card.pred_home_win_probability.where(
@@ -45,21 +53,40 @@ def main() -> None:
     card["su"] = card.winner_correct.map({True: "W", False: "L"})
     card["margin_error_points"] = card.margin_error.map("{:.1f}".format)
     card["pick_confidence"] = card.predicted_winner_probability.map("{:.0%}".format)
+    model_cover_margin = card.pred_home_margin + card.market_home_spread
+    actual_cover_margin = card.actual_home_margin + card.market_home_spread
+    card["ats_side"] = card.home_team.where(model_cover_margin.gt(0), card.away_team)
+    card.loc[model_cover_margin.eq(0), "ats_side"] = "—"
+    card["ats_result"] = "—"
+    decided = model_cover_margin.ne(0) & actual_cover_margin.ne(0)
+    card.loc[decided, "ats_result"] = (
+        model_cover_margin.loc[decided].gt(0).eq(actual_cover_margin.loc[decided].gt(0))
+        .map({True: "W", False: "L"})
+    )
+    card.loc[model_cover_margin.ne(0) & actual_cover_margin.eq(0), "ats_result"] = "P"
+    card["market_line"] = card.home_team + " " + card.market_home_spread.map("{:+.1f}".format)
+    card.loc[card.market_home_spread.eq(0), "market_line"] = "Pick'em"
     OUTPUT.mkdir(parents=True, exist_ok=True)
     card.to_csv(OUTPUT / "week07_120_model_consensus_scorecard.csv", index=False)
 
-    columns = ["matchup", "prediction", "pick_confidence", "final", "su", "margin_error_points"]
+    columns = ["matchup", "prediction", "pick_confidence", "final", "su", "market_line",
+               "ats_side", "ats_result", "margin_error_points"]
     display = card[columns].rename(columns={
         "matchup": "Matchup", "prediction": "120-model pick", "pick_confidence": "Pick p",
-        "final": "Final", "su": "SU", "margin_error_points": "MAE pts",
+        "final": "Final", "su": "SU", "market_line": "Home line", "ats_side": "ATS side",
+        "ats_result": "ATS", "margin_error_points": "MAE pts",
     })
     wins = int(card.winner_correct.sum())
-    fig, ax = plt.subplots(figsize=(19, 27))
+    ats_wins = int(card.ats_result.eq("W").sum())
+    ats_losses = int(card.ats_result.eq("L").sum())
+    ats_pushes = int(card.ats_result.eq("P").sum())
+    fig, ax = plt.subplots(figsize=(23, 27))
     fig.patch.set_facecolor("#f7f4ee")
     ax.axis("off")
     table = ax.table(
         cellText=display.values, colLabels=display.columns, cellLoc="left", colLoc="left",
-        colWidths=[0.23, 0.22, 0.07, 0.32, 0.055, 0.105], bbox=[0.0, 0.035, 1.0, 0.91],
+        colWidths=[0.19, 0.18, 0.06, 0.265, 0.04, 0.105, 0.095, 0.04, 0.065],
+        bbox=[0.0, 0.035, 1.0, 0.91],
     )
     table.auto_set_font_size(False)
     table.set_fontsize(8.5)
@@ -71,26 +98,29 @@ def main() -> None:
         else:
             highlighted = card.iloc[row - 1].game_id == 401856809
             cell.set_facecolor("#fff0c7" if highlighted else ("#ffffff" if row % 2 else "#edf1f4"))
-            if col == 4:
-                correct = bool(card.iloc[row - 1].winner_correct)
-                cell.set_facecolor("#ccebd4" if correct else "#f4d5d0")
-                cell.set_text_props(weight="bold", ha="center", color="#183321" if correct else "#702820")
+            if col in (4, 7):
+                result = card.iloc[row - 1].su if col == 4 else card.iloc[row - 1].ats_result
+                cell.set_facecolor({"W": "#ccebd4", "L": "#f4d5d0", "P": "#fff0c7", "—": "#e8e8e8"}[result])
+                cell.set_text_props(weight="bold", ha="center", color="#183321" if result == "W" else "#702820")
     ax.set_title(
         "2026 Week 7 | F0–F19 scientific consensus (120 models)\n"
         f"SU {wins}–{len(card)-wins} ({wins/len(card):.1%})   •   "
+        f"ATS {ats_wins}–{ats_losses}–{ats_pushes}   •   "
         f"Margin MAE {card.margin_error.mean():.2f} pts   •   Brier {card.brier_error.mean():.4f}",
         fontsize=18, weight="bold", color="#14294f", pad=22,
     )
     fig.text(
         0.5, 0.012,
         "Retrospective scoring after the games; not a timely pregame forecast. "
-        "Week 7 F7/F17/F19 use ex-post market inputs. Notre Dame at BYU is highlighted.",
+        "ATS uses October 21 after-game spreads with unverified quote times; W/L is not a backtest of pregame bets. "
+        "Notre Dame at BYU is highlighted.",
         ha="center", fontsize=10, color="#555b63",
     )
     path = OUTPUT / "week07_120_model_consensus_scorecard.png"
     fig.savefig(path, dpi=180, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
-    print(f"{path}: {len(card)} games, {wins} correct, MAE {card.margin_error.mean():.4f}, Brier {card.brier_error.mean():.4f}")
+    print(f"{path}: {len(card)} games, SU {wins}-{len(card)-wins}, ATS {ats_wins}-{ats_losses}-{ats_pushes}, "
+          f"MAE {card.margin_error.mean():.4f}, Brier {card.brier_error.mean():.4f}")
 
 
 if __name__ == "__main__":

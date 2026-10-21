@@ -199,8 +199,11 @@ def scorecard(performance: pd.DataFrame, path: Path) -> None:
     table = performance.loc[performance.through_week.eq(7)].copy()
     table = pd.concat([table, performance.loc[performance.through_week.eq(6) & performance.series_type.eq("vegas")]], ignore_index=True)
     table["sort"] = table.series_type.map({"consensus": 0, "vegas": 1, "model": 2})
-    table = table.sort_values(["sort", "margin_mae", "model_name"])
+    table = table.sort_values(["sort", "margin_mae", "model_name"]).reset_index(drop=True)
+    ranks = table.series_type.eq("model").cumsum().astype(str)
+    ranks.loc[~table.series_type.eq("model")] = "—"
     labels = pd.DataFrame({
+        "Rank": ranks,
         "Model": table.model_name.str.replace("scientific_", "", regex=False),
         "Games": table.games.astype(str), "Brier n": table.brier_games.astype(str),
         "MAE": table.margin_mae.map(lambda x: f"{x:.2f}"),
@@ -208,21 +211,21 @@ def scorecard(performance: pd.DataFrame, path: Path) -> None:
         "SU %": table.su_accuracy.map(lambda x: f"{x:.1%}"),
         "Brier": table.brier_score.map(lambda x: f"{x:.3f}"),
     })
-    fig, ax = plt.subplots(figsize=(13, max(20, len(labels) * .31 + 3)), facecolor="#F7F4ED")
+    fig, ax = plt.subplots(figsize=(16, max(10, len(labels) * .38 + 2.5)), facecolor="#F7F4ED")
     ax.axis("off")
     artist = ax.table(cellText=labels.values, colLabels=labels.columns, cellLoc="left", colLoc="left",
-                      bbox=[0, .035, 1, .93], colWidths=[.4, .08, .08, .09, .13, .1, .1])
+                      bbox=[0, .035, 1, .91], colWidths=[.055, .39, .07, .07, .08, .1, .1, .1])
     artist.auto_set_font_size(False)
     artist.set_fontsize(9)
     for (row, _), cell in artist.get_celld().items():
         cell.set_edgecolor("#D4D7DB")
-        cell.set_facecolor("#22324A" if row == 0 else "#FDE2F0" if row == 1 else "#EEE5CF" if row == 2 else "#FFFFFF" if row % 2 else "#EEF2F5")
+        cell.set_facecolor("#22324A" if row == 0 else "#FDE2F0" if row == 1 else "#EEF2F5" if row == 2 else "#FFFFFF" if row % 2 else "#EEF2F5")
         if row == 0:
             cell.set_text_props(color="white", weight="bold")
-    ax.set_title("2026 F0–F19 · cumulative scorecard through Week 7", fontsize=18, weight="bold", pad=14)
-    fig.text(.5, .009, "Model/consensus: 380 common games, including retrospective Weeks 6–7. Vegas: archived through Week 6 only; Week 7 F7/F17/F19 market inputs were retrieved after games.",
+    ax.set_title("2026 Scientific F0–F19 roster · cumulative through Week 7", fontsize=19, weight="bold", pad=16)
+    fig.text(.5, .008, "Model/consensus: 380 common games including retrospective Weeks 6–7. Vegas stops at Week 6. Brier n shows valid probabilities. ATS is omitted; Week 7 F7/F17/F19 market inputs were retrieved after games.",
              ha="center", fontsize=9)
-    fig.savefig(path, dpi=170, bbox_inches="tight", facecolor=fig.get_facecolor())
+    fig.savefig(path, dpi=180, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
 
 
