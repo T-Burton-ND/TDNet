@@ -113,36 +113,67 @@ def consensus(models: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     return totals.sort_values(["game_start_time_utc", "game_id"]).reset_index(drop=True), by_fingerprint
 
 
-def figure(table: pd.DataFrame, path: Path) -> None:
+def figure(table: pd.DataFrame, path: Path, models: pd.DataFrame) -> None:
+    """Week 4-style complete slate: kickoff, market, confidence, and vote agreement."""
     colors = {"paper": "#F7F4ED", "ink": "#24344B", "pink": "#D13D7C", "gold": "#AB7B22"}
-    fig, axes = plt.subplots(1, 2, figsize=(24, 18), facecolor=colors["paper"])
-    for axis, chunk in zip(axes, np.array_split(table, 2)):
-        axis.axis("off")
-        rows = []
-        for game in chunk.itertuples(index=False):
-            rows.append([
-                pd.Timestamp(game.game_start_time_utc).strftime("%a %I:%M %p UTC"),
-                f"{game.away_team} @ {game.home_team}",
-                f"{game.consensus_straight_up_pick} {game.consensus_predicted_winner_margin:.1f}",
-                f"{game.consensus_pick_confidence:.0%}",
-                str(game.consensus_against_spread_pick),
-                f"{abs(game.consensus_model_edge_vs_spread_points):.1f}",
-            ])
-        artist = axis.table(cellText=rows, colLabels=["Kickoff", "Matchup", "Projected winner", "Win p", "ATS", "Edge"],
-                            cellLoc="left", colLoc="left", bbox=[0, 0, 1, 1],
-                            colWidths=[.16, .33, .23, .075, .15, .055])
-        artist.auto_set_font_size(False)
-        artist.set_fontsize(8)
-        for (row, _), cell in artist.get_celld().items():
-            cell.set_edgecolor("#D2D8DE")
-            cell.set_facecolor(colors["ink"] if row == 0 else "#FFFFFF" if row % 2 else "#EDF1F5")
-            if row == 0:
-                cell.set_text_props(color="white", weight="bold")
-    fig.suptitle("2026 Week 8 · expanded F0–F19 scientific consensus", fontsize=22,
-                 color=colors["ink"], weight="bold", y=.982)
-    fig.text(.5, .018, "120 equal model votes per game · 53 remaining games · frozen before first kickoff · ATS edge is projected home margin plus home spread",
-             ha="center", color=colors["ink"], fontsize=10)
-    fig.savefig(path, dpi=160, bbox_inches="tight", facecolor=fig.get_facecolor())
+    home_votes = models.assign(home_vote=models.pred_home_win_probability.ge(.5)).groupby(
+        "game_id", sort=False).home_vote.sum()
+    card = table.copy()
+    card["home_votes"] = card.game_id.map(home_votes)
+    if card.home_votes.isna().any() or len(card) != 53 or card.model_votes.ne(120).any():
+        raise ValueError("The Week 8 figure lacks a complete 120-vote slate")
+    card["agreement"] = np.where(
+        card.consensus_pred_home_win_probability.ge(.5), card.home_votes,
+        120 - card.home_votes) / 120
+    card["kickoff_et"] = pd.to_datetime(card.game_start_time_utc, utc=True).dt.tz_convert(
+        "America/New_York").dt.strftime("%a %I:%M %p").str.replace(" 0", " ", regex=False)
+    card["matchup"] = card.away_team + " at " + card.home_team
+    card["pick"] = card.consensus_straight_up_pick
+    card["home_margin"] = card.consensus_pred_home_margin.map("{:+.1f}".format)
+    card["home_line"] = card.home_team + " " + card.market_spread_close.map("{:+.2f}".format)
+    card.loc[card.market_spread_close.eq(0), "home_line"] = "Pick'em"
+    card["ats_pick"] = card.consensus_against_spread_pick
+    card["edge"] = card.consensus_model_edge_vs_spread_points.abs().map("{:.1f}".format)
+    display = pd.DataFrame({
+        "Kickoff (ET)": card.kickoff_et,
+        "Matchup": card.matchup,
+        "120-model pick": card.pick,
+        "Home margin": card.home_margin,
+        "Win p": card.consensus_pick_confidence.map("{:.0%}".format),
+        "Home line": card.home_line,
+        "ATS side": card.ats_pick,
+        "Edge pts": card.edge,
+        "Agree": card.agreement.map("{:.0%}".format),
+    })
+    fig, ax = plt.subplots(figsize=(20, 25), facecolor=colors["paper"])
+    ax.axis("off")
+    ax.set_position([.025, .03, .95, .9])
+    artist = ax.table(cellText=display.values, colLabels=display.columns,
+                      cellLoc="left", colLoc="left", bbox=[0, .01, 1, .98],
+                      colWidths=[.095, .225, .135, .075, .065, .125, .13, .075, .065])
+    artist.auto_set_font_size(False)
+    artist.set_fontsize(8.8)
+    for (row, col), cell in artist.get_celld().items():
+        cell.set_edgecolor("#D2D8DE")
+        cell.set_facecolor(colors["ink"] if row == 0 else "#FFFFFF" if row % 2 else "#EDF1F5")
+        if row == 0:
+            cell.set_text_props(color="white", weight="bold")
+        elif col == 7 and abs(float(card.iloc[row - 1].consensus_model_edge_vs_spread_points)) >= 3:
+            cell.set_facecolor("#FFF0C4")
+            cell.set_text_props(weight="bold", color="#624913")
+    large_edges = int(card.consensus_model_edge_vs_spread_points.abs().ge(3).sum())
+    side_disagreements = int(card.consensus_pred_home_margin.ge(0).ne(
+        card.consensus_pred_home_win_probability.ge(.5)).sum())
+    ax.set_title(
+        "2026 Week 8 · F0–F19 scientific consensus (120 models)\n"
+        f"53 remaining games  •  {large_edges} model edges ≥3 points  •  Eastern kickoff times",
+        fontsize=19, color=colors["ink"], weight="bold", pad=16)
+    fig.text(.5, .01,
+             "Market line frozen October 21 before these kickoffs. Positive home margin favors the home team; "
+             "edge = model home margin + home spread. Agreement counts winner votes. "
+             f"Probability and mean-margin sides differ in {side_disagreements} near-even games; quote times are unavailable.",
+             ha="center", color=colors["ink"], fontsize=9.5)
+    fig.savefig(path, dpi=180, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
 
 
@@ -197,7 +228,7 @@ def main() -> None:
     models.to_csv(saved["models_csv"], index=False, float_format="%.6f")
     table.to_csv(saved["consensus_csv"], index=False, float_format="%.6f")
     fingerprints.to_csv(saved["fingerprint_csv"], index=False, float_format="%.6f")
-    figure(table, saved["consensus_png"])
+    figure(table, saved["consensus_png"], models)
     readme = OUT / "README.md"
     readme.write_text(
         "# Week 8 F0–F19 scientific research forecasts\n\n"
@@ -216,6 +247,10 @@ def main() -> None:
         "provider quote timestamps are unavailable, and historical F17/F19 quote timing is "
         "unverified. Earlier 2026 outcomes had informed broader roster research, so this "
         "expanded panel is exploratory even though these 53 game forecasts precede kickoff.\n"
+        "The full-slate figure displays Eastern kickoff times, the frozen home spread, mean predicted "
+        "home margin, the probability-based winner pick, ATS edge, and the share of 120 cells that "
+        "pick the consensus winner. Probability and mean-margin sides differ for two near-even games; "
+        "the figure keeps the two quantities separate rather than implying agreement.\n"
     )
     saved["readme"] = readme
     if pd.Timestamp.now(tz="UTC") >= first_start:

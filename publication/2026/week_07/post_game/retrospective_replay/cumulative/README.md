@@ -4,4 +4,6 @@ Margin (33), original scientific F0–F6 (42), and full scientific F0–F8 have 
 
 The expanded F0–F19 research cohort (120 model cells) now has a common-cohort scorecard through Week 7 in `scientific_f0_f19/`. Weeks 6–7 were reconstructed after the games from score-free states and are marked as retrospective. Week 7 F7, F17-market, and F19 used market lines retrieved after the games; Week 7 F8 had missing market fields imputed. One Week 6 F17/F19 game needed an ex-post market fallback. The archived Vegas comparator stops at Week 6. This backfill is exploratory and cannot be counted as prospective forecast performance. A separate complete 53-game Week 8 pregame research forecast is at `publication/2026/week_08/pre_game/scientific/full_f0_f19/`; it has no outcome scores yet.
 
+The margin, F0–F6, and F0–F8 cumulative cards now include Week 7 MAE and straight-up results next to the full-season columns. The scientific trajectory colors identify fingerprint stages. The expanded F0–F19 card adds descriptive Week 7 ATS and upset-call precision from after-game lines, with that provenance printed on the figure.
+
 `manifest.json` lists every figure, table, and input hash.

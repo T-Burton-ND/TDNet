@@ -13,11 +13,11 @@
   "outputs": {
     "brier_png": {
       "path": "publication/2026/research/fingerprint_model_pareto/pareto_brier.png",
-      "sha256": "c2c62890fa2b756175fbf7aeb281b082b9f85596a26f6163170c7933bb0d6f27"
+      "sha256": "8eeac0b5cc2e6f1c529dfde7a723eb406a7993c2abded637456d2fccedb8a135"
     },
     "brier_svg": {
       "path": "publication/2026/research/fingerprint_model_pareto/pareto_brier.svg",
-      "sha256": "5067ae6404109c506335967ca01865359b0ce52bf95b083dac32e412058e1961"
+      "sha256": "c434c6cb0c3ca7492ca2aeb57066567b8fe115f66de00c7c4e0a8101a9f6cb1b"
     },
     "costs": {
       "path": "publication/2026/research/fingerprint_model_pareto/model_costs.csv",
@@ -25,11 +25,11 @@
     },
     "mae_png": {
       "path": "publication/2026/research/fingerprint_model_pareto/pareto_mae.png",
-      "sha256": "77231b21a47677abaddf6983fa2d058a1ae1a806f7f78dd5784524a14716b6a2"
+      "sha256": "5026704627682e51a39f4707bfaa8c12c48fd4257869833db24914545b9cb6d0"
     },
     "mae_svg": {
       "path": "publication/2026/research/fingerprint_model_pareto/pareto_mae.svg",
-      "sha256": "ef12537bb9a9dfb0d0bde05411b4a59ab05ca75315593440df50a2a7334bc6ca"
+      "sha256": "778efa6becd3ad522a35e9c2ea2631a6725707b09f38a037951d13c2cb3203e9"
     },
     "paired_metrics": {
       "path": "publication/2026/research/fingerprint_model_pareto/paired_model_frontier.csv",

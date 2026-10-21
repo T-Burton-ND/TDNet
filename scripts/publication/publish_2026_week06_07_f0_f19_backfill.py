@@ -12,6 +12,8 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap, Normalize
+from matplotlib.lines import Line2D
 import numpy as np
 import pandas as pd
 from matplotlib.ticker import PercentFormatter
@@ -24,6 +26,8 @@ HISTORY = PUB / "week_05/post_game/scientific/current_season_f0_f19/scientific_2
 GAMES = ROOT / "data/raw/cfbd/v2/games/2026.parquet"
 ROSTER = ("M1", "M2", "M3", "M4", "M5", "M10")
 STAGES = tuple(f"F{i}" for i in range(17)) + ("F17-market", "F18", "F19")
+MODEL_STYLES = {"M1": "-", "M2": "--", "M3": ":", "M4": "-.",
+                "M5": (0, (5, 1.5, 1, 1.5)), "M10": (0, (1, 1))}
 
 
 def digest(path: Path) -> str:
@@ -160,15 +164,22 @@ def metrics(models: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFr
 
 
 def trajectory(performance: pd.DataFrame, path: Path) -> None:
-    fig, axes = plt.subplots(1, 3, figsize=(21, 7), facecolor="#F7F4ED")
+    fig, axes = plt.subplots(1, 3, figsize=(23, 9), facecolor="#F7F4ED")
+    colors = LinearSegmentedColormap.from_list("fingerprint", ["#EA5A9B", "#8753AE", "#2272A7", "#0F638B"])
     for axis, (column, title, percent) in zip(axes, (
-        ("margin_mae", "Margin MAE", False), ("su_accuracy", "Straight-up accuracy", True),
-        ("brier_score", "Brier score", False))):
-        for _, group in performance.loc[performance.series_type.eq("model")].groupby("model_name"):
+        ("brier_score", "Brier score · lower is better", False),
+        ("su_accuracy", "Straight-up accuracy · higher is better", True),
+        ("margin_mae", "Margin MAE · lower is better", False))):
+        for name, group in performance.loc[performance.series_type.eq("model")].groupby("model_name"):
             group = group.sort_values("through_week")
-            axis.plot(group.through_week, group[column], color="#71849A", alpha=.14, lw=.8)
-            axis.plot(group.loc[group.through_week.ge(5), "through_week"],
-                      group.loc[group.through_week.ge(5), column], color="#71849A", alpha=.28, lw=.8, ls=":")
+            stage, model_id = name.removeprefix("scientific_").rsplit("_", 1)
+            color = colors(STAGES.index(stage) / 19)
+            early = group.loc[group.through_week.le(5)]
+            late = group.loc[group.through_week.ge(5)]
+            axis.plot(early.through_week, early[column], color=color,
+                      alpha=.43, lw=1.05, ls=MODEL_STYLES[model_id], zorder=2)
+            axis.plot(late.through_week, late[column], color=color,
+                      alpha=.43, lw=1.05, ls=":", zorder=2)
         consensus = performance.loc[performance.series_type.eq("consensus")].sort_values("through_week")
         axis.plot(consensus.loc[consensus.through_week.le(5), "through_week"],
                   consensus.loc[consensus.through_week.le(5), column], color="#D62F76", lw=3, marker="o",
@@ -179,25 +190,41 @@ def trajectory(performance: pd.DataFrame, path: Path) -> None:
         vegas = performance.loc[performance.series_type.eq("vegas")].sort_values("through_week")
         axis.plot(vegas.through_week, vegas[column], color="#AE7F1C", lw=2.6, ls="--", marker="s",
                   label="Vegas · archived through Week 6")
-        axis.axvspan(5.5, 7.3, color="#DEE0E2", alpha=.45)
-        axis.set_title(title, fontsize=15, loc="left", weight="bold")
+        axis.set_title(title, fontsize=14, loc="left", weight="bold", color="#15294C")
         axis.set_xticks(range(1, 8))
         axis.set_xlim(.8, 7.3)
         axis.grid(alpha=.2)
         axis.spines[["top", "right"]].set_visible(False)
         if percent:
             axis.yaxis.set_major_formatter(PercentFormatter(1))
-        axis.legend(frameon=False, fontsize=8)
-    fig.suptitle("2026 F0–F19 scientific · cumulative common-cohort performance", fontsize=21, weight="bold")
-    fig.text(.5, .02, "263 common Weeks 1–5 games + 58 Week 6 + 59 Week 7; all 120 model cells. Weeks 6–7 reconstructed after games. Week 7 F7/F17/F19 use ex-post market lines; Vegas stops at Week 6.",
+    fig.subplots_adjust(top=.84, bottom=.27, left=.06, right=.98, wspace=.21)
+    fig.suptitle("TDNet 2026 scientific roster · cumulative common-cohort performance",
+                 fontsize=21, weight="bold", color="#15294C", y=.965)
+    color_axis = fig.add_axes([.18, .185, .64, .025])
+    colorbar = fig.colorbar(plt.cm.ScalarMappable(norm=Normalize(0, 19), cmap=colors),
+                          cax=color_axis, orientation="horizontal")
+    colorbar.set_ticks([0, 4, 8, 12, 16, 19])
+    colorbar.set_ticklabels(["F0", "F4", "F8", "F12", "F16", "F19"])
+    colorbar.set_label("Fingerprint generation (pink → blue)")
+    styles = [Line2D([0], [0], color="#40556F", ls=MODEL_STYLES[m], lw=1.8,
+                     label=f"{m} · {label}")
+              for m, label in (("M1", "Linear"), ("M2", "Spline"), ("M3", "Tree"),
+                               ("M4", "Boosted"), ("M5", "Neural"), ("M10", "KNN"))]
+    styles.extend([Line2D([0], [0], color="#D62F76", lw=3, marker="o", label="120-model consensus"),
+                   Line2D([0], [0], color="#AE7F1C", lw=2.5, ls="--", marker="s",
+                          label="Archived Vegas")])
+    fig.legend(handles=styles, loc="lower center", bbox_to_anchor=(.5, .04),
+               ncol=4, frameon=False, fontsize=9)
+    fig.text(.5, .007,
+             "263 common Weeks 1–5 games + 58 Week 6 + 59 Week 7. Dotted model/consensus segments are retrospective. "
+             "Week 7 F7/F17/F19 use ex-post market lines; Vegas stops at Week 6.",
              ha="center", fontsize=9)
     fig.savefig(path, dpi=180, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
 
 
-def scorecard(performance: pd.DataFrame, path: Path) -> None:
-    table = performance.loc[performance.through_week.eq(7)].copy()
-    table = pd.concat([table, performance.loc[performance.through_week.eq(6) & performance.series_type.eq("vegas")]], ignore_index=True)
+def scorecard(table: pd.DataFrame, path: Path) -> None:
+    table = table.copy()
     table["sort"] = table.series_type.map({"consensus": 0, "vegas": 1, "model": 2})
     table = table.sort_values(["sort", "margin_mae", "model_name"]).reset_index(drop=True)
     ranks = table.series_type.eq("model").cumsum().astype(str)
@@ -205,16 +232,33 @@ def scorecard(performance: pd.DataFrame, path: Path) -> None:
     labels = pd.DataFrame({
         "Rank": ranks,
         "Model": table.model_name.str.replace("scientific_", "", regex=False),
-        "Games": table.games.astype(str), "Brier n": table.brier_games.astype(str),
-        "MAE": table.margin_mae.map(lambda x: f"{x:.2f}"),
-        "SU": table.su_wins.astype(str) + "/" + table.games.astype(str),
+        "Tier": table.model_name.str.extract(r"scientific_(F\d+(?:-market)?)_")[0].fillna("—"),
+        "Games": table.games.astype(str),
+        "W7 MAE": table.week07_margin_mae.map(lambda x: "—" if pd.isna(x) else f"{x:.2f}"),
+        "W7 SU": table.apply(lambda row: "—" if pd.isna(row.week07_su_wins)
+                              else f"{int(row.week07_su_wins)}/{int(row.week07_games)}", axis=1),
+        "W7 ATS (W-L-P)": table.apply(
+            lambda row: "—" if pd.isna(row.week07_ats_wins) else
+            f"{int(row.week07_ats_wins)}-{int(row.week07_ats_losses)}-{int(row.week07_ats_pushes)} "
+            f"({row.week07_ats_wins/(row.week07_ats_wins+row.week07_ats_losses):.0%})", axis=1),
+        "W7 upset calls": table.apply(
+            lambda row: "—" if pd.isna(row.week07_upset_calls) else
+            (f"{int(row.week07_upset_calls_correct)}/{int(row.week07_upset_calls)} "
+             f"({row.week07_upset_calls_correct/row.week07_upset_calls:.0%})"
+             if row.week07_upset_calls else "0/0 (—)"), axis=1),
+        "Cumulative MAE": table.margin_mae.map(lambda x: f"{x:.2f}"),
+        "Cumulative SU": table.su_wins.astype(str) + "/" + table.games.astype(str),
         "SU %": table.su_accuracy.map(lambda x: f"{x:.1%}"),
+        "Brier n": table.brier_games.astype(str),
         "Brier": table.brier_score.map(lambda x: f"{x:.3f}"),
     })
-    fig, ax = plt.subplots(figsize=(16, max(10, len(labels) * .38 + 2.5)), facecolor="#F7F4ED")
+    fig, ax = plt.subplots(figsize=(23, max(10, len(labels) * .38 + 2.5)), facecolor="#F7F4ED")
     ax.axis("off")
+    ax.set_position([.025, .028, .95, .91])
     artist = ax.table(cellText=labels.values, colLabels=labels.columns, cellLoc="left", colLoc="left",
-                      bbox=[0, .035, 1, .91], colWidths=[.055, .39, .07, .07, .08, .1, .1, .1])
+                      bbox=[0, .01, 1, .98],
+                      colWidths=[.035, .16, .055, .05, .06, .06, .09, .095,
+                                 .09, .09, .055, .065, .06])
     artist.auto_set_font_size(False)
     artist.set_fontsize(9)
     for (row, _), cell in artist.get_celld().items():
@@ -223,7 +267,7 @@ def scorecard(performance: pd.DataFrame, path: Path) -> None:
         if row == 0:
             cell.set_text_props(color="white", weight="bold")
     ax.set_title("2026 Scientific F0–F19 roster · cumulative through Week 7", fontsize=19, weight="bold", pad=16)
-    fig.text(.5, .008, "Model/consensus: 380 common games including retrospective Weeks 6–7. Vegas stops at Week 6. Brier n shows valid probabilities. ATS is omitted; Week 7 F7/F17/F19 market inputs were retrieved after games.",
+    fig.text(.5, .008, "W7 columns cover 59 retrospective games; ATS and upset calls use after-game market lines with unverified quote times. ATS percent excludes pushes. Cumulative model/consensus: 380 common games; Vegas stops at Week 6.",
              ha="center", fontsize=9)
     fig.savefig(path, dpi=180, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
@@ -261,10 +305,57 @@ def main() -> None:
     performance.to_csv(paths["cumulative_csv"], index=False)
     score = pd.concat([performance.loc[performance.through_week.eq(7)],
                        performance.loc[performance.through_week.eq(6) & performance.series_type.eq("vegas")]])
+    week7 = models.loc[models.week.eq(7)].groupby("model_name").agg(
+        week07_games=("game_id", "nunique"),
+        week07_margin_mae=("margin_error", "mean"),
+        week07_su_wins=("winner_correct", "sum"),
+    ).reset_index()
+    week7_consensus = consensus.loc[consensus.week.eq(7)]
+    week7 = pd.concat([week7, pd.DataFrame([{
+        "model_name": "F0–F19 equal consensus",
+        "week07_games": week7_consensus.game_id.nunique(),
+        "week07_margin_mae": week7_consensus.margin_error.mean(),
+        "week07_su_wins": int(week7_consensus.winner_correct.sum()),
+    }])], ignore_index=True)
+    week7_lines = pd.read_parquet(OUT / "f17_f19_market_snapshot.parquet")
+    week7_lines = week7_lines.loc[
+        week7_lines.market_provenance.eq("ex_post_oct21_cache_unverified_quote_time"),
+        ["target_game_id", "market_home_spread"],
+    ].rename(columns={"target_game_id": "game_id"})
+    if len(week7_lines) != 59 or week7_lines.market_home_spread.isna().any():
+        raise ValueError("Week 7 descriptive ATS lines are incomplete")
+    week7_predictions = pd.concat([
+        models.loc[models.week.eq(7), ["game_id", "model_name", "pred_home_margin",
+                                         "pred_home_win_probability", "actual_home_margin"]],
+        week7_consensus[["game_id", "pred_home_margin", "pred_home_win_probability",
+                         "actual_home_margin"]].assign(model_name="F0–F19 equal consensus"),
+    ], ignore_index=True).merge(week7_lines, on="game_id", validate="many_to_one")
+    predicted_cover = week7_predictions.pred_home_margin + week7_predictions.market_home_spread
+    actual_cover = week7_predictions.actual_home_margin + week7_predictions.market_home_spread
+    week7_predictions["ats_result"] = np.where(
+        predicted_cover.eq(0), "—", np.where(actual_cover.eq(0), "P",
+        np.where(predicted_cover.gt(0).eq(actual_cover.gt(0)), "W", "L")))
+    predicted_home = week7_predictions.pred_home_win_probability.ge(.5)
+    actual_home = week7_predictions.actual_home_margin.gt(0)
+    favorite_home = week7_predictions.market_home_spread.lt(0)
+    week7_predictions["upset_call"] = predicted_home.ne(favorite_home)
+    week7_predictions["upset_call_correct"] = (
+        week7_predictions.upset_call & predicted_home.eq(actual_home))
+    market_results = week7_predictions.groupby("model_name").agg(
+        week07_ats_wins=("ats_result", lambda x: int(x.eq("W").sum())),
+        week07_ats_losses=("ats_result", lambda x: int(x.eq("L").sum())),
+        week07_ats_pushes=("ats_result", lambda x: int(x.eq("P").sum())),
+        week07_upset_calls=("upset_call", "sum"),
+        week07_upset_calls_correct=("upset_call_correct", "sum"),
+    ).reset_index()
+    week7 = week7.merge(market_results, on="model_name", validate="one_to_one")
+    score = score.merge(week7, on="model_name", how="left", validate="many_to_one")
+    if score.loc[score.series_type.ne("vegas"), "week07_games"].ne(59).any():
+        raise ValueError("A cumulative scorecard row is missing Week 7 results")
     score.to_csv(paths["scorecard_csv"], index=False)
     trajectory(performance, paths["performance_png"])
     shutil.copyfile(paths["performance_png"], paths["coverage_png"])
-    scorecard(performance, paths["scorecard_png"])
+    scorecard(score, paths["scorecard_png"])
     inputs = [HISTORY, PUB / "week_06/pre_game/frozen_bundle/public/predictions.parquet", *sources,
               OUT / "f17_f19_market_snapshot.parquet", OUT / "market_source_receipt.json",
               OUT / "f7_expost_receipt.json", OUT / "f18_f19_retrospective_receipt.json",
@@ -297,6 +388,10 @@ def main() -> None:
         "Thus Weeks 6–7 are exploratory retrospective diagnostics, never timely or leakage-free forecasts. "
         "The cumulative chart uses the 263-game common F0–F19 Weeks 1–5 cohort, then adds these 117 games. "
         "The Vegas line uses archived market summaries only and stops at Week 6; its game count can be smaller.\n"
+        "The cumulative table additionally shows each cell's Week 7 MAE, straight-up record, ATS record, and "
+        "correct/total upset calls. Week 7 ATS and upset calls use October 21 after-game lines with unverified "
+        "quote times; they are descriptive retrospective grades, not pregame betting results. "
+        "The Week 7 consensus game card uses the same line provenance.\n"
     )
     print({"model_cells": 120, "common_games": 380, "week06": 58, "week07": 59}, flush=True)
 

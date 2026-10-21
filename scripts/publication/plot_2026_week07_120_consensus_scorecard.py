@@ -80,13 +80,14 @@ def main() -> None:
     ats_wins = int(card.ats_result.eq("W").sum())
     ats_losses = int(card.ats_result.eq("L").sum())
     ats_pushes = int(card.ats_result.eq("P").sum())
-    fig, ax = plt.subplots(figsize=(23, 27))
+    fig, ax = plt.subplots(figsize=(23, 23))
     fig.patch.set_facecolor("#f7f4ee")
     ax.axis("off")
+    ax.set_position([.025, .03, .95, .9])
     table = ax.table(
         cellText=display.values, colLabels=display.columns, cellLoc="left", colLoc="left",
         colWidths=[0.19, 0.18, 0.06, 0.265, 0.04, 0.105, 0.095, 0.04, 0.065],
-        bbox=[0.0, 0.035, 1.0, 0.91],
+        bbox=[0.0, 0.01, 1.0, 0.98],
     )
     table.auto_set_font_size(False)
     table.set_fontsize(8.5)
@@ -105,7 +106,7 @@ def main() -> None:
     ax.set_title(
         "2026 Week 7 | F0–F19 scientific consensus (120 models)\n"
         f"SU {wins}–{len(card)-wins} ({wins/len(card):.1%})   •   "
-        f"ATS {ats_wins}–{ats_losses}–{ats_pushes}   •   "
+        f"ATS {ats_wins}–{ats_losses}–{ats_pushes} ({ats_wins/(ats_wins+ats_losses):.1%}, pushes excluded)   •   "
         f"Margin MAE {card.margin_error.mean():.2f} pts   •   Brier {card.brier_error.mean():.4f}",
         fontsize=18, weight="bold", color="#14294f", pad=22,
     )

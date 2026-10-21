@@ -160,7 +160,7 @@ def plot(frame: pd.DataFrame, market: dict[str, float | int], metric: str, path:
     })
     fig = plt.figure(figsize=(18, 8.5), facecolor=PAPER)
     grid = fig.add_gridspec(1, 2, width_ratios=(1.13, 1), wspace=0.22,
-                            left=0.07, right=0.98, top=0.81, bottom=0.2)
+                            left=0.07, right=0.98, top=0.81, bottom=0.23)
     map_axis, budget_axis = fig.add_subplot(grid[0, 0]), fig.add_subplot(grid[0, 1])
     feature_levels = sorted(frame.feature_count.unique())
     feature_position = {count: index for index, count in enumerate(feature_levels)}
@@ -174,11 +174,11 @@ def plot(frame: pd.DataFrame, market: dict[str, float | int], metric: str, path:
     efficient = frame.loc[frame[f"pareto_{metric}"]]
     map_axis.scatter(efficient.feature_count.map(feature_position), efficient.checkpoint_bytes / 2**20,
                      facecolors="none", edgecolors=NAVY, linewidth=1.4, s=235, zorder=4)
-    for fingerprint, model_id in (("F0", "M1"), ("F3", "M4"), ("F6", "M4")):
+    for fingerprint, model_id in (("F3", "M4"), ("F6", "M4")):
         row = frame.loc[frame.fingerprint.eq(fingerprint) & frame.model_id.eq(model_id)].iloc[0]
         map_axis.annotate(f"{fingerprint}/{model_id}",
                           (feature_position[row.feature_count], row.checkpoint_bytes / 2**20),
-                          xytext=(-48 if fingerprint == "F6" else 7, 8),
+                          xytext=(-48 if fingerprint == "F6" else 10, 8),
                           textcoords="offset points", fontsize=9,
                           color=NAVY, weight="bold")
     map_axis.set(yscale="log", xlabel="Fingerprint / declared input features",
@@ -193,8 +193,8 @@ def plot(frame: pd.DataFrame, market: dict[str, float | int], metric: str, path:
                             markerfacecolor="#647A91", markeredgecolor="white",
                             markersize=8, label=f"{model_id} {MODEL_LABELS[model_id]}")
                      for model_id in MODELS]
-    map_axis.legend(handles=marker_legend, loc="upper left", ncol=2,
-                    fontsize=8, frameon=True, facecolor="#FFFCF7")
+    map_axis.legend(handles=marker_legend, loc="upper center", bbox_to_anchor=(.5, -.17),
+                    ncol=3, fontsize=8, frameon=False)
     colorbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap), ax=map_axis,
                            fraction=0.04, pad=0.02)
     colorbar.set_label("MAE (points)" if metric == "mae" else "Brier score")
@@ -233,11 +233,11 @@ def plot(frame: pd.DataFrame, market: dict[str, float | int], metric: str, path:
              f"+225 features: best {_format_score(float(f0), metric)}→{_format_score(float(f6), metric)} "
              f"(Vegas {_format_score(float(market[metric]), metric)})",
              ha="center", fontsize=11, color=NAVY)
-    fig.text(0.5, 0.045,
+    fig.text(0.5, 0.055,
              "Pareto efficiency minimizes input count, checkpoint bytes, and error among the 42 tested cells. "
-             "Checkpoint size measures deployment footprint, not statistical capacity. "
-             "Vegas is a same-game comparator, not a trained-model cost point; historical quote-level timing is unverified. "
-             "Frontiers are descriptive and selected after viewing 2026 results.",
+             "Checkpoint size measures deployment footprint, not statistical capacity.\n"
+             "Vegas is a same-game comparator, not a trained-model cost point. Historical quote-level timing is unverified. "
+             "Frontiers were selected after viewing 2026 results.",
              ha="center", fontsize=8.6, color="#4E5660", wrap=True)
     fig.savefig(path, dpi=200, bbox_inches="tight", facecolor=PAPER)
     plt.close(fig)

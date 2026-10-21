@@ -14,6 +14,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap, Normalize
 import numpy as np
 import pandas as pd
 from matplotlib.ticker import PercentFormatter
@@ -200,13 +201,18 @@ def _plot_trajectory(data: pd.DataFrame, title: str, path: Path) -> None:
         ("su_accuracy", "Straight-up accuracy", True),
         ("brier_score", "Brier score", False),
     )
-    fig, axes = plt.subplots(1, 3, figsize=(20, 7), facecolor="#F7F4ED")
+    fig, axes = plt.subplots(1, 3, figsize=(20, 8), facecolor="#F7F4ED")
+    colors = LinearSegmentedColormap.from_list("fingerprint", ["#EA5A9B", "#8753AE", "#2272A7"])
+    scientific = "scientific" in title.lower()
+    max_stage = 8 if "F0–F8" in title else 6
     for axis, (metric, label, percent) in zip(axes, metrics):
-        for _, group in data.loc[data.series_type.eq("model")].groupby("model_name"):
+        for name, group in data.loc[data.series_type.eq("model")].groupby("model_name"):
+            stage = int(name.split("_F", 1)[1].split("_", 1)[0]) if scientific else 0
+            color = colors(stage / max_stage) if scientific else "#647D98"
             frozen = group.loc[group.through_week.le(6)].sort_values("through_week")
-            axis.plot(frozen.through_week, frozen[metric], color="#647D98", alpha=0.23, lw=1)
+            axis.plot(frozen.through_week, frozen[metric], color=color, alpha=0.35, lw=1)
             endpoint = group.loc[group.through_week.ge(6)].sort_values("through_week")
-            axis.plot(endpoint.through_week, endpoint[metric], color="#647D98", alpha=0.35, lw=1, ls=":")
+            axis.plot(endpoint.through_week, endpoint[metric], color=color, alpha=0.45, lw=1, ls=":")
         consensus = data.loc[data.series_type.eq("consensus")].sort_values("through_week")
         frozen = consensus.loc[consensus.through_week.le(6)]
         endpoint = consensus.loc[consensus.through_week.ge(6)]
@@ -215,8 +221,8 @@ def _plot_trajectory(data: pd.DataFrame, title: str, path: Path) -> None:
         vegas = data.loc[data.series_type.eq("vegas")].sort_values("through_week")
         axis.plot(vegas.through_week, vegas[metric], color="#BD8B17", lw=2.5,
                   ls="--", marker="s", label="Vegas · available Weeks 0–6")
-        axis.axvspan(6.5, 7.35, color="#E1E1E1", alpha=0.6)
-        axis.set_title(label, loc="left", weight="bold", fontsize=15)
+        axis.set_title(label + (" · higher is better" if percent else " · lower is better"),
+                       loc="left", weight="bold", fontsize=14, color="#15294C")
         axis.set_xticks(range(8))
         axis.set_xlim(-0.2, 7.35)
         axis.set_xlabel("Completed week")
@@ -224,9 +230,21 @@ def _plot_trajectory(data: pd.DataFrame, title: str, path: Path) -> None:
             axis.yaxis.set_major_formatter(PercentFormatter(1))
         axis.grid(alpha=0.2)
         axis.spines[["top", "right"]].set_visible(False)
-        axis.legend(frameon=False, fontsize=9)
-    fig.suptitle(f"2026 {title} · cumulative performance", fontsize=22, weight="bold")
-    fig.text(0.5, 0.02, "Weeks 0–6: frozen model forecasts and published Vegas baseline. Week 7: retrospective replay after games; no historical market/ATS result. Vegas Brier has fewer eligible games.", ha="center", fontsize=10)
+        axis.legend(frameon=False, fontsize=8)
+    fig.subplots_adjust(top=.84, bottom=.2 if scientific else .13, wspace=.22)
+    fig.suptitle(f"TDNet 2026 {title} · cumulative performance", fontsize=21,
+                 weight="bold", color="#15294C", y=.96)
+    if scientific:
+        bar_axis = fig.add_axes([.26, .115, .48, .022])
+        bar = fig.colorbar(plt.cm.ScalarMappable(norm=Normalize(0, max_stage), cmap=colors),
+                           cax=bar_axis, orientation="horizontal")
+        bar.set_ticks(range(max_stage + 1))
+        bar.set_ticklabels([f"F{i}" for i in range(max_stage + 1)])
+        bar.set_label("Fingerprint generation (pink → blue)")
+    fig.text(0.5, 0.02,
+             "Weeks 0–6: frozen forecasts and archived Vegas. Dotted Week 7 endpoint: retrospective replay after games. "
+             "Vegas stops at Week 6; its Brier series has fewer eligible games. ATS is omitted.",
+             ha="center", fontsize=9)
     fig.savefig(path, dpi=180, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
 
@@ -238,16 +256,22 @@ def _plot_scorecard(scorecard: pd.DataFrame, title: str, path: Path) -> None:
             "Rank": ["—" if x != "model" else str(i - 1) for i, x in enumerate(shown.series_type, start=0)],
             "Model": shown.model_name.str.replace("scientific_", "", regex=False),
             "Games": shown.games.astype(str),
+            "W7 MAE": shown.week07_margin_mae.map(lambda x: "—" if pd.isna(x) else f"{x:.2f}"),
+            "W7 SU": shown.apply(lambda row: "—" if pd.isna(row.week07_su_wins)
+                                 else f"{int(row.week07_su_wins)}/{int(row.week07_games)}", axis=1),
             "Brier n": shown.brier_games.astype(str),
-            "MAE": shown.margin_mae.map(lambda x: f"{x:.2f}"),
-            "SU": shown.su_wins.astype(str) + "/" + shown.games.astype(str),
+            "Cumulative MAE": shown.margin_mae.map(lambda x: f"{x:.2f}"),
+            "Cumulative SU": shown.su_wins.astype(str) + "/" + shown.games.astype(str),
             "SU %": shown.su_accuracy.map(lambda x: f"{x:.1%}"),
             "Brier": shown.brier_score.map(lambda x: f"{x:.3f}"),
         }
     )
-    fig, ax = plt.subplots(figsize=(16, max(10, len(table) * 0.38 + 2.5)), facecolor="#F7F4ED")
+    fig, ax = plt.subplots(figsize=(18, max(10, len(table) * 0.38 + 2.5)), facecolor="#F7F4ED")
     ax.axis("off")
-    artist = ax.table(cellText=table.values, colLabels=table.columns, cellLoc="left", colLoc="left", bbox=[0, 0.035, 1, 0.91], colWidths=[0.055, 0.39, 0.07, 0.07, 0.08, 0.1, 0.1, 0.1])
+    ax.set_position([.025, .028, .95, .91])
+    artist = ax.table(cellText=table.values, colLabels=table.columns, cellLoc="left", colLoc="left",
+                      bbox=[0, .01, 1, .98],
+                      colWidths=[0.045, 0.30, 0.06, 0.07, 0.07, 0.075, 0.10, 0.10, 0.09, 0.09])
     artist.auto_set_font_size(False)
     artist.set_fontsize(9)
     for (row, _), cell in artist.get_celld().items():
@@ -256,7 +280,10 @@ def _plot_scorecard(scorecard: pd.DataFrame, title: str, path: Path) -> None:
         if row == 0:
             cell.set_text_props(color="white", weight="bold")
     ax.set_title(f"2026 {title} · cumulative through Week 7", fontsize=19, weight="bold", pad=16)
-    fig.text(0.5, 0.008, "Model rows include the Week 7 retrospective replay; Vegas row stops at Week 6 (325 games). Brier n shows valid probabilities. ATS is omitted.", ha="center", fontsize=9)
+    fig.text(0.5, 0.008,
+             "W7 columns cover 59 retrospective games; cumulative model rows include Week 7. "
+             "Vegas stops at Week 6 (325 games). Brier n shows valid probabilities; ATS is omitted.",
+             ha="center", fontsize=9)
     fig.savefig(path, dpi=180, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
 
@@ -275,6 +302,15 @@ def main() -> None:
         scorecard["sort_key"] = scorecard.series_type.map({"consensus": 0, "model": 1})
         scorecard.loc[scorecard.series_type.eq("vegas"), "sort_key"] = 0.5
         scorecard = scorecard.sort_values(["sort_key", "margin_mae", "model_name"]).drop(columns="sort_key")
+        week7 = games.loc[games.week.eq(7)].groupby(["series_type", "model_name"]).agg(
+            week07_games=("game_id", "nunique"),
+            week07_margin_mae=("margin_error", "mean"),
+            week07_su_wins=("winner_correct", "sum"),
+        ).reset_index()
+        scorecard = scorecard.merge(week7, on=["series_type", "model_name"],
+                                    how="left", validate="one_to_one")
+        if scorecard.loc[scorecard.series_type.ne("vegas"), "week07_games"].ne(59).any():
+            raise ValueError("A roster scorecard row is missing Week 7 results")
         directory = OUTPUT / roster
         directory.mkdir(exist_ok=True)
         paths = {
@@ -331,6 +367,8 @@ def main() -> None:
         "Margin (33), original scientific F0–F6 (42), and full scientific F0–F8 have current model and consensus CSVs and figures here. The full roster had 54 models through Week 6 and 49 replayable cells in Week 7; five F7 market-dependent models stop at Week 6. Weeks 0–6 are frozen pregame forecasts. Week 7 is a 59-game retrospective replay made after the games; the dotted endpoint is not a prospective result. Published Vegas MAE and Brier baselines appear through Week 6 only; their Week 7 point is missing because no historical Week 7 market snapshot was frozen. The Week 7 scorecards retain a separate 325-game Vegas row clearly labeled as stopping at Week 6. Vegas Brier uses fewer eligible games than the model rows. ATS is omitted from these new figures.",
         "",
         "The expanded F0–F19 research cohort (120 model cells) now has a common-cohort scorecard through Week 7 in `scientific_f0_f19/`. Weeks 6–7 were reconstructed after the games from score-free states and are marked as retrospective. Week 7 F7, F17-market, and F19 used market lines retrieved after the games; Week 7 F8 had missing market fields imputed. One Week 6 F17/F19 game needed an ex-post market fallback. The archived Vegas comparator stops at Week 6. This backfill is exploratory and cannot be counted as prospective forecast performance. A separate complete 53-game Week 8 pregame research forecast is at `publication/2026/week_08/pre_game/scientific/full_f0_f19/`; it has no outcome scores yet.",
+        "",
+        "The margin, F0–F6, and F0–F8 cumulative cards now include Week 7 MAE and straight-up results next to the full-season columns. The scientific trajectory colors identify fingerprint stages. The expanded F0–F19 card adds descriptive Week 7 ATS and upset-call precision from after-game lines, with that provenance printed on the figure.",
         "",
         "`manifest.json` lists every figure, table, and input hash.",
     ]
