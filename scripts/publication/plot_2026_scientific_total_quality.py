@@ -1,4 +1,4 @@
-"""Nine paired 2026 scientific-roster views from a supplied common cohort.
+"""Nine paired 2026 scientific-roster views and two publication violin variants.
 
 The default cohort is retrospective through Week 7; supply a later common-cohort
 directory and market provenance note to rebuild the gallery after more games.
@@ -170,25 +170,34 @@ def load_scores() -> pd.DataFrame:
     return frame
 
 
-def figure(title: str, subtitle: str, size: tuple[float, float] = (16, 9.5)):
+def figure(title: str, subtitle: str, size: tuple[float, float] = (16, 9.5),
+           *, publication: bool = False):
     fig, ax = plt.subplots(figsize=size)
     fig.patch.set_facecolor(PAPER)
     ax.set_facecolor(PANEL)
-    fig.subplots_adjust(left=.105, right=.88, top=.80, bottom=.15)
-    fig.text(.105, .957, "TDNET  /  2026 SCIENTIFIC ROSTER", color=MUTED, size=10, weight="bold")
-    fig.text(.105, .900, title, color=INK, size=23, weight="bold")
-    fig.text(.105, .850, subtitle, color=MUTED, size=11)
-    fig.text(.105, .052, FOOTER, color=MUTED, size=9)
+    if publication:
+        fig.subplots_adjust(left=.15, right=.75, top=.96,
+                            bottom=.14 if size[1] < 10 else .085)
+    else:
+        fig.subplots_adjust(left=.105, right=.88, top=.80, bottom=.15)
+        fig.text(.105, .957, "TDNET  /  2026 SCIENTIFIC ROSTER", color=MUTED, size=10, weight="bold")
+        fig.text(.105, .900, title, color=INK, size=23, weight="bold")
+        fig.text(.105, .850, subtitle, color=MUTED, size=11)
+        fig.text(.105, .052, FOOTER, color=MUTED, size=9)
     ax.spines[["top", "right"]].set_visible(False)
     ax.grid(color=MUTED, alpha=.13, zorder=0)
     ax.tick_params(colors=INK)
     ax.xaxis.label.set_color(INK)
     ax.yaxis.label.set_color(INK)
+    if publication:
+        ax.tick_params(axis="both", labelsize=15, length=6, width=1.2)
+        ax.xaxis.label.set_size(18)
+        ax.yaxis.label.set_size(18)
     return fig, ax
 
 
 def legend(ax, *, loc="upper left", anchor=(1.01, 1.0), neutral=False,
-           vegas_threshold=False):
+           vegas_threshold=False, publication=False):
     handles = [Line2D([0], [0], marker=MARKERS[m], linestyle="", color="none",
                       markerfacecolor="#54718F" if neutral else COLORS[m],
                       markeredgecolor="white", markersize=9,
@@ -200,8 +209,18 @@ def legend(ax, *, loc="upper left", anchor=(1.01, 1.0), neutral=False,
         handles.append(Line2D([0], [0], marker="*", linestyle="", color="none",
                               markerfacecolor=GOLD, markeredgecolor=INK,
                               markersize=14, label="Vegas"))
+    if publication:
+        handles.extend([
+            Line2D([0], [0], color=INK, lw=4.3, label="Interquartile range"),
+            Line2D([0], [0], marker="|", linestyle="", color=INK,
+                   markersize=17, markeredgewidth=2.4, label="Median"),
+            Line2D([0], [0], marker="o", linestyle="", color=INK,
+                   markerfacecolor=PANEL, markersize=9, label="Mean"),
+        ])
     ax.legend(handles=handles, loc=loc, bbox_to_anchor=anchor, frameon=False,
-              labelspacing=.9, fontsize=9)
+              labelspacing=.9, fontsize=14 if publication else 9,
+              markerscale=1.25 if publication else 1,
+              handlelength=2.1 if publication else 2)
 
 
 def vegas_line(ax, *, horizontal=False):
@@ -366,8 +385,9 @@ def _violin(ax, values: np.ndarray, position: float, color: str, width: float = 
                edgecolors=INK, s=50, linewidths=1.4, zorder=9)
 
 
-def architecture_violin(frame):
-    fig, ax = figure("Architecture distributions", "Twenty fingerprints per family. Bar = IQR; tick = median; open circle = mean; gold line = Vegas.")
+def architecture_violin(frame, *, publication=False):
+    fig, ax = figure("Architecture distributions", "Twenty fingerprints per family. Bar = IQR; tick = median; open circle = mean; gold line = Vegas.",
+                     (15, 8.5) if publication else (16, 9.5), publication=publication)
     for i, model_id in enumerate(MODELS):
         group = frame.loc[frame.model_id.eq(model_id)].sort_values("fingerprint_number").reset_index(drop=True)
         xs = group.balanced_skill_percent.to_numpy()
@@ -381,7 +401,7 @@ def architecture_violin(frame):
     ax.set_yticks(range(6), [f"{m} · {NAMES[m]}" for m in MODELS])
     ax.set_ylim(5.7, -.7)
     ax.set(xlabel="Balanced relative skill versus Vegas · % ↑")
-    legend(ax, vegas_threshold=True)
+    legend(ax, vegas_threshold=True, publication=publication)
     return fig
 
 
@@ -406,8 +426,9 @@ def fingerprint_swarm(frame):
     return fig
 
 
-def fingerprint_violin(frame):
-    fig, ax = figure("Fingerprint spread across architectures", "Six models per row. Bar = IQR; tick = median; open circle = mean; gold line = Vegas.", (16, 15))
+def fingerprint_violin(frame, *, publication=False):
+    fig, ax = figure("Fingerprint spread across architectures", "Six models per row. Bar = IQR; tick = median; open circle = mean; gold line = Vegas.",
+                     (15, 15) if publication else (16, 15), publication=publication)
     models = frame.loc[frame.kind.eq("model")]
     for number in range(20):
         group = models.loc[models.fingerprint_number.eq(number)].copy()
@@ -425,7 +446,7 @@ def fingerprint_violin(frame):
                   ["F17-market" if i == 17 else f"F{i}" for i in range(20)])
     ax.set_ylim(19.7, -.7)
     ax.set(xlabel="Balanced relative skill versus Vegas · % ↑", ylabel="Fingerprint")
-    legend(ax, vegas_threshold=True)
+    legend(ax, vegas_threshold=True, publication=publication)
     return fig
 
 
@@ -458,6 +479,10 @@ PLOTS = {
     "08_fingerprint_swarm": fingerprint_swarm,
     "09_fingerprint_violin": fingerprint_violin,
 }
+PUBLICATION_PLOTS = {
+    "07_architecture_violin_publication": lambda frame: architecture_violin(frame, publication=True),
+    "09_fingerprint_violin_publication": lambda frame: fingerprint_violin(frame, publication=True),
+}
 
 
 def main() -> None:
@@ -478,17 +503,19 @@ def main() -> None:
         ).reset_index()
         distribution["iqr"] = distribution.q3 - distribution.q1
         distribution.to_csv(OUTPUT / f"{name}.csv", index=False)
-    for name, plotter in PLOTS.items():
+    for name, plotter in {**PLOTS, **PUBLICATION_PLOTS}.items():
         fig = plotter(frame)
         for extension in ("png", "svg"):
             path = OUTPUT / f"{name}.{extension}"
             options = {"metadata": {"Date": RENDER_DATE}} if extension == "svg" else {}
-            fig.savefig(path, dpi=200, facecolor=PAPER, **options)
+            fig.savefig(path, dpi=300 if name in PUBLICATION_PLOTS else 200,
+                        facecolor=PAPER, **options)
             if extension == "svg":
                 # Matplotlib emits trailing spaces inside path-data lines.
                 path.write_text("\n".join(line.rstrip() for line in path.read_text().splitlines()) + "\n")
         plt.close(fig)
-    generated = [OUTPUT / f"{name}.{extension}" for name in PLOTS for extension in ("png", "svg")]
+    generated = [OUTPUT / f"{name}.{extension}" for name in (*PLOTS, *PUBLICATION_PLOTS)
+                 for extension in ("png", "svg")]
     generated += [OUTPUT / f"{name}.csv" for name in
                   ("paired_quality", "architecture_distribution", "fingerprint_distribution")]
     manifest = {
@@ -503,7 +530,7 @@ def main() -> None:
         "outputs": {path.name: sha256(path) for path in generated},
     }
     (OUTPUT / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
-    print(f"Wrote {len(PLOTS)} figures from 120 model cells and one Vegas baseline to {OUTPUT}")
+    print(f"Wrote {len(PLOTS)} gallery figures and {len(PUBLICATION_PLOTS)} publication variants from 120 model cells and one Vegas baseline to {OUTPUT}")
 
 
 if __name__ == "__main__":

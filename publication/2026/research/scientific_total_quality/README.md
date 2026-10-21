@@ -1,6 +1,6 @@
 # 2026 scientific roster: quality gallery
 
-All 18 figures are together in this directory. Figures 01–16 show the same 120 F0–F19 scientific cells (M1–M5 and M10), with Vegas as a point on the two-metric scatterplots and as the zero-skill threshold on the roster summaries. Figures 17–18 show selected forecasters as curves. F17 is the `F17-market` research fingerprint in the source roster. Every scientific cell uses its architecture's standard marker and color, including F19/M4 as the M4 teal diamond; Vegas is gold (`brass`). The other model colors, typography, grid, and background follow [`gridiron.palette.json`](../../../../gridiron.palette.json) and [`gridiron_light.mplstyle`](../../../../docs/style/color_palettes/gridiron_light.mplstyle).
+All 18 core figures and two publication violin variants are together in this directory. Figures 01–16 show the same 120 F0–F19 scientific cells (M1–M5 and M10), with Vegas as a point on the two-metric scatterplots and as the zero-skill threshold on the roster summaries. Figures 17–18 show selected forecasters as curves. F17 is the `F17-market` research fingerprint in the source roster. Every scientific cell uses its architecture's standard marker and color, including F19/M4 as the M4 teal diamond; Vegas is gold (`brass`). The other model colors, typography, grid, and background follow [`gridiron.palette.json`](../../../../gridiron.palette.json) and [`gridiron_light.mplstyle`](../../../../docs/style/color_palettes/gridiron_light.mplstyle).
 
 ## Rebuild the saved Week 7 gallery
 
@@ -11,7 +11,7 @@ MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/plot_2026_scientific_tot
 MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/analyze_2026_scientific_quality_diagnostics.py
 ```
 
-The default input is `publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19/`; the default output is this directory. Run the roster script first and the diagnostic script second. The first writes Figures 01–09 and the paired/distribution tables; the second writes Figures 10–18 and the diagnostic tables. Each figure is saved as a 200-dpi PNG and an SVG. SVG metadata has the fixed `2026-10-21` render date, and both scripts fix the Matplotlib SVG hash salt so a rerun in the same environment is deterministic. The two manifests hash their own source files and generated outputs; they do not hash the README or each other.
+The default input is `publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19/`; the default output is this directory. Run the roster script first and the diagnostic script second. The first writes Figures 01–09, two publication violin variants, and the paired/distribution tables; the second writes Figures 10–18 and the diagnostic tables. Core figures are saved as 200-dpi PNGs and SVGs; the publication variants have 300-dpi PNGs and SVGs. SVG metadata has the fixed `2026-10-21` render date, and both scripts fix the Matplotlib SVG hash salt so a rerun in the same environment is deterministic. The two manifests hash their own source files and generated outputs; they do not hash the README or each other.
 
 ## Rebuild after the 2026 season
 
@@ -41,7 +41,7 @@ MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/analyze_2026_scientific_
   --market-note 'Market source and quote timing: describe the frozen final-season snapshot here.'
 ```
 
-`week_FINAL` and the date are placeholders, not existing paths or a scheduled run. The scripts read the largest `week` in the new market file for the figure footers, count the spread and moneyline cohorts separately, and compute the confidence and regime counts from those games. Inspect the new `manifest.json` and `diagnostics_manifest.json` for the source hashes, cohort counts, and output hashes. Confirm that there are 18 PNGs, 18 SVGs, 121 rows in each model/market summary, 20 architecture observations per model family, and six architecture observations per fingerprint. Keep the original Week 7 manifests for historical comparison; source changes should produce new hashes.
+`week_FINAL` and the date are placeholders, not existing paths or a scheduled run. The scripts read the largest `week` in the new market file for the figure footers, count the spread and moneyline cohorts separately, and compute the confidence and regime counts from those games. Inspect the new `manifest.json` and `diagnostics_manifest.json` for the source hashes, cohort counts, and output hashes. Confirm that there are 20 PNGs and 20 SVGs (18 core figures plus two publication variants), 121 rows in each model/market summary, 20 architecture observations per model family, and six architecture observations per fingerprint. Keep the original Week 7 manifests for historical comparison; source changes should produce new hashes.
 
 From the repository root, this check verifies every recorded source and output hash and the expected figure/summary counts; replace the argument with the chosen output directory:
 
@@ -60,11 +60,11 @@ for name in ('manifest.json', 'diagnostics_manifest.json'):
     for filename, digest in record['outputs'].items():
         artifact = out / filename
         assert hashlib.sha256(artifact.read_bytes()).hexdigest() == digest, artifact
-assert len(list(out.glob('[0-9][0-9]_*.png'))) == 18
-assert len(list(out.glob('[0-9][0-9]_*.svg'))) == 18
+assert len(list(out.glob('[0-9][0-9]_*.png'))) == 20
+assert len(list(out.glob('[0-9][0-9]_*.svg'))) == 20
 assert len(pd.read_csv(out / 'paired_quality.csv')) == 121
 assert len(pd.read_csv(out / 'diagnostic_quality.csv')) == 121
-print('Gallery source files, 18 figure pairs, score tables, and hashes verified')
+print('Gallery source files, 18 core figure pairs, two publication pairs, score tables, and hashes verified')
 PY
 ```
 
@@ -85,6 +85,15 @@ For a poster or paper, audit the new `market_provenance` and archived quote time
 | [09 Fingerprint violin](09_fingerprint_violin.png) | Which fingerprints are robust to architecture choice? | Six exact points and quartiles per fingerprint with illustrative smoothing and a gold Vegas line. |
 
 The [paired score data](paired_quality.csv), [architecture summary](architecture_distribution.csv), and [fingerprint summary](fingerprint_distribution.csv) contain the exact values. Rebuild these nine figures with [`plot_2026_scientific_total_quality.py`](../../../../scripts/publication/plot_2026_scientific_total_quality.py). The [manifest](manifest.json) records the input and output hashes.
+
+### Publication violin exports
+
+| Export | Print layout |
+| --- | --- |
+| [Architecture violin PNG](07_architecture_violin_publication.png) · [SVG](07_architecture_violin_publication.svg) | 15 × 8.5 inches, 300-dpi PNG; 20 model points per architecture. |
+| [Fingerprint violin PNG](09_fingerprint_violin_publication.png) · [SVG](09_fingerprint_violin_publication.svg) | 15 × 15 inches, 300-dpi PNG; six model points per fingerprint. |
+
+These use the same paired scores, model colors, point shapes, violin smoothing, quartiles, means, and gold Vegas threshold as Figures 07 and 09. They omit the internal title, subtext, and footer; enlarge the axis labels, tick text, and legend; and add legend keys for the interquartile bar, median tick, and mean circle. The script generates them with the normal gallery command and records their hashes in `manifest.json`. Give a paper or poster caption the cohort and market-timing limitation stated in **Provenance limits** below, since the clean image omits that footer.
 
 ## Game-level diagnostic views
 
