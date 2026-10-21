@@ -209,15 +209,10 @@ def _plot_trajectory(data: pd.DataFrame, title: str, path: Path) -> None:
         for name, group in data.loc[data.series_type.eq("model")].groupby("model_name"):
             stage = int(name.split("_F", 1)[1].split("_", 1)[0]) if scientific else 0
             color = colors(stage / max_stage) if scientific else "#647D98"
-            frozen = group.loc[group.through_week.le(6)].sort_values("through_week")
-            axis.plot(frozen.through_week, frozen[metric], color=color, alpha=0.35, lw=1)
-            endpoint = group.loc[group.through_week.ge(6)].sort_values("through_week")
-            axis.plot(endpoint.through_week, endpoint[metric], color=color, alpha=0.45, lw=1, ls=":")
+            group = group.sort_values("through_week")
+            axis.plot(group.through_week, group[metric], color=color, alpha=0.4, lw=1)
         consensus = data.loc[data.series_type.eq("consensus")].sort_values("through_week")
-        frozen = consensus.loc[consensus.through_week.le(6)]
-        endpoint = consensus.loc[consensus.through_week.ge(6)]
-        axis.plot(frozen.through_week, frozen[metric], color="#D62F76", lw=3, marker="o", label="Consensus · frozen")
-        axis.plot(endpoint.through_week, endpoint[metric], color="#D62F76", lw=3, ls=":", marker="o", label="Week 7 replay endpoint")
+        axis.plot(consensus.through_week, consensus[metric], color="#D62F76", lw=3, marker="o", label="Consensus")
         vegas = data.loc[data.series_type.eq("vegas")].sort_values("through_week")
         axis.plot(vegas.through_week, vegas[metric], color="#BD8B17", lw=2.5,
                   ls="--", marker="s", label="Vegas · available Weeks 0–6")
@@ -242,7 +237,7 @@ def _plot_trajectory(data: pd.DataFrame, title: str, path: Path) -> None:
         bar.set_ticklabels([f"F{i}" for i in range(max_stage + 1)])
         bar.set_label("Fingerprint generation (pink → blue)")
     fig.text(0.5, 0.02,
-             "Weeks 0–6: frozen forecasts and archived Vegas. Dotted Week 7 endpoint: retrospective replay after games. "
+             "Weeks 0–6: frozen forecasts and archived Vegas. Week 7 model results: retrospective replay after games. "
              "Vegas stops at Week 6; its Brier series has fewer eligible games. ATS is omitted.",
              ha="center", fontsize=9)
     fig.savefig(path, dpi=180, bbox_inches="tight", facecolor=fig.get_facecolor())
@@ -364,7 +359,7 @@ def main() -> None:
     readme = [
         "# 2026 cumulative performance through Week 7",
         "",
-        "Margin (33), original scientific F0–F6 (42), and full scientific F0–F8 have current model and consensus CSVs and figures here. The full roster had 54 models through Week 6 and 49 replayable cells in Week 7; five F7 market-dependent models stop at Week 6. Weeks 0–6 are frozen pregame forecasts. Week 7 is a 59-game retrospective replay made after the games; the dotted endpoint is not a prospective result. Published Vegas MAE and Brier baselines appear through Week 6 only; their Week 7 point is missing because no historical Week 7 market snapshot was frozen. The Week 7 scorecards retain a separate 325-game Vegas row clearly labeled as stopping at Week 6. Vegas Brier uses fewer eligible games than the model rows. ATS is omitted from these new figures.",
+        "Margin (33), original scientific F0–F6 (42), and full scientific F0–F8 have current model and consensus CSVs and figures here. The full roster had 54 models through Week 6 and 49 replayable cells in Week 7; five F7 market-dependent models stop at Week 6. Weeks 0–6 are frozen pregame forecasts. Week 7 is a 59-game retrospective replay made after the games, not a prospective result; this is stated in the figure subtext. Published Vegas MAE and Brier baselines appear through Week 6 only; their Week 7 point is missing because no historical Week 7 market snapshot was frozen. The Week 7 scorecards retain a separate 325-game Vegas row clearly labeled as stopping at Week 6. Vegas Brier uses fewer eligible games than the model rows. ATS is omitted from these new figures.",
         "",
         "The expanded F0–F19 research cohort (120 model cells) now has a common-cohort scorecard through Week 7 in `scientific_f0_f19/`. Weeks 6–7 were reconstructed after the games from score-free states and are marked as retrospective. Week 7 F7, F17-market, and F19 used market lines retrieved after the games; Week 7 F8 had missing market fields imputed. One Week 6 F17/F19 game needed an ex-post market fallback. The archived Vegas comparator stops at Week 6. This backfill is exploratory and cannot be counted as prospective forecast performance. A separate complete 53-game Week 8 pregame research forecast is at `publication/2026/week_08/pre_game/scientific/full_f0_f19/`; it has no outcome scores yet.",
         "",

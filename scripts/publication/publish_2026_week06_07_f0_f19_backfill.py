@@ -26,8 +26,9 @@ HISTORY = PUB / "week_05/post_game/scientific/current_season_f0_f19/scientific_2
 GAMES = ROOT / "data/raw/cfbd/v2/games/2026.parquet"
 ROSTER = ("M1", "M2", "M3", "M4", "M5", "M10")
 STAGES = tuple(f"F{i}" for i in range(17)) + ("F17-market", "F18", "F19")
-MODEL_STYLES = {"M1": "-", "M2": "--", "M3": ":", "M4": "-.",
-                "M5": (0, (5, 1.5, 1, 1.5)), "M10": (0, (1, 1))}
+MODEL_STYLES = {"M1": "-", "M2": (0, (9, 3)), "M3": (0, (6, 3)),
+                "M4": (0, (10, 3, 4, 3)), "M5": (0, (7, 2, 3, 2)),
+                "M10": (0, (4, 2))}
 
 
 def digest(path: Path) -> str:
@@ -174,19 +175,11 @@ def trajectory(performance: pd.DataFrame, path: Path) -> None:
             group = group.sort_values("through_week")
             stage, model_id = name.removeprefix("scientific_").rsplit("_", 1)
             color = colors(STAGES.index(stage) / 19)
-            early = group.loc[group.through_week.le(5)]
-            late = group.loc[group.through_week.ge(5)]
-            axis.plot(early.through_week, early[column], color=color,
+            axis.plot(group.through_week, group[column], color=color,
                       alpha=.43, lw=1.05, ls=MODEL_STYLES[model_id], zorder=2)
-            axis.plot(late.through_week, late[column], color=color,
-                      alpha=.43, lw=1.05, ls=":", zorder=2)
         consensus = performance.loc[performance.series_type.eq("consensus")].sort_values("through_week")
-        axis.plot(consensus.loc[consensus.through_week.le(5), "through_week"],
-                  consensus.loc[consensus.through_week.le(5), column], color="#D62F76", lw=3, marker="o",
-                  label="F0–F19 consensus · original Weeks 1–5")
-        axis.plot(consensus.loc[consensus.through_week.ge(5), "through_week"],
-                  consensus.loc[consensus.through_week.ge(5), column], color="#D62F76", lw=3, ls=":", marker="o",
-                  label="Weeks 6–7 retrospective")
+        axis.plot(consensus.through_week, consensus[column], color="#D62F76", lw=3, marker="o",
+                  label="F0–F19 consensus")
         vegas = performance.loc[performance.series_type.eq("vegas")].sort_values("through_week")
         axis.plot(vegas.through_week, vegas[column], color="#AE7F1C", lw=2.6, ls="--", marker="s",
                   label="Vegas · archived through Week 6")
@@ -216,8 +209,8 @@ def trajectory(performance: pd.DataFrame, path: Path) -> None:
     fig.legend(handles=styles, loc="lower center", bbox_to_anchor=(.5, .04),
                ncol=4, frameon=False, fontsize=9)
     fig.text(.5, .007,
-             "263 common Weeks 1–5 games + 58 Week 6 + 59 Week 7. Dotted model/consensus segments are retrospective. "
-             "Week 7 F7/F17/F19 use ex-post market lines; Vegas stops at Week 6.",
+             "263 common Weeks 1–5 games + 58 Week 6 + 59 Week 7. Weeks 6–7 model results were reconstructed after games; "
+             "Week 7 F7/F17/F19 use ex-post market lines. Vegas stops at Week 6.",
              ha="center", fontsize=9)
     fig.savefig(path, dpi=180, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
