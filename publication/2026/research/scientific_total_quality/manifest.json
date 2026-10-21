@@ -12,17 +12,25 @@
   "balanced_skill_percent": "mean(100*(vegas_mae-model_mae)/vegas_mae, 100*(vegas_brier-model_brier)/vegas_brier, 100*(model_su-vegas_su)/vegas_su)",
   "outputs": {
     "01_error_landscape.png": "9d788b4860f591773acaacea83ac40ba8df11132699c694872dd0e0afdda5529",
-    "01_error_landscape.svg": "e812bc8e1283060319140e80f0d27fe6e93f1931c3cc1814695a903597a142b0",
+    "01_error_landscape.svg": "305a6c3d36a3f7bc705c62b7f52b7bd66bb38fea244d5267c753639246b6979e",
     "02_accuracy_landscape.png": "f17b44d562596a584759f3f5c43f7378742e8f7dc5d9ee7e4ad05d7eb1dffd5c",
-    "02_accuracy_landscape.svg": "e9b68b13b06f62a46ce56c88ef6653ac8237ae0d192fcb070d9a6f097954890d",
+    "02_accuracy_landscape.svg": "53b64a1d9871c807af7bfa50be7316ee3428891c0041b0e4cbde1ca64cc24f89",
     "03_balanced_quality_ladder.png": "80763432a0fac7b4d4cd1d40f5d928d2be5d1efa44ca761a038775fc2617e7a1",
-    "03_balanced_quality_ladder.svg": "d77572a84fc99abbfb7744076629440f7e33a5a37c48185866d2ccc2fb9a217a",
+    "03_balanced_quality_ladder.svg": "5ad1d0c55e47bd2e3c6946eb0a372a6c765ee478ef2c4f0e3af8b7cc137026a6",
     "04_roster_matrix.png": "2e331a60b7abad2112376051c7068cc77bac80087f0e4a2edf334bde57edc903",
-    "04_roster_matrix.svg": "47bd95c92b9370ff644012bd50c2ecea5f3d9c99b9e7d8e14c8107aca234b319",
+    "04_roster_matrix.svg": "e764e722ca5002f3e65a42b16938b4212938efc7622560a2f876353767f41e00",
     "05_architecture_swarm.png": "268a48236525c13c256a34ccbbf3e5c4f1f110ddd315518ed8389851537bb98f",
-    "05_architecture_swarm.svg": "d1befee985ba75e0a2b411162784fead05b2350e167636dd1cf9e3d64243d4e7",
+    "05_architecture_swarm.svg": "1f17df9be9cfad6f493bf9085fb1c8aa451efa0f1ce4655139ec41ac2dc59220",
     "06_fingerprint_progression.png": "fc358dce9370533c5ae6403f444e9d274e319782d258914ad2f061aeb724f047",
-    "06_fingerprint_progression.svg": "7a8c2a252068c128221e9c96f10217688cd8eedb9e15c9e93ef2b95664b1d526",
-    "paired_quality.csv": "4579b815b7b51e99154d822557dcbfe26d4c2e03812bdf8c26bbf3d1d6cc6e4a"
+    "06_fingerprint_progression.svg": "6187dcbe072f55adaef5316ceeae4cd469aace60e4c697337497396d00306e60",
+    "07_architecture_violin.png": "660fa87ef3922cf23ae76e143bc2edb5acf6a98c06ea53e3e6093c50d0108bff",
+    "07_architecture_violin.svg": "6d50cdf91726e84a7828c82333d868b82cb4b1437a2313b9ab8c300943c32601",
+    "08_fingerprint_swarm.png": "8b02277f533f7cfda57c668e9f39c4895c244a8ca9d51f7c99e31d52df439531",
+    "08_fingerprint_swarm.svg": "3e6556326f0a29ec0ccf03672ac9d49c3f807caa5acbd515b177f4996d1012bd",
+    "09_fingerprint_violin.png": "e80a22c64c550bc96fb636813f10a9ed45da230847f5039fe411e5d586aa2868",
+    "09_fingerprint_violin.svg": "a100ed68e7c9b1649317a7298f556ff968f2b4d627196238a3623410252da561",
+    "paired_quality.csv": "4579b815b7b51e99154d822557dcbfe26d4c2e03812bdf8c26bbf3d1d6cc6e4a",
+    "architecture_distribution.csv": "d42ebb75386ac5fc26188561b9c15ac9e621e57ccc91ca63b5e18c7446a0b90e",
+    "fingerprint_distribution.csv": "09f436db3e246c39f84e6fa73979dd8363ee8359941f9eb832ea2d790b22b721"
   }
 }

@@ -1,4 +1,4 @@
-"""Six one-point-per-model views of paired 2026 scientific roster quality.
+"""Nine one-point-per-model views of paired 2026 scientific roster quality.
 
 The paired market cohort is retrospective through Week 7. In particular, the
 Week 7 market quotes were retrieved after games and quote times are unverified.
@@ -291,6 +291,95 @@ def architecture_swarm(frame):
     return fig
 
 
+def _violin(ax, values: np.ndarray, position: float, color: str, width: float = .68):
+    result = ax.violinplot([values], positions=[position], vert=False, widths=width,
+                           showmeans=False, showmedians=False, showextrema=False)
+    body = result["bodies"][0]
+    body.set_facecolor(color)
+    body.set_edgecolor(color)
+    body.set_alpha(.17)
+    body.set_linewidth(1.4)
+    q1, median, q3 = np.quantile(values, [.25, .5, .75])
+    ax.plot([q1, q3], [position, position], color=INK, lw=4.3,
+            solid_capstyle="round", zorder=5)
+    ax.scatter([median], [position], marker="|", color=PANEL, s=260,
+               linewidth=2.4, zorder=8)
+    ax.scatter([values.mean()], [position], marker="o", facecolors=PANEL,
+               edgecolors=INK, s=50, linewidths=1.4, zorder=9)
+
+
+def architecture_violin(frame):
+    fig, ax = figure("Architecture distributions", "Twenty fingerprints per family. Fill = smoothed density; bar = IQR; tick = median; open circle = mean.")
+    for i, model_id in enumerate(MODELS):
+        group = frame.loc[frame.model_id.eq(model_id)].sort_values("fingerprint_number").reset_index(drop=True)
+        xs = group.balanced_skill_percent.to_numpy()
+        _violin(ax, xs, i, COLORS[model_id])
+        offsets = _swarm_offsets(xs)
+        for j, row in group.iterrows():
+            special = row.label == "F19/M4"
+            ax.scatter(row.balanced_skill_percent, i + offsets[j] * .30,
+                       marker=MARKERS[model_id], color=PINK if special else COLORS[model_id],
+                       s=145 if special else 42, edgecolor=INK if special else "white",
+                       linewidth=.8, zorder=7)
+    ax.scatter(0, 6.25, marker="*", color=GOLD, s=320, edgecolor=INK, zorder=7)
+    ax.axvline(0, color=GOLD, lw=1.4, alpha=.65)
+    ax.set_yticks([*range(6), 6.25], [f"{m} · {NAMES[m]}" for m in MODELS] + ["Vegas"])
+    ax.set_ylim(6.75, -.7)
+    ax.set(xlabel="Balanced relative skill versus Vegas · % ↑")
+    legend(ax)
+    return fig
+
+
+def fingerprint_swarm(frame):
+    fig, ax = figure("Fingerprint distributions", "Six architectures per fingerprint. Every colored point is a model; vertical offsets separate neighbors.", (16, 15))
+    for number in range(20):
+        group = frame.loc[frame.kind.eq("model") & frame.fingerprint_number.eq(number)].copy()
+        group["model_order"] = group.model_id.map({model_id: i for i, model_id in enumerate(MODELS)})
+        group = group.sort_values("model_order").reset_index(drop=True)
+        xs = group.balanced_skill_percent.to_numpy()
+        offsets = _swarm_offsets(xs)
+        for j, row in group.iterrows():
+            special = row.label == "F19/M4"
+            ax.scatter(row.balanced_skill_percent, number + offsets[j] * .36,
+                       marker=MARKERS[row.model_id], color=PINK if special else COLORS[row.model_id],
+                       s=150 if special else 67, edgecolor=INK if special else "white",
+                       linewidth=.75, zorder=5)
+    ax.scatter(0, 20.2, marker="*", color=GOLD, s=350, edgecolor=INK, zorder=7)
+    ax.axvline(0, color=GOLD, lw=1.3, alpha=.65)
+    ax.set_yticks([*range(20), 20.2],
+                  ["F17-market" if i == 17 else f"F{i}" for i in range(20)] + ["Vegas"])
+    ax.set_ylim(20.7, -.7)
+    ax.set(xlabel="Balanced relative skill versus Vegas · % ↑", ylabel="Fingerprint")
+    legend(ax)
+    return fig
+
+
+def fingerprint_violin(frame):
+    fig, ax = figure("Fingerprint spread across architectures", "Six models per fingerprint. Smoothing is illustrative; bar = IQR; tick = median; open circle = mean.", (16, 15))
+    models = frame.loc[frame.kind.eq("model")]
+    for number in range(20):
+        group = models.loc[models.fingerprint_number.eq(number)].copy()
+        group["model_order"] = group.model_id.map({model_id: i for i, model_id in enumerate(MODELS)})
+        group = group.sort_values("model_order").reset_index(drop=True)
+        xs = group.balanced_skill_percent.to_numpy()
+        _violin(ax, xs, number, PALETTE["projectorBlue"], width=.65)
+        offsets = _swarm_offsets(xs)
+        for j, row in group.iterrows():
+            special = row.label == "F19/M4"
+            ax.scatter(row.balanced_skill_percent, number + offsets[j] * .30,
+                       marker=MARKERS[row.model_id], color=PINK if special else COLORS[row.model_id],
+                       s=150 if special else 48, edgecolor=INK if special else "white",
+                       linewidth=.65, zorder=7)
+    ax.scatter(0, 20.2, marker="*", color=GOLD, s=350, edgecolor=INK, zorder=7)
+    ax.axvline(0, color=GOLD, lw=1.3, alpha=.65)
+    ax.set_yticks([*range(20), 20.2],
+                  ["F17-market" if i == 17 else f"F{i}" for i in range(20)] + ["Vegas"])
+    ax.set_ylim(20.7, -.7)
+    ax.set(xlabel="Balanced relative skill versus Vegas · % ↑", ylabel="Fingerprint")
+    legend(ax)
+    return fig
+
+
 def fingerprint_progression(frame):
     fig, ax = figure("Fingerprint progression", "Six architectures per fingerprint; horizontal offsets separate their points. Higher is better.")
     fig.subplots_adjust(bottom=.20)
@@ -325,6 +414,9 @@ PLOTS = {
     "04_roster_matrix": roster_matrix,
     "05_architecture_swarm": architecture_swarm,
     "06_fingerprint_progression": fingerprint_progression,
+    "07_architecture_violin": architecture_violin,
+    "08_fingerprint_swarm": fingerprint_swarm,
+    "09_fingerprint_violin": fingerprint_violin,
 }
 
 
@@ -332,24 +424,39 @@ def main() -> None:
     plt.style.use(ROOT / "docs/style/color_palettes/gridiron_light.mplstyle")
     plt.rcParams.update({"figure.autolayout": False,
                          "figure.facecolor": PAPER, "savefig.facecolor": PAPER,
-                         "axes.facecolor": PANEL, "font.family": "DejaVu Sans"})
+                         "axes.facecolor": PANEL, "font.family": "DejaVu Sans",
+                         "svg.hashsalt": "tdnet-2026-scientific-quality"})
     frame = load_scores()
+    model_rows = frame.loc[frame.kind.eq("model")]
+    for name, keys in (("architecture_distribution", ["model_id"]),
+                       ("fingerprint_distribution", ["fingerprint", "fingerprint_number"])):
+        distribution = model_rows.groupby(keys).balanced_skill_percent.agg(
+            count="count", minimum="min", mean="mean", q1=lambda values: values.quantile(.25),
+            median="median", q3=lambda values: values.quantile(.75), maximum="max",
+            standard_deviation="std"
+        ).reset_index()
+        distribution["iqr"] = distribution.q3 - distribution.q1
+        distribution.to_csv(OUTPUT / f"{name}.csv", index=False)
     for name, plotter in PLOTS.items():
         fig = plotter(frame)
         for extension in ("png", "svg"):
             path = OUTPUT / f"{name}.{extension}"
-            fig.savefig(path, dpi=200, facecolor=PAPER)
+            options = {"metadata": {"Date": "2026-10-21"}} if extension == "svg" else {}
+            fig.savefig(path, dpi=200, facecolor=PAPER, **options)
             if extension == "svg":
                 # Matplotlib emits trailing spaces inside path-data lines.
                 path.write_text("\n".join(line.rstrip() for line in path.read_text().splitlines()) + "\n")
         plt.close(fig)
+    generated = [OUTPUT / f"{name}.{extension}" for name in PLOTS for extension in ("png", "svg")]
+    generated += [OUTPUT / f"{name}.csv" for name in
+                  ("paired_quality", "architecture_distribution", "fingerprint_distribution")]
     manifest = {
         "source": {path.name: sha256(path) for path in
                    (SOURCE / "common_120_model_game_results.parquet",
                     SOURCE / "common_cohort_vegas_games.csv")},
         "cohort": {"spread_games": 379, "moneyline_games": 372, "model_points": 120, "vegas_points": 1},
         "balanced_skill_percent": "mean(100*(vegas_mae-model_mae)/vegas_mae, 100*(vegas_brier-model_brier)/vegas_brier, 100*(model_su-vegas_su)/vegas_su)",
-        "outputs": {p.name: sha256(p) for p in sorted(OUTPUT.iterdir()) if p.suffix in (".csv", ".png", ".svg")},
+        "outputs": {path.name: sha256(path) for path in generated},
     }
     (OUTPUT / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     print(f"Wrote {len(PLOTS)} figures with {len(frame)} points each to {OUTPUT}")
