@@ -112,10 +112,10 @@ def scientific_prediction_table(
 ) -> pd.DataFrame:
     """Add explicit straight-up and against-the-spread picks to game rows."""
     frame = games.copy()
-    spread = pd.to_numeric(
-        frame.get("vegas_spread_as_of_publish", frame.get("market_spread_close")),
-        errors="coerce",
-    )
+    spread_source = frame.get("vegas_spread_as_of_publish", frame.get("market_spread_close"))
+    if spread_source is None:
+        spread_source = pd.Series(float("nan"), index=frame.index)
+    spread = pd.to_numeric(spread_source, errors="coerce")
     home_margin = pd.to_numeric(frame["pred_home_margin"], errors="coerce")
     home_edge = home_margin + spread
 
@@ -903,8 +903,8 @@ def write_scientific_weekly_outputs(
     cohort: str = "market_free_f0_f6",
 ) -> dict[str, Path]:
     """Write three scientific CSVs and their readable publication figures."""
-    if phase not in {"pre_game", "post_game"}:
-        raise ValueError("phase must be 'pre_game' or 'post_game'.")
+    if phase not in {"pre_game", "post_game", "retrospective_replay"}:
+        raise ValueError("phase must be 'pre_game', 'post_game', or 'retrospective_replay'.")
     if cohort not in SCIENTIFIC_COHORTS:
         raise ValueError(
             f"Unknown scientific cohort {cohort!r}; expected one of {sorted(SCIENTIFIC_COHORTS)}."
@@ -1092,6 +1092,13 @@ def write_scientific_weekly_outputs(
     )
     (output / "README.md").write_text(
         "# TDNet scientific weekly package\n\n"
+        + (
+            "RETROSPECTIVE REPLAY: generated after the games from a reconstructed "
+            "score-free state. This is not a timely issued pregame forecast; "
+            "field-level historical availability is unverified.\n\n"
+            if phase == "retrospective_replay" else ""
+        )
+        +
         f"Outputs from the frozen {display_label} roster. These files are separate from "
         "TDNet's operational publication products and from the canonical F0–F6 scientific consensus.\n\n"
         + cohort_note

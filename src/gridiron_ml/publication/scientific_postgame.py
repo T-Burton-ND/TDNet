@@ -294,8 +294,12 @@ def write_scientific_postgame_evaluation(
     season: int,
     week: int,
 ) -> dict[str, Path]:
-    """Write a postgame evaluation whose only predictions are frozen pregame rows."""
+    """Score saved scientific predictions with their source phase preserved."""
     pregame = Path(pregame_package)
+    source_manifest = json.loads((pregame / "manifest.json").read_text(encoding="utf-8"))
+    source_phase = source_manifest.get("phase")
+    if source_phase not in {"pre_game", "retrospective_replay"}:
+        raise ValueError(f"Unsupported scientific prediction source phase: {source_phase!r}")
     output = Path(output_root)
     output.mkdir(parents=True, exist_ok=True)
     existing = [path for path in output.iterdir() if path.name != "README.md"]
@@ -338,7 +342,7 @@ def write_scientific_postgame_evaluation(
             "Full F0–F8 scientific consensus"
             if output.name == "full_f0_f8"
             else "F0–F6 scientific consensus"
-        ),
+        ) + (" (retrospective replay)" if source_phase == "retrospective_replay" else ""),
     )
     generated = datetime.now(UTC)
     manifest = {
@@ -349,8 +353,10 @@ def write_scientific_postgame_evaluation(
             ZoneInfo("America/New_York")
         ).isoformat(),
         "predictions_recalculated": False,
-        "frozen_pregame_predictions": str(prediction_path),
-        "frozen_pregame_predictions_sha256": sha256_file(prediction_path),
+        "source_prediction_phase": source_phase,
+        "timely_forecast_issued": source_phase == "pre_game",
+        "source_predictions": str(prediction_path),
+        "source_predictions_sha256": sha256_file(prediction_path),
         "results_source": str(results_source),
         "results_sha256": sha256_file(results_source),
         "scientific_model_count": len(scorecard),
@@ -364,14 +370,23 @@ def write_scientific_postgame_evaluation(
             for name, path in paths.items()
         },
     }
+    if source_phase == "pre_game":
+        manifest["frozen_pregame_predictions"] = str(prediction_path)
+        manifest["frozen_pregame_predictions_sha256"] = sha256_file(prediction_path)
     manifest_path = output / "scientific_postgame_manifest.json"
     manifest_path.write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
     (output / "README.md").write_text(
         "# TDNet scientific postgame evaluation\n\n"
-        f"This directory scores the frozen pregame {expected_models}-model scientific predictions. "
-        "No model was rerun and no pregame artifact was overwritten.\n",
+        +
+        (
+            f"This directory scores the frozen pregame {expected_models}-model scientific predictions. "
+            if source_phase == "pre_game" else
+            f"RETROSPECTIVE REPLAY: this directory scores {expected_models} scientific models "
+            "generated after Week 7 games. This is not a timely pregame forecast. "
+        )
+        + "No model was rerun during scoring and no prediction artifact was overwritten.\n",
         encoding="utf-8",
     )
     paths["manifest"] = manifest_path

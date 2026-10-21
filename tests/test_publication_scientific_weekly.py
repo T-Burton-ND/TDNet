@@ -86,6 +86,22 @@ def test_scientific_predictions_make_straight_up_and_ats_picks_explicit():
     assert first["kickoff_eastern"] == "Sat 3:00 PM"
 
 
+def test_scientific_replay_without_historical_line_keeps_ats_unavailable():
+    games = pd.DataFrame([{
+        "game_id": 1, "week": 7, "game_start_time_utc": "2026-10-13T23:00:00Z",
+        "away_team": "Away", "home_team": "Home", "pred_winner": "Home",
+        "predicted_margin": 3.0, "pred_home_margin": 3.0,
+        "pred_home_win_probability": 0.6, "model_agreement": 1.0,
+        "model_count": 42,
+    }])
+    result = scientific_prediction_table(
+        games, reader_week=7, phase="retrospective_replay"
+    )
+    assert result.loc[0, "straight_up_pick"] == "Home"
+    assert result.loc[0, "against_spread_pick"] == "No market line"
+    assert pd.isna(result.loc[0, "model_edge_vs_spread_points"])
+
+
 def test_scientific_writer_emits_three_csvs_and_six_pngs(tmp_path: Path):
     games = pd.DataFrame(
         [
