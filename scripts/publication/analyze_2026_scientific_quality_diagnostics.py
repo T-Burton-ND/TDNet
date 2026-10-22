@@ -456,24 +456,40 @@ def _market_bin_heatmap(grouped: pd.DataFrame, counts: pd.Series, *, value: str,
                         title: str, subtitle: str, colorbar_label: str,
                         stem: str, reference: float = 0.0,
                         scale: float = 1.0, decimals: int = 1,
-                        brier_ceiling: bool = False) -> None:
+                        upper_endpoint: float | None = None,
+                        lower_endpoint: float | None = None,
+                        brier_ceiling: bool = False,
+                        draw_reference: bool = True,
+                        cell_count_value: str | None = None) -> None:
     grid = grouped.pivot(index="model_id", columns="bin_index", values=value)
     values = grid.reindex(index=style.MODELS, columns=range(10)).to_numpy(dtype=float) * scale
     if not np.isfinite(values).any():
         raise ValueError(f"{stem} needs at least one populated bin")
     finite = values[np.isfinite(values)]
-    if brier_ceiling and finite.max() <= 0:
-        # Zero is the best architecture/bin mean in the saved cohort. Do not
-        # devote half the color scale to a positive range with no observations.
+    if brier_ceiling:
+        # Keep zero at the blue endpoint; values above zero use an over-range
+        # marker rather than silently changing the requested benchmark scale.
         floor = min(-.5, float(finite.min()))
-        norm, cmap = Normalize(vmin=floor, vmax=0), "Reds_r"
+        norm, cmap = Normalize(vmin=floor, vmax=0), "RdBu"
+    elif upper_endpoint is not None:
+        floor = (lower_endpoint if lower_endpoint is not None else
+                 min(float(finite.min()), reference - (upper_endpoint - reference)))
+        norm, cmap = TwoSlopeNorm(vmin=floor, vcenter=reference,
+                                 vmax=upper_endpoint), "RdBu"
     else:
         spread = max(.5 if scale == 1000 else .01,
                      float(np.max(np.abs(finite - reference))))
         norm, cmap = TwoSlopeNorm(vmin=reference - spread, vcenter=reference,
                                  vmax=reference + spread), "RdBu"
     fig, ax = style.figure(title, subtitle, (16, 9.5))
-    image = ax.imshow(values, aspect="auto", cmap=cmap, norm=norm)
+    color_map = plt.get_cmap(cmap).copy()
+    color_map.set_over("#062b55")
+    image = ax.imshow(values, aspect="auto", cmap=color_map, norm=norm)
+    cell_counts = None
+    if cell_count_value is not None:
+        cell_counts = grouped.pivot(index="model_id", columns="bin_index",
+                                    values=cell_count_value).reindex(
+                                        index=style.MODELS, columns=range(10)).to_numpy()
     ax.set_yticks(range(len(style.MODELS)),
                   [f"{model_id} · {style.NAMES[model_id]}" for model_id in style.MODELS])
     ax.set_xticks(range(10), [f"{i*10}–{(i+1)*10}%\n(n={counts.loc[i]})" for i in range(10)])
@@ -485,12 +501,21 @@ def _market_bin_heatmap(grouped: pd.DataFrame, counts: pd.Series, *, value: str,
             if np.isfinite(value_at_cell):
                 red, green, blue, _ = image.cmap(image.norm(value_at_cell))
                 luminance = .2126 * red + .7152 * green + .0722 * blue
-                ax.text(col, row, f"{value_at_cell:+.{decimals}f}" if reference == 0
-                        else f"{value_at_cell:.{decimals}f}",
+                annotation = (f"{value_at_cell:+.{decimals}f}" if reference == 0
+                              else f"{value_at_cell:.{decimals}f}")
+                if cell_counts is not None:
+                    annotation += f"\n({int(cell_counts[row, col])} calls)"
+                ax.text(col, row, annotation,
                         ha="center", va="center", color=style.INK if luminance > .55 else "white",
-                        fontsize=10, weight="bold")
-    colorbar = fig.colorbar(image, ax=ax, fraction=.035, pad=.025, label=colorbar_label)
-    colorbar.ax.axhline(reference, color=style.GOLD, lw=2.3, alpha=.92, clip_on=False)
+                        fontsize=9 if cell_counts is not None else 10, weight="bold")
+    extend = "max" if float(finite.max()) > float(norm.vmax) else "neither"
+    colorbar = fig.colorbar(image, ax=ax, fraction=.035, pad=.025,
+                            label=colorbar_label, extend=extend)
+    ticks = [tick for tick in colorbar.get_ticks()
+             if norm.vmin <= tick <= norm.vmax]
+    colorbar.set_ticks(sorted(set(ticks + [float(norm.vmax)])))
+    if draw_reference:
+        colorbar.ax.axhline(reference, color=style.GOLD, lw=2.3, alpha=.92, clip_on=False)
     fig.subplots_adjust(left=.15, right=.83, bottom=.19)
     _save(fig, stem)
 
@@ -570,9 +595,57 @@ def plot_other_market_probability_bins() -> dict[str, pd.DataFrame]:
         _market_bin_heatmap(grouped, bin_counts, value=result, title=title,
                             subtitle=subtitle, colorbar_label=label, stem=stem,
                             reference=50.0 if key == "ats" else 0.0,
+                            upper_endpoint=1.0 if key in ("mae", "winner") else None,
                             decimals=1)
         output[key] = record
     return output
+
+
+def plot_market_probability_upsets() -> pd.DataFrame:
+    _, probability, _, _ = load()
+    shared = probability.loc[probability.market_home_spread.notna() &
+                             probability.market_home_spread.ne(0)].copy()
+    if shared.empty:
+        raise ValueError("Upset heatmaps need nonzero market spreads")
+    shared["bin_index"] = np.minimum((shared.market_home_probability * 10).astype(int), 9)
+    favorite_home = shared.market_home_spread.lt(0)
+    actual_home = shared.actual_home_margin.gt(0)
+    picked_home = shared.pred_home_win_probability.ge(.5)
+    shared["actual_upset"] = actual_home.ne(favorite_home)
+    shared["upset_call"] = picked_home.ne(favorite_home)
+    shared["correct_upset_call"] = shared.actual_upset & shared.upset_call
+    unique = shared.drop_duplicates("game_id")
+    counts = unique.groupby("bin_index").size().reindex(range(10), fill_value=0)
+    upset_counts = unique.groupby("bin_index").actual_upset.sum().reindex(range(10), fill_value=0)
+    grouped = shared.groupby(["model_id", "bin_index"], as_index=False).agg(
+        model_game_rows=("game_id", "size"),
+        actual_upset_model_rows=("actual_upset", "sum"),
+        upset_calls=("upset_call", "sum"),
+        correct_upset_calls=("correct_upset_call", "sum"))
+    grouped["upset_recall_pct"] = 100 * grouped.correct_upset_calls.div(
+        grouped.actual_upset_model_rows.replace(0, np.nan))
+    grouped["upset_call_accuracy_pct"] = 100 * grouped.correct_upset_calls.div(
+        grouped.upset_calls.replace(0, np.nan))
+    record = grouped.assign(games=grouped.bin_index.map(counts),
+                            actual_upset_games=grouped.bin_index.map(upset_counts),
+                            lower_probability=grouped.bin_index / 10,
+                            upper_probability=(grouped.bin_index + 1) / 10)
+    _market_bin_heatmap(
+        grouped, upset_counts, value="upset_recall_pct",
+        title="Upset recall by market probability",
+        subtitle="Correctly called underdog wins ÷ actual underdog wins; column n counts actual upset games.",
+        colorbar_label="Upset recall · % of actual upsets ↑",
+        stem="27_market_probability_bin_upset_recall", reference=50,
+        upper_endpoint=100, lower_endpoint=0, draw_reference=False)
+    _market_bin_heatmap(
+        grouped, counts, value="upset_call_accuracy_pct",
+        title="Accuracy of upset calls by market probability",
+        subtitle="Correct upset calls ÷ underdog-win calls made; cells show their call counts.",
+        colorbar_label="Correct upset calls · % of calls made ↑",
+        stem="28_market_probability_bin_upset_call_accuracy", reference=50,
+        upper_endpoint=100, lower_endpoint=0, draw_reference=False,
+        cell_count_value="upset_calls")
+    return record
 
 
 def plot_weekly_margin_stability() -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -655,6 +728,8 @@ def main() -> None:
     other_bins["mae"].to_csv(OUTPUT / "market_probability_bin_mae_advantage.csv", index=False)
     other_bins["winner"].to_csv(OUTPUT / "market_probability_bin_winner_accuracy.csv", index=False)
     other_bins["ats"].to_csv(OUTPUT / "market_probability_bin_ats_accuracy.csv", index=False)
+    upset_bins = plot_market_probability_upsets()
+    upset_bins.to_csv(OUTPUT / "market_probability_bin_upsets.csv", index=False)
     weekly_margin, margin_stability = plot_weekly_margin_stability()
     weekly_margin.to_csv(OUTPUT / "weekly_margin_advantage.csv", index=False)
     margin_stability.to_csv(OUTPUT / "margin_weekly_stability.csv", index=False)
@@ -668,14 +743,17 @@ def main() -> None:
                    "strong_favorite_games": strong_games,
                    "market_bin_games": int(other_bins["mae"].games.sum() / len(style.MODELS)),
                    "ats_nonpush_market_bin_games": int(other_bins["ats"].games.sum() / len(style.MODELS)),
-                   "ats_push_market_bin_games": int(other_bins["ats"].push_games.sum() / len(style.MODELS))},
+                   "ats_push_market_bin_games": int(other_bins["ats"].push_games.sum() / len(style.MODELS)),
+                   "market_bin_actual_upset_games": int(upset_bins.actual_upset_games.sum() / len(style.MODELS)),
+                   "market_bin_upset_calls": int(upset_bins.upset_calls.sum())},
         "method": {"log_loss_clip": PROBABILITY_CLIP,
                    "calibration_error": f"ten equal-count probability bins of {bin_min}–{bin_max} games; game ID breaks probability ties",
                    "risk_coverage": "mean cumulative 0/1 error over all confidence-ranked coverages; game ID breaks confidence ties",
                    "blend": "arithmetic mean of model and Vegas home-win probabilities, fixed at 50/50",
-                   "market_bin_ats": "model picks home iff predicted home margin plus Vegas home spread > 0; actual pushes excluded; 50% is a reference, not a Vegas pick"},
+                   "market_bin_ats": "model picks home iff predicted home margin plus Vegas home spread > 0; actual pushes excluded; 50% is a reference, not a Vegas pick",
+                   "market_bin_upsets": "nonzero spread defines the favorite; a model calls an upset iff predicted winner differs from that favorite; recall denominator is actual upsets, call-accuracy denominator is upset calls made"},
         "outputs": {path.name: style.sha256(path) for path in sorted(OUTPUT.iterdir())
-                    if path.name.startswith(tuple(f"{i:02d}_" for i in range(10, 27)))
+                    if path.name.startswith(tuple(f"{i:02d}_" for i in range(10, 29)))
                     or path.name in ("diagnostic_quality.csv", "diagnostic_model_game_loss.parquet",
                                      "probability_reliability_bins.csv", "confidence_coverage_checkpoints.csv",
                                      "weekly_brier_gain.csv", "probability_gamewise_duel.csv",
@@ -683,10 +761,11 @@ def main() -> None:
                                      "weekly_margin_advantage.csv", "margin_weekly_stability.csv",
                                      "market_probability_bin_mae_advantage.csv",
                                      "market_probability_bin_winner_accuracy.csv",
-                                     "market_probability_bin_ats_accuracy.csv")},
+                                     "market_probability_bin_ats_accuracy.csv",
+                                     "market_probability_bin_upsets.csv")},
     }
     (OUTPUT / "diagnostics_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
-    print(f"Wrote 17 diagnostic figures with publication variants and {len(summary)} score rows to {OUTPUT}")
+    print(f"Wrote 19 diagnostic figures with publication variants and {len(summary)} score rows to {OUTPUT}")
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="915.411587pt" height="642.890156pt" viewBox="0 0 915.411587 642.890156" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="931.314712pt" height="642.890156pt" viewBox="0 0 931.314712 642.890156" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
@@ -22,8 +22,8 @@
  <g id="figure_1">
   <g id="patch_1">
    <path d="M 0 642.890156
-L 915.411587 642.890156
-L 915.411587 0
+L 931.314712 642.890156
+L 931.314712 0
 L 0 0
 z
 " style="fill: #faf7f0"/>
@@ -2301,10 +2301,22 @@ L 4 0
       </g>
      </g>
      <g id="text_79">
-      <!-- 30 -->
+      <!-- 30.00 -->
       <g style="fill: #3a4450" transform="translate(879.872838 506.799942) scale(0.1 -0.1)">
+       <defs>
+        <path id="DejaVuSans-2e" d="M 684 794
+L 1344 794
+L 1344 0
+L 684 0
+L 684 794
+z
+" transform="scale(0.015625)"/>
+       </defs>
        <use xlink:href="#DejaVuSans-33"/>
        <use xlink:href="#DejaVuSans-30" x="63.623047"/>
+       <use xlink:href="#DejaVuSans-2e" x="127.246094"/>
+       <use xlink:href="#DejaVuSans-30" x="159.033203"/>
+       <use xlink:href="#DejaVuSans-30" x="222.65625"/>
       </g>
      </g>
     </g>
@@ -2315,10 +2327,13 @@ L 4 0
       </g>
      </g>
      <g id="text_80">
-      <!-- 40 -->
+      <!-- 40.00 -->
       <g style="fill: #3a4450" transform="translate(879.872838 420.702799) scale(0.1 -0.1)">
        <use xlink:href="#DejaVuSans-34"/>
        <use xlink:href="#DejaVuSans-30" x="63.623047"/>
+       <use xlink:href="#DejaVuSans-2e" x="127.246094"/>
+       <use xlink:href="#DejaVuSans-30" x="159.033203"/>
+       <use xlink:href="#DejaVuSans-30" x="222.65625"/>
       </g>
      </g>
     </g>
@@ -2329,10 +2344,13 @@ L 4 0
       </g>
      </g>
      <g id="text_81">
-      <!-- 50 -->
+      <!-- 50.00 -->
       <g style="fill: #3a4450" transform="translate(879.872838 334.605656) scale(0.1 -0.1)">
        <use xlink:href="#DejaVuSans-35"/>
        <use xlink:href="#DejaVuSans-30" x="63.623047"/>
+       <use xlink:href="#DejaVuSans-2e" x="127.246094"/>
+       <use xlink:href="#DejaVuSans-30" x="159.033203"/>
+       <use xlink:href="#DejaVuSans-30" x="222.65625"/>
       </g>
      </g>
     </g>
@@ -2343,10 +2361,13 @@ L 4 0
       </g>
      </g>
      <g id="text_82">
-      <!-- 60 -->
+      <!-- 60.00 -->
       <g style="fill: #3a4450" transform="translate(879.872838 248.508513) scale(0.1 -0.1)">
        <use xlink:href="#DejaVuSans-36"/>
        <use xlink:href="#DejaVuSans-30" x="63.623047"/>
+       <use xlink:href="#DejaVuSans-2e" x="127.246094"/>
+       <use xlink:href="#DejaVuSans-30" x="159.033203"/>
+       <use xlink:href="#DejaVuSans-30" x="222.65625"/>
       </g>
      </g>
     </g>
@@ -2357,16 +2378,36 @@ L 4 0
       </g>
      </g>
      <g id="text_83">
-      <!-- 70 -->
+      <!-- 70.00 -->
       <g style="fill: #3a4450" transform="translate(879.872838 162.411371) scale(0.1 -0.1)">
        <use xlink:href="#DejaVuSans-37"/>
        <use xlink:href="#DejaVuSans-30" x="63.623047"/>
+       <use xlink:href="#DejaVuSans-2e" x="127.246094"/>
+       <use xlink:href="#DejaVuSans-30" x="159.033203"/>
+       <use xlink:href="#DejaVuSans-30" x="222.65625"/>
       </g>
      </g>
     </g>
-    <g id="text_84">
+    <g id="ytick_12">
+     <g id="line2d_22">
+      <g>
+       <use xlink:href="#m9d12f5650b" x="872.372838" y="122.186437" style="fill: #3a4450; stroke: #3a4450"/>
+      </g>
+     </g>
+     <g id="text_84">
+      <!-- 74.23 -->
+      <g style="fill: #3a4450" transform="translate(879.872838 125.985656) scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-37"/>
+       <use xlink:href="#DejaVuSans-34" x="63.623047"/>
+       <use xlink:href="#DejaVuSans-2e" x="127.246094"/>
+       <use xlink:href="#DejaVuSans-32" x="159.033203"/>
+       <use xlink:href="#DejaVuSans-33" x="222.65625"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_85">
      <!-- ATS accuracy · % of non-push picks ↑ -->
-     <g style="fill: #0d0d0d" transform="translate(905.715963 444.113625) rotate(-90) scale(0.12 -0.12)">
+     <g style="fill: #0d0d0d" transform="translate(921.619087 444.113625) rotate(-90) scale(0.12 -0.12)">
       <defs>
        <path id="DejaVuSans-41" d="M 2188 4044
 L 1331 1722
@@ -2473,7 +2514,7 @@ z
     </g>
    </g>
    <g id="LineCollection_1"/>
-   <g id="line2d_22">
+   <g id="line2d_23">
     <path d="M 851.510838 330.806437
 L 872.372838 330.806437
 " style="fill: none; stroke: #d4b56e; stroke-opacity: 0.92; stroke-width: 2.3; stroke-linecap: round"/>
@@ -2490,7 +2531,7 @@ z
 " style="fill: none; stroke: #3a4450; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
   </g>
-  <g id="text_85">
+  <g id="text_86">
    <!-- TDNET  /  2026 SCIENTIFIC ROSTER -->
    <g style="fill: #5a606b" transform="translate(43.728438 14.798437) scale(0.1 -0.1)">
     <defs>
@@ -2720,7 +2761,7 @@ z
     <use xlink:href="#DejaVuSans-Bold-52" x="1884.667969"/>
    </g>
   </g>
-  <g id="text_86">
+  <g id="text_87">
    <!-- ATS accuracy by market probability -->
    <g style="fill: #11214f" transform="translate(43.728438 53.786437) scale(0.23 -0.23)">
     <defs>
@@ -3073,7 +3114,7 @@ z
     <use xlink:href="#DejaVuSans-Bold-79" x="1935.767578"/>
    </g>
   </g>
-  <g id="text_87">
+  <g id="text_88">
    <!-- Correct side against the spread; pushes excluded. Gold is 50%, not a Vegas ATS pick. -->
    <g style="fill: #5a606b" transform="translate(43.728438 87.986437) scale(0.11 -0.11)">
     <defs>
@@ -3126,13 +3167,6 @@ L 978 3500
 L 1906 2253
 L 2834 3500
 L 3513 3500
-z
-" transform="scale(0.015625)"/>
-     <path id="DejaVuSans-2e" d="M 684 794
-L 1344 794
-L 1344 0
-L 684 0
-L 684 794
 z
 " transform="scale(0.015625)"/>
      <path id="DejaVuSans-47" d="M 3809 666
@@ -3256,7 +3290,7 @@ z
     <use xlink:href="#DejaVuSans-2e" x="4238.763672"/>
    </g>
   </g>
-  <g id="text_88">
+  <g id="text_89">
    <!-- Paired through Week 7: 379 spread games; 372 moneyline games. Week 7 market quotes were retrieved after games; quote times unverified. -->
    <g style="fill: #5a606b" transform="translate(43.728438 633.818437) scale(0.09 -0.09)">
     <defs>
