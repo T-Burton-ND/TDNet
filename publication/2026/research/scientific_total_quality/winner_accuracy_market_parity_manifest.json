@@ -1,0 +1,34 @@
+{
+  "color_rule": {
+    "1 fewer": "#F3E8D8",
+    "2\u20134 fewer": "#E3BDA9",
+    "5\u20139 fewer": "#C37B6C",
+    "Ahead of Vegas": "#0072B8",
+    "At least 10 fewer": "#8F4950",
+    "Equal to Vegas": "#D4B56E"
+  },
+  "evidence": {
+    "ahead_cells": 1,
+    "equal_cells": 1,
+    "max_week": 7,
+    "one_win_behind_cells": 3,
+    "paired_games": 372,
+    "spread_games": 379,
+    "vegas_correct_winners": 288
+  },
+  "market_note": "Week 7 market quotes were retrieved after games; quote times unverified.",
+  "outputs": {
+    "winner_accuracy_market_parity_heatmap.png": "6062e9580319930f98ee32d6fac63315801517e5c1e506b6bd81d993c515c236",
+    "winner_accuracy_market_parity_heatmap.svg": "e2c5760a0b69e56304a55e32b9519d6c2744a607399284bd0d1e27aaeed3d59a",
+    "winner_accuracy_market_parity_heatmap_publication.png": "106c673ef2ac5a04869912af2d51057069993322c5589f247e9a19b196174a15",
+    "winner_accuracy_market_parity_heatmap_publication.svg": "aa9b540dd8a521567c434aa54fcc4b83684d86a67db5154e444b231aa96b8c8a",
+    "winner_accuracy_market_parity_scores.csv": "25593513fca3314fb7506c2106ff767d32ec6c23c27486f2c409f7b233c23fb4"
+  },
+  "render_date": "2026-10-21",
+  "source": {
+    "/users/tburton2/Repos/TDNet/publication/2026/research/scientific_total_quality/fingerprint_architecture_heatmap_scores.csv": "17f93f416d1e22c471a7214af6504185c7d43dd36672bcf471379e468487389a",
+    "/users/tburton2/Repos/TDNet/publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19/common_120_model_game_results.parquet": "4e8ac74ef896b88543fda3ffb639bfdc2f3bfa4d73cf0beb54ca7930ae5939c7",
+    "/users/tburton2/Repos/TDNet/publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19/common_cohort_vegas_games.csv": "61aeb1b99af84622d633117d44ec76061b5a7b606d7ee0d0ff4751663816616c",
+    "/users/tburton2/Repos/TDNet/scripts/publication/plot_2026_scientific_winner_market_parity.py": "06a402ba31769579322f075915163df16bae9223217e5ca06d032b78f27c7241"
+  }
+}
