@@ -1,0 +1,25 @@
+version: 1
+study: scientific_120_hps_v1
+fingerprints: [F0, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, F13, F14, F15, F16, F17, F18, F19]
+architectures: [M1, M2, M3, M4, M5, M10]
+test_seasons: [2021, 2022, 2023, 2024, 2025]
+earliest_training_season: 2013
+candidate_sets_per_cell: 100
+sampling_seed: 26084
+fit_seed: 1701
+primary_metric: margin_mae
+search_space_source: configs/publication/hps_new_fingerprints_scientific.yaml
+search_space_exclude:
+  - config.margin_temperature
+search_space_overrides:
+  M10:
+    config.params.n_neighbors: {type: int, low: 1, high: 150}
+cpu_only: true
+threads_per_fit: 1
+max_concurrent_tasks: 10
+hard_max_running_tasks: 25
+hard_max_cores_per_task: 2
+save_checkpoints: false
+save_loss_history: true
+historical_market_quote_status: unverified
+selection_rule: lowest_equal_weight_mean_fold_mae_then_lower_std_then_trial_id

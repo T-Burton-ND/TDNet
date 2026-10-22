@@ -1,0 +1,22 @@
+{
+  "candidate_fits": 60000,
+  "candidate_sets_per_cell": 100,
+  "candidate_tasks": 12000,
+  "cells": 120,
+  "configuration_sha256": "b7d4981c35d26c45b2e8e868ed077c116ab80814523c6172ba43dfeab14b1714",
+  "cpu_only": true,
+  "hard_max_cores_per_task": 2,
+  "hard_max_running_tasks": 25,
+  "historical_input_audit": "required_before_launch",
+  "incumbent_control_fits_if_added": 600,
+  "manifest_sha256": "3efa0289e51dd4ee3d916294fabb8af35cec1477659e986c344140e1e76aa873",
+  "market_quote_audit": "required_for_F7_F8_F17_F19_interpretation",
+  "max_concurrent_tasks": 10,
+  "planner_sha256": "2ef85482842ce519b5791698d6349190b3a413f462391d86630f217a1de38d3f",
+  "save_checkpoints": false,
+  "search_space_pairing": "same 100 architecture setpoints in each of 20 fingerprints",
+  "search_space_sha256": "5f2c1bcc6823da79056197e923cb272864907183b4b387b9a04af278cfcfa33e",
+  "status": "planned_unrun",
+  "study": "scientific_120_hps_v1",
+  "threads_per_fit": 1
+}
