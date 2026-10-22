@@ -1,20 +1,35 @@
 # 2026 scientific roster: quality gallery
 
-All 34 numbered figures, 12 alternate observed-scale heatmaps, one winner-parity companion, and a publication version of each are together in this directory. Figures 01–16 show the same 120 F0–F19 scientific cells (M1–M5 and M10), with Vegas as a point on the original two-metric scatterplots and as the zero-skill threshold on the roster summaries. Figures 17–18 show selected forecasters as curves. Figures 19–28 add paired weekly, gamewise, tail, market-bin, and stability analyses, including six aligned market-bin heatmaps. Figures 29–34 show those same six metrics by fingerprint × architecture. The [winner-parity companion](winner_accuracy_market_parity_heatmap.png) recodes Figure 31 in exact extra correct winners versus Vegas. F17 is the `F17-market` research fingerprint in the source roster; F18 and F19 are performance tiers rather than strictly new raw-information generations. Every scientific cell uses its architecture's standard marker and color, including F19/M4 as the M4 teal diamond; Vegas is gold (`brass`). The other model colors, typography, grid, and background follow [`gridiron.palette.json`](../../../../gridiron.palette.json) and [`gridiron_light.mplstyle`](../../../../docs/style/color_palettes/gridiron_light.mplstyle).
+All 34 numbered figures, 12 alternate observed-scale heatmaps, a winner-parity companion, F19/M4 confusion matrices, and a publication version of each are together in this directory. Figures 01–16 show the same 120 F0–F19 scientific cells (M1–M5 and M10), with Vegas as a point on the original two-metric scatterplots and as the zero-skill threshold on the roster summaries. Figures 17–18 show selected forecasters as curves. Figures 19–28 add paired weekly, gamewise, tail, market-bin, and stability analyses, including six aligned market-bin heatmaps. Figures 29–34 show those same six metrics by fingerprint × architecture. The [winner-parity companion](winner_accuracy_market_parity_heatmap.png) recodes Figure 31 in exact extra correct winners versus Vegas. F17 is the `F17-market` research fingerprint in the source roster; F18 and F19 are performance tiers rather than strictly new raw-information generations. Every scientific cell uses its architecture's standard marker and color, including F19/M4 as the M4 teal diamond; Vegas is gold (`brass`). The other model colors, typography, grid, and background follow [`gridiron.palette.json`](../../../../gridiron.palette.json) and [`gridiron_light.mplstyle`](../../../../docs/style/color_palettes/gridiron_light.mplstyle).
 
 ## Rebuild the saved Week 7 gallery
 
-Run from the repository root with Python and the `numpy`, `pandas`, `pyarrow`, and `matplotlib` packages. The repository's [`pyproject.toml`](../../../../pyproject.toml) declares the project dependencies. The original gallery images were produced with Python 3.9.25, NumPy 1.23.5, pandas 2.3.3, PyArrow 21.0.0, and Matplotlib 3.9.4; the new winner-parity companion was rendered with Python 3.11.15, NumPy 2.4.6, pandas 3.0.5, PyArrow 25.0.1, and Matplotlib 3.11.1. The software versions and installed DejaVu Sans font matter if byte-for-byte image reproduction is required. The source hashes and generated-file hashes are in [manifest.json](manifest.json), [diagnostics_manifest.json](diagnostics_manifest.json), and the [winner-parity manifest](winner_accuracy_market_parity_manifest.json).
+The [F19/M4 confusion-matrix companion](f19_m4_winner_confusion_matrices.png) shows its home/away picks against actual winners and pairs its correctness with Vegas on the same 372 games. A [publication version](f19_m4_winner_confusion_matrices_publication.png), [game-by-game pick table](f19_m4_paired_winner_picks.csv), [eight matrix counts](f19_m4_winner_confusion_counts.csv), and [source/output manifest](f19_m4_winner_confusion_manifest.json) are included. The archived straight-up rule grades F19/M4's home-win probability at 50% and Vegas's negative home spread. This distinction matters: choosing from the model margin instead would change six picks in this cohort.
+
+Run from the repository root with Python and the `numpy`, `pandas`, `pyarrow`, and `matplotlib` packages. The repository's [`pyproject.toml`](../../../../pyproject.toml) declares the project dependencies. The original gallery images were produced with Python 3.9.25, NumPy 1.23.5, pandas 2.3.3, PyArrow 21.0.0, and Matplotlib 3.9.4; the new winner-parity companion was rendered with Python 3.11.15, NumPy 2.4.6, pandas 3.0.5, PyArrow 25.0.1, and Matplotlib 3.11.1. The software versions and installed DejaVu Sans font matter if byte-for-byte image reproduction is required. The source hashes and generated-file hashes are in [manifest.json](manifest.json), [diagnostics_manifest.json](diagnostics_manifest.json), the [winner-parity manifest](winner_accuracy_market_parity_manifest.json), and the [F19/M4 confusion manifest](f19_m4_winner_confusion_manifest.json).
 
 ```bash
 MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/plot_2026_scientific_total_quality.py
 MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/analyze_2026_scientific_quality_diagnostics.py
 MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/plot_2026_scientific_winner_market_parity.py
+MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/plot_2026_f19_m4_confusion_matrices.py
 ```
 
-The default input is `publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19/`; the default output is this directory. Run the roster script first, the diagnostic script second, and the winner-parity script third. The first writes Figures 01–09 and their publication versions plus paired/distribution tables; the second writes Figures 10–34, 12 alternate observed-scale heatmaps, their publication versions, and diagnostic tables; the third writes the winner-parity full/publication figures, exact-count table, and its own manifest. Core figures are saved as 200-dpi PNGs and SVGs; publication versions have 300-dpi PNGs and SVGs. SVG metadata has the fixed `2026-10-21` render date, and all three scripts fix the Matplotlib SVG hash salt so a rerun in the same environment is deterministic. The three manifests hash their own source files and generated outputs; they do not hash the README or each other.
+The default input is `publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19/`; the default output is this directory. Run the roster script first, the diagnostic script second, the winner-parity script third, and the F19/M4 confusion script fourth. The first writes Figures 01–09 and their publication versions plus paired/distribution tables; the second writes Figures 10–34, 12 alternate observed-scale heatmaps, their publication versions, and diagnostic tables; the third writes the winner-parity full/publication figures, exact-count table, and its own manifest; the fourth writes the confusion matrices, game-level picks, count table, and its own manifest. Core figures are saved as 200-dpi PNGs and SVGs; publication versions have 300-dpi PNGs and SVGs. SVG metadata has the fixed `2026-10-21` render date, and all four scripts fix the Matplotlib SVG hash salt so a rerun in the same environment is deterministic. The four manifests hash their own source files and generated outputs; they do not hash the README or each other.
 
 ## Rebuild after the 2026 season
+
+For the F19/M4 confusion companion, use the same frozen source, output directory, render date, and market note as the other gallery scripts:
+
+```bash
+MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/plot_2026_f19_m4_confusion_matrices.py \
+  --source-dir publication/2026/week_FINAL/post_game/cumulative/scientific_f0_f19 \
+  --output-dir publication/2026/research/scientific_total_quality_final \
+  --render-date 2027-01-15 \
+  --market-note 'Market source and quote timing: describe the frozen final-season snapshot here.'
+```
+
+The script verifies every derived pick against the archived `winner_correct` flags, rejects incomplete paired games, and hashes its sources and outputs in its own manifest. In the saved Week 7 cohort, F19/M4 picked home on 200 actual home wins and 51 actual away wins; it picked away on 31 actual home wins and 90 actual away wins. F19/M4 and Vegas were both right on 286 games; F19/M4 alone was right on four, Vegas alone on two, and both were wrong on 80. They agreed on 366 of 372 picks. These are retrospective comparisons; Week 7 market quote times remain unverified.
 
 First freeze a **new, fully scored common-cohort export** in its own directory, with the three filenames and columns below. Include only completed games with final margins; preserve the archived forecast and market values for each game. Use the same game IDs and home-team orientation in all three files. This gallery does not fetch odds, generate forecasts, or build the source cohort itself. The Week 7 export was assembled by [`publish_2026_week06_07_f0_f19_backfill.py`](../../../../scripts/publication/publish_2026_week06_07_f0_f19_backfill.py), which is specific to that catch-up window; it is a reference for the source schema, not a final-season export command.
 
@@ -26,7 +41,7 @@ First freeze a **new, fully scored common-cohort export** in its own directory, 
 
 `margin_error`, `winner_correct`, and `brier_error` are the frozen grading fields in the source. The roster script uses the model and Vegas `margin_error`/`winner_correct`/`brier_error` columns; the diagnostic script recomputes probability and tail measures from the raw predictions and final margin, and checks the archived Vegas margin error and Brier against those values. Before exporting, verify that `pred_home_win_probability` and `market_home_probability` are home-win probabilities on `[0,1]`, and that the market values reflect the intended archived quote cutoff. The scripts reject missing model cells, duplicate IDs, mismatched final margins, and incomplete paired cohorts. A final-season export must retain the same **120-cell roster**; a roster change needs a separate analysis definition.
 
-Choose a new output directory to keep the Week 7 snapshot intact. Replace the example paths, date, and market note with the actual frozen snapshot details; pass the **same four arguments to all three scripts**:
+Choose a new output directory to keep the Week 7 snapshot intact. Replace the example paths, date, and market note with the actual frozen snapshot details; pass the **same four arguments to all four scripts**:
 
 ```bash
 MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/plot_2026_scientific_total_quality.py \
@@ -48,7 +63,7 @@ MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/plot_2026_scientific_win
   --market-note 'Market source and quote timing: describe the frozen final-season snapshot here.'
 ```
 
-`week_FINAL` and the date are placeholders, not existing paths or a scheduled run. The scripts read the largest `week` in the new market file for the figure footers, count the spread and moneyline cohorts separately, and compute the confidence and regime counts from those games. Figure 23 additionally needs at least two scored weeks to define a weekly standard deviation. Inspect the new `manifest.json`, `diagnostics_manifest.json`, and `winner_accuracy_market_parity_manifest.json` for the source hashes, cohort counts, and output hashes. Confirm that there are 92 numbered/observed-scale PNGs and 92 SVGs, plus two winner-parity PNGs and two SVGs, 121 rows in each model/market summary, 120 rows in the fingerprint heatmap ledger, 20 architecture observations per model family, and six architecture observations per fingerprint. Keep the original Week 7 manifests for historical comparison; source changes should produce new hashes.
+`week_FINAL` and the date are placeholders, not existing paths or a scheduled run. The scripts read the largest `week` in the new market file for the figure footers, count the spread and moneyline cohorts separately, and compute the confidence and regime counts from those games. Figure 23 additionally needs at least two scored weeks to define a weekly standard deviation. Inspect the new `manifest.json`, `diagnostics_manifest.json`, `winner_accuracy_market_parity_manifest.json`, and `f19_m4_winner_confusion_manifest.json` for the source hashes, cohort counts, and output hashes. Confirm that there are 92 numbered/observed-scale PNGs and 92 SVGs, plus two winner-parity PNGs and two SVGs and two F19/M4 confusion PNGs and two SVGs, 121 rows in each model/market summary, 120 rows in the fingerprint heatmap ledger, 20 architecture observations per model family, and six architecture observations per fingerprint. Keep the original Week 7 manifests for historical comparison; source changes should produce new hashes.
 
 From the repository root, this check verifies every recorded source and output hash and the expected figure/summary counts; replace the argument with the chosen output directory:
 
@@ -74,14 +89,23 @@ for filename, digest in parity['source'].items():
 for filename, digest in parity['outputs'].items():
     artifact = out / filename
     assert hashlib.sha256(artifact.read_bytes()).hexdigest() == digest, artifact
+confusion = json.loads((out / 'f19_m4_winner_confusion_manifest.json').read_text())
+for filename, digest in confusion['source'].items():
+    source = Path(filename)
+    assert hashlib.sha256(source.read_bytes()).hexdigest() == digest, source
+for filename, digest in confusion['outputs'].items():
+    artifact = out / filename
+    assert hashlib.sha256(artifact.read_bytes()).hexdigest() == digest, artifact
 assert len(list(out.glob('[0-9][0-9]_*.png'))) == 92
 assert len(list(out.glob('[0-9][0-9]_*.svg'))) == 92
 assert len(parity['outputs']) == 5
+assert len(confusion['outputs']) == 6
+assert len(pd.read_csv(out / 'f19_m4_paired_winner_picks.csv')) == confusion['evidence']['paired_games']
 assert len(pd.read_csv(out / 'fingerprint_architecture_heatmap_scores.csv')) == 120
 assert len(pd.read_csv(out / 'winner_accuracy_market_parity_scores.csv')) == 120
 assert len(pd.read_csv(out / 'paired_quality.csv')) == 121
 assert len(pd.read_csv(out / 'diagnostic_quality.csv')) == 121
-print('Gallery source files, 47 full figure pairs, 47 publication pairs, score tables, and hashes verified')
+print('Gallery source files, 48 full figure pairs, 48 publication pairs, score tables, and hashes verified')
 PY
 ```
 
@@ -105,7 +129,7 @@ The [paired score data](paired_quality.csv), [architecture summary](architecture
 
 ### Publication exports
 
-Every Figure 01–34, each observed-scale companion, and the winner-parity companion has a `_publication.png` and `_publication.svg` counterpart in this directory. For example, [Figure 01 print PNG](01_error_landscape_publication.png) and [SVG](01_error_landscape_publication.svg) match the full [error landscape](01_error_landscape.png). The same filename rule applies to all figure rows below. Publication versions omit the internal title, subtext, and footer; enlarge the axis labels, ticks, and legends; and retain the plotted values and benchmark references. They are 300-dpi PNGs and vector SVGs.
+Every Figure 01–34, each observed-scale companion, the winner-parity companion, and the F19/M4 confusion matrices have a `_publication.png` and `_publication.svg` counterpart in this directory. For example, [Figure 01 print PNG](01_error_landscape_publication.png) and [SVG](01_error_landscape_publication.svg) match the full [error landscape](01_error_landscape.png). The same filename rule applies to all figure rows below. Publication versions omit the internal title, subtext, and footer; enlarge the axis labels, ticks, and legends; and retain the plotted values and benchmark references. They are 300-dpi PNGs and vector SVGs.
 
 The two violins have dedicated layouts: [architecture PNG](07_architecture_violin_publication.png) · [SVG](07_architecture_violin_publication.svg) at 15 × 8.5 inches, and [fingerprint PNG](09_fingerprint_violin_publication.png) · [SVG](09_fingerprint_violin_publication.svg) at 15 × 15 inches. They add legend keys for the interquartile bar, median tick, and mean circle while keeping every model point and the Vegas threshold. The gallery commands above generate every publication file; the three manifests record their output hashes. Give a paper or poster caption the cohort and market-timing limitation stated in **Provenance limits** below, since the clean images omit the footer.
 

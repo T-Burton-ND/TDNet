@@ -1,0 +1,9 @@
+matrix,row,column,games
+model_pick_vs_actual_winner,home,home,200
+model_pick_vs_actual_winner,home,away,31
+model_pick_vs_actual_winner,away,home,51
+model_pick_vs_actual_winner,away,away,90
+vegas_correct_vs_model_correct,True,True,286
+vegas_correct_vs_model_correct,True,False,2
+vegas_correct_vs_model_correct,False,True,4
+vegas_correct_vs_model_correct,False,False,80

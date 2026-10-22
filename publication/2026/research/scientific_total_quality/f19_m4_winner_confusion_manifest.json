@@ -1,0 +1,30 @@
+{
+  "evidence": {
+    "max_week": 7,
+    "model_correct": 290,
+    "model_only_correct": 4,
+    "paired_games": 372,
+    "same_pick": 366,
+    "vegas_correct": 288,
+    "vegas_only_correct": 2
+  },
+  "market_note": "Week 7 market quotes were retrieved after games; quote times unverified.",
+  "outputs": {
+    "f19_m4_paired_winner_picks.csv": "79826eec1b375126f06a0b84e2cce7c04f9749b4265335bc9c7595a480e5da34",
+    "f19_m4_winner_confusion_counts.csv": "b21642e366cd51acd3c3c7724f65ae02017f1d6d83b01a64ee059c008dc7f144",
+    "f19_m4_winner_confusion_matrices.png": "3e806a852b270ffeeccdaae3264aa9751074cf2019842b9a55f86037e9bdead6",
+    "f19_m4_winner_confusion_matrices.svg": "51d05f0e932a4b294eb38704575583001fbbe41f2542dcb0bb17e7e7c5edce3d",
+    "f19_m4_winner_confusion_matrices_publication.png": "9b06432afa3484f7b13e0b80e3ddeea2a3fd3cf48ad48bf1eba45e9201f0a13c",
+    "f19_m4_winner_confusion_matrices_publication.svg": "19605be3ee938fef6847844f0ca0e4cf15d33eacb73e284b7195a7d9b4655c41"
+  },
+  "pick_rules": {
+    "model": "pred_home_win_probability >= 0.5",
+    "vegas": "market_home_spread < 0"
+  },
+  "render_date": "2026-10-21",
+  "source": {
+    "/users/tburton2/Repos/TDNet/publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19/common_120_model_game_results.parquet": "4e8ac74ef896b88543fda3ffb639bfdc2f3bfa4d73cf0beb54ca7930ae5939c7",
+    "/users/tburton2/Repos/TDNet/publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19/common_cohort_vegas_games.csv": "61aeb1b99af84622d633117d44ec76061b5a7b606d7ee0d0ff4751663816616c",
+    "/users/tburton2/Repos/TDNet/scripts/publication/plot_2026_f19_m4_confusion_matrices.py": "81e003d8e60c275d6f63698b097ee1da611bc702024d3720f0af909ed819bca9"
+  }
+}
