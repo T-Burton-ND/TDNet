@@ -1,6 +1,8 @@
-# Scientific 120-cell hyperparameter sensitivity study (historical inputs aligned)
+# Scientific 120-cell hyperparameter sensitivity study (launched)
 
 This is the historical tuning-sensitivity study for F0–F19 × M1/M2/M3/M4/M5/M10. The [configuration](../../../../configs/experiments/scientific_120_hps_v1.yaml), [candidate manifest](candidate_tasks.jsonl), [plan receipt](plan.json), and [input audit](input_audit.json) define the proposed search. The materialized input matrices and run receipts live under `/groups/bsavoie2/tburton2/TDNet/scientific_120_hps_v1/`. Consult that path for launch and result status.
+
+The five representative CPU smoke candidates passed on 2026-10-22. The full search was submitted as SGE array **1610195** (`1-12000`, `-tc 10`, `-pe smp 1`) from frozen source commit `ca20378d2e326ae785c7fad6f079a085b89e8c38`. The frozen candidate manifest has SHA256 `57376f52979eda2bba6c3871d4bac552e8f654e3033fdf34d5a1c0dc9c96046e`. Submission and early task success are observed; final model rankings and best configurations remain pending the complete array.
 
 ## Design
 
