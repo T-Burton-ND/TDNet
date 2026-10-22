@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -j y
+#$ -q long
+#$ -pe smp 1
+#$ -l h_rt=48:00:00
+#$ -l h_vmem=16G
+set -euo pipefail
+: "${REPO_ROOT:?}"
+: "${HPS_DATA_ROOT:?}"
+: "${HPS_RESULT_ROOT:?}"
+: "${SGE_TASK_ID:?}"
+TASK_ID="${SGE_TASK_ID}"
+if [[ "${HPS_SMOKE:-0}" == "1" ]]; then
+  SMOKE_TASKS=(1 3701 5701 11001 11801)
+  TASK_ID="${SMOKE_TASKS[$((SGE_TASK_ID-1))]}"
+fi
+if [[ "${NSLOTS:-1}" -gt 2 ]]; then
+  echo "More than two CPU cores allocated to a study task" >&2
+  exit 2
+fi
+export CUDA_VISIBLE_DEVICES=""
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
+export MPLCONFIGDIR="${TMPDIR:-/tmp}/tdnet-hps-mpl"
+cd "${REPO_ROOT}"
+if [[ -n "${HPS_EXPECTED_COMMIT:-}" ]] && \
+   [[ "$(cat source_commit.txt)" != "${HPS_EXPECTED_COMMIT}" ]]; then
+  echo "Frozen study source commit differs from launch receipt" >&2
+  exit 2
+fi
+exec /users/tburton2/.conda/envs/gridiron/bin/python \
+  scripts/publication/run_scientific_120_hps_task.py \
+  --task-id "${TASK_ID}" \
+  --data-root "${HPS_DATA_ROOT}" --output-root "${HPS_RESULT_ROOT}"

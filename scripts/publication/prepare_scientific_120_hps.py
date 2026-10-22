@@ -78,7 +78,9 @@ def make_plan() -> tuple[dict, list[dict]]:
                     "trial_id": trial_id,
                     "params": params,
                     "fit_seed": cfg["fit_seed"],
-                    "folds": [{"test_season": y, "train_seasons": [cfg["earliest_training_season"], y - 1]}
+                    "folds": [{"test_season": y,
+                               "fit_seasons": [cfg["earliest_training_season"], y - 2],
+                               "inner_validation_season": y - 1}
                               for y in cfg["test_seasons"]],
                 })
     summary = {

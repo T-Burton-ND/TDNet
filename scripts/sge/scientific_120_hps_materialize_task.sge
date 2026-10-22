@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+#$ -cwd
+#$ -j y
+#$ -q long
+#$ -pe smp 1
+#$ -l h_rt=02:00:00
+#$ -l h_vmem=16G
+set -euo pipefail
+: "${REPO_ROOT:?}"
+: "${HPS_DATA_ROOT:?}"
+: "${SGE_TASK_ID:?}"
+if [[ "${NSLOTS:-1}" -gt 2 ]]; then
+  echo "This study permits at most two CPU slots per task" >&2
+  exit 2
+fi
+export CUDA_VISIBLE_DEVICES=""
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
+export MPLCONFIGDIR="${TMPDIR:-/tmp}/tdnet-hps-mpl"
+mapfile -t TIERS < <(printf 'F%s\n' {0..19})
+TIER="${TIERS[$((SGE_TASK_ID-1))]}"
+cd "${REPO_ROOT}"
+exec /users/tburton2/.conda/envs/gridiron/bin/python \
+  scripts/publication/materialize_scientific_120_hps.py \
+  --tier "${TIER}" --output "${HPS_DATA_ROOT}"
