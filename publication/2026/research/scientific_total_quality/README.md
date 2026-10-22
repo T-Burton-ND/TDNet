@@ -1,6 +1,6 @@
 # 2026 scientific roster: quality gallery
 
-All 28 numbered figures, six alternate observed-scale heatmaps, and a publication version of each are together in this directory. Figures 01–16 show the same 120 F0–F19 scientific cells (M1–M5 and M10), with Vegas as a point on the original two-metric scatterplots and as the zero-skill threshold on the roster summaries. Figures 17–18 show selected forecasters as curves. Figures 19–28 add paired weekly, gamewise, tail, market-bin, and stability analyses, including six aligned market-bin heatmaps. F17 is the `F17-market` research fingerprint in the source roster. Every scientific cell uses its architecture's standard marker and color, including F19/M4 as the M4 teal diamond; Vegas is gold (`brass`). The other model colors, typography, grid, and background follow [`gridiron.palette.json`](../../../../gridiron.palette.json) and [`gridiron_light.mplstyle`](../../../../docs/style/color_palettes/gridiron_light.mplstyle).
+All 34 numbered figures, 12 alternate observed-scale heatmaps, and a publication version of each are together in this directory. Figures 01–16 show the same 120 F0–F19 scientific cells (M1–M5 and M10), with Vegas as a point on the original two-metric scatterplots and as the zero-skill threshold on the roster summaries. Figures 17–18 show selected forecasters as curves. Figures 19–28 add paired weekly, gamewise, tail, market-bin, and stability analyses, including six aligned market-bin heatmaps. Figures 29–34 show those same six metrics by fingerprint × architecture. F17 is the `F17-market` research fingerprint in the source roster; F18 and F19 are performance tiers rather than strictly new raw-information generations. Every scientific cell uses its architecture's standard marker and color, including F19/M4 as the M4 teal diamond; Vegas is gold (`brass`). The other model colors, typography, grid, and background follow [`gridiron.palette.json`](../../../../gridiron.palette.json) and [`gridiron_light.mplstyle`](../../../../docs/style/color_palettes/gridiron_light.mplstyle).
 
 ## Rebuild the saved Week 7 gallery
 
@@ -11,7 +11,7 @@ MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/plot_2026_scientific_tot
 MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/analyze_2026_scientific_quality_diagnostics.py
 ```
 
-The default input is `publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19/`; the default output is this directory. Run the roster script first and the diagnostic script second. The first writes Figures 01–09 and their publication versions plus paired/distribution tables; the second writes Figures 10–28, six alternate observed-scale heatmaps, their publication versions, and diagnostic tables. Core figures are saved as 200-dpi PNGs and SVGs; publication versions have 300-dpi PNGs and SVGs. SVG metadata has the fixed `2026-10-21` render date, and both scripts fix the Matplotlib SVG hash salt so a rerun in the same environment is deterministic. The two manifests hash their own source files and generated outputs; they do not hash the README or each other.
+The default input is `publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19/`; the default output is this directory. Run the roster script first and the diagnostic script second. The first writes Figures 01–09 and their publication versions plus paired/distribution tables; the second writes Figures 10–34, 12 alternate observed-scale heatmaps, their publication versions, and diagnostic tables. Core figures are saved as 200-dpi PNGs and SVGs; publication versions have 300-dpi PNGs and SVGs. SVG metadata has the fixed `2026-10-21` render date, and both scripts fix the Matplotlib SVG hash salt so a rerun in the same environment is deterministic. The two manifests hash their own source files and generated outputs; they do not hash the README or each other.
 
 ## Rebuild after the 2026 season
 
@@ -41,7 +41,7 @@ MPLCONFIGDIR=/tmp/tdnet-mpl python3 scripts/publication/analyze_2026_scientific_
   --market-note 'Market source and quote timing: describe the frozen final-season snapshot here.'
 ```
 
-`week_FINAL` and the date are placeholders, not existing paths or a scheduled run. The scripts read the largest `week` in the new market file for the figure footers, count the spread and moneyline cohorts separately, and compute the confidence and regime counts from those games. Figure 23 additionally needs at least two scored weeks to define a weekly standard deviation. Inspect the new `manifest.json` and `diagnostics_manifest.json` for the source hashes, cohort counts, and output hashes. Confirm that there are 68 PNGs and 68 SVGs (28 numbered figures and six observed-scale companions, each with a publication version), 121 rows in each model/market summary, 20 architecture observations per model family, and six architecture observations per fingerprint. Keep the original Week 7 manifests for historical comparison; source changes should produce new hashes.
+`week_FINAL` and the date are placeholders, not existing paths or a scheduled run. The scripts read the largest `week` in the new market file for the figure footers, count the spread and moneyline cohorts separately, and compute the confidence and regime counts from those games. Figure 23 additionally needs at least two scored weeks to define a weekly standard deviation. Inspect the new `manifest.json` and `diagnostics_manifest.json` for the source hashes, cohort counts, and output hashes. Confirm that there are 92 PNGs and 92 SVGs (34 numbered figures and 12 observed-scale companions, each with a publication version), 121 rows in each model/market summary, 120 rows in the fingerprint heatmap ledger, 20 architecture observations per model family, and six architecture observations per fingerprint. Keep the original Week 7 manifests for historical comparison; source changes should produce new hashes.
 
 From the repository root, this check verifies every recorded source and output hash and the expected figure/summary counts; replace the argument with the chosen output directory:
 
@@ -60,11 +60,12 @@ for name in ('manifest.json', 'diagnostics_manifest.json'):
     for filename, digest in record['outputs'].items():
         artifact = out / filename
         assert hashlib.sha256(artifact.read_bytes()).hexdigest() == digest, artifact
-assert len(list(out.glob('[0-9][0-9]_*.png'))) == 68
-assert len(list(out.glob('[0-9][0-9]_*.svg'))) == 68
+assert len(list(out.glob('[0-9][0-9]_*.png'))) == 92
+assert len(list(out.glob('[0-9][0-9]_*.svg'))) == 92
+assert len(pd.read_csv(out / 'fingerprint_architecture_heatmap_scores.csv')) == 120
 assert len(pd.read_csv(out / 'paired_quality.csv')) == 121
 assert len(pd.read_csv(out / 'diagnostic_quality.csv')) == 121
-print('Gallery source files, 34 full figure pairs, 34 publication pairs, score tables, and hashes verified')
+print('Gallery source files, 46 full figure pairs, 46 publication pairs, score tables, and hashes verified')
 PY
 ```
 
@@ -88,7 +89,7 @@ The [paired score data](paired_quality.csv), [architecture summary](architecture
 
 ### Publication exports
 
-Every Figure 01–28 has a `_publication.png` and `_publication.svg` counterpart in this directory. For example, [Figure 01 print PNG](01_error_landscape_publication.png) and [SVG](01_error_landscape_publication.svg) match the full [error landscape](01_error_landscape.png). The same filename rule applies to all rows in both tables below. Publication versions omit the internal title, subtext, and footer; enlarge the axis labels, ticks, and legends; and retain the plotted values and benchmark references. They are 300-dpi PNGs and vector SVGs.
+Every Figure 01–34 and each observed-scale companion has a `_publication.png` and `_publication.svg` counterpart in this directory. For example, [Figure 01 print PNG](01_error_landscape_publication.png) and [SVG](01_error_landscape_publication.svg) match the full [error landscape](01_error_landscape.png). The same filename rule applies to all figure rows below. Publication versions omit the internal title, subtext, and footer; enlarge the axis labels, ticks, and legends; and retain the plotted values and benchmark references. They are 300-dpi PNGs and vector SVGs.
 
 The two violins have dedicated layouts: [architecture PNG](07_architecture_violin_publication.png) · [SVG](07_architecture_violin_publication.svg) at 15 × 8.5 inches, and [fingerprint PNG](09_fingerprint_violin_publication.png) · [SVG](09_fingerprint_violin_publication.svg) at 15 × 15 inches. They add legend keys for the interquartile bar, median tick, and mean circle while keeping every model point and the Vegas threshold. The gallery commands above generate every publication file and both manifests record its hash. Give a paper or poster caption the cohort and market-timing limitation stated in **Provenance limits** below, since the clean images omit the footer.
 
@@ -117,8 +118,14 @@ These analyze distinct aspects of quality, not another mix of MAE, Brier, and st
 | [26 Market-bin ATS accuracy](26_market_probability_bin_ats_accuracy.png) | Which bands have more correct model spread picks? | Model ATS win percentage on non-push games; gold 50% reference. |
 | [27 Market-bin upset recall](27_market_probability_bin_upset_recall.png) | What fraction of actual underdog wins did each architecture call? | Correct upset calls divided by actual upsets; blue endpoint is 100%. |
 | [28 Market-bin upset-call accuracy](28_market_probability_bin_upset_call_accuracy.png) | What fraction of underdog-win calls were correct? | Correct upset calls divided by upset calls made; each cell prints its call count and blue ends at 100%. |
+| [29 Fingerprint Brier advantage](29_fingerprint_brier_advantage.png) | Which fingerprint/model cells approach Vegas's Brier score? | 20 fingerprint columns × six architecture rows; each cell shows its own paired Brier advantage ×1000. |
+| [30 Fingerprint MAE advantage](30_fingerprint_mae_advantage.png) | Which cells reduce margin error versus Vegas? | Paired Vegas-minus-model MAE in points on the shared market-covered games. |
+| [31 Fingerprint winner accuracy](31_fingerprint_winner_accuracy.png) | Which cells call more winners than Vegas? | Model-minus-Vegas winner accuracy in percentage points on the shared games. |
+| [32 Fingerprint ATS accuracy](32_fingerprint_ats_accuracy.png) | Which cells call the spread side correctly? | ATS win percentage excluding actual pushes; gold 50% reference is not a Vegas ATS pick. |
+| [33 Fingerprint upset recall](33_fingerprint_upset_recall.png) | Which cells recover actual underdog wins? | Correct upset calls divided by actual upset games with nonzero spreads. |
+| [34 Fingerprint upset-call accuracy](34_fingerprint_upset_call_accuracy.png) | Which cells make precise upset calls? | Correct upset calls divided by upset calls made; each cell prints its call count. |
 
-SVG and publication versions follow the same base names. The [diagnostic score data](diagnostic_quality.csv) contains all 121 forecasters, and the [model-game loss ledger](diagnostic_model_game_loss.parquet) preserves every paired probability-game loss. [Reliability-bin values](probability_reliability_bins.csv), [coverage checkpoints](confidence_coverage_checkpoints.csv), the ten extension ledgers listed below, and [diagnostic hashes](diagnostics_manifest.json) support reproduction. Rebuild with [`analyze_2026_scientific_quality_diagnostics.py`](../../../../scripts/publication/analyze_2026_scientific_quality_diagnostics.py).
+SVG and publication versions follow the same base names. The [diagnostic score data](diagnostic_quality.csv) contains all 121 forecasters, and the [model-game loss ledger](diagnostic_model_game_loss.parquet) preserves every paired probability-game loss. [Reliability-bin values](probability_reliability_bins.csv), [coverage checkpoints](confidence_coverage_checkpoints.csv), the ten market/weekly extension ledgers listed below, the [120-cell fingerprint heatmap ledger](fingerprint_architecture_heatmap_scores.csv), and [diagnostic hashes](diagnostics_manifest.json) support reproduction. Rebuild with [`analyze_2026_scientific_quality_diagnostics.py`](../../../../scripts/publication/analyze_2026_scientific_quality_diagnostics.py).
 
 ### Two color scales for each market-bin heatmap
 
@@ -132,6 +139,21 @@ Figures 22 and 24–28 each have two versions. The numbered filename uses a **fi
 | ATS accuracy, upset recall, upset-call accuracy | **0%**, no correct picks or recalled upsets | **100%**, perfect on the stated denominator. |
 
 The gold colorbar line marks zero Vegas advantage where it applies, and 50% for the ATS chance reference. A point spread has no Vegas ATS side pick. The observed version keeps exact cell annotations and rescales each metric independently; its brightest blue does **not** establish performance superior to Vegas or a stable result in a small bin.
+
+### Fingerprint × architecture heatmaps
+
+Figures 29–34 replace the Vegas probability bins with the 20 fingerprints, from F0 to F19, while retaining the six architecture rows and the six metrics above. Each cell is **one individual model's** result on the same 372-game spread-and-moneyline intersection; ATS excludes the 10 actual pushes. F17 is labeled “F17 market” on the figures. F17-market and F19 use market information, while F18 is market-free; F18/F19 are optimized performance tiers rather than successive additions of raw football data. The [exact 120-cell ledger](fingerprint_architecture_heatmap_scores.csv) records game counts, scores, upset-call counts, and denominators.
+
+The numbered image for each metric uses the **same fixed reference limits** as its market-bin counterpart, so colors are comparable across layouts. Brier's red bound is `1000 × (minimum Vegas probability-bin Brier − 1)` on the shared games and its blue endpoint is zero Vegas advantage. MAE's red reference is negative the largest Vegas probability-bin MAE and its blue endpoint is +1 point. Winner advantage uses −100 to +1 percentage points. ATS accuracy, upset recall, and upset-call accuracy use 0–100%. The alternate images below map the worst and best **individual cells among the 120 models** to red and blue; every colored value is the number printed in its cell. A missing upset denominator produces a blank cell rather than a zero. All versions also have publication PNG and SVG exports.
+
+| Metric | Fixed reference scale | Observed model range |
+| --- | --- | --- |
+| Brier advantage | [Figure 29](29_fingerprint_brier_advantage.png) | [Observed scale](29_fingerprint_brier_advantage_observed_scale.png) |
+| MAE advantage | [Figure 30](30_fingerprint_mae_advantage.png) | [Observed scale](30_fingerprint_mae_advantage_observed_scale.png) |
+| Winner accuracy advantage | [Figure 31](31_fingerprint_winner_accuracy.png) | [Observed scale](31_fingerprint_winner_accuracy_observed_scale.png) |
+| ATS accuracy | [Figure 32](32_fingerprint_ats_accuracy.png) | [Observed scale](32_fingerprint_ats_accuracy_observed_scale.png) |
+| Upset recall | [Figure 33](33_fingerprint_upset_recall.png) | [Observed scale](33_fingerprint_upset_recall_observed_scale.png) |
+| Upset-call accuracy | [Figure 34](34_fingerprint_upset_call_accuracy.png) | [Observed scale](34_fingerprint_upset_call_accuracy_observed_scale.png) |
 
 ## Metric and comparison method
 
@@ -189,6 +211,21 @@ All losses are paired by game ID with the Vegas value on the same covered games.
 | [25](market_probability_bin_winner_accuracy.csv) | On the same 372 games, color and print show mean `100 × (model winner_correct − Vegas winner_correct)` in percentage points across games × 20 fingerprints. Fixed red is −100 percentage points and fixed blue is +1 percentage point. The observed companion maps the lowest and highest displayed advantages to red and blue. The saved grading flags supply both winner values. |
 | [26](market_probability_bin_ats_accuracy.csv) | On the same 372 games, home ATS cover means `actual home margin + Vegas home spread > 0`; the model picks home when `predicted home margin + Vegas home spread > 0`, otherwise away, matching the existing project rule. The 10 actual pushes are excluded, leaving 362 resolved games per model. Printed values and colors both show `100 × wins / (wins + losses)`. The possible range is 0–100%; the observed-scale companion maps the displayed minimum and maximum to red and blue. Column `n` counts unique resolved games; Vegas itself makes no ATS side pick, so the gold 50% line is only a chance reference. |
 | [27–28](market_probability_bin_upsets.csv) | Exclude missing or zero spreads, which have no favorite. A model calls an upset when its probability winner (`pred_home_win_probability ≥ 0.5` means home) is the underdog. Figure 27 prints `100 × correct upset calls / actual-upset model-game rows` (recall); column `n` is unique actual-upset games, so the denominator is `20 × n`. Figure 28 prints `100 × correct upset calls / upset calls made` (call accuracy or precision); each cell prints its model-game call count. Both possible-range colorbars span 0–100%; their observed-scale companions use the worst and best displayed cells. A bin with no denominator is blank. The paired Week 7 cohort has 84 actual upset games, 6,867 model-game calls, and 2,165 correct calls across the 120 related models. |
+
+### Fingerprint definitions used by Figures 29–34
+
+The [fingerprint heatmap ledger](fingerprint_architecture_heatmap_scores.csv) contains one row per F0–F19 × M1–M5/M10 model. For each row, use the intersection of games with both an archived Vegas spread and home-win probability. The same game IDs and home orientation are used for every model. Calculate these six columns, then apply either color range described above without changing the printed number:
+
+| Figure | Exact model-cell value |
+| --- | --- |
+| 29 | `1000 × mean((Vegas home-win probability − actual home-win indicator)² − (model home-win probability − actual home-win indicator)²)`; positive beats Vegas. |
+| 30 | `mean(Vegas absolute margin error − model absolute margin error)` in points; positive beats Vegas. |
+| 31 | `100 × mean(model winner_correct − Vegas winner_correct)` in percentage points; positive beats Vegas. |
+| 32 | `100 × ATS correct / non-push games`; a model picks home iff predicted home margin plus Vegas home spread is positive, and an actual push occurs at zero final margin plus spread. |
+| 33 | `100 × correct upset calls / actual upset games`; nonzero spread defines the favorite, and the model calls an underdog win when its probability winner differs from that favorite. |
+| 34 | `100 × correct upset calls / upset calls made`; the cell's second line shows the number of calls made. An empty call denominator is left blank. |
+
+For Figures 33–34, a home-win probability of 0.5 selects home. These are observed, related model results from the retrospective Week 1–7 cohort. The observed-range blue endpoint identifies the highest cell value within a metric; it does not certify an improvement over Vegas or prospective generalization.
 
 On this paired through-Week-7 cohort, the highest gamewise Brier win share is 48.66% (F5/M1), and the smallest mean Brier deficit is 0.000287 (F19/M1); no cell wins either Figure 20 threshold. All 60 architecture × market-bin mean Brier differences in Figure 22 are negative. In Figure 21, 46 models have a lower **own** worst-decile Brier mean than Vegas, even though all 120 have higher overall Brier. These observations do not identify a profitable betting strategy or a prospective model improvement.
 

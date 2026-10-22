@@ -452,15 +452,18 @@ def plot_brier_tail_risk(game: pd.DataFrame) -> pd.DataFrame:
     return tail
 
 
-def _market_bin_heatmap(grouped: pd.DataFrame, counts: pd.Series, *, value: str,
-                        title: str, subtitle: str, colorbar_label: str, stem: str,
-                        fixed_lower: float, fixed_upper: float,
-                        fixed_note: str, scale: float = 1.0,
-                        signed: bool = False, cell_count_value: str | None = None,
-                        reference: float | None = None) -> None:
+def _quality_heatmap(grouped: pd.DataFrame, *, column_key: str,
+                     column_values: tuple, column_labels: list[str], xlabel: str,
+                     value: str, title: str, subtitle: str,
+                     colorbar_label: str, stem: str,
+                     fixed_lower: float, fixed_upper: float,
+                     fixed_note: str, scale: float = 1.0,
+                     signed: bool = False, cell_count_value: str | None = None,
+                     reference: float | None = None,
+                     size: tuple[float, float] = (16, 9.5)) -> None:
     def matrix(column: str) -> np.ndarray:
-        return grouped.pivot(index="model_id", columns="bin_index", values=column).reindex(
-            index=style.MODELS, columns=range(10)).to_numpy(dtype=float)
+        return grouped.pivot(index="model_id", columns=column_key, values=column).reindex(
+            index=style.MODELS, columns=column_values).to_numpy(dtype=float)
 
     numbers = matrix(value) * scale
     valid = np.isfinite(numbers)
@@ -478,19 +481,18 @@ def _market_bin_heatmap(grouped: pd.DataFrame, counts: pd.Series, *, value: str,
                 else Normalize(vmin=lower, vmax=upper))
         note = (fixed_note if mode == "fixed" else
                 f"Worst displayed cell = {observed_min:.1f}; best = {observed_max:.1f}.")
-        fig, ax = style.figure(title, f"{subtitle} Color scale: {note}", (16, 9.5))
+        fig, ax = style.figure(title, f"{subtitle} Color scale: {note}", size)
         color_map = plt.get_cmap("RdBu").copy()
         color_map.set_under("#67001f")
         color_map.set_over("#062b55")
         image = ax.imshow(numbers, aspect="auto", cmap=color_map, norm=norm)
         ax.set_yticks(range(len(style.MODELS)),
                       [f"{model_id} · {style.NAMES[model_id]}" for model_id in style.MODELS])
-        ax.set_xticks(range(10),
-                      [f"{i*10}–{(i+1)*10}%\n(n={counts.loc[i]})" for i in range(10)])
-        ax.set(xlabel="Vegas home-win probability bin", ylabel="Model architecture")
+        ax.set_xticks(range(len(column_values)), column_labels)
+        ax.set(xlabel=xlabel, ylabel="Model architecture")
         ax.grid(False)
         for row in range(len(style.MODELS)):
-            for col in range(10):
+            for col in range(len(column_values)):
                 if not valid[row, col]:
                     continue
                 red, green, blue, _ = image.cmap(image.norm(numbers[row, col]))
@@ -498,10 +500,13 @@ def _market_bin_heatmap(grouped: pd.DataFrame, counts: pd.Series, *, value: str,
                 number = numbers[row, col]
                 annotation = f"{number:+.1f}" if signed else f"{number:.1f}"
                 if cell_counts is not None:
-                    annotation += f"\n({int(cell_counts[row, col])} calls)"
+                    annotation += (f"\n({int(cell_counts[row, col])} calls)"
+                                   if len(column_values) <= 10 else
+                                   f"\n(n={int(cell_counts[row, col])})")
                 ax.text(col, row, annotation, ha="center", va="center",
                         color=style.INK if luminance > .55 else "white",
-                        fontsize=9 if cell_counts is not None else 10, weight="bold")
+                        fontsize=(8 if len(column_values) > 10 else
+                                  9 if cell_counts is not None else 10), weight="bold")
         label = colorbar_label + (" · fixed reference range" if mode == "fixed" else
                                   " · observed cell range")
         extend = ("both" if observed_min < lower and observed_max > upper else
@@ -515,6 +520,13 @@ def _market_bin_heatmap(grouped: pd.DataFrame, counts: pd.Series, *, value: str,
                                 alpha=.92, clip_on=False)
         fig.subplots_adjust(left=.15, right=.83, bottom=.19)
         _save(fig, stem if mode == "fixed" else stem + "_observed_scale")
+
+
+def _market_bin_heatmap(grouped: pd.DataFrame, counts: pd.Series, **kwargs) -> None:
+    _quality_heatmap(
+        grouped, column_key="bin_index", column_values=tuple(range(10)),
+        column_labels=[f"{i*10}–{(i+1)*10}%\n(n={counts.loc[i]})" for i in range(10)],
+        xlabel="Vegas home-win probability bin", **kwargs)
 
 
 def plot_market_probability_bins(game: pd.DataFrame) -> pd.DataFrame:
@@ -667,6 +679,111 @@ def plot_market_probability_upsets() -> pd.DataFrame:
     return record
 
 
+def plot_fingerprint_heatmaps() -> pd.DataFrame:
+    """Score the six market-aligned measures for each actual fingerprint/model cell."""
+    _, probability, market_spread, _ = load()
+    shared = probability.loc[probability.market_home_spread.notna()].copy()
+    market = market_spread.set_index("game_id")
+    fingerprints = tuple([f"F{i}" for i in range(17)] + ["F17-market", "F18", "F19"])
+    if (len(shared) != 120 * shared.game_id.nunique()
+            or shared.groupby(["fingerprint", "model_id"]).game_id.nunique().ne(
+                shared.game_id.nunique()).any()):
+        raise ValueError("Incomplete paired fingerprint heatmap cohort")
+    if set(shared.fingerprint) != set(fingerprints) or set(shared.model_id) != set(style.MODELS):
+        raise ValueError("Fingerprint heatmap needs the full scientific roster")
+
+    actual_home = shared.actual_home_margin.gt(0)
+    shared["market_brier"] = (shared.market_home_probability - actual_home.astype(float)) ** 2
+    shared["model_brier"] = (shared.pred_home_win_probability - actual_home.astype(float)) ** 2
+    shared["brier_advantage"] = shared.market_brier - shared.model_brier
+    shared["vegas_mae_points"] = shared.game_id.map(market.margin_error)
+    shared["mae_advantage_points"] = (shared.vegas_mae_points -
+                                       (shared.pred_home_margin - shared.actual_home_margin).abs())
+    shared["winner_advantage_pp"] = 100 * (
+        shared.winner_correct.astype(float) -
+        shared.game_id.map(market.winner_correct).astype(float))
+    cover = shared.actual_home_margin + shared.market_home_spread
+    model_edge = shared.pred_home_margin + shared.market_home_spread
+    shared["ats_push"] = cover.eq(0)
+    shared["ats_correct"] = (model_edge.gt(0) == cover.gt(0)) & ~shared.ats_push
+    has_favorite = shared.market_home_spread.ne(0)
+    favorite_home = shared.market_home_spread.lt(0)
+    shared["actual_upset"] = has_favorite & actual_home.ne(favorite_home)
+    shared["upset_call"] = has_favorite & shared.pred_home_win_probability.ge(.5).ne(favorite_home)
+    shared["correct_upset_call"] = shared.actual_upset & shared.upset_call
+    grouped = shared.groupby(["fingerprint", "model_id"], as_index=False).agg(
+        games=("game_id", "size"),
+        mean_brier_advantage=("brier_advantage", "mean"),
+        mean_mae_advantage_points=("mae_advantage_points", "mean"),
+        winner_advantage_pp=("winner_advantage_pp", "mean"),
+        ats_push_games=("ats_push", "sum"),
+        ats_correct_games=("ats_correct", "sum"),
+        actual_upset_games=("actual_upset", "sum"),
+        upset_calls=("upset_call", "sum"),
+        correct_upset_calls=("correct_upset_call", "sum"),
+    )
+    grouped["ats_resolved_games"] = grouped.games - grouped.ats_push_games
+    grouped["ats_accuracy_pct"] = 100 * grouped.ats_correct_games.div(
+        grouped.ats_resolved_games.replace(0, np.nan))
+    grouped["upset_recall_pct"] = 100 * grouped.correct_upset_calls.div(
+        grouped.actual_upset_games.replace(0, np.nan))
+    grouped["upset_call_accuracy_pct"] = 100 * grouped.correct_upset_calls.div(
+        grouped.upset_calls.replace(0, np.nan))
+    if len(grouped) != 120 or grouped.games.nunique() != 1:
+        raise ValueError("Fingerprint heatmap lost roster cells or paired games")
+
+    market_games = shared.drop_duplicates("game_id").copy()
+    market_games["bin_index"] = np.minimum(
+        (market_games.market_home_probability.to_numpy() * 10).astype(int), 9)
+    brier_floor = 1000 * (float(market_games.groupby("bin_index").market_brier.mean().min()) - 1)
+    mae_floor = -float(market_games.groupby("bin_index").vegas_mae_points.mean().max())
+    market_note = "F17-market and F19 use market information."
+    labels = ["F17\nmarket" if f == "F17-market" else f for f in fingerprints]
+    common = dict(column_key="fingerprint", column_values=fingerprints,
+                  column_labels=labels, xlabel="Fingerprint generation",
+                  size=(24, 10.5))
+    specs = (
+        ("29_fingerprint_brier_advantage", "mean_brier_advantage",
+         "Brier advantage by fingerprint and architecture",
+         f"Vegas minus model Brier loss; {len(market_games)} paired games per cell. {market_note}",
+         "Brier advantage versus Vegas · ×1000 ↑", brier_floor, 0.0,
+         "Red = global certain-wrong bound; blue = Vegas parity.", 1000.0, True, 0.0, None),
+        ("30_fingerprint_mae_advantage", "mean_mae_advantage_points",
+         "MAE advantage by fingerprint and architecture",
+         f"Vegas minus model absolute margin error; shared market-covered games. {market_note}",
+         "MAE advantage versus Vegas · points ↑", mae_floor, 1.0,
+         "Red = 2× Vegas error in highest-error bin; blue = +1 point.", 1.0, True, 0.0, None),
+        ("31_fingerprint_winner_accuracy", "winner_advantage_pp",
+         "Winner accuracy by fingerprint and architecture",
+         f"Model minus Vegas winner accuracy; shared market-covered games. {market_note}",
+         "Winner accuracy advantage · percentage points ↑", -100.0, 1.0,
+         "Red = −100 points; blue = +1 point.", 1.0, True, 0.0, None),
+        ("32_fingerprint_ats_accuracy", "ats_accuracy_pct",
+         "ATS accuracy by fingerprint and architecture",
+         "Correct side against the spread; pushes excluded. Gold is a 50% reference, not a Vegas pick.",
+         "ATS accuracy · % of non-push picks ↑", 0.0, 100.0,
+         "Red = 0% correct; blue = 100% correct.", 1.0, False, 50.0, None),
+        ("33_fingerprint_upset_recall", "upset_recall_pct",
+         "Upset recall by fingerprint and architecture",
+         f"Correct underdog-win calls ÷ actual upsets; zero spreads excluded. {market_note}",
+         "Upset recall · % of actual upsets ↑", 0.0, 100.0,
+         "Red = 0% recalled; blue = 100% recalled.", 1.0, False, None, None),
+        ("34_fingerprint_upset_call_accuracy", "upset_call_accuracy_pct",
+         "Upset-call accuracy by fingerprint and architecture",
+         f"Correct upset calls ÷ upset calls made; each cell shows its call count. {market_note}",
+         "Correct upset calls · % of calls made ↑", 0.0, 100.0,
+         "Red = 0% correct; blue = 100% correct.", 1.0, False, None, "upset_calls"),
+    )
+    for (stem, value, title, subtitle, label, lower, upper, note, scale,
+         signed, reference, cell_count) in specs:
+        _quality_heatmap(grouped, value=value, title=title, subtitle=subtitle,
+                         colorbar_label=label, stem=stem, fixed_lower=lower,
+                         fixed_upper=upper, fixed_note=note, scale=scale,
+                         signed=signed, reference=reference,
+                         cell_count_value=cell_count, **common)
+    return grouped.sort_values(["fingerprint", "model_id"])
+
+
 def plot_weekly_margin_stability() -> tuple[pd.DataFrame, pd.DataFrame]:
     spread, _, market_spread, _ = load()
     market_error = market_spread.set_index("game_id").margin_error
@@ -749,6 +866,8 @@ def main() -> None:
     other_bins["ats"].to_csv(OUTPUT / "market_probability_bin_ats_accuracy.csv", index=False)
     upset_bins = plot_market_probability_upsets()
     upset_bins.to_csv(OUTPUT / "market_probability_bin_upsets.csv", index=False)
+    fingerprint_cells = plot_fingerprint_heatmaps()
+    fingerprint_cells.to_csv(OUTPUT / "fingerprint_architecture_heatmap_scores.csv", index=False)
     weekly_margin, margin_stability = plot_weekly_margin_stability()
     weekly_margin.to_csv(OUTPUT / "weekly_margin_advantage.csv", index=False)
     margin_stability.to_csv(OUTPUT / "margin_weekly_stability.csv", index=False)
@@ -771,9 +890,10 @@ def main() -> None:
                    "blend": "arithmetic mean of model and Vegas home-win probabilities, fixed at 50/50",
                    "market_bin_color_scales": "fixed limits: Brier advantage ×1000 [1000 × (minimum Vegas bin Brier − 1), 0]; MAE advantage [negative largest Vegas bin MAE, +1 point]; winner advantage [−100, +1] percentage points; ATS and upset percentages [0, 100]. Observed limits: minimum and maximum printed architecture/bin means separately for each heatmap; same values are printed and colored.",
                    "market_bin_ats": "model picks home iff predicted home margin plus Vegas home spread > 0; actual pushes excluded; 50% is a reference, not a Vegas pick",
-                   "market_bin_upsets": "nonzero spread defines the favorite; a model calls an upset iff predicted winner differs from that favorite; recall denominator is actual upsets, call-accuracy denominator is upset calls made"},
+                   "market_bin_upsets": "nonzero spread defines the favorite; a model calls an upset iff predicted winner differs from that favorite; recall denominator is actual upsets, call-accuracy denominator is upset calls made",
+                   "fingerprint_heatmaps": "120 individual fingerprint × architecture cells on the spread-and-moneyline intersection; the six measures and fixed reference limits match market-bin maps, including bin-derived Brier certain-wrong and MAE 2× Vegas bounds. Observed limits are the minimum and maximum of the 120 model cells per metric."},
         "outputs": {path.name: style.sha256(path) for path in sorted(OUTPUT.iterdir())
-                    if path.name.startswith(tuple(f"{i:02d}_" for i in range(10, 29)))
+                    if path.name.startswith(tuple(f"{i:02d}_" for i in range(10, 35)))
                     or path.name in ("diagnostic_quality.csv", "diagnostic_model_game_loss.parquet",
                                      "probability_reliability_bins.csv", "confidence_coverage_checkpoints.csv",
                                      "weekly_brier_gain.csv", "probability_gamewise_duel.csv",
@@ -782,10 +902,11 @@ def main() -> None:
                                      "market_probability_bin_mae_advantage.csv",
                                      "market_probability_bin_winner_accuracy.csv",
                                      "market_probability_bin_ats_accuracy.csv",
-                                     "market_probability_bin_upsets.csv")},
+                                     "market_probability_bin_upsets.csv",
+                                     "fingerprint_architecture_heatmap_scores.csv")},
     }
     (OUTPUT / "diagnostics_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
-    print(f"Wrote 19 diagnostic figures with publication variants and {len(summary)} score rows to {OUTPUT}")
+    print(f"Wrote 25 diagnostic figures plus 12 observed-scale heatmaps with publication variants and {len(summary)} score rows to {OUTPUT}")
 
 
 if __name__ == "__main__":
