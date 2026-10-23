@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -10,6 +11,7 @@ import pandas as pd
 import pytest
 from sklearn.dummy import DummyClassifier
 
+from gridiron_ml.cli.publication.run_tuesday_publish import run_f20_research
 from gridiron_ml.f20.capture import (
     PARSER_VERSION,
     capture,
@@ -161,6 +163,36 @@ def test_schedule_outage_recovery_preserves_research_revision(tmp_path: Path) ->
     assert research_file.read_bytes() == research_bytes
     official = json.loads((archive / "forecasts/1/official.json").read_text())
     assert official["record_file"] != str(research_file)
+
+
+def test_weekly_pipeline_dispatches_f20_on_demand(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    calls = []
+
+    def succeeded(command, **kwargs):
+        calls.append((command, kwargs))
+        return subprocess.CompletedProcess(command, 0,
+                                           stdout=json.dumps({"status": "captured_with_research_forecasts"}),
+                                           stderr="")
+
+    monkeypatch.setattr(subprocess, "run", succeeded)
+    operations = tmp_path / "operations"
+    receipt = run_f20_research(tmp_path, 9, operations,
+                               archive=tmp_path / "archive", models=tmp_path / "models")
+    assert receipt["status"] == "succeeded"
+    command, kwargs = calls[0]
+    assert command[command.index("--phase") + 1] == "research"
+    assert command[command.index("--week") + 1] == "9"
+    assert kwargs["check"] is False
+    assert json.loads((operations / "f20_research_run.json").read_text())["status"] == "succeeded"
+
+    def failed(command, **kwargs):
+        return subprocess.CompletedProcess(command, 1, stdout='{"status":"failed"}', stderr="source unavailable")
+
+    monkeypatch.setattr(subprocess, "run", failed)
+    with pytest.raises(RuntimeError, match="F20 on-demand research run failed"):
+        run_f20_research(tmp_path, 9, operations,
+                         archive=tmp_path / "archive", models=tmp_path / "models")
+    assert json.loads((operations / "f20_research_run.json").read_text())["status"] == "failed"
 
 
 def test_feature_whitelist_and_training_boundary() -> None:

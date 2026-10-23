@@ -31,38 +31,36 @@
   Brier was 0.171861; F20-A Brier was 0.171440. This small observed difference
   does not establish prospective improvement. The 2025 season was already
   consumed by earlier TDNet research.
+- On the owner's October 23 correction, all 30 previously queued F20 SGE
+  future-week jobs (1617888–1617918, excluding 1617892) were canceled. A
+  `qstat` check returned zero matching F20 future-week jobs. The private
+  `prospective/scheduler_logs/cancellation_20261023.json` preserves the IDs.
+- [The matched A/B/C comparison](F20_COMPARISON.md) is now available. B/C have
+  private developmental candidate models; no variant is canonical.
 
-## Weekly schedule and cutoff
+## On-demand weekly operation
 
-The existing protocol defines the official forecast cutoff as Thursday 23:59
-America/New_York. A game is eligible for an official pointer only if kickoff is
-after that instant. Early-week games can receive separate pregame research
-revisions but cannot be called official Thursday-cutoff forecasts.
+The approved `run_tuesday_publish.py` command now invokes
+`run_f20_weekly.py --phase research` **during that on-demand weekly run**, after
+the canonical bundle and X draft are prepared. There is no F20 cron, SGE
+future queue, or automatic recurrence. The F20 component refreshes that week's
+CFBD FBS schedule with the existing ignored `.env` credential, archives the
+raw response privately, captures the live expert page, and issues the frozen
+F20-A and market-only research probabilities for games still pregame. A
+failed source or schedule request is recorded separately. A failed F20 run
+marks the Tuesday command incomplete after the existing canonical outputs
+have been written; it does not rewrite those outputs. Inspect
+`data/publication/2026/weekly_operations/week_XX/f20_research_run.json` and the
+private F20 run receipt.
 
-The SGE submission script requests capture/issuance on Monday, Tuesday, and
-Wednesday at 12:00 Eastern, then Thursday at 21:00 and 23:30 Eastern. The
-second Thursday job is a retry and can record a new source revision; the first
-valid official pointer remains fixed. These times avoid the daylight-saving
-transition hour. The runner calculates cutoffs with the IANA
-`America/New_York` zone; Week 9's cutoff is October 30 03:59 UTC and Week 10's
-is November 6 04:59 UTC.
-
-Thirty one-core jobs were accepted by SGE for Weeks 9–13 and 15; the private
-submission ledger contains their exact IDs and start times (1617888–1617918).
-SGE verified October 29 at 21:00 and 23:30 Eastern and November 5 at 21:00
-Eastern as requested. Future queue acceptance is not a completed forecast.
-
-Scheduled weeks are 9–13 and 15. The current CFBD cache shows no Week 14
-regular FBS-vs-FBS games. Each F20 run independently requests that week's
-current CFBD FBS schedule with the existing ignored `.env` credential, archives
-the raw response privately, and projects only schedule fields. One Week 8
-  refresh succeeded on October 23 with 56 regular FBS-vs-FBS games and no TBD
-  kickoffs. If refresh fails, the runner still captures the expert page and can
-issue preliminary research predictions from the cached schedule, but it cannot
-create an official pointer. An official forecast also refuses a schedule
-snapshot more than five days old. There is no current `crontab` access, and
-GitHub Actions only runs CI. The SGE
-submission ledger and run logs live under the private `prospective/` archive.
+The research phase **cannot create official F20 pointers**. The owner will
+select A, B, or C after reviewing the matched comparison; canonical issuance
+will then use the same owner-supplied weekly cutoff as the main publication
+pipeline, including an earlier cutoff when a game starts before Thursday.
+Week 8's 147 research records stay unchanged. The current CFBD cache showed
+no Week 14 regular FBS-vs-FBS games on October 23, but a future on-demand run
+will request its actual week directly. The old SGE submission script was
+removed so it cannot requeue the canceled jobs.
 
 ## Commands
 
@@ -70,8 +68,15 @@ From the repository root, use the `gridiron` environment Python:
 
 ```bash
 /users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/refresh_f20_schedule.py --week 9
-/users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/capture_f20_experts.py
+/users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/run_f20_weekly.py \
+  --week 9 --phase research \
+  --archive /groups/bsavoie2/tburton2/TDNet/f20_2026/prospective \
+  --models /groups/bsavoie2/tburton2/TDNet/f20_2026/models/baseline_2017_2024_v1
 /users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/fit_f20_baselines.py
+/users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/compare_f20_abc.py \
+  --c-grid 0.0001,0.0003,0.001,0.003,0.01,0.1,1,10,100 \
+  --output data/private/f20/abc_comparison_new \
+  --summary docs/publication_2026/f20_abc_comparison_new.json
 /users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/report_f20_sources.py
 /users/tburton2/.conda/envs/gridiron/bin/python -m pytest -q tests/test_f20.py
 /users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/verify_f20_archive.py \
@@ -83,6 +88,9 @@ The `fit_f20_baselines.py` output is immutable and intentionally refuses to
 overwrite the frozen model directory. Do not rerun it into the existing path.
 The historical CSVs are private; `f20_source_inventory.json` summarizes their
 season/week and source-column coverage without redistributing raw rows.
+The normal approved Tuesday command remains the entry point for the full
+weekly pipeline; its F20 archive and model paths are configurable with
+`--f20-archive` and `--f20-models`.
 
 To inspect a run, read `prospective/runs/*.json` and
 `prospective/scheduler_logs/` in the private archive. A run report has separate
@@ -108,10 +116,11 @@ historical downloads are not accepted as point-in-time F20 observations.
 The repo's ignored `.env` credential worked for the narrow F20 Week 8 CFBD
 schedule request. The separate operational Monday refresh and owner review
 still govern the canonical TDNet publication; F20 does not replace them. The
-SGE smoke jobs confirmed tracker and CFBD access from compute nodes. F20-B and F20-C
-remain untrained: the full prospective F19 representation
-has a Week 8 research implementation but no reusable Week 9+ weekly artifact.
-Their retrospective work must retain F19's historical market quote-time caveat.
+SGE smoke jobs confirmed tracker and CFBD access from compute nodes before
+the future jobs were canceled. F20-B and F20-C have developmental candidate
+fits only: the full prospective F19 representation has a Week 8 research
+implementation but no reusable future-week artifact. Their retrospective
+comparison retains F19's historical market quote-time caveat.
 
 No F20 probability has been added to the canonical operational 33-model
 consensus, poll, contest submission, or public package. F20 forecasts are

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Collect, issue, and register an F20 weekly research run."""
+"""Collect and issue F20 research forecasts when the weekly pipeline is invoked."""
 from __future__ import annotations
 
 import argparse
@@ -9,15 +9,14 @@ import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
-import pandas as pd
-from issue_f20_forecasts import ROOT, cutoff, issue, write_once
+from issue_f20_forecasts import ROOT, issue, write_once
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--week", type=int, required=True)
-    parser.add_argument("--phase", choices=("early", "official"), required=True)
-    parser.add_argument("--run-label", required=True)
+    parser.add_argument("--phase", choices=("research",), default="research")
+    parser.add_argument("--run-label", default="on_demand")
     parser.add_argument("--archive", type=Path, default=ROOT / "data/private/f20/prospective")
     parser.add_argument("--schedule", type=Path, default=ROOT / "data/raw/cfbd/v2/games/2026.parquet")
     parser.add_argument("--models", type=Path, default=ROOT / "data/private/f20/models/baseline_2017_2024_v1")
@@ -57,33 +56,11 @@ def main() -> None:
         receipt_path = Path(captured["receipt_file"])
         now = datetime.now(UTC)
         issued = issue(args.archive, receipt_path, args.models, now=now,
-                       revision_id="weekly_official" if args.phase == "official" else "initial",
-                       week=args.week, official_enabled=status["schedule_status"] == "captured")
+                       revision_id="on_demand_research", week=args.week,
+                       official_enabled=False)
         status["issuance_status"] = "succeeded"
         status["issuance"] = issued
-        schedule = pd.read_parquet(schedule_path)
-        target = schedule.loc[(schedule.season == 2026) & (schedule.week == args.week)
-                              & schedule.season_type.astype(str).str.casefold().eq("regular")
-                              & schedule.home_classification.astype(str).str.casefold().eq("fbs")
-                              & schedule.away_classification.astype(str).str.casefold().eq("fbs")].copy()
-        if target.id.duplicated().any():
-            raise ValueError("Target schedule has duplicate game IDs")
-        kickoff = pd.to_datetime(target.start_date, utc=True)
-        target["kickoff"] = kickoff
-        target["deadline"] = [cutoff(value.to_pydatetime()) for value in kickoff]
-        if args.phase == "official":
-            wanted = target.loc[target.kickoff > pd.to_datetime(target.deadline, utc=True)]
-            if "start_time_t_b_d" in wanted:
-                wanted = wanted.loc[~wanted.start_time_t_b_d.astype(bool)]
-            official = {int(row.id) for row in wanted.itertuples()
-                        if (args.archive / "forecasts" / str(int(row.id)) / "official.json").exists()}
-            missing = sorted(set(wanted.id.astype(int)) - official)
-            status["expected_official_games"] = len(wanted)
-            status["official_games_present"] = len(official)
-            status["missing_official_game_ids"] = missing
-            status["status"] = "complete" if not missing else "incomplete"
-        else:
-            status["status"] = "captured_with_pregame_forecasts"
+        status["status"] = "captured_with_research_forecasts"
     except Exception as exc:  # noqa: BLE001 - persist every failed run for recovery
         status["status"] = "failed"
         status["error_type"] = type(exc).__name__
@@ -94,7 +71,7 @@ def main() -> None:
                       "capture_status": status["capture_status"],
                       "issuance_status": status["issuance_status"],
                       "missing_official_game_ids": status.get("missing_official_game_ids", [])}, indent=2))
-    if status["status"] in {"failed", "incomplete"}:
+    if status["status"] == "failed":
         raise SystemExit(1)
 
 

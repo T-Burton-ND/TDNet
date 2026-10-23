@@ -1,18 +1,46 @@
 #!/usr/bin/env python3
-from gridiron_ml.cli._paths import project_root
 """Generate the Tuesday bundle and X draft after Monday owner approval."""
 
-from argparse import ArgumentParser
-from pathlib import Path
 import hashlib
 import json
 import subprocess
 import sys
+from argparse import ArgumentParser
+from datetime import UTC, datetime
+from pathlib import Path
 
 import pandas as pd
 
+from gridiron_ml.cli._paths import project_root
+
 ROOT = project_root()
 sys.path.insert(0, str(ROOT / "src"))
+F20_ROOT = Path("/groups/bsavoie2/tburton2/TDNet/f20_2026")
+
+
+def run_f20_research(root: Path, week: int, operations: Path, *, archive: Path,
+                     models: Path) -> dict:
+    """Run F20 only when this weekly command is invoked; record failure separately."""
+    command = [sys.executable, str(root / "scripts/publication/run_f20_weekly.py"),
+               "--week", str(week), "--phase", "research", "--archive", str(archive),
+               "--models", str(models)]
+    completed = subprocess.run(command, cwd=root, capture_output=True, text=True, check=False)
+    try:
+        result = json.loads(completed.stdout)
+    except json.JSONDecodeError:
+        result = {"raw_stdout_tail": completed.stdout[-1000:]}
+    receipt = {"season": 2026, "week": week,
+               "invoked_at_utc": datetime.now(UTC).isoformat(),
+               "status": "succeeded" if completed.returncode == 0 else "failed",
+               "exit_code": completed.returncode,
+               "runner": "scripts/publication/run_f20_weekly.py",
+               "result": result, "stderr_tail": completed.stderr[-1000:]}
+    operations.mkdir(parents=True, exist_ok=True)
+    path = operations / "f20_research_run.json"
+    path.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
+    if completed.returncode or result.get("status") != "captured_with_research_forecasts":
+        raise RuntimeError(f"F20 on-demand research run failed; inspect {path}")
+    return receipt
 
 
 def main():
@@ -38,6 +66,10 @@ def main():
     parser.add_argument("--preseason-rankings", type=Path, help="Preseason-frozen historical-performance ranking sidecar.")
     parser.add_argument("--allow-dirty-code", action="store_true", help="Rehearsal only; forward the dirty-tree exception to bundling.")
     parser.add_argument("--kickoff-times-confirmed", action="store_true", help="Confirm the refreshed schedule has no TBD kickoff times.")
+    parser.add_argument("--f20-archive", type=Path, default=F20_ROOT / "prospective",
+                        help="Owner-only F20 archive for the on-demand research run.")
+    parser.add_argument("--f20-models", type=Path,
+                        default=F20_ROOT / "models/baseline_2017_2024_v1")
     parser.add_argument(
         "--scientific-inventory",
         type=Path,
@@ -131,6 +163,11 @@ def main():
         "python", "src/gridiron_ml/cli/publication/build_x_post_package.py", "--weekly-output", str(output),
         "--season", str(args.season), "--week", str(args.week),
     ], cwd=root, check=True)
+    if args.season == 2026:
+        research = run_f20_research(root, args.week, operations,
+                                    archive=args.f20_archive, models=args.f20_models)
+        print(json.dumps({"f20_research": research["result"],
+                          "f20_status_file": str(operations / "f20_research_run.json")}))
     print(output)
 
 if __name__ == "__main__":
