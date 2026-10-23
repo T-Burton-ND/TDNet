@@ -78,6 +78,10 @@ def audit_f20(archive: Path) -> dict:
 
 def cumulative_scores(models: pd.DataFrame, market: pd.DataFrame,
                       f20: pd.DataFrame) -> pd.DataFrame:
+    f20_weeks = set(f20.cfbd_week.astype(int))
+    if not f20_weeks or f20_weeks != set(range(1, max(f20_weeks) + 1)) or max(f20_weeks) > 7:
+        raise ValueError("F20 replay weeks must be contiguous from Week 1 through Week 7 or earlier")
+    last_f20_week = max(f20_weeks)
     spread_ids = set(market.loc[market.market_home_spread.notna(), "game_id"])
     probability_ids = set(market.loc[market.market_home_probability.notna(), "game_id"])
     if not spread_ids or not probability_ids:
@@ -128,9 +132,9 @@ def cumulative_scores(models: pd.DataFrame, market: pd.DataFrame,
                      "status": "retrospective_market_quote_times_unverified"})
         for model_id in (*sorted(MODELS), "F20"):
             seen_f20 = f20.loc[f20.cfbd_week.le(week) & f20.game_id.isin(probability_ids)]
-            if week == 7:
+            if week > last_f20_week:
                 brier = np.nan
-                status = "unavailable_no_cfbd_week_07_archive_games"
+                status = f"unavailable_no_cfbd_week_{week:02d}_archive_games"
             else:
                 truth = seen_f20.actual_home_margin.gt(0).to_numpy(float)
                 brier = float(np.mean((seen_f20[f"probability_{model_id}"].to_numpy() - truth) ** 2))
@@ -144,43 +148,48 @@ def cumulative_scores(models: pd.DataFrame, market: pd.DataFrame,
     return result.sort_values(["through_week", "series"]).reset_index(drop=True)
 
 
-def draw(scores: pd.DataFrame, *, metric: str, path: Path, paired: bool = False) -> None:
+def draw(scores: pd.DataFrame, *, metric: str, path: Path,
+         last_f20_week: int, paired_games: int, paired: bool = False) -> None:
     fig, ax = plt.subplots(figsize=(14, 7), facecolor="#F7F4ED")
     ax.set_facecolor("#FFFCF7")
     tiers = [f"F{i}" for i in range(17)] + ["F17-market", "F18", "F19"]
     colors = plt.cm.viridis(np.linspace(.1, .85, len(tiers)))
     for tier, color in zip(tiers, colors):
-        row = scores.loc[scores.series.eq(tier) & (scores.through_week.le(6) if paired else True)]
+        row = scores.loc[scores.series.eq(tier) & (scores.through_week.le(last_f20_week) if paired else True)]
         ax.plot(row.through_week, row[metric], color=color, alpha=.58, linewidth=1.2)
     for label, color, style in (("Frozen F0–F6", "#D13D7C", "-"),
                                 ("Expanded F0–F19", "#24344B", "-"),
                                 ("Archived market", "#AB7B22", "--")):
-        row = scores.loc[scores.series.eq(label) & (scores.through_week.le(6) if paired else True)]
+        row = scores.loc[scores.series.eq(label) & (scores.through_week.le(last_f20_week) if paired else True)]
         ax.plot(row.through_week, row[metric], color=color, linestyle=style,
                 linewidth=2.8, marker="o", label=label)
     if metric == "brier":
         for model_id, color in zip(sorted(MODELS), plt.cm.plasma(np.linspace(.2, .8, len(MODELS)))):
-            row = scores.loc[scores.series.eq(f"F20/{model_id}") & scores.through_week.le(6)]
+            row = scores.loc[scores.series.eq(f"F20/{model_id}") & scores.through_week.le(last_f20_week)]
             ax.plot(row.through_week, row.brier, color=color, linestyle=":", linewidth=1.2,
                     alpha=.75, label=f"F20/{model_id}")
-        row = scores.loc[scores.series.eq("F20") & scores.through_week.le(6)]
+        row = scores.loc[scores.series.eq("F20") & scores.through_week.le(last_f20_week)]
         ax.plot(row.through_week, row.brier, color="#D42121", linewidth=3,
                 marker="D", label="F20 consensus")
-    ax.set_xticks(range(1, 7 if paired else 8))
+    ax.set_xticks(range(1, (last_f20_week + 1) if paired else 8))
     ax.set_xlabel("Through week (2026)")
     ax.set_ylabel("Cumulative Brier score" if metric == "brier" else "Cumulative margin MAE (points)")
-    ax.set_title("F0–F20 paired Brier · Weeks 1–6" if paired else
+    ax.set_title(f"F0–F20 paired Brier · Weeks 1–{last_f20_week}" if paired else
                  "F0–F20 scientific cumulative view · Weeks 1–7",
                  loc="left", color="#24344B", fontsize=15)
     ax.grid(alpha=.18)
     ax.legend(loc="upper left", bbox_to_anchor=(1.01, 1), frameon=False, fontsize=8)
-    note = ("Same 304 games with F20 replay and market probability, paired by CFBD game ID. No CFBD Week 7 archive games.\n"
-            "Archive timing assumed pregame; the six F20 models were fitted after these games. Scores are retrospective."
+    coverage_note = (f"F20 replay through CFBD Week {last_f20_week}; "
+                     + ("CFBD Week 7 input is unavailable." if last_f20_week < 7 else
+                        "CFBD Week 7 input is included."))
+    note = (f"Same {paired_games} games with F20 replay and market probability, paired by CFBD game ID. "
+            + coverage_note + "\n"
+            + "Archive timing assumed pregame; the six F20 models were fitted after these games. Scores are retrospective."
             if paired else
             "F0–F19: 120 margin cells through Week 7. F20 has no margin prediction, so margin MAE is inapplicable.\n"
             "Market spread and model margin curves use the same games; historical market quote times remain unverified."
             if metric == "margin_mae" else
-            "F0–F19: 120 cells through Week 7. F20: 6 model replay + consensus through CFBD Week 6; no Week 7 archive games.\n"
+            "F0–F19: 120 cells through Week 7. F20: 6 model replay + consensus. " + coverage_note + "\n"
             "F20 uses a smaller matched cohort; use the paired companion chart to compare. Archive timing assumed pregame; model fit later.")
     fig.text(.08, .035, note,
              fontsize=8, color="#495C77")
@@ -204,8 +213,12 @@ def main() -> None:
     replay_receipt = json.loads((args.f20_replay / "receipt.json").read_text())
     if digest(args.f20_replay / "f20_replay.parquet") != replay_receipt["predictions_sha256"]:
         raise ValueError("F20 replay hash mismatch")
-    if f20.game_id.duplicated().any() or not set(f20.cfbd_week).issubset(set(range(1, 7))):
+    if f20.empty or f20.game_id.duplicated().any() or not set(f20.cfbd_week).issubset(set(range(1, 8))):
         raise ValueError("Unexpected F20 replay coverage")
+    last_f20_week = int(f20.cfbd_week.max())
+    week7_f20 = set(f20.loc[f20.cfbd_week.eq(7), "game_id"])
+    if week7_f20 and week7_f20 != set(market.loc[market.week.eq(7), "game_id"]):
+        raise ValueError("CFBD Week 7 F20 replay must cover the complete 59-game common cohort")
     paired = f20.merge(market[["game_id", "week", "actual_home_margin"]], on="game_id",
                        how="inner", validate="one_to_one", suffixes=("_f20", "_market"))
     if not paired.cfbd_week.eq(paired.week).all() or not np.allclose(
@@ -225,10 +238,12 @@ def main() -> None:
     figures = {}
     for metric in ("brier", "margin_mae"):
         path = args.output / f"f0_f20_cumulative_{metric}.png"
-        draw(scores, metric=metric, path=path)
+        draw(scores, metric=metric, path=path,
+             last_f20_week=last_f20_week, paired_games=len(paired_ids))
         figures[metric] = {"path": str(path), "sha256": digest(path)}
     paired_figure = args.output / "f0_f20_paired_brier.png"
-    draw(paired_scores, metric="brier", path=paired_figure, paired=True)
+    draw(paired_scores, metric="brier", path=paired_figure,
+         last_f20_week=last_f20_week, paired_games=len(paired_ids), paired=True)
     figures["paired_brier"] = {"path": str(paired_figure), "sha256": digest(paired_figure)}
     manifest = {"scope": "2026 Weeks 1–7 retrospective common cohort",
                 "source": {name: {"path": str(args.source / name), "sha256": digest(args.source / name)}
@@ -242,19 +257,22 @@ def main() -> None:
                                "matched_common_games": len(paired),
                                "paired_brier_games": len(paired_ids),
                                "cfbd_week_counts": replay_receipt["cfbd_week_counts"],
+                               "last_cfbd_week": last_f20_week,
                                "timing_assumption": replay_receipt["source_pregame_timing_assumption"]},
                 "scores": {"path": str(score_path), "sha256": digest(score_path)},
                 "paired_scores": {"path": str(paired_path), "sha256": digest(paired_path)},
                 "figures": figures,
                 "historical_market_quote_times_verified": False,
-                "prospective_f20_week_01_07_score_available": False}
+                "prospective_f20_week_01_07_score_available": False,
+                "retrospective_f20_week_07_score_available": last_f20_week == 7}
     (args.output / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
     (args.output / "README.md").write_text(
         "# F0–F20 scientific cumulative view, 2026 Weeks 1–7\n\n"
         "The main charts show 120 archived F0–F19 model cells through CFBD Week 7, "
-        "and all six F20 probability models plus equal-weight F20 consensus through CFBD Week 6. "
-        "The tracker archive's Week 7 maps to CFBD Week 6; no CFBD Week 7 F20 inputs exist. "
-        "F20 is a retrospective replay using weekly projections assumed pregame by the owner; "
+        f"and all six F20 probability models plus equal-weight F20 consensus through CFBD Week {last_f20_week}. "
+        + ("The tracker archive's Week 7 maps to CFBD Week 6; no CFBD Week 7 F20 inputs exist. "
+           if last_f20_week < 7 else "CFBD Week 7 F20 inputs are included in this replay. ")
+        + "F20 is a retrospective replay using weekly projections assumed pregame by the owner; "
         "the six models were fitted after these games, so these are not prospective scores. "
         "The main F20 cohort is smaller; use `f0_f20_paired_brier.png` and "
         "`cumulative_scores_f20_paired_cohort.csv` "

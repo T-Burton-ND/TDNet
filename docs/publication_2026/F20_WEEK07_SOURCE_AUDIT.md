@@ -25,6 +25,11 @@ numeric inputs. Do not fill frozen feature columns with another site's model,
 current postgame ratings, a reconstructed point spread, or final scores. A
 later game-level tracker archive or complete, reconciled individual source
 collection can produce a separate immutable Week 7 replay and chart version.
+The chart builder now detects Week 7 F20 replay rows and requires all 59
+games in the existing Week 7 common cohort before reporting a Week 7 F20
+score. Its current 1,050-row scorecard retains the same numeric values after
+this change; the complete-Week-7 branch was checked with disposable synthetic
+data in `/tmp`, not published as a result.
 Until then, the existing 304-game paired Weeks 1–6 comparison is the last
 valid F20 historical score. F20's six M1–M5/M10 fits remain frozen; the
 external expert forecasts are features for each fit, not TDNet F9–F19 model
