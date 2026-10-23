@@ -13,7 +13,7 @@ import pandas as pd
 
 from gridiron_ml.cli._paths import project_root
 from gridiron_ml.publication.weekly_rosters import (
-    write_f20_probability_component,
+    write_f20_prediction_component,
     write_weekly_roster_registry,
 )
 
@@ -80,7 +80,7 @@ def main():
     parser.add_argument("--f20-archive", type=Path, default=F20_ROOT / "prospective",
                         help="Owner-only F20 archive for the on-demand research run.")
     parser.add_argument("--f20-models", type=Path,
-                        default=F20_ROOT / "models/f20_scientific_2017_2024_v1")
+                        default=F20_ROOT / "models/f20_scientific_2017_2024_v2_margin")
     parser.add_argument(
         "--scientific-inventory",
         type=Path,
@@ -186,7 +186,7 @@ def main():
                                          season=args.season, week=args.week,
                                          f20_research=receipt)
             raise
-        write_f20_probability_component(output=output, archive=args.f20_archive,
+        write_f20_prediction_component(output=output, archive=args.f20_archive,
                                         season=args.season, week=args.week,
                                         cutoff_utc=pd.Timestamp(args.deadline_utc).isoformat())
         roster_path = write_weekly_roster_registry(output=output, operations=operations,

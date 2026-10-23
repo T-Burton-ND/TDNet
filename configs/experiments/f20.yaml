@@ -3,6 +3,8 @@ status: on_demand_f20_six_scientific_models
 canonical_variant: F20
 scientific_model_ids: [M1, M2, M3, M4, M5, M10]
 scientific_consensus: equal_mean_home_win_probability
+scientific_margin_consensus: equal_mean_pred_home_margin
+scientific_output_fields: [home_win_probability, pred_home_margin]
 canonical_selected_at: '2026-10-23'
 canonical_selection_basis: owner_choice_after_matched_abc_development_comparison
 cutoff_timezone: America/New_York

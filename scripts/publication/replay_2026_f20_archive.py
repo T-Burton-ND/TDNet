@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 
 import joblib
+import numpy as np
 import pandas as pd
 from fit_f20_baselines import cohort
 
@@ -17,12 +18,12 @@ from gridiron_ml.f20.model import (
     HISTORICAL_COLUMNS,
     historical_features,
 )
-from gridiron_ml.f20.scientific import MODEL_IDS, predict_panel
+from gridiron_ml.f20.scientific import MODEL_IDS, predict_margin_panel, predict_panel
 
 ROOT = Path(__file__).resolve().parents[2]
 ARCHIVE = ROOT / "data/private/f20/historical_2026"
-MODEL = Path("/groups/bsavoie2/tburton2/TDNet/f20_2026/models/f20_scientific_2017_2024_v1")
-OUTPUT = ROOT / "data/private/f20/replay_2026_week01_07_v2"
+MODEL = ROOT / "data/private/f20/models/f20_scientific_2017_2024_v2_margin"
+OUTPUT = ROOT / "data/private/f20/replay_2026_week01_07_v3_margin"
 
 
 def digest(path: Path) -> str:
@@ -36,11 +37,16 @@ def replay(archive: Path, schedule_dir: Path, model_dir: Path) -> tuple[pd.DataF
     if tuple(manifest.get("model_ids", [])) != MODEL_IDS:
         raise ValueError("F20 scientific architecture roster changed")
     models = {}
+    margin_models = {}
     for model_id in MODEL_IDS:
         model_path = model_dir / f"{model_id}.joblib"
         if digest(model_path) != manifest["model_sha256"][model_id]:
             raise ValueError(f"F20 {model_id} model hash changed")
         models[model_id] = joblib.load(model_path)
+        margin_path = model_dir / f"{model_id}_margin.joblib"
+        if digest(margin_path) != manifest["margin_model_sha256"][model_id]:
+            raise ValueError(f"F20 {model_id} margin model hash changed")
+        margin_models[model_id] = joblib.load(margin_path)
     frame, audit = cohort(archive, schedule_dir, range(2026, 2027))
     if not set(frame.week_y).issubset(set(range(1, 8))):
         raise ValueError("2026 archive contains an unexpected CFBD week")
@@ -51,6 +57,7 @@ def replay(archive: Path, schedule_dir: Path, model_dir: Path) -> tuple[pd.DataF
     if list(X) != list(FEATURE_COLUMNS):
         raise ValueError("F20 source feature order changed")
     probabilities = predict_panel(models, X.loc[:, list(FEATURE_COLUMNS)])
+    margins = predict_margin_panel(margin_models, X.loc[:, list(FEATURE_COLUMNS)])
     output = pd.DataFrame({
         "game_id": frame.id.astype(int),
         "cfbd_week": frame.week_y.astype(int),
@@ -60,10 +67,13 @@ def replay(archive: Path, schedule_dir: Path, model_dir: Path) -> tuple[pd.DataF
     })
     for model_id, probability in probabilities.items():
         output[f"probability_{model_id}"] = probability
-    if output.game_id.duplicated().any() or not output.probability_F20.between(0, 1).all():
-        raise ValueError("F20 replay has duplicate games or invalid probabilities")
+        output[f"margin_{model_id}"] = margins[model_id]
+    if (output.game_id.duplicated().any() or not output.probability_F20.between(0, 1).all()
+            or not np.isfinite(output[[f"margin_{model_id}" for model_id in (*MODEL_IDS, "F20")]]).all().all()):
+        raise ValueError("F20 replay has duplicate games or invalid predictions")
     return output, {"archive_audit": audit["2026"],
                     "model_sha256": manifest["model_sha256"],
+                    "margin_model_sha256": manifest["margin_model_sha256"],
                     "model_manifest_sha256": digest(model_dir / "manifest.json"),
                     "archive_week_is_not_cfbd_week": bool(output.tracker_week.ne(output.cfbd_week).any()),
                     "original_weekly_publication_times_verified": False,

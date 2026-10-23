@@ -1,0 +1,23 @@
+{
+  "f0_f19_games_per_cell": 380,
+  "f20_games_per_cell": 320,
+  "f20_margin_and_ats": "trained_margin_regressors_and_available_market_spreads",
+  "f20_original_expert_publication_timestamps_verified": false,
+  "f20_paired_game_count": 304,
+  "latest_f0_f19_week": 7,
+  "latest_f20_week": 6,
+  "outputs": {
+    "cumulative_scorecard.csv": "88e9cf75cf31996c07f8f3511b34515b643e4de236ef1be1b38417addad3d979",
+    "f20_paired_304_game_scorecard.csv": "679adeca55acd961edabc5fb68bdcfbe1c04de1007e2164ecc8ded4bc51502f8",
+    "f20_paired_weekly_scorecard.csv": "26b925892ff5d4bfc0e64dc02398103888fec595d3743ce7ffc24b4a277bae6d",
+    "latest_scorecard.csv": "c19e1be754f503c1418d1cce3dd4235261159443d7fac6cbd3275c3164f72003",
+    "weekly_scorecard.csv": "4969a466e59577db966c600682e326d598b9affa99f1e501659eb44818b299f4"
+  },
+  "scope": "2026 retrospective F0\u2013F20 scientific M1\u2013M5 and M10 scorecards",
+  "sources": {
+    "data/private/f20/replay_2026_week01_07_v3_margin/f20_replay.parquet": "397e1c8043f928975c81577971b04d0292134bf559b67c8be8fbdfe07297ed95",
+    "publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19/common_120_model_game_results.parquet": "4e8ac74ef896b88543fda3ffb639bfdc2f3bfa4d73cf0beb54ca7930ae5939c7",
+    "publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19/common_cohort_vegas_games.csv": "61aeb1b99af84622d633117d44ec76061b5a7b606d7ee0d0ff4751663816616c"
+  },
+  "week_7_market_quote_timing_verified": false
+}

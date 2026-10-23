@@ -1,0 +1,46 @@
+{
+  "scope": "2026 retrospective cumulative scientific F0\u2013F20, M1\u2013M5 and M10",
+  "source_sha256": {
+    "cumulative_scorecard.csv": "88e9cf75cf31996c07f8f3511b34515b643e4de236ef1be1b38417addad3d979",
+    "f20_paired_weekly_scorecard.csv": "26b925892ff5d4bfc0e64dc02398103888fec595d3743ce7ffc24b4a277bae6d"
+  },
+  "f20_original_expert_publication_timestamps_verified": false,
+  "f20_models_fitted_before_2026_games": false,
+  "latest_available_cohorts": {
+    "F0\u2013F19": "380 games through Week 7",
+    "F20": "320 games through Week 6"
+  },
+  "paired_cohort": "304 identical games through Week 6 for all 126 cells",
+  "views": [
+    {
+      "png": "cumulative_su_ats_brier_3d_latest_available.png",
+      "gif": "cumulative_su_ats_brier_3d_latest_available.gif",
+      "frames": 48,
+      "fps": 8,
+      "cell_count": 126,
+      "plotted_points": 126,
+      "source_cell_week_rows": 876,
+      "endpoints_week_6": 6,
+      "endpoints_week_7": 120
+    },
+    {
+      "png": "cumulative_su_ats_brier_3d_paired_304.png",
+      "gif": "cumulative_su_ats_brier_3d_paired_304.gif",
+      "frames": 48,
+      "fps": 8,
+      "cell_count": 126,
+      "plotted_points": 126,
+      "source_cell_week_rows": 756,
+      "endpoints_week_6": 126,
+      "endpoints_week_7": 0
+    }
+  ],
+  "output_sha256": {
+    "plotted_cumulative_latest_available.csv": "c19e1be754f503c1418d1cce3dd4235261159443d7fac6cbd3275c3164f72003",
+    "plotted_cumulative_paired_304.csv": "6aab994c7a7bca13e3f005e7fc542f07f3fa9b1729f1e48dd35b92f785c4c949",
+    "cumulative_su_ats_brier_3d_latest_available.png": "3cb6fb984002faf49d4a48154544901a2f361c23f1d2ffc8a8967049397833b0",
+    "cumulative_su_ats_brier_3d_latest_available.gif": "a2a4e7f0914052052e80a094c5cc191a1a81605ec3bf8e53d966d328fe5ad51d",
+    "cumulative_su_ats_brier_3d_paired_304.png": "b86f69d290d4976707f037b38d4b498032fbdf77c2af19bcb96e15187b329681",
+    "cumulative_su_ats_brier_3d_paired_304.gif": "5850966f93b4714f8064266ef3c92b44c049d9e07fbf77978fc3a3769323cda4"
+  }
+}

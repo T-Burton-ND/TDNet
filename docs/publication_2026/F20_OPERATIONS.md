@@ -12,13 +12,22 @@ is 0.176629. The archived market-only baseline scored 0.175110 on those
 same 2,847 games. The earlier A/B/C comparison used a separate 2,216-game
 cohort; its scores are evidence for the input choice, not scores of this panel.
 
+The new `models/f20_scientific_2017_2024_v2_margin/` keeps those six probability
+models byte-for-byte and adds one frozen home-margin regressor for each M1–M5
+and M10 architecture. It uses the same expert/market feature block and 5,417
+historical games; no 2025 or 2026 target scores were used for fitting. The
+rolling 2021–2024, 2,847-game six-margin consensus MAE is **12.329956 points**.
+This model was trained after the 2026 games graded below, so its 2026 score is
+retrospective. The on-demand weekly path now uses this v2 panel and issues
+both probability and predicted-margin fields, with separate hashes.
+
 The Tuesday pipeline invokes F20 only on demand, using its frozen bundle's
 exact game slate and owner-selected cutoff. Official issuance requires a fresh
 capture, a complete slate, kickoffs after cutoff, and a frozen model hash. A
 research run cannot create official pointers. Prior 147 Week 8 research
 records remain historical F20-A experiments and are not renamed or promoted.
 After complete official issuance, Tuesday materializes the six F20 probability
-cells and equal-mean consensus in
+and margin cells and their equal-mean consensus in
 `pre_game/scientific/expanded_f0_f20/f20_component/`, bound to the exact
 frozen slate and official forecast record hashes.
 
@@ -27,7 +36,8 @@ The 2026 tracker CSV supports a **retrospective** F20 replay on CFBD Weeks
 team, final score, and CFBD game ID. Original weekly publication timestamps
 are absent; the owner accepts the weekly projections as pregame for these
 charts. The six models were fitted after those games. CFBD Week 7 has no F20
-archive inputs. See [the cumulative chart readme](../../publication/2026/research/scientific_f0_f20_cumulative_week01_07/README.md).
+archive inputs. See [the cumulative chart readme](../../publication/2026/research/scientific_f0_f20_cumulative_week01_07_v3_margin/README.md)
+and [all-cell post-hoc scorecards](../../publication/2026/research/scientific_f0_f20_posthoc_scorecards_week01_07/README.md).
 The [individual-source Week 7 audit](F20_WEEK07_SOURCE_AUDIT.md) records the
 FEI, Massey, and TeamRankings pages found after searching outside the stale
 tracker CSV, and the still-missing complete FPI/Sagarin projected margins.
@@ -86,7 +96,7 @@ the canonical bundle and X draft are prepared. There is no F20 cron, SGE
 future queue, or automatic recurrence. The F20 component refreshes that week's
 CFBD FBS schedule with the existing ignored `.env` credential, archives the
 raw response privately, captures the live expert page, and issues the frozen
-six F20 scientific probabilities and their equal mean for games still pregame. A
+six F20 scientific probabilities, six margins, and their equal means for games still pregame. A
 failed source or schedule request is recorded separately. A failed F20 run
 marks the Tuesday command incomplete after the existing canonical outputs
 have been written; it does not rewrite those outputs. Inspect
@@ -98,8 +108,8 @@ under that week's `data/publication/2026/weekly_operations/` directory. The
 original frozen scientific roster is the 42-cell F0–F6 cohort. F0–F8 is now
 the base component of the single expanded F0–F20 research roster, not a fourth
 roster. The registry identifies the F9–F19 cells that still lack a reusable
-prospective weekly path and keeps F20's probability panel separate from the
-margin consensus.
+prospective weekly path and keeps F20's own margin panel separate from the
+incomplete expanded-roster margin consensus.
 
 The research phase **cannot create official F20 pointers**. Canonical issuance
 uses the same owner-supplied weekly cutoff as the main publication pipeline,
@@ -118,7 +128,8 @@ From the repository root, use the `gridiron` environment Python:
 /users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/run_f20_weekly.py \
   --week 9 --phase research \
   --archive /groups/bsavoie2/tburton2/TDNet/f20_2026/prospective \
-  --models /groups/bsavoie2/tburton2/TDNet/f20_2026/models/f20_scientific_2017_2024_v1
+  --models /groups/bsavoie2/tburton2/TDNet/f20_2026/models/f20_scientific_2017_2024_v2_margin
+/users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/fit_f20_scientific_margins.py
 /users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/fit_f20_scientific.py
 /users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/fit_f20_baselines.py
 /users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/compare_f20_abc.py \
@@ -132,8 +143,8 @@ From the repository root, use the `gridiron` environment Python:
   --models-root /groups/bsavoie2/tburton2/TDNet/f20_2026/models
 ```
 
-The `fit_f20_baselines.py` output is immutable and intentionally refuses to
-overwrite the frozen model directory. Do not rerun it into the existing path.
+The fit outputs are immutable and intentionally refuse to overwrite frozen
+model directories. Choose a new versioned output to refit them.
 The historical CSVs are private; `f20_source_inventory.json` summarizes their
 season/week and source-column coverage without redistributing raw rows.
 The normal approved Tuesday command remains the entry point for the full

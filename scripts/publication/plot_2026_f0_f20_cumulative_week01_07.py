@@ -17,9 +17,9 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19"
-OUTPUT = ROOT / "publication/2026/research/scientific_f0_f20_cumulative_week01_07"
+OUTPUT = ROOT / "publication/2026/research/scientific_f0_f20_cumulative_week01_07_v3_margin"
 F20_ARCHIVE = Path("/groups/bsavoie2/tburton2/TDNet/f20_2026/prospective")
-F20_REPLAY = ROOT / "data/private/f20/replay_2026_week01_07_v2"
+F20_REPLAY = ROOT / "data/private/f20/replay_2026_week01_07_v3_margin"
 MODELS = {"M1", "M2", "M3", "M4", "M5", "M10"}
 TIERS = {*(f"F{i}" for i in range(17)), "F17-market", "F18", "F19"}
 
@@ -131,17 +131,22 @@ def cumulative_scores(models: pd.DataFrame, market: pd.DataFrame,
                                             - probability.actual_home_margin.gt(0).to_numpy(float)) ** 2)),
                      "status": "retrospective_market_quote_times_unverified"})
         for model_id in (*sorted(MODELS), "F20"):
-            seen_f20 = f20.loc[f20.cfbd_week.le(week) & f20.game_id.isin(probability_ids)]
+            seen_f20 = f20.loc[f20.cfbd_week.le(week)]
+            f20_margin = seen_f20.loc[seen_f20.game_id.isin(spread_ids)]
+            f20_probability = seen_f20.loc[seen_f20.game_id.isin(probability_ids)]
             if week > last_f20_week:
                 brier = np.nan
+                mae = np.nan
                 status = f"unavailable_no_cfbd_week_{week:02d}_archive_games"
             else:
-                truth = seen_f20.actual_home_margin.gt(0).to_numpy(float)
-                brier = float(np.mean((seen_f20[f"probability_{model_id}"].to_numpy() - truth) ** 2))
+                truth = f20_probability.actual_home_margin.gt(0).to_numpy(float)
+                brier = float(np.mean((f20_probability[f"probability_{model_id}"].to_numpy() - truth) ** 2))
+                mae = float(np.mean(np.abs(f20_margin[f"margin_{model_id}"].to_numpy()
+                                           - f20_margin.actual_home_margin.to_numpy())))
                 status = "retrospective_replay_assumed_pregame_archive"
             rows.append({"through_week": week, "series": f"F20/{model_id}" if model_id != "F20" else "F20",
-                         "margin_games": 0, "brier_games": len(seen_f20),
-                         "margin_mae": np.nan, "brier": brier, "status": status})
+                         "margin_games": len(f20_margin), "brier_games": len(f20_probability),
+                         "margin_mae": mae, "brier": brier, "status": status})
     result = pd.DataFrame(rows)
     if len(result) != (20 + 120 + 2 + 1 + 7) * 7:
         raise ValueError("Cumulative scorecard has an unexpected number of series")
@@ -163,18 +168,17 @@ def draw(scores: pd.DataFrame, *, metric: str, path: Path,
         row = scores.loc[scores.series.eq(label) & (scores.through_week.le(last_f20_week) if paired else True)]
         ax.plot(row.through_week, row[metric], color=color, linestyle=style,
                 linewidth=2.8, marker="o", label=label)
-    if metric == "brier":
-        for model_id, color in zip(sorted(MODELS), plt.cm.plasma(np.linspace(.2, .8, len(MODELS)))):
-            row = scores.loc[scores.series.eq(f"F20/{model_id}") & scores.through_week.le(last_f20_week)]
-            ax.plot(row.through_week, row.brier, color=color, linestyle=":", linewidth=1.2,
-                    alpha=.75, label=f"F20/{model_id}")
-        row = scores.loc[scores.series.eq("F20") & scores.through_week.le(last_f20_week)]
-        ax.plot(row.through_week, row.brier, color="#D42121", linewidth=3,
-                marker="D", label="F20 consensus")
+    for model_id, color in zip(sorted(MODELS), plt.cm.plasma(np.linspace(.2, .8, len(MODELS)))):
+        row = scores.loc[scores.series.eq(f"F20/{model_id}") & scores.through_week.le(last_f20_week)]
+        ax.plot(row.through_week, row[metric], color=color, linestyle=":", linewidth=1.2,
+                alpha=.75, label=f"F20/{model_id}")
+    row = scores.loc[scores.series.eq("F20") & scores.through_week.le(last_f20_week)]
+    ax.plot(row.through_week, row[metric], color="#D42121", linewidth=3,
+            marker="D", label="F20 consensus")
     ax.set_xticks(range(1, (last_f20_week + 1) if paired else 8))
     ax.set_xlabel("Through week (2026)")
     ax.set_ylabel("Cumulative Brier score" if metric == "brier" else "Cumulative margin MAE (points)")
-    ax.set_title(f"F0–F20 paired Brier · Weeks 1–{last_f20_week}" if paired else
+    ax.set_title(f"F0–F20 paired {'Brier' if metric == 'brier' else 'margin MAE'} · Weeks 1–{last_f20_week}" if paired else
                  "F0–F20 scientific cumulative view · Weeks 1–7",
                  loc="left", color="#24344B", fontsize=15)
     ax.grid(alpha=.18)
@@ -186,8 +190,8 @@ def draw(scores: pd.DataFrame, *, metric: str, path: Path,
             + coverage_note + "\n"
             + "Archive timing assumed pregame; the six F20 models were fitted after these games. Scores are retrospective."
             if paired else
-            "F0–F19: 120 margin cells through Week 7. F20 has no margin prediction, so margin MAE is inapplicable.\n"
-            "Market spread and model margin curves use the same games; historical market quote times remain unverified."
+            "F0–F19: 120 margin cells through Week 7. F20: 6 margin models + consensus through its archived Week 6.\n"
+            "F20 uses a smaller cohort; use the paired margin companion chart. Market quote times remain unverified."
             if metric == "margin_mae" else
             "F0–F19: 120 cells through Week 7. F20: 6 model replay + consensus. " + coverage_note + "\n"
             "F20 uses a smaller matched cohort; use the paired companion chart to compare. Archive timing assumed pregame; model fit later.")
@@ -245,6 +249,10 @@ def main() -> None:
     draw(paired_scores, metric="brier", path=paired_figure,
          last_f20_week=last_f20_week, paired_games=len(paired_ids), paired=True)
     figures["paired_brier"] = {"path": str(paired_figure), "sha256": digest(paired_figure)}
+    paired_margin_figure = args.output / "f0_f20_paired_margin_mae.png"
+    draw(paired_scores, metric="margin_mae", path=paired_margin_figure,
+         last_f20_week=last_f20_week, paired_games=len(paired_ids), paired=True)
+    figures["paired_margin_mae"] = {"path": str(paired_margin_figure), "sha256": digest(paired_margin_figure)}
     manifest = {"scope": "2026 Weeks 1–7 retrospective common cohort",
                 "source": {name: {"path": str(args.source / name), "sha256": digest(args.source / name)}
                            for name in ("common_120_model_game_results.parquet", "common_cohort_vegas_games.csv")},
@@ -269,14 +277,14 @@ def main() -> None:
     (args.output / "README.md").write_text(
         "# F0–F20 scientific cumulative view, 2026 Weeks 1–7\n\n"
         "The main charts show 120 archived F0–F19 model cells through CFBD Week 7, "
-        f"and all six F20 probability models plus equal-weight F20 consensus through CFBD Week {last_f20_week}. "
+        f"and all six F20 probability and margin models plus equal-weight F20 consensus through CFBD Week {last_f20_week}. "
         + ("The tracker archive's Week 7 maps to CFBD Week 6; no CFBD Week 7 F20 inputs exist. "
            if last_f20_week < 7 else "CFBD Week 7 F20 inputs are included in this replay. ")
         + "F20 is a retrospective replay using weekly projections assumed pregame by the owner; "
         "the six models were fitted after these games, so these are not prospective scores. "
-        "The main F20 cohort is smaller; use `f0_f20_paired_brier.png` and "
+        "The main F20 cohort is smaller; use `f0_f20_paired_brier.png`, `f0_f20_paired_margin_mae.png`, and "
         "`cumulative_scores_f20_paired_cohort.csv` "
-        "for matched Brier comparisons. F20 has no margin MAE. Historical F19 and market "
+        "for matched Brier and margin comparisons. Historical F19 and market "
         "quote times are unverified. See `manifest.json` for hashes and coverage.\n"
     )
     print(json.dumps({"output": str(args.output), "common_games": manifest["common_games"],

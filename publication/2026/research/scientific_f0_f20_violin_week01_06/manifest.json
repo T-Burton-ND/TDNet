@@ -1,0 +1,63 @@
+{
+  "scope": "F0\u2013F20 M1\u2013M5/M10 retrospective balanced relative skill on 304 identical CFBD Weeks 1\u20136 games",
+  "model_cells": 126,
+  "paired_games": 304,
+  "fingerprints": [
+    "F0",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7",
+    "F8",
+    "F9",
+    "F10",
+    "F11",
+    "F12",
+    "F13",
+    "F14",
+    "F15",
+    "F16",
+    "F17-market",
+    "F18",
+    "F19",
+    "F20"
+  ],
+  "architectures": [
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M5",
+    "M10"
+  ],
+  "vegas_baseline": {
+    "games": 304,
+    "margin_mae": 11.429276315789474,
+    "su_accuracy": 0.7894736842105263,
+    "brier": 0.14718061910626962
+  },
+  "balanced_skill_percent": "mean(100*(vegas_mae-model_mae)/vegas_mae, 100*(vegas_brier-model_brier)/vegas_brier, 100*(model_su-vegas_su)/vegas_su)",
+  "f20_fitted_after_2026_games": true,
+  "expert_source_publication_times_verified": false,
+  "sources": {
+    "publication/2026/research/scientific_f0_f20_posthoc_scorecards_week01_07/f20_paired_304_game_scorecard.csv": "679adeca55acd961edabc5fb68bdcfbe1c04de1007e2164ecc8ded4bc51502f8",
+    "data/private/f20/replay_2026_week01_07_v3_margin/f20_replay.parquet": "397e1c8043f928975c81577971b04d0292134bf559b67c8be8fbdfe07297ed95",
+    "publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19/common_cohort_vegas_games.csv": "61aeb1b99af84622d633117d44ec76061b5a7b606d7ee0d0ff4751663816616c"
+  },
+  "outputs": {
+    "paired_304_balanced_skill.csv": "ff4253015c699b415693e2386bc8d9087c8039ab19192e36b483fed2a4807a75",
+    "architecture_distribution.csv": "37acbe66ca2877c7e61a76156eb82333ef02c72505ce2362cc30d1c1c5903abb",
+    "fingerprint_distribution.csv": "8114c7066479f799bad23832318dbbf2864cb6e3a77f1554698fb930d3177c84",
+    "architecture_violin.png": "ae057228446bd35878ae749fa25be576e4f8d51227270289ef6986bcd16c2907",
+    "architecture_violin.svg": "0ef7dab91fd7738a5fbb2cf569f3c9b8d0e8be2a7dcfd0d0e29c566d9ddff533",
+    "architecture_violin_publication.png": "8cee7f6bc94f586e5ccc0780337629896c045797dac289c3c8df5dce7876ef3c",
+    "architecture_violin_publication.svg": "b220ace87501e8f3f49cc9fa8beefdc0f8808e1a0cbbd18d806642e9ed5d592a",
+    "fingerprint_violin.png": "c0c8b9cebd121cc10bb6a7b09b169e1e4e861c0b120523607c9b40d33e944a84",
+    "fingerprint_violin.svg": "4f2b2fba064d847d8dc421c87feb60832f04e5264dd8a210663885fe67534714",
+    "fingerprint_violin_publication.png": "4f2f1d6dd44b2c5a045d23d5a90012acd94cf17dee79d44abb51e2c93b0f22a5",
+    "fingerprint_violin_publication.svg": "d6fe8da609c3b541c67f54280e5fec2acb2cfe833c9b6b699d22bab3fe68e4ff"
+  }
+}

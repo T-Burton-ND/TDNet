@@ -1,13 +1,14 @@
-"""Frozen F20 probability panel for the six scientific architectures."""
+"""Frozen F20 probability and margin panels for six scientific architectures."""
 
 from __future__ import annotations
 
 import numpy as np
-from sklearn.ensemble import HistGradientBoostingClassifier, RandomForestClassifier
+from sklearn.ensemble import (HistGradientBoostingClassifier, HistGradientBoostingRegressor,
+                              RandomForestClassifier, RandomForestRegressor)
 from sklearn.impute import SimpleImputer
-from sklearn.linear_model import LogisticRegression
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.neural_network import MLPClassifier
+from sklearn.linear_model import LogisticRegression, Ridge
+from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
+from sklearn.neural_network import MLPClassifier, MLPRegressor
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import SplineTransformer, StandardScaler
 
@@ -38,6 +39,30 @@ def estimator(model_id: str):
     raise ValueError(f"Unknown scientific model: {model_id}")
 
 
+def margin_estimator(model_id: str):
+    """Fixed regression counterpart of each scientific architecture."""
+    impute = lambda: SimpleImputer(strategy="median", keep_empty_features=True)
+    if model_id == "M1":
+        return make_pipeline(impute(), StandardScaler(), Ridge(alpha=1.0))
+    if model_id == "M2":
+        return make_pipeline(impute(), StandardScaler(), SplineTransformer(n_knots=4, degree=2),
+                             Ridge(alpha=1.0))
+    if model_id == "M3":
+        return make_pipeline(impute(), RandomForestRegressor(
+            n_estimators=200, min_samples_leaf=8, max_features="sqrt", random_state=1701, n_jobs=1))
+    if model_id == "M4":
+        return make_pipeline(impute(), HistGradientBoostingRegressor(
+            max_iter=200, max_leaf_nodes=15, l2_regularization=1, random_state=1701))
+    if model_id == "M5":
+        return make_pipeline(impute(), StandardScaler(), MLPRegressor(
+            hidden_layer_sizes=(32, 16), alpha=.01, early_stopping=True,
+            random_state=1701, max_iter=400))
+    if model_id == "M10":
+        return make_pipeline(impute(), StandardScaler(), KNeighborsRegressor(
+            n_neighbors=75, weights="distance"))
+    raise ValueError(f"Unknown scientific margin model: {model_id}")
+
+
 def predict_panel(models: dict, features):
     if set(models) != set(MODEL_IDS):
         raise ValueError("F20 scientific panel must contain M1–M5 and M10")
@@ -48,3 +73,14 @@ def predict_panel(models: dict, features):
            for value in scores.values()):
         raise ValueError("Invalid F20 probability")
     return scores
+
+
+def predict_margin_panel(models: dict, features):
+    if set(models) != set(MODEL_IDS):
+        raise ValueError("F20 margin panel must contain M1–M5 and M10")
+    margins = {model_id: np.asarray(models[model_id].predict(features), dtype=float)
+               for model_id in MODEL_IDS}
+    margins["F20"] = np.mean(np.stack([margins[model_id] for model_id in MODEL_IDS]), axis=0)
+    if any(not np.isfinite(value).all() for value in margins.values()):
+        raise ValueError("Invalid F20 predicted margin")
+    return margins

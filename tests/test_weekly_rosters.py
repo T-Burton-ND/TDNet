@@ -9,7 +9,7 @@ import pandas as pd
 import pytest
 
 from gridiron_ml.publication.weekly_rosters import (
-    write_f20_probability_component,
+    write_f20_prediction_component,
     write_weekly_roster_registry,
 )
 
@@ -77,21 +77,24 @@ def test_f20_component_requires_six_models_and_exact_frozen_slate(tmp_path):
         folder = archive / "forecasts" / str(game_id)
         folder.mkdir(parents=True)
         probabilities = {model: .5 for model in ("M1", "M2", "M3", "M4", "M5", "M10", "F20")}
+        margins = {model: 3.0 for model in ("M1", "M2", "M3", "M4", "M5", "M10", "F20")}
         record_path = folder / "frozen.json"
         record_path.write_text(json.dumps({"season": 2026, "week": 9, "game_id": game_id,
                                            "issuance_class": "eligible_weekly",
                                            "canonical_variant": "F20", "weekly_cutoff_utc": cutoff,
-                                           "home_win_probability": probabilities}))
+                                           "home_win_probability": probabilities,
+                                           "pred_home_margin": margins}))
         pointer = {"record_file": str(record_path), "record_sha256": hashlib.sha256(record_path.read_bytes()).hexdigest(),
                    "canonical_variant": "F20", "weekly_cutoff_utc": cutoff}
         (folder / "official.json").write_text(json.dumps(pointer))
-    manifest = write_f20_probability_component(output=output, archive=archive,
+    manifest = write_f20_prediction_component(output=output, archive=archive,
                                                 season=2026, week=9, cutoff_utc=cutoff)
     assert json.loads(manifest.read_text())["model_cells"] == 6
-    cells = pd.read_csv(manifest.parent / "f20_model_probabilities.csv")
+    cells = pd.read_csv(manifest.parent / "f20_model_predictions.csv")
     assert len(cells) == 12 and set(cells.model_id) == {"M1", "M2", "M3", "M4", "M5", "M10"}
-    assert write_f20_probability_component(output=output, archive=archive,
+    assert cells.pred_home_margin.eq(3.0).all()
+    assert write_f20_prediction_component(output=output, archive=archive,
                                            season=2026, week=9, cutoff_utc=cutoff) == manifest
     with pytest.raises(ValueError, match="frozen slate"):
-        write_f20_probability_component(output=output, archive=archive,
+        write_f20_prediction_component(output=output, archive=archive,
                                         season=2026, week=9, cutoff_utc="2026-10-30T04:00:00+00:00")

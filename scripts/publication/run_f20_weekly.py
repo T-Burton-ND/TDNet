@@ -37,7 +37,7 @@ def main() -> None:
     parser.add_argument("--run-label", default="on_demand")
     parser.add_argument("--archive", type=Path, default=ROOT / "data/private/f20/prospective")
     parser.add_argument("--schedule", type=Path, default=ROOT / "data/raw/cfbd/v2/games/2026.parquet")
-    parser.add_argument("--models", type=Path, default=ROOT / "data/private/f20/models/f20_scientific_2017_2024_v1")
+    parser.add_argument("--models", type=Path, default=ROOT / "data/private/f20/models/f20_scientific_2017_2024_v2_margin")
     args = parser.parse_args()
     if args.phase == "canonical" and (not args.deadline_utc or args.bundle is None):
         parser.error("Canonical phase requires --deadline-utc and --bundle")
@@ -98,6 +98,8 @@ def main() -> None:
                 if (pointer.get("record_sha256") != sha(record_path)
                         or record.get("model_manifest_sha256") != sha(args.models / "manifest.json")
                         or set(record.get("home_win_probability", {})) !=
+                        {"M1", "M2", "M3", "M4", "M5", "M10", "F20"}
+                        or set(record.get("pred_home_margin", {})) !=
                         {"M1", "M2", "M3", "M4", "M5", "M10", "F20"}):
                     raise ValueError(f"F20 official record is not the frozen six-model panel: {game_id}")
             status["canonical_issuance"] = canonical

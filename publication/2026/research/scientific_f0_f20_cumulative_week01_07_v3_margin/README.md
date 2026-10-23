@@ -1,0 +1,3 @@
+# F0–F20 scientific cumulative view, 2026 Weeks 1–7
+
+The main charts show 120 archived F0–F19 model cells through CFBD Week 7, and all six F20 probability and margin models plus equal-weight F20 consensus through CFBD Week 6. The tracker archive's Week 7 maps to CFBD Week 6; no CFBD Week 7 F20 inputs exist. F20 is a retrospective replay using weekly projections assumed pregame by the owner; the six models were fitted after these games, so these are not prospective scores. The main F20 cohort is smaller; use `f0_f20_paired_brier.png`, `f0_f20_paired_margin_mae.png`, and `cumulative_scores_f20_paired_cohort.csv` for matched Brier and margin comparisons. Historical F19 and market quote times are unverified. See `manifest.json` for hashes and coverage.

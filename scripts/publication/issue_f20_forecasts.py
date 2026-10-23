@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Issue append-only F20 scientific probabilities from frozen inputs."""
+"""Issue append-only F20 scientific probabilities and margins from frozen inputs."""
 from __future__ import annotations
 
 import argparse
@@ -17,7 +17,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 from gridiron_ml.f20.model import FEATURE_COLUMNS, captured_features
-from gridiron_ml.f20.scientific import MODEL_IDS, predict_panel
+from gridiron_ml.f20.scientific import MODEL_IDS, predict_margin_panel, predict_panel
 
 
 def sha(path: Path) -> str:
@@ -95,17 +95,23 @@ def issue(archive: Path, receipt_path: Path, model_dir: Path, *, now: datetime,
             manifest["training_seasons"] != list(range(2017, 2025)) or
             2026 not in manifest["excluded_seasons"] or
             tuple(manifest.get("model_ids", [])) != MODEL_IDS or
+            set(manifest.get("margin_model_sha256", {})) != set(MODEL_IDS) or
             manifest.get("feature_columns") != list(FEATURE_COLUMNS)):
         raise ValueError("Model training boundary changed")
     fitted = manifest.get("fit_at_utc")
     if fitted and datetime.fromisoformat(fitted) > now:
         raise ValueError("Model was fitted after issuance")
     models = {}
+    margin_models = {}
     for arm in MODEL_IDS:
         path = model_dir / f"{arm}.joblib"
         if sha(path) != manifest["model_sha256"][arm]:
             raise ValueError(f"Frozen {arm} model hash changed")
         models[arm] = joblib.load(path)
+        margin_path = model_dir / f"{arm}_margin.joblib"
+        if sha(margin_path) != manifest["margin_model_sha256"][arm]:
+            raise ValueError(f"Frozen {arm} margin model hash changed")
+        margin_models[arm] = joblib.load(margin_path)
     output = {"issued": 0, "existing": 0, "official": 0, "late_revision": 0,
               "precutoff_revision": 0,
               "early_game_pregame": 0, "already_started": 0,
@@ -126,6 +132,8 @@ def issue(archive: Path, receipt_path: Path, model_dir: Path, *, now: datetime,
             output["missing_expert"] += 1
         probabilities = {arm: float(values[0]) for arm, values in
                          predict_panel(models, X.loc[:, list(FEATURE_COLUMNS)]).items()}
+        margins = {arm: float(values[0]) for arm, values in
+                   predict_margin_panel(margin_models, X.loc[:, list(FEATURE_COLUMNS)]).items()}
         game_id = observation["game_id"]
         deadline = weekly_cutoff_utc if target_game_ids is not None else cutoff(kickoff)
         official_eligible = (official_enabled and
@@ -163,7 +171,7 @@ def issue(archive: Path, receipt_path: Path, model_dir: Path, *, now: datetime,
             output["existing"] += 1
             output["games"].append(game_id)
             continue
-        record = {"schema_version": 1, "forecast_id": forecast_id,
+        record = {"schema_version": 2, "forecast_id": forecast_id,
                   "season": 2026, "week": observation["week"], "game_id": game_id,
                   "home_team": observation["home_team"], "away_team": observation["away_team"],
                   "kickoff_utc": kickoff.isoformat(), "issued_at_utc": now.isoformat(),
@@ -181,11 +189,13 @@ def issue(archive: Path, receipt_path: Path, model_dir: Path, *, now: datetime,
                   "model_manifest_sha256": sha(manifest_path),
                   "model_manifest_file": str(manifest_path),
                   "model_sha256": manifest["model_sha256"],
+                  "margin_model_sha256": manifest["margin_model_sha256"],
                   "model_training_through": 2024,
                   "canonical_variant": "F20" if official_eligible else None,
                   "revision_id": revision_id,
                   "model_historical_timing": manifest["historical_source_timing"],
-                  "expert_count": available, "home_win_probability": probabilities}
+                  "expert_count": available, "home_win_probability": probabilities,
+                  "pred_home_margin": margins}
         payload = (json.dumps(record, indent=2, sort_keys=True, allow_nan=False) + "\n").encode()
         created = write_once(path, payload)
         output["issued" if created else "existing"] += 1
@@ -211,7 +221,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--archive", type=Path, default=ROOT / "data/private/f20/prospective")
     parser.add_argument("--receipt", type=Path, required=True)
-    parser.add_argument("--models", type=Path, default=ROOT / "data/private/f20/models/f20_scientific_2017_2024_v1")
+    parser.add_argument("--models", type=Path, default=ROOT / "data/private/f20/models/f20_scientific_2017_2024_v2_margin")
     parser.add_argument("--revision-id", default="initial")
     parser.add_argument("--week", type=int)
     args = parser.parse_args()

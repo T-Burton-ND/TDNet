@@ -1,5 +1,7 @@
 # 2026 scientific roster: quality gallery
 
+The current [F0–F20 scientific post-hoc scorecards and publication figures](../scientific_f0_f20_posthoc_scorecards_week01_07/README.md) add F20/M1–M5/M10 as a separate, explicitly dated row in every current metric matrix, including trained margin and ATS results. Their 304-game paired figures support direct F20 comparisons; their latest-available figures show F0–F19 through Week 7 and F20 through Week 6. This directory preserves the original 120-cell Week 7 gallery and its frozen source cohort.
+
 All 34 numbered figures, 12 alternate observed-scale heatmaps, a winner-parity companion, F19/M4 confusion matrices, and a publication version of each are together in this directory. Figures 01–16 show the same 120 F0–F19 scientific cells (M1–M5 and M10), with Vegas as a point on the original two-metric scatterplots and as the zero-skill threshold on the roster summaries. Figures 17–18 show selected forecasters as curves. Figures 19–28 add paired weekly, gamewise, tail, market-bin, and stability analyses, including six aligned market-bin heatmaps. Figures 29–34 show those same six metrics by fingerprint × architecture. The [winner-parity companion](winner_accuracy_market_parity_heatmap.png) recodes Figure 31 in exact extra correct winners versus Vegas. F17 is the `F17-market` research fingerprint in the source roster; F18 and F19 are performance tiers rather than strictly new raw-information generations. Every scientific cell uses its architecture's standard marker and color, including F19/M4 as the M4 teal diamond; Vegas is gold (`brass`). The other model colors, typography, grid, and background follow [`gridiron.palette.json`](../../../../gridiron.palette.json) and [`gridiron_light.mplstyle`](../../../../docs/style/color_palettes/gridiron_light.mplstyle).
 
 ## Rebuild the saved Week 7 gallery
@@ -124,6 +126,8 @@ For a poster or paper, audit the new `market_provenance` and archived quote time
 | [07 Architecture violin](07_architecture_violin.png) | What are each architecture's mean, median, and quartiles across fingerprints? | Smoothed density plus every point, mean circle, median tick, interquartile bar, and gold Vegas line. |
 | [08 Fingerprint swarm](08_fingerprint_swarm.png) | How do the six architectures spread within each fingerprint? | A distinct point for every model in each fingerprint row; gold Vegas line. |
 | [09 Fingerprint violin](09_fingerprint_violin.png) | Which fingerprints are robust to architecture choice? | Six exact points and quartiles per fingerprint with illustrative smoothing and a gold Vegas line. |
+
+The [F20-inclusive architecture and fingerprint violins](../scientific_f0_f20_violin_week01_06/README.md) update these two designs on a matched 304-game Weeks 1–6 cohort. The original 120-cell Week 7 figures above remain the frozen comparison.
 
 The [paired score data](paired_quality.csv), [architecture summary](architecture_distribution.csv), and [fingerprint summary](fingerprint_distribution.csv) contain the exact values. Rebuild these nine figures with [`plot_2026_scientific_total_quality.py`](../../../../scripts/publication/plot_2026_scientific_total_quality.py). The [manifest](manifest.json) records the input and output hashes.
 

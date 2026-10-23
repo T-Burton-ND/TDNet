@@ -9,7 +9,7 @@ from pathlib import Path
 import joblib
 import pandas as pd
 import pytest
-from sklearn.dummy import DummyClassifier
+from sklearn.dummy import DummyClassifier, DummyRegressor
 
 from gridiron_ml.cli.publication.run_tuesday_publish import run_f20_research
 from gridiron_ml.f20.capture import (
@@ -52,16 +52,23 @@ def models(path: Path, observation: dict) -> None:
     path.mkdir(parents=True)
     X = pd.concat([captured_features(observation)] * 2, ignore_index=True)
     hashes = {}
+    margin_hashes = {}
     for arm in MODEL_IDS:
         model = DummyClassifier(strategy="prior").fit(X.loc[:, list(FEATURE_COLUMNS)], [0, 1])
         artifact = path / f"{arm}.joblib"
         joblib.dump(model, artifact)
         hashes[arm] = hashlib.sha256(artifact.read_bytes()).hexdigest()
+        margin_model = DummyRegressor(strategy="constant", constant=3.5).fit(
+            X.loc[:, list(FEATURE_COLUMNS)], [1.0, 2.0])
+        margin_artifact = path / f"{arm}_margin.joblib"
+        joblib.dump(margin_model, margin_artifact)
+        margin_hashes[arm] = hashlib.sha256(margin_artifact.read_bytes()).hexdigest()
     (path / "manifest.json").write_text(json.dumps({
         "canonical_name": "F20", "model_ids": list(MODEL_IDS),
         "feature_columns": list(FEATURE_COLUMNS),
         "training_seasons": list(range(2017, 2025)), "excluded_seasons": [2025, 2026],
-        "historical_source_timing": "archived_pregame_unverified", "model_sha256": hashes}))
+        "historical_source_timing": "archived_pregame_unverified", "model_sha256": hashes,
+        "margin_model_sha256": margin_hashes}))
 
 
 def test_capture_issues_one_official_and_keeps_revisions(tmp_path: Path) -> None:
@@ -93,6 +100,7 @@ def test_capture_issues_one_official_and_keeps_revisions(tmp_path: Path) -> None
     record = json.loads(Path(pointer["record_file"]).read_text())
     assert record["issuance_class"] == "eligible_weekly"
     assert record["home_win_probability"] == {**{model_id: .5 for model_id in MODEL_IDS}, "F20": .5}
+    assert record["pred_home_margin"] == {**{model_id: 3.5 for model_id in MODEL_IDS}, "F20": 3.5}
     assert pointer["canonical_variant"] == "F20"
     assert len(list((archive / "forecasts/1").glob("*.json"))) == 3
     assert verify(archive, tmp_path)["panel_records"]["F20_six_model"] == 2

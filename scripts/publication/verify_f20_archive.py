@@ -19,7 +19,7 @@ from gridiron_ml.f20.model import (
     FEATURE_COLUMNS,
     captured_features,
 )
-from gridiron_ml.f20.scientific import MODEL_IDS, predict_panel
+from gridiron_ml.f20.scientific import MODEL_IDS, predict_margin_panel, predict_panel
 
 
 def sha(path: Path) -> str:
@@ -72,9 +72,19 @@ def verify(archive: Path, models_root: Path) -> dict:
                 if sha(model_path) != manifest["model_sha256"][arm]:
                     raise ValueError(f"Frozen model changed: {arm}")
                 models[arm] = joblib.load(model_path)
-            model_cache[model_hash] = (models, scientific, manifest["model_sha256"])
+            margin_models = {}
+            if scientific and "margin_model_sha256" in manifest:
+                if set(manifest["margin_model_sha256"]) != set(MODEL_IDS):
+                    raise ValueError("F20 margin model roster changed")
+                for arm in MODEL_IDS:
+                    margin_path = manifest_path.parent / f"{arm}_margin.joblib"
+                    if sha(margin_path) != manifest["margin_model_sha256"][arm]:
+                        raise ValueError(f"Frozen margin model changed: {arm}")
+                    margin_models[arm] = joblib.load(margin_path)
+            model_cache[model_hash] = (models, margin_models, scientific, manifest["model_sha256"],
+                                       manifest.get("margin_model_sha256"))
         X = captured_features(found[0])
-        models, scientific, frozen_hashes = model_cache[model_hash]
+        models, margin_models, scientific, frozen_hashes, margin_hashes = model_cache[model_hash]
         if row["model_sha256"] != frozen_hashes:
             raise ValueError(f"Forecast model hashes differ from frozen panel: {path}")
         if scientific:
@@ -90,6 +100,16 @@ def verify(archive: Path, models_root: Path) -> dict:
         for arm, value in predicted.items():
             if not np.isclose(value, row["home_win_probability"][arm], atol=1e-12):
                 raise ValueError(f"Forecast probability cannot be reproduced: {path}")
+        if scientific and margin_models:
+            if row.get("margin_model_sha256") != margin_hashes or row.get("schema_version") != 2:
+                raise ValueError(f"Forecast margin model identity changed: {path}")
+            predicted_margin = {arm: float(value[0]) for arm, value in
+                                predict_margin_panel(margin_models, X.loc[:, list(FEATURE_COLUMNS)]).items()}
+            if set(row.get("pred_home_margin", {})) != set(predicted_margin):
+                raise ValueError(f"Forecast margin keys changed: {path}")
+            for arm, value in predicted_margin.items():
+                if not np.isclose(value, row["pred_home_margin"][arm], atol=1e-10):
+                    raise ValueError(f"Forecast margin cannot be reproduced: {path}")
     official_count = 0
     for pointer_path in (archive / "forecasts").glob("*/official.json"):
         pointer = json.loads(pointer_path.read_text())
