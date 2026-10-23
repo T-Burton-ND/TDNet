@@ -19,6 +19,7 @@ from gridiron_ml.f20.model import (
     FEATURE_COLUMNS,
     captured_features,
 )
+from gridiron_ml.f20.scientific import MODEL_IDS, predict_panel
 
 
 def sha(path: Path) -> str:
@@ -38,6 +39,7 @@ def verify(archive: Path, models_root: Path) -> dict:
     if not records:
         raise ValueError("No F20 forecasts in archive")
     model_cache = {}
+    panel_counts = {"legacy_A_control": 0, "F20_six_model": 0}
     for path in records:
         row = json.loads(path.read_text())
         raw_path = archive / "snapshots" / f"{row['raw_snapshot_sha256']}.html"
@@ -59,17 +61,34 @@ def verify(archive: Path, models_root: Path) -> dict:
             manifest = json.loads(manifest_path.read_text())
             if manifest["training_seasons"][-1] > 2024 or 2026 not in manifest["excluded_seasons"]:
                 raise ValueError("Archived model trained on an evaluation season")
+            scientific = tuple(manifest.get("model_ids", [])) == MODEL_IDS
+            if scientific and (manifest.get("canonical_name") != "F20"
+                               or manifest.get("feature_columns") != list(FEATURE_COLUMNS)):
+                raise ValueError("Frozen F20 scientific panel contract changed")
+            arms = MODEL_IDS if scientific else ("market_only", "F20-A")
             models = {}
-            for arm in ("market_only", "F20-A"):
+            for arm in arms:
                 model_path = manifest_path.parent / f"{arm}.joblib"
-                if sha(model_path) != row["model_sha256"][arm]:
+                if sha(model_path) != manifest["model_sha256"][arm]:
                     raise ValueError(f"Frozen model changed: {arm}")
                 models[arm] = joblib.load(model_path)
-            model_cache[model_hash] = models
+            model_cache[model_hash] = (models, scientific, manifest["model_sha256"])
         X = captured_features(found[0])
-        for arm, columns in {"market_only": BASE_COLUMNS, "F20-A": FEATURE_COLUMNS}.items():
-            predicted = float(model_cache[model_hash][arm].predict_proba(X.loc[:, list(columns)])[0, 1])
-            if not np.isclose(predicted, row["home_win_probability"][arm], atol=1e-12):
+        models, scientific, frozen_hashes = model_cache[model_hash]
+        if row["model_sha256"] != frozen_hashes:
+            raise ValueError(f"Forecast model hashes differ from frozen panel: {path}")
+        if scientific:
+            predicted = {arm: float(value[0]) for arm, value in
+                         predict_panel(models, X.loc[:, list(FEATURE_COLUMNS)]).items()}
+            panel_counts["F20_six_model"] += 1
+        else:
+            predicted = {arm: float(models[arm].predict_proba(X.loc[:, list(columns)])[0, 1])
+                         for arm, columns in {"market_only": BASE_COLUMNS, "F20-A": FEATURE_COLUMNS}.items()}
+            panel_counts["legacy_A_control"] += 1
+        if set(row["home_win_probability"]) != set(predicted):
+            raise ValueError(f"Forecast probability keys changed: {path}")
+        for arm, value in predicted.items():
+            if not np.isclose(value, row["home_win_probability"][arm], atol=1e-12):
                 raise ValueError(f"Forecast probability cannot be reproduced: {path}")
     official_count = 0
     for pointer_path in (archive / "forecasts").glob("*/official.json"):
@@ -82,7 +101,8 @@ def verify(archive: Path, models_root: Path) -> dict:
             raise ValueError(f"Official pointer designates ineligible record: {pointer_path}")
         official_count += 1
     return {"status": "verified", "forecast_records": len(records),
-            "official_game_pointers": official_count, "model_manifests": len(model_cache)}
+            "official_game_pointers": official_count, "model_manifests": len(model_cache),
+            "panel_records": panel_counts}
 
 
 def main() -> None:

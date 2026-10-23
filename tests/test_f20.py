@@ -27,6 +27,7 @@ from gridiron_ml.f20.scientific import MODEL_IDS
 from gridiron_ml.f20.variants import assemble_variant, select_compact_tdnet
 from scripts.publication.issue_f20_forecasts import cutoff, issue
 from scripts.publication.refresh_f20_schedule import project_schedule
+from scripts.publication.verify_f20_archive import verify
 
 
 def page(*, duplicate: bool = False, bad_value: bool = False) -> bytes:
@@ -94,6 +95,15 @@ def test_capture_issues_one_official_and_keeps_revisions(tmp_path: Path) -> None
     assert record["home_win_probability"] == {**{model_id: .5 for model_id in MODEL_IDS}, "F20": .5}
     assert pointer["canonical_variant"] == "F20"
     assert len(list((archive / "forecasts/1").glob("*.json"))) == 3
+    assert verify(archive, tmp_path)["panel_records"]["F20_six_model"] == 2
+    revision_path = next(path for path in (archive / "forecasts/1").glob("*.json")
+                         if path.name not in ("official.json", f"{pointer['forecast_id']}.json"))
+    revision = json.loads(revision_path.read_text())
+    revision["model_sha256"]["M1"] = "0" * 64
+    revision_path.chmod(0o600)  # Archive files are deliberately read-only.
+    revision_path.write_text(json.dumps(revision))
+    with pytest.raises(ValueError, match="Forecast model hashes differ"):
+        verify(archive, tmp_path)
 
 
 def test_cutoff_postgame_and_parse_rejections(tmp_path: Path) -> None:

@@ -28,6 +28,9 @@ team, final score, and CFBD game ID. Original weekly publication timestamps
 are absent; the owner accepts the weekly projections as pregame for these
 charts. The six models were fitted after those games. CFBD Week 7 has no F20
 archive inputs. See [the cumulative chart readme](../../publication/2026/research/scientific_f0_f20_cumulative_week01_07/README.md).
+The [individual-source Week 7 audit](F20_WEEK07_SOURCE_AUDIT.md) records the
+FEI, Massey, and TeamRankings pages found after searching outside the stale
+tracker CSV, and the still-missing complete FPI/Sagarin projected margins.
 
 ## Current status, October 23, 2026
 
@@ -66,6 +69,14 @@ archive inputs. See [the cumulative chart readme](../../publication/2026/researc
   `prospective/scheduler_logs/cancellation_20261023.json` preserves the IDs.
 - [The matched A/B/C comparison](F20_COMPARISON.md) informed the owner's
   selection of the expert-consensus inputs now used by F20.
+- A fresh on-demand **six-model F20** research capture at 18:11 UTC used the
+  Week 8 page and refreshed CFBD schedule. All 49 games still pregame at
+  capture received M1–M5, M10, and equal-mean F20 probabilities; none received
+  an official pointer because the Week 8 cutoff had passed. Its private run
+  receipt is `prospective/runs/2026_w08_six_model_week08_capture_20261023T181112743109Z.json`.
+  The archive verifier reproduced all 196 records: 147 legacy A/control and
+  49 six-model F20, with zero official game pointers. Week 9 and later await
+  their on-demand weekly pipeline run; no future jobs were queued.
 
 ## On-demand weekly operation
 
