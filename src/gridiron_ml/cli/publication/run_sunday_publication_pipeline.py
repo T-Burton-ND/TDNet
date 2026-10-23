@@ -303,12 +303,19 @@ def main() -> int:
             season=scientific_season,
             week=scientific_week,
         )
-        full_f0_f8_pregame = args.scientific_pregame_package / "full_f0_f8"
+        full_f0_f8_pregame = (
+            args.scientific_pregame_package / "expanded_f0_f20" / "f0_f8_component"
+        )
+        full_f0_f8_postgame = args.output_root / "scientific" / "expanded_f0_f20" / "f0_f8_component"
+        if not (full_f0_f8_pregame / "scientific_all_game_predictions.csv").exists():
+            # Historical frozen packages keep their original directory layout.
+            full_f0_f8_pregame = args.scientific_pregame_package / "full_f0_f8"
+            full_f0_f8_postgame = args.output_root / "scientific" / "full_f0_f8"
         if (full_f0_f8_pregame / "scientific_all_game_predictions.csv").exists():
             full_f0_f8_paths = write_scientific_postgame_evaluation(
                 pregame_package=full_f0_f8_pregame,
                 results_path=args.results,
-                output_root=args.output_root / "scientific" / "full_f0_f8",
+                output_root=full_f0_f8_postgame,
                 season=scientific_season,
                 week=scientific_week,
             )
@@ -318,7 +325,7 @@ def main() -> int:
                     for name, path in scientific_paths.items()
                 },
                 **{
-                    f"full_f0_f8_{name}": path
+                    f"expanded_f0_f20_base_{name}": path
                     for name, path in full_f0_f8_paths.items()
                 },
             }

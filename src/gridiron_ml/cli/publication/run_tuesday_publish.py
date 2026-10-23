@@ -12,6 +12,7 @@ from pathlib import Path
 import pandas as pd
 
 from gridiron_ml.cli._paths import project_root
+from gridiron_ml.publication.weekly_rosters import write_weekly_roster_registry
 
 ROOT = project_root()
 sys.path.insert(0, str(ROOT / "src"))
@@ -164,10 +165,21 @@ def main():
         "--season", str(args.season), "--week", str(args.week),
     ], cwd=root, check=True)
     if args.season == 2026:
-        research = run_f20_research(root, args.week, operations,
-                                    archive=args.f20_archive, models=args.f20_models)
+        try:
+            research = run_f20_research(root, args.week, operations,
+                                        archive=args.f20_archive, models=args.f20_models)
+        except RuntimeError:
+            receipt = json.loads((operations / "f20_research_run.json").read_text())
+            write_weekly_roster_registry(output=output, operations=operations,
+                                         season=args.season, week=args.week,
+                                         f20_research=receipt)
+            raise
+        roster_path = write_weekly_roster_registry(output=output, operations=operations,
+                                                   season=args.season, week=args.week,
+                                                   f20_research=research)
         print(json.dumps({"f20_research": research["result"],
-                          "f20_status_file": str(operations / "f20_research_run.json")}))
+                          "f20_status_file": str(operations / "f20_research_run.json"),
+                          "roster_registry": str(roster_path)}))
     print(output)
 
 if __name__ == "__main__":

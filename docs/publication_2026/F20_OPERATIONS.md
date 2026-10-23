@@ -53,6 +53,14 @@ have been written; it does not rewrite those outputs. Inspect
 `data/publication/2026/weekly_operations/week_XX/f20_research_run.json` and the
 private F20 run receipt.
 
+The same Tuesday command writes a [three-roster registry](THREE_ROSTERS.md)
+under that week's `data/publication/2026/weekly_operations/` directory. The
+original frozen scientific roster is the 42-cell F0–F6 cohort. F0–F8 is now
+the base component of the single expanded F0–F20 research roster, not a fourth
+roster. The registry identifies the F9–F19 cells that still lack a reusable
+prospective weekly path and keeps the F20-A research probabilities outside the
+margin consensus pending the owner's A/B/C decision.
+
 The research phase **cannot create official F20 pointers**. The owner will
 select A, B, or C after reviewing the matched comparison; canonical issuance
 will then use the same owner-supplied weekly cutoff as the main publication

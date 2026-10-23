@@ -27,7 +27,7 @@ from .social_top10 import render_top10_social
 from .weekly import build_weekly_blog_package, format_eastern_kickoffs
 
 SCIENTIFIC_ROSTER_LABEL = "Scientific roster (market-free F0–F6)"
-FULL_SCIENTIFIC_ROSTER_LABEL = "Scientific roster (full F0–F8)"
+FULL_SCIENTIFIC_ROSTER_LABEL = "Expanded F0–F20 scientific research (F0–F8 base component)"
 SCIENTIFIC_COHORTS = {
     "market_free_f0_f6": {
         "roster_label": SCIENTIFIC_ROSTER_LABEL,
@@ -40,11 +40,11 @@ SCIENTIFIC_COHORTS = {
     },
     "full_f0_f8": {
         "roster_label": FULL_SCIENTIFIC_ROSTER_LABEL,
-        "display_label": "F0–F8 full scientific consensus",
+        "display_label": "F0–F8 base component of expanded F0–F20 research",
         "included_tiers": ["F0", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8"],
         "excluded_tiers": [],
         "poll_excluded_tiers": ["F7"],
-        "ballot_display_label": "F0–F6 + F8 scientific ballots",
+        "ballot_display_label": "F0–F6 + F8 base component ballots",
         "allow_market_bearing": True,
     },
 }

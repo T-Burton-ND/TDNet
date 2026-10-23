@@ -80,7 +80,7 @@ def main():
     parser.add_argument(
         "--scientific-inventory",
         type=Path,
-        help="Optional scientific F0-F8 inventory; emits paper-only market-free F0-F6 outputs.",
+        help="Frozen F0-F8 inventory: emits the F0-F6 roster and the F0-F8 input component of expanded F0-F20 research.",
     )
     parser.add_argument("--schedule-snapshot", type=Path)
     parser.add_argument("--cutoff-proof", type=Path, help="Audited input cutoff proof to freeze with a partial-week bundle.")
@@ -406,13 +406,13 @@ def main():
             phase="pre_game",
             prediction_cutoff_utc=args.deadline_utc,
         )
-        full_scientific_paths = build_scientific_weekly_outputs(
+        expanded_base_paths = build_scientific_weekly_outputs(
             project_root=args.project_root,
             inventory_path=args.scientific_inventory,
             schedule_snapshot_path=schedule,
             market_lines_path=args.market_lines_snapshot,
             reference_poll_path=args.ap_top25,
-            output_root=output / "scientific" / "full_f0_f8",
+            output_root=output / "scientific" / "expanded_f0_f20" / "f0_f8_component",
             season=args.season,
             week=args.week,
             phase="pre_game",
@@ -425,8 +425,8 @@ def main():
                 for name, path in canonical_scientific_paths.items()
             },
             **{
-                f"full_f0_f8_{name}": path
-                for name, path in full_scientific_paths.items()
+                f"expanded_f0_f20_base_{name}": path
+                for name, path in expanded_base_paths.items()
             },
         }
     print(
