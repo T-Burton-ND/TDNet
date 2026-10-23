@@ -1,5 +1,6 @@
 study: f20_expert_consensus_2026_v1
-status: prospective_A_and_market_control_only
+status: on_demand_research_canonical_selection_pending
+canonical_variant: null
 cutoff_timezone: America/New_York
 cutoff_weekday: Thursday
 cutoff_local_time: '23:59:00'
@@ -25,10 +26,10 @@ variants:
   F20-B:
     inputs: [F20-A, training_selected_tdnet_features]
     max_tdnet_features: 20
-    status: defined_not_trained
+    status: developmental_candidate_fitted_not_prospective
   F20-C:
     inputs: [full_F19, individual_experts, explicit_missingness, expert_consensus, expert_dispersion]
-    status: defined_not_trained
+    status: developmental_candidate_fitted_not_prospective
 selection:
   scoring: training_only_univariate_F_statistic
   held_out_seasons_forbidden: [2025, 2026]

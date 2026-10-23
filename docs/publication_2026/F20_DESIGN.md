@@ -24,14 +24,16 @@ cutoff, source coverage, train/test boundary, and outcome across arms.
 | Arm | Inputs | Status |
 | --- | --- | --- |
 | Market-only | Captured current/open market columns, explicit missingness | Control |
-| F20-A | Market-only plus individually archived expert home-margin projections and coverage/dispersion | Developmental 2017–2024 model frozen; prospective capture active |
-| F20-B | F20-A plus up to 20 TDNet columns selected inside each training fold | Planned; no selection on 2025/2026 |
-| F20-C | Complete F19 input matrix plus the same expert block | Planned; F19 historical quote timing caveat persists |
+| F20-A | Market-only plus individually archived expert home-margin projections and coverage/dispersion | Developmental 2017–2024 model frozen; on-demand research capture active |
+| F20-B | F20-A plus up to 20 TDNet columns selected inside each training fold | Historical candidate fitted; no prospective feature path |
+| F20-C | Complete F19 input matrix plus the same expert block | Historical candidate fitted; no prospective feature path |
 
-The arms are comparisons, not a single nested ladder. F20-B's defined selector
-uses up to 20 prospective-allowed TDNet columns and only 2017–2024 training
-labels; it has not selected real columns or produced a frozen B model. F20-C
-requires a complete point-in-time F19 weekly matrix, unavailable for Week 9+.
+The arms are comparisons, not a single nested ladder. F20-B's selector uses
+up to 20 prospective-allowed TDNet columns and only training-fold labels.
+The [matched A/B/C comparison](F20_COMPARISON.md) fitted private candidate
+B/C models on 2017–2024 games, but no variant has been selected canonical.
+F20-C requires a complete point-in-time F19 weekly matrix, unavailable for
+future weeks; B likewise needs an audited weekly TDNet feature projection.
 Do not use tracker
 `Prediction Avg.`, `Prediction Median`, `Home Wins`, or `Computer Adj. Line` as
 an independent expert: these aggregate or transform other rows. Sagarin's four
@@ -51,16 +53,19 @@ retroactive updates. The prospective evidence is the captured bytes. A
 historical CSV is `archived_pregame_unverified`, never `prospective`.
 
 Week 8's official Thursday cutoff had passed before F20 work began. Week 8
-observations captured on October 23 may support clearly marked later pregame
-revisions for games still in the future. They cannot become official weekly
-F20 forecasts. The first eligible weekly official cutoff is Week 9, Thursday
-October 29, 2026 at 23:59 America/New_York (October 30 03:59 UTC), subject to
-successful collection, eligible frozen models, and durable storage.
+observations captured on October 23 support only clearly marked later pregame
+research revisions. All future F20 collection now runs on demand when the
+owner invokes the approved weekly Tuesday pipeline. No recurring jobs remain
+queued. F20 research issuance cannot create an official pointer before the
+owner selects a canonical A/B/C variant and its weekly feature path is ready.
+The canonical weekly bundle's owner-supplied cutoff, including earlier cutoffs
+for early kickoffs, will govern any later F20 canonical integration.
 
 The collector is separable from fitting. A failed source yields a failure
 receipt and no synthetic observations. A rerun with the same response hash is
-idempotent; a changed response becomes a new revision. Forecasts will require
-a distinct immutable issuance record and a one-time official designation.
+idempotent; a changed response becomes a new revision. Research forecasts have
+distinct immutable issuance records; official designation is disabled pending
+selection.
 
 ## Analysis plan and boundaries
 
