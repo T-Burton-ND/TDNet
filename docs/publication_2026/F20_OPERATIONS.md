@@ -23,6 +23,10 @@
   refreshed the expert page, and issued 49 further late revisions. The archive
   verifier reproduced all 147 stored forecast records from archived inputs and
   the frozen models; official pointer count remained zero.
+- A CFBD-only SGE compute-node smoke job (1617954) captured the Week 8 schedule
+  at 17:02 UTC: 56 FBS-vs-FBS games, zero TBD kickoffs, and the same raw SHA as
+  the local refresh. This verifies compute-node API access; the combined
+  schedule-plus-expert Week 9 job has not yet run.
 - The 2025 paired exploratory check covered 733 matched games. Market-only
   Brier was 0.171861; F20-A Brier was 0.171440. This small observed difference
   does not establish prospective improvement. The 2025 season was already
@@ -104,7 +108,7 @@ historical downloads are not accepted as point-in-time F20 observations.
 The repo's ignored `.env` credential worked for the narrow F20 Week 8 CFBD
 schedule request. The separate operational Monday refresh and owner review
 still govern the canonical TDNet publication; F20 does not replace them. The
-SGE smoke job confirmed tracker access from a compute node. F20-B and F20-C
+SGE smoke jobs confirmed tracker and CFBD access from compute nodes. F20-B and F20-C
 remain untrained: the full prospective F19 representation
 has a Week 8 research implementation but no reusable Week 9+ weekly artifact.
 Their retrospective work must retain F19's historical market quote-time caveat.
