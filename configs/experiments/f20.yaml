@@ -1,0 +1,36 @@
+study: f20_expert_consensus_2026_v1
+status: prospective_A_and_market_control_only
+cutoff_timezone: America/New_York
+cutoff_weekday: Thursday
+cutoff_local_time: '23:59:00'
+historical_development_seasons: [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+consumed_retrospective_evaluation_season: 2025
+prospective_season: 2026
+primary_metric: brier_score
+historical_expert_provenance: archived_pregame_unverified
+market_source: prediction_tracker_live_captured_page
+expert_sources:
+  - teamrankings
+  - massey
+  - espn_fpi
+  - fei
+  - sagarin_pred
+variants:
+  market_only:
+    inputs: [market_margin, market_missing]
+    status: trained_frozen
+  F20-A:
+    inputs: [market, individual_experts, explicit_missingness, expert_consensus, expert_dispersion]
+    status: trained_frozen
+  F20-B:
+    inputs: [F20-A, training_selected_tdnet_features]
+    max_tdnet_features: 20
+    status: defined_not_trained
+  F20-C:
+    inputs: [full_F19, individual_experts, explicit_missingness, expert_consensus, expert_dispersion]
+    status: defined_not_trained
+selection:
+  scoring: training_only_univariate_F_statistic
+  held_out_seasons_forbidden: [2025, 2026]
+  requires_feature_manifest: true
+  no_2026_outcome_access: true

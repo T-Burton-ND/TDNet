@@ -1,0 +1,36 @@
+{
+  "brier": {
+    "F20-A": 0.17144026174835714,
+    "market_only": 0.17186138342538862
+  },
+  "interpretation": "Historical archive publication times unverified; 2025 was previously consumed by TDNet research. No model choice uses this result.",
+  "market_minus_f20a_brier": 0.00042112167703148295,
+  "matched_games": 733,
+  "paired_cohort": true,
+  "source_audit": {
+    "archive_rows": 808,
+    "archive_sha256": "17abe3b50cc5b290bc4362344b60f0d265e7fc15b7d160c6e5f9e64513857579",
+    "matched_games_by_cfbd_week": {
+      "1": 46,
+      "10": 51,
+      "11": 48,
+      "12": 55,
+      "13": 59,
+      "14": 65,
+      "15": 6,
+      "16": 1,
+      "2": 49,
+      "3": 45,
+      "4": 48,
+      "5": 49,
+      "6": 49,
+      "7": 54,
+      "8": 56,
+      "9": 52
+    },
+    "matched_scored_regular_fbs_games": 733,
+    "provenance": "archived_pregame_unverified",
+    "schedule_sha256": "9fd5b0579bcbe5837243a7096a46ae331c6d365e47dcbe6a8715e07036b17d18"
+  },
+  "status": "exploratory_consumed_2025"
+}
