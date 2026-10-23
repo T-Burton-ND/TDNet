@@ -19,6 +19,10 @@ four experts.
 | ESPN FPI | [Tracker weekly results](https://www.thepredictiontracker.com/ncaaresults.php?orderby=wpct+desc&type=3&year=26) reports 59 graded FPI games. | Aggregate only. No complete set of original per-game projected margins found. |
 | Sagarin Pred. | [Tracker weekly results](https://www.thepredictiontracker.com/ncaaresults.php?orderby=wpct+desc&type=3&year=26) reports Sagarin system totals. | Aggregate only. The current Sagarin ratings are after Week 7 and cannot reconstruct the pregame tracker margin. |
 
+[CFBD's FPI ratings operation](https://api.collegefootballdata.com/api/ratings)
+accepts a season but no week parameter, so a current 2026 rating download is
+not a saved Week 7 FPI game projection.
+
 The current F20 replay and charts continue to mark CFBD Week 7 unavailable.
 The weekly source timing assumption the owner accepted does not supply missing
 numeric inputs. Do not fill frozen feature columns with another site's model,
