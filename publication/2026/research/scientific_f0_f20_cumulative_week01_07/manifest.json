@@ -1,0 +1,64 @@
+{
+  "brier_games": 372,
+  "common_games": 380,
+  "f20": {
+    "other_weeks": [
+      8
+    ],
+    "season_2026_forecast_records": 147,
+    "status": "no_week_01_07_f20_forecasts",
+    "week_01_07_forecast_records": 0,
+    "week_01_07_unique_games": 0
+  },
+  "f20_replay": {
+    "cfbd_week_counts": {
+      "1": 50,
+      "2": 47,
+      "3": 56,
+      "4": 56,
+      "5": 55,
+      "6": 56
+    },
+    "matched_common_games": 312,
+    "paired_brier_games": 304,
+    "path": "/users/tburton2/Repos/TDNet/data/private/f20/replay_2026_week01_07_v2/f20_replay.parquet",
+    "sha256": "c3b500cbf9ee3be4021e3358ab3bd73c9fe2dc998c9490c295209bcbf8e064d3",
+    "timing_assumption": "owner_accepted_for_retrospective_chart"
+  },
+  "figures": {
+    "brier": {
+      "path": "/users/tburton2/Repos/TDNet/publication/2026/research/scientific_f0_f20_cumulative_week01_07/f0_f20_cumulative_brier.png",
+      "sha256": "b851ef3fa61424125b9ab1e5937549895d2a38f8777a72142326fc463a79f475"
+    },
+    "margin_mae": {
+      "path": "/users/tburton2/Repos/TDNet/publication/2026/research/scientific_f0_f20_cumulative_week01_07/f0_f20_cumulative_margin_mae.png",
+      "sha256": "b4806726def34ad02ffb2293476514d0d0dffce32bbb1fb96f2ca573eb597fcb"
+    },
+    "paired_brier": {
+      "path": "/users/tburton2/Repos/TDNet/publication/2026/research/scientific_f0_f20_cumulative_week01_07/f0_f20_paired_brier.png",
+      "sha256": "c6836bf62568f0412fd9a0b81b63ee2723f2d74b2f49c6998ee367b13e0f5cfd"
+    }
+  },
+  "historical_market_quote_times_verified": false,
+  "margin_games": 379,
+  "paired_scores": {
+    "path": "/users/tburton2/Repos/TDNet/publication/2026/research/scientific_f0_f20_cumulative_week01_07/cumulative_scores_f20_paired_cohort.csv",
+    "sha256": "392c6c8f4a6eb353172d649d17fac2b18fa6fa30856c095bf06cd3bbdd4dbe54"
+  },
+  "prospective_f20_week_01_07_score_available": false,
+  "scope": "2026 Weeks 1\u20137 retrospective common cohort",
+  "scores": {
+    "path": "/users/tburton2/Repos/TDNet/publication/2026/research/scientific_f0_f20_cumulative_week01_07/cumulative_scores.csv",
+    "sha256": "4c92fc4520cd964823cd321a0e228f9166ad592c49733b151f9e05f14238c3eb"
+  },
+  "source": {
+    "common_120_model_game_results.parquet": {
+      "path": "/users/tburton2/Repos/TDNet/publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19/common_120_model_game_results.parquet",
+      "sha256": "4e8ac74ef896b88543fda3ffb639bfdc2f3bfa4d73cf0beb54ca7930ae5939c7"
+    },
+    "common_cohort_vegas_games.csv": {
+      "path": "/users/tburton2/Repos/TDNet/publication/2026/week_07/post_game/retrospective_replay/cumulative/scientific_f0_f19/common_cohort_vegas_games.csv",
+      "sha256": "61aeb1b99af84622d633117d44ec76061b5a7b606d7ee0d0ff4751663816616c"
+    }
+  }
+}

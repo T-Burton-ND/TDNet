@@ -12,7 +12,10 @@ from pathlib import Path
 import pandas as pd
 
 from gridiron_ml.cli._paths import project_root
-from gridiron_ml.publication.weekly_rosters import write_weekly_roster_registry
+from gridiron_ml.publication.weekly_rosters import (
+    write_f20_probability_component,
+    write_weekly_roster_registry,
+)
 
 ROOT = project_root()
 sys.path.insert(0, str(ROOT / "src"))
@@ -20,11 +23,16 @@ F20_ROOT = Path("/groups/bsavoie2/tburton2/TDNet/f20_2026")
 
 
 def run_f20_research(root: Path, week: int, operations: Path, *, archive: Path,
-                     models: Path) -> dict:
-    """Run F20 only when this weekly command is invoked; record failure separately."""
+                     models: Path, phase: str = "research",
+                     deadline_utc: str | None = None, bundle: Path | None = None) -> dict:
+    """Run F20 on demand and record its separate issuance result."""
     command = [sys.executable, str(root / "scripts/publication/run_f20_weekly.py"),
-               "--week", str(week), "--phase", "research", "--archive", str(archive),
+               "--week", str(week), "--phase", phase, "--archive", str(archive),
                "--models", str(models)]
+    if phase == "canonical":
+        if deadline_utc is None or bundle is None:
+            raise ValueError("Canonical F20 requires the frozen bundle and cutoff")
+        command.extend(["--deadline-utc", deadline_utc, "--bundle", str(bundle)])
     completed = subprocess.run(command, cwd=root, capture_output=True, text=True, check=False)
     try:
         result = json.loads(completed.stdout)
@@ -37,10 +45,12 @@ def run_f20_research(root: Path, week: int, operations: Path, *, archive: Path,
                "runner": "scripts/publication/run_f20_weekly.py",
                "result": result, "stderr_tail": completed.stderr[-1000:]}
     operations.mkdir(parents=True, exist_ok=True)
-    path = operations / "f20_research_run.json"
+    path = operations / f"f20_{phase}_run.json"
     path.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
-    if completed.returncode or result.get("status") != "captured_with_research_forecasts":
-        raise RuntimeError(f"F20 on-demand research run failed; inspect {path}")
+    expected = ("captured_with_canonical_forecasts" if phase == "canonical"
+                else "captured_with_research_forecasts")
+    if completed.returncode or result.get("status") != expected:
+        raise RuntimeError(f"F20 on-demand {phase} run failed; inspect {path}")
     return receipt
 
 
@@ -70,7 +80,7 @@ def main():
     parser.add_argument("--f20-archive", type=Path, default=F20_ROOT / "prospective",
                         help="Owner-only F20 archive for the on-demand research run.")
     parser.add_argument("--f20-models", type=Path,
-                        default=F20_ROOT / "models/baseline_2017_2024_v1")
+                        default=F20_ROOT / "models/f20_scientific_2017_2024_v1")
     parser.add_argument(
         "--scientific-inventory",
         type=Path,
@@ -167,18 +177,23 @@ def main():
     if args.season == 2026:
         try:
             research = run_f20_research(root, args.week, operations,
-                                        archive=args.f20_archive, models=args.f20_models)
+                                        archive=args.f20_archive, models=args.f20_models,
+                                        phase="canonical", deadline_utc=args.deadline_utc,
+                                        bundle=output / "frozen_bundle")
         except RuntimeError:
-            receipt = json.loads((operations / "f20_research_run.json").read_text())
+            receipt = json.loads((operations / "f20_canonical_run.json").read_text())
             write_weekly_roster_registry(output=output, operations=operations,
                                          season=args.season, week=args.week,
                                          f20_research=receipt)
             raise
+        write_f20_probability_component(output=output, archive=args.f20_archive,
+                                        season=args.season, week=args.week,
+                                        cutoff_utc=pd.Timestamp(args.deadline_utc).isoformat())
         roster_path = write_weekly_roster_registry(output=output, operations=operations,
                                                    season=args.season, week=args.week,
                                                    f20_research=research)
-        print(json.dumps({"f20_research": research["result"],
-                          "f20_status_file": str(operations / "f20_research_run.json"),
+        print(json.dumps({"f20_canonical": research["result"],
+                          "f20_status_file": str(operations / "f20_canonical_run.json"),
                           "roster_registry": str(roster_path)}))
     print(output)
 

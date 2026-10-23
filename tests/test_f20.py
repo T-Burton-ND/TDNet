@@ -19,11 +19,11 @@ from gridiron_ml.f20.capture import (
     receipt_filename,
 )
 from gridiron_ml.f20.model import (
-    BASE_COLUMNS,
     FEATURE_COLUMNS,
     captured_features,
     feature_row,
 )
+from gridiron_ml.f20.scientific import MODEL_IDS
 from gridiron_ml.f20.variants import assemble_variant, select_compact_tdnet
 from scripts.publication.issue_f20_forecasts import cutoff, issue
 from scripts.publication.refresh_f20_schedule import project_schedule
@@ -51,12 +51,14 @@ def models(path: Path, observation: dict) -> None:
     path.mkdir(parents=True)
     X = pd.concat([captured_features(observation)] * 2, ignore_index=True)
     hashes = {}
-    for arm, cols in {"market_only": BASE_COLUMNS, "F20-A": FEATURE_COLUMNS}.items():
-        model = DummyClassifier(strategy="prior").fit(X.loc[:, list(cols)], [0, 1])
+    for arm in MODEL_IDS:
+        model = DummyClassifier(strategy="prior").fit(X.loc[:, list(FEATURE_COLUMNS)], [0, 1])
         artifact = path / f"{arm}.joblib"
         joblib.dump(model, artifact)
         hashes[arm] = hashlib.sha256(artifact.read_bytes()).hexdigest()
     (path / "manifest.json").write_text(json.dumps({
+        "canonical_name": "F20", "model_ids": list(MODEL_IDS),
+        "feature_columns": list(FEATURE_COLUMNS),
         "training_seasons": list(range(2017, 2025)), "excluded_seasons": [2025, 2026],
         "historical_source_timing": "archived_pregame_unverified", "model_sha256": hashes}))
 
@@ -75,17 +77,22 @@ def test_capture_issues_one_official_and_keeps_revisions(tmp_path: Path) -> None
     assert capture(raw, schedule(), archive, collected_at=datetime(2026, 10, 30, tzinfo=UTC)) == receipt
     model_dir = tmp_path / "models"
     models(model_dir, receipt["observations"][0])
-    first = issue(archive, receipt_path, model_dir, now=datetime(2026, 10, 30, 1, tzinfo=UTC))
+    official_args = {"official_enabled": True, "target_game_ids": {1},
+                     "weekly_cutoff_utc": datetime(2026, 10, 30, 3, 59, tzinfo=UTC)}
+    first = issue(archive, receipt_path, model_dir, now=datetime(2026, 10, 30, 1, tzinfo=UTC),
+                  **official_args)
     assert (first["issued"], first["official"]) == (1, 1)
     (archive / "forecasts/1/official.json").unlink()  # Simulate a crash before pointer creation.
-    again = issue(archive, receipt_path, model_dir, now=datetime(2026, 10, 30, 2, tzinfo=UTC))
+    again = issue(archive, receipt_path, model_dir, now=datetime(2026, 10, 30, 2, tzinfo=UTC),
+                  **official_args)
     assert (again["existing"], again["official"]) == (1, 1)
     second = issue(archive, receipt_path, model_dir, now=datetime(2026, 10, 30, 4, tzinfo=UTC), revision_id="r2")
     assert (second["issued"], second["official"], second["late_revision"]) == (1, 0, 1)
     pointer = json.loads((archive / "forecasts/1/official.json").read_text())
     record = json.loads(Path(pointer["record_file"]).read_text())
     assert record["issuance_class"] == "eligible_weekly"
-    assert record["home_win_probability"]["F20-A"] == .5
+    assert record["home_win_probability"] == {**{model_id: .5 for model_id in MODEL_IDS}, "F20": .5}
+    assert pointer["canonical_variant"] == "F20"
     assert len(list((archive / "forecasts/1").glob("*.json"))) == 3
 
 
@@ -158,7 +165,9 @@ def test_schedule_outage_recovery_preserves_research_revision(tmp_path: Path) ->
                                                          fresh_time)
     recovered = issue(archive, fresh_path, model_dir,
                       now=datetime(2026, 10, 30, 1, 1, tzinfo=UTC),
-                      revision_id="weekly_official", official_enabled=True)
+                      revision_id="weekly_official", official_enabled=True,
+                      weekly_cutoff_utc=datetime(2026, 10, 30, 3, 59, tzinfo=UTC),
+                      target_game_ids={1})
     assert (recovered["issued"], recovered["official"]) == (1, 1)
     assert research_file.read_bytes() == research_bytes
     official = json.loads((archive / "forecasts/1/official.json").read_text())

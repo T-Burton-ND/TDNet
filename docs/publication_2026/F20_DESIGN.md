@@ -1,6 +1,6 @@
 # F20 expert-consensus research design
 
-## Architecture observed before implementation (2026-10-23)
+## Architecture and current selection (2026-10-23)
 
 TDNet's canonical F0–F8 ladder and six-model scientific panel are configured in
 `configs/publication/confirmatory_protocol.yaml`. Later F9–F19 research is built
@@ -31,7 +31,11 @@ cutoff, source coverage, train/test boundary, and outcome across arms.
 The arms are comparisons, not a single nested ladder. F20-B's selector uses
 up to 20 prospective-allowed TDNet columns and only training-fold labels.
 The [matched A/B/C comparison](F20_COMPARISON.md) fitted private candidate
-B/C models on 2017–2024 games, but no variant has been selected canonical.
+B/C models on 2017–2024 games. The owner selected the A expert-consensus
+input block and named the resulting six-model probability panel **F20**.
+Its M1, M2, M3, M4, M5, and M10 checkpoints are frozen separately; the F20
+probability is their equal mean. The old A/B/C labels remain only in the
+historical comparison and immutable earlier experiments.
 F20-C requires a complete point-in-time F19 weekly matrix, unavailable for
 future weeks; B likewise needs an audited weekly TDNet feature projection.
 Do not use tracker
@@ -56,16 +60,16 @@ Week 8's official Thursday cutoff had passed before F20 work began. Week 8
 observations captured on October 23 support only clearly marked later pregame
 research revisions. All future F20 collection now runs on demand when the
 owner invokes the approved weekly Tuesday pipeline. No recurring jobs remain
-queued. F20 research issuance cannot create an official pointer before the
-owner selects a canonical A/B/C variant and its weekly feature path is ready.
-The canonical weekly bundle's owner-supplied cutoff, including earlier cutoffs
-for early kickoffs, will govern any later F20 canonical integration.
+queued. F20 research issuance cannot create an official pointer. Canonical
+issuance requires the exact frozen game slate, an owner-supplied cutoff,
+fresh schedule evidence, six verified model hashes, and pre-cutoff capture
+and issuance. Earlier cutoffs for early kickoffs follow the frozen bundle.
 
 The collector is separable from fitting. A failed source yields a failure
 receipt and no synthetic observations. A rerun with the same response hash is
 idempotent; a changed response becomes a new revision. Research forecasts have
-distinct immutable issuance records; official designation is disabled pending
-selection.
+distinct immutable issuance records. The official pointer names F20 and binds
+the weekly cutoff.
 
 ## Analysis plan and boundaries
 

@@ -1,6 +1,10 @@
 study: f20_expert_consensus_2026_v1
-status: on_demand_research_canonical_selection_pending
-canonical_variant: null
+status: on_demand_f20_six_scientific_models
+canonical_variant: F20
+scientific_model_ids: [M1, M2, M3, M4, M5, M10]
+scientific_consensus: equal_mean_home_win_probability
+canonical_selected_at: '2026-10-23'
+canonical_selection_basis: owner_choice_after_matched_abc_development_comparison
 cutoff_timezone: America/New_York
 cutoff_weekday: Thursday
 cutoff_local_time: '23:59:00'
@@ -22,7 +26,7 @@ variants:
     status: trained_frozen
   F20-A:
     inputs: [market, individual_experts, explicit_missingness, expert_consensus, expert_dispersion]
-    status: trained_frozen
+    status: selected_input_block_historical_comparison
   F20-B:
     inputs: [F20-A, training_selected_tdnet_features]
     max_tdnet_features: 20

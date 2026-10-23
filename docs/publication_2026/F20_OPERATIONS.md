@@ -1,5 +1,34 @@
 # F20 2026 capture and forecast operations
 
+## Current scientific F20 panel
+
+The owner's selection of the A expert-consensus input block is now named
+**F20**. Its probability panel uses M1, M2, M3, M4, M5, and M10, with the
+equal mean of their six home-win probabilities as F20 consensus. All six were
+trained and frozen on 5,417 matched 2017–2024 regular FBS games. Rolling
+2021–2024 Brier scores on 2,847 matched games are in the frozen private
+`models/f20_scientific_2017_2024_v1/manifest.json`; the pooled consensus score
+is 0.176629. The archived market-only baseline scored 0.175110 on those
+same 2,847 games. The earlier A/B/C comparison used a separate 2,216-game
+cohort; its scores are evidence for the input choice, not scores of this panel.
+
+The Tuesday pipeline invokes F20 only on demand, using its frozen bundle's
+exact game slate and owner-selected cutoff. Official issuance requires a fresh
+capture, a complete slate, kickoffs after cutoff, and a frozen model hash. A
+research run cannot create official pointers. Prior 147 Week 8 research
+records remain historical F20-A experiments and are not renamed or promoted.
+After complete official issuance, Tuesday materializes the six F20 probability
+cells and equal-mean consensus in
+`pre_game/scientific/expanded_f0_f20/f20_component/`, bound to the exact
+frozen slate and official forecast record hashes.
+
+The 2026 tracker CSV supports a **retrospective** F20 replay on CFBD Weeks
+1–6. Its numeric tracker week is offset from CFBD week, so games are joined by
+team, final score, and CFBD game ID. Original weekly publication timestamps
+are absent; the owner accepts the weekly projections as pregame for these
+charts. The six models were fitted after those games. CFBD Week 7 has no F20
+archive inputs. See [the cumulative chart readme](../../publication/2026/research/scientific_f0_f20_cumulative_week01_07/README.md).
+
 ## Current status, October 23, 2026
 
 - Private live Prediction Tracker HTML was captured at 16:28:41 UTC; source
@@ -35,22 +64,22 @@
   future-week jobs (1617888–1617918, excluding 1617892) were canceled. A
   `qstat` check returned zero matching F20 future-week jobs. The private
   `prospective/scheduler_logs/cancellation_20261023.json` preserves the IDs.
-- [The matched A/B/C comparison](F20_COMPARISON.md) is now available. B/C have
-  private developmental candidate models; no variant is canonical.
+- [The matched A/B/C comparison](F20_COMPARISON.md) informed the owner's
+  selection of the expert-consensus inputs now used by F20.
 
 ## On-demand weekly operation
 
 The approved `run_tuesday_publish.py` command now invokes
-`run_f20_weekly.py --phase research` **during that on-demand weekly run**, after
+`run_f20_weekly.py --phase canonical` **during that on-demand weekly run**, after
 the canonical bundle and X draft are prepared. There is no F20 cron, SGE
 future queue, or automatic recurrence. The F20 component refreshes that week's
 CFBD FBS schedule with the existing ignored `.env` credential, archives the
 raw response privately, captures the live expert page, and issues the frozen
-F20-A and market-only research probabilities for games still pregame. A
+six F20 scientific probabilities and their equal mean for games still pregame. A
 failed source or schedule request is recorded separately. A failed F20 run
 marks the Tuesday command incomplete after the existing canonical outputs
 have been written; it does not rewrite those outputs. Inspect
-`data/publication/2026/weekly_operations/week_XX/f20_research_run.json` and the
+`data/publication/2026/weekly_operations/week_XX/f20_canonical_run.json` and the
 private F20 run receipt.
 
 The same Tuesday command writes a [three-roster registry](THREE_ROSTERS.md)
@@ -58,13 +87,12 @@ under that week's `data/publication/2026/weekly_operations/` directory. The
 original frozen scientific roster is the 42-cell F0–F6 cohort. F0–F8 is now
 the base component of the single expanded F0–F20 research roster, not a fourth
 roster. The registry identifies the F9–F19 cells that still lack a reusable
-prospective weekly path and keeps the F20-A research probabilities outside the
-margin consensus pending the owner's A/B/C decision.
+prospective weekly path and keeps F20's probability panel separate from the
+margin consensus.
 
-The research phase **cannot create official F20 pointers**. The owner will
-select A, B, or C after reviewing the matched comparison; canonical issuance
-will then use the same owner-supplied weekly cutoff as the main publication
-pipeline, including an earlier cutoff when a game starts before Thursday.
+The research phase **cannot create official F20 pointers**. Canonical issuance
+uses the same owner-supplied weekly cutoff as the main publication pipeline,
+including an earlier cutoff when a game starts before Thursday.
 Week 8's 147 research records stay unchanged. The current CFBD cache showed
 no Week 14 regular FBS-vs-FBS games on October 23, but a future on-demand run
 will request its actual week directly. The old SGE submission script was
@@ -79,7 +107,8 @@ From the repository root, use the `gridiron` environment Python:
 /users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/run_f20_weekly.py \
   --week 9 --phase research \
   --archive /groups/bsavoie2/tburton2/TDNet/f20_2026/prospective \
-  --models /groups/bsavoie2/tburton2/TDNet/f20_2026/models/baseline_2017_2024_v1
+  --models /groups/bsavoie2/tburton2/TDNet/f20_2026/models/f20_scientific_2017_2024_v1
+/users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/fit_f20_scientific.py
 /users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/fit_f20_baselines.py
 /users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/compare_f20_abc.py \
   --c-grid 0.0001,0.0003,0.001,0.003,0.01,0.1,1,10,100 \

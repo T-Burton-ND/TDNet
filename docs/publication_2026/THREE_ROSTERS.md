@@ -14,17 +14,20 @@ The expanded roster's `f0_f8_component/` contains the existing 54 margin
 cells. It is an input component, not a separate fourth roster. The F9–F19
 margin cells have only week-specific retrospective or Week 8 research scripts;
 they have no general future-week prediction path in the Tuesday command. The
-registry lists those tiers as missing. The command runs F20-A and a market-only
-control on demand and records their private research receipt. F20 is a
-home-win-probability model, not six margin architectures; it cannot be counted
-as six margin votes or merged into a full F0–F20 margin consensus. The owner
-has not selected A, B, or C as canonical. The registry therefore marks the
-expanded consensus unavailable.
+registry lists those tiers as missing. The command runs F20/M1, M2, M3, M4,
+M5, and M10 on demand, records all six home-win probabilities, and takes their
+equal mean as F20. The historical A/B/C comparison selected the expert-consensus
+input block. These are six probability cells, not margin votes. The expanded
+margin consensus remains unavailable while F9–F19 lack a reusable weekly path.
+After a complete official F20 issuance, Tuesday writes
+`expanded_f0_f20/f20_component/` with six model rows per frozen game, a
+separate equal-mean consensus file, and a hash-bound manifest. The registry
+shows completed F20 cells only when that component covers the frozen slate.
 
 Sunday scores the frozen F0–F6 roster and the F0–F8 base component when they
 are present. Historical weeks retain the previous `full_f0_f8/` path. The
 expanded roster must not be reported as complete until prospective F9–F19
-features and models run for the same frozen weekly slate, the F20 variant has
-an audited matching cutoff, and the combined output's rules are defined.
+features and models run for the same frozen weekly slate, the six F20 cells
+have an audited matching cutoff, and the combined output's rules are defined.
 
 See [F20 comparison](F20_COMPARISON.md) and [F20 operations](F20_OPERATIONS.md).

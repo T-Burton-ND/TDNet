@@ -1,4 +1,4 @@
-"""Fixed, interpretable F20-A and market-only winner probability baselines."""
+"""Fixed expert-consensus features for the F20 winner probability panel."""
 from __future__ import annotations
 
 import numpy as np

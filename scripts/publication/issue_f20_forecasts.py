@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Issue append-only F20-A and market-control probabilities from frozen inputs."""
+"""Issue append-only F20 scientific probabilities from frozen inputs."""
 from __future__ import annotations
 
 import argparse
@@ -16,7 +16,8 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
-from gridiron_ml.f20.model import BASE_COLUMNS, FEATURE_COLUMNS, captured_features
+from gridiron_ml.f20.model import FEATURE_COLUMNS, captured_features
+from gridiron_ml.f20.scientific import MODEL_IDS, predict_panel
 
 
 def sha(path: Path) -> str:
@@ -49,12 +50,15 @@ def write_once(path: Path, payload: bytes) -> bool:
 
 def issue(archive: Path, receipt_path: Path, model_dir: Path, *, now: datetime,
           revision_id: str = "initial", week: int | None = None,
-          official_enabled: bool = True) -> dict:
+          official_enabled: bool = False, weekly_cutoff_utc: datetime | None = None,
+          target_game_ids: set[int] | None = None) -> dict:
     if now.tzinfo is None:
         raise ValueError("Issuance time must be timezone-aware")
     now = now.astimezone(UTC)
     if not revision_id or any(c not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-" for c in revision_id):
         raise ValueError("Invalid revision ID")
+    if official_enabled and (target_game_ids is None or weekly_cutoff_utc is None):
+        raise ValueError("Official F20 requires a frozen target slate and owner-selected cutoff")
     receipt = json.loads(receipt_path.read_text())
     raw = archive / receipt["raw_filename"]
     if sha(raw) != receipt["raw_sha256"] or not receipt["parser_version"].startswith("f20-tracker-html-v"):
@@ -63,15 +67,41 @@ def issue(archive: Path, receipt_path: Path, model_dir: Path, *, now: datetime,
     updated = receipt.get("site_updated_at_utc")
     if collected > now or (updated and datetime.fromisoformat(updated) > collected):
         raise ValueError("Expert source timing after issuance")
+    if target_game_ids is not None:
+        if not official_enabled or weekly_cutoff_utc is None or not target_game_ids:
+            raise ValueError("Canonical issuance requires a cutoff and nonempty target slate")
+        if weekly_cutoff_utc.tzinfo is None:
+            raise ValueError("Canonical F20 cutoff must be timezone-aware")
+        weekly_cutoff_utc = weekly_cutoff_utc.astimezone(UTC)
+        if collected > weekly_cutoff_utc or now > weekly_cutoff_utc:
+            raise ValueError("Canonical F20 capture or issuance is after the frozen weekly cutoff")
+        eligible = [item for item in receipt["observations"]
+                    if item["game_id"] in target_game_ids and (week is None or item["week"] == week)]
+        if len(eligible) != len(target_game_ids) or {item["game_id"] for item in eligible} != target_game_ids:
+            raise ValueError("Canonical F20 capture does not cover the exact frozen target slate")
+        if any(item["status"] != "prospective_pregame"
+               or datetime.fromisoformat(item["kickoff_utc"]) <= weekly_cutoff_utc
+               for item in eligible):
+            raise ValueError("Canonical F20 target has unverified or pre-cutoff kickoff")
+        schedule_time = receipt.get("schedule_modified_at_utc")
+        if not schedule_time:
+            raise ValueError("Canonical F20 capture lacks schedule freshness evidence")
+        schedule_time = datetime.fromisoformat(schedule_time)
+        if schedule_time > now or now - schedule_time > timedelta(days=5):
+            raise ValueError("Canonical F20 schedule is stale or future-dated")
     manifest_path = model_dir / "manifest.json"
     manifest = json.loads(manifest_path.read_text())
-    if manifest["training_seasons"][-1] > 2024 or 2026 not in manifest["excluded_seasons"]:
+    if (manifest.get("canonical_name") != "F20" or
+            manifest["training_seasons"] != list(range(2017, 2025)) or
+            2026 not in manifest["excluded_seasons"] or
+            tuple(manifest.get("model_ids", [])) != MODEL_IDS or
+            manifest.get("feature_columns") != list(FEATURE_COLUMNS)):
         raise ValueError("Model training boundary changed")
     fitted = manifest.get("fit_at_utc")
     if fitted and datetime.fromisoformat(fitted) > now:
         raise ValueError("Model was fitted after issuance")
     models = {}
-    for arm in ("market_only", "F20-A"):
+    for arm in MODEL_IDS:
         path = model_dir / f"{arm}.joblib"
         if sha(path) != manifest["model_sha256"][arm]:
             raise ValueError(f"Frozen {arm} model hash changed")
@@ -94,15 +124,13 @@ def issue(archive: Path, receipt_path: Path, model_dir: Path, *, now: datetime,
         available = int(X.iloc[0].expert_count)
         if available == 0:
             output["missing_expert"] += 1
-        probabilities = {}
-        for arm, columns in {"market_only": BASE_COLUMNS, "F20-A": FEATURE_COLUMNS}.items():
-            value = float(models[arm].predict_proba(X.loc[:, list(columns)])[0, 1])
-            if not 0 <= value <= 1:
-                raise ValueError("Invalid model probability")
-            probabilities[arm] = value
+        probabilities = {arm: float(values[0]) for arm, values in
+                         predict_panel(models, X.loc[:, list(FEATURE_COLUMNS)]).items()}
         game_id = observation["game_id"]
-        deadline = cutoff(kickoff)
-        official_eligible = official_enabled and deadline - timedelta(hours=4) <= now <= deadline < kickoff
+        deadline = weekly_cutoff_utc if target_game_ids is not None else cutoff(kickoff)
+        official_eligible = (official_enabled and
+                             (game_id in target_game_ids if target_game_ids is not None else
+                              deadline - timedelta(hours=4) <= now <= deadline < kickoff))
         if official_eligible:
             schedule_time = receipt.get("schedule_modified_at_utc")
             if not schedule_time:
@@ -127,7 +155,8 @@ def issue(archive: Path, receipt_path: Path, model_dir: Path, *, now: datetime,
                 official_path = path.parent / "official.json"
                 if not official_path.exists():
                     pointer = {"forecast_id": forecast_id, "record_sha256": sha(path),
-                               "record_file": str(path), "weekly_cutoff_utc": deadline.isoformat()}
+                               "record_file": str(path), "weekly_cutoff_utc": deadline.isoformat(),
+                               "canonical_variant": "F20"}
                     if write_once(official_path,
                                   (json.dumps(pointer, indent=2, sort_keys=True) + "\n").encode()):
                         output["official"] += 1
@@ -153,6 +182,7 @@ def issue(archive: Path, receipt_path: Path, model_dir: Path, *, now: datetime,
                   "model_manifest_file": str(manifest_path),
                   "model_sha256": manifest["model_sha256"],
                   "model_training_through": 2024,
+                  "canonical_variant": "F20" if official_eligible else None,
                   "revision_id": revision_id,
                   "model_historical_timing": manifest["historical_source_timing"],
                   "expert_count": available, "home_win_probability": probabilities}
@@ -161,7 +191,8 @@ def issue(archive: Path, receipt_path: Path, model_dir: Path, *, now: datetime,
         output["issued" if created else "existing"] += 1
         if official_eligible:
             pointer = {"forecast_id": forecast_id, "record_sha256": sha(path),
-                       "record_file": str(path), "weekly_cutoff_utc": deadline.isoformat()}
+                       "record_file": str(path), "weekly_cutoff_utc": deadline.isoformat(),
+                       "canonical_variant": "F20"}
             official_path = path.parent / "official.json"
             if not official_path.exists() and write_once(
                     official_path, (json.dumps(pointer, indent=2, sort_keys=True) + "\n").encode()):
@@ -180,7 +211,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--archive", type=Path, default=ROOT / "data/private/f20/prospective")
     parser.add_argument("--receipt", type=Path, required=True)
-    parser.add_argument("--models", type=Path, default=ROOT / "data/private/f20/models/baseline_2017_2024_v1")
+    parser.add_argument("--models", type=Path, default=ROOT / "data/private/f20/models/f20_scientific_2017_2024_v1")
     parser.add_argument("--revision-id", default="initial")
     parser.add_argument("--week", type=int)
     args = parser.parse_args()
