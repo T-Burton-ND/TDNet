@@ -19,6 +19,7 @@ from gridiron_ml.f20.model import (
 )
 from gridiron_ml.f20.variants import assemble_variant, select_compact_tdnet
 from scripts.publication.issue_f20_forecasts import cutoff, issue
+from scripts.publication.refresh_f20_schedule import project_schedule
 
 
 def page(*, duplicate: bool = False, bad_value: bool = False) -> bytes:
@@ -104,6 +105,22 @@ def test_missing_expert_is_explicit(tmp_path: Path) -> None:
     assert observation["values"]["sagarin_pred"] == {
         "raw_value": "", "home_margin": None, "status": "missing"}
     assert captured_features(observation).iloc[0].expert_count == 4
+
+
+def test_schedule_projection_quarantines_tbd_and_outcomes(tmp_path: Path) -> None:
+    payload = [{"id": 1, "season": 2026, "week": 9, "seasonType": "regular",
+                "startDate": "2026-10-31T23:00:00Z", "startTimeTBD": True,
+                "homeTeam": "Alabama", "awayTeam": "Texas A&M",
+                "homeClassification": "fbs", "awayClassification": "fbs",
+                "homePoints": 21, "awayPoints": 10}]
+    schedule_frame = project_schedule(json.dumps(payload).encode(), 9)
+    assert "homePoints" not in schedule_frame and schedule_frame.start_time_t_b_d.iloc[0]
+    receipt = capture(page(), schedule_frame, tmp_path,
+                      collected_at=datetime(2026, 10, 29, 22, 30, tzinfo=UTC))
+    assert receipt["pregame_games"] == 0
+    assert receipt["observations"][0]["status"] == "kickoff_unverified"
+    with pytest.raises(ValueError, match="outside the requested week"):
+        project_schedule(json.dumps(payload).encode(), 10)
 
 
 def test_feature_whitelist_and_training_boundary() -> None:

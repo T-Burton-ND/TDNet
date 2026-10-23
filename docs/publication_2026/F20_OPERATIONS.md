@@ -18,10 +18,11 @@
   `/groups/bsavoie2/tburton2/TDNet/f20_2026/` (mode 700). The initial 49
   forecasts reproduce from that copy; see the verifier below.
 - An immediate SGE compute-node smoke job (1617881) fetched a fresh live
-  snapshot, issued 49 more append-only Week 8 late revisions in persistent
-  storage, and wrote a successful run receipt. The archive verifier reproduced
-  all 98 stored forecast records from archived inputs and the frozen models;
-  official pointer count remained zero.
+  snapshot and issued 49 more append-only Week 8 late revisions. A subsequent
+  end-to-end schedule-refresh smoke at 16:58 UTC captured 56 CFBD FBS games,
+  refreshed the expert page, and issued 49 further late revisions. The archive
+  verifier reproduced all 147 stored forecast records from archived inputs and
+  the frozen models; official pointer count remained zero.
 - The 2025 paired exploratory check covered 733 matched games. Market-only
   Brier was 0.171861; F20-A Brier was 0.171440. This small observed difference
   does not establish prospective improvement. The 2025 season was already
@@ -42,11 +43,21 @@ transition hour. The runner calculates cutoffs with the IANA
 `America/New_York` zone; Week 9's cutoff is October 30 03:59 UTC and Week 10's
 is November 6 04:59 UTC.
 
+Thirty one-core jobs were accepted by SGE for Weeks 9–13 and 15; the private
+submission ledger contains their exact IDs and start times (1617888–1617918).
+SGE verified October 29 at 21:00 and 23:30 Eastern and November 5 at 21:00
+Eastern as requested. Future queue acceptance is not a completed forecast.
+
 Scheduled weeks are 9–13 and 15. The current CFBD cache shows no Week 14
-regular FBS-vs-FBS games. Any schedule change must be reflected by the Monday
-CFBD refresh. An official forecast refuses a schedule cache more than five
-days old. Capture still archives live HTML when schedule freshness is uncertain.
-There is no current `crontab` access, and GitHub Actions only runs CI. The SGE
+regular FBS-vs-FBS games. Each F20 run independently requests that week's
+current CFBD FBS schedule with the existing ignored `.env` credential, archives
+the raw response privately, and projects only schedule fields. One Week 8
+  refresh succeeded on October 23 with 56 regular FBS-vs-FBS games and no TBD
+  kickoffs. If refresh fails, the runner still captures the expert page and can
+issue preliminary research predictions from the cached schedule, but it cannot
+create an official pointer. An official forecast also refuses a schedule
+snapshot more than five days old. There is no current `crontab` access, and
+GitHub Actions only runs CI. The SGE
 submission ledger and run logs live under the private `prospective/` archive.
 
 ## Commands
@@ -54,6 +65,7 @@ submission ledger and run logs live under the private `prospective/` archive.
 From the repository root, use the `gridiron` environment Python:
 
 ```bash
+/users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/refresh_f20_schedule.py --week 9
 /users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/capture_f20_experts.py
 /users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/fit_f20_baselines.py
 /users/tburton2/.conda/envs/gridiron/bin/python scripts/publication/report_f20_sources.py
@@ -89,12 +101,11 @@ private. [CFBD's availability guide](https://api.collegefootballdata.com/data-av
 notes that current SP ratings change as games are played; direct FPI/SP+
 historical downloads are not accepted as point-in-time F20 observations.
 
-The current shell has no `CFBD_API_KEY`. To keep weekly schedule times fresh,
-the existing Monday refresh needs its normal credential and owner review. If
-it does not run, later official F20 issuance stops on the five-day cache guard
-while raw expert capture continues. The SGE runner also needs outbound access
-to the public tracker on compute nodes; the first scheduled job must confirm
-this. F20-B and F20-C remain untrained: the full prospective F19 representation
+The repo's ignored `.env` credential worked for the narrow F20 Week 8 CFBD
+schedule request. The separate operational Monday refresh and owner review
+still govern the canonical TDNet publication; F20 does not replace them. The
+SGE smoke job confirmed tracker access from a compute node. F20-B and F20-C
+remain untrained: the full prospective F19 representation
 has a Week 8 research implementation but no reusable Week 9+ weekly artifact.
 Their retrospective work must retain F19's historical market quote-time caveat.
 

@@ -197,6 +197,16 @@ def _write_once(path: Path, content: bytes) -> None:
     path.chmod(0o400)
 
 
+def receipt_filename(raw_sha256: str, schedule_sha256: str | None,
+                     schedule_modified_at_utc: str | None) -> str:
+    if schedule_sha256:
+        stamp = f"{schedule_sha256}:{schedule_modified_at_utc}"
+        projection_key = f".{hashlib.sha256(stamp.encode()).hexdigest()[:16]}"
+    else:
+        projection_key = ""
+    return f"{raw_sha256}{projection_key}.{PARSER_VERSION}.json"
+
+
 def capture(raw: bytes, schedule: pd.DataFrame, archive: Path, *,
             collected_at: datetime, source_url: str = SOURCE_URL,
             schedule_sha256: str | None = None,
@@ -209,8 +219,8 @@ def capture(raw: bytes, schedule: pd.DataFrame, archive: Path, *,
     if required - set(schedule):
         raise ValueError(f"Schedule columns missing: {sorted(required - set(schedule))}")
     sha = hashlib.sha256(raw).hexdigest()
-    projection_key = f".{schedule_sha256[:16]}" if schedule_sha256 else ""
-    prior = archive / "receipts" / f"{sha}{projection_key}.{PARSER_VERSION}.json"
+    prior = archive / "receipts" / receipt_filename(
+        sha, schedule_sha256, schedule_modified_at_utc)
     if prior.exists():
         receipt = json.loads(prior.read_text())
         if receipt["raw_sha256"] != sha or hashlib.sha256(
@@ -243,7 +253,10 @@ def capture(raw: bytes, schedule: pd.DataFrame, archive: Path, *,
         if kickoff.tzinfo is None:
             raise ValueError("Kickoff has no timezone")
         kickoff = kickoff.tz_convert("UTC")
-        status = "prospective_pregame" if collected_at < kickoff.to_pydatetime() else "already_started"
+        if "start_time_t_b_d" in game and bool(game.start_time_t_b_d):
+            status = "kickoff_unverified"
+        else:
+            status = "prospective_pregame" if collected_at < kickoff.to_pydatetime() else "already_started"
         values = {}
         for column, label in {**EXPERT_COLUMNS, **MARKET_COLUMNS}.items():
             original = (record["experts"] if column in EXPERT_COLUMNS else record["market"])[column]

@@ -15,7 +15,7 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
-from gridiron_ml.f20.capture import SOURCE_URL, capture
+from gridiron_ml.f20.capture import SOURCE_URL, capture, receipt_filename
 
 
 def download(retries: int = 3) -> tuple[bytes, datetime]:
@@ -68,9 +68,9 @@ def main() -> None:
         raise
     print(json.dumps({"status": "captured", "raw_sha256": receipt["raw_sha256"],
                       "collected_at_utc": receipt["collected_at_utc"],
-                      "receipt_file": str(args.archive / "receipts" /
-                                          (f"{receipt['raw_sha256']}.{receipt['schedule_sha256'][:16]}."
-                                           f"{receipt['parser_version']}.json")),
+                      "receipt_file": str(args.archive / "receipts" / receipt_filename(
+                          receipt["raw_sha256"], receipt["schedule_sha256"],
+                          receipt["schedule_modified_at_utc"])),
                       "matched_games": receipt["matched_games"],
                       "pregame_games": receipt["pregame_games"],
                       "unmatched": receipt["unmatched"],

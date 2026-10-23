@@ -48,7 +48,8 @@ def write_once(path: Path, payload: bytes) -> bool:
 
 
 def issue(archive: Path, receipt_path: Path, model_dir: Path, *, now: datetime,
-          revision_id: str = "initial", week: int | None = None) -> dict:
+          revision_id: str = "initial", week: int | None = None,
+          official_enabled: bool = True) -> dict:
     if now.tzinfo is None:
         raise ValueError("Issuance time must be timezone-aware")
     now = now.astimezone(UTC)
@@ -77,11 +78,15 @@ def issue(archive: Path, receipt_path: Path, model_dir: Path, *, now: datetime,
         models[arm] = joblib.load(path)
     output = {"issued": 0, "existing": 0, "official": 0, "late_revision": 0,
               "precutoff_revision": 0,
-              "early_game_pregame": 0, "already_started": 0, "missing_expert": 0, "games": []}
+              "early_game_pregame": 0, "already_started": 0,
+              "kickoff_unverified": 0, "missing_expert": 0, "games": []}
     for observation in receipt["observations"]:
         if week is not None and observation["week"] != week:
             continue
         kickoff = datetime.fromisoformat(observation["kickoff_utc"])
+        if observation["status"] == "kickoff_unverified":
+            output["kickoff_unverified"] += 1
+            continue
         if observation["status"] != "prospective_pregame" or kickoff <= now:
             output["already_started"] += 1
             continue
@@ -97,7 +102,7 @@ def issue(archive: Path, receipt_path: Path, model_dir: Path, *, now: datetime,
             probabilities[arm] = value
         game_id = observation["game_id"]
         deadline = cutoff(kickoff)
-        official_eligible = deadline - timedelta(hours=4) <= now <= deadline < kickoff
+        official_eligible = official_enabled and deadline - timedelta(hours=4) <= now <= deadline < kickoff
         if official_eligible:
             schedule_time = receipt.get("schedule_modified_at_utc")
             if not schedule_time:
@@ -108,13 +113,14 @@ def issue(archive: Path, receipt_path: Path, model_dir: Path, *, now: datetime,
         issuance_class = ("eligible_weekly" if official_eligible else
                           "early_game_pregame" if kickoff <= deadline else
                           "precutoff_revision" if now < deadline else "late_pregame_revision")
-        version_seed = f"{game_id}:{receipt['raw_sha256']}:{sha(manifest_path)}:{revision_id}"
+        version_seed = f"{game_id}:{sha(receipt_path)}:{sha(manifest_path)}:{revision_id}"
         forecast_id = hashlib.sha256(version_seed.encode()).hexdigest()
         path = archive / "forecasts" / str(game_id) / f"{forecast_id}.json"
         if path.exists():
             previous = json.loads(path.read_text())
             if (previous["forecast_id"] != forecast_id
                     or previous["raw_snapshot_sha256"] != receipt["raw_sha256"]
+                    or previous["receipt_sha256"] != sha(receipt_path)
                     or previous["model_manifest_sha256"] != sha(manifest_path)):
                 raise ValueError("Existing forecast identity changed")
             if previous["issuance_class"] == "eligible_weekly":

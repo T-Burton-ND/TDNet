@@ -29,11 +29,25 @@ def main() -> None:
     run_path = args.archive / "runs" / f"{run_id}.json"
     run_path.parent.mkdir(parents=True, exist_ok=True)
     status = {"run_id": run_id, "phase": args.phase, "week": args.week,
-              "started_at_utc": run_at.isoformat(), "capture_status": "not_started",
+              "started_at_utc": run_at.isoformat(), "schedule_status": "not_started",
+              "capture_status": "not_started",
               "issuance_status": "not_started"}
     try:
+        schedule_path = args.schedule
+        schedule_command = [sys.executable, str(ROOT / "scripts/publication/refresh_f20_schedule.py"),
+                            "--archive", str(args.archive), "--week", str(args.week)]
+        refreshed = subprocess.run(schedule_command, cwd=ROOT, capture_output=True, text=True,
+                                   check=False)
+        if refreshed.returncode == 0:
+            schedule_receipt = json.loads(refreshed.stdout)
+            schedule_path = Path(schedule_receipt["schedule_file"])
+            status["schedule_status"] = "captured"
+            status["schedule_receipt"] = schedule_receipt
+        else:
+            status["schedule_status"] = "failed_fallback_cached"
+            status["schedule_error"] = refreshed.stderr[-1000:]
         command = [sys.executable, str(ROOT / "scripts/publication/capture_f20_experts.py"),
-                   "--archive", str(args.archive), "--schedule", str(args.schedule)]
+                   "--archive", str(args.archive), "--schedule", str(schedule_path)]
         status["capture_status"] = "attempted"
         result = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, check=True)
         captured = json.loads(result.stdout)
@@ -44,10 +58,10 @@ def main() -> None:
         now = datetime.now(UTC)
         issued = issue(args.archive, receipt_path, args.models, now=now,
                        revision_id="weekly_official" if args.phase == "official" else "initial",
-                       week=args.week)
+                       week=args.week, official_enabled=status["schedule_status"] == "captured")
         status["issuance_status"] = "succeeded"
         status["issuance"] = issued
-        schedule = pd.read_parquet(args.schedule)
+        schedule = pd.read_parquet(schedule_path)
         target = schedule.loc[(schedule.season == 2026) & (schedule.week == args.week)
                               & schedule.season_type.astype(str).str.casefold().eq("regular")
                               & schedule.home_classification.astype(str).str.casefold().eq("fbs")
@@ -59,6 +73,8 @@ def main() -> None:
         target["deadline"] = [cutoff(value.to_pydatetime()) for value in kickoff]
         if args.phase == "official":
             wanted = target.loc[target.kickoff > pd.to_datetime(target.deadline, utc=True)]
+            if "start_time_t_b_d" in wanted:
+                wanted = wanted.loc[~wanted.start_time_t_b_d.astype(bool)]
             official = {int(row.id) for row in wanted.itertuples()
                         if (args.archive / "forecasts" / str(int(row.id)) / "official.json").exists()}
             missing = sorted(set(wanted.id.astype(int)) - official)
