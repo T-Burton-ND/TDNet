@@ -10,7 +10,12 @@ import pandas as pd
 import pytest
 from sklearn.dummy import DummyClassifier
 
-from gridiron_ml.f20.capture import PARSER_VERSION, capture, parse_tracker
+from gridiron_ml.f20.capture import (
+    PARSER_VERSION,
+    capture,
+    parse_tracker,
+    receipt_filename,
+)
 from gridiron_ml.f20.model import (
     BASE_COLUMNS,
     FEATURE_COLUMNS,
@@ -121,6 +126,41 @@ def test_schedule_projection_quarantines_tbd_and_outcomes(tmp_path: Path) -> Non
     assert receipt["observations"][0]["status"] == "kickoff_unverified"
     with pytest.raises(ValueError, match="outside the requested week"):
         project_schedule(json.dumps(payload).encode(), 10)
+
+
+def test_schedule_outage_recovery_preserves_research_revision(tmp_path: Path) -> None:
+    archive = tmp_path / "archive"
+    raw = page()
+    schedule_sha = "a" * 64
+    first_time = "2026-10-29T20:00:00+00:00"
+    first = capture(raw, schedule(), archive,
+                    collected_at=datetime(2026, 10, 29, 22, 30, tzinfo=UTC),
+                    schedule_sha256=schedule_sha, schedule_modified_at_utc=first_time)
+    first_path = archive / "receipts" / receipt_filename(first["raw_sha256"], schedule_sha,
+                                                         first_time)
+    model_dir = tmp_path / "models"
+    models(model_dir, first["observations"][0])
+    degraded = issue(archive, first_path, model_dir,
+                     now=datetime(2026, 10, 30, 1, tzinfo=UTC),
+                     revision_id="weekly_official", official_enabled=False)
+    assert (degraded["issued"], degraded["official"]) == (1, 0)
+    research_file = next((archive / "forecasts/1").glob("*.json"))
+    research_bytes = research_file.read_bytes()
+    assert json.loads(research_bytes)["issuance_class"] == "precutoff_revision"
+
+    fresh_time = "2026-10-29T23:00:00+00:00"
+    fresh = capture(raw, schedule(), archive,
+                    collected_at=datetime(2026, 10, 29, 23, 5, tzinfo=UTC),
+                    schedule_sha256=schedule_sha, schedule_modified_at_utc=fresh_time)
+    fresh_path = archive / "receipts" / receipt_filename(fresh["raw_sha256"], schedule_sha,
+                                                         fresh_time)
+    recovered = issue(archive, fresh_path, model_dir,
+                      now=datetime(2026, 10, 30, 1, 1, tzinfo=UTC),
+                      revision_id="weekly_official", official_enabled=True)
+    assert (recovered["issued"], recovered["official"]) == (1, 1)
+    assert research_file.read_bytes() == research_bytes
+    official = json.loads((archive / "forecasts/1/official.json").read_text())
+    assert official["record_file"] != str(research_file)
 
 
 def test_feature_whitelist_and_training_boundary() -> None:
