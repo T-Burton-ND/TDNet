@@ -1,0 +1,31 @@
+scope,panel,bucket,games,tdnet_value,reference_value,value_units,reference_label
+week08_current_53,confidence_calibration,≤60%,25,0.548173546,0.600000000,fraction,Observed SU accuracy
+week08_current_53,confidence_calibration,60–75%,24,0.670865318,0.666666667,fraction,Observed SU accuracy
+week08_current_53,confidence_calibration,75–100%,4,0.770052726,0.750000000,fraction,Observed SU accuracy
+week08_current_53,margin_error_by_spread,≤3.5,17,7.341627914,7.500000000,points,Vegas spread MAE
+week08_current_53,margin_error_by_spread,3.5–7,11,12.749423021,11.363636364,points,Vegas spread MAE
+week08_current_53,margin_error_by_spread,7–14,19,12.289025935,12.276315789,points,Vegas spread MAE
+week08_current_53,margin_error_by_spread,>14,6,15.155807451,11.500000000,points,Vegas spread MAE
+week08_current_53,margin_error_by_model_disagreement,Low,18,9.394623118,,points,
+week08_current_53,margin_error_by_model_disagreement,Middle,17,11.639951505,,points,
+week08_current_53,margin_error_by_model_disagreement,High,18,12.360848529,,points,
+cumulative_with_week07_replay_437,confidence_calibration,≤60%,164,0.549022231,0.554878049,fraction,Observed SU accuracy
+cumulative_with_week07_replay_437,confidence_calibration,60–75%,216,0.669691856,0.791666667,fraction,Observed SU accuracy
+cumulative_with_week07_replay_437,confidence_calibration,75–100%,57,0.798307975,0.859649123,fraction,Observed SU accuracy
+cumulative_with_week07_replay_437,margin_error_by_spread,≤3.5,105,11.742873648,11.097619048,points,Vegas spread MAE
+cumulative_with_week07_replay_437,margin_error_by_spread,3.5–7,91,12.174086350,10.508241758,points,Vegas spread MAE
+cumulative_with_week07_replay_437,margin_error_by_spread,7–14,117,11.955954910,11.307692308,points,Vegas spread MAE
+cumulative_with_week07_replay_437,margin_error_by_spread,>14,123,15.741985387,11.981707317,points,Vegas spread MAE
+cumulative_with_week07_replay_437,margin_error_by_model_disagreement,Low,146,11.577008115,,points,
+cumulative_with_week07_replay_437,margin_error_by_model_disagreement,Middle,145,12.941877987,,points,
+cumulative_with_week07_replay_437,margin_error_by_model_disagreement,High,146,14.518433068,,points,
+cumulative_excluding_week07_replay_378,confidence_calibration,≤60%,144,0.548594194,0.555555556,fraction,Observed SU accuracy
+cumulative_excluding_week07_replay_378,confidence_calibration,60–75%,181,0.669851917,0.790055249,fraction,Observed SU accuracy
+cumulative_excluding_week07_replay_378,confidence_calibration,75–100%,53,0.799533490,0.886792453,fraction,Observed SU accuracy
+cumulative_excluding_week07_replay_378,margin_error_by_spread,≤3.5,90,12.497808327,11.477777778,points,Vegas spread MAE
+cumulative_excluding_week07_replay_378,margin_error_by_spread,3.5–7,73,12.073109055,10.520547945,points,Vegas spread MAE
+cumulative_excluding_week07_replay_378,margin_error_by_spread,7–14,105,12.062825051,11.290476190,points,Vegas spread MAE
+cumulative_excluding_week07_replay_378,margin_error_by_spread,>14,109,15.972169830,11.935779817,points,Vegas spread MAE
+cumulative_excluding_week07_replay_378,margin_error_by_model_disagreement,Low,126,11.738192377,,points,
+cumulative_excluding_week07_replay_378,margin_error_by_model_disagreement,Middle,126,13.132095308,,points,
+cumulative_excluding_week07_replay_378,margin_error_by_model_disagreement,High,126,15.004752435,,points,

@@ -3,8 +3,8 @@
   "f20_week08_margin_status": "Retrospective application of models fitted before kickoff to archived pregame features; probabilities were issued as a late pregame research revision.",
   "files": {
     "README.md": {
-      "sha256": "c20c495f28e817a2e64c526e5fbf6f20ec008293c92f032ebca4bab4f5364d86",
-      "size_bytes": 4199
+      "sha256": "faf676dbf711ebd285d28fd1569cee1058d9b6d191f950fa5590e98706d45945",
+      "size_bytes": 4610
     },
     "figures/calibration_by_model_group/ensembles_and_other_calibration.png": {
       "sha256": "30789ef3d2fa028655a0daacedfa2193ea1de3db1de5711675116fbaa64faef2",
@@ -109,6 +109,54 @@
     "figures/top25_consensus_spread.png": {
       "sha256": "34204298ecda519613959eeed3a504ac9ee9df4f0a9df8f92bf0de743481b38d",
       "size_bytes": 282485
+    },
+    "lost_graphics/margin_roster/README.md": {
+      "sha256": "d1d0439cc4ab477c904f696ed5e2c28e5bddc49c1fba89e4f88562643bbd9a97",
+      "size_bytes": 3951
+    },
+    "lost_graphics/margin_roster/cumulative_excluding_week07_replay_378.png": {
+      "sha256": "974b30e1bbe30f732415820f16046942d996fdb3566f016fc5abce68057a3406",
+      "size_bytes": 220067
+    },
+    "lost_graphics/margin_roster/cumulative_excluding_week07_replay_378_model_scorecard.png": {
+      "sha256": "a2bda69a565736cabbc6a01ee776a1fd976df4ab17b705a5e8a75d40a7c32144",
+      "size_bytes": 678307
+    },
+    "lost_graphics/margin_roster/cumulative_with_week07_replay_437.png": {
+      "sha256": "4efee51e457ec73b26ba1cf65b18e008e3bac4a8fb184686c9c2637aa3e72185",
+      "size_bytes": 218291
+    },
+    "lost_graphics/margin_roster/cumulative_with_week07_replay_437_model_scorecard.png": {
+      "sha256": "c25051bf2d1e04da4b4f7ad0756f317488a42a134676af6436b7051d6cbbf30f",
+      "size_bytes": 626418
+    },
+    "lost_graphics/margin_roster/diagnostic_buckets.csv": {
+      "sha256": "8f03dcdb6944fc8aacdc6594d9fb722548c4f072b5ce92723a80bf67bab58ace",
+      "size_bytes": 3377
+    },
+    "lost_graphics/margin_roster/historical_standalone_formats.csv": {
+      "sha256": "efd98ab0577626907916b0919a4d6392aaca9af80db66535627bc35f701650d7",
+      "size_bytes": 436
+    },
+    "lost_graphics/margin_roster/history_inventory.csv": {
+      "sha256": "68031a7fe2a659585c611ee9e90d6f2eb74516909ac35a095a12afc0add3643c",
+      "size_bytes": 2318
+    },
+    "lost_graphics/margin_roster/manifest.json": {
+      "sha256": "5befe2ea0be0c1f3d3e2226c3dca55fdceab0e54252f1fb09fea45c06150b250",
+      "size_bytes": 4838
+    },
+    "lost_graphics/margin_roster/standalone_model_scorecards.csv": {
+      "sha256": "e1507896eabb0d6081f5c2bd551676cf343c6cb20cd13ce7fbba85c0b1e92f8b",
+      "size_bytes": 12270
+    },
+    "lost_graphics/margin_roster/week08_current_53.png": {
+      "sha256": "479f3d7751167fd7f5c112868791c1dd685d71d1fad85aee8ea767981d3281b2",
+      "size_bytes": 207610
+    },
+    "lost_graphics/margin_roster/week08_current_53_model_scorecard.png": {
+      "sha256": "ebffd0eb8bfe7950d81297aeb4c8acf4065b2ed34205a01b48b954421114b1d3",
+      "size_bytes": 552537
     },
     "metadata/week08_roster_audit.json": {
       "sha256": "701411b45a2e96f0ae0606e1ed2f2cb29941ee9cef18a28b013c3e0639cdafe2",

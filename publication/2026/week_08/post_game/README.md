@@ -8,6 +8,8 @@
 
 The expanded roster's [`full_roster_scorecards/`](scientific/expanded_f0_f20/full_roster_scorecards/README.md) adds Week 8 and season-to-date tables with all 126 model cells, a Vegas reference, 21 fingerprint consensuses, and six architecture consensuses. Both latest-available and fully matched cohorts are provided, with game and probability denominators on every row.
 
+The [`lost_graphics/margin_roster/`](lost_graphics/margin_roster/README.md) review directory rebuilds two retired margin-roster postgame formats from saved game predictions: the three-panel exploratory diagnostics and a standalone model scorecard. Each has a Week 8 view and cumulative views with and without the retrospective Week 7 replay. These review figures are separate from the regular weekly renderer.
+
 The `scientific/full_f0_f8/` directory is an F0–F8 diagnostic component used by the existing calibration and bankroll renderer. It is part of the expanded research path, not a fourth roster. `three_roster_comparison/` directly compares the three roster consensuses on the same 49 games, including SU, ATS, Brier, margin error, and flat-stake bankroll views.
 
 CFBD certified final scores for every one of the 53 frozen games. The Week 9 AP Top 25 came from the refreshed CFBD rankings feed. The [Prediction Tracker season results](https://www.thepredictiontracker.com/ncaaresults.php) extend through October 25, while its [Last Week view](https://www.thepredictiontracker.com/ncaaresults.php?orderby=wpct+desc&type=3&year=26) still reports results through October 18; archived game-level pregame captures, rather than that aggregate page, supply F20 inputs.

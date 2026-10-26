@@ -1,0 +1,51 @@
+{
+  "cohorts": {
+    "cumulative_excluding_week07_replay_378": 378,
+    "cumulative_with_week07_replay_437": 437,
+    "week08_current_53": 53
+  },
+  "files": {
+    "README.md": "d1d0439cc4ab477c904f696ed5e2c28e5bddc49c1fba89e4f88562643bbd9a97",
+    "cumulative_excluding_week07_replay_378.png": "974b30e1bbe30f732415820f16046942d996fdb3566f016fc5abce68057a3406",
+    "cumulative_excluding_week07_replay_378_model_scorecard.png": "a2bda69a565736cabbc6a01ee776a1fd976df4ab17b705a5e8a75d40a7c32144",
+    "cumulative_with_week07_replay_437.png": "4efee51e457ec73b26ba1cf65b18e008e3bac4a8fb184686c9c2637aa3e72185",
+    "cumulative_with_week07_replay_437_model_scorecard.png": "c25051bf2d1e04da4b4f7ad0756f317488a42a134676af6436b7051d6cbbf30f",
+    "diagnostic_buckets.csv": "8f03dcdb6944fc8aacdc6594d9fb722548c4f072b5ce92723a80bf67bab58ace",
+    "historical_standalone_formats.csv": "efd98ab0577626907916b0919a4d6392aaca9af80db66535627bc35f701650d7",
+    "history_inventory.csv": "68031a7fe2a659585c611ee9e90d6f2eb74516909ac35a095a12afc0add3643c",
+    "standalone_model_scorecards.csv": "e1507896eabb0d6081f5c2bd551676cf343c6cb20cd13ce7fbba85c0b1e92f8b",
+    "week08_current_53.png": "479f3d7751167fd7f5c112868791c1dd685d71d1fad85aee8ea767981d3281b2",
+    "week08_current_53_model_scorecard.png": "ebffd0eb8bfe7950d81297aeb4c8acf4065b2ed34205a01b48b954421114b1d3"
+  },
+  "history": {
+    "committed_figure_names": 28,
+    "extra_historical_standalone_formats": 2,
+    "historical_commit": "295896e",
+    "retired_result_name": "exploratory_postgame_diagnostics.png",
+    "week08_current_names": 26
+  },
+  "schema": "tdnet-lost-margin-postgame-diagnostics-v1",
+  "sources": {
+    "data/private/postgame_2026_week08/prior_market_games.csv": "61aeb1b99af84622d633117d44ec76061b5a7b606d7ee0d0ff4751663816616c",
+    "publication/2026/week_00/post_game/tables/margin_wide_model_game_results.csv": "5108d6466044f821d65772e9248ac06a246cfa542940190a6850bf0e54ae114d",
+    "publication/2026/week_00/post_game/tables/margin_wide_prediction_vs_actual.csv": "936be33158c0cced0c3b84f2c6c89abbd61e50f14ba56cdb883b5d8471bcb949",
+    "publication/2026/week_01/post_game/tables/margin_wide_model_game_results.csv": "4f5cc9a2c74118486bb3422b94749283a03fc9d8e96ab47ef7b0aee9c79ad3ac",
+    "publication/2026/week_01/post_game/tables/margin_wide_prediction_vs_actual.csv": "286bd0e661f8352b3552682d54af68ab8f191b514cd8939bb8d9aabfb00af13f",
+    "publication/2026/week_02/post_game/tables/margin_wide_model_game_results.csv": "3f8f93b4312697cc848a8e3d3fd47b7dd2a270cf15530f038c0c72770820d8fb",
+    "publication/2026/week_02/post_game/tables/margin_wide_prediction_vs_actual.csv": "3d4a972c0270f9a3797eee39752eee0b04c8030dd73a4e8b58dbdd61088c7c9c",
+    "publication/2026/week_03/post_game/tables/margin_wide_model_game_results.csv": "1d156b804bcdc1848d9b4453d275137882ea7b3d586518e13dba40de45b122b3",
+    "publication/2026/week_03/post_game/tables/margin_wide_prediction_vs_actual.csv": "b336e637d815bf6d2e60b70aa15f1b66f55bbd494c9f6ef552872484f8f08280",
+    "publication/2026/week_04/post_game/tables/margin_wide_model_game_results.csv": "6bdf03bbdd9380be0e9acd58ca2adedfd37edce16b568ef93c53a57b79afb370",
+    "publication/2026/week_04/post_game/tables/margin_wide_prediction_vs_actual.csv": "94e2d3b82233d9e473755fed5e6f1049396a63bcf77bbe74138e7dd79e57cee0",
+    "publication/2026/week_05/post_game/tables/margin_wide_model_game_results.csv": "23cc07d3c887a0d6cd99e3181c3a4cf10b79b01037a1ce80e4f151b9517a4aed",
+    "publication/2026/week_05/post_game/tables/margin_wide_prediction_vs_actual.csv": "647d41470c18d1b3c083d312cf4c05c4028370aea0e0216fa3b02f7a6041822d",
+    "publication/2026/week_06/post_game/tables/margin_wide_model_game_results.csv": "5798a2e99238ca1ec969038788ffdeaf7dc580283b43dc00fa701b2835c88096",
+    "publication/2026/week_06/post_game/tables/margin_wide_prediction_vs_actual.csv": "039138e77c6e72bda49611e72621be335c9314cac20bdfb6694d800ee1506806",
+    "publication/2026/week_07/post_game/retrospective_replay/week07_replay_consensus_games.csv": "abb2ba5ed24c5afc168d3693da22da6ac1172e68ed06e891657d47fe79127fb4",
+    "publication/2026/week_07/post_game/retrospective_replay/week07_replay_model_games.parquet": "222e647c07c83b6737e846b1c899084278aa91aecbfff0d15a1763525d0dc316",
+    "publication/2026/week_08/post_game/tables/cumulative_margin_wide_performance.csv": "311a52b1750f581bb2ad87b1c8a09f6e8ee2525ac4df9cd67d62922eb65c40bd",
+    "publication/2026/week_08/post_game/tables/margin_wide_model_game_results.csv": "234391139ed754dc08bbd29cefc30173b9b6ef5674120a285272928d0e524cb4",
+    "publication/2026/week_08/post_game/tables/margin_wide_prediction_vs_actual.csv": "d8ac3a490c5615d05969369a440abd9ad63548481144b5bdd56000e3fa231977"
+  },
+  "week07_status": "retrospective replay after games; historical market quote times unverified"
+}
