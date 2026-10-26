@@ -1,0 +1,32 @@
+{
+  "ap_poll_rows": 25,
+  "ap_poll_sha256": "56a5efdd40ef2d68b73b35228c4a176beb38f5fea02f53e5fd3f70116d36130b",
+  "ap_poll_week": 9,
+  "certified_frozen_games": 53,
+  "cfbd_api_calls_observed_this_run": {
+    "first_attempt_failure": "local duplicate normalized column names during cache write; no response was saved",
+    "first_stats_rankings_attempt": 5,
+    "games": 1,
+    "successful_stats_rankings_retry": 5,
+    "total": 11
+  },
+  "cfbd_results_sha256": "6a3dd528e9932a1ee46ce946aec0bc038a82a02b5ad63a4b4b5795db9736b4ae",
+  "completed_week": 8,
+  "expanded_f0_f19_full_games": 53,
+  "expanded_matched_games": 49,
+  "expanded_model_games": 6174,
+  "expanded_scientific_models": 126,
+  "frozen_bundle_manifest_sha256": "42bf40f9e63c97582d925c8115adf791fbb4ff130536fdca9dda26240c5ce5e1",
+  "gif_files_verified": 2,
+  "margin_model_games": 1749,
+  "margin_models": 33,
+  "original_model_games": 2226,
+  "original_scientific_models": 42,
+  "png_files_verified": 69,
+  "research_power_models": 126,
+  "research_power_teams": 136,
+  "schema": "tdnet-week08-postgame-audit-v1",
+  "season": 2026,
+  "state_week": 9,
+  "three_roster_comparison_games": 49
+}

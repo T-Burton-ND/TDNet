@@ -1,0 +1,26 @@
+season,week,poll_objective,rank,keys_team,poll_points,ballots_seen,top25_votes,first_place_votes,average_rank,best_rank,worst_rank,reference_rank,tdnet_minus_reference,record,record_through_week,publication_completed_week,postgame_state_week,reference_snapshot_label
+2026,9,margin,1,Georgia,791,33,33,21,2.0303030303030303,1,9,3,-2,6–1,9,8,9,Week 9 AP Top 25
+2026,9,margin,2,Ohio State,783,33,33,8,2.272727272727273,1,10,2,0,6–1,9,8,9,Week 9 AP Top 25
+2026,9,margin,3,Notre Dame,667,33,33,0,5.787878787878788,3,20,5,-2,6–1,9,8,9,Week 9 AP Top 25
+2026,9,margin,4,Texas,589,33,32,2,8.212121212121213,1,28,11,-7,5–2,9,8,9,Week 9 AP Top 25
+2026,9,margin,5,Ole Miss,576,33,31,0,10.090909090909092,4,70,12,-7,5–2,9,8,9,Week 9 AP Top 25
+2026,9,margin,6,Oregon,560,33,30,0,9.848484848484848,2,45,,,4–3,9,8,9,Week 9 AP Top 25
+2026,9,margin,7,Indiana,549,33,32,1,9.515151515151516,1,31,4,3,7–1,9,8,9,Week 9 AP Top 25
+2026,9,margin,8,Texas Tech,544,33,29,0,13.424242424242424,2,78,13,-5,6–1,9,8,9,Week 9 AP Top 25
+2026,9,margin,9,BYU,543,33,29,1,12.787878787878787,1,70,8,1,6–1,9,8,9,Week 9 AP Top 25
+2026,9,margin,10,LSU,526,33,33,0,10.06060606060606,2,19,15,-5,6–2,9,8,9,Week 9 AP Top 25
+2026,9,margin,11,USC,506,33,32,0,10.93939393939394,5,35,,,6–2,9,8,9,Week 9 AP Top 25
+2026,9,margin,12,Miami,481,33,28,0,12.090909090909092,3,39,1,11,7–0,9,8,9,Week 9 AP Top 25
+2026,9,margin,13,Tennessee,350,33,32,0,16.181818181818183,10,52,16,-3,6–2,9,8,9,Week 9 AP Top 25
+2026,9,margin,14,Michigan,341,33,30,0,17.818181818181817,4,88,,,4–3,9,8,9,Week 9 AP Top 25
+2026,9,margin,15,Alabama,285,33,30,0,18.12121212121212,10,44,10,5,6–2,9,8,9,Week 9 AP Top 25
+2026,9,margin,16,Iowa,251,33,29,0,19.0,9,38,,,5–2,9,8,9,Week 9 AP Top 25
+2026,9,margin,17,Utah,249,33,25,0,21.09090909090909,6,45,6,11,7–0,9,8,9,Week 9 AP Top 25
+2026,9,margin,18,South Carolina,229,33,26,0,20.060606060606062,6,36,,,4–3,9,8,9,Week 9 AP Top 25
+2026,9,margin,19,Florida,211,33,26,0,21.303030303030305,8,54,17,2,5–2,9,8,9,Week 9 AP Top 25
+2026,9,margin,20,UCLA,190,33,25,0,23.12121212121212,5,44,7,13,7–0,9,8,9,Week 9 AP Top 25
+2026,9,margin,21,Texas A&M,139,33,21,0,24.12121212121212,9,51,,,4–4,9,8,9,Week 9 AP Top 25
+2026,9,margin,22,Kansas State,122,33,11,0,27.78787878787879,3,62,,,4–3,9,8,9,Week 9 AP Top 25
+2026,9,margin,23,Wake Forest,111,33,21,0,24.848484848484848,11,54,14,9,6–1,9,8,9,Week 9 AP Top 25
+2026,9,margin,24,Clemson,108,33,8,0,31.24242424242424,3,58,,,4–3,9,8,9,Week 9 AP Top 25
+2026,9,margin,25,Wisconsin,94,33,8,0,31.90909090909091,2,53,25,0,5–2,9,8,9,Week 9 AP Top 25

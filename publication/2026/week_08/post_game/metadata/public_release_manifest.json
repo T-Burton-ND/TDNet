@@ -1,0 +1,323 @@
+{
+  "completed_week": 8,
+  "f20_week08_margin_status": "Retrospective application of models fitted before kickoff to archived pregame features; probabilities were issued as a late pregame research revision.",
+  "files": {
+    "README.md": {
+      "sha256": "5e637b39753a776abdf48365c0db92fd1d199a83b2dffca9862431eae0ee5675",
+      "size_bytes": 3827
+    },
+    "figures/calibration_by_model_group/ensembles_and_other_calibration.png": {
+      "sha256": "30789ef3d2fa028655a0daacedfa2193ea1de3db1de5711675116fbaa64faef2",
+      "size_bytes": 457458
+    },
+    "figures/calibration_by_model_group/linear_calibration.png": {
+      "sha256": "eee107e8313096d23e512f32447ca2d0067229a39b7b58f38101b0e0d20a6431",
+      "size_bytes": 662491
+    },
+    "figures/calibration_by_model_group/neighbors_and_kernels_calibration.png": {
+      "sha256": "f1e4ad21a66e69d1c8f0aeb4dcf29004f0eb016db529e7c690bf86c3d536be84",
+      "size_bytes": 584646
+    },
+    "figures/calibration_by_model_group/trees_and_temporal_calibration.png": {
+      "sha256": "b4fa6c675cd25a784c599618e86c351910ef8c7c97e64ea8cd6d35bfdc1c9e00",
+      "size_bytes": 585029
+    },
+    "figures/consensus_ats_bankroll.png": {
+      "sha256": "050c54263d7089686dcbf16616124889f52762c7fcf934a2df360d65887deee0",
+      "size_bytes": 343474
+    },
+    "figures/consensus_ats_confidence_threshold_sweep.png": {
+      "sha256": "86857d829896f185e1dc64eaa88755166bf939daad7fb75b9f7066d699a16cf2",
+      "size_bytes": 374991
+    },
+    "figures/consensus_confidence_scaled_ats_bankroll.png": {
+      "sha256": "02480eb16646f409a1f69f9fad2d6d326f9b5b42c056f23a3e696317c45bc29f",
+      "size_bytes": 348787
+    },
+    "figures/consensus_confidence_scaled_moneyline_bankroll.png": {
+      "sha256": "75fa98a22015a17783e2bb1e1a7d7bfd6867410f79e4c450b20f843f4d3831d9",
+      "size_bytes": 383918
+    },
+    "figures/consensus_moneyline_bankroll.png": {
+      "sha256": "dbfe275b42b8f23431c02d7a91d96092f285b44a6c5f4fa4292139527f71a47e",
+      "size_bytes": 382459
+    },
+    "figures/consensus_moneyline_confidence_threshold_sweep.png": {
+      "sha256": "4267f0195f7bb3bd5928b2d26a41743fc4341e84ce488cab602a07fcabe1a5aa",
+      "size_bytes": 464638
+    },
+    "figures/cumulative_margin_wide_performance.png": {
+      "sha256": "2386fb11cba9aab6e8da224fa6cad5b63d081873492fc73f228bd231d004579f",
+      "size_bytes": 1356974
+    },
+    "figures/cumulative_team_margin_parity.png": {
+      "sha256": "ef28c949319cda1b898dfbc640b157924db94977ee50a0f60f11b868fac70a48",
+      "size_bytes": 389676
+    },
+    "figures/margin_wide_all_team_power_rankings.png": {
+      "sha256": "657d661ccf2ada896cc55589fd1747dd480d6239c0f0e501bd39832f319afbbd",
+      "size_bytes": 936990
+    },
+    "figures/margin_wide_cumulative_model_calibration.png": {
+      "sha256": "763ef9a77ee2713ada84f9c99f5d5cb0c119cbfc783b21a15bf2d4c100001d95",
+      "size_bytes": 1223052
+    },
+    "figures/margin_wide_model_scorecard.png": {
+      "sha256": "7b78f28aafda6271d906e18dd0aebc498d09c9c1d8b00d86eb00f8b8bd65e850",
+      "size_bytes": 785586
+    },
+    "figures/margin_wide_prediction_scorecard.png": {
+      "sha256": "cb27fe2ff869e1af320e155b7935282ae3d2a688901521cba1f3e6d7e4de386c",
+      "size_bytes": 1224264
+    },
+    "figures/margin_wide_rank_vs_projected_margin.png": {
+      "sha256": "e689fc359d4c8addd9681a07cf0e25b69ba32ece1643255b1e57b236e3ecfe7c",
+      "size_bytes": 533824
+    },
+    "figures/model_consensus_disagreement.png": {
+      "sha256": "d368ba214c706e3916b025dc3f4c21f361dad46d019f2894f367b6a53c1f54d2",
+      "size_bytes": 426923
+    },
+    "figures/sunday_performance.png": {
+      "sha256": "51a777aac349945d32207cda42da057d415c5091b66301fc6374dd56cab71495",
+      "size_bytes": 166775
+    },
+    "figures/tdnet_model_ballots.png": {
+      "sha256": "853a91b9c25054f5c1874f3cd58e0745d321edadd324212822e06ee194e6b09e",
+      "size_bytes": 1218588
+    },
+    "figures/tdnet_top10_social_16x9.png": {
+      "sha256": "8b273d89999c49fc1864646344a36686b091d5e1740df7142917e8904d2c3e1b",
+      "size_bytes": 195227
+    },
+    "figures/tdnet_top10_social_4x5.png": {
+      "sha256": "d8d5abc29dfe174f7244bd310fe28de00c019920defaddd9916cc090d725d1b9",
+      "size_bytes": 203488
+    },
+    "figures/tdnet_top25.png": {
+      "sha256": "14c08f9097a58f45f53f5d0a03a27a96d3efd5fa8866a0cc953c771a6fe8a92e",
+      "size_bytes": 465464
+    },
+    "figures/tdnet_vs_ap_top25.png": {
+      "sha256": "2a72aeced533f7a32df97cb841bce99f35866a1f1b1c5cd9d2e98a24ceba032f",
+      "size_bytes": 155098
+    },
+    "figures/team_margin_parity.png": {
+      "sha256": "7fce2bb32692f903b5845e69a12ea983a86ae06aa5e9749523692c7170f752b0",
+      "size_bytes": 230911
+    },
+    "figures/top25_consensus_spread.png": {
+      "sha256": "34204298ecda519613959eeed3a504ac9ee9df4f0a9df8f92bf0de743481b38d",
+      "size_bytes": 282485
+    },
+    "metadata/week08_roster_audit.json": {
+      "sha256": "701411b45a2e96f0ae0606e1ed2f2cb29941ee9cef18a28b013c3e0639cdafe2",
+      "size_bytes": 1155
+    },
+    "scientific/README.md": {
+      "sha256": "3e559f6792d6e3180cc001782e7f57916f336d6b4927868d570c949f0dbee1fd",
+      "size_bytes": 941
+    },
+    "scientific/calibration_by_fingerprint/f0_calibration.png": {
+      "sha256": "920f186c1a247732697d20d4e7781167fb2286f1f8795b7a287fb5d9ee3d6898",
+      "size_bytes": 482509
+    },
+    "scientific/calibration_by_fingerprint/f1_calibration.png": {
+      "sha256": "3181356d0698cf45b2f0298b72b2efbdfbe82da295772fe1d13701394634f760",
+      "size_bytes": 520258
+    },
+    "scientific/calibration_by_fingerprint/f2_calibration.png": {
+      "sha256": "57b04a98d166a10db262a27d1932fc8308d7a1689e15db9bf4d05537307c4445",
+      "size_bytes": 514648
+    },
+    "scientific/calibration_by_fingerprint/f3_calibration.png": {
+      "sha256": "b13e2e8be77df43b03548a1e540f5b6cfedfcd219fc83ac9cc31c6f56e4d1f0f",
+      "size_bytes": 527080
+    },
+    "scientific/calibration_by_fingerprint/f4_calibration.png": {
+      "sha256": "cbe02e162ee81d39de51fe0666f4c74c191c9e59f0914cbb2d1462347c7558ef",
+      "size_bytes": 517394
+    },
+    "scientific/calibration_by_fingerprint/f5_calibration.png": {
+      "sha256": "5e9ee7696348c4043961e345c01f83bcfb83b77fd5048ccaf2f28e2eb7411cf1",
+      "size_bytes": 517625
+    },
+    "scientific/calibration_by_fingerprint/f6_calibration.png": {
+      "sha256": "9073f507d2b2ac4f858dc5a68b878394aebdb74e9ec2b987579ddfaf59c0b5ce",
+      "size_bytes": 531664
+    },
+    "scientific/expanded_f0_f20/README.md": {
+      "sha256": "62180196087e1525184e848a679a6924cf2c81157922ea49639b7b125faa8aef",
+      "size_bytes": 570
+    },
+    "scientific/expanded_f0_f20/cumulative/cumulative_su_ats_brier_3d_latest_available_week08.gif": {
+      "sha256": "1b9d4a91500ed22f4e5d012cc35d33433a9a0a313d70b92c1c3757126226a14f",
+      "size_bytes": 3461190
+    },
+    "scientific/expanded_f0_f20/cumulative/cumulative_su_ats_brier_3d_latest_available_week08.png": {
+      "sha256": "02c7fd7786a906a6b9700871e87953c690d0b253a70fea34dce13f718bf3533c",
+      "size_bytes": 361109
+    },
+    "scientific/expanded_f0_f20/cumulative/cumulative_su_ats_brier_3d_matched_353_games_week08.gif": {
+      "sha256": "cb7e5f2d71cb906c1b19cc0322a530753367ab55392759168ca1136e590f444d",
+      "size_bytes": 3758369
+    },
+    "scientific/expanded_f0_f20/cumulative/cumulative_su_ats_brier_3d_matched_353_games_week08.png": {
+      "sha256": "583fae85aafbbb2a83098ddd058970bc3592b022cf23f07a73e6329fc103ffe6",
+      "size_bytes": 393193
+    },
+    "scientific/expanded_f0_f20/cumulative/latest_available_126_model_scorecard.csv": {
+      "sha256": "e2c39f3412cd1ba6a68ee007e0f4241c50438850ea4f1bc25af0147996355482",
+      "size_bytes": 15330
+    },
+    "scientific/expanded_f0_f20/cumulative/matched_353_game_126_model_scorecard.csv": {
+      "sha256": "03386bc12b88eab4cc6e1e4e01752250916a62c8275a7fc10ab09e00f20f6ad1",
+      "size_bytes": 15290
+    },
+    "scientific/expanded_f0_f20/power_rankings_research/README.md": {
+      "sha256": "71b5b798a3f077092c3b59de6b50bfa630cd5f6815a5be3407e0811d12c329ad",
+      "size_bytes": 610
+    },
+    "scientific/expanded_f0_f20/power_rankings_research/scientific_136_team_power_rankings.csv": {
+      "sha256": "433b004ef4f6692bd086ef2c91f919a69eaacfa85b5ce34c2ff6f389d3d1252b",
+      "size_bytes": 12351
+    },
+    "scientific/expanded_f0_f20/power_rankings_research/scientific_all_team_power_rankings.png": {
+      "sha256": "8a506dae6b33b6ea499fc757146ad025bffffbfbbe99d975fd7cdbf1cec038b5",
+      "size_bytes": 913242
+    },
+    "scientific/expanded_f0_f20/power_rankings_research/scientific_top10_research_16x9.png": {
+      "sha256": "014d5e6a47975e811c903f11e8efd3ca47ec715f11878e3ffa753154cb753907",
+      "size_bytes": 184187
+    },
+    "scientific/expanded_f0_f20/power_rankings_research/scientific_top10_research_1x1.png": {
+      "sha256": "f91aeb11d7ee4a6fda6ff387935326cdcb5d9ecb317f6508d7925c3d61f01cc6",
+      "size_bytes": 131790
+    },
+    "scientific/expanded_f0_f20/power_rankings_research/scientific_top10_research_4x5.png": {
+      "sha256": "c40d2814a9829afc3f58a1191d08a41210c5d6d4afff6e39c070b70c7f21f60f",
+      "size_bytes": 189524
+    },
+    "scientific/expanded_f0_f20/power_rankings_research/scientific_top25.csv": {
+      "sha256": "75d7e67ff922d853480a54d873f973a403092633e1231ad80c355b25a8d7da20",
+      "size_bytes": 2512
+    },
+    "scientific/expanded_f0_f20/power_rankings_research/scientific_top25.png": {
+      "sha256": "13ceb0a88857bfd27cda247e45404a45d0ad921158e5621f556879f6ba763676",
+      "size_bytes": 452966
+    },
+    "scientific/expanded_f0_f20/power_rankings_research/scientific_top25_ballots.png": {
+      "sha256": "eaee7000f2272ee3a2e92ab0ec989ad3584955f1d0dd112469a52e73160be115",
+      "size_bytes": 4043479
+    },
+    "scientific/expanded_f0_f20/week08_126_model_scorecard.png": {
+      "sha256": "172eb95cdff840298fdb78b015b5cdcca0e5e4f9455f014109361698a67788ac",
+      "size_bytes": 327479
+    },
+    "scientific/expanded_f0_f20/week08_126_model_violins.png": {
+      "sha256": "502b3dcb876ed48e5807f28975cdf931413fc1a0063ef3cac43c09e056ba0256",
+      "size_bytes": 713068
+    },
+    "scientific/expanded_f0_f20/week08_f0_f19_120_model_scorecard.csv": {
+      "sha256": "4d4ef1087df1de74c39bddfc28fb29ddec014cee22057e53c0bfa2c6e8c09421",
+      "size_bytes": 11836
+    },
+    "scientific/expanded_f0_f20/week08_f0_f20_126_model_scorecard_matched.csv": {
+      "sha256": "2a36bf6f8b2d44f3d8217ee7fd99660aa0ccef663919966bd9812798d332a4f1",
+      "size_bytes": 11927
+    },
+    "scientific/scientific_all_team_power_rankings.png": {
+      "sha256": "6b4764fa3f46c4b0845efcd9d22f937772d71eb85608c4638359d510b229682e",
+      "size_bytes": 928850
+    },
+    "scientific/scientific_consensus_game_results.png": {
+      "sha256": "aa95687ed0ca59d622b2d60f296ceda639d18bedeec7d3733b4478ca42dae242",
+      "size_bytes": 1344378
+    },
+    "scientific/scientific_cumulative_all_models_performance.png": {
+      "sha256": "6e14d5bf24466d4d08655f13fa4ec270420672077ce3792d48d9dee1e77593c1",
+      "size_bytes": 996091
+    },
+    "scientific/scientific_cumulative_model_calibration.png": {
+      "sha256": "8d2bd4398b4db1308486978777b0a2cf73a482357369bf602a275be5c2298d5b",
+      "size_bytes": 1572370
+    },
+    "scientific/scientific_cumulative_model_scorecard.csv": {
+      "sha256": "c9098a4022893475b4924c999be70b95ec30ca9e50d225d16aab956427df1181",
+      "size_bytes": 5905
+    },
+    "scientific/scientific_cumulative_model_scorecard.png": {
+      "sha256": "6f1a8cec2f0ae1174d7a3dadf22f03dac26ee49af5a1b1c0fc301614b48f3d07",
+      "size_bytes": 900916
+    },
+    "scientific/scientific_model_scorecard.csv": {
+      "sha256": "052b53f4af14080dd967bce72f0af154425d3e71b24eb6471eba29a312c76669",
+      "size_bytes": 2978
+    },
+    "scientific/scientific_model_scorecard.png": {
+      "sha256": "a4b0bf04aa4d2264336ec9da7305dd7903c6362ae8444496a11de39e07058711",
+      "size_bytes": 876260
+    },
+    "scientific/scientific_research_ballot_social_16x9.png": {
+      "sha256": "88774776a83266019ca3424d6263d879db47e4d2a6d13aba72450decb565ae9f",
+      "size_bytes": 172499
+    },
+    "scientific/scientific_research_ballot_social_4x5.png": {
+      "sha256": "d261f060c0facdb53ec37280a781285df541fc4e18e53d5607b9cec1374573de",
+      "size_bytes": 177867
+    },
+    "scientific/scientific_rolling_cumulative_roster_performance.png": {
+      "sha256": "b9e78bc882036ae7bf60ee5dba97467ea270f83733a41e96af2a4a1fa9a29bbf",
+      "size_bytes": 523334
+    },
+    "scientific/scientific_tdnet_top25.csv": {
+      "sha256": "a4f0527c8953bcbd82d096f673cbe243ceece7e8c00bc00148d064225df0efc4",
+      "size_bytes": 2589
+    },
+    "scientific/scientific_tdnet_top25.png": {
+      "sha256": "a1bda424591d1793d94fbc4f8b7cac71a082aa22b3cbeefbfa0755c95b850975",
+      "size_bytes": 520278
+    },
+    "scientific/scientific_top25_ballots.png": {
+      "sha256": "87df96e2042bde9c075df7beb281996db9990bc5f024b504a940571a36b92ec3",
+      "size_bytes": 1489919
+    },
+    "tables/margin_wide_model_scorecard.csv": {
+      "sha256": "b95d4b4dd4f83d5083c3907e9a6b17ac6dadb67e659edcd26daaad1b4f6fefc3",
+      "size_bytes": 4705
+    },
+    "tables/scorecard.csv": {
+      "sha256": "13374aca22f76b8530660275797ab1065bf89779ea88b16cd0ef12a8be0398c1",
+      "size_bytes": 2559
+    },
+    "tables/tdnet_top25.csv": {
+      "sha256": "57c385568c56cc2fc6d0dc0be8c927b89aaaf93e788de2a4c571518f84e14636",
+      "size_bytes": 2590
+    },
+    "three_roster_comparison/README.md": {
+      "sha256": "82360ce215c9a1f9d3421a07406583506c37d66e8ab7acbf9f02be6c42702cda",
+      "size_bytes": 533
+    },
+    "three_roster_comparison/matched_49_game_roster_scorecard.csv": {
+      "sha256": "8419edd572d5f63c553af536e2a85c49428a14dc308bb8d413f5db41e71b0b91",
+      "size_bytes": 600
+    },
+    "three_roster_comparison/three_roster_matched_bankroll.png": {
+      "sha256": "7907f7f1823e3c7a9e5a1d9666be70fde2b61062f384f8ef8c48d13ce0ba57a9",
+      "size_bytes": 387979
+    },
+    "three_roster_comparison/three_roster_matched_scorecard.png": {
+      "sha256": "7db02117d367476b90f215fbdc9d8d9a6a013e4f01607cfe8770cfa4f2a3c90a",
+      "size_bytes": 255245
+    }
+  },
+  "schema": "tdnet-week08-public-release-v1",
+  "scope": "Public figures, documentation, aggregate scorecards, and derived Top 25 rankings; raw provider responses, game-level predictions, and model ballots remain local.",
+  "season": 2026,
+  "source_receipts": {
+    "ap_poll_sha256": "56a5efdd40ef2d68b73b35228c4a176beb38f5fea02f53e5fd3f70116d36130b",
+    "cfbd_results_sha256": "6a3dd528e9932a1ee46ce946aec0bc038a82a02b5ad63a4b4b5795db9736b4ae",
+    "frozen_bundle_manifest_sha256": "42bf40f9e63c97582d925c8115adf791fbb4ff130536fdca9dda26240c5ce5e1"
+  },
+  "state_week": 9
+}

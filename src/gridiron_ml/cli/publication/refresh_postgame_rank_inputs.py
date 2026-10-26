@@ -19,7 +19,7 @@ from zoneinfo import ZoneInfo
 import pandas as pd
 
 from gridiron_ml.cli._paths import project_root
-from gridiron_ml.pipeline.fetch.cfbd_fetch_v2 import CFBDClient, write_parquet
+from gridiron_ml.pipeline.fetch.cfbd_fetch_v2 import CFBDClient, maybe_snake, write_parquet
 from gridiron_ml.publication.bundles import sha256_file
 
 
@@ -40,6 +40,28 @@ def _merge_week_cache(existing: pd.DataFrame, current: pd.DataFrame, *, week: in
         return current.reset_index(drop=True)
     keep = ~pd.to_numeric(existing["week"], errors="coerce").eq(int(week))
     return pd.concat([existing.loc[keep], current], ignore_index=True, sort=False)
+
+
+def _normalize_api_columns(frame: pd.DataFrame) -> pd.DataFrame:
+    """Resolve CFBD aliases before combining them with the snake-case cache."""
+    normalized = maybe_snake(frame, True)
+    if normalized.columns.is_unique:
+        return normalized
+    columns = {}
+    for name in dict.fromkeys(normalized.columns):
+        aliases = normalized.loc[:, normalized.columns == name]
+        if aliases.shape[1] == 1:
+            columns[name] = aliases.iloc[:, 0]
+            continue
+        combined = aliases.iloc[:, 0]
+        for index in range(1, aliases.shape[1]):
+            other = aliases.iloc[:, index]
+            conflict = combined.notna() & other.notna() & combined.ne(other)
+            if conflict.any():
+                raise ValueError(f"Conflicting CFBD aliases for {name}")
+            combined = combined.combine_first(other)
+        columns[name] = combined
+    return pd.DataFrame(columns)
 
 
 def main() -> int:
@@ -112,17 +134,20 @@ def main() -> int:
 
     args.output_root.mkdir(parents=True, exist_ok=True)
     cache_paths: dict[str, Path] = {}
-    write_parquet(
-        games,
-        args.raw_cache / "games" / f"{args.season}.parquet",
-        snake=True,
+    games_path = args.raw_cache / "games" / f"{args.season}.parquet"
+    existing_games = pd.read_parquet(games_path) if games_path.exists() else pd.DataFrame()
+    merged_games = _merge_week_cache(
+        existing_games, _normalize_api_columns(games), week=args.provider_week
     )
+    write_parquet(merged_games, games_path, snake=False)
     cache_paths["games"] = args.raw_cache / "games" / f"{args.season}.parquet"
     for name, frame in frames.items():
         path = args.raw_cache / name / f"{args.season}.parquet"
         cached = pd.read_parquet(path) if path.exists() and name != "rankings" else pd.DataFrame()
-        combined = _merge_week_cache(cached, frame, week=args.provider_week)
-        write_parquet(combined, path, snake=True)
+        combined = _merge_week_cache(
+            cached, _normalize_api_columns(frame), week=args.provider_week
+        )
+        write_parquet(combined, path, snake=False)
         cache_paths[name] = path
 
     created = datetime.now(EASTERN).isoformat()

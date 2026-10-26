@@ -1,0 +1,3 @@
+# F0–F20 shared-game prediction-network rankings
+
+These are descriptive research ratings fitted to 126 sets of saved predicted margins on 353 matched completed games from Weeks 1–6 and 8. They are not the operational Week 9 TDNet poll or new Week 9 game forecasts. F20's Weeks 1–6 margins were replayed retrospectively from an assumed weekly expert archive; Week 8 margins use a model frozen before kickoff on archived pregame expert features. The shared game network covers 136 FBS teams; App State and Oregon State have no matched game and are unranked. Top 25 and Top 10 are for this 136-team cohort.
