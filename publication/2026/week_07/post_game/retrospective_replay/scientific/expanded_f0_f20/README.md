@@ -6,6 +6,6 @@ The six frozen F20 M1–M5/M10 probability and margin models were applied to tho
 
 Each scorecard CSV has 155 rows: 126 model cells, 21 fingerprint consensuses, six architecture consensuses, one full-roster consensus, and one Vegas reference. The 59-game Week 7 table has all 126 cells. Through Week 8, the 441-game available-data union contains 420 games shared by all 126 cells, 13 F0–F19-only games, and eight F20-only games. F20 has 428 games; F0–F19 have 433 each. The 412-game table additionally requires a saved Vegas probability for every game. ATS percentages exclude pushes and exact no-picks. Vegas has no ATS record against its own line.
 
-`cumulative_matched_420.csv` and its four-metric PNG show the fully matched cumulative cohort through each of Weeks 1–8. The 3D PNG and GIF show one final cumulative SU/ATS/Brier marker per F×M cell on those same 420 games. The earlier 353/361-game scorecards are preserved and still exclude Week 7 F20.
+`cumulative_matched_420.csv` and its four-metric PNG show the fully matched cumulative cohort through each of Weeks 1–8, including the F19 and F20 fingerprint consensuses. The 3D PNG and GIF show one final cumulative SU/ATS/Brier marker per F×M cell on those same 420 games. The earlier 353/361-game scorecards are preserved and still exclude Week 7 F20.
 
 `manifest.json` records source and output hashes, alias checks, and the source-timing limitations. Game-level predictions and raw provider data remain private.

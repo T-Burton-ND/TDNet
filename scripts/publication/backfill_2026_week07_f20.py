@@ -46,7 +46,7 @@ ALIASES = {
     ("Coastal Carolina", "Appalachian St."): (401869844, "Coastal Carolina", "App State", 32, 35),
     ("Oregon St.", "Washington St."): (401860903, "Oregon State", "Washington State", 48, 30),
 }
-COLORS = {"roster_consensus": "#b94172", "fingerprint_consensus": "#2d7192",
+COLORS = {"roster_consensus": "#b94172", "F19": "#207a65", "F20": "#2d7192",
           "vegas_reference": "#d4a928"}
 
 
@@ -162,23 +162,28 @@ def cumulative_cards(predictions: pd.DataFrame, games: pd.DataFrame, matched_ids
 
 def render_cumulative(frame: pd.DataFrame, path: Path) -> None:
     selections = (
-        ("roster_consensus", "F0–F20 consensus"),
-        ("fingerprint_consensus", "F20 consensus"),
-        ("vegas_reference", "Vegas"),
+        ("roster_consensus", "F0–F20 consensus", None),
+        ("fingerprint_consensus", "F19 consensus", "F19"),
+        ("fingerprint_consensus", "F20 consensus", "F20"),
+        ("vegas_reference", "Vegas", None),
     )
     fig, axes = plt.subplots(2, 2, figsize=(15, 10), facecolor="#f7f3eb", constrained_layout=True)
     for ax, (metric, label) in zip(axes.flat, [
         ("su_accuracy", "Straight-up accuracy"), ("ats_accuracy", "ATS accuracy"),
         ("brier", "Brier · lower is better"), ("margin_mae", "Margin MAE · points")]):
         ax.set_facecolor("#f7f3eb")
-        for kind, name in selections:
+        for kind, name, fingerprint in selections:
             if kind == "vegas_reference" and metric == "ats_accuracy":
                 continue
             series = frame.loc[frame.row_type.eq(kind)]
-            if kind == "fingerprint_consensus":
-                series = series.loc[series.fingerprint.eq("F20")]
-            ax.plot(series.through_week, series[metric], marker="o", lw=2.5,
-                    color=COLORS[kind], label=name)
+            if fingerprint is not None:
+                series = series.loc[series.fingerprint.eq(fingerprint)]
+            series = series.sort_values("through_week")
+            if len(series) != 8 or not series.through_week.eq(range(1, 9)).all():
+                raise ValueError(f"Missing cumulative values for {name}")
+            ax.plot(series.through_week, series[metric],
+                    marker="s" if fingerprint == "F19" else "o", lw=2.5,
+                    color=COLORS[fingerprint or kind], label=name)
         ax.set_title(label, fontsize=14)
         ax.set_xticks(range(1, 9))
         ax.set_xlabel("Through CFBD week")
@@ -187,7 +192,7 @@ def render_cumulative(frame: pd.DataFrame, path: Path) -> None:
     fig.suptitle("2026 scientific F0–F20 · matched cumulative results", fontsize=20,
                  weight="bold", color="#20324b")
     fig.get_layout_engine().set(rect=(.02, .085, .98, .91))
-    fig.text(.5, .018, "420 shared games, Weeks 1–8. Week 7 F20 is retrospective; source times and market quote times unverified.",
+    fig.text(.5, .018, "420 shared model games, Weeks 1–8; Vegas availability varies by metric. Week 7 F20 retrospective; source and quote times unverified.",
              ha="center", fontsize=9, color="#526173")
     fig.savefig(path, dpi=180, facecolor=fig.get_facecolor())
     plt.close(fig)
@@ -299,7 +304,7 @@ The six frozen F20 M1–M5/M10 probability and margin models were applied to tho
 
 Each scorecard CSV has 155 rows: 126 model cells, 21 fingerprint consensuses, six architecture consensuses, one full-roster consensus, and one Vegas reference. The 59-game Week 7 table has all 126 cells. Through Week 8, the 441-game available-data union contains 420 games shared by all 126 cells, 13 F0–F19-only games, and eight F20-only games. F20 has 428 games; F0–F19 have 433 each. The 412-game table additionally requires a saved Vegas probability for every game. ATS percentages exclude pushes and exact no-picks. Vegas has no ATS record against its own line.
 
-`cumulative_matched_420.csv` and its four-metric PNG show the fully matched cumulative cohort through each of Weeks 1–8. The 3D PNG and GIF show one final cumulative SU/ATS/Brier marker per F×M cell on those same 420 games. The earlier 353/361-game scorecards are preserved and still exclude Week 7 F20.
+`cumulative_matched_420.csv` and its four-metric PNG show the fully matched cumulative cohort through each of Weeks 1–8, including the F19 and F20 fingerprint consensuses. The 3D PNG and GIF show one final cumulative SU/ATS/Brier marker per F×M cell on those same 420 games. The earlier 353/361-game scorecards are preserved and still exclude Week 7 F20.
 
 `manifest.json` records source and output hashes, alias checks, and the source-timing limitations. Game-level predictions and raw provider data remain private.
 """
