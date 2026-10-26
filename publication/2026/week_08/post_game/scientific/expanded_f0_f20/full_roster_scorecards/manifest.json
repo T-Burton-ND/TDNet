@@ -1,0 +1,30 @@
+{
+  "cohorts": {
+    "season_latest_available": 441,
+    "season_matched_361": 361,
+    "week08_latest_available": 53,
+    "week08_matched_49": 49
+  },
+  "completed_week": 8,
+  "files": {
+    "README.md": "4aa5962e880890d8a289f47198afc15f1beae690d1b62a8f221ecfa15e9d5edf",
+    "season_consensus_summary.png": "dfc468aae1451f3599623bc1a72bfe7433d702e96ae17b1f444309a444104b18",
+    "season_latest_available.csv": "ce8c0b0b7f08925bf4ef9ba1cac546fde127df9633c3e0282bcee494ca8554b3",
+    "season_matched_361.csv": "1c7fc3baa4eccd9429fcf81e76078407f02363f66a7ebc07cd72c5a2afbf550b",
+    "week08_consensus_summary.png": "668d82a01b5471790b337c3835f9f395bd19e2385dd9a17b229734256b9be632",
+    "week08_latest_available.csv": "ecc9f264e5085e979d89e5a92e3ef68aa583c5fdb63c23a01c2e32a456f7602d",
+    "week08_matched_49.csv": "c6c921015d4b166bcbe31cb0f09ee66162bfe9017e2ac3f79a4046b572a26eb3"
+  },
+  "rows_per_table": 155,
+  "schema": "tdnet-week08-scientific-full-roster-scorecards-v1",
+  "season": 2026,
+  "sources": {
+    "f0_f19_prior": "4e8ac74ef896b88543fda3ffb639bfdc2f3bfa4d73cf0beb54ca7930ae5939c7",
+    "f0_f19_week08": "7ed087cd20b4be65cfe997577f3492b78d00e66cced421afb0f3e74fad680c98",
+    "f20_prior": "397e1c8043f928975c81577971b04d0292134bf559b67c8be8fbdfe07297ed95",
+    "f20_week08": "5fd5f8b5fdfcf6c83e4960d29e7b564f1af9c4bc7e967288000d0ad41fcf660b",
+    "prior_market": "61aeb1b99af84622d633117d44ec76061b5a7b606d7ee0d0ff4751663816616c",
+    "week08_frozen_market": "33ac5de14b17bd4970a6693ca7bf3861f2c4c7ddef9f0a4df79a3c935c5c997b"
+  },
+  "validation": "126 weekly matched and season latest-available model rows plus 126 published 353-game paired model rows reconciled"
+}

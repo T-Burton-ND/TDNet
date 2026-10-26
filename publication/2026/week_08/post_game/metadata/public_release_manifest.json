@@ -3,8 +3,8 @@
   "f20_week08_margin_status": "Retrospective application of models fitted before kickoff to archived pregame features; probabilities were issued as a late pregame research revision.",
   "files": {
     "README.md": {
-      "sha256": "5e637b39753a776abdf48365c0db92fd1d199a83b2dffca9862431eae0ee5675",
-      "size_bytes": 3827
+      "sha256": "c20c495f28e817a2e64c526e5fbf6f20ec008293c92f032ebca4bab4f5364d86",
+      "size_bytes": 4199
     },
     "figures/calibration_by_model_group/ensembles_and_other_calibration.png": {
       "sha256": "30789ef3d2fa028655a0daacedfa2193ea1de3db1de5711675116fbaa64faef2",
@@ -147,8 +147,8 @@
       "size_bytes": 531664
     },
     "scientific/expanded_f0_f20/README.md": {
-      "sha256": "62180196087e1525184e848a679a6924cf2c81157922ea49639b7b125faa8aef",
-      "size_bytes": 570
+      "sha256": "91f208ff27adddb08c38e8d3a3348ed5c891389c51d527b0bd330cb4d89d113a",
+      "size_bytes": 867
     },
     "scientific/expanded_f0_f20/cumulative/cumulative_su_ats_brier_3d_latest_available_week08.gif": {
       "sha256": "1b9d4a91500ed22f4e5d012cc35d33433a9a0a313d70b92c1c3757126226a14f",
@@ -173,6 +173,38 @@
     "scientific/expanded_f0_f20/cumulative/matched_353_game_126_model_scorecard.csv": {
       "sha256": "03386bc12b88eab4cc6e1e4e01752250916a62c8275a7fc10ab09e00f20f6ad1",
       "size_bytes": 15290
+    },
+    "scientific/expanded_f0_f20/full_roster_scorecards/README.md": {
+      "sha256": "4aa5962e880890d8a289f47198afc15f1beae690d1b62a8f221ecfa15e9d5edf",
+      "size_bytes": 2652
+    },
+    "scientific/expanded_f0_f20/full_roster_scorecards/manifest.json": {
+      "sha256": "1327c1f363080749abbf9f296052eeada263ec92768df569e9916264ebc9f374",
+      "size_bytes": 1680
+    },
+    "scientific/expanded_f0_f20/full_roster_scorecards/season_consensus_summary.png": {
+      "sha256": "dfc468aae1451f3599623bc1a72bfe7433d702e96ae17b1f444309a444104b18",
+      "size_bytes": 512664
+    },
+    "scientific/expanded_f0_f20/full_roster_scorecards/season_latest_available.csv": {
+      "sha256": "ce8c0b0b7f08925bf4ef9ba1cac546fde127df9633c3e0282bcee494ca8554b3",
+      "size_bytes": 31594
+    },
+    "scientific/expanded_f0_f20/full_roster_scorecards/season_matched_361.csv": {
+      "sha256": "1c7fc3baa4eccd9429fcf81e76078407f02363f66a7ebc07cd72c5a2afbf550b",
+      "size_bytes": 31258
+    },
+    "scientific/expanded_f0_f20/full_roster_scorecards/week08_consensus_summary.png": {
+      "sha256": "668d82a01b5471790b337c3835f9f395bd19e2385dd9a17b229734256b9be632",
+      "size_bytes": 480137
+    },
+    "scientific/expanded_f0_f20/full_roster_scorecards/week08_latest_available.csv": {
+      "sha256": "ecc9f264e5085e979d89e5a92e3ef68aa583c5fdb63c23a01c2e32a456f7602d",
+      "size_bytes": 27597
+    },
+    "scientific/expanded_f0_f20/full_roster_scorecards/week08_matched_49.csv": {
+      "sha256": "c6c921015d4b166bcbe31cb0f09ee66162bfe9017e2ac3f79a4046b572a26eb3",
+      "size_bytes": 27597
     },
     "scientific/expanded_f0_f20/power_rankings_research/README.md": {
       "sha256": "71b5b798a3f077092c3b59de6b50bfa630cd5f6815a5be3407e0811d12c329ad",
