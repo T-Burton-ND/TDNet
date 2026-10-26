@@ -1,0 +1,71 @@
+{
+  "cfbd_week": 7,
+  "cohorts": {
+    "season_matched": 420,
+    "season_union": 441,
+    "vegas_probability_paired": 412,
+    "week07_matched": 59
+  },
+  "completed_week": 8,
+  "files": {
+    "README.md": "1dc1ecd7c771e928627c8a55a5aa6d48b2d8f1d2917ce9ccabf34a374856d693",
+    "cumulative_matched_420.csv": "281a5b9ab2e77d032d8afa55a81d5b4def2c2fa084f877230cad478f4c96ff74",
+    "cumulative_matched_420.png": "2977b91d11dfb55a8506e6fb51518b10252cd7a7d61b00b10f99e172697fc57b",
+    "cumulative_matched_420_3d.gif": "c1415336b153111667ae9d1dcf8c238f7a5e7a67bda944944f5ec249a213f876",
+    "cumulative_matched_420_3d.png": "ddc264714455bc30ce82fb360c0407bb480c43e1d036fde2f4bb1de379610db9",
+    "season_latest_available_441.csv": "fb66b9f0fb8ded023ca432fbc03aeac3a26fd627e2bb012e4df7c87231fd0d5e",
+    "season_matched_420.csv": "ac8748aa3e144c4e8f00281717164afffe6367b85000daa20aa813f1188ea80a",
+    "season_matched_420_consensus_summary.png": "f393cfcafee3a8c99b9a3caeec4843bbdfcf3c3bd558b2df9687f5f163929753",
+    "season_vegas_probability_paired_412.csv": "d5d1606900e7f7d47d4e95377ef7f806654c1babc0dcd8f8a25575c972027359",
+    "week07_consensus_summary.png": "c07ffdddb40cb1441f9c1283c9009b54e2d0a6542c80eb722c4c9ff954dbb63f",
+    "week07_matched_59.csv": "5ace457036a2cbaf6f4ecf12ed24bdddb4007dec3293267ddda134ad547e790c"
+  },
+  "limitations": {
+    "F20_Week07_prospective": false,
+    "market_quote_times_verified": false,
+    "models_fitted_before_week07": false,
+    "original_expert_publication_times_verified": false
+  },
+  "private_predictions_sha256": "8f3c29cd56e662ea5561dc9e6eb4875f313e859f35a65405b2432315e1c1a679",
+  "schema": "tdnet-week07-f0-f20-retrospective-backfill-v1",
+  "season": 2026,
+  "source_audit": {
+    "archive_rows": 445,
+    "audited_alias_matches": 2,
+    "automatic_matches": 57,
+    "cfbd_week": 7,
+    "cohort_audit": {
+      "archive_rows": 445,
+      "archive_sha256": "4248cdb3ffbe2b8c07f928cbd32e3571f007659bf96be94ea9bef2e348820c61",
+      "matched_games_by_cfbd_week": {
+        "1": 50,
+        "2": 47,
+        "3": 56,
+        "4": 56,
+        "5": 55,
+        "6": 56,
+        "7": 57,
+        "8": 54
+      },
+      "matched_scored_regular_fbs_games": 431,
+      "provenance": "archived_pregame_unverified",
+      "schedule_sha256": "f53bbbcdc73939c72e50f9ebe60701e95ee9eaaedbb2b5e21d76395c30849df9"
+    },
+    "earlier_rows_unchanged": 329,
+    "tracker_week": 8,
+    "week7_tracker_rows": 59
+  },
+  "sources": {
+    "cfbd_schedule": "f53bbbcdc73939c72e50f9ebe60701e95ee9eaaedbb2b5e21d76395c30849df9",
+    "f0_f19_prior": "4e8ac74ef896b88543fda3ffb639bfdc2f3bfa4d73cf0beb54ca7930ae5939c7",
+    "f0_f19_week07_published": "4969a466e59577db966c600682e326d598b9affa99f1e501659eb44818b299f4",
+    "f0_f19_week08": "7ed087cd20b4be65cfe997577f3492b78d00e66cced421afb0f3e74fad680c98",
+    "f20_model_manifest": "4e555cc0eb044686f0748c43b2b28ee849ffd7d3b1ea881b0a129cc489c86d19",
+    "f20_prior": "397e1c8043f928975c81577971b04d0292134bf559b67c8be8fbdfe07297ed95",
+    "f20_week08": "5fd5f8b5fdfcf6c83e4960d29e7b564f1af9c4bc7e967288000d0ad41fcf660b",
+    "old_tracker_2026": "8dbbeed2551c5f53858af8c19a95b666a089fb1ca35b6c8a396caf8fc8df961f",
+    "prior_market": "61aeb1b99af84622d633117d44ec76061b5a7b606d7ee0d0ff4751663816616c",
+    "tracker_2026": "4248cdb3ffbe2b8c07f928cbd32e3571f007659bf96be94ea9bef2e348820c61",
+    "week08_frozen_market": "33ac5de14b17bd4970a6693ca7bf3861f2c4c7ddef9f0a4df79a3c935c5c997b"
+  }
+}

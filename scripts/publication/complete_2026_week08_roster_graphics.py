@@ -260,7 +260,7 @@ def _finish(fig, path: Path, *, note: str = "") -> None:
 
 def _scope_note(roster: Roster, cumulative: bool = False) -> str:
     if roster.key == "scientific_f0_f20":
-        return ("353 shared games, Weeks 1–6 and 8; F20 Week 7 unavailable. F20 replay / postgame-applied margins."
+        return ("353 shared games, Weeks 1–6 and 8; Week 7 excluded from this snapshot. F20 replay / postgame-applied margins."
                 if cumulative else "49 matched Week 8 games; F20 margins applied after games to archived pregame features.")
     return ("Weeks 0–6 and 8; Week 7 is excluded. Frozen F0–F6 Week 6 cells are recovered from its F0–F8 component."
             if roster.key == "scientific_f0_f6" and cumulative else
@@ -775,9 +775,11 @@ def main() -> None:
         "The saved Week 6 F0–F8 component supplies its 42 F0–F6 cells; all checkpoint hashes match the frozen Week 8 roster. "
         "This fills a gap in the prior 320-game F0–F6 cumulative figure without changing that earlier artifact.\n"
         "- Expanded scientific F0–F20: 126 models on 49 Week 8 games; cumulative matched graphics use 353 shared "
-        "games from Weeks 1–6 and 8. F20 has no Week 7 coverage. Its earlier expert-input replay is retrospective; "
+        "games from Weeks 1–6 and 8. This snapshot excludes Week 7. Its earlier expert-input replay is retrospective; "
         "Week 8 F20 margins were applied after games to archived pregame features. Its power rankings are a descriptive "
-        "353-game prediction-network fit, not a live Week 9 state poll.\n\n"
+        "353-game prediction-network fit, not a live Week 9 state poll. A later "
+        "[retrospective Week 7 backfill](../../../week_07/post_game/retrospective_replay/scientific/expanded_f0_f20/README.md) "
+        "adds all 59 Week 7 games and updates the paired season cohort to 420 separately from this 353-game view.\n\n"
         "The six betting graphic types use the same 49 Week 8 games for all three rosters. ATS assumes -110; "
         "moneyline uses saved pregame odds. Flat stakes risk $10 per eligible game. Scaled stakes use $0 at "
         "49.9% confidence and $25 at 100%; ATS confidence is the fraction of models backing the consensus spread side, "

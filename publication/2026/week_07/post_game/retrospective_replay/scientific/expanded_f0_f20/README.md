@@ -1,0 +1,11 @@
+# CFBD Week 7 F0–F20 retrospective result backfill
+
+The Prediction Tracker 2026 archive changed on October 25 from 329 to 445 rows. Its tracker Week 8 contains all 59 CFBD Week 7 games. All 59 have a market line and the five required F20 source margins: TeamRankings, Massey, ESPN FPI, FEI, and Sagarin Pred. The prior 329 game keys and frozen input values did not change. Fifty-seven Week 7 games matched CFBD automatically; the App State and Oregon State names required explicit matchup-and-score-checked aliases. The original raw CSV, source receipt, and 354 F20 model/game results are stored in ignored `data/private/f20/` paths and are not part of this public release.
+
+The six frozen F20 M1–M5/M10 probability and margin models were applied to those weekly source values. The models were fitted after these Week 7 games; the archive was obtained after the games; original individual publication times and market quote times are unverified. The owner accepts weekly source values as pregame for a retrospective analysis. These are **not issued pregame F20 forecasts or prospective performance**. F0–F19 Week 7 cells are also retrospective backfills with their own source-timing limits; see `../full_f0_f19/README.md`.
+
+Each scorecard CSV has 155 rows: 126 model cells, 21 fingerprint consensuses, six architecture consensuses, one full-roster consensus, and one Vegas reference. The 59-game Week 7 table has all 126 cells. Through Week 8, the 441-game available-data union contains 420 games shared by all 126 cells, 13 F0–F19-only games, and eight F20-only games. F20 has 428 games; F0–F19 have 433 each. The 412-game table additionally requires a saved Vegas probability for every game. ATS percentages exclude pushes and exact no-picks. Vegas has no ATS record against its own line.
+
+`cumulative_matched_420.csv` and its four-metric PNG show the fully matched cumulative cohort through each of Weeks 1–8. The 3D PNG and GIF show one final cumulative SU/ATS/Brier marker per F×M cell on those same 420 games. The earlier 353/361-game scorecards are preserved and still exclude Week 7 F20.
+
+`manifest.json` records source and output hashes, alias checks, and the source-timing limitations. Game-level predictions and raw provider data remain private.

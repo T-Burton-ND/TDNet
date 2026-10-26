@@ -1,5 +1,27 @@
 # F20 CFBD Week 7 source audit (2026)
 
+## October 26 update: complete retrospective backfill
+
+The [2026 tracker CSV](https://www.thepredictiontracker.com/ncaa2026.csv) was
+updated October 25 (HTTP Last-Modified) from the 329 rows described below to
+445 rows (SHA-256 `4248cdb3ffbe2b8c07f928cbd32e3571f007659bf96be94ea9bef2e348820c61`).
+Its tracker Week 8 section has all 59 CFBD Week 7 FBS–FBS games, each with the
+market line and all five frozen expert margin columns. All prior 329 game keys
+and F20 input values are unchanged. The standard scorer matched 57 games; the
+remaining two are `Oregon St.` and `Appalachian St.` aliases, matched by
+explicit CFBD game ID, canonical teams, and final scores. The raw CSV and
+receipt are under ignored `data/private/f20/historical_2026_20261025/`.
+
+The six frozen F20 probability and margin architectures were applied to these
+59 rows without refitting. The results, all 126 F×M Week 7 cell scores, and
+updated 420-game matched Weeks 1–8 views are in
+`publication/2026/week_07/post_game/retrospective_replay/scientific/expanded_f0_f20/`.
+The source was obtained after Week 7, the six F20 models were fitted after the
+games, and exact original expert publication times and market quote times are
+unverified. The owner accepts the weekly projections as pregame for a
+**retrospective** analysis. These results are not timely F20 forecasts. The
+October 23 findings below are retained as a record of the earlier archive state.
+
 Checked October 23, 2026. The F20 feature contract is a market margin plus
 the projected home margin from TeamRankings, Massey Ratings, ESPN FPI, FEI,
 and Sagarin Pred. The historical 2026 tracker CSV still ends at CFBD Week 6:
@@ -23,7 +45,7 @@ four experts.
 accepts a season but no week parameter, so a current 2026 rating download is
 not a saved Week 7 FPI game projection.
 
-The current F20 replay and charts continue to mark CFBD Week 7 unavailable.
+At the October 23 audit, the F20 replay and charts marked CFBD Week 7 unavailable.
 The weekly source timing assumption the owner accepted does not supply missing
 numeric inputs. Do not fill frozen feature columns with another site's model,
 current postgame ratings, a reconstructed point spread, or final scores. A
@@ -34,7 +56,7 @@ games in the existing Week 7 common cohort before reporting a Week 7 F20
 score. Its current 1,050-row scorecard retains the same numeric values after
 this change; the complete-Week-7 branch was checked with disposable synthetic
 data in `/tmp`, not published as a result.
-Until then, the existing 304-game paired Weeks 1–6 comparison is the last
-valid F20 historical score. F20's six M1–M5/M10 fits remain frozen; the
+At that audit date, the 304-game paired Weeks 1–6 comparison was the last
+available F20 historical score. F20's six M1–M5/M10 fits remain frozen; the
 external expert forecasts are features for each fit, not TDNet F9–F19 model
 predictions.

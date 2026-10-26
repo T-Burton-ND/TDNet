@@ -1,7 +1,7 @@
 {
   "completed_week": 8,
   "files": {
-    "README.md": "12ebe42a20160b68e8912a50a62ae33d3f48cde4f9061bcf98a3bac34b6bb8c1",
+    "README.md": "43ed8561584c179153ed037cbb2e38fcb96b24d94308c2b62fe45b022bae2b68",
     "coverage_matrix.csv": "f6f8ece9917f59dc743ab4482dc0e454b3aff5c2d3b6c433fb480c10c2905fc1",
     "margin_wide/ats_bankroll.png": "3067bae808b461ad08ee55700fbd52d4f6621b97c587de9649e7e9ec0122cc60",
     "margin_wide/ats_sweep.png": "6ec485c81fa2290aa55db38a57da2a93448e25ca5a78cd42a4de5ad9852831bc",
@@ -15,10 +15,10 @@
     "scientific_f0_f20/ap_comparison.png": "a4a1b76e041b35f907e9c5a065a0886c8761ff8ddf0c05e73e860b0ca855341b",
     "scientific_f0_f20/ats_bankroll.png": "e9a90623369ec009ee55d9b1e2aa904eb2fcb549359ded2e1f50813ea087b141",
     "scientific_f0_f20/ats_sweep.png": "e8dc71c89f8d1d2a097ffe025701dd96b096bf2a1612559b7a5589a17fcaca34",
-    "scientific_f0_f20/cumulative_calibration.png": "0a271966c129635d88348013a6f9497ee058b942c73fddd0c6b2177f1debc0ff",
-    "scientific_f0_f20/cumulative_model_scorecard.png": "2639dd27c018521f3190c72aea47640219ec4e7b67149a47d5784ee68f8093c9",
-    "scientific_f0_f20/cumulative_parity.png": "0b73163179385c3fb1ae337aa29294774bfe481e21ba5a41031c5735444bf9a4",
-    "scientific_f0_f20/cumulative_performance.png": "ecdb73097b9afd360cee796b019f6f530e25d0657e4aa04bd081441fb71bce9e",
+    "scientific_f0_f20/cumulative_calibration.png": "af2ac025d23885a8023a6d31cf882cbc272ce2fb86cad8564b96c0e3542a0b96",
+    "scientific_f0_f20/cumulative_model_scorecard.png": "2c28b3b1aad990920e900fad8e9d7b6d5d38e3242fb28ae2c73962317ff9134a",
+    "scientific_f0_f20/cumulative_parity.png": "51dfc424b2238a7474406177b8623cfbd4322839de17277d1d107b87f2bc5592",
+    "scientific_f0_f20/cumulative_performance.png": "162ea1250629641d6076874c4f409aa3b88cf2c018aac477a9f5993b16979e5e",
     "scientific_f0_f20/ml_bankroll.png": "2a80f590c2069ba4df63f223c6df79d4e1814d7a7ccb8f780b290c8571655669",
     "scientific_f0_f20/ml_sweep.png": "73f6582e2d9e3efca6b8febc9de1905388730bfc110f227e4485ca0374c41f0a",
     "scientific_f0_f20/poll_disagreement.png": "0f75355571c61953e688c902fa9fd9e22e6eaf0a8f09cafc18923922dbf32b31",

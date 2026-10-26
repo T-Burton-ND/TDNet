@@ -3,8 +3,8 @@
   "f20_week08_margin_status": "Retrospective application of models fitted before kickoff to archived pregame features; probabilities were issued as a late pregame research revision.",
   "files": {
     "README.md": {
-      "sha256": "7ed5ba0f0bebc8b75099f80db47f62d1396d8a86ca0a3d82daeae3beb0126994",
-      "size_bytes": 4812
+      "sha256": "312ba980adc4ec3c442c7c90eae412cc258d6549d2ddb877de340907696920c8",
+      "size_bytes": 5058
     },
     "figures/calibration_by_model_group/ensembles_and_other_calibration.png": {
       "sha256": "30789ef3d2fa028655a0daacedfa2193ea1de3db1de5711675116fbaa64faef2",
@@ -343,15 +343,15 @@
       "size_bytes": 255245
     },
     "three_roster_graphics/README.md": {
-      "sha256": "12ebe42a20160b68e8912a50a62ae33d3f48cde4f9061bcf98a3bac34b6bb8c1",
-      "size_bytes": 1940
+      "sha256": "43ed8561584c179153ed037cbb2e38fcb96b24d94308c2b62fe45b022bae2b68",
+      "size_bytes": 2174
     },
     "three_roster_graphics/coverage_matrix.csv": {
       "sha256": "f6f8ece9917f59dc743ab4482dc0e454b3aff5c2d3b6c433fb480c10c2905fc1",
       "size_bytes": 10080
     },
     "three_roster_graphics/manifest.json": {
-      "sha256": "68d24384f5bb8da248d1a656e6de4caf6f151203d4e28d0a03805be5fa87ad6c",
+      "sha256": "3601774a45a0cfce39bba7edfec2b5fea8d9dc66bb254bea49ad638d40721ae0",
       "size_bytes": 13745
     },
     "three_roster_graphics/margin_wide/ats_bankroll.png": {
@@ -403,20 +403,20 @@
       "size_bytes": 135081
     },
     "three_roster_graphics/scientific_f0_f20/cumulative_calibration.png": {
-      "sha256": "0a271966c129635d88348013a6f9497ee058b942c73fddd0c6b2177f1debc0ff",
-      "size_bytes": 438202
+      "sha256": "af2ac025d23885a8023a6d31cf882cbc272ce2fb86cad8564b96c0e3542a0b96",
+      "size_bytes": 442488
     },
     "three_roster_graphics/scientific_f0_f20/cumulative_model_scorecard.png": {
-      "sha256": "2639dd27c018521f3190c72aea47640219ec4e7b67149a47d5784ee68f8093c9",
-      "size_bytes": 226128
+      "sha256": "2c28b3b1aad990920e900fad8e9d7b6d5d38e3242fb28ae2c73962317ff9134a",
+      "size_bytes": 262106
     },
     "three_roster_graphics/scientific_f0_f20/cumulative_parity.png": {
-      "sha256": "0b73163179385c3fb1ae337aa29294774bfe481e21ba5a41031c5735444bf9a4",
-      "size_bytes": 93400
+      "sha256": "51dfc424b2238a7474406177b8623cfbd4322839de17277d1d107b87f2bc5592",
+      "size_bytes": 95335
     },
     "three_roster_graphics/scientific_f0_f20/cumulative_performance.png": {
-      "sha256": "ecdb73097b9afd360cee796b019f6f530e25d0657e4aa04bd081441fb71bce9e",
-      "size_bytes": 210675
+      "sha256": "162ea1250629641d6076874c4f409aa3b88cf2c018aac477a9f5993b16979e5e",
+      "size_bytes": 222314
     },
     "three_roster_graphics/scientific_f0_f20/ml_bankroll.png": {
       "sha256": "2a80f590c2069ba4df63f223c6df79d4e1814d7a7ccb8f780b290c8571655669",
