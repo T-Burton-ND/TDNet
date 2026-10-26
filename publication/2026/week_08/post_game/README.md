@@ -8,7 +8,7 @@
 
 The expanded roster's [`full_roster_scorecards/`](scientific/expanded_f0_f20/full_roster_scorecards/README.md) adds Week 8 and season-to-date tables with all 126 model cells, a Vegas reference, 21 fingerprint consensuses, and six architecture consensuses. Both latest-available and fully matched cohorts are provided, with game and probability denominators on every row.
 
-The [`lost_graphics/margin_roster/`](lost_graphics/margin_roster/README.md) review directory rebuilds two retired margin-roster postgame formats from saved game predictions: the three-panel exploratory diagnostics and a standalone model scorecard. Each has a Week 8 view and cumulative views with and without the retrospective Week 7 replay. These review figures are separate from the regular weekly renderer.
+The [three-roster graphics checklist](three_roster_graphics/README.md) maps 27 postgame graphic types to each roster and adds the missing Week 8 views. Its betting figures compare the three roster consensuses on the same 49 games. The new F0–F6 cumulative views recover its frozen Week 6 cells from the saved F0–F8 component; the expanded F0–F20 cumulative views use 353 shared games from Weeks 1–6 and 8. The checklist records each graphic's cohort and source status.
 
 The `scientific/full_f0_f8/` directory is an F0–F8 diagnostic component used by the existing calibration and bankroll renderer. It is part of the expanded research path, not a fourth roster. `three_roster_comparison/` directly compares the three roster consensuses on the same 49 games, including SU, ATS, Brier, margin error, and flat-stake bankroll views.
 
@@ -20,7 +20,7 @@ This lean Sunday release mirrors the pregame layout: reader-facing wide-margin o
 
 The comparison reference is **Week 9 AP Top 25** and is labeled that way in every retained comparison. Poll points and consensus power ratings remain independent.
 
-The consensus bankroll figures compare flat $10 ATS and moneyline bets for the margin-wide, F0–F6 scientific, and full F0–F8 scientific consensuses. ATS uses an explicit -110 assumption because CFBD does not publish spread-side prices; moneyline returns use the best available CFBD quote.
+The earlier figures in `figures/` compare flat $10 ATS and moneyline bets for the margin-wide, F0–F6 scientific, and F0–F8 component consensuses. The new three-roster graphics checklist adds matched Week 8 bankroll, scaled-stake, and threshold views for margin-wide, F0–F6, and F0–F20. ATS uses an explicit -110 assumption because CFBD does not publish spread-side prices; moneyline returns use the saved pregame quote.
 
 Separate confidence-scaled figures use model support for ATS confidence and picked-team win probability for moneyline confidence, scaling linearly from $0 at 49.9% to $25 at 100%.
 
