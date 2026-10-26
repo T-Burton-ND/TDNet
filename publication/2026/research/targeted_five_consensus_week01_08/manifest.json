@@ -1,0 +1,39 @@
+{
+  "cohorts": {
+    "full": 420,
+    "fully_paired": 412,
+    "spread_paired": 419
+  },
+  "f20_week7_prospective": false,
+  "files": {
+    "README.md": "3f5cbb3aeff3cd3f5110f31777985443cc7a1578da945e96939ac62436961233",
+    "cumulative_fully_paired_412.csv": "b2f7d873a337033737c77dcfe9b7965f17611d1756ae94493d5142969a762e73",
+    "cumulative_fully_paired_412.png": "8506b52144dfb2128088263b5ca536bf008eb96bc1787aa03be692088892aab2",
+    "scorecard_full_420.csv": "9984a2d9c813b6bfa2c6bff78b7e951fbd6180804ee93d26fe5136c7bcac9e53",
+    "scorecard_fully_paired_412.csv": "58c81ad18e0960dd355ac33a432c7bdba47500e6e20b730f06747024451a77aa",
+    "scorecard_spread_paired_419.csv": "66bb6e1541670836ad1695295e44353fdb67c3b1cb028c8faa4a8a6f22dde2aa",
+    "weekly_fully_paired_412.csv": "f85b10122fca13d504938d8f5844823979aaed2c1d5ba2c62be1175b5a0ec185"
+  },
+  "schema": "tdnet-targeted-five-consensus-2026-week01-08-v1",
+  "season": 2026,
+  "selected_cells": [
+    "F20/M1",
+    "F7/M1",
+    "F19/M1",
+    "F19/M2",
+    "F19/M10"
+  ],
+  "selection_timing": "posthoc_after_observing_2026_results",
+  "sources": {
+    "data/private/f20/replay_2026_week01_07_v3_margin/f20_replay.parquet": "397e1c8043f928975c81577971b04d0292134bf559b67c8be8fbdfe07297ed95",
+    "data/private/f20/week07_backfill_20261025/week07_f20_59_game_model_results.parquet": "8f3c29cd56e662ea5561dc9e6eb4875f313e859f35a65405b2432315e1c1a679",
+    "data/private/postgame_2026_week08/frozen_bundle/public/predictions.csv.gz": "33ac5de14b17bd4970a6693ca7bf3861f2c4c7ddef9f0a4df79a3c935c5c997b",
+    "data/private/postgame_2026_week08/prior_f0_f19_model_games.parquet": "4e8ac74ef896b88543fda3ffb639bfdc2f3bfa4d73cf0beb54ca7930ae5939c7",
+    "data/private/postgame_2026_week08/prior_market_games.csv": "61aeb1b99af84622d633117d44ec76061b5a7b606d7ee0d0ff4751663816616c",
+    "publication/2026/week_07/post_game/retrospective_replay/scientific/expanded_f0_f20/manifest.json": "b3ef554518cf8e654c25212fcffcb732a51d1294f95c5c3360b3b44bd5903e68",
+    "publication/2026/week_08/post_game/scientific/expanded_f0_f20/week08_f0_f19_120_model_games.csv": "7ed087cd20b4be65cfe997577f3492b78d00e66cced421afb0f3e74fad680c98",
+    "publication/2026/week_08/post_game/scientific/expanded_f0_f20/week08_f0_f20_126_model_games_matched.csv": "5fd5f8b5fdfcf6c83e4960d29e7b564f1af9c4bc7e967288000d0ad41fcf660b"
+  },
+  "through_cfbd_week": 8,
+  "weights": "equal_probability_and_margin_means"
+}
